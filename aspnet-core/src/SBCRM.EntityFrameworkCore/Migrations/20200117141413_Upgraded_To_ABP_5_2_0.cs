@@ -5,9 +5,19 @@ namespace SBCRM.Migrations
 {
     public partial class Upgraded_To_ABP_5_2_0 : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Upgraded_To_ABP_5_2_0(IDbContextSchema schema)
+        public Upgraded_To_ABP_5_2_0()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpWebhookEvents",
                 columns: table => new
                 {
@@ -25,6 +35,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpWebhookSubscriptions",
                 columns: table => new
                 {
@@ -44,6 +55,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpWebhookSendAttempts",
                 columns: table => new
                 {
@@ -60,6 +72,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpWebhookSendAttempts", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpWebhookSendAttempts_AbpWebhookEvents_WebhookEventId",
                         column: x => x.WebhookEventId,
                         principalTable: "AbpWebhookEvents",
@@ -67,7 +80,8 @@ namespace SBCRM.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpWebhookSendAttempts_WebhookEventId",
                 table: "AbpWebhookSendAttempts",
                 column: "WebhookEventId");
@@ -75,13 +89,16 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpWebhookSendAttempts");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpWebhookSubscriptions");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpWebhookEvents");
         }
     }

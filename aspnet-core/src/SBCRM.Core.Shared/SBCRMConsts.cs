@@ -6,7 +6,7 @@
 
         public const string ConnectionStringName = "Default";
 
-        public const bool MultiTenancyEnabled = true;
+        public const bool MultiTenancyEnabled = false;
 
         public const bool AllowTenantsToChangeEmailSettings = false;
 
@@ -15,6 +15,8 @@
         public const string CurrencySign = "$";
 
         public const string AbpApiClientUserAgent = "AbpApiClient";
+
+        public const string DefaultSchemaName = "web";
 
         // Note:
         // Minimum accepted payment amount. If a payment amount is less then that minimum value payment progress will continue without charging payment

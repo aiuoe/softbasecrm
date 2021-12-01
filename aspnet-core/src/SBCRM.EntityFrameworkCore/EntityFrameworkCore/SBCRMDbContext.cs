@@ -45,6 +45,7 @@ namespace SBCRM.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
 
             modelBuilder.Entity<BinaryObject>(b =>
             {

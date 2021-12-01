@@ -3,21 +3,30 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    [Migration("20200805083139_Upgraded_To_Abp_5_11")]
-    partial class Upgraded_To_Abp_5_11
+    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        private readonly IDbContextSchema _schema;
+
+        //public WebCreekDemoDbContextModelSnapshot(IDbContextSchema schema)
+        public SBCRMDbContextModelSnapshot()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasDefaultSchema(SBCRMConsts.DefaultSchemaName)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Abp.Application.Editions.Edition", b =>
@@ -45,8 +54,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -59,12 +68,12 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.HasKey("Id");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpEditions");
+                    b.ToTable("AbpEditions");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Edition");
                 });
@@ -88,20 +97,20 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.HasKey("Id");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpFeatures");
+                    b.ToTable("AbpFeatures");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("FeatureSetting");
                 });
@@ -114,24 +123,28 @@ namespace SBCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrowserInfo")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("ClientIpAddress")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ClientName")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("CustomData")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("Exception")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("ExceptionMessage")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<int>("ExecutionDuration")
                         .HasColumnType("int");
@@ -146,19 +159,19 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("MethodName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Parameters")
-                        .HasColumnType("nvarchar(1024)")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<string>("ReturnValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ServiceName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -174,7 +187,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpAuditLogs");
+                    b.ToTable("AbpAuditLogs");
                 });
 
             modelBuilder.Entity("Abp.Authorization.PermissionSetting", b =>
@@ -199,8 +212,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -209,7 +222,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpPermissions");
+                    b.ToTable("AbpPermissions");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("PermissionSetting");
                 });
@@ -222,8 +235,8 @@ namespace SBCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
@@ -246,7 +259,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "ClaimType");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpRoleClaims");
+                    b.ToTable("AbpRoleClaims");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserAccount", b =>
@@ -269,8 +282,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -291,8 +304,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -306,7 +319,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserName");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserAccounts");
+                    b.ToTable("AbpUserAccounts");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
@@ -317,8 +330,8 @@ namespace SBCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
@@ -341,7 +354,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "ClaimType");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserClaims");
+                    b.ToTable("AbpUserClaims");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
@@ -353,13 +366,13 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("LoginProvider")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -371,11 +384,15 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("ProviderKey", "TenantId")
+                        .IsUnique()
+                        .HasFilter("[TenantId] IS NOT NULL");
+
                     b.HasIndex("TenantId", "UserId");
 
                     b.HasIndex("TenantId", "LoginProvider", "ProviderKey");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserLogins");
+                    b.ToTable("AbpUserLogins");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLoginAttempt", b =>
@@ -386,16 +403,16 @@ namespace SBCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrowserInfo")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("ClientIpAddress")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ClientName")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -404,8 +421,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("TenancyName")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -414,8 +431,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserNameOrEmailAddress")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -423,7 +440,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenancyName", "UserNameOrEmailAddress", "Result");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserLoginAttempts");
+                    b.ToTable("AbpUserLoginAttempts");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
@@ -459,7 +476,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserOrganizationUnits");
+                    b.ToTable("AbpUserOrganizationUnits");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
@@ -492,7 +509,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserRoles");
+                    b.ToTable("AbpUserRoles");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
@@ -506,12 +523,12 @@ namespace SBCRM.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -520,8 +537,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
 
@@ -529,7 +546,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserTokens");
+                    b.ToTable("AbpUserTokens");
                 });
 
             modelBuilder.Entity("Abp.BackgroundJobs.BackgroundJobInfo", b =>
@@ -550,13 +567,13 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("JobArgs")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(1048576);
+                        .HasMaxLength(1048576)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<DateTime?>("LastTryTime")
                         .HasColumnType("datetime2");
@@ -574,7 +591,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("IsAbandoned", "NextTryTime");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpBackgroundJobs");
+                    b.ToTable("AbpBackgroundJobs");
                 });
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
@@ -598,8 +615,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -617,7 +634,7 @@ namespace SBCRM.Migrations
                     b.HasIndex("TenantId", "Name", "UserId")
                         .IsUnique();
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpSettings");
+                    b.ToTable("AbpSettings");
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicEntityProperty", b =>
@@ -631,7 +648,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("EntityFullName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -644,14 +662,14 @@ namespace SBCRM.Migrations
                         .IsUnique()
                         .HasFilter("[EntityFullName] IS NOT NULL AND [TenantId] IS NOT NULL");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpDynamicEntityProperties");
+                    b.ToTable("AbpDynamicEntityProperties");
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicEntityPropertyValue", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("DynamicEntityPropertyId")
@@ -671,7 +689,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("DynamicEntityPropertyId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpDynamicEntityPropertyValues");
+                    b.ToTable("AbpDynamicEntityPropertyValues");
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicProperty", b =>
@@ -681,6 +699,9 @@ namespace SBCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("InputType")
                         .HasColumnType("nvarchar(max)");
 
@@ -688,7 +709,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PropertyName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -699,14 +721,14 @@ namespace SBCRM.Migrations
                         .IsUnique()
                         .HasFilter("[PropertyName] IS NOT NULL AND [TenantId] IS NOT NULL");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpDynamicProperties");
+                    b.ToTable("AbpDynamicProperties");
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicPropertyValue", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("DynamicPropertyId")
@@ -723,7 +745,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("DynamicPropertyId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpDynamicPropertyValues");
+                    b.ToTable("AbpDynamicPropertyValues");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
@@ -743,12 +765,12 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("EntityId")
-                        .HasColumnType("nvarchar(48)")
-                        .HasMaxLength(48);
+                        .HasMaxLength(48)
+                        .HasColumnType("nvarchar(48)");
 
                     b.Property<string>("EntityTypeFullName")
-                        .HasColumnType("nvarchar(192)")
-                        .HasMaxLength(192);
+                        .HasMaxLength(192)
+                        .HasColumnType("nvarchar(192)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -759,7 +781,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("EntityTypeFullName", "EntityId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpEntityChanges");
+                    b.ToTable("AbpEntityChanges");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChangeSet", b =>
@@ -770,16 +792,16 @@ namespace SBCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrowserInfo")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("ClientIpAddress")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ClientName")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -794,8 +816,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -811,7 +833,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpEntityChangeSets");
+                    b.ToTable("AbpEntityChangeSets");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityPropertyChange", b =>
@@ -825,20 +847,26 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("NewValue")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("NewValueHash")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OriginalValue")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("OriginalValueHash")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PropertyName")
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<string>("PropertyTypeFullName")
-                        .HasColumnType("nvarchar(192)")
-                        .HasMaxLength(192);
+                        .HasMaxLength(192)
+                        .HasColumnType("nvarchar(192)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -847,45 +875,60 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpEntityPropertyChanges");
+                    b.ToTable("AbpEntityPropertyChanges");
                 });
 
-            modelBuilder.Entity("Abp.IdentityServer4.PersistedGrantEntity", b =>
+            modelBuilder.Entity("Abp.IdentityServer4vNext.PersistedGrantEntity", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ConsumedTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("SubjectId")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Expiration");
+
                     b.HasIndex("SubjectId", "ClientId", "Type");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpPersistedGrants");
+                    b.HasIndex("SubjectId", "SessionId", "Type");
+
+                    b.ToTable("AbpPersistedGrants");
                 });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguage", b =>
@@ -909,12 +952,12 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -930,8 +973,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -940,7 +983,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpLanguages");
+                    b.ToTable("AbpLanguages");
                 });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguageText", b =>
@@ -958,13 +1001,13 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("LanguageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
@@ -974,22 +1017,22 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(67108864);
+                        .HasMaxLength(67108864)
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TenantId", "Source", "LanguageName", "Key");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpLanguageTexts");
+                    b.ToTable("AbpLanguageTexts");
                 });
 
             modelBuilder.Entity("Abp.Notifications.NotificationInfo", b =>
@@ -1005,48 +1048,48 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(1048576);
+                        .HasMaxLength(1048576)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DataTypeName")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("EntityId")
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<string>("EntityTypeAssemblyQualifiedName")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("EntityTypeName")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ExcludedUserIds")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(131072);
+                        .HasMaxLength(131072)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NotificationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<byte>("Severity")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("TenantIds")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(131072);
+                        .HasMaxLength(131072)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserIds")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(131072);
+                        .HasMaxLength(131072)
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpNotifications");
+                    b.ToTable("AbpNotifications");
                 });
 
             modelBuilder.Entity("Abp.Notifications.NotificationSubscriptionInfo", b =>
@@ -1062,20 +1105,20 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("EntityId")
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<string>("EntityTypeAssemblyQualifiedName")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("EntityTypeName")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("NotificationName")
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -1089,7 +1132,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "NotificationName", "EntityTypeName", "EntityId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpNotificationSubscriptions");
+                    b.ToTable("AbpNotificationSubscriptions");
                 });
 
             modelBuilder.Entity("Abp.Notifications.TenantNotificationInfo", b =>
@@ -1105,29 +1148,29 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(1048576);
+                        .HasMaxLength(1048576)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DataTypeName")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("EntityId")
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<string>("EntityTypeAssemblyQualifiedName")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("EntityTypeName")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("NotificationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(96)")
-                        .HasMaxLength(96);
+                        .HasMaxLength(96)
+                        .HasColumnType("nvarchar(96)");
 
                     b.Property<byte>("Severity")
                         .HasColumnType("tinyint");
@@ -1139,7 +1182,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpTenantNotifications");
+                    b.ToTable("AbpTenantNotifications");
                 });
 
             modelBuilder.Entity("Abp.Notifications.UserNotificationInfo", b =>
@@ -1167,7 +1210,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("UserId", "State", "CreationTime");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUserNotifications");
+                    b.ToTable("AbpUserNotifications");
                 });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
@@ -1179,8 +1222,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(95)")
-                        .HasMaxLength(95);
+                        .HasMaxLength(95)
+                        .HasColumnType("nvarchar(95)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -1196,8 +1239,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1220,7 +1263,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Code");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpOrganizationUnits");
+                    b.ToTable("AbpOrganizationUnits");
                 });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnitRole", b =>
@@ -1254,7 +1297,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "RoleId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpOrganizationUnitRoles");
+                    b.ToTable("AbpOrganizationUnitRoles");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookEvent", b =>
@@ -1284,7 +1327,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpWebhookEvents");
+                    b.ToTable("AbpWebhookEvents");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSendAttempt", b =>
@@ -1318,7 +1361,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("WebhookEventId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpWebhookSendAttempts");
+                    b.ToTable("AbpWebhookSendAttempts");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSubscriptionInfo", b =>
@@ -1355,7 +1398,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpWebhookSubscriptions");
+                    b.ToTable("AbpWebhookSubscriptions");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Authorization.Delegation.UserDelegation", b =>
@@ -1407,7 +1450,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "TargetUserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppUserDelegations");
+                    b.ToTable("AppUserDelegations");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
@@ -1419,8 +1462,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -1436,8 +1479,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -1456,13 +1499,13 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("NormalizedName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -1477,7 +1520,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "NormalizedName");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpRoles");
+                    b.ToTable("AbpRoles");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
@@ -1491,13 +1534,13 @@ namespace SBCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AuthenticationSource")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -1513,12 +1556,12 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("EmailConfirmationCode")
-                        .HasColumnType("nvarchar(328)")
-                        .HasMaxLength(328);
+                        .HasMaxLength(328)
+                        .HasColumnType("nvarchar(328)");
 
                     b.Property<string>("GoogleAuthenticatorKey")
                         .HasColumnType("nvarchar(max)");
@@ -1552,38 +1595,38 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("NormalizedEmailAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("PasswordResetCode")
-                        .HasColumnType("nvarchar(328)")
-                        .HasMaxLength(328);
+                        .HasMaxLength(328)
+                        .HasColumnType("nvarchar(328)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<Guid?>("ProfilePictureId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<bool>("ShouldChangePasswordOnNextLogin")
                         .HasColumnType("bit");
@@ -1596,16 +1639,16 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -1619,7 +1662,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "NormalizedUserName");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpUsers");
+                    b.ToTable("AbpUsers");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Chat.ChatMessage", b =>
@@ -1634,8 +1677,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(4096);
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReadState")
                         .HasColumnType("int");
@@ -1671,7 +1714,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ReadState");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppChatMessages");
+                    b.ToTable("AppChatMessages");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Friendships.Friendship", b =>
@@ -1698,8 +1741,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("FriendUserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -1720,7 +1763,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppFriendships");
+                    b.ToTable("AppFriendships");
                 });
 
             modelBuilder.Entity("WebCreekDemo.MultiTenancy.Accounting.Invoice", b =>
@@ -1747,7 +1790,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppInvoices");
+                    b.ToTable("AppInvoices");
                 });
 
             modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
@@ -1828,7 +1871,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("Status", "CreationTime");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppSubscriptionPayments");
+                    b.ToTable("AppSubscriptionPayments");
                 });
 
             modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPaymentExtensionData", b =>
@@ -1856,7 +1899,7 @@ namespace SBCRM.Migrations
                         .IsUnique()
                         .HasFilter("[Key] IS NOT NULL");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppSubscriptionPaymentsExtensionData");
+                    b.ToTable("AppSubscriptionPaymentsExtensionData");
                 });
 
             modelBuilder.Entity("WebCreekDemo.MultiTenancy.Tenant", b =>
@@ -1867,8 +1910,8 @@ namespace SBCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConnectionString")
-                        .HasColumnType("nvarchar(1024)")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -1904,16 +1947,16 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("LogoFileType")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<Guid?>("LogoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("SubscriptionEndDateUtc")
                         .HasColumnType("datetime2");
@@ -1923,8 +1966,8 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("TenancyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 
@@ -1942,7 +1985,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenancyName");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpTenants");
+                    b.ToTable("AbpTenants");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Storage.BinaryObject", b =>
@@ -1955,6 +1998,9 @@ namespace SBCRM.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
@@ -1962,7 +2008,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AppBinaryObjects");
+                    b.ToTable("AppBinaryObjects");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Editions.SubscribableEdition", b =>
@@ -1990,7 +2036,7 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("WeeklyPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpEditions");
+                    b.ToTable("AbpEditions");
 
                     b.HasDiscriminator().HasValue("SubscribableEdition");
                 });
@@ -2004,7 +2050,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("EditionId", "Name");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpFeatures");
+                    b.ToTable("AbpFeatures");
 
                     b.HasDiscriminator().HasValue("EditionFeatureSetting");
                 });
@@ -2015,7 +2061,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpFeatures");
+                    b.ToTable("AbpFeatures");
 
                     b.HasDiscriminator().HasValue("TenantFeatureSetting");
                 });
@@ -2029,7 +2075,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpPermissions");
+                    b.ToTable("AbpPermissions");
 
                     b.HasDiscriminator().HasValue("RolePermissionSetting");
                 });
@@ -2043,7 +2089,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable(schema: _schema.Schema, name: "AbpPermissions");
+                    b.ToTable("AbpPermissions");
 
                     b.HasDiscriminator().HasValue("UserPermissionSetting");
                 });
@@ -2116,6 +2162,8 @@ namespace SBCRM.Migrations
                         .HasForeignKey("DynamicPropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DynamicProperty");
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicEntityPropertyValue", b =>
@@ -2125,6 +2173,8 @@ namespace SBCRM.Migrations
                         .HasForeignKey("DynamicEntityPropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DynamicEntityProperty");
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicPropertyValue", b =>
@@ -2134,6 +2184,8 @@ namespace SBCRM.Migrations
                         .HasForeignKey("DynamicPropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DynamicProperty");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
@@ -2159,6 +2211,8 @@ namespace SBCRM.Migrations
                     b.HasOne("Abp.Organizations.OrganizationUnit", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSendAttempt", b =>
@@ -2168,6 +2222,8 @@ namespace SBCRM.Migrations
                         .HasForeignKey("WebhookEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("WebhookEvent");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
@@ -2183,6 +2239,12 @@ namespace SBCRM.Migrations
                     b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+
+                    b.Navigation("CreatorUser");
+
+                    b.Navigation("DeleterUser");
+
+                    b.Navigation("LastModifierUser");
                 });
 
             modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
@@ -2198,6 +2260,31 @@ namespace SBCRM.Migrations
                     b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+
+                    b.Navigation("CreatorUser");
+
+                    b.Navigation("DeleterUser");
+
+                    b.Navigation("LastModifierUser");
+                });
+
+            modelBuilder.Entity("WebCreekDemo.CRM.Nota", b =>
+                {
+                    b.HasOne("WebCreekDemo.CRM.Estudiante", "EstudianteFk")
+                        .WithMany()
+                        .HasForeignKey("EstudianteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebCreekDemo.CRM.Materia", "MateriaFk")
+                        .WithMany()
+                        .HasForeignKey("MateriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstudianteFk");
+
+                    b.Navigation("MateriaFk");
                 });
 
             modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
@@ -2207,6 +2294,8 @@ namespace SBCRM.Migrations
                         .HasForeignKey("EditionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Edition");
                 });
 
             modelBuilder.Entity("WebCreekDemo.MultiTenancy.Tenant", b =>
@@ -2226,6 +2315,14 @@ namespace SBCRM.Migrations
                     b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+
+                    b.Navigation("CreatorUser");
+
+                    b.Navigation("DeleterUser");
+
+                    b.Navigation("Edition");
+
+                    b.Navigation("LastModifierUser");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2235,6 +2332,8 @@ namespace SBCRM.Migrations
                         .HasForeignKey("EditionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Edition");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Roles.RolePermissionSetting", b =>
@@ -2253,6 +2352,50 @@ namespace SBCRM.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicProperty", b =>
+                {
+                    b.Navigation("DynamicPropertyValues");
+                });
+
+            modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
+                {
+                    b.Navigation("PropertyChanges");
+                });
+
+            modelBuilder.Entity("Abp.EntityHistory.EntityChangeSet", b =>
+                {
+                    b.Navigation("EntityChanges");
+                });
+
+            modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("OrganizationUnits");
+
+                    b.Navigation("Permissions");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("Settings");
+
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

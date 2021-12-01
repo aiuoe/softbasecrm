@@ -7,9 +7,19 @@ namespace SBCRM.Migrations
 {
     public partial class Added_Entity_History : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Added_Entity_History(IDbContextSchema schema)
+        public Added_Entity_History()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ClaimType",
                 table: "AbpUserClaims",
                 maxLength: 256,
@@ -17,7 +27,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "UserName",
                 table: "AbpUserAccounts",
                 maxLength: 32,
@@ -25,7 +36,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "EmailAddress",
                 table: "AbpUserAccounts",
                 maxLength: 256,
@@ -33,7 +45,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ClaimType",
                 table: "AbpRoleClaims",
                 maxLength: 256,
@@ -42,6 +55,7 @@ namespace SBCRM.Migrations
                 oldNullable: true);
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpEntityChangeSets",
                 columns: table => new
                 {
@@ -64,6 +78,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpEntityChanges",
                 columns: table => new
                 {
@@ -80,6 +95,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpEntityChanges", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpEntityChanges_AbpEntityChangeSets_EntityChangeSetId",
                         column: x => x.EntityChangeSetId,
                         principalTable: "AbpEntityChangeSets",
@@ -88,6 +104,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpEntityPropertyChanges",
                 columns: table => new
                 {
@@ -104,6 +121,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpEntityPropertyChanges", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
@@ -111,32 +129,38 @@ namespace SBCRM.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpEntityChanges_EntityChangeSetId",
                 table: "AbpEntityChanges",
                 column: "EntityChangeSetId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpEntityChanges_EntityTypeFullName_EntityId",
                 table: "AbpEntityChanges",
                 columns: new[] { "EntityTypeFullName", "EntityId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpEntityChangeSets_TenantId_CreationTime",
                 table: "AbpEntityChangeSets",
                 columns: new[] { "TenantId", "CreationTime" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpEntityChangeSets_TenantId_Reason",
                 table: "AbpEntityChangeSets",
                 columns: new[] { "TenantId", "Reason" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpEntityChangeSets_TenantId_UserId",
                 table: "AbpEntityChangeSets",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpEntityPropertyChanges_EntityChangeId",
                 table: "AbpEntityPropertyChanges",
                 column: "EntityChangeId");
@@ -144,16 +168,20 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpEntityPropertyChanges");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpEntityChanges");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpEntityChangeSets");
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ClaimType",
                 table: "AbpUserClaims",
                 nullable: true,
@@ -161,7 +189,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 256,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "UserName",
                 table: "AbpUserAccounts",
                 nullable: true,
@@ -169,7 +198,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 32,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "EmailAddress",
                 table: "AbpUserAccounts",
                 nullable: true,
@@ -177,7 +207,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 256,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ClaimType",
                 table: "AbpRoleClaims",
                 nullable: true,

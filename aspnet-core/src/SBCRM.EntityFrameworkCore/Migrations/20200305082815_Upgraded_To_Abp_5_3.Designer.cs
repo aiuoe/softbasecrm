@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
@@ -65,7 +64,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpEditions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpEditions");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Edition");
                 });
@@ -102,7 +101,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpFeatures");
+                    b.ToTable(schema: _schema.Schema, name: "AbpFeatures");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("FeatureSetting");
                 });
@@ -175,7 +174,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpAuditLogs");
+                    b.ToTable(schema: _schema.Schema, name: "AbpAuditLogs");
                 });
 
             modelBuilder.Entity("Abp.Authorization.PermissionSetting", b =>
@@ -210,7 +209,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable("AbpPermissions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpPermissions");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("PermissionSetting");
                 });
@@ -247,7 +246,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "ClaimType");
 
-                    b.ToTable("AbpRoleClaims");
+                    b.ToTable(schema: _schema.Schema, name: "AbpRoleClaims");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserAccount", b =>
@@ -307,7 +306,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserName");
 
-                    b.ToTable("AbpUserAccounts");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserAccounts");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
@@ -342,7 +341,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "ClaimType");
 
-                    b.ToTable("AbpUserClaims");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserClaims");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
@@ -376,7 +375,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "LoginProvider", "ProviderKey");
 
-                    b.ToTable("AbpUserLogins");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserLogins");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLoginAttempt", b =>
@@ -424,7 +423,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenancyName", "UserNameOrEmailAddress", "Result");
 
-                    b.ToTable("AbpUserLoginAttempts");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserLoginAttempts");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
@@ -460,7 +459,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpUserOrganizationUnits");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserOrganizationUnits");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
@@ -493,7 +492,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpUserRoles");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserRoles");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
@@ -530,7 +529,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpUserTokens");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserTokens");
                 });
 
             modelBuilder.Entity("Abp.BackgroundJobs.BackgroundJobInfo", b =>
@@ -575,7 +574,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("IsAbandoned", "NextTryTime");
 
-                    b.ToTable("AbpBackgroundJobs");
+                    b.ToTable(schema: _schema.Schema, name: "AbpBackgroundJobs");
                 });
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
@@ -618,7 +617,7 @@ namespace SBCRM.Migrations
                     b.HasIndex("TenantId", "Name", "UserId")
                         .IsUnique();
 
-                    b.ToTable("AbpSettings");
+                    b.ToTable(schema: _schema.Schema, name: "AbpSettings");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
@@ -654,7 +653,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("EntityTypeFullName", "EntityId");
 
-                    b.ToTable("AbpEntityChanges");
+                    b.ToTable(schema: _schema.Schema, name: "AbpEntityChanges");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChangeSet", b =>
@@ -706,7 +705,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpEntityChangeSets");
+                    b.ToTable(schema: _schema.Schema, name: "AbpEntityChangeSets");
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityPropertyChange", b =>
@@ -742,7 +741,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable("AbpEntityPropertyChanges");
+                    b.ToTable(schema: _schema.Schema, name: "AbpEntityPropertyChanges");
                 });
 
             modelBuilder.Entity("Abp.IdentityServer4.PersistedGrantEntity", b =>
@@ -780,7 +779,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("SubjectId", "ClientId", "Type");
 
-                    b.ToTable("AbpPersistedGrants");
+                    b.ToTable(schema: _schema.Schema, name: "AbpPersistedGrants");
                 });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguage", b =>
@@ -835,7 +834,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable("AbpLanguages");
+                    b.ToTable(schema: _schema.Schema, name: "AbpLanguages");
                 });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguageText", b =>
@@ -884,7 +883,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Source", "LanguageName", "Key");
 
-                    b.ToTable("AbpLanguageTexts");
+                    b.ToTable(schema: _schema.Schema, name: "AbpLanguageTexts");
                 });
 
             modelBuilder.Entity("Abp.Notifications.NotificationInfo", b =>
@@ -941,7 +940,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpNotifications");
+                    b.ToTable(schema: _schema.Schema, name: "AbpNotifications");
                 });
 
             modelBuilder.Entity("Abp.Notifications.NotificationSubscriptionInfo", b =>
@@ -984,7 +983,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "NotificationName", "EntityTypeName", "EntityId", "UserId");
 
-                    b.ToTable("AbpNotificationSubscriptions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpNotificationSubscriptions");
                 });
 
             modelBuilder.Entity("Abp.Notifications.TenantNotificationInfo", b =>
@@ -1034,7 +1033,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("AbpTenantNotifications");
+                    b.ToTable(schema: _schema.Schema, name: "AbpTenantNotifications");
                 });
 
             modelBuilder.Entity("Abp.Notifications.UserNotificationInfo", b =>
@@ -1062,7 +1061,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("UserId", "State", "CreationTime");
 
-                    b.ToTable("AbpUserNotifications");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUserNotifications");
                 });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
@@ -1117,7 +1116,7 @@ namespace SBCRM.Migrations
                         .IsUnique()
                         .HasFilter("[TenantId] IS NOT NULL");
 
-                    b.ToTable("AbpOrganizationUnits");
+                    b.ToTable(schema: _schema.Schema, name: "AbpOrganizationUnits");
                 });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnitRole", b =>
@@ -1151,7 +1150,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "RoleId");
 
-                    b.ToTable("AbpOrganizationUnitRoles");
+                    b.ToTable(schema: _schema.Schema, name: "AbpOrganizationUnitRoles");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookEvent", b =>
@@ -1181,7 +1180,7 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpWebhookEvents");
+                    b.ToTable(schema: _schema.Schema, name: "AbpWebhookEvents");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSendAttempt", b =>
@@ -1215,7 +1214,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("WebhookEventId");
 
-                    b.ToTable("AbpWebhookSendAttempts");
+                    b.ToTable(schema: _schema.Schema, name: "AbpWebhookSendAttempts");
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSubscriptionInfo", b =>
@@ -1252,10 +1251,10 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpWebhookSubscriptions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpWebhookSubscriptions");
                 });
 
-            modelBuilder.Entity("SBCRM.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1322,10 +1321,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "NormalizedName");
 
-                    b.ToTable("AbpRoles");
+                    b.ToTable(schema: _schema.Schema, name: "AbpRoles");
                 });
 
-            modelBuilder.Entity("SBCRM.Authorization.Users.User", b =>
+            modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1464,10 +1463,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "NormalizedUserName");
 
-                    b.ToTable("AbpUsers");
+                    b.ToTable(schema: _schema.Schema, name: "AbpUsers");
                 });
 
-            modelBuilder.Entity("SBCRM.Chat.ChatMessage", b =>
+            modelBuilder.Entity("WebCreekDemo.Chat.ChatMessage", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1516,10 +1515,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ReadState");
 
-                    b.ToTable("AppChatMessages");
+                    b.ToTable(schema: _schema.Schema, name: "AppChatMessages");
                 });
 
-            modelBuilder.Entity("SBCRM.Friendships.Friendship", b =>
+            modelBuilder.Entity("WebCreekDemo.Friendships.Friendship", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1565,10 +1564,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AppFriendships");
+                    b.ToTable(schema: _schema.Schema, name: "AppFriendships");
                 });
 
-            modelBuilder.Entity("SBCRM.MultiTenancy.Accounting.Invoice", b =>
+            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Accounting.Invoice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1592,10 +1591,10 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppInvoices");
+                    b.ToTable(schema: _schema.Schema, name: "AppInvoices");
                 });
 
-            modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>
+            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1673,10 +1672,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("Status", "CreationTime");
 
-                    b.ToTable("AppSubscriptionPayments");
+                    b.ToTable(schema: _schema.Schema, name: "AppSubscriptionPayments");
                 });
 
-            modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPaymentExtensionData", b =>
+            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPaymentExtensionData", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1701,10 +1700,10 @@ namespace SBCRM.Migrations
                         .IsUnique()
                         .HasFilter("[Key] IS NOT NULL");
 
-                    b.ToTable("AppSubscriptionPaymentsExtensionData");
+                    b.ToTable(schema: _schema.Schema, name: "AppSubscriptionPaymentsExtensionData");
                 });
 
-            modelBuilder.Entity("SBCRM.MultiTenancy.Tenant", b =>
+            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1787,10 +1786,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenancyName");
 
-                    b.ToTable("AbpTenants");
+                    b.ToTable(schema: _schema.Schema, name: "AbpTenants");
                 });
 
-            modelBuilder.Entity("SBCRM.Storage.BinaryObject", b =>
+            modelBuilder.Entity("WebCreekDemo.Storage.BinaryObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1807,10 +1806,10 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("AppBinaryObjects");
+                    b.ToTable(schema: _schema.Schema, name: "AppBinaryObjects");
                 });
 
-            modelBuilder.Entity("SBCRM.Editions.SubscribableEdition", b =>
+            modelBuilder.Entity("WebCreekDemo.Editions.SubscribableEdition", b =>
                 {
                     b.HasBaseType("Abp.Application.Editions.Edition");
 
@@ -1835,7 +1834,7 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("WeeklyPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("AbpEditions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpEditions");
 
                     b.HasDiscriminator().HasValue("SubscribableEdition");
                 });
@@ -1849,7 +1848,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("EditionId", "Name");
 
-                    b.ToTable("AbpFeatures");
+                    b.ToTable(schema: _schema.Schema, name: "AbpFeatures");
 
                     b.HasDiscriminator().HasValue("EditionFeatureSetting");
                 });
@@ -1860,7 +1859,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable("AbpFeatures");
+                    b.ToTable(schema: _schema.Schema, name: "AbpFeatures");
 
                     b.HasDiscriminator().HasValue("TenantFeatureSetting");
                 });
@@ -1874,7 +1873,7 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AbpPermissions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpPermissions");
 
                     b.HasDiscriminator().HasValue("RolePermissionSetting");
                 });
@@ -1888,14 +1887,14 @@ namespace SBCRM.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AbpPermissions");
+                    b.ToTable(schema: _schema.Schema, name: "AbpPermissions");
 
                     b.HasDiscriminator().HasValue("UserPermissionSetting");
                 });
 
             modelBuilder.Entity("Abp.Authorization.Roles.RoleClaim", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Roles.Role", null)
+                    b.HasOne("WebCreekDemo.Authorization.Roles.Role", null)
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1904,7 +1903,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1913,7 +1912,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1922,7 +1921,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("OrganizationUnits")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1931,7 +1930,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1940,7 +1939,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1949,7 +1948,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("Settings")
                         .HasForeignKey("UserId");
                 });
@@ -1988,37 +1987,37 @@ namespace SBCRM.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SBCRM.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("SBCRM.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
-                    b.HasOne("SBCRM.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
                 });
 
-            modelBuilder.Entity("SBCRM.Authorization.Users.User", b =>
+            modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("SBCRM.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
-                    b.HasOne("SBCRM.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
                 });
 
-            modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>
+            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
                 {
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
                         .WithMany()
@@ -2027,13 +2026,13 @@ namespace SBCRM.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SBCRM.MultiTenancy.Tenant", b =>
+            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Tenant", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("SBCRM.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
@@ -2041,7 +2040,7 @@ namespace SBCRM.Migrations
                         .WithMany()
                         .HasForeignKey("EditionId");
 
-                    b.HasOne("SBCRM.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
                 });
@@ -2057,7 +2056,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Roles.RolePermissionSetting", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Roles.Role", null)
+                    b.HasOne("WebCreekDemo.Authorization.Roles.Role", null)
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2066,7 +2065,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserPermissionSetting", b =>
                 {
-                    b.HasOne("SBCRM.Authorization.Users.User", null)
+                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
                         .WithMany("Permissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

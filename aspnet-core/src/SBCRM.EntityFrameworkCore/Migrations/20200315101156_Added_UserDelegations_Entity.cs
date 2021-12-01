@@ -5,9 +5,19 @@ namespace SBCRM.Migrations
 {
     public partial class Added_UserDelegations_Entity : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Added_UserDelegations_Entity(IDbContextSchema schema)
+        public Added_UserDelegations_Entity()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AppUserDelegations",
                 columns: table => new
                 {
@@ -31,12 +41,14 @@ namespace SBCRM.Migrations
                     table.PrimaryKey("PK_AppUserDelegations", x => x.Id);
                 });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppUserDelegations_TenantId_SourceUserId",
                 table: "AppUserDelegations",
                 columns: new[] { "TenantId", "SourceUserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppUserDelegations_TenantId_TargetUserId",
                 table: "AppUserDelegations",
                 columns: new[] { "TenantId", "TargetUserId" });
@@ -44,7 +56,8 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AppUserDelegations");
         }
     }
