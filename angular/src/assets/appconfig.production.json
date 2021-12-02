@@ -1,5 +1,5 @@
 {
-  "remoteServiceBaseUrl": "/crm-dev-api",
+  "remoteServiceBaseUrl": "https://localhost:44301",
   "appBaseUrl": "http://localhost:4200",
   "localeMappings": {
     "angular": [
