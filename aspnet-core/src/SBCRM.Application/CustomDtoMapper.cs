@@ -1,3 +1,7 @@
+﻿using SBCRM.Crm.Dtos;
+using SBCRM.Crm;
+using SBCRM.Legacy.Dtos;
+using SBCRM.Legacy;
 using Abp.Application.Editions;
 using Abp.Application.Features;
 using Abp.Auditing;
@@ -48,6 +52,22 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditLeadDto, Lead>().ReverseMap();
+            configuration.CreateMap<LeadDto, Lead>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLeadStatusDto, LeadStatus>().ReverseMap();
+            configuration.CreateMap<LeadStatusDto, LeadStatus>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLeadSourceDto, LeadSource>().ReverseMap();
+            configuration.CreateMap<LeadSourceDto, LeadSource>().ReverseMap();
+            configuration.CreateMap<CreateOrEditIndustryDto, Industry>().ReverseMap();
+            configuration.CreateMap<IndustryDto, Industry>().ReverseMap();
+            configuration.CreateMap<CreateOrEditCustomerDto, Customer>().ReverseMap();
+            configuration.CreateMap<CustomerDto, Customer>().ReverseMap();
+            configuration.CreateMap<CreateOrEditAccountTypeDto, AccountType>().ReverseMap();
+            configuration.CreateMap<AccountTypeDto, AccountType>().ReverseMap();
+            configuration.CreateMap<CreateOrEditARTermsDto, ARTerms>().ReverseMap();
+            configuration.CreateMap<ARTermsDto, ARTerms>().ReverseMap();
+            configuration.CreateMap<CreateOrEditZipCodeDto, ZipCode>().ReverseMap();
+            configuration.CreateMap<ZipCodeDto, ZipCode>().ReverseMap();
             //Inputs
             configuration.CreateMap<CheckboxInputType, FeatureInputTypeDto>();
             configuration.CreateMap<SingleLineStringInputType, FeatureInputTypeDto>();
@@ -76,8 +96,6 @@ namespace SBCRM
             configuration.CreateMap<Role, RoleListDto>();
             configuration.CreateMap<UserRole, UserListRoleDto>();
 
-            
-
             //Edition
             configuration.CreateMap<EditionEditDto, SubscribableEdition>().ReverseMap();
             configuration.CreateMap<EditionCreateDto, SubscribableEdition>();
@@ -90,7 +108,6 @@ namespace SBCRM
             configuration.CreateMap<Edition, EditionEditDto>();
             configuration.CreateMap<Edition, SubscribableEdition>();
             configuration.CreateMap<Edition, EditionSelectDto>();
-
 
             //Payment
             configuration.CreateMap<SubscriptionPaymentDto, SubscriptionPayment>().ReverseMap();
@@ -159,7 +176,7 @@ namespace SBCRM
             configuration.CreateMap<DynamicEntityPropertyDto, DynamicEntityProperty>();
 
             configuration.CreateMap<DynamicEntityPropertyValue, DynamicEntityPropertyValueDto>().ReverseMap();
-            
+
             //User Delegations
             configuration.CreateMap<CreateUserDelegationDto, UserDelegation>();
 

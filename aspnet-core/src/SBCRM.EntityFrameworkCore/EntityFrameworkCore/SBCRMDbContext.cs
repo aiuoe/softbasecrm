@@ -1,4 +1,6 @@
-﻿using Abp.IdentityServer4vNext;
+﻿using SBCRM.Crm;
+using SBCRM.Legacy;
+using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Authorization.Delegation;
@@ -16,6 +18,22 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Lead> Leads { get; set; }
+
+        public virtual DbSet<LeadStatus> LeadStatuses { get; set; }
+
+        public virtual DbSet<LeadSource> LeadSources { get; set; }
+
+        public virtual DbSet<Industry> Industries { get; set; }
+
+        public virtual DbSet<Customer> Customer { get; set; }
+
+        public virtual DbSet<AccountType> AccountTypes { get; set; }
+
+        public virtual DbSet<ARTerms> ARTerms { get; set; }
+
+        public virtual DbSet<ZipCode> ZipCodes { get; set; }
+
         /* Define an IDbSet for each entity of the application */
 
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }
@@ -48,9 +66,9 @@ namespace SBCRM.EntityFrameworkCore
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
 
             modelBuilder.Entity<BinaryObject>(b =>
-            {
-                b.HasIndex(e => new { e.TenantId });
-            });
+                                             {
+                                                 b.HasIndex(e => new { e.TenantId });
+                                             });
 
             modelBuilder.Entity<ChatMessage>(b =>
             {

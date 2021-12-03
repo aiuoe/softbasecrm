@@ -29,6 +29,47 @@ namespace SBCRM.Authorization
             //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
+
+            var leads = pages.CreateChildPermission(AppPermissions.Pages_Leads, L("Leads"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
+
+            var leadStatuses = pages.CreateChildPermission(AppPermissions.Pages_LeadStatuses, L("LeadStatuses"));
+            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Create, L("CreateNewLeadStatus"));
+            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Edit, L("EditLeadStatus"));
+            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Delete, L("DeleteLeadStatus"));
+
+            var leadSources = pages.CreateChildPermission(AppPermissions.Pages_LeadSources, L("LeadSources"));
+            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Create, L("CreateNewLeadSource"));
+            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Edit, L("EditLeadSource"));
+            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Delete, L("DeleteLeadSource"));
+
+            var industries = pages.CreateChildPermission(AppPermissions.Pages_Industries, L("Industries"));
+            industries.CreateChildPermission(AppPermissions.Pages_Industries_Create, L("CreateNewIndustry"));
+            industries.CreateChildPermission(AppPermissions.Pages_Industries_Edit, L("EditIndustry"));
+            industries.CreateChildPermission(AppPermissions.Pages_Industries_Delete, L("DeleteIndustry"));
+
+            var customer = pages.CreateChildPermission(AppPermissions.Pages_Customer, L("Customer"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_Create, L("CreateNewCustomer"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit, L("EditCustomer"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_Delete, L("DeleteCustomer"));
+
+            var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
+            accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));
+            accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Edit, L("EditAccountType"));
+            accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Delete, L("DeleteAccountType"));
+
+            var arTerms = pages.CreateChildPermission(AppPermissions.Pages_ARTerms, L("ARTerms"));
+            arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Create, L("CreateNewARTerms"));
+            arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Edit, L("EditARTerms"));
+            arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Delete, L("DeleteARTerms"));
+
+            var zipCodes = pages.CreateChildPermission(AppPermissions.Pages_ZipCodes, L("ZipCodes"));
+            zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Create, L("CreateNewZipCode"));
+            zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Edit, L("EditZipCode"));
+            zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Delete, L("DeleteZipCode"));
+
             pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));
@@ -52,7 +93,7 @@ namespace SBCRM.Authorization
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Delete, L("DeletingLanguages"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeTexts, L("ChangingTexts"));
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeDefaultLanguage, L("ChangeDefaultLanguage"));
-            
+
             administration.CreateChildPermission(AppPermissions.Pages_Administration_AuditLogs, L("AuditLogs"));
 
             var organizationUnits = administration.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits, L("OrganizationUnits"));
