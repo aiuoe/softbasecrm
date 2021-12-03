@@ -7,7 +7,11 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
-
+                    {
+                        path: 'business/leadSources',
+                        loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
+                        data: { permission: 'Pages.LeadSources' }
+                    },
                     {
                         path: 'business/customer',
                         loadChildren: () => import('./legacy/customer/customer.module').then(m => m.CustomerModule),

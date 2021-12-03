@@ -1,9 +1,8 @@
-﻿import { AppSessionService } from '@shared/common/session/app-session.service';
-
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
 import { PermissionCheckerService } from 'abp-ng2-module';
+import { AppSessionService } from '@shared/common/session/app-session.service';
 
 @Injectable()
 export class AppNavigationService {
@@ -29,7 +28,10 @@ export class AppNavigationService {
                 'flaticon-interface-8',
                 '',
                 [],
-                [new AppMenuItem('Customer', 'Pages.Customer', 'flaticon-more', '/app/main/business/customer')]),
+                [
+                    new AppMenuItem('Customer', 'Pages.Customer', 'flaticon-more', '/app/main/business/customer'),
+                    new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources')
+                ]),
             new AppMenuItem(
                 'Administration',
                 '',

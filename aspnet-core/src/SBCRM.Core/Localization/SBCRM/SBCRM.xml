@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Industry">Industry</text>
+  <texts>    <text name="LeadSource">Lead source</text>
+    <text name="SBCRM.Crm.LeadSource">LeadSource</text>
+    <text name="Description">Description</text>
+    <text name="LeadSourcesHeaderInfo">Lead sources header info</text>
+    <text name="CreateNewLeadSource">Create new lead source</text>
+    <text name="EditLeadSource">Edit lead source</text>
+    <text name="DeleteLeadSource">Delete lead source</text>
+    <text name="LeadSources">Lead sources</text>
+    <text name="Industry">Industry</text>
     <text name="CreateNewIndustry">Create new industry</text>
     <text name="EditIndustry">Edit industry</text>
     <text name="DeleteIndustry">Delete industry</text>
