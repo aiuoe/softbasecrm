@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var industries = pages.CreateChildPermission(AppPermissions.Pages_Industries, L("Industries"));
+            industries.CreateChildPermission(AppPermissions.Pages_Industries_Create, L("CreateNewIndustry"));
+            industries.CreateChildPermission(AppPermissions.Pages_Industries_Edit, L("EditIndustry"));
+            industries.CreateChildPermission(AppPermissions.Pages_Industries_Delete, L("DeleteIndustry"));
+
             var customer = pages.CreateChildPermission(AppPermissions.Pages_Customer, L("Customer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Create, L("CreateNewCustomer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit, L("EditCustomer"));

@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Customer">Customer</text>
+  <texts>    <text name="Industry">Industry</text>
+    <text name="CreateNewIndustry">Create new industry</text>
+    <text name="EditIndustry">Edit industry</text>
+    <text name="DeleteIndustry">Delete industry</text>
+    <text name="Customer">Customer</text>
     <text name="SBCRM.Legacy.Customer">Customer</text>
     <text name="Number">Number</text>
     <text name="BillTo">Bill to</text>
