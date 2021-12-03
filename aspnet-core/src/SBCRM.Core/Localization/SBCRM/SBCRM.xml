@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="ZipCode">Zip code</text>
+    <text name="CreateNewZipCode">Create new zip code</text>
+    <text name="EditZipCode">Edit zip code</text>
+    <text name="DeleteZipCode">Delete zip code</text>
+
     <text name="HomePage">Home page</text>
     <text name="AboutUs">About us</text>
     <text name="Administration">Administration</text>

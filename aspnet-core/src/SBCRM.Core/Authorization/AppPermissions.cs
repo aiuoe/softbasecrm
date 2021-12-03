@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ZipCodes = "Pages.ZipCodes";
+        public const string Pages_ZipCodes_Create = "Pages.ZipCodes.Create";
+        public const string Pages_ZipCodes_Edit = "Pages.ZipCodes.Edit";
+        public const string Pages_ZipCodes_Delete = "Pages.ZipCodes.Delete";
+
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";
