@@ -52,6 +52,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditCustomerDto, Customer>().ReverseMap();
+            configuration.CreateMap<CustomerDto, Customer>().ReverseMap();
             configuration.CreateMap<CreateOrEditAccountTypeDto, AccountType>().ReverseMap();
             configuration.CreateMap<AccountTypeDto, AccountType>().ReverseMap();
             configuration.CreateMap<CreateOrEditARTermsDto, ARTerms>().ReverseMap();

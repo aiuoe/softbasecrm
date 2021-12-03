@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Customer = "Pages.Customer";
+        public const string Pages_Customer_Create = "Pages.Customer.Create";
+        public const string Pages_Customer_Edit = "Pages.Customer.Edit";
+        public const string Pages_Customer_Delete = "Pages.Customer.Delete";
+
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";
         public const string Pages_AccountTypes_Edit = "Pages.AccountTypes.Edit";
