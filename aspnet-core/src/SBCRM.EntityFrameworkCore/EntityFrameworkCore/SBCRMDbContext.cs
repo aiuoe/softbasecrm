@@ -1,4 +1,4 @@
-﻿using SBCRM.Legacy;
+using SBCRM.Legacy;
 using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +17,8 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ARTerms> ARTerms { get; set; }
+
         public virtual DbSet<ZipCode> ZipCodes { get; set; }
 
         /* Define an IDbSet for each entity of the application */

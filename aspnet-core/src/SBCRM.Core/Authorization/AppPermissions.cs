@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ARTerms = "Pages.ARTerms";
+        public const string Pages_ARTerms_Create = "Pages.ARTerms.Create";
+        public const string Pages_ARTerms_Edit = "Pages.ARTerms.Edit";
+        public const string Pages_ARTerms_Delete = "Pages.ARTerms.Delete";
+
         public const string Pages_ZipCodes = "Pages.ZipCodes";
         public const string Pages_ZipCodes_Create = "Pages.ZipCodes.Create";
         public const string Pages_ZipCodes_Edit = "Pages.ZipCodes.Edit";

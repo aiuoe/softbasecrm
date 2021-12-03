@@ -50,6 +50,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditARTermsDto, ARTerms>().ReverseMap();
+            configuration.CreateMap<ARTermsDto, ARTerms>().ReverseMap();
             configuration.CreateMap<CreateOrEditZipCodeDto, ZipCode>().ReverseMap();
             configuration.CreateMap<ZipCodeDto, ZipCode>().ReverseMap();
             //Inputs
