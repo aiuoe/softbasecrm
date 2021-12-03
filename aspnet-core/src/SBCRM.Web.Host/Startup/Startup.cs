@@ -181,7 +181,7 @@ namespace SBCRM.Web.Startup
                     SearchOption.AllDirectories);
 
                 services.AddDbContext<SBCRMDbContext>(options =>
-                    options.UseSqlServer(_appConfiguration.GetConnectionString("Default"))
+                    options.UseSqlServer(_appConfiguration.GetConnectionString(SBCRMConsts.ConnectionStringName))
                         .EnableSensitiveDataLogging()
                 );
 
