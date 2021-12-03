@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Legacy">Legacy</text>
+  <texts>    <text name="Crm">Crm</text>
+    <text name="AccountType">Account type</text>
+    <text name="CreateNewAccountType">Create new account type</text>
+    <text name="EditAccountType">Edit account type</text>
+    <text name="DeleteAccountType">Delete account type</text>
+    <text name="Legacy">Legacy</text>
     <text name="ARTerms">A r terms</text>
     <text name="CreateNewARTerms">Create new a r terms</text>
     <text name="EditARTerms">Edit a r terms</text>

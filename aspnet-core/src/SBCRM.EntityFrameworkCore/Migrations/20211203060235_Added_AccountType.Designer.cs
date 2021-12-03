@@ -3,30 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211203060235_Added_AccountType")]
+    partial class Added_AccountType
     {
-        private readonly IDbContextSchema _schema;
-
-        //public WebCreekDemoDbContextModelSnapshot(IDbContextSchema schema)
-        public SBCRMDbContextModelSnapshot()
-        {
-            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
-        }
-
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema(SBCRMConsts.DefaultSchemaName)
+                .HasDefaultSchema("web")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Abp.Application.Editions.Edition", b =>
@@ -1401,7 +1394,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AbpWebhookSubscriptions");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Delegation.UserDelegation", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Delegation.UserDelegation", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1453,7 +1446,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AppUserDelegations");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1523,7 +1516,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AbpRoles");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Users.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1665,7 +1658,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AbpUsers");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Chat.ChatMessage", b =>
+            modelBuilder.Entity("SBCRM.Chat.ChatMessage", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1717,7 +1710,45 @@ namespace SBCRM.Migrations
                     b.ToTable("AppChatMessages");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Friendships.Friendship", b =>
+            modelBuilder.Entity("SBCRM.Crm.AccountType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountTypes");
+                });
+
+            modelBuilder.Entity("SBCRM.Friendships.Friendship", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1766,7 +1797,91 @@ namespace SBCRM.Migrations
                     b.ToTable("AppFriendships");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Accounting.Invoice", b =>
+            modelBuilder.Entity("SBCRM.Legacy.ARTerms", b =>
+                {
+                    b.Property<string>("Terms")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("AddedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<short?>("COD")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("ChangedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<short?>("CreditCard")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateChanged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("Day")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("DayOfMonth")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("Days")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("DaysDue")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("PrintWaterMark")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Terms");
+
+                    b.ToTable("ARTerms", "dbo");
+                });
+
+            modelBuilder.Entity("SBCRM.Legacy.ZipCode", b =>
+                {
+                    b.Property<string>("ZipCodeField")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("ZipCode");
+
+                    b.Property<string>("AddedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ChangedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("County")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateChanged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("ZipCodeField");
+
+                    b.ToTable("ZipCode", "dbo");
+                });
+
+            modelBuilder.Entity("SBCRM.MultiTenancy.Accounting.Invoice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1793,7 +1908,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AppInvoices");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
+            modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1874,7 +1989,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AppSubscriptionPayments");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPaymentExtensionData", b =>
+            modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPaymentExtensionData", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1902,7 +2017,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AppSubscriptionPaymentsExtensionData");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Tenant", b =>
+            modelBuilder.Entity("SBCRM.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1988,7 +2103,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AbpTenants");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Storage.BinaryObject", b =>
+            modelBuilder.Entity("SBCRM.Storage.BinaryObject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1996,6 +2111,7 @@ namespace SBCRM.Migrations
 
                     b.Property<byte[]>("Bytes")
                         .IsRequired()
+                        .HasMaxLength(10240)
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Description")
@@ -2011,7 +2127,7 @@ namespace SBCRM.Migrations
                     b.ToTable("AppBinaryObjects");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Editions.SubscribableEdition", b =>
+            modelBuilder.Entity("SBCRM.Editions.SubscribableEdition", b =>
                 {
                     b.HasBaseType("Abp.Application.Editions.Edition");
 
@@ -2096,7 +2212,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Roles.RoleClaim", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Roles.Role", null)
+                    b.HasOne("SBCRM.Authorization.Roles.Role", null)
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2105,7 +2221,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2114,7 +2230,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2123,7 +2239,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("OrganizationUnits")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2132,7 +2248,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2141,7 +2257,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2150,7 +2266,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("Settings")
                         .HasForeignKey("UserId");
                 });
@@ -2226,17 +2342,17 @@ namespace SBCRM.Migrations
                     b.Navigation("WebhookEvent");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Roles.Role", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
 
@@ -2247,17 +2363,17 @@ namespace SBCRM.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Users.User", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
 
@@ -2268,26 +2384,7 @@ namespace SBCRM.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.CRM.Nota", b =>
-                {
-                    b.HasOne("WebCreekDemo.CRM.Estudiante", "EstudianteFk")
-                        .WithMany()
-                        .HasForeignKey("EstudianteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebCreekDemo.CRM.Materia", "MateriaFk")
-                        .WithMany()
-                        .HasForeignKey("MateriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EstudianteFk");
-
-                    b.Navigation("MateriaFk");
-                });
-
-            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Payments.SubscriptionPayment", b =>
+            modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>
                 {
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
                         .WithMany()
@@ -2298,13 +2395,13 @@ namespace SBCRM.Migrations
                     b.Navigation("Edition");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.MultiTenancy.Tenant", b =>
+            modelBuilder.Entity("SBCRM.MultiTenancy.Tenant", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "CreatorUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId");
 
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "DeleterUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "DeleterUser")
                         .WithMany()
                         .HasForeignKey("DeleterUserId");
 
@@ -2312,7 +2409,7 @@ namespace SBCRM.Migrations
                         .WithMany()
                         .HasForeignKey("EditionId");
 
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", "LastModifierUser")
+                    b.HasOne("SBCRM.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
 
@@ -2338,7 +2435,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Roles.RolePermissionSetting", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Roles.Role", null)
+                    b.HasOne("SBCRM.Authorization.Roles.Role", null)
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2347,7 +2444,7 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("Abp.Authorization.Users.UserPermissionSetting", b =>
                 {
-                    b.HasOne("WebCreekDemo.Authorization.Users.User", null)
+                    b.HasOne("SBCRM.Authorization.Users.User", null)
                         .WithMany("Permissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2374,14 +2471,14 @@ namespace SBCRM.Migrations
                     b.Navigation("Children");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Roles.Role", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Roles.Role", b =>
                 {
                     b.Navigation("Claims");
 
                     b.Navigation("Permissions");
                 });
 
-            modelBuilder.Entity("WebCreekDemo.Authorization.Users.User", b =>
+            modelBuilder.Entity("SBCRM.Authorization.Users.User", b =>
                 {
                     b.Navigation("Claims");
 

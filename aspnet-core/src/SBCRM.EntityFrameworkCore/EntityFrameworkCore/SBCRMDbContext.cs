@@ -1,3 +1,4 @@
+﻿using SBCRM.Crm;
 using SBCRM.Legacy;
 using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
@@ -17,6 +18,8 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<AccountType> AccountTypes { get; set; }
+
         public virtual DbSet<ARTerms> ARTerms { get; set; }
 
         public virtual DbSet<ZipCode> ZipCodes { get; set; }
@@ -53,9 +56,9 @@ namespace SBCRM.EntityFrameworkCore
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
 
             modelBuilder.Entity<BinaryObject>(b =>
-                       {
-                           b.HasIndex(e => new { e.TenantId });
-                       });
+                                  {
+                                      b.HasIndex(e => new { e.TenantId });
+                                  });
 
             modelBuilder.Entity<ChatMessage>(b =>
             {

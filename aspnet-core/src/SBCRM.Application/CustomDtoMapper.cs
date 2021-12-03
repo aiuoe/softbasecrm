@@ -1,4 +1,6 @@
-﻿using SBCRM.Legacy.Dtos;
+﻿using SBCRM.Crm.Dtos;
+using SBCRM.Crm;
+using SBCRM.Legacy.Dtos;
 using SBCRM.Legacy;
 using Abp.Application.Editions;
 using Abp.Application.Features;
@@ -50,6 +52,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditAccountTypeDto, AccountType>().ReverseMap();
+            configuration.CreateMap<AccountTypeDto, AccountType>().ReverseMap();
             configuration.CreateMap<CreateOrEditARTermsDto, ARTerms>().ReverseMap();
             configuration.CreateMap<ARTermsDto, ARTerms>().ReverseMap();
             configuration.CreateMap<CreateOrEditZipCodeDto, ZipCode>().ReverseMap();
