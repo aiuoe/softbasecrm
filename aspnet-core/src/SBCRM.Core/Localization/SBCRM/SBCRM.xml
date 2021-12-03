@@ -1,6 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="LeadSource">Lead source</text>
+  <texts>    <text name="LeadStatus">Lead status</text>
+    <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
+    <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
+    <text name="CreateNewLeadStatus">Create new lead status</text>
+    <text name="EditLeadStatus">Edit lead status</text>
+    <text name="DeleteLeadStatus">Delete lead status</text>
+    <text name="LeadStatuses">Lead statuses</text>
+    <text name="LeadSource">Lead source</text>
     <text name="SBCRM.Crm.LeadSource">LeadSource</text>
     <text name="Description">Description</text>
     <text name="LeadSourcesHeaderInfo">Lead sources header info</text>

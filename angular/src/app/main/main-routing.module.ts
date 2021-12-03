@@ -8,6 +8,11 @@ import { RouterModule } from '@angular/router';
                 path: '',
                 children: [
                     {
+                        path: 'business/leadStatuses',
+                        loadChildren: () => import('./crm/leadStatuses/leadStatus.module').then(m => m.LeadStatusModule),
+                        data: { permission: 'Pages.LeadStatuses' }
+                    },
+                    {
                         path: 'business/leadSources',
                         loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
                         data: { permission: 'Pages.LeadSources' }

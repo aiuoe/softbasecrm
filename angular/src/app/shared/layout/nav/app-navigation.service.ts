@@ -30,7 +30,8 @@ export class AppNavigationService {
                 [],
                 [
                     new AppMenuItem('Customer', 'Pages.Customer', 'flaticon-more', '/app/main/business/customer'),
-                    new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources')
+                    new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources'),
+                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses')
                 ]),
             new AppMenuItem(
                 'Administration',

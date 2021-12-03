@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_LeadStatuses = "Pages.LeadStatuses";
+        public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";
+        public const string Pages_LeadStatuses_Edit = "Pages.LeadStatuses.Edit";
+        public const string Pages_LeadStatuses_Delete = "Pages.LeadStatuses.Delete";
+
         public const string Pages_LeadSources = "Pages.LeadSources";
         public const string Pages_LeadSources_Create = "Pages.LeadSources.Create";
         public const string Pages_LeadSources_Edit = "Pages.LeadSources.Edit";
