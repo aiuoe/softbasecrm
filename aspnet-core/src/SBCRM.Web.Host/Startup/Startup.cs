@@ -9,10 +9,12 @@ using Abp.AspNetCore.Mvc.Extensions;
 using Abp.AspNetCore.SignalR.Hubs;
 using Abp.AspNetZeroCore.Web.Authentication.JwtBearer;
 using Abp.Castle.Logging.Log4Net;
+using Abp.Dependency;
 using Abp.Extensions;
 using Abp.Hangfire;
 using Abp.PlugIns;
 using Castle.Facilities.Logging;
+using Castle.MicroKernel.Registration;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,6 +46,9 @@ using Newtonsoft.Json.Serialization;
 using Owl.reCAPTCHA;
 using HealthChecksUISettings = HealthChecks.UI.Configuration.Settings;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Base;
+using SBCRM.EntityFrameworkCore.Repositories;
 
 namespace SBCRM.Web.Startup
 {
@@ -174,6 +179,17 @@ namespace SBCRM.Web.Startup
 
                 options.PlugInSources.AddFolder(Path.Combine(_hostingEnvironment.WebRootPath, "Plugins"),
                     SearchOption.AllDirectories);
+
+                services.AddDbContext<SBCRMDbContext>(options =>
+                    options.UseSqlServer(_appConfiguration.GetConnectionString("Default"))
+                        .EnableSensitiveDataLogging()
+                );
+
+                options.IocManager.IocContainer.Register(Component
+                    .For(typeof(IRepository<>))
+                    .ImplementedBy(typeof(Repository<>))
+                    .LifestyleTransient());
+
             });
         }
 
