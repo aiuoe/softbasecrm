@@ -7,7 +7,7 @@ using Abp.Domain.Entities;
 namespace SBCRM.Crm
 {
     [Table("LeadStatuses")]
-    public class LeadStatus : Entity
+    public class LeadStatus : FullAuditedEntity
     {
 
         [Required]

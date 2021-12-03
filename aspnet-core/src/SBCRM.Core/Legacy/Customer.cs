@@ -13,6 +13,7 @@ namespace SBCRM.Legacy
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
 
+        [Key]
         [Required]
         [StringLength(CustomerConsts.MaxNumberLength, MinimumLength = CustomerConsts.MinNumberLength)]
         public virtual string Number { get; set; }

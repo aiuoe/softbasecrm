@@ -9831,6 +9831,655 @@ export class LanguageServiceProxy {
 }
 
 @Injectable()
+export class LeadsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param companyNameFilter (optional) 
+     * @param firstNameFilter (optional) 
+     * @param lastNameFilter (optional) 
+     * @param titleFilter (optional) 
+     * @param webSiteFilter (optional) 
+     * @param addressFilter (optional) 
+     * @param countryFilter (optional) 
+     * @param stateFilter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param industryDescriptionFilter (optional) 
+     * @param leadSourceDescriptionFilter (optional) 
+     * @param leadStatusDescriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, companyNameFilter: string | undefined, firstNameFilter: string | undefined, lastNameFilter: string | undefined, titleFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, industryDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (companyNameFilter === null)
+            throw new Error("The parameter 'companyNameFilter' cannot be null.");
+        else if (companyNameFilter !== undefined)
+            url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
+        if (firstNameFilter === null)
+            throw new Error("The parameter 'firstNameFilter' cannot be null.");
+        else if (firstNameFilter !== undefined)
+            url_ += "FirstNameFilter=" + encodeURIComponent("" + firstNameFilter) + "&";
+        if (lastNameFilter === null)
+            throw new Error("The parameter 'lastNameFilter' cannot be null.");
+        else if (lastNameFilter !== undefined)
+            url_ += "LastNameFilter=" + encodeURIComponent("" + lastNameFilter) + "&";
+        if (titleFilter === null)
+            throw new Error("The parameter 'titleFilter' cannot be null.");
+        else if (titleFilter !== undefined)
+            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&";
+        if (webSiteFilter === null)
+            throw new Error("The parameter 'webSiteFilter' cannot be null.");
+        else if (webSiteFilter !== undefined)
+            url_ += "WebSiteFilter=" + encodeURIComponent("" + webSiteFilter) + "&";
+        if (addressFilter === null)
+            throw new Error("The parameter 'addressFilter' cannot be null.");
+        else if (addressFilter !== undefined)
+            url_ += "AddressFilter=" + encodeURIComponent("" + addressFilter) + "&";
+        if (countryFilter === null)
+            throw new Error("The parameter 'countryFilter' cannot be null.");
+        else if (countryFilter !== undefined)
+            url_ += "CountryFilter=" + encodeURIComponent("" + countryFilter) + "&";
+        if (stateFilter === null)
+            throw new Error("The parameter 'stateFilter' cannot be null.");
+        else if (stateFilter !== undefined)
+            url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (industryDescriptionFilter === null)
+            throw new Error("The parameter 'industryDescriptionFilter' cannot be null.");
+        else if (industryDescriptionFilter !== undefined)
+            url_ += "IndustryDescriptionFilter=" + encodeURIComponent("" + industryDescriptionFilter) + "&";
+        if (leadSourceDescriptionFilter === null)
+            throw new Error("The parameter 'leadSourceDescriptionFilter' cannot be null.");
+        else if (leadSourceDescriptionFilter !== undefined)
+            url_ += "LeadSourceDescriptionFilter=" + encodeURIComponent("" + leadSourceDescriptionFilter) + "&";
+        if (leadStatusDescriptionFilter === null)
+            throw new Error("The parameter 'leadStatusDescriptionFilter' cannot be null.");
+        else if (leadStatusDescriptionFilter !== undefined)
+            url_ += "LeadStatusDescriptionFilter=" + encodeURIComponent("" + leadStatusDescriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLeadForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLeadForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLeadForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLeadForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLeadForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLeadForView(id: number | undefined): Observable<GetLeadForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLeadForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLeadForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadForView(response: HttpResponseBase): Observable<GetLeadForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLeadForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLeadForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLeadForEdit(id: number | undefined): Observable<GetLeadForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLeadForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLeadForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadForEdit(response: HttpResponseBase): Observable<GetLeadForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLeadForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLeadForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLeadDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param companyNameFilter (optional) 
+     * @param firstNameFilter (optional) 
+     * @param lastNameFilter (optional) 
+     * @param titleFilter (optional) 
+     * @param webSiteFilter (optional) 
+     * @param addressFilter (optional) 
+     * @param countryFilter (optional) 
+     * @param stateFilter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param industryDescriptionFilter (optional) 
+     * @param leadSourceDescriptionFilter (optional) 
+     * @param leadStatusDescriptionFilter (optional) 
+     * @return Success
+     */
+    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, firstNameFilter: string | undefined, lastNameFilter: string | undefined, titleFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, industryDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (companyNameFilter === null)
+            throw new Error("The parameter 'companyNameFilter' cannot be null.");
+        else if (companyNameFilter !== undefined)
+            url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
+        if (firstNameFilter === null)
+            throw new Error("The parameter 'firstNameFilter' cannot be null.");
+        else if (firstNameFilter !== undefined)
+            url_ += "FirstNameFilter=" + encodeURIComponent("" + firstNameFilter) + "&";
+        if (lastNameFilter === null)
+            throw new Error("The parameter 'lastNameFilter' cannot be null.");
+        else if (lastNameFilter !== undefined)
+            url_ += "LastNameFilter=" + encodeURIComponent("" + lastNameFilter) + "&";
+        if (titleFilter === null)
+            throw new Error("The parameter 'titleFilter' cannot be null.");
+        else if (titleFilter !== undefined)
+            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&";
+        if (webSiteFilter === null)
+            throw new Error("The parameter 'webSiteFilter' cannot be null.");
+        else if (webSiteFilter !== undefined)
+            url_ += "WebSiteFilter=" + encodeURIComponent("" + webSiteFilter) + "&";
+        if (addressFilter === null)
+            throw new Error("The parameter 'addressFilter' cannot be null.");
+        else if (addressFilter !== undefined)
+            url_ += "AddressFilter=" + encodeURIComponent("" + addressFilter) + "&";
+        if (countryFilter === null)
+            throw new Error("The parameter 'countryFilter' cannot be null.");
+        else if (countryFilter !== undefined)
+            url_ += "CountryFilter=" + encodeURIComponent("" + countryFilter) + "&";
+        if (stateFilter === null)
+            throw new Error("The parameter 'stateFilter' cannot be null.");
+        else if (stateFilter !== undefined)
+            url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (industryDescriptionFilter === null)
+            throw new Error("The parameter 'industryDescriptionFilter' cannot be null.");
+        else if (industryDescriptionFilter !== undefined)
+            url_ += "IndustryDescriptionFilter=" + encodeURIComponent("" + industryDescriptionFilter) + "&";
+        if (leadSourceDescriptionFilter === null)
+            throw new Error("The parameter 'leadSourceDescriptionFilter' cannot be null.");
+        else if (leadSourceDescriptionFilter !== undefined)
+            url_ += "LeadSourceDescriptionFilter=" + encodeURIComponent("" + leadSourceDescriptionFilter) + "&";
+        if (leadStatusDescriptionFilter === null)
+            throw new Error("The parameter 'leadStatusDescriptionFilter' cannot be null.");
+        else if (leadStatusDescriptionFilter !== undefined)
+            url_ += "LeadStatusDescriptionFilter=" + encodeURIComponent("" + leadStatusDescriptionFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllIndustryForTableDropdown(): Observable<LeadIndustryLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetAllIndustryForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllIndustryForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllIndustryForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadIndustryLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadIndustryLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllIndustryForTableDropdown(response: HttpResponseBase): Observable<LeadIndustryLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadIndustryLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadIndustryLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadSourceForTableDropdown(): Observable<LeadLeadSourceLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetAllLeadSourceForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadSourceForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadSourceForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadLeadSourceLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadLeadSourceLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadSourceForTableDropdown(response: HttpResponseBase): Observable<LeadLeadSourceLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadLeadSourceLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadLeadSourceLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadStatusForTableDropdown(): Observable<LeadLeadStatusLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetAllLeadStatusForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadStatusForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadStatusForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadLeadStatusLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadLeadStatusLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadStatusForTableDropdown(response: HttpResponseBase): Observable<LeadLeadStatusLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadLeadStatusLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadLeadStatusLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class LeadSourcesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -21145,6 +21794,90 @@ export interface ICreateOrEditIndustryDto {
     id: number | undefined;
 }
 
+export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
+    companyName!: string;
+    firstName!: string;
+    lastName!: string;
+    title!: string | undefined;
+    webSite!: string | undefined;
+    address!: string | undefined;
+    country!: string | undefined;
+    state!: string | undefined;
+    description!: string | undefined;
+    industryId!: number;
+    leadSourceId!: number;
+    leadStatusId!: number;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLeadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.companyName = _data["companyName"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.title = _data["title"];
+            this.webSite = _data["webSite"];
+            this.address = _data["address"];
+            this.country = _data["country"];
+            this.state = _data["state"];
+            this.description = _data["description"];
+            this.industryId = _data["industryId"];
+            this.leadSourceId = _data["leadSourceId"];
+            this.leadStatusId = _data["leadStatusId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLeadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLeadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["companyName"] = this.companyName;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["title"] = this.title;
+        data["webSite"] = this.webSite;
+        data["address"] = this.address;
+        data["country"] = this.country;
+        data["state"] = this.state;
+        data["description"] = this.description;
+        data["industryId"] = this.industryId;
+        data["leadSourceId"] = this.leadSourceId;
+        data["leadStatusId"] = this.leadStatusId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLeadDto {
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    title: string | undefined;
+    webSite: string | undefined;
+    address: string | undefined;
+    country: string | undefined;
+    state: string | undefined;
+    description: string | undefined;
+    industryId: number;
+    leadSourceId: number;
+    leadStatusId: number;
+    id: number | undefined;
+}
+
 export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     description!: string;
     id!: number | undefined;
@@ -25186,6 +25919,102 @@ export interface IGetLatestWebLogsOutput {
     latestWebLogLines: string[] | undefined;
 }
 
+export class GetLeadForEditOutput implements IGetLeadForEditOutput {
+    lead!: CreateOrEditLeadDto;
+    industryDescription!: string | undefined;
+    leadSourceDescription!: string | undefined;
+    leadStatusDescription!: string | undefined;
+
+    constructor(data?: IGetLeadForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.lead = _data["lead"] ? CreateOrEditLeadDto.fromJS(_data["lead"]) : <any>undefined;
+            this.industryDescription = _data["industryDescription"];
+            this.leadSourceDescription = _data["leadSourceDescription"];
+            this.leadStatusDescription = _data["leadStatusDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lead"] = this.lead ? this.lead.toJSON() : <any>undefined;
+        data["industryDescription"] = this.industryDescription;
+        data["leadSourceDescription"] = this.leadSourceDescription;
+        data["leadStatusDescription"] = this.leadStatusDescription;
+        return data; 
+    }
+}
+
+export interface IGetLeadForEditOutput {
+    lead: CreateOrEditLeadDto;
+    industryDescription: string | undefined;
+    leadSourceDescription: string | undefined;
+    leadStatusDescription: string | undefined;
+}
+
+export class GetLeadForViewDto implements IGetLeadForViewDto {
+    lead!: LeadDto;
+    industryDescription!: string | undefined;
+    leadSourceDescription!: string | undefined;
+    leadStatusDescription!: string | undefined;
+
+    constructor(data?: IGetLeadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.lead = _data["lead"] ? LeadDto.fromJS(_data["lead"]) : <any>undefined;
+            this.industryDescription = _data["industryDescription"];
+            this.leadSourceDescription = _data["leadSourceDescription"];
+            this.leadStatusDescription = _data["leadStatusDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lead"] = this.lead ? this.lead.toJSON() : <any>undefined;
+        data["industryDescription"] = this.industryDescription;
+        data["leadSourceDescription"] = this.leadSourceDescription;
+        data["leadStatusDescription"] = this.leadStatusDescription;
+        return data; 
+    }
+}
+
+export interface IGetLeadForViewDto {
+    lead: LeadDto;
+    industryDescription: string | undefined;
+    leadSourceDescription: string | undefined;
+    leadStatusDescription: string | undefined;
+}
+
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
     leadSource!: CreateOrEditLeadSourceDto;
 
@@ -27329,6 +28158,210 @@ export interface ILdapSettingsEditDto {
     password: string | undefined;
 }
 
+export class LeadDto implements ILeadDto {
+    companyName!: string | undefined;
+    firstName!: string | undefined;
+    lastName!: string | undefined;
+    title!: string | undefined;
+    webSite!: string | undefined;
+    address!: string | undefined;
+    country!: string | undefined;
+    state!: string | undefined;
+    description!: string | undefined;
+    industryId!: number;
+    leadSourceId!: number;
+    leadStatusId!: number;
+    id!: number;
+
+    constructor(data?: ILeadDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.companyName = _data["companyName"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.title = _data["title"];
+            this.webSite = _data["webSite"];
+            this.address = _data["address"];
+            this.country = _data["country"];
+            this.state = _data["state"];
+            this.description = _data["description"];
+            this.industryId = _data["industryId"];
+            this.leadSourceId = _data["leadSourceId"];
+            this.leadStatusId = _data["leadStatusId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): LeadDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["companyName"] = this.companyName;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["title"] = this.title;
+        data["webSite"] = this.webSite;
+        data["address"] = this.address;
+        data["country"] = this.country;
+        data["state"] = this.state;
+        data["description"] = this.description;
+        data["industryId"] = this.industryId;
+        data["leadSourceId"] = this.leadSourceId;
+        data["leadStatusId"] = this.leadStatusId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILeadDto {
+    companyName: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    title: string | undefined;
+    webSite: string | undefined;
+    address: string | undefined;
+    country: string | undefined;
+    state: string | undefined;
+    description: string | undefined;
+    industryId: number;
+    leadSourceId: number;
+    leadStatusId: number;
+    id: number;
+}
+
+export class LeadIndustryLookupTableDto implements ILeadIndustryLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadIndustryLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadIndustryLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadIndustryLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadIndustryLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadLeadSourceLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadLeadSourceLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadLeadSourceLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadLeadSourceLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadLeadStatusLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadLeadStatusLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadLeadStatusLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadLeadStatusLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
 export class LeadSourceDto implements ILeadSourceDto {
     description!: string | undefined;
     id!: number;
@@ -29467,6 +30500,54 @@ export class PagedResultDtoOfGetIndustryForViewDto implements IPagedResultDtoOfG
 export interface IPagedResultDtoOfGetIndustryForViewDto {
     totalCount: number;
     items: GetIndustryForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetLeadForViewDto implements IPagedResultDtoOfGetLeadForViewDto {
+    totalCount!: number;
+    items!: GetLeadForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLeadForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetLeadForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLeadForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLeadForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLeadForViewDto {
+    totalCount: number;
+    items: GetLeadForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetLeadSourceForViewDto implements IPagedResultDtoOfGetLeadSourceForViewDto {

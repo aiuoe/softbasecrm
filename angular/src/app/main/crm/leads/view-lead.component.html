@@ -1,0 +1,66 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header
+            [title]="('Leads' | localize) + ' ' + ('Details' | localize)"
+            [breadcrumbs]="breadcrumbs"
+        ></sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('CompanyName') }} :</h6>
+                            {{ item.lead.companyName }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('FirstName') }} :</h6>
+                            {{ item.lead.firstName }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('LastName') }} :</h6>
+                            {{ item.lead.lastName }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Title') }} :</h6>
+                            {{ item.lead.title }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('WebSite') }} :</h6>
+                            {{ item.lead.webSite }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Address') }} :</h6>
+                            {{ item.lead.address }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Country') }} :</h6>
+                            {{ item.lead.country }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('State') }} :</h6>
+                            {{ item.lead.state }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Description') }} :</h6>
+                            {{ item.lead.description }}
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('Industry') }}) {{ l('Description') }} :</h6>
+                            {{ item.industryDescription }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('LeadSource') }}) {{ l('Description') }} :</h6>
+                            {{ item.leadSourceDescription }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('LeadStatus') }}) {{ l('Description') }} :</h6>
+                            {{ item.leadStatusDescription }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211203143855_Added_Lead")]
+    partial class Added_Lead
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1810,9 +1812,6 @@ namespace SBCRM.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("CustomerNumber")
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
 
@@ -1863,8 +1862,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerNumber");
 
                     b.HasIndex("IndustryId");
 
@@ -1920,31 +1917,10 @@ namespace SBCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -2048,9 +2024,10 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>
                 {
-                    b.Property<string>("Number")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ARComments")
                         .HasColumnType("nvarchar(max)");
@@ -2305,11 +2282,6 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("HoursOfOpStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int?>("Inactive")
                         .HasColumnType("int");
 
@@ -2423,6 +2395,11 @@ namespace SBCRM.Migrations
 
                     b.Property<short?>("NoShippingCharge")
                         .HasColumnType("smallint");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("OB10No")
                         .HasMaxLength(50)
@@ -2721,7 +2698,7 @@ namespace SBCRM.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Number");
+                    b.HasKey("Id");
 
                     b.HasIndex("AccountTypeId");
 
@@ -3271,10 +3248,6 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Crm.Lead", b =>
                 {
-                    b.HasOne("SBCRM.Legacy.Customer", "CustomerFk")
-                        .WithMany()
-                        .HasForeignKey("CustomerNumber");
-
                     b.HasOne("SBCRM.Crm.Industry", "IndustryFk")
                         .WithMany()
                         .HasForeignKey("IndustryId")
@@ -3292,8 +3265,6 @@ namespace SBCRM.Migrations
                         .HasForeignKey("LeadStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CustomerFk");
 
                     b.Navigation("IndustryFk");
 

@@ -1,6 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="LeadStatus">Lead status</text>
+  <texts>    <text name="Lead">Lead</text>
+    <text name="SBCRM.Crm.Lead">Lead</text>
+    <text name="CompanyName">Company name</text>
+    <text name="LastName">Last name</text>
+    <text name="Title">Title</text>
+    <text name="WebSite">Web site</text>
+    <text name="LeadsHeaderInfo">Leads header info</text>
+    <text name="CreateNewLead">Create new lead</text>
+    <text name="EditLead">Edit lead</text>
+    <text name="DeleteLead">Delete lead</text>
+    <text name="Leads">Leads</text>
+    <text name="IndustryDescription">Industry description</text>
+    <text name="PickIndustry">Pick industry</text>
+    <text name="SelectAIndustry">Select a industry</text>
+    <text name="LeadSourceDescription">Lead source description</text>
+    <text name="PickLeadSource">Pick lead source</text>
+    <text name="SelectALeadSource">Select a lead source</text>
+    <text name="LeadStatusDescription">Lead status description</text>
+    <text name="PickLeadStatus">Pick lead status</text>
+    <text name="SelectALeadStatus">Select a lead status</text>
+    <text name="LeadStatus">Lead status</text>
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
