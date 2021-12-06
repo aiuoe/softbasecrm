@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "Crm",
   "EntityName": "Lead",
@@ -40,7 +40,7 @@
       }
     },
     {
-      "Name": "FirstName",
+      "Name": "ContactName",
       "Type": "string",
       "MaxLength": 100,
       "MinLength": 1,
@@ -49,7 +49,7 @@
         "MinimumValue": 0.0,
         "MaximumValue": 0.0
       },
-      "Required": true,
+      "Required": false,
       "Nullable": false,
       "Regex": "",
       "UserInterface": {
@@ -59,26 +59,7 @@
       }
     },
     {
-      "Name": "LastName",
-      "Type": "string",
-      "MaxLength": 100,
-      "MinLength": 1,
-      "Range": {
-        "IsRangeSet": false,
-        "MinimumValue": 0.0,
-        "MaximumValue": 0.0
-      },
-      "Required": true,
-      "Nullable": false,
-      "Regex": "",
-      "UserInterface": {
-        "AdvancedFilter": true,
-        "List": true,
-        "CreateOrUpdate": true
-      }
-    },
-    {
-      "Name": "Title",
+      "Name": "ContactPosition",
       "Type": "string",
       "MaxLength": 100,
       "MinLength": 1,
@@ -190,20 +171,199 @@
         "List": true,
         "CreateOrUpdate": true
       }
+    },
+    {
+      "Name": "CompanyPhone",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": true,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "CompanyEmail",
+      "Type": "string",
+      "MaxLength": 100,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "PoBox",
+      "Type": "string",
+      "MaxLength": 100,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ZipCode",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ContactPhone",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ContactPhoneExtension",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ContactCellPhone",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ContactFaxNumber",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "PagerNumber",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "ContactEmail",
+      "Type": "string",
+      "MaxLength": 100,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      }
     }
   ],
   "NavigationProperties": [
-    {
-      "Namespace": "SBCRM.Crm",
-      "ForeignEntityName": "Industry",
-      "IdType": "int",
-      "IsNullable": false,
-      "PropertyName": "IndustryId",
-      "DisplayPropertyName": "Description",
-      "DuplicationNumber": 0,
-      "RelationType": "single",
-      "ViewType": "Dropdown"
-    },
     {
       "Namespace": "SBCRM.Crm",
       "ForeignEntityName": "LeadSource",
@@ -221,6 +381,17 @@
       "IdType": "int",
       "IsNullable": false,
       "PropertyName": "LeadStatusId",
+      "DisplayPropertyName": "Description",
+      "DuplicationNumber": 0,
+      "RelationType": "single",
+      "ViewType": "Dropdown"
+    },
+    {
+      "Namespace": "SBCRM.Crm",
+      "ForeignEntityName": "Priority",
+      "IdType": "int",
+      "IsNullable": true,
+      "PropertyName": "PriorityId",
       "DisplayPropertyName": "Description",
       "DuplicationNumber": 0,
       "RelationType": "single",

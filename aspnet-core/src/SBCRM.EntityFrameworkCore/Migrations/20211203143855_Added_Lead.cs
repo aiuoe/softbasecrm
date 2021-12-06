@@ -15,18 +15,30 @@ namespace SBCRM.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     WebSite = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IndustryId = table.Column<int>(type: "int", nullable: false),
-                    LeadSourceId = table.Column<int>(type: "int", nullable: false),
-                    LeadStatusId = table.Column<int>(type: "int", nullable: false),
-                    CustomerNumber = table.Column<string>(type: "varchar(100)", nullable: false),
+                    
+                    PriorityId = table.Column<int>(type: "int", nullable: true),
+                    LeadSourceId = table.Column<int>(type: "int", nullable: true),
+                    LeadStatusId = table.Column<int>(type: "int", nullable: true),
+                    CustomerNumber = table.Column<string>(type: "varchar(100)", nullable: true),
+
+                    ContactName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ContactPosition = table.Column<string>(type: "varchar(100)", nullable: true),
+                    CompanyPhone = table.Column<string>(type: "varchar(50)", nullable: true),
+                    CompanyEmail = table.Column<string>(type: "varchar(100)", nullable: true),
+                    PoBox = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ZipCode = table.Column<string>(type: "varchar(50)", nullable: true),
+                    ContactPhone = table.Column<string>(type: "varchar(50)", nullable: true),
+                    ContactPhoneExtension = table.Column<string>(type: "varchar(50)", nullable: true),
+                    ContactCellPhone = table.Column<string>(type: "varchar(50)", nullable: true),
+                    ContactFaxNumber = table.Column<string>(type: "varchar(50)", nullable: true),
+                    PagerNumber = table.Column<string>(type: "varchar(50)", nullable: true),
+                    ContactEmail = table.Column<string>(type: "varchar(100)", nullable: true),
+
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -37,12 +49,11 @@ namespace SBCRM.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leads", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Leads_Industries_IndustryId",
-                        column: x => x.IndustryId,
+                        name: "FK_Leads_Priorities_PriorityId",
+                        column: x => x.PriorityId,
                         principalSchema: "web",
-                        principalTable: "Industries",
+                        principalTable: "Priorities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -67,24 +78,6 @@ namespace SBCRM.Migrations
                         principalColumn: "Number",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Leads_IndustryId",
-                schema: "web",
-                table: "Leads",
-                column: "IndustryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Leads_LeadSourceId",
-                schema: "web",
-                table: "Leads",
-                column: "LeadSourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Leads_LeadStatusId",
-                schema: "web",
-                table: "Leads",
-                column: "LeadStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Leads_LeadCustomerNumber",

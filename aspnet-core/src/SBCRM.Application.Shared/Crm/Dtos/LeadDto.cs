@@ -1,17 +1,14 @@
-﻿using System;
-using Abp.Application.Services.Dto;
+﻿using SBCRM.Dto;
 
 namespace SBCRM.Crm.Dtos
 {
-    public class LeadDto : EntityDto
+    public class LeadDto : AuditEntityDto
     {
         public string CompanyName { get; set; }
 
-        public string FirstName { get; set; }
+        public string ContactName { get; set; }
 
-        public string LastName { get; set; }
-
-        public string Title { get; set; }
+        public string ContactPosition { get; set; }
 
         public string WebSite { get; set; }
 
@@ -23,11 +20,30 @@ namespace SBCRM.Crm.Dtos
 
         public string Description { get; set; }
 
-        public int IndustryId { get; set; }
+        public string CompanyPhone { get; set; }
+
+        public string CompanyEmail { get; set; }
+
+        public string PoBox { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string ContactPhone { get; set; }
+
+        public string ContactPhoneExtension { get; set; }
+
+        public string ContactCellPhone { get; set; }
+
+        public string ContactFaxNumber { get; set; }
+
+        public string PagerNumber { get; set; }
+
+        public string ContactEmail { get; set; }
 
         public int LeadSourceId { get; set; }
 
         public int LeadStatusId { get; set; }
 
+        public int? PriorityId { get; set; }
     }
 }

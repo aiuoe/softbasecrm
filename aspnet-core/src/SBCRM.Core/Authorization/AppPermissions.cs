@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Priorities = "Pages.Priorities";
+        public const string Pages_Priorities_Create = "Pages.Priorities.Create";
+        public const string Pages_Priorities_Edit = "Pages.Priorities.Edit";
+        public const string Pages_Priorities_Delete = "Pages.Priorities.Delete";
+
         public const string Pages_Leads = "Pages.Leads";
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";

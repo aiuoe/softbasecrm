@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var priorities = pages.CreateChildPermission(AppPermissions.Pages_Priorities, L("Priorities"));
+            priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Create, L("CreateNewPriority"));
+            priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Edit, L("EditPriority"));
+            priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Delete, L("DeletePriority"));
+
             var leads = pages.CreateChildPermission(AppPermissions.Pages_Leads, L("Leads"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));

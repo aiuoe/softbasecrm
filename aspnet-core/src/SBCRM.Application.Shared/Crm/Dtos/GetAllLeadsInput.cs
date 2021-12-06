@@ -9,11 +9,9 @@ namespace SBCRM.Crm.Dtos
 
         public string CompanyNameFilter { get; set; }
 
-        public string FirstNameFilter { get; set; }
+        public string ContactNameFilter { get; set; }
 
-        public string LastNameFilter { get; set; }
-
-        public string TitleFilter { get; set; }
+        public string ContactPositionFilter { get; set; }
 
         public string WebSiteFilter { get; set; }
 
@@ -25,11 +23,31 @@ namespace SBCRM.Crm.Dtos
 
         public string DescriptionFilter { get; set; }
 
-        public string IndustryDescriptionFilter { get; set; }
+        public string CompanyPhoneFilter { get; set; }
+
+        public string CompanyEmailFilter { get; set; }
+
+        public string PoBoxFilter { get; set; }
+
+        public string ZipCodeFilter { get; set; }
+
+        public string ContactPhoneFilter { get; set; }
+
+        public string ContactPhoneExtensionFilter { get; set; }
+
+        public string ContactCellPhoneFilter { get; set; }
+
+        public string ContactFaxNumberFilter { get; set; }
+
+        public string PagerNumberFilter { get; set; }
+
+        public string ContactEmailFilter { get; set; }
 
         public string LeadSourceDescriptionFilter { get; set; }
 
         public string LeadStatusDescriptionFilter { get; set; }
+
+        public string PriorityDescriptionFilter { get; set; }
 
     }
 }

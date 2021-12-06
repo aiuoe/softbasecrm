@@ -28,17 +28,26 @@ export class LeadsComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
     companyNameFilter = '';
-    firstNameFilter = '';
-    lastNameFilter = '';
-    titleFilter = '';
+    contactNameFilter = '';
+    contactPositionFilter = '';
     webSiteFilter = '';
     addressFilter = '';
     countryFilter = '';
     stateFilter = '';
     descriptionFilter = '';
-    industryDescriptionFilter = '';
+    companyPhoneFilter = '';
+    companyEmailFilter = '';
+    poBoxFilter = '';
+    zipCodeFilter = '';
+    contactPhoneFilter = '';
+    contactPhoneExtensionFilter = '';
+    contactCellPhoneFilter = '';
+    contactFaxNumberFilter = '';
+    pagerNumberFilter = '';
+    contactEmailFilter = '';
     leadSourceDescriptionFilter = '';
     leadStatusDescriptionFilter = '';
+    priorityDescriptionFilter = '';
 
     constructor(
         injector: Injector,
@@ -65,17 +74,26 @@ export class LeadsComponent extends AppComponentBase {
             .getAll(
                 this.filterText,
                 this.companyNameFilter,
-                this.firstNameFilter,
-                this.lastNameFilter,
-                this.titleFilter,
+                this.contactNameFilter,
+                this.contactPositionFilter,
                 this.webSiteFilter,
                 this.addressFilter,
                 this.countryFilter,
                 this.stateFilter,
                 this.descriptionFilter,
-                this.industryDescriptionFilter,
+                this.companyPhoneFilter,
+                this.companyEmailFilter,
+                this.poBoxFilter,
+                this.zipCodeFilter,
+                this.contactPhoneFilter,
+                this.contactPhoneExtensionFilter,
+                this.contactCellPhoneFilter,
+                this.contactFaxNumberFilter,
+                this.pagerNumberFilter,
+                this.contactEmailFilter,
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
+                this.priorityDescriptionFilter,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -111,17 +129,26 @@ export class LeadsComponent extends AppComponentBase {
             .getLeadsToExcel(
                 this.filterText,
                 this.companyNameFilter,
-                this.firstNameFilter,
-                this.lastNameFilter,
-                this.titleFilter,
+                this.contactNameFilter,
+                this.contactPositionFilter,
                 this.webSiteFilter,
                 this.addressFilter,
                 this.countryFilter,
                 this.stateFilter,
                 this.descriptionFilter,
-                this.industryDescriptionFilter,
+                this.companyPhoneFilter,
+                this.companyEmailFilter,
+                this.poBoxFilter,
+                this.zipCodeFilter,
+                this.contactPhoneFilter,
+                this.contactPhoneExtensionFilter,
+                this.contactCellPhoneFilter,
+                this.contactFaxNumberFilter,
+                this.pagerNumberFilter,
+                this.contactEmailFilter,
                 this.leadSourceDescriptionFilter,
-                this.leadStatusDescriptionFilter
+                this.leadStatusDescriptionFilter,
+                this.priorityDescriptionFilter
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

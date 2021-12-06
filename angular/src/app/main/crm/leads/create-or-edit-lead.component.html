@@ -9,16 +9,6 @@
             <div class="card card-custom gutter-b">
                 <div class="card-body">
                     <div class="form-group m-form__group">
-                        <label for="IndustryDescription">{{ l('Industry') }}</label>
-                        <select name="lead.industryId" [(ngModel)]="lead.industryId" class="form-control" required>
-                            <option value="">{{ l('SelectAIndustry') }}</option>
-                            <option *ngFor="let item of allIndustrys" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group m-form__group">
                         <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
                         <select name="lead.leadSourceId" [(ngModel)]="lead.leadSourceId" class="form-control" required>
                             <option value="">{{ l('SelectALeadSource') }}</option>
@@ -33,6 +23,16 @@
                         <select name="lead.leadStatusId" [(ngModel)]="lead.leadStatusId" class="form-control" required>
                             <option value="">{{ l('SelectALeadStatus') }}</option>
                             <option *ngFor="let item of allLeadStatuss" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group m-form__group">
+                        <label for="PriorityDescription">{{ l('Priority') }}</label>
+                        <select name="lead.priorityId" [(ngModel)]="lead.priorityId" class="form-control">
+                            <option value="">{{ l('SelectAPriority') }}</option>
+                            <option *ngFor="let item of allPrioritys" value="{{ item.id }}">
                                 {{ item.displayName }}
                             </option>
                         </select>
@@ -55,50 +55,33 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Lead_FirstName">{{ l('FirstName') }} *</label>
+                        <label for="Lead_ContactName">{{ l('ContactName') }}</label>
                         <input
                             type="text"
-                            #Lead_FirstName="ngModel"
-                            id="Lead_FirstName"
+                            #Lead_ContactName="ngModel"
+                            id="Lead_ContactName"
                             class="form-control"
-                            [(ngModel)]="lead.firstName"
-                            name="FirstName"
+                            [(ngModel)]="lead.contactName"
+                            name="ContactName"
                             minlength="1"
                             maxlength="100"
-                            required
                         />
-                        <validation-messages [formCtrl]="Lead_FirstName"></validation-messages>
+                        <validation-messages [formCtrl]="Lead_ContactName"></validation-messages>
                     </div>
 
                     <div class="form-group">
-                        <label for="Lead_LastName">{{ l('LastName') }} *</label>
+                        <label for="Lead_ContactPosition">{{ l('ContactPosition') }}</label>
                         <input
                             type="text"
-                            #Lead_LastName="ngModel"
-                            id="Lead_LastName"
+                            #Lead_ContactPosition="ngModel"
+                            id="Lead_ContactPosition"
                             class="form-control"
-                            [(ngModel)]="lead.lastName"
-                            name="LastName"
-                            minlength="1"
-                            maxlength="100"
-                            required
-                        />
-                        <validation-messages [formCtrl]="Lead_LastName"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Lead_Title">{{ l('Title') }}</label>
-                        <input
-                            type="text"
-                            #Lead_Title="ngModel"
-                            id="Lead_Title"
-                            class="form-control"
-                            [(ngModel)]="lead.title"
-                            name="Title"
+                            [(ngModel)]="lead.contactPosition"
+                            name="ContactPosition"
                             minlength="1"
                             maxlength="100"
                         />
-                        <validation-messages [formCtrl]="Lead_Title"></validation-messages>
+                        <validation-messages [formCtrl]="Lead_ContactPosition"></validation-messages>
                     </div>
 
                     <div class="form-group">
@@ -172,6 +155,157 @@
                             name="Description"
                         />
                         <validation-messages [formCtrl]="Lead_Description"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
+                        <input
+                            type="text"
+                            #Lead_CompanyPhone="ngModel"
+                            id="Lead_CompanyPhone"
+                            class="form-control"
+                            [(ngModel)]="lead.companyPhone"
+                            name="CompanyPhone"
+                            minlength="1"
+                            maxlength="50"
+                            required
+                        />
+                        <validation-messages [formCtrl]="Lead_CompanyPhone"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
+                        <input
+                            type="text"
+                            #Lead_CompanyEmail="ngModel"
+                            id="Lead_CompanyEmail"
+                            class="form-control"
+                            [(ngModel)]="lead.companyEmail"
+                            name="CompanyEmail"
+                            minlength="1"
+                            maxlength="100"
+                        />
+                        <validation-messages [formCtrl]="Lead_CompanyEmail"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_PoBox">{{ l('PoBox') }}</label>
+                        <input
+                            type="text"
+                            #Lead_PoBox="ngModel"
+                            id="Lead_PoBox"
+                            class="form-control"
+                            [(ngModel)]="lead.poBox"
+                            name="PoBox"
+                            minlength="1"
+                            maxlength="100"
+                        />
+                        <validation-messages [formCtrl]="Lead_PoBox"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_ZipCode">{{ l('ZipCode') }}</label>
+                        <input
+                            type="text"
+                            #Lead_ZipCode="ngModel"
+                            id="Lead_ZipCode"
+                            class="form-control"
+                            [(ngModel)]="lead.zipCode"
+                            name="ZipCode"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="Lead_ZipCode"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
+                        <input
+                            type="text"
+                            #Lead_ContactPhone="ngModel"
+                            id="Lead_ContactPhone"
+                            class="form-control"
+                            [(ngModel)]="lead.contactPhone"
+                            name="ContactPhone"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="Lead_ContactPhone"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension') }}</label>
+                        <input
+                            type="text"
+                            #Lead_ContactPhoneExtension="ngModel"
+                            id="Lead_ContactPhoneExtension"
+                            class="form-control"
+                            [(ngModel)]="lead.contactPhoneExtension"
+                            name="ContactPhoneExtension"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="Lead_ContactPhoneExtension"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
+                        <input
+                            type="text"
+                            #Lead_ContactCellPhone="ngModel"
+                            id="Lead_ContactCellPhone"
+                            class="form-control"
+                            [(ngModel)]="lead.contactCellPhone"
+                            name="ContactCellPhone"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="Lead_ContactCellPhone"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
+                        <input
+                            type="text"
+                            #Lead_ContactFaxNumber="ngModel"
+                            id="Lead_ContactFaxNumber"
+                            class="form-control"
+                            [(ngModel)]="lead.contactFaxNumber"
+                            name="ContactFaxNumber"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="Lead_ContactFaxNumber"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
+                        <input
+                            type="text"
+                            #Lead_PagerNumber="ngModel"
+                            id="Lead_PagerNumber"
+                            class="form-control"
+                            [(ngModel)]="lead.pagerNumber"
+                            name="PagerNumber"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="Lead_PagerNumber"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
+                        <input
+                            type="text"
+                            #Lead_ContactEmail="ngModel"
+                            id="Lead_ContactEmail"
+                            class="form-control"
+                            [(ngModel)]="lead.contactEmail"
+                            name="ContactEmail"
+                            minlength="1"
+                            maxlength="100"
+                        />
+                        <validation-messages [formCtrl]="Lead_ContactEmail"></validation-messages>
                     </div>
                 </div>
                 <div class="card-footer">

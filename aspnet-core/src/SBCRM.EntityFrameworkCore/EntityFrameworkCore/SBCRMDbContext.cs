@@ -18,6 +18,8 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Priority> Priorities { get; set; }
+
         public virtual DbSet<Lead> Leads { get; set; }
 
         public virtual DbSet<LeadStatus> LeadStatuses { get; set; }
