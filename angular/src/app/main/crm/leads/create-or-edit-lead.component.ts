@@ -4,9 +4,9 @@ import { finalize } from 'rxjs/operators';
 import {
     LeadsServiceProxy,
     CreateOrEditLeadDto,
-    LeadIndustryLookupTableDto,
     LeadLeadSourceLookupTableDto,
     LeadLeadStatusLookupTableDto,
+    LeadPriorityLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -27,13 +27,13 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
     lead: CreateOrEditLeadDto = new CreateOrEditLeadDto();
 
-    industryDescription = '';
     leadSourceDescription = '';
     leadStatusDescription = '';
+    priorityDescription = '';
 
-    allIndustrys: LeadIndustryLookupTableDto[];
     allLeadSources: LeadLeadSourceLookupTableDto[];
     allLeadStatuss: LeadLeadStatusLookupTableDto[];
+    allPrioritys: LeadPriorityLookupTableDto[];
 
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Lead'), '/app/main/crm/leads'),
@@ -58,30 +58,30 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         if (!leadId) {
             this.lead = new CreateOrEditLeadDto();
             this.lead.id = leadId;
-            this.industryDescription = '';
             this.leadSourceDescription = '';
             this.leadStatusDescription = '';
+            this.priorityDescription = '';
 
             this.active = true;
         } else {
             this._leadsServiceProxy.getLeadForEdit(leadId).subscribe((result) => {
                 this.lead = result.lead;
 
-                this.industryDescription = result.industryDescription;
                 this.leadSourceDescription = result.leadSourceDescription;
                 this.leadStatusDescription = result.leadStatusDescription;
+                this.priorityDescription = result.priorityDescription;
 
                 this.active = true;
             });
         }
-        this._leadsServiceProxy.getAllIndustryForTableDropdown().subscribe((result) => {
-            this.allIndustrys = result;
-        });
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
         this._leadsServiceProxy.getAllLeadStatusForTableDropdown().subscribe((result) => {
             this.allLeadStatuss = result;
+        });
+        this._leadsServiceProxy.getAllPriorityForTableDropdown().subscribe((result) => {
+            this.allPrioritys = result;
         });
     }
 

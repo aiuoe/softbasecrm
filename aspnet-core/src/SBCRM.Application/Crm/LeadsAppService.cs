@@ -25,17 +25,17 @@ namespace SBCRM.Crm
     {
         private readonly IRepository<Lead> _leadRepository;
         private readonly ILeadsExcelExporter _leadsExcelExporter;
-        private readonly IRepository<Industry, int> _lookup_industryRepository;
         private readonly IRepository<LeadSource, int> _lookup_leadSourceRepository;
         private readonly IRepository<LeadStatus, int> _lookup_leadStatusRepository;
+        private readonly IRepository<Priority, int> _lookup_priorityRepository;
 
-        public LeadsAppService(IRepository<Lead> leadRepository, ILeadsExcelExporter leadsExcelExporter, IRepository<Industry, int> lookup_industryRepository, IRepository<LeadSource, int> lookup_leadSourceRepository, IRepository<LeadStatus, int> lookup_leadStatusRepository)
+        public LeadsAppService(IRepository<Lead> leadRepository, ILeadsExcelExporter leadsExcelExporter, IRepository<LeadSource, int> lookup_leadSourceRepository, IRepository<LeadStatus, int> lookup_leadStatusRepository, IRepository<Priority, int> lookup_priorityRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
-            _lookup_industryRepository = lookup_industryRepository;
             _lookup_leadSourceRepository = lookup_leadSourceRepository;
             _lookup_leadStatusRepository = lookup_leadStatusRepository;
+            _lookup_priorityRepository = lookup_priorityRepository;
 
         }
 
@@ -43,53 +43,72 @@ namespace SBCRM.Crm
         {
 
             var filteredLeads = _leadRepository.GetAll()
-                        .Include(e => e.IndustryFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CompanyName.Contains(input.Filter) || e.FirstName.Contains(input.Filter) || e.LastName.Contains(input.Filter) || e.Title.Contains(input.Filter) || e.WebSite.Contains(input.Filter) || e.Address.Contains(input.Filter) || e.Country.Contains(input.Filter) || e.State.Contains(input.Filter) || e.Description.Contains(input.Filter))
+                        .Include(e => e.PriorityFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CompanyName.Contains(input.Filter) || e.ContactName.Contains(input.Filter) || e.ContactPosition.Contains(input.Filter) || e.WebSite.Contains(input.Filter) || e.Address.Contains(input.Filter) || e.Country.Contains(input.Filter) || e.State.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.CompanyPhone.Contains(input.Filter) || e.CompanyEmail.Contains(input.Filter) || e.PoBox.Contains(input.Filter) || e.ZipCode.Contains(input.Filter) || e.ContactPhone.Contains(input.Filter) || e.ContactPhoneExtension.Contains(input.Filter) || e.ContactCellPhone.Contains(input.Filter) || e.ContactFaxNumber.Contains(input.Filter) || e.PagerNumber.Contains(input.Filter) || e.ContactEmail.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyNameFilter), e => e.CompanyName == input.CompanyNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.FirstNameFilter), e => e.FirstName == input.FirstNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.LastNameFilter), e => e.LastName == input.LastNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.TitleFilter), e => e.Title == input.TitleFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPositionFilter), e => e.ContactPosition == input.ContactPositionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.WebSiteFilter), e => e.WebSite == input.WebSiteFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AddressFilter), e => e.Address == input.AddressFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.IndustryDescriptionFilter), e => e.IndustryFk != null && e.IndustryFk.Description == input.IndustryDescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ZipCodeFilter), e => e.ZipCode == input.ZipCodeFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneFilter), e => e.ContactPhone == input.ContactPhoneFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneExtensionFilter), e => e.ContactPhoneExtension == input.ContactPhoneExtensionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactCellPhoneFilter), e => e.ContactCellPhone == input.ContactCellPhoneFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactFaxNumberFilter), e => e.ContactFaxNumber == input.ContactFaxNumberFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PagerNumberFilter), e => e.PagerNumber == input.PagerNumberFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactEmailFilter), e => e.ContactEmail == input.ContactEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter);
 
             var pagedAndFilteredLeads = filteredLeads
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
             var leads = from o in pagedAndFilteredLeads
-                        join o1 in _lookup_industryRepository.GetAll() on o.IndustryId equals o1.Id into j1
+                        join o1 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                         from s1 in j1.DefaultIfEmpty()
 
-                        join o2 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                        join o2 in _lookup_leadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
                         from s2 in j2.DefaultIfEmpty()
 
-                        join o3 in _lookup_leadStatusRepository.GetAll() on o.LeadStatusId equals o3.Id into j3
+                        join o3 in _lookup_priorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
                         from s3 in j3.DefaultIfEmpty()
 
                         select new
                         {
 
                             o.CompanyName,
-                            o.FirstName,
-                            o.LastName,
-                            o.Title,
+                            o.ContactName,
+                            o.ContactPosition,
                             o.WebSite,
                             o.Address,
                             o.Country,
                             o.State,
                             o.Description,
+                            o.CompanyPhone,
+                            o.CompanyEmail,
+                            o.PoBox,
+                            o.ZipCode,
+                            o.ContactPhone,
+                            o.ContactPhoneExtension,
+                            o.ContactCellPhone,
+                            o.ContactFaxNumber,
+                            o.PagerNumber,
+                            o.ContactEmail,
                             Id = o.Id,
-                            IndustryDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                            LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                            LeadStatusDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
+                            LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                            LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                            o.CreationTime
                         };
 
             var totalCount = await filteredLeads.CountAsync();
@@ -105,19 +124,29 @@ namespace SBCRM.Crm
                     {
 
                         CompanyName = o.CompanyName,
-                        FirstName = o.FirstName,
-                        LastName = o.LastName,
-                        Title = o.Title,
+                        ContactName = o.ContactName,
+                        ContactPosition = o.ContactPosition,
                         WebSite = o.WebSite,
                         Address = o.Address,
                         Country = o.Country,
                         State = o.State,
                         Description = o.Description,
+                        CompanyPhone = o.CompanyPhone,
+                        CompanyEmail = o.CompanyEmail,
+                        PoBox = o.PoBox,
+                        ZipCode = o.ZipCode,
+                        ContactPhone = o.ContactPhone,
+                        ContactPhoneExtension = o.ContactPhoneExtension,
+                        ContactCellPhone = o.ContactCellPhone,
+                        ContactFaxNumber = o.ContactFaxNumber,
+                        PagerNumber = o.PagerNumber,
+                        ContactEmail = o.ContactEmail,
                         Id = o.Id,
+                        CreationTime = o.CreationTime
                     },
-                    IndustryDescription = o.IndustryDescription,
                     LeadSourceDescription = o.LeadSourceDescription,
-                    LeadStatusDescription = o.LeadStatusDescription
+                    LeadStatusDescription = o.LeadStatusDescription,
+                    PriorityDescription = o.PriorityDescription
                 };
 
                 results.Add(res);
@@ -136,12 +165,6 @@ namespace SBCRM.Crm
 
             var output = new GetLeadForViewDto { Lead = ObjectMapper.Map<LeadDto>(lead) };
 
-            if (output.Lead.IndustryId != null)
-            {
-                var _lookupIndustry = await _lookup_industryRepository.FirstOrDefaultAsync((int)output.Lead.IndustryId);
-                output.IndustryDescription = _lookupIndustry?.Description?.ToString();
-            }
-
             if (output.Lead.LeadSourceId != null)
             {
                 var _lookupLeadSource = await _lookup_leadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
@@ -154,6 +177,12 @@ namespace SBCRM.Crm
                 output.LeadStatusDescription = _lookupLeadStatus?.Description?.ToString();
             }
 
+            if (output.Lead.PriorityId != null)
+            {
+                var _lookupPriority = await _lookup_priorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
+                output.PriorityDescription = _lookupPriority?.Description?.ToString();
+            }
+            
             return output;
         }
 
@@ -164,12 +193,6 @@ namespace SBCRM.Crm
 
             var output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 
-            if (output.Lead.IndustryId != null)
-            {
-                var _lookupIndustry = await _lookup_industryRepository.FirstOrDefaultAsync((int)output.Lead.IndustryId);
-                output.IndustryDescription = _lookupIndustry?.Description?.ToString();
-            }
-
             if (output.Lead.LeadSourceId != null)
             {
                 var _lookupLeadSource = await _lookup_leadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
@@ -180,6 +203,12 @@ namespace SBCRM.Crm
             {
                 var _lookupLeadStatus = await _lookup_leadStatusRepository.FirstOrDefaultAsync((int)output.Lead.LeadStatusId);
                 output.LeadStatusDescription = _lookupLeadStatus?.Description?.ToString();
+            }
+
+            if (output.Lead.PriorityId != null)
+            {
+                var _lookupPriority = await _lookup_priorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
+                output.PriorityDescription = _lookupPriority?.Description?.ToString();
             }
 
             return output;
@@ -224,31 +253,40 @@ namespace SBCRM.Crm
         {
 
             var filteredLeads = _leadRepository.GetAll()
-                        .Include(e => e.IndustryFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CompanyName.Contains(input.Filter) || e.FirstName.Contains(input.Filter) || e.LastName.Contains(input.Filter) || e.Title.Contains(input.Filter) || e.WebSite.Contains(input.Filter) || e.Address.Contains(input.Filter) || e.Country.Contains(input.Filter) || e.State.Contains(input.Filter) || e.Description.Contains(input.Filter))
+                        .Include(e => e.PriorityFk)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CompanyName.Contains(input.Filter) || e.ContactName.Contains(input.Filter) || e.ContactPosition.Contains(input.Filter) || e.WebSite.Contains(input.Filter) || e.Address.Contains(input.Filter) || e.Country.Contains(input.Filter) || e.State.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.CompanyPhone.Contains(input.Filter) || e.CompanyEmail.Contains(input.Filter) || e.PoBox.Contains(input.Filter) || e.ZipCode.Contains(input.Filter) || e.ContactPhone.Contains(input.Filter) || e.ContactPhoneExtension.Contains(input.Filter) || e.ContactCellPhone.Contains(input.Filter) || e.ContactFaxNumber.Contains(input.Filter) || e.PagerNumber.Contains(input.Filter) || e.ContactEmail.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyNameFilter), e => e.CompanyName == input.CompanyNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.FirstNameFilter), e => e.FirstName == input.FirstNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.LastNameFilter), e => e.LastName == input.LastNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.TitleFilter), e => e.Title == input.TitleFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPositionFilter), e => e.ContactPosition == input.ContactPositionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.WebSiteFilter), e => e.WebSite == input.WebSiteFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AddressFilter), e => e.Address == input.AddressFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.IndustryDescriptionFilter), e => e.IndustryFk != null && e.IndustryFk.Description == input.IndustryDescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ZipCodeFilter), e => e.ZipCode == input.ZipCodeFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneFilter), e => e.ContactPhone == input.ContactPhoneFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneExtensionFilter), e => e.ContactPhoneExtension == input.ContactPhoneExtensionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactCellPhoneFilter), e => e.ContactCellPhone == input.ContactCellPhoneFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactFaxNumberFilter), e => e.ContactFaxNumber == input.ContactFaxNumberFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PagerNumberFilter), e => e.PagerNumber == input.PagerNumberFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ContactEmailFilter), e => e.ContactEmail == input.ContactEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter);
 
             var query = (from o in filteredLeads
-                         join o1 in _lookup_industryRepository.GetAll() on o.IndustryId equals o1.Id into j1
+                         join o1 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
-                         join o2 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                         join o2 in _lookup_leadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
                          from s2 in j2.DefaultIfEmpty()
 
-                         join o3 in _lookup_leadStatusRepository.GetAll() on o.LeadStatusId equals o3.Id into j3
+                         join o3 in _lookup_priorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
                          from s3 in j3.DefaultIfEmpty()
 
                          select new GetLeadForViewDto()
@@ -256,35 +294,33 @@ namespace SBCRM.Crm
                              Lead = new LeadDto
                              {
                                  CompanyName = o.CompanyName,
-                                 FirstName = o.FirstName,
-                                 LastName = o.LastName,
-                                 Title = o.Title,
+                                 ContactName = o.ContactName,
+                                 ContactPosition = o.ContactPosition,
                                  WebSite = o.WebSite,
                                  Address = o.Address,
                                  Country = o.Country,
                                  State = o.State,
                                  Description = o.Description,
+                                 CompanyPhone = o.CompanyPhone,
+                                 CompanyEmail = o.CompanyEmail,
+                                 PoBox = o.PoBox,
+                                 ZipCode = o.ZipCode,
+                                 ContactPhone = o.ContactPhone,
+                                 ContactPhoneExtension = o.ContactPhoneExtension,
+                                 ContactCellPhone = o.ContactCellPhone,
+                                 ContactFaxNumber = o.ContactFaxNumber,
+                                 PagerNumber = o.PagerNumber,
+                                 ContactEmail = o.ContactEmail,
                                  Id = o.Id
                              },
-                             IndustryDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                             LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                             LeadStatusDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
+                             LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                             LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                             PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
                          });
 
             var leadListDtos = await query.ToListAsync();
 
             return _leadsExcelExporter.ExportToFile(leadListDtos);
-        }
-
-        [AbpAuthorize(AppPermissions.Pages_Leads)]
-        public async Task<List<LeadIndustryLookupTableDto>> GetAllIndustryForTableDropdown()
-        {
-            return await _lookup_industryRepository.GetAll()
-                .Select(industry => new LeadIndustryLookupTableDto
-                {
-                    Id = industry.Id,
-                    DisplayName = industry == null || industry.Description == null ? "" : industry.Description.ToString()
-                }).ToListAsync();
         }
 
         [AbpAuthorize(AppPermissions.Pages_Leads)]
@@ -306,6 +342,17 @@ namespace SBCRM.Crm
                 {
                     Id = leadStatus.Id,
                     DisplayName = leadStatus == null || leadStatus.Description == null ? "" : leadStatus.Description.ToString()
+                }).ToListAsync();
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
+        public async Task<List<LeadPriorityLookupTableDto>> GetAllPriorityForTableDropdown()
+        {
+            return await _lookup_priorityRepository.GetAll()
+                .Select(priority => new LeadPriorityLookupTableDto
+                {
+                    Id = priority.Id,
+                    DisplayName = priority == null || priority.Description == null ? "" : priority.Description.ToString()
                 }).ToListAsync();
         }
 

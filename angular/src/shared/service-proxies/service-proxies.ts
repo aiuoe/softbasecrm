@@ -9844,23 +9844,32 @@ export class LeadsServiceProxy {
     /**
      * @param filter (optional) 
      * @param companyNameFilter (optional) 
-     * @param firstNameFilter (optional) 
-     * @param lastNameFilter (optional) 
-     * @param titleFilter (optional) 
+     * @param contactNameFilter (optional) 
+     * @param contactPositionFilter (optional) 
      * @param webSiteFilter (optional) 
      * @param addressFilter (optional) 
      * @param countryFilter (optional) 
      * @param stateFilter (optional) 
      * @param descriptionFilter (optional) 
-     * @param industryDescriptionFilter (optional) 
+     * @param companyPhoneFilter (optional) 
+     * @param companyEmailFilter (optional) 
+     * @param poBoxFilter (optional) 
+     * @param zipCodeFilter (optional) 
+     * @param contactPhoneFilter (optional) 
+     * @param contactPhoneExtensionFilter (optional) 
+     * @param contactCellPhoneFilter (optional) 
+     * @param contactFaxNumberFilter (optional) 
+     * @param pagerNumberFilter (optional) 
+     * @param contactEmailFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param leadStatusDescriptionFilter (optional) 
+     * @param priorityDescriptionFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyNameFilter: string | undefined, firstNameFilter: string | undefined, lastNameFilter: string | undefined, titleFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, industryDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9870,18 +9879,14 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'companyNameFilter' cannot be null.");
         else if (companyNameFilter !== undefined)
             url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
-        if (firstNameFilter === null)
-            throw new Error("The parameter 'firstNameFilter' cannot be null.");
-        else if (firstNameFilter !== undefined)
-            url_ += "FirstNameFilter=" + encodeURIComponent("" + firstNameFilter) + "&";
-        if (lastNameFilter === null)
-            throw new Error("The parameter 'lastNameFilter' cannot be null.");
-        else if (lastNameFilter !== undefined)
-            url_ += "LastNameFilter=" + encodeURIComponent("" + lastNameFilter) + "&";
-        if (titleFilter === null)
-            throw new Error("The parameter 'titleFilter' cannot be null.");
-        else if (titleFilter !== undefined)
-            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&";
+        if (contactNameFilter === null)
+            throw new Error("The parameter 'contactNameFilter' cannot be null.");
+        else if (contactNameFilter !== undefined)
+            url_ += "ContactNameFilter=" + encodeURIComponent("" + contactNameFilter) + "&";
+        if (contactPositionFilter === null)
+            throw new Error("The parameter 'contactPositionFilter' cannot be null.");
+        else if (contactPositionFilter !== undefined)
+            url_ += "ContactPositionFilter=" + encodeURIComponent("" + contactPositionFilter) + "&";
         if (webSiteFilter === null)
             throw new Error("The parameter 'webSiteFilter' cannot be null.");
         else if (webSiteFilter !== undefined)
@@ -9902,10 +9907,46 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
-        if (industryDescriptionFilter === null)
-            throw new Error("The parameter 'industryDescriptionFilter' cannot be null.");
-        else if (industryDescriptionFilter !== undefined)
-            url_ += "IndustryDescriptionFilter=" + encodeURIComponent("" + industryDescriptionFilter) + "&";
+        if (companyPhoneFilter === null)
+            throw new Error("The parameter 'companyPhoneFilter' cannot be null.");
+        else if (companyPhoneFilter !== undefined)
+            url_ += "CompanyPhoneFilter=" + encodeURIComponent("" + companyPhoneFilter) + "&";
+        if (companyEmailFilter === null)
+            throw new Error("The parameter 'companyEmailFilter' cannot be null.");
+        else if (companyEmailFilter !== undefined)
+            url_ += "CompanyEmailFilter=" + encodeURIComponent("" + companyEmailFilter) + "&";
+        if (poBoxFilter === null)
+            throw new Error("The parameter 'poBoxFilter' cannot be null.");
+        else if (poBoxFilter !== undefined)
+            url_ += "PoBoxFilter=" + encodeURIComponent("" + poBoxFilter) + "&";
+        if (zipCodeFilter === null)
+            throw new Error("The parameter 'zipCodeFilter' cannot be null.");
+        else if (zipCodeFilter !== undefined)
+            url_ += "ZipCodeFilter=" + encodeURIComponent("" + zipCodeFilter) + "&";
+        if (contactPhoneFilter === null)
+            throw new Error("The parameter 'contactPhoneFilter' cannot be null.");
+        else if (contactPhoneFilter !== undefined)
+            url_ += "ContactPhoneFilter=" + encodeURIComponent("" + contactPhoneFilter) + "&";
+        if (contactPhoneExtensionFilter === null)
+            throw new Error("The parameter 'contactPhoneExtensionFilter' cannot be null.");
+        else if (contactPhoneExtensionFilter !== undefined)
+            url_ += "ContactPhoneExtensionFilter=" + encodeURIComponent("" + contactPhoneExtensionFilter) + "&";
+        if (contactCellPhoneFilter === null)
+            throw new Error("The parameter 'contactCellPhoneFilter' cannot be null.");
+        else if (contactCellPhoneFilter !== undefined)
+            url_ += "ContactCellPhoneFilter=" + encodeURIComponent("" + contactCellPhoneFilter) + "&";
+        if (contactFaxNumberFilter === null)
+            throw new Error("The parameter 'contactFaxNumberFilter' cannot be null.");
+        else if (contactFaxNumberFilter !== undefined)
+            url_ += "ContactFaxNumberFilter=" + encodeURIComponent("" + contactFaxNumberFilter) + "&";
+        if (pagerNumberFilter === null)
+            throw new Error("The parameter 'pagerNumberFilter' cannot be null.");
+        else if (pagerNumberFilter !== undefined)
+            url_ += "PagerNumberFilter=" + encodeURIComponent("" + pagerNumberFilter) + "&";
+        if (contactEmailFilter === null)
+            throw new Error("The parameter 'contactEmailFilter' cannot be null.");
+        else if (contactEmailFilter !== undefined)
+            url_ += "ContactEmailFilter=" + encodeURIComponent("" + contactEmailFilter) + "&";
         if (leadSourceDescriptionFilter === null)
             throw new Error("The parameter 'leadSourceDescriptionFilter' cannot be null.");
         else if (leadSourceDescriptionFilter !== undefined)
@@ -9914,6 +9955,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'leadStatusDescriptionFilter' cannot be null.");
         else if (leadStatusDescriptionFilter !== undefined)
             url_ += "LeadStatusDescriptionFilter=" + encodeURIComponent("" + leadStatusDescriptionFilter) + "&";
+        if (priorityDescriptionFilter === null)
+            throw new Error("The parameter 'priorityDescriptionFilter' cannot be null.");
+        else if (priorityDescriptionFilter !== undefined)
+            url_ += "PriorityDescriptionFilter=" + encodeURIComponent("" + priorityDescriptionFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -10191,20 +10236,29 @@ export class LeadsServiceProxy {
     /**
      * @param filter (optional) 
      * @param companyNameFilter (optional) 
-     * @param firstNameFilter (optional) 
-     * @param lastNameFilter (optional) 
-     * @param titleFilter (optional) 
+     * @param contactNameFilter (optional) 
+     * @param contactPositionFilter (optional) 
      * @param webSiteFilter (optional) 
      * @param addressFilter (optional) 
      * @param countryFilter (optional) 
      * @param stateFilter (optional) 
      * @param descriptionFilter (optional) 
-     * @param industryDescriptionFilter (optional) 
+     * @param companyPhoneFilter (optional) 
+     * @param companyEmailFilter (optional) 
+     * @param poBoxFilter (optional) 
+     * @param zipCodeFilter (optional) 
+     * @param contactPhoneFilter (optional) 
+     * @param contactPhoneExtensionFilter (optional) 
+     * @param contactCellPhoneFilter (optional) 
+     * @param contactFaxNumberFilter (optional) 
+     * @param pagerNumberFilter (optional) 
+     * @param contactEmailFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param leadStatusDescriptionFilter (optional) 
+     * @param priorityDescriptionFilter (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, firstNameFilter: string | undefined, lastNameFilter: string | undefined, titleFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, industryDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10214,18 +10268,14 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'companyNameFilter' cannot be null.");
         else if (companyNameFilter !== undefined)
             url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
-        if (firstNameFilter === null)
-            throw new Error("The parameter 'firstNameFilter' cannot be null.");
-        else if (firstNameFilter !== undefined)
-            url_ += "FirstNameFilter=" + encodeURIComponent("" + firstNameFilter) + "&";
-        if (lastNameFilter === null)
-            throw new Error("The parameter 'lastNameFilter' cannot be null.");
-        else if (lastNameFilter !== undefined)
-            url_ += "LastNameFilter=" + encodeURIComponent("" + lastNameFilter) + "&";
-        if (titleFilter === null)
-            throw new Error("The parameter 'titleFilter' cannot be null.");
-        else if (titleFilter !== undefined)
-            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&";
+        if (contactNameFilter === null)
+            throw new Error("The parameter 'contactNameFilter' cannot be null.");
+        else if (contactNameFilter !== undefined)
+            url_ += "ContactNameFilter=" + encodeURIComponent("" + contactNameFilter) + "&";
+        if (contactPositionFilter === null)
+            throw new Error("The parameter 'contactPositionFilter' cannot be null.");
+        else if (contactPositionFilter !== undefined)
+            url_ += "ContactPositionFilter=" + encodeURIComponent("" + contactPositionFilter) + "&";
         if (webSiteFilter === null)
             throw new Error("The parameter 'webSiteFilter' cannot be null.");
         else if (webSiteFilter !== undefined)
@@ -10246,10 +10296,46 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
-        if (industryDescriptionFilter === null)
-            throw new Error("The parameter 'industryDescriptionFilter' cannot be null.");
-        else if (industryDescriptionFilter !== undefined)
-            url_ += "IndustryDescriptionFilter=" + encodeURIComponent("" + industryDescriptionFilter) + "&";
+        if (companyPhoneFilter === null)
+            throw new Error("The parameter 'companyPhoneFilter' cannot be null.");
+        else if (companyPhoneFilter !== undefined)
+            url_ += "CompanyPhoneFilter=" + encodeURIComponent("" + companyPhoneFilter) + "&";
+        if (companyEmailFilter === null)
+            throw new Error("The parameter 'companyEmailFilter' cannot be null.");
+        else if (companyEmailFilter !== undefined)
+            url_ += "CompanyEmailFilter=" + encodeURIComponent("" + companyEmailFilter) + "&";
+        if (poBoxFilter === null)
+            throw new Error("The parameter 'poBoxFilter' cannot be null.");
+        else if (poBoxFilter !== undefined)
+            url_ += "PoBoxFilter=" + encodeURIComponent("" + poBoxFilter) + "&";
+        if (zipCodeFilter === null)
+            throw new Error("The parameter 'zipCodeFilter' cannot be null.");
+        else if (zipCodeFilter !== undefined)
+            url_ += "ZipCodeFilter=" + encodeURIComponent("" + zipCodeFilter) + "&";
+        if (contactPhoneFilter === null)
+            throw new Error("The parameter 'contactPhoneFilter' cannot be null.");
+        else if (contactPhoneFilter !== undefined)
+            url_ += "ContactPhoneFilter=" + encodeURIComponent("" + contactPhoneFilter) + "&";
+        if (contactPhoneExtensionFilter === null)
+            throw new Error("The parameter 'contactPhoneExtensionFilter' cannot be null.");
+        else if (contactPhoneExtensionFilter !== undefined)
+            url_ += "ContactPhoneExtensionFilter=" + encodeURIComponent("" + contactPhoneExtensionFilter) + "&";
+        if (contactCellPhoneFilter === null)
+            throw new Error("The parameter 'contactCellPhoneFilter' cannot be null.");
+        else if (contactCellPhoneFilter !== undefined)
+            url_ += "ContactCellPhoneFilter=" + encodeURIComponent("" + contactCellPhoneFilter) + "&";
+        if (contactFaxNumberFilter === null)
+            throw new Error("The parameter 'contactFaxNumberFilter' cannot be null.");
+        else if (contactFaxNumberFilter !== undefined)
+            url_ += "ContactFaxNumberFilter=" + encodeURIComponent("" + contactFaxNumberFilter) + "&";
+        if (pagerNumberFilter === null)
+            throw new Error("The parameter 'pagerNumberFilter' cannot be null.");
+        else if (pagerNumberFilter !== undefined)
+            url_ += "PagerNumberFilter=" + encodeURIComponent("" + pagerNumberFilter) + "&";
+        if (contactEmailFilter === null)
+            throw new Error("The parameter 'contactEmailFilter' cannot be null.");
+        else if (contactEmailFilter !== undefined)
+            url_ += "ContactEmailFilter=" + encodeURIComponent("" + contactEmailFilter) + "&";
         if (leadSourceDescriptionFilter === null)
             throw new Error("The parameter 'leadSourceDescriptionFilter' cannot be null.");
         else if (leadSourceDescriptionFilter !== undefined)
@@ -10258,6 +10344,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'leadStatusDescriptionFilter' cannot be null.");
         else if (leadStatusDescriptionFilter !== undefined)
             url_ += "LeadStatusDescriptionFilter=" + encodeURIComponent("" + leadStatusDescriptionFilter) + "&";
+        if (priorityDescriptionFilter === null)
+            throw new Error("The parameter 'priorityDescriptionFilter' cannot be null.");
+        else if (priorityDescriptionFilter !== undefined)
+            url_ += "PriorityDescriptionFilter=" + encodeURIComponent("" + priorityDescriptionFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10302,64 +10392,6 @@ export class LeadsServiceProxy {
             }));
         }
         return _observableOf<FileDto>(<any>null);
-    }
-
-    /**
-     * @return Success
-     */
-    getAllIndustryForTableDropdown(): Observable<LeadIndustryLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Leads/GetAllIndustryForTableDropdown";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllIndustryForTableDropdown(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllIndustryForTableDropdown(<any>response_);
-                } catch (e) {
-                    return <Observable<LeadIndustryLookupTableDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<LeadIndustryLookupTableDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllIndustryForTableDropdown(response: HttpResponseBase): Observable<LeadIndustryLookupTableDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(LeadIndustryLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<LeadIndustryLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -10476,6 +10508,64 @@ export class LeadsServiceProxy {
             }));
         }
         return _observableOf<LeadLeadStatusLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllPriorityForTableDropdown(): Observable<LeadPriorityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetAllPriorityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPriorityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPriorityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadPriorityLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadPriorityLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllPriorityForTableDropdown(response: HttpResponseBase): Observable<LeadPriorityLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadPriorityLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadPriorityLookupTableDto[]>(<any>null);
     }
 }
 
@@ -13314,6 +13404,371 @@ export class PermissionServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfFlatPermissionWithLevelDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class PrioritiesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPriorityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Priorities/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetPriorityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetPriorityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPriorityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetPriorityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetPriorityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPriorityForView(id: number | undefined): Observable<GetPriorityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Priorities/GetPriorityForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPriorityForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPriorityForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPriorityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPriorityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPriorityForView(response: HttpResponseBase): Observable<GetPriorityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetPriorityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPriorityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPriorityForEdit(id: number | undefined): Observable<GetPriorityForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Priorities/GetPriorityForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPriorityForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPriorityForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetPriorityForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetPriorityForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPriorityForEdit(response: HttpResponseBase): Observable<GetPriorityForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetPriorityForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetPriorityForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditPriorityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Priorities/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Priorities/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @return Success
+     */
+    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Priorities/GetPrioritiesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPrioritiesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPrioritiesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPrioritiesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
     }
 }
 
@@ -21796,17 +22251,26 @@ export interface ICreateOrEditIndustryDto {
 
 export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     companyName!: string;
-    firstName!: string;
-    lastName!: string;
-    title!: string | undefined;
+    contactName!: string | undefined;
+    contactPosition!: string | undefined;
     webSite!: string | undefined;
     address!: string | undefined;
     country!: string | undefined;
     state!: string | undefined;
     description!: string | undefined;
-    industryId!: number;
-    leadSourceId!: number;
-    leadStatusId!: number;
+    companyPhone!: string;
+    companyEmail!: string | undefined;
+    poBox!: string | undefined;
+    zipCode!: string | undefined;
+    contactPhone!: string | undefined;
+    contactPhoneExtension!: string | undefined;
+    contactCellPhone!: string | undefined;
+    contactFaxNumber!: string | undefined;
+    pagerNumber!: string | undefined;
+    contactEmail!: string | undefined;
+    leadSourceId!: number | undefined;
+    leadStatusId!: number | undefined;
+    priorityId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditLeadDto) {
@@ -21821,17 +22285,26 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     init(_data?: any) {
         if (_data) {
             this.companyName = _data["companyName"];
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
-            this.title = _data["title"];
+            this.contactName = _data["contactName"];
+            this.contactPosition = _data["contactPosition"];
             this.webSite = _data["webSite"];
             this.address = _data["address"];
             this.country = _data["country"];
             this.state = _data["state"];
             this.description = _data["description"];
-            this.industryId = _data["industryId"];
+            this.companyPhone = _data["companyPhone"];
+            this.companyEmail = _data["companyEmail"];
+            this.poBox = _data["poBox"];
+            this.zipCode = _data["zipCode"];
+            this.contactPhone = _data["contactPhone"];
+            this.contactPhoneExtension = _data["contactPhoneExtension"];
+            this.contactCellPhone = _data["contactCellPhone"];
+            this.contactFaxNumber = _data["contactFaxNumber"];
+            this.pagerNumber = _data["pagerNumber"];
+            this.contactEmail = _data["contactEmail"];
             this.leadSourceId = _data["leadSourceId"];
             this.leadStatusId = _data["leadStatusId"];
+            this.priorityId = _data["priorityId"];
             this.id = _data["id"];
         }
     }
@@ -21846,17 +22319,26 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["companyName"] = this.companyName;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["title"] = this.title;
+        data["contactName"] = this.contactName;
+        data["contactPosition"] = this.contactPosition;
         data["webSite"] = this.webSite;
         data["address"] = this.address;
         data["country"] = this.country;
         data["state"] = this.state;
         data["description"] = this.description;
-        data["industryId"] = this.industryId;
+        data["companyPhone"] = this.companyPhone;
+        data["companyEmail"] = this.companyEmail;
+        data["poBox"] = this.poBox;
+        data["zipCode"] = this.zipCode;
+        data["contactPhone"] = this.contactPhone;
+        data["contactPhoneExtension"] = this.contactPhoneExtension;
+        data["contactCellPhone"] = this.contactCellPhone;
+        data["contactFaxNumber"] = this.contactFaxNumber;
+        data["pagerNumber"] = this.pagerNumber;
+        data["contactEmail"] = this.contactEmail;
         data["leadSourceId"] = this.leadSourceId;
         data["leadStatusId"] = this.leadStatusId;
+        data["priorityId"] = this.priorityId;
         data["id"] = this.id;
         return data; 
     }
@@ -21864,17 +22346,26 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
 
 export interface ICreateOrEditLeadDto {
     companyName: string;
-    firstName: string;
-    lastName: string;
-    title: string | undefined;
+    contactName: string | undefined;
+    contactPosition: string | undefined;
     webSite: string | undefined;
     address: string | undefined;
     country: string | undefined;
     state: string | undefined;
     description: string | undefined;
-    industryId: number;
-    leadSourceId: number;
-    leadStatusId: number;
+    companyPhone: string;
+    companyEmail: string | undefined;
+    poBox: string | undefined;
+    zipCode: string | undefined;
+    contactPhone: string | undefined;
+    contactPhoneExtension: string | undefined;
+    contactCellPhone: string | undefined;
+    contactFaxNumber: string | undefined;
+    pagerNumber: string | undefined;
+    contactEmail: string | undefined;
+    leadSourceId: number | undefined;
+    leadStatusId: number | undefined;
+    priorityId: number | undefined;
     id: number | undefined;
 }
 
@@ -21954,6 +22445,46 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
 }
 
 export interface ICreateOrEditLeadStatusDto {
+    description: string;
+    id: number | undefined;
+}
+
+export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
+    description!: string;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditPriorityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPriorityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPriorityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditPriorityDto {
     description: string;
     id: number | undefined;
 }
@@ -25921,9 +26452,9 @@ export interface IGetLatestWebLogsOutput {
 
 export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     lead!: CreateOrEditLeadDto;
-    industryDescription!: string | undefined;
     leadSourceDescription!: string | undefined;
     leadStatusDescription!: string | undefined;
+    priorityDescription!: string | undefined;
 
     constructor(data?: IGetLeadForEditOutput) {
         if (data) {
@@ -25937,9 +26468,9 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     init(_data?: any) {
         if (_data) {
             this.lead = _data["lead"] ? CreateOrEditLeadDto.fromJS(_data["lead"]) : <any>undefined;
-            this.industryDescription = _data["industryDescription"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.leadStatusDescription = _data["leadStatusDescription"];
+            this.priorityDescription = _data["priorityDescription"];
         }
     }
 
@@ -25953,25 +26484,25 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["lead"] = this.lead ? this.lead.toJSON() : <any>undefined;
-        data["industryDescription"] = this.industryDescription;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["leadStatusDescription"] = this.leadStatusDescription;
+        data["priorityDescription"] = this.priorityDescription;
         return data; 
     }
 }
 
 export interface IGetLeadForEditOutput {
     lead: CreateOrEditLeadDto;
-    industryDescription: string | undefined;
     leadSourceDescription: string | undefined;
     leadStatusDescription: string | undefined;
+    priorityDescription: string | undefined;
 }
 
 export class GetLeadForViewDto implements IGetLeadForViewDto {
     lead!: LeadDto;
-    industryDescription!: string | undefined;
     leadSourceDescription!: string | undefined;
     leadStatusDescription!: string | undefined;
+    priorityDescription!: string | undefined;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -25985,9 +26516,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     init(_data?: any) {
         if (_data) {
             this.lead = _data["lead"] ? LeadDto.fromJS(_data["lead"]) : <any>undefined;
-            this.industryDescription = _data["industryDescription"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.leadStatusDescription = _data["leadStatusDescription"];
+            this.priorityDescription = _data["priorityDescription"];
         }
     }
 
@@ -26001,18 +26532,18 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["lead"] = this.lead ? this.lead.toJSON() : <any>undefined;
-        data["industryDescription"] = this.industryDescription;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["leadStatusDescription"] = this.leadStatusDescription;
+        data["priorityDescription"] = this.priorityDescription;
         return data; 
     }
 }
 
 export interface IGetLeadForViewDto {
     lead: LeadDto;
-    industryDescription: string | undefined;
     leadSourceDescription: string | undefined;
     leadStatusDescription: string | undefined;
+    priorityDescription: string | undefined;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -26337,6 +26868,78 @@ export class GetPasswordComplexitySettingOutput implements IGetPasswordComplexit
 
 export interface IGetPasswordComplexitySettingOutput {
     setting: PasswordComplexitySetting;
+}
+
+export class GetPriorityForEditOutput implements IGetPriorityForEditOutput {
+    priority!: CreateOrEditPriorityDto;
+
+    constructor(data?: IGetPriorityForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.priority = _data["priority"] ? CreateOrEditPriorityDto.fromJS(_data["priority"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPriorityForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPriorityForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["priority"] = this.priority ? this.priority.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPriorityForEditOutput {
+    priority: CreateOrEditPriorityDto;
+}
+
+export class GetPriorityForViewDto implements IGetPriorityForViewDto {
+    priority!: PriorityDto;
+
+    constructor(data?: IGetPriorityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.priority = _data["priority"] ? PriorityDto.fromJS(_data["priority"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPriorityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPriorityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["priority"] = this.priority ? this.priority.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetPriorityForViewDto {
+    priority: PriorityDto;
 }
 
 export class GetProfilePictureOutput implements IGetProfilePictureOutput {
@@ -28160,17 +28763,27 @@ export interface ILdapSettingsEditDto {
 
 export class LeadDto implements ILeadDto {
     companyName!: string | undefined;
-    firstName!: string | undefined;
-    lastName!: string | undefined;
-    title!: string | undefined;
+    contactName!: string | undefined;
+    contactPosition!: string | undefined;
     webSite!: string | undefined;
     address!: string | undefined;
     country!: string | undefined;
     state!: string | undefined;
     description!: string | undefined;
-    industryId!: number;
+    companyPhone!: string | undefined;
+    companyEmail!: string | undefined;
+    poBox!: string | undefined;
+    zipCode!: string | undefined;
+    contactPhone!: string | undefined;
+    contactPhoneExtension!: string | undefined;
+    contactCellPhone!: string | undefined;
+    contactFaxNumber!: string | undefined;
+    pagerNumber!: string | undefined;
+    contactEmail!: string | undefined;
     leadSourceId!: number;
     leadStatusId!: number;
+    priorityId!: number | undefined;
+    creationTime!: DateTime | undefined;
     id!: number;
 
     constructor(data?: ILeadDto) {
@@ -28185,17 +28798,27 @@ export class LeadDto implements ILeadDto {
     init(_data?: any) {
         if (_data) {
             this.companyName = _data["companyName"];
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
-            this.title = _data["title"];
+            this.contactName = _data["contactName"];
+            this.contactPosition = _data["contactPosition"];
             this.webSite = _data["webSite"];
             this.address = _data["address"];
             this.country = _data["country"];
             this.state = _data["state"];
             this.description = _data["description"];
-            this.industryId = _data["industryId"];
+            this.companyPhone = _data["companyPhone"];
+            this.companyEmail = _data["companyEmail"];
+            this.poBox = _data["poBox"];
+            this.zipCode = _data["zipCode"];
+            this.contactPhone = _data["contactPhone"];
+            this.contactPhoneExtension = _data["contactPhoneExtension"];
+            this.contactCellPhone = _data["contactCellPhone"];
+            this.contactFaxNumber = _data["contactFaxNumber"];
+            this.pagerNumber = _data["pagerNumber"];
+            this.contactEmail = _data["contactEmail"];
             this.leadSourceId = _data["leadSourceId"];
             this.leadStatusId = _data["leadStatusId"];
+            this.priorityId = _data["priorityId"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -28210,17 +28833,27 @@ export class LeadDto implements ILeadDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["companyName"] = this.companyName;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["title"] = this.title;
+        data["contactName"] = this.contactName;
+        data["contactPosition"] = this.contactPosition;
         data["webSite"] = this.webSite;
         data["address"] = this.address;
         data["country"] = this.country;
         data["state"] = this.state;
         data["description"] = this.description;
-        data["industryId"] = this.industryId;
+        data["companyPhone"] = this.companyPhone;
+        data["companyEmail"] = this.companyEmail;
+        data["poBox"] = this.poBox;
+        data["zipCode"] = this.zipCode;
+        data["contactPhone"] = this.contactPhone;
+        data["contactPhoneExtension"] = this.contactPhoneExtension;
+        data["contactCellPhone"] = this.contactCellPhone;
+        data["contactFaxNumber"] = this.contactFaxNumber;
+        data["pagerNumber"] = this.pagerNumber;
+        data["contactEmail"] = this.contactEmail;
         data["leadSourceId"] = this.leadSourceId;
         data["leadStatusId"] = this.leadStatusId;
+        data["priorityId"] = this.priorityId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -28228,58 +28861,28 @@ export class LeadDto implements ILeadDto {
 
 export interface ILeadDto {
     companyName: string | undefined;
-    firstName: string | undefined;
-    lastName: string | undefined;
-    title: string | undefined;
+    contactName: string | undefined;
+    contactPosition: string | undefined;
     webSite: string | undefined;
     address: string | undefined;
     country: string | undefined;
     state: string | undefined;
     description: string | undefined;
-    industryId: number;
+    companyPhone: string | undefined;
+    companyEmail: string | undefined;
+    poBox: string | undefined;
+    zipCode: string | undefined;
+    contactPhone: string | undefined;
+    contactPhoneExtension: string | undefined;
+    contactCellPhone: string | undefined;
+    contactFaxNumber: string | undefined;
+    pagerNumber: string | undefined;
+    contactEmail: string | undefined;
     leadSourceId: number;
     leadStatusId: number;
+    priorityId: number | undefined;
+    creationTime: DateTime | undefined;
     id: number;
-}
-
-export class LeadIndustryLookupTableDto implements ILeadIndustryLookupTableDto {
-    id!: number;
-    displayName!: string | undefined;
-
-    constructor(data?: ILeadIndustryLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.displayName = _data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): LeadIndustryLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new LeadIndustryLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data; 
-    }
-}
-
-export interface ILeadIndustryLookupTableDto {
-    id: number;
-    displayName: string | undefined;
 }
 
 export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableDto {
@@ -28358,6 +28961,46 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 }
 
 export interface ILeadLeadStatusLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadPriorityLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadPriorityLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadPriorityLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadPriorityLookupTableDto {
     id: number;
     displayName: string | undefined;
 }
@@ -30646,6 +31289,54 @@ export interface IPagedResultDtoOfGetLeadStatusForViewDto {
     items: GetLeadStatusForViewDto[] | undefined;
 }
 
+export class PagedResultDtoOfGetPriorityForViewDto implements IPagedResultDtoOfGetPriorityForViewDto {
+    totalCount!: number;
+    items!: GetPriorityForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPriorityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetPriorityForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPriorityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPriorityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetPriorityForViewDto {
+    totalCount: number;
+    items: GetPriorityForViewDto[] | undefined;
+}
+
 export class PagedResultDtoOfGetZipCodeForViewDto implements IPagedResultDtoOfGetZipCodeForViewDto {
     totalCount!: number;
     items!: GetZipCodeForViewDto[] | undefined;
@@ -31367,6 +32058,46 @@ export interface IPayPalConfigurationDto {
     demoUsername: string | undefined;
     demoPassword: string | undefined;
     disabledFundings: string[] | undefined;
+}
+
+export class PriorityDto implements IPriorityDto {
+    description!: string | undefined;
+    id!: number;
+
+    constructor(data?: IPriorityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): PriorityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PriorityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IPriorityDto {
+    description: string | undefined;
+    id: number;
 }
 
 export class RecentTenant implements IRecentTenant {

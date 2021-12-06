@@ -24,11 +24,11 @@ namespace SBCRM.Crm
 
         Task<FileDto> GetLeadsToExcel(GetAllLeadsForExcelInput input);
 
-        Task<List<LeadIndustryLookupTableDto>> GetAllIndustryForTableDropdown();
-
         Task<List<LeadLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown();
 
         Task<List<LeadLeadStatusLookupTableDto>> GetAllLeadStatusForTableDropdown();
+
+        Task<List<LeadPriorityLookupTableDto>> GetAllPriorityForTableDropdown();
 
     }
 }

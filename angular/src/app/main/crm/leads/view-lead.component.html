@@ -14,16 +14,12 @@
                             {{ item.lead.companyName }}
                         </div>
                         <div class="col-6 mb-3">
-                            <h6>{{ l('FirstName') }} :</h6>
-                            {{ item.lead.firstName }}
+                            <h6>{{ l('ContactName') }} :</h6>
+                            {{ item.lead.contactName }}
                         </div>
                         <div class="col-6 mb-3">
-                            <h6>{{ l('LastName') }} :</h6>
-                            {{ item.lead.lastName }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('Title') }} :</h6>
-                            {{ item.lead.title }}
+                            <h6>{{ l('ContactPosition') }} :</h6>
+                            {{ item.lead.contactPosition }}
                         </div>
                         <div class="col-6 mb-3">
                             <h6>{{ l('WebSite') }} :</h6>
@@ -45,11 +41,47 @@
                             <h6>{{ l('Description') }} :</h6>
                             {{ item.lead.description }}
                         </div>
-
                         <div class="col-6 mb-3">
-                            <h6>({{ l('Industry') }}) {{ l('Description') }} :</h6>
-                            {{ item.industryDescription }}
+                            <h6>{{ l('CompanyPhone') }} :</h6>
+                            {{ item.lead.companyPhone }}
                         </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('CompanyEmail') }} :</h6>
+                            {{ item.lead.companyEmail }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('PoBox') }} :</h6>
+                            {{ item.lead.poBox }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ZipCode') }} :</h6>
+                            {{ item.lead.zipCode }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ContactPhone') }} :</h6>
+                            {{ item.lead.contactPhone }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ContactPhoneExtension') }} :</h6>
+                            {{ item.lead.contactPhoneExtension }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ContactCellPhone') }} :</h6>
+                            {{ item.lead.contactCellPhone }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ContactFaxNumber') }} :</h6>
+                            {{ item.lead.contactFaxNumber }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('PagerNumber') }} :</h6>
+                            {{ item.lead.pagerNumber }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ContactEmail') }} :</h6>
+                            {{ item.lead.contactEmail }}
+                        </div>
+
                         <div class="col-6 mb-3">
                             <h6>({{ l('LeadSource') }}) {{ l('Description') }} :</h6>
                             {{ item.leadSourceDescription }}
@@ -57,6 +89,10 @@
                         <div class="col-6 mb-3">
                             <h6>({{ l('LeadStatus') }}) {{ l('Description') }} :</h6>
                             {{ item.leadStatusDescription }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('Priority') }}) {{ l('Description') }} :</h6>
+                            {{ item.priorityDescription }}
                         </div>
                     </div>
                 </div>

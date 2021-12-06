@@ -59,37 +59,25 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="FirstNameFilter">{{ l('FirstName') }}</label>
+                                        <label for="ContactNameFilter">{{ l('ContactName') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="FirstNameFilter"
-                                            name="firstNameFilter"
-                                            [(ngModel)]="firstNameFilter"
+                                            id="ContactNameFilter"
+                                            name="contactNameFilter"
+                                            [(ngModel)]="contactNameFilter"
                                         />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="LastNameFilter">{{ l('LastName') }}</label>
+                                        <label for="ContactPositionFilter">{{ l('ContactPosition') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="LastNameFilter"
-                                            name="lastNameFilter"
-                                            [(ngModel)]="lastNameFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="TitleFilter">{{ l('Title') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="TitleFilter"
-                                            name="titleFilter"
-                                            [(ngModel)]="titleFilter"
+                                            id="ContactPositionFilter"
+                                            name="contactPositionFilter"
+                                            [(ngModel)]="contactPositionFilter"
                                         />
                                     </div>
                                 </div>
@@ -155,15 +143,123 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="IndustryDescriptionFilter">
-                                            ({{ l('Industry') }}) {{ l('Description') }}
+                                        <label for="CompanyPhoneFilter">{{ l('CompanyPhone') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="CompanyPhoneFilter"
+                                            name="companyPhoneFilter"
+                                            [(ngModel)]="companyPhoneFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="CompanyEmailFilter">{{ l('CompanyEmail') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="CompanyEmailFilter"
+                                            name="companyEmailFilter"
+                                            [(ngModel)]="companyEmailFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="PoBoxFilter">{{ l('PoBox') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="PoBoxFilter"
+                                            name="poBoxFilter"
+                                            [(ngModel)]="poBoxFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ZipCodeFilter">{{ l('ZipCode') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="ZipCodeFilter"
+                                            name="zipCodeFilter"
+                                            [(ngModel)]="zipCodeFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ContactPhoneFilter">{{ l('ContactPhone') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="ContactPhoneFilter"
+                                            name="contactPhoneFilter"
+                                            [(ngModel)]="contactPhoneFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ContactPhoneExtensionFilter">
+                                            {{ l('ContactPhoneExtension') }}
                                         </label>
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="IndustryDescriptionFilter"
-                                            name="industryDescriptionFilter"
-                                            [(ngModel)]="industryDescriptionFilter"
+                                            id="ContactPhoneExtensionFilter"
+                                            name="contactPhoneExtensionFilter"
+                                            [(ngModel)]="contactPhoneExtensionFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ContactCellPhoneFilter">{{ l('ContactCellPhone') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="ContactCellPhoneFilter"
+                                            name="contactCellPhoneFilter"
+                                            [(ngModel)]="contactCellPhoneFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ContactFaxNumberFilter">{{ l('ContactFaxNumber') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="ContactFaxNumberFilter"
+                                            name="contactFaxNumberFilter"
+                                            [(ngModel)]="contactFaxNumberFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="PagerNumberFilter">{{ l('PagerNumber') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="PagerNumberFilter"
+                                            name="pagerNumberFilter"
+                                            [(ngModel)]="pagerNumberFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ContactEmailFilter">{{ l('ContactEmail') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="ContactEmailFilter"
+                                            name="contactEmailFilter"
+                                            [(ngModel)]="contactEmailFilter"
                                         />
                                     </div>
                                 </div>
@@ -192,6 +288,20 @@
                                             id="LeadStatusDescriptionFilter"
                                             name="leadStatusDescriptionFilter"
                                             [(ngModel)]="leadStatusDescriptionFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="PriorityDescriptionFilter">
+                                            ({{ l('Priority') }}) {{ l('Description') }}
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="PriorityDescriptionFilter"
+                                            name="priorityDescriptionFilter"
+                                            [(ngModel)]="priorityDescriptionFilter"
                                         />
                                     </div>
                                 </div>
@@ -242,10 +352,6 @@
                                         >
                                             {{ l('Actions') }}
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="industryFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="industryDescription"></p-sortIcon>
-                                        </th>
                                         <th style="width: 150px" pSortableColumn="leadSourceFk.description">
                                             {{ l('Description') }}
                                             <p-sortIcon field="leadSourceDescription"></p-sortIcon>
@@ -254,21 +360,21 @@
                                             {{ l('Description') }}
                                             <p-sortIcon field="leadStatusDescription"></p-sortIcon>
                                         </th>
+                                        <th style="width: 150px" pSortableColumn="priorityFk.description">
+                                            {{ l('Description') }}
+                                            <p-sortIcon field="priorityDescription"></p-sortIcon>
+                                        </th>
                                         <th style="width: 150px" pSortableColumn="companyName">
                                             {{ l('CompanyName') }}
                                             <p-sortIcon field="lead.companyName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="firstName">
-                                            {{ l('FirstName') }}
-                                            <p-sortIcon field="lead.firstName"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="contactName">
+                                            {{ l('ContactName') }}
+                                            <p-sortIcon field="lead.contactName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="lastName">
-                                            {{ l('LastName') }}
-                                            <p-sortIcon field="lead.lastName"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="title">
-                                            {{ l('Title') }}
-                                            <p-sortIcon field="lead.title"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="contactPosition">
+                                            {{ l('ContactPosition') }}
+                                            <p-sortIcon field="lead.contactPosition"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="webSite">
                                             {{ l('WebSite') }}
@@ -289,6 +395,50 @@
                                         <th style="width: 150px" pSortableColumn="description">
                                             {{ l('Description') }}
                                             <p-sortIcon field="lead.description"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="companyPhone">
+                                            {{ l('CompanyPhone') }}
+                                            <p-sortIcon field="lead.companyPhone"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="companyEmail">
+                                            {{ l('CompanyEmail') }}
+                                            <p-sortIcon field="lead.companyEmail"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="poBox">
+                                            {{ l('PoBox') }}
+                                            <p-sortIcon field="lead.poBox"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="zipCode">
+                                            {{ l('ZipCode') }}
+                                            <p-sortIcon field="lead.zipCode"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="contactPhone">
+                                            {{ l('ContactPhone') }}
+                                            <p-sortIcon field="lead.contactPhone"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="contactPhoneExtension">
+                                            {{ l('ContactPhoneExtension') }}
+                                            <p-sortIcon field="lead.contactPhoneExtension"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="contactCellPhone">
+                                            {{ l('ContactCellPhone') }}
+                                            <p-sortIcon field="lead.contactCellPhone"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="contactFaxNumber">
+                                            {{ l('ContactFaxNumber') }}
+                                            <p-sortIcon field="lead.contactFaxNumber"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="pagerNumber">
+                                            {{ l('PagerNumber') }}
+                                            <p-sortIcon field="lead.pagerNumber"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="contactEmail">
+                                            {{ l('ContactEmail') }}
+                                            <p-sortIcon field="lead.contactEmail"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="creationTime">
+                                            Creation Time
+                                            <p-sortIcon field="lead.creationTime"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -340,10 +490,6 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.industryDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
                                             {{ record.leadSourceDescription }}
                                         </td>
                                         <td style="width: 150px">
@@ -351,20 +497,20 @@
                                             {{ record.leadStatusDescription }}
                                         </td>
                                         <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Description') }}</span>
+                                            {{ record.priorityDescription }}
+                                        </td>
+                                        <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CompanyName') }}</span>
                                             {{ record.lead.companyName }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('FirstName') }}</span>
-                                            {{ record.lead.firstName }}
+                                            <span class="p-column-title">{{ l('ContactName') }}</span>
+                                            {{ record.lead.contactName }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('LastName') }}</span>
-                                            {{ record.lead.lastName }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Title') }}</span>
-                                            {{ record.lead.title }}
+                                            <span class="p-column-title">{{ l('ContactPosition') }}</span>
+                                            {{ record.lead.contactPosition }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('WebSite') }}</span>
@@ -385,6 +531,50 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Description') }}</span>
                                             {{ record.lead.description }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('CompanyPhone') }}</span>
+                                            {{ record.lead.companyPhone }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('CompanyEmail') }}</span>
+                                            {{ record.lead.companyEmail }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('PoBox') }}</span>
+                                            {{ record.lead.poBox }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ZipCode') }}</span>
+                                            {{ record.lead.zipCode }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ContactPhone') }}</span>
+                                            {{ record.lead.contactPhone }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ContactPhoneExtension') }}</span>
+                                            {{ record.lead.contactPhoneExtension }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ContactCellPhone') }}</span>
+                                            {{ record.lead.contactCellPhone }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ContactFaxNumber') }}</span>
+                                            {{ record.lead.contactFaxNumber }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('PagerNumber') }}</span>
+                                            {{ record.lead.pagerNumber }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ContactEmail') }}</span>
+                                            {{ record.lead.contactEmail }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ContactEmail') }}</span>
+                                            {{ record.lead.creationTime }}
                                         </td>
                                     </tr>
                                 </ng-template>

@@ -36,33 +36,51 @@ namespace SBCRM.Crm.Exporting
                     AddHeader(
                         sheet,
                         L("CompanyName"),
-                        L("FirstName"),
-                        L("LastName"),
-                        L("Title"),
+                        L("ContactName"),
+                        L("ContactPosition"),
                         L("WebSite"),
                         L("Address"),
                         L("Country"),
                         L("State"),
                         L("Description"),
-                        (L("Industry")) + L("Description"),
+                        L("CompanyPhone"),
+                        L("CompanyEmail"),
+                        L("PoBox"),
+                        L("ZipCode"),
+                        L("ContactPhone"),
+                        L("ContactPhoneExtension"),
+                        L("ContactCellPhone"),
+                        L("ContactFaxNumber"),
+                        L("PagerNumber"),
+                        L("ContactEmail"),
                         (L("LeadSource")) + L("Description"),
-                        (L("LeadStatus")) + L("Description")
+                        (L("LeadStatus")) + L("Description"),
+                        (L("Priority")) + L("Description")
                         );
 
                     AddObjects(
                         sheet, leads,
                         _ => _.Lead.CompanyName,
-                        _ => _.Lead.FirstName,
-                        _ => _.Lead.LastName,
-                        _ => _.Lead.Title,
+                        _ => _.Lead.ContactName,
+                        _ => _.Lead.ContactPosition,
                         _ => _.Lead.WebSite,
                         _ => _.Lead.Address,
                         _ => _.Lead.Country,
                         _ => _.Lead.State,
                         _ => _.Lead.Description,
-                        _ => _.IndustryDescription,
+                        _ => _.Lead.CompanyPhone,
+                        _ => _.Lead.CompanyEmail,
+                        _ => _.Lead.PoBox,
+                        _ => _.Lead.ZipCode,
+                        _ => _.Lead.ContactPhone,
+                        _ => _.Lead.ContactPhoneExtension,
+                        _ => _.Lead.ContactCellPhone,
+                        _ => _.Lead.ContactFaxNumber,
+                        _ => _.Lead.PagerNumber,
+                        _ => _.Lead.ContactEmail,
                         _ => _.LeadSourceDescription,
-                        _ => _.LeadStatusDescription
+                        _ => _.LeadStatusDescription,
+                        _ => _.PriorityDescription
                         );
 
                 });

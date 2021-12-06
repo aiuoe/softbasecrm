@@ -7,6 +7,20 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
+                    
+                    {
+                        path: 'crm/leads',
+                        loadChildren: () => import('./crm/leads/lead.module').then(m => m.LeadModule),
+                        data: { permission: 'Pages.Leads' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/priorities',
+                        loadChildren: () => import('./crm/priorities/priority.module').then(m => m.PriorityModule),
+                        data: { permission: 'Pages.Priorities' }
+                    },
+                
 
                     {
                         path: 'business/leadStatuses',
