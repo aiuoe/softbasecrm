@@ -49,6 +49,7 @@ namespace SBCRM.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Leads", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Leads_Priorities_PriorityId",
                         column: x => x.PriorityId,
