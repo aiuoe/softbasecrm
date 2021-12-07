@@ -606,10 +606,10 @@
 
     <!-- Modal used to upload Leads file -->
     <p-dialog header="Import" [(visible)]="displayModal" [modal]="true" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false">
-
+        <form  #uploadLeadsFromFile="ngForm" (ngSubmit)="save()">
             <label for="UploadFile">Uploaded Files: </label><br>
             <input type="file" accept=".xls,.xlsx"
-            (change)="uploadFile($event.target.files)"><br><br><br>
+            (change)="fileChangeEvent($event)"><br><br><br>
 
             <label for="LeadSourceDescription">Lead Source: </label>
             <select name="leadSourceId" [(ngModel)]="leadSourceId" class="form-control" required>
@@ -626,6 +626,7 @@
                     {{ item.displayName }}
                 </option>
             </select>
+        </form>
             <ng-template pTemplate="footer"> 
             <p-button (click)="displayModal=false" label="Cancel" styleClass="p-button-text"></p-button>
             <p-button (click)="displayModal=false" label="Upload"></p-button>

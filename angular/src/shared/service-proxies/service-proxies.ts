@@ -10423,6 +10423,24 @@ export class LeadsServiceProxy {
         }));
     }
 
+    uploadLeadsFromFile(body: any): Observable<any>{
+        let url_ = this.baseUrl + "/api/services/app/LeadImport/UploadLeads";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_);
+    }
+
     protected processGetAllLeadSourceForTableDropdown(response: HttpResponseBase): Observable<LeadLeadSourceLookupTableDto[]> {
         const status = response.status;
         const responseBlob =

@@ -17,6 +17,7 @@ import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     templateUrl: './leads.component.html',
@@ -177,6 +178,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     showModalDialog() {
         this.displayModal = true;
+        this.initFileUploader();
     }
 
     uploadFile(files){
@@ -210,7 +212,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     initFileUploader(): void {
-        this.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/LeadImport/UploadLeadsAsync' });
+        this.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/LeadImport/UploadLeads' });
         this._uploaderOptions.autoUpload = false;
         this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
         this._uploaderOptions.removeAfterUpload = true;
@@ -247,26 +249,27 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         }
 
         this.saving = true;
-        // this._profileService
-        //     .updateProfilePicture(input)
-        //     .pipe(
-        //         finalize(() => {
-        //             this.saving = false;
-        //         })
-        //     )
-        //     .subscribe(() => {
-        //         abp.setting.values['App.UserManagement.UseGravatarProfilePicture'] =
-        //             this.useGravatarProfilePicture.toString();
-        //         abp.event.trigger('profilePictureChanged');
-        //         this.close();
-        //     });
+        this._leadsServiceProxy
+            .uploadLeadsFromFile(input)
+            .pipe(
+                finalize(() => {
+                    this.saving = false;
+                })
+            )
+            .subscribe(() => {
 
-        const uploadReq = new HttpRequest('POST', ` https://localhost:44301/api/services/app/LeadImport/UploadLeadsAsync`, input, {
-			reportProgress: true,
-		});
+            });
+    }
 
-        this.http.request(uploadReq).subscribe( response =>{
-            console.log(response);
-        });
+    fileChangeEvent(event: any): void {
+        if (event.target.files[0].size > 6242880) {
+            //5MB
+            this.message.warn(this.l('ProfilePicture_Warn_SizeLimit', 6));
+            return;
+        }
+    }
+
+    save(){
+        this.uploader.uploadAll();
     }
 }
