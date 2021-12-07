@@ -15,6 +15,7 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 @Component({
     templateUrl: './leads.component.html',
@@ -25,15 +26,17 @@ export class LeadsComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    advancedFiltersAreShown = false;
+    selectedStatusFilter = "All";
+    
     filterText = '';
-    companyNameFilter = '';
+    companyOrContactNameFilter = '';
     contactNameFilter = '';
     contactPositionFilter = '';
     webSiteFilter = '';
     addressFilter = '';
     countryFilter = '';
     stateFilter = '';
+    cityFilter = '';
     descriptionFilter = '';
     companyPhoneFilter = '';
     companyEmailFilter = '';
@@ -73,13 +76,14 @@ export class LeadsComponent extends AppComponentBase {
         this._leadsServiceProxy
             .getAll(
                 this.filterText,
-                this.companyNameFilter,
+                this.companyOrContactNameFilter,
                 this.contactNameFilter,
                 this.contactPositionFilter,
                 this.webSiteFilter,
                 this.addressFilter,
                 this.countryFilter,
-                this.stateFilter,
+                this.stateFilter, 
+                this.cityFilter,
                 this.descriptionFilter,
                 this.companyPhoneFilter,
                 this.companyEmailFilter,
@@ -105,6 +109,14 @@ export class LeadsComponent extends AppComponentBase {
             });
     }
 
+    filterByStatus(statusSelected): void {
+        this.selectedStatusFilter = statusSelected;
+        if (statusSelected == "All")
+            statusSelected = '';
+        this.leadStatusDescriptionFilter = statusSelected;
+        this.getLeads();
+    }
+
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
@@ -128,13 +140,14 @@ export class LeadsComponent extends AppComponentBase {
         this._leadsServiceProxy
             .getLeadsToExcel(
                 this.filterText,
-                this.companyNameFilter,
+                this.companyOrContactNameFilter,
                 this.contactNameFilter,
                 this.contactPositionFilter,
                 this.webSiteFilter,
                 this.addressFilter,
                 this.countryFilter,
                 this.stateFilter,
+                this.cityFilter, 
                 this.descriptionFilter,
                 this.companyPhoneFilter,
                 this.companyEmailFilter,
@@ -153,5 +166,22 @@ export class LeadsComponent extends AppComponentBase {
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    } 
+
+    /* 
+    Below there are methods that act as placeholder for
+    rows selections, currently there are not valid actions
+    as 12/7/2021 - lead summary story
+    */
+
+    onTableHeaderCheckboxToggle(event: any) {
+        console.log(this.dataTable.value[1]);
+    }
+
+    onRowSelect(event) {
+        console.log(event.data.lead.id);
+    }
+
+    onRowUnselect(event) {        
     }
 }

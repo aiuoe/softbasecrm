@@ -36,6 +36,10 @@ namespace SBCRM.Crm
         [StringLength(LeadConsts.MaxStateLength, MinimumLength = LeadConsts.MinStateLength)]
         public virtual string State { get; set; }
 
+
+        [StringLength(LeadConsts.MaxCityLength, MinimumLength = LeadConsts.MinCityLength)]
+        public virtual string City { get; set; }
+
         public virtual string Description { get; set; }
 
         [Required]

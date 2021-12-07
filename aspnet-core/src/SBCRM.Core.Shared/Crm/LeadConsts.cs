@@ -24,6 +24,9 @@
         public const int MinStateLength = 1;
         public const int MaxStateLength = 100;
 
+        public const int MinCityLength = 1;
+        public const int MaxCityLength = 100;
+
         public const int MinCompanyPhoneLength = 1;
         public const int MaxCompanyPhoneLength = 50;
 
