@@ -163,9 +163,8 @@ namespace SBCRM.Crm
 
         public async Task ImportLeadsFromFile(byte[] inputFile)
         {
-            var _excelHandler = new ExcelHandler();
-            await _excelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
-
+            var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
+            ;
         }
 
         public async Task<GetLeadForViewDto> GetLeadForView(int id)

@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SBCRM.Infrastructure.Excel
 {
-    public class ExcelHandler
+    public static class ExcelHandler
     {
-        public async Task<List<T>> ReadIntoList<T>(byte[] bin, int startFromRow = 1)
+        public static async Task<List<T>> ReadIntoList<T>(byte[] bin, int startFromRow = 1)
         {
             //create a list to hold all the values
             List<T> excelData = new List<T>();
