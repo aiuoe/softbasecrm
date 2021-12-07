@@ -16,9 +16,11 @@ import { Observable } from '@node_modules/rxjs';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     templateUrl: './create-or-edit-lead.component.html',
+    styleUrls: ['./create-or-edit-lead.component.less'],
     animations: [appModuleAnimation()],
 })
 export class CreateOrEditLeadComponent extends AppComponentBase implements OnInit {
@@ -40,6 +42,12 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
     ];
 
+    items: MenuItem[];
+
+    countries: any[];
+    selectedCountry: any = { countryCode: '+1', code: 'US', flag: "famfamfam-flags us" };
+    states: any[];
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -52,6 +60,11 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
+        this.countries = [
+            { countryCode: '+1', code: 'US', name:"United States", flag: "famfamfam-flags us" },
+            { countryCode: '+1', code: 'CA', name:"Canada", flag: "famfamfam-flags ca" },
+            { countryCode: '+52', code: 'MX', name:"Mexico", flag: "famfamfam-flags mx" },
+        ];
     }
 
     show(leadId?: number): void {
@@ -99,23 +112,6 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/crm/leads']);
-            });
-    }
-
-    saveAndNew(): void {
-        this.saving = true;
-
-        this._leadsServiceProxy
-            .createOrEdit(this.lead)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe((x) => {
-                this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.lead = new CreateOrEditLeadDto();
             });
     }
 }

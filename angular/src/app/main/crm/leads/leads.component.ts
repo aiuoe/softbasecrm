@@ -34,6 +34,7 @@ export class LeadsComponent extends AppComponentBase {
     addressFilter = '';
     countryFilter = '';
     stateFilter = '';
+    cityFilter = '';
     descriptionFilter = '';
     companyPhoneFilter = '';
     companyEmailFilter = '';
@@ -79,7 +80,8 @@ export class LeadsComponent extends AppComponentBase {
                 this.webSiteFilter,
                 this.addressFilter,
                 this.countryFilter,
-                this.stateFilter,
+                this.stateFilter, 
+                this.cityFilter,
                 this.descriptionFilter,
                 this.companyPhoneFilter,
                 this.companyEmailFilter,
@@ -135,6 +137,7 @@ export class LeadsComponent extends AppComponentBase {
                 this.addressFilter,
                 this.countryFilter,
                 this.stateFilter,
+                this.cityFilter, 
                 this.descriptionFilter,
                 this.companyPhoneFilter,
                 this.companyEmailFilter,
