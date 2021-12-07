@@ -17,6 +17,8 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using SBCRM.Infrastructure.Excel;
+using SBCRM.DataImporting;
 
 namespace SBCRM.Crm
 {
@@ -156,6 +158,13 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
+
+        }
+
+        public async Task ImportLeadsFromFile(byte[] inputFile)
+        {
+            var _excelHandler = new ExcelHandler();
+            await _excelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
 
         }
 

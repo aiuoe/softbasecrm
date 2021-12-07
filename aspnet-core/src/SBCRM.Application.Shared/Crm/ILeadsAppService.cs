@@ -30,5 +30,7 @@ namespace SBCRM.Crm
 
         Task<List<LeadPriorityLookupTableDto>> GetAllPriorityForTableDropdown();
 
+        Task ImportLeadsFromFile(byte[] inputFile);
+
     }
 }

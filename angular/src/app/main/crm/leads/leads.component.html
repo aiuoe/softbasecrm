@@ -11,6 +11,7 @@
                     <i class="fa fa-plus"></i>
                     {{ l('CreateNewLead') }}
                 </button>
+                <p-button (click)="showModalDialog()" icon="pi pi-external-link" label="Import"></p-button>
             </div>
         </sub-header>
 
@@ -602,4 +603,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal used to upload Leads file -->
+    <p-dialog header="Import" [(visible)]="displayModal" [modal]="true" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false">
+
+            <label for="UploadFile">Uploaded Files: </label><br>
+            <input type="file" accept=".xls,.xlsx"
+            (change)="uploadFile($event.target.files)"><br><br><br>
+
+            <label for="LeadSourceDescription">Lead Source: </label>
+            <select name="leadSourceId" [(ngModel)]="leadSourceId" class="form-control" required>
+                <option value="">Select a Lead Source...</option>
+                <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
+                    {{ item.displayName }}
+                </option>
+            </select>
+
+            <label for="AssignedUser">Assingned User: </label>
+            <select name="leadSourceId" [(ngModel)]="leadSourceId" class="form-control" required>
+                <option value="">Select a Lead Source...</option>
+                <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
+                    {{ item.displayName }}
+                </option>
+            </select>
+            <ng-template pTemplate="footer"> 
+            <p-button (click)="displayModal=false" label="Cancel" styleClass="p-button-text"></p-button>
+            <p-button (click)="displayModal=false" label="Upload"></p-button>
+            </ng-template>
+    </p-dialog>
 </div>

@@ -6,8 +6,11 @@ import { LeadsComponent } from './leads.component';
 import { CreateOrEditLeadComponent } from './create-or-edit-lead.component';
 import { ViewLeadComponent } from './view-lead.component';
 
+import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
+
 @NgModule({
     declarations: [LeadsComponent, CreateOrEditLeadComponent, ViewLeadComponent],
-    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule],
+    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, DialogModule, DropdownModule],
 })
 export class LeadModule {}

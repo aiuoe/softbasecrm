@@ -1,8 +1,8 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
+import { LeadsServiceProxy, LeadDto, LeadLeadSourceLookupTableDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 
@@ -15,13 +15,15 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 
 @Component({
     templateUrl: './leads.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
 })
-export class LeadsComponent extends AppComponentBase {
+export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -49,6 +51,16 @@ export class LeadsComponent extends AppComponentBase {
     leadStatusDescriptionFilter = '';
     priorityDescriptionFilter = '';
 
+    displayModal: boolean = false;
+    allLeadSources: LeadLeadSourceLookupTableDto[];
+    leadSourceDescription = '';
+    leadSourceId: number;
+    formData = new FormData();
+
+    public uploader: FileUploader;
+    private _uploaderOptions: FileUploaderOptions = {}
+    public saving = false;
+
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
@@ -57,9 +69,17 @@ export class LeadsComponent extends AppComponentBase {
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private http: HttpClient,
+        private _tokenService: TokenService
     ) {
         super(injector);
+    }
+
+    ngOnInit(){
+        this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
+            this.allLeadSources = result;
+        });
     }
 
     getLeads(event?: LazyLoadEvent) {
@@ -153,5 +173,100 @@ export class LeadsComponent extends AppComponentBase {
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    }
+
+    showModalDialog() {
+        this.displayModal = true;
+    }
+
+    uploadFile(files){
+        if (files.length === 0) {
+			return;
+		}
+        this.formData = new FormData();
+		for (const file of files) {
+			this.formData.append(file.name, file);
+		}
+
+        const uploadReq = new HttpRequest('POST', ` https://localhost:44301/api/services/app/LeadImport/UploadLeadsAsync`, this.formData, {
+			reportProgress: true,
+		});
+
+        this.http.request(uploadReq).subscribe( response =>{
+            console.log(response);
+        });
+    }
+
+    ////////////////////// Another solution /////////////////////////////////
+
+    guid(): string {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    initFileUploader(): void {
+        this.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/LeadImport/UploadLeadsAsync' });
+        this._uploaderOptions.autoUpload = false;
+        this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
+        this._uploaderOptions.removeAfterUpload = true;
+        this.uploader.onAfterAddingFile = (file) => {
+            file.withCredentials = false;
+        };
+
+        this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
+            form.append('FileType', fileItem.file.type);
+            form.append('FileName', 'ProfilePicture');
+            form.append('FileToken', this.guid());
+        };
+
+        this.uploader.onSuccessItem = (item, response, status) => {
+            const resp = <IAjaxResponse>JSON.parse(response);
+            if (resp.success) {
+                this.uploadLeadsFromFile(resp.result.fileToken);
+            } else {
+                this.message.error(resp.error.message);
+            }
+        };
+
+        this.uploader.setOptions(this._uploaderOptions);
+    }
+
+    
+    uploadLeadsFromFile(fileToken: string): void {
+        const input = {
+            fileToken: fileToken,
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        }
+
+        this.saving = true;
+        // this._profileService
+        //     .updateProfilePicture(input)
+        //     .pipe(
+        //         finalize(() => {
+        //             this.saving = false;
+        //         })
+        //     )
+        //     .subscribe(() => {
+        //         abp.setting.values['App.UserManagement.UseGravatarProfilePicture'] =
+        //             this.useGravatarProfilePicture.toString();
+        //         abp.event.trigger('profilePictureChanged');
+        //         this.close();
+        //     });
+
+        const uploadReq = new HttpRequest('POST', ` https://localhost:44301/api/services/app/LeadImport/UploadLeadsAsync`, input, {
+			reportProgress: true,
+		});
+
+        this.http.request(uploadReq).subscribe( response =>{
+            console.log(response);
+        });
     }
 }
