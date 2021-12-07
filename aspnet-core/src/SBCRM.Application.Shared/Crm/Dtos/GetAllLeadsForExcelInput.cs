@@ -21,6 +21,8 @@ namespace SBCRM.Crm.Dtos
 
         public string StateFilter { get; set; }
 
+        public string CityFilter { get; set; }
+
         public string DescriptionFilter { get; set; }
 
         public string CompanyPhoneFilter { get; set; }
