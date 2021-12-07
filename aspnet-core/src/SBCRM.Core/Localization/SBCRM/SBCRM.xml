@@ -2,8 +2,10 @@
 <localizationDictionary culture="en">
   <texts>
     <text name="ContactName">Contact name</text>
+	<text name="LeadContactName">CONTACT NAME</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
+	<text name="LeadCompanyPhone">PHONE</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -24,7 +26,8 @@
     <text name="Priorities">Priorities</text>
     <text name="Lead">Lead</text>
     <text name="SBCRM.Crm.Lead">Lead</text>
-    <text name="CompanyName">Company name</text>
+	<text name="CompanyName">Company name</text>
+    <text name="LeadCompanyName">COMPANY NAME</text>
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
@@ -42,7 +45,7 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-    <text name="LeadStatus">Lead status</text>
+    <text name="LeadStatus">STATUS</text>
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
@@ -371,6 +374,7 @@
     <text name="CreatingNewRole">Creating new role</text>
     <text name="DeletingRole">Deleting role</text>
     <text name="CreationTime">Creation time</text>
+    <text name="LeadCreationTime">CREATED AT</text>
     <text name="SearchWithThreeDot">Search...</text>
     <text name="ResetSpecialPermissions">Reset special permissions</text>
     <text name="SavingWithThreeDot">Saving...</text>
@@ -1156,6 +1160,8 @@
     <text name="ExcelOperations">Excel operations</text>
     <text name="ImportFromExcel">Import from excel</text>
     <text name="ExportToExcel">Export to excel</text>
+	<text name="ExportLead">Export</text>
+	<text name="NewLead">Lead</text>
     <text name="ImportToExcelSampleFileDownloadInfo">{0} to download sample import file.</text>
     <text name="ImportUsersProcessStart">User import process has begun.</text>
     <text name="ImportUsersUploadFailed">User import process has failed.</text>

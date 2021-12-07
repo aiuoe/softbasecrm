@@ -7,7 +7,7 @@ namespace SBCRM.Crm.Dtos
     {
         public string Filter { get; set; }
 
-        public string CompanyNameFilter { get; set; }
+        public string CompanyOrContactNameFilter { get; set; }
 
         public string ContactNameFilter { get; set; }
 
