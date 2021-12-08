@@ -6,11 +6,13 @@ import { LeadsComponent } from './leads.component';
 import { CreateOrEditLeadComponent } from './create-or-edit-lead.component';
 import { ViewLeadComponent } from './view-lead.component';
 
-import {DialogModule} from 'primeng/dialog';
-import {DropdownModule} from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 
 @NgModule({
-    declarations: [LeadsComponent, CreateOrEditLeadComponent, ViewLeadComponent],
-    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, DialogModule, DropdownModule],
+    declarations: [LeadsComponent, CreateOrEditLeadComponent, ViewLeadComponent, ImportLeadsModalComponent],
+    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, DialogModule, DropdownModule]
 })
-export class LeadModule {}
+export class LeadModule {
+}

@@ -18,6 +18,9 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { finalize } from 'rxjs/operators';
+import { base64ToFile } from '@node_modules/ngx-image-cropper';
+import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
+import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 
 @Component({
     templateUrl: './leads.component.html',
@@ -27,6 +30,9 @@ import { finalize } from 'rxjs/operators';
 export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+
+    @ViewChild('importLeadsModalComponent', { static: true })
+    importLeadsModalComponent: ImportLeadsModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -52,11 +58,12 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     leadStatusDescriptionFilter = '';
     priorityDescriptionFilter = '';
 
-    displayModal: boolean = false;
+    displayModal = false;
     allLeadSources: LeadLeadSourceLookupTableDto[];
     leadSourceDescription = '';
     leadSourceId: number;
     formData = new FormData();
+    importFile: File;
 
     public uploader: FileUploader;
     private _uploaderOptions: FileUploaderOptions = {}
@@ -177,99 +184,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     showModalDialog() {
-        this.displayModal = true;
-        this.initFileUploader();
-    }
-
-    uploadFile(files){
-        if (files.length === 0) {
-			return;
-		}
-        this.formData = new FormData();
-		for (const file of files) {
-			this.formData.append(file.name, file);
-		}
-
-        const uploadReq = new HttpRequest('POST', ` https://localhost:44301/api/services/app/LeadImport/UploadLeadsAsync`, this.formData, {
-			reportProgress: true,
-		});
-
-        this.http.request(uploadReq).subscribe( response =>{
-            console.log(response);
-        });
-    }
-
-    ////////////////////// Another solution /////////////////////////////////
-
-    guid(): string {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-        }
-
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
-
-    initFileUploader(): void {
-        this.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/LeadImport/UploadLeads' });
-        this._uploaderOptions.autoUpload = false;
-        this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
-        this._uploaderOptions.removeAfterUpload = true;
-        this.uploader.onAfterAddingFile = (file) => {
-            file.withCredentials = false;
-        };
-
-        this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
-            form.append('FileType', fileItem.file.type);
-            form.append('FileName', 'ProfilePicture');
-            form.append('FileToken', this.guid());
-        };
-
-        this.uploader.onSuccessItem = (item, response, status) => {
-            const resp = <IAjaxResponse>JSON.parse(response);
-            if (resp.success) {
-                this.uploadLeadsFromFile(resp.result.fileToken);
-            } else {
-                this.message.error(resp.error.message);
-            }
-        };
-
-        this.uploader.setOptions(this._uploaderOptions);
-    }
-
-    
-    uploadLeadsFromFile(fileToken: string): void {
-        const input = {
-            fileToken: fileToken,
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0
-        }
-
-        this.saving = true;
-        this._leadsServiceProxy
-            .uploadLeadsFromFile(input)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe(() => {
-
-            });
-    }
-
-    fileChangeEvent(event: any): void {
-        if (event.target.files[0].size > 6242880) {
-            //5MB
-            this.message.warn(this.l('ProfilePicture_Warn_SizeLimit', 6));
-            return;
-        }
-    }
-
-    save(){
-        this.uploader.uploadAll();
+        this.importLeadsModalComponent.show();
     }
 }

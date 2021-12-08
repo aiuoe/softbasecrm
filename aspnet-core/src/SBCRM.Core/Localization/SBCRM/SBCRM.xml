@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="ContactName">Contact name</text>
+  <texts>
+    <text name="Import">Import</text>
+    <text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
+    <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
     <text name="CompanyEmail">Company email</text>
@@ -439,6 +442,7 @@
     <text name="ChangeProfilePicture">Change profile picture</text>
     <text name="TenantName_Regex_Description">Tenant name must be at least 2 chars, starts with a letter and continue with letter, number, dash or underscore.</text>
     <text name="ProfilePicture_Change_Info">You can select a JPG/JPEG/PNG file with a maximum {0}MB size.</text>
+    <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>
     <text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
     <text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
     <text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG file. Please select another file.</text>

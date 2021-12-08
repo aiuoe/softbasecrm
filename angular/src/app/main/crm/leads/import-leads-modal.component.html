@@ -1,0 +1,66 @@
+<div
+    appBsModal
+    #importLeadsModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalLabel"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #importLeadsModalForm="ngForm" (ngSubmit)="save()">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span>{{ 'Import' | localize }}</span>
+                    </h5>
+                    <button type="button" class="close" [attr.aria-label]="l('Close')" (click)="close()">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input
+                                    type="file"
+                                    id="uploadExcelFile"
+                                    (change)="fileChangeEvent($event)"
+                                />
+                                <label
+                                    class="custom-file-label"
+                                    #uploadFileImportInputLabel
+                                    for="uploadExcelFile"
+                                >
+                                    {{ 'ChooseAFile' | localize }}
+                                </label>
+                            </div>
+                            <span class="form-text text-muted col-lg-12">
+                                {{ 'ImportExcel_Change_Info' | localize: maxExcelImportBytesUserFriendlyValue }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-light-primary font-weight-bold"
+                        (click)="close()"
+                        [disabled]="saving"
+                    >
+                        {{ 'Cancel' | localize }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary font-weight-bold"
+                        [disabled]="!importLeadsModalForm.form.valid || saving"
+                    >
+                        <i class="fa fa-save"></i>
+                        <span>{{ 'Save' | localize }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
