@@ -7,11 +7,15 @@
                     {{ l('ExportToExcel') }}
                 </button>
 
+                <button *ngIf="isGranted('Pages.Leads.Create')" (click)="showModalDialog()" class="btn btn-primary blue">
+                    <i class="fa fa-address-card"></i>
+                    {{ l('Import') }}
+                </button>
+
                 <button *ngIf="isGranted('Pages.Leads.Create')" (click)="createLead()" class="btn btn-primary blue">
                     <i class="fa fa-plus"></i>
                     {{ l('CreateNewLead') }}
                 </button>
-                <p-button (click)="showModalDialog()" icon="pi pi-external-link" label="Import"></p-button>
             </div>
         </sub-header>
 
@@ -604,6 +608,6 @@
         </div>
     </div>
 
-    <importLeadsModal #importLeadsModalComponent></importLeadsModal>
+    <importLeadsModal (modalUpload)="getLeads()" #importLeadsModalComponent></importLeadsModal>
 
 </div>

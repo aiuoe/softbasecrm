@@ -27,18 +27,36 @@
                                     type="file"
                                     id="uploadExcelFile"
                                     (change)="fileChangeEvent($event)"
+                                    accept=".xls,.xlsx"
                                 />
                                 <label
                                     class="custom-file-label"
                                     #uploadFileImportInputLabel
                                     for="uploadExcelFile"
                                 >
-                                    {{ 'ChooseAFile' | localize }}
+                                    Uploaded File
                                 </label>
                             </div>
                             <span class="form-text text-muted col-lg-12">
                                 {{ 'ImportExcel_Change_Info' | localize: maxExcelImportBytesUserFriendlyValue }}
                             </span>
+                        </div><br>
+                        <div class="input-group">
+                            <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
+                            <select name="selectedLeadSourceId" [(ngModel)]="selectedLeadSourceId" class="form-control" required>
+                                <option value="">{{ l('SelectALeadSource') }}</option>
+                                <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
+                                    {{ item.displayName }}
+                                </option>
+                            </select>
+                        </div><br>
+                        <div class="input-group">
+                            <label for="AssignedUserDescription">Assigned User</label>
+                            <select name="selectedUserId" [(ngModel)]="selectedUserId" class="form-control" required>                                                            
+                                <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
+                                    {{ item.displayName }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -54,10 +72,8 @@
                     <button
                         type="submit"
                         class="btn btn-primary font-weight-bold"
-                        [disabled]="!importLeadsModalForm.form.valid || saving"
-                    >
-                        <i class="fa fa-save"></i>
-                        <span>{{ 'Save' | localize }}</span>
+                        [disabled]="!importLeadsModalForm.form.valid || saving">
+                        <span>{{ 'Upload' | localize }}</span>
                     </button>
                 </div>
             </form>

@@ -1,8 +1,8 @@
 import { TokenService } from 'abp-ng2-module';
-import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
+import { LeadLeadSourceLookupTableDto, LeadsServiceProxy, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { nextGuid } from '@shared/utils/global.utils';
@@ -11,9 +11,11 @@ import { nextGuid } from '@shared/utils/global.utils';
     selector: 'importLeadsModal',
     templateUrl: './import-leads-modal.component.html',
 })
-export class ImportLeadsModalComponent extends AppComponentBase {
+export class ImportLeadsModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('importLeadsModal', { static: true }) modal: ModalDirective;
     @ViewChild('uploadFileImportInputLabel') uploadFileImportInputLabel: ElementRef;
+
+    @Output() modalUpload: EventEmitter<any> = new EventEmitter<any>();
 
     public active = false;
     public uploader: FileUploader;
@@ -22,8 +24,20 @@ export class ImportLeadsModalComponent extends AppComponentBase {
 
     private _uploaderOptions: FileUploaderOptions = {};
 
-    constructor(injector: Injector, private _profileService: ProfileServiceProxy, private _tokenService: TokenService) {
+    selectedUserId : number = 0;
+    selectedLeadSourceId : number = 0;
+    allLeadSources: LeadLeadSourceLookupTableDto[];
+
+    constructor(injector: Injector, private _profileService: ProfileServiceProxy, 
+                private _tokenService: TokenService,
+                private _leadsServiceProxy: LeadsServiceProxy) {
         super(injector);
+    }
+
+    ngOnInit(){
+        this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
+            this.allLeadSources = result;
+        });
     }
 
     initializeModal(): void {
@@ -38,6 +52,8 @@ export class ImportLeadsModalComponent extends AppComponentBase {
 
     close(): void {
         this.active = false;
+        this.selectedLeadSourceId = 0;
+        this.selectedUserId = 0;
         this.uploader.clearQueue();
         this.modal.hide();
     }
@@ -67,10 +83,11 @@ export class ImportLeadsModalComponent extends AppComponentBase {
             form.append('FileType', fileItem.file.type);
             form.append('FileName', 'ExcelFile');
             form.append('FileToken', nextGuid);
+            form.append('SelectedLeadSource', this.selectedLeadSourceId);
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {
-            this.message.success('Success');
+            this.message.success('Leads imported successfully');
             this.close();
         };
 
@@ -78,6 +95,11 @@ export class ImportLeadsModalComponent extends AppComponentBase {
     }
 
     save(): void {
-        this.uploader.uploadAll();
+        this.message.confirm('', 'Are you sure you want to upload this file?', (isConfirmed) => {
+            if (isConfirmed) {                       
+                this.uploader.uploadAll();
+                this.modalUpload.emit(null);
+            }
+        });
     }
 }

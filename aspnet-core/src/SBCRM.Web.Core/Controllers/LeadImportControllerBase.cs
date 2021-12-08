@@ -7,6 +7,7 @@ using Abp.UI;
 using SBCRM.Authorization.Users.Profile;
 using SBCRM.Authorization.Users.Profile.Dto;
 using SBCRM.Storage;
+using System;
 
 namespace SBCRM.Web.Controllers
 {
@@ -27,9 +28,13 @@ namespace SBCRM.Web.Controllers
         {
             try
             {
-                var profilePictureFile = Request.Form.Files.First();
-                var byteArrayFile = await profilePictureFile.GetBytes();
-                await _leadsAppService.ImportLeadsFromFile(byteArrayFile);
+                var excelLeads = Request.Form.Files.First();
+                var byteArrayFile = await excelLeads.GetBytes();
+
+                int leadSourceId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
+                int assignedUserId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
+
+                await _leadsAppService.ImportLeadsFromFile(byteArrayFile, leadSourceId, assignedUserId);
                 return null;
             }
             catch (UserFriendlyException ex)
