@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,14 +6,23 @@ namespace SBCRM.Migrations
 {
     public partial class Invoice_Changes : Migration
     {
+        private readonly IDbContextSchema _schema;
+        
+        public Invoice_Changes()
+        {
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<string>( 
+                schema: _schema.Schema,
                 name: "InvoiceNo",
                 table: "AppSubscriptionPayments",
                 nullable: true);
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AppInvoices",
                 columns: table => new
                 {
@@ -34,10 +42,12 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AppInvoices");
 
-            migrationBuilder.DropColumn(
+             migrationBuilder.DropColumn(
+                schema: _schema.Schema,
                 name: "InvoiceNo",
                 table: "AppSubscriptionPayments");
         }

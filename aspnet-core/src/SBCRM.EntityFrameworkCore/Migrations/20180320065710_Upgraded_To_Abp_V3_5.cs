@@ -6,9 +6,19 @@ namespace SBCRM.Migrations
 {
     public partial class Upgraded_To_Abp_V3_5 : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Upgraded_To_Abp_V3_5(IDbContextSchema schema)
+        public Upgraded_To_Abp_V3_5()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "Value",
                 table: "AbpUserTokens",
                 maxLength: 512,
@@ -16,7 +26,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "Name",
                 table: "AbpUserTokens",
                 maxLength: 128,
@@ -24,7 +35,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "LoginProvider",
                 table: "AbpUserTokens",
                 maxLength: 64,
@@ -32,7 +44,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "SecurityStamp",
                 table: "AbpUsers",
                 maxLength: 128,
@@ -40,7 +53,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "PhoneNumber",
                 table: "AbpUsers",
                 maxLength: 32,
@@ -48,7 +62,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ConcurrencyStamp",
                 table: "AbpUsers",
                 maxLength: 128,
@@ -56,7 +71,8 @@ namespace SBCRM.Migrations
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ConcurrencyStamp",
                 table: "AbpRoles",
                 maxLength: 128,
@@ -67,7 +83,8 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "Value",
                 table: "AbpUserTokens",
                 nullable: true,
@@ -75,7 +92,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 512,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "Name",
                 table: "AbpUserTokens",
                 nullable: true,
@@ -83,7 +101,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 128,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "LoginProvider",
                 table: "AbpUserTokens",
                 nullable: true,
@@ -91,7 +110,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 64,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "SecurityStamp",
                 table: "AbpUsers",
                 nullable: true,
@@ -99,7 +119,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 128,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "PhoneNumber",
                 table: "AbpUsers",
                 nullable: true,
@@ -107,7 +128,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 32,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ConcurrencyStamp",
                 table: "AbpUsers",
                 nullable: true,
@@ -115,7 +137,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 128,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "ConcurrencyStamp",
                 table: "AbpRoles",
                 nullable: true,

@@ -1,0 +1,46 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header
+            [title]="('Customer' | localize) + ' ' + ('Details' | localize)"
+            [breadcrumbs]="breadcrumbs"
+        ></sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Number') }} :</h6>
+                            {{ item.customer.number }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('BillTo') }} :</h6>
+                            {{ item.customer.billTo }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Name') }} :</h6>
+                            {{ item.customer.name }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Address') }} :</h6>
+                            {{ item.customer.address }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Phone') }} :</h6>
+                            {{ item.customer.phone }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ID') }} :</h6>
+                            {{ item.customer.id }}
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('AccountType') }}) {{ l('Description') }} :</h6>
+                            {{ item.accountTypeDescription }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

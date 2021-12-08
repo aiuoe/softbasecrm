@@ -6,6 +6,51 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Priorities = "Pages.Priorities";
+        public const string Pages_Priorities_Create = "Pages.Priorities.Create";
+        public const string Pages_Priorities_Edit = "Pages.Priorities.Edit";
+        public const string Pages_Priorities_Delete = "Pages.Priorities.Delete";
+
+        public const string Pages_Leads = "Pages.Leads";
+        public const string Pages_Leads_Create = "Pages.Leads.Create";
+        public const string Pages_Leads_Edit = "Pages.Leads.Edit";
+        public const string Pages_Leads_Delete = "Pages.Leads.Delete";
+
+        public const string Pages_LeadStatuses = "Pages.LeadStatuses";
+        public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";
+        public const string Pages_LeadStatuses_Edit = "Pages.LeadStatuses.Edit";
+        public const string Pages_LeadStatuses_Delete = "Pages.LeadStatuses.Delete";
+
+        public const string Pages_LeadSources = "Pages.LeadSources";
+        public const string Pages_LeadSources_Create = "Pages.LeadSources.Create";
+        public const string Pages_LeadSources_Edit = "Pages.LeadSources.Edit";
+        public const string Pages_LeadSources_Delete = "Pages.LeadSources.Delete";
+
+        public const string Pages_Industries = "Pages.Industries";
+        public const string Pages_Industries_Create = "Pages.Industries.Create";
+        public const string Pages_Industries_Edit = "Pages.Industries.Edit";
+        public const string Pages_Industries_Delete = "Pages.Industries.Delete";
+
+        public const string Pages_Customer = "Pages.Customer";
+        public const string Pages_Customer_Create = "Pages.Customer.Create";
+        public const string Pages_Customer_Edit = "Pages.Customer.Edit";
+        public const string Pages_Customer_Delete = "Pages.Customer.Delete";
+
+        public const string Pages_AccountTypes = "Pages.AccountTypes";
+        public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";
+        public const string Pages_AccountTypes_Edit = "Pages.AccountTypes.Edit";
+        public const string Pages_AccountTypes_Delete = "Pages.AccountTypes.Delete";
+
+        public const string Pages_ARTerms = "Pages.ARTerms";
+        public const string Pages_ARTerms_Create = "Pages.ARTerms.Create";
+        public const string Pages_ARTerms_Edit = "Pages.ARTerms.Edit";
+        public const string Pages_ARTerms_Delete = "Pages.ARTerms.Delete";
+
+        public const string Pages_ZipCodes = "Pages.ZipCodes";
+        public const string Pages_ZipCodes_Create = "Pages.ZipCodes.Create";
+        public const string Pages_ZipCodes_Edit = "Pages.ZipCodes.Edit";
+        public const string Pages_ZipCodes_Delete = "Pages.ZipCodes.Delete";
+
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";

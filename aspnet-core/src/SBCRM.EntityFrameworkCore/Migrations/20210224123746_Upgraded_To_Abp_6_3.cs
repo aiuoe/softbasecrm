@@ -1,12 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace SBCRM.Migrations
 {
     public partial class Upgraded_To_Abp_6_3 : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Upgraded_To_Abp_6_3(IDbContextSchema schema)
+        public Upgraded_To_Abp_6_3()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "PropertyName",
                 table: "AbpDynamicProperties",
                 type: "nvarchar(256)",
@@ -16,7 +27,8 @@ namespace SBCRM.Migrations
                 oldType: "nvarchar(450)",
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "EntityFullName",
                 table: "AbpDynamicEntityProperties",
                 type: "nvarchar(256)",
@@ -26,7 +38,8 @@ namespace SBCRM.Migrations
                 oldType: "nvarchar(450)",
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<string>( 
+                schema: _schema.Schema,
                 name: "ExceptionMessage",
                 table: "AbpAuditLogs",
                 type: "nvarchar(1024)",
@@ -36,11 +49,13 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+             migrationBuilder.DropColumn(
+                schema: _schema.Schema,
                 name: "ExceptionMessage",
                 table: "AbpAuditLogs");
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "PropertyName",
                 table: "AbpDynamicProperties",
                 type: "nvarchar(450)",
@@ -50,7 +65,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 256,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "EntityFullName",
                 table: "AbpDynamicEntityProperties",
                 type: "nvarchar(450)",

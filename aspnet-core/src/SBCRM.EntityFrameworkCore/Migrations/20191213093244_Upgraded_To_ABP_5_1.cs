@@ -1,12 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace SBCRM.Migrations
 {
     public partial class Upgraded_To_ABP_5_1 : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Upgraded_To_ABP_5_1(IDbContextSchema schema)
+        public Upgraded_To_ABP_5_1()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "UserNameOrEmailAddress",
                 table: "AbpUserLoginAttempts",
                 maxLength: 256,
@@ -15,7 +26,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 255,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "Value",
                 table: "AbpSettings",
                 nullable: true,
@@ -26,7 +38,8 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "UserNameOrEmailAddress",
                 table: "AbpUserLoginAttempts",
                 maxLength: 255,
@@ -35,7 +48,8 @@ namespace SBCRM.Migrations
                 oldMaxLength: 256,
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<string>(
+             migrationBuilder.AlterColumn<string>(
+                schema: _schema.Schema,
                 name: "Value",
                 table: "AbpSettings",
                 maxLength: 2000,

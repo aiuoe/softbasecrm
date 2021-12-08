@@ -6,22 +6,35 @@ namespace SBCRM.Migrations
 {
     public partial class Upgraded_To_Abp_v4_2_0 : Migration
     {
+        private readonly IDbContextSchema _schema;
+
+        //public Upgraded_To_Abp_v4_2_0(IDbContextSchema schema)
+        public Upgraded_To_Abp_v4_2_0()
+        {
+            //_schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+             migrationBuilder.DropColumn(
+                schema: _schema.Schema,
                 name: "LastLoginTime",
                 table: "AbpUsers");
 
-            migrationBuilder.DropColumn(
+             migrationBuilder.DropColumn(
+                schema: _schema.Schema,
                 name: "LastLoginTime",
                 table: "AbpUserAccounts");
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<string>( 
+                schema: _schema.Schema,
                 name: "ReturnValue",
                 table: "AbpAuditLogs",
                 nullable: true);
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpOrganizationUnitRoles",
                 columns: table => new
                 {
@@ -39,12 +52,14 @@ namespace SBCRM.Migrations
                     table.PrimaryKey("PK_AbpOrganizationUnitRoles", x => x.Id);
                 });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpOrganizationUnitRoles_TenantId_OrganizationUnitId",
                 table: "AbpOrganizationUnitRoles",
                 columns: new[] { "TenantId", "OrganizationUnitId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpOrganizationUnitRoles_TenantId_RoleId",
                 table: "AbpOrganizationUnitRoles",
                 columns: new[] { "TenantId", "RoleId" });
@@ -52,19 +67,23 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpOrganizationUnitRoles");
 
-            migrationBuilder.DropColumn(
+             migrationBuilder.DropColumn(
+                schema: _schema.Schema,
                 name: "ReturnValue",
                 table: "AbpAuditLogs");
 
             migrationBuilder.AddColumn<DateTime>(
+                schema: _schema.Schema,
                 name: "LastLoginTime",
                 table: "AbpUsers",
                 nullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
+                schema: _schema.Schema,
                 name: "LastLoginTime",
                 table: "AbpUserAccounts",
                 nullable: true);

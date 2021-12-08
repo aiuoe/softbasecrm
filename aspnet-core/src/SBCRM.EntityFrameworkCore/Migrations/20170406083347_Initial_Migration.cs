@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,9 +6,17 @@ namespace SBCRM.Migrations
 {
     public partial class Initial_Migration : Migration
     {
+        private readonly IDbContextSchema _schema;
+        
+        public Initial_Migration()
+        {
+            _schema = new DbContextSchema(SBCRMConsts.DefaultSchemaName);
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpEditions",
                 columns: table => new
                 {
@@ -31,6 +38,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpAuditLogs",
                 columns: table => new
                 {
@@ -57,6 +65,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserAccounts",
                 columns: table => new
                 {
@@ -82,6 +91,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserLoginAttempts",
                 columns: table => new
                 {
@@ -103,6 +113,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserOrganizationUnits",
                 columns: table => new
                 {
@@ -120,6 +131,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpBackgroundJobs",
                 columns: table => new
                 {
@@ -141,6 +153,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpLanguages",
                 columns: table => new
                 {
@@ -164,6 +177,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpLanguageTexts",
                 columns: table => new
                 {
@@ -185,6 +199,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpNotifications",
                 columns: table => new
                 {
@@ -208,6 +223,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpNotificationSubscriptions",
                 columns: table => new
                 {
@@ -227,6 +243,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpTenantNotifications",
                 columns: table => new
                 {
@@ -248,6 +265,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserNotifications",
                 columns: table => new
                 {
@@ -264,6 +282,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpOrganizationUnits",
                 columns: table => new
                 {
@@ -285,6 +304,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpOrganizationUnits", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpOrganizationUnits_AbpOrganizationUnits_ParentId",
                         column: x => x.ParentId,
                         principalTable: "AbpOrganizationUnits",
@@ -293,6 +313,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUsers",
                 columns: table => new
                 {
@@ -334,18 +355,21 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpUsers", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUsers_AbpUsers_CreatorUserId",
                         column: x => x.CreatorUserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUsers_AbpUsers_DeleterUserId",
                         column: x => x.DeleterUserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUsers_AbpUsers_LastModifierUserId",
                         column: x => x.LastModifierUserId,
                         principalTable: "AbpUsers",
@@ -354,6 +378,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AppChatMessages",
                 columns: table => new
                 {
@@ -374,6 +399,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AppFriendships",
                 columns: table => new
                 {
@@ -395,6 +421,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AppBinaryObjects",
                 columns: table => new
                 {
@@ -408,6 +435,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpFeatures",
                 columns: table => new
                 {
@@ -425,6 +453,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpFeatures", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpFeatures_AbpEditions_EditionId",
                         column: x => x.EditionId,
                         principalTable: "AbpEditions",
@@ -433,6 +462,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserClaims",
                 columns: table => new
                 {
@@ -449,6 +479,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpUserClaims", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUserClaims_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
@@ -457,6 +488,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserLogins",
                 columns: table => new
                 {
@@ -471,6 +503,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpUserLogins", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUserLogins_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
@@ -479,6 +512,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserRoles",
                 columns: table => new
                 {
@@ -494,6 +528,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpUserRoles", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUserRoles_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
@@ -502,6 +537,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpUserTokens",
                 columns: table => new
                 {
@@ -517,6 +553,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpUserTokens", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpUserTokens_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
@@ -525,6 +562,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpSettings",
                 columns: table => new
                 {
@@ -543,6 +581,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpSettings", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpSettings_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
@@ -551,6 +590,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpRoles",
                 columns: table => new
                 {
@@ -575,18 +615,21 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpRoles", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpRoles_AbpUsers_CreatorUserId",
                         column: x => x.CreatorUserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpRoles_AbpUsers_DeleterUserId",
                         column: x => x.DeleterUserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpRoles_AbpUsers_LastModifierUserId",
                         column: x => x.LastModifierUserId,
                         principalTable: "AbpUsers",
@@ -595,6 +638,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpTenants",
                 columns: table => new
                 {
@@ -620,24 +664,28 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpTenants", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpTenants_AbpUsers_CreatorUserId",
                         column: x => x.CreatorUserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpTenants_AbpUsers_DeleterUserId",
                         column: x => x.DeleterUserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpTenants_AbpEditions_EditionId",
                         column: x => x.EditionId,
                         principalTable: "AbpEditions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpTenants_AbpUsers_LastModifierUserId",
                         column: x => x.LastModifierUserId,
                         principalTable: "AbpUsers",
@@ -646,6 +694,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpPermissions",
                 columns: table => new
                 {
@@ -664,12 +713,14 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpPermissions", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpPermissions_AbpRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpPermissions_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
@@ -678,6 +729,7 @@ namespace SBCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                schema: _schema.Schema,
                 name: "AbpRoleClaims",
                 columns: table => new
                 {
@@ -695,6 +747,7 @@ namespace SBCRM.Migrations
                 {
                     table.PrimaryKey("PK_AbpRoleClaims", x => x.Id);
                     table.ForeignKey(
+                principalSchema: _schema.Schema,
                         name: "FK_AbpRoleClaims_AbpRoles_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpRoles",
@@ -702,322 +755,386 @@ namespace SBCRM.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpFeatures_EditionId_Name",
                 table: "AbpFeatures",
                 columns: new[] { "EditionId", "Name" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpFeatures_TenantId_Name",
                 table: "AbpFeatures",
                 columns: new[] { "TenantId", "Name" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpAuditLogs_TenantId_ExecutionDuration",
                 table: "AbpAuditLogs",
                 columns: new[] { "TenantId", "ExecutionDuration" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpAuditLogs_TenantId_ExecutionTime",
                 table: "AbpAuditLogs",
                 columns: new[] { "TenantId", "ExecutionTime" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpAuditLogs_TenantId_UserId",
                 table: "AbpAuditLogs",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpPermissions_TenantId_Name",
                 table: "AbpPermissions",
                 columns: new[] { "TenantId", "Name" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpPermissions_RoleId",
                 table: "AbpPermissions",
                 column: "RoleId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpPermissions_UserId",
                 table: "AbpPermissions",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoleClaims_RoleId",
                 table: "AbpRoleClaims",
                 column: "RoleId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoleClaims_UserId",
                 table: "AbpRoleClaims",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoleClaims_TenantId_ClaimType",
                 table: "AbpRoleClaims",
                 columns: new[] { "TenantId", "ClaimType" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserAccounts_EmailAddress",
                 table: "AbpUserAccounts",
                 column: "EmailAddress");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserAccounts_UserName",
                 table: "AbpUserAccounts",
                 column: "UserName");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserAccounts_TenantId_EmailAddress",
                 table: "AbpUserAccounts",
                 columns: new[] { "TenantId", "EmailAddress" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserAccounts_TenantId_UserId",
                 table: "AbpUserAccounts",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserAccounts_TenantId_UserName",
                 table: "AbpUserAccounts",
                 columns: new[] { "TenantId", "UserName" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserClaims_UserId",
                 table: "AbpUserClaims",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserClaims_TenantId_ClaimType",
                 table: "AbpUserClaims",
                 columns: new[] { "TenantId", "ClaimType" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserLogins_UserId",
                 table: "AbpUserLogins",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserLogins_TenantId_UserId",
                 table: "AbpUserLogins",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserLogins_TenantId_LoginProvider_ProviderKey",
                 table: "AbpUserLogins",
                 columns: new[] { "TenantId", "LoginProvider", "ProviderKey" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserLoginAttempts_UserId_TenantId",
                 table: "AbpUserLoginAttempts",
                 columns: new[] { "UserId", "TenantId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserLoginAttempts_TenancyName_UserNameOrEmailAddress_Result",
                 table: "AbpUserLoginAttempts",
                 columns: new[] { "TenancyName", "UserNameOrEmailAddress", "Result" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserOrganizationUnits_TenantId_OrganizationUnitId",
                 table: "AbpUserOrganizationUnits",
                 columns: new[] { "TenantId", "OrganizationUnitId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserOrganizationUnits_TenantId_UserId",
                 table: "AbpUserOrganizationUnits",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserRoles_UserId",
                 table: "AbpUserRoles",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserRoles_TenantId_RoleId",
                 table: "AbpUserRoles",
                 columns: new[] { "TenantId", "RoleId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserRoles_TenantId_UserId",
                 table: "AbpUserRoles",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserTokens_UserId",
                 table: "AbpUserTokens",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserTokens_TenantId_UserId",
                 table: "AbpUserTokens",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpBackgroundJobs_IsAbandoned_NextTryTime",
                 table: "AbpBackgroundJobs",
                 columns: new[] { "IsAbandoned", "NextTryTime" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpSettings_UserId",
                 table: "AbpSettings",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpSettings_TenantId_Name",
                 table: "AbpSettings",
                 columns: new[] { "TenantId", "Name" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpLanguages_TenantId_Name",
                 table: "AbpLanguages",
                 columns: new[] { "TenantId", "Name" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpLanguageTexts_TenantId_Source_LanguageName_Key",
                 table: "AbpLanguageTexts",
                 columns: new[] { "TenantId", "Source", "LanguageName", "Key" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpNotificationSubscriptions_NotificationName_EntityTypeName_EntityId_UserId",
                 table: "AbpNotificationSubscriptions",
                 columns: new[] { "NotificationName", "EntityTypeName", "EntityId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpNotificationSubscriptions_TenantId_NotificationName_EntityTypeName_EntityId_UserId",
                 table: "AbpNotificationSubscriptions",
                 columns: new[] { "TenantId", "NotificationName", "EntityTypeName", "EntityId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpTenantNotifications_TenantId",
                 table: "AbpTenantNotifications",
                 column: "TenantId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUserNotifications_UserId_State_CreationTime",
                 table: "AbpUserNotifications",
                 columns: new[] { "UserId", "State", "CreationTime" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpOrganizationUnits_ParentId",
                 table: "AbpOrganizationUnits",
                 column: "ParentId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpOrganizationUnits_TenantId_Code",
                 table: "AbpOrganizationUnits",
                 columns: new[] { "TenantId", "Code" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoles_CreatorUserId",
                 table: "AbpRoles",
                 column: "CreatorUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoles_DeleterUserId",
                 table: "AbpRoles",
                 column: "DeleterUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoles_LastModifierUserId",
                 table: "AbpRoles",
                 column: "LastModifierUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpRoles_TenantId_NormalizedName",
                 table: "AbpRoles",
                 columns: new[] { "TenantId", "NormalizedName" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUsers_CreatorUserId",
                 table: "AbpUsers",
                 column: "CreatorUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUsers_DeleterUserId",
                 table: "AbpUsers",
                 column: "DeleterUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUsers_LastModifierUserId",
                 table: "AbpUsers",
                 column: "LastModifierUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUsers_TenantId_NormalizedEmailAddress",
                 table: "AbpUsers",
                 columns: new[] { "TenantId", "NormalizedEmailAddress" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpUsers_TenantId_NormalizedUserName",
                 table: "AbpUsers",
                 columns: new[] { "TenantId", "NormalizedUserName" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppChatMessages_TargetTenantId_TargetUserId_ReadState",
                 table: "AppChatMessages",
                 columns: new[] { "TargetTenantId", "TargetUserId", "ReadState" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppChatMessages_TargetTenantId_UserId_ReadState",
                 table: "AppChatMessages",
                 columns: new[] { "TargetTenantId", "UserId", "ReadState" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppChatMessages_TenantId_TargetUserId_ReadState",
                 table: "AppChatMessages",
                 columns: new[] { "TenantId", "TargetUserId", "ReadState" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppChatMessages_TenantId_UserId_ReadState",
                 table: "AppChatMessages",
                 columns: new[] { "TenantId", "UserId", "ReadState" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppFriendships_FriendTenantId_FriendUserId",
                 table: "AppFriendships",
                 columns: new[] { "FriendTenantId", "FriendUserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppFriendships_FriendTenantId_UserId",
                 table: "AppFriendships",
                 columns: new[] { "FriendTenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppFriendships_TenantId_FriendUserId",
                 table: "AppFriendships",
                 columns: new[] { "TenantId", "FriendUserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppFriendships_TenantId_UserId",
                 table: "AppFriendships",
                 columns: new[] { "TenantId", "UserId" });
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpTenants_CreatorUserId",
                 table: "AbpTenants",
                 column: "CreatorUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpTenants_DeleterUserId",
                 table: "AbpTenants",
                 column: "DeleterUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpTenants_EditionId",
                 table: "AbpTenants",
                 column: "EditionId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpTenants_LastModifierUserId",
                 table: "AbpTenants",
                 column: "LastModifierUserId");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AbpTenants_TenancyName",
                 table: "AbpTenants",
                 column: "TenancyName");
 
-            migrationBuilder.CreateIndex(
+             migrationBuilder.CreateIndex(
+                schema: _schema.Schema,
                 name: "IX_AppBinaryObjects_TenantId",
                 table: "AppBinaryObjects",
                 column: "TenantId");
@@ -1025,85 +1142,112 @@ namespace SBCRM.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpFeatures");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpAuditLogs");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpPermissions");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpRoleClaims");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserAccounts");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserClaims");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserLogins");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserLoginAttempts");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserOrganizationUnits");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserRoles");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserTokens");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpBackgroundJobs");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpSettings");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpLanguages");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpLanguageTexts");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpNotifications");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpNotificationSubscriptions");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpTenantNotifications");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUserNotifications");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpOrganizationUnits");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AppChatMessages");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AppFriendships");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpTenants");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AppBinaryObjects");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpRoles");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpEditions");
 
-            migrationBuilder.DropTable(
+             migrationBuilder.DropTable(
+                schema: _schema.Schema,
                 name: "AbpUsers");
         }
     }
