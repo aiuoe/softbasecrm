@@ -1,98 +1,259 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header
-            [title]="('Leads' | localize) + ' ' + ('Details' | localize)"
-            [breadcrumbs]="breadcrumbs"
-        ></sub-header>
+        <sub-header [title]="('Lead' | localize) + ' ' + ('Details' | localize)" [breadcrumbs]="breadcrumbs">
+            <div role="actions">
+                <button (click)="goToLeads()" class="btn btn-secondary float-left" [buttonBusy]="saving">
+                    <span>{{ l('Cancel') }}</span>
+                </button>
+            </div>
+        </sub-header>
 
         <div [class]="containerClass">
-            <div class="card card-custom gutter-b">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('CompanyName') }} :</h6>
-                            {{ item.lead.companyName }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactName') }} :</h6>
-                            {{ item.lead.contactName }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactPosition') }} :</h6>
-                            {{ item.lead.contactPosition }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('WebSite') }} :</h6>
-                            {{ item.lead.webSite }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('Address') }} :</h6>
-                            {{ item.lead.address }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('Country') }} :</h6>
-                            {{ item.lead.country }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('State') }} :</h6>
-                            {{ item.lead.state }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('Description') }} :</h6>
-                            {{ item.lead.description }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('CompanyPhone') }} :</h6>
-                            {{ item.lead.companyPhone }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('CompanyEmail') }} :</h6>
-                            {{ item.lead.companyEmail }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('PoBox') }} :</h6>
-                            {{ item.lead.poBox }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ZipCode') }} :</h6>
-                            {{ item.lead.zipCode }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactPhone') }} :</h6>
-                            {{ item.lead.contactPhone }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactPhoneExtension') }} :</h6>
-                            {{ item.lead.contactPhoneExtension }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactCellPhone') }} :</h6>
-                            {{ item.lead.contactCellPhone }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactFaxNumber') }} :</h6>
-                            {{ item.lead.contactFaxNumber }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('PagerNumber') }} :</h6>
-                            {{ item.lead.pagerNumber }}
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>{{ l('ContactEmail') }} :</h6>
-                            {{ item.lead.contactEmail }}
-                        </div>
+            <div class="row">
+                <div class="col-sm-8 col-md-9">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i> General
+                                information</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_CompanyName">{{ l('CompanyName') }} *</label>
+                                        <input type="text" id="Lead_CompanyName"
+                                            class="form-control" [value]="item.lead.companyName" name="CompanyName"
+                                            disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
+                                        <div class="input-group">
+                                            <!-- <p-dropdown id="countrySelector" disabled [options]="countries"
+                                               [value]="selectedCountry" optionLabel="countryCode">
+                                                <ng-template let-item pTemplate="selectedItem">
+                                                    <i class="margin-right-5  d-inline-block" [ngClass]="item.flag"></i>
+                                                    <span style="vertical-align: middle">{{item.countryCode}}
+                                                        {{item.name}}</span>
+                                                </ng-template>
+                                                <ng-template let-flag pTemplate="item">
+                                                    <i class="margin-right-5  d-inline-block" [ngClass]="flag.flag"></i>
+                                                    <span style="vertical-align: middle">{{flag.countryCode}}
+                                                        {{flag.name}}</span>
+                                                </ng-template>
+                                            </p-dropdown> -->
+                                            <input class="form-control" type="tel"
+                                                [placeholder]="selectedCountry.countryCode"
+                                                [value]="item.lead.companyPhone" id="Lead_CompanyPhone"
+                                                name="CompanyPhone" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="col-6 mb-3">
-                            <h6>({{ l('LeadSource') }}) {{ l('Description') }} :</h6>
-                            {{ item.leadSourceDescription }}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
+                                        <input type="text" id="Lead_CompanyEmail"
+                                            class="form-control" [value]="item.lead.companyEmail" name="CompanyEmail"
+                                            disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_WebSite">{{ l('WebSite') }}</label>
+                                        <input type="text"  id="Lead_WebSite"
+                                            class="form-control" [value]="item.lead.webSite" name="WebSite" disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label for="Lead_Address">{{ l('Address') }}</label>
+                                    <input type="text" id="Lead_Address" class="form-control"
+                                        [value]="item.lead.address"  name="Address"
+                                        disabled />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="Lead_PoBox">{{ l('PoBox') }}</label>
+                                    <input type="text"  id="Lead_PoBox" class="form-control"
+                                        [value]="item.lead.poBox" name="PoBox" disabled />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Lead_Country">{{ l('Country') }}</label>
+                                        <input type="text" id="Lead_Country"
+                                            class="form-control" [value]="item.lead.country"
+                                            name="Country" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Lead_City">{{ l('City') }}</label>
+                                        <input type="text"  id="Lead_City" class="form-control"
+                                            [value]="item.lead.city"  name="City" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Lead_State">{{ l('State') }}</label>
+                                        <input type="text" id="Lead_State" class="form-control"
+                                            [value]="item.lead.state" name="State"
+                                            disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
+                                        <input type="text" id="Lead_ZipCode"
+                                            class="form-control" [value]="item.lead.zipCode"
+                                            name="ZipCode" disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-id-card"></i>
+                                Contact User
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactName">{{ l('ContactName') }}</label>
+                                        <input type="text"id="Lead_ContactName"
+                                            class="form-control" [value]="item.lead.contactName"
+                                             name="ContactName" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactPosition">{{ l('ContactPosition') }}</label>
+                                        <input type="text" id="Lead_ContactPosition"
+                                            class="form-control" [value]="item.lead.contactPosition"
+                                             name="ContactPosition" disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
+                                        <input type="text"id="Lead_ContactPhone"
+                                            class="form-control" [value]="item.lead.contactPhone"
+                                            name="ContactPhone" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension') }}</label>
+                                        <input type="text"
+                                            id="Lead_ContactPhoneExtension" class="form-control"
+                                            [value]="item.lead.contactPhoneExtension"
+                                            name="ContactPhoneExtension"
+                                            disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
+                                        <input type="text" id="Lead_ContactCellPhone"
+                                            class="form-control" [value]="item.lead.contactCellPhone"
+                                             name="ContactCellPhone" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
+                                        <input type="text" id="Lead_ContactFaxNumber" class="form-control"
+                                            [value]="item.lead.contactFaxNumber" name="ContactFaxNumber" disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
+                                        <input type="text"  id="Lead_PagerNumber"
+                                            class="form-control" [value]="item.lead.pagerNumber"
+                                             name="PagerNumber" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
+                                        <input type="text" id="Lead_ContactEmail"
+                                            class="form-control" [value]="item.lead.contactEmail"
+                                            name="ContactEmail" disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-clipboard"></i>
+                                Lead details
+                            </h3>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group">
+                                        <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
+                                        <input type="text" class="form-control" disabled
+                                            [value]="item.leadStatusDescription">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group">
+                                        <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
+                                        <input type="text" class="form-control" disabled
+                                            [value]="item.leadSourceDescription">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group m-form__group">
+                                        <label for="PriorityDescription">{{ l('Priority') }}</label>
+                                        <input type="text" class="form-control" disabled
+                                            [value]="item.priorityDescription">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="Lead_Description">{{ l('EnterDescription') }}</label>
+                                    <textarea disabled class="form-control"
+                                        [value]="item.lead.description" 
+                                        name="Description" id="Lead_Description" rows="10"></textarea>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-6 mb-3">
-                            <h6>({{ l('LeadStatus') }}) {{ l('Description') }} :</h6>
-                            {{ item.leadStatusDescription }}
+                    </div>
+                </div>
+                <!-- TODO:THIS SHOULD BE A WIDGETS COMPONENT -->
+                <div class="col-sm-4 col-md-3">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">Widget 1</div>
+                            </div>
                         </div>
-                        <div class="col-6 mb-3">
-                            <h6>({{ l('Priority') }}) {{ l('Description') }} :</h6>
-                            {{ item.priorityDescription }}
+                        <div class="card-body">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">Widget 2</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">Widget 3</div>
+                            </div>
                         </div>
                     </div>
                 </div>
