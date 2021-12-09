@@ -27,6 +27,8 @@ export class LeadsComponent extends AppComponentBase {
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     selectedStatusFilter = "All";
+
+    options = ["New","In Progress","Converted","Dead","All"];
     
     filterText = '';
     companyOrContactNameFilter = '';
@@ -164,9 +166,14 @@ export class LeadsComponent extends AppComponentBase {
                 this.priorityDescriptionFilter
             )
             .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);
+                this._fileDownloadService.downloadTempFile(result);                
             });
     } 
+
+    leadIsNotAccount(event: any) : boolean {
+        console.log(event.lead.id);
+        return false;
+    }
 
     /* 
     Below there are methods that act as placeholder for

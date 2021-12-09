@@ -1,49 +1,53 @@
 ﻿<div [@routerTransition]>
     <div class="content d-inline-flex flex-column flex-column-fluid">
         <sub-header [title]="'Leads'" >
-            <div role="actions" class="d-flex flex-row bd-highlight mb-3">
-                 <div class="form-group d-flex flex-row bd-highlight mb-3" autocomplete="off">
-                    <label for="LeadStatusDescriptionFilter">
-                        {{ l('LeadStatus') }}
+            <div role="actions" class="d-flex flex-row bd-highlight">
+                <div 
+                    class="form-group d-flex flex-row bd-highlight" 
+                    autocomplete="off"
+                    style="
+                        max-height: 35px;
+                        line-height: 35px;"                
+                >
+                    <label 
+                        for="LeadStatusDescriptionFilter"
+                        style="
+                            font-weight: bold;
+                            color: hsla(208, 7%, 62%, 0.973);"
+                    >
+                        {{ l('LeadStatusFilter') }}
                     </label>
-                    <div class="btn-group dropdown filter" dropdown container="body">
-                        <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                        <span class="caret"></span>
+                    <div class="btn-group dropdown filter col px-md-3" dropdown container="body">
+                        <button 
+                            class="btn btn-sm btn-outline-secondary" 
+                            style="
+                                min-height: 35px;
+                                min-width: 135px;
+                                text-align: left;"
+                            dropdownToggle
+                        >
+                        <i class="dropdown-toggle"
+                            style="
+                                float: right;
+                                margin-top: 5px;
+                                margin-right: -10px;"                       
+                        >   
+                        </i>
+                        <span 
+                            class="caret"
+                        >
+                        </span>
                             {{ selectedStatusFilter }}
                         </button>
-                    <ul class="dropdown-menu" *dropdownMenu>
-                            <li>
+                        <ul class="dropdown-menu" *dropdownMenu>
+                            <li *ngFor="let option of options">
                                 <span class="input-group-btn">
-                                    <button (click)="filterByStatus('New')" class="btn btn-primary" type="submit">
-                                        "New"
-                                    </button>
-                                </span>
-                            </li> 
-                            <li>
-                                <span class="input-group-btn">
-                                    <button (click)="filterByStatus('In progress')" class="btn btn-primary" type="submit">
-                                        "In progress"
-                                    </button>
-                                </span>
-                            </li> 
-                            <li>
-                                <span class="input-group-btn">
-                                    <button (click)="filterByStatus('Converted')" class="btn btn-primary" type="submit">
-                                        "Converted"
-                                    </button>
-                                </span>
-                            </li> 
-                            <li>
-                                <span class="input-group-btn">
-                                    <button (click)="filterByStatus('Dead')" class="btn btn-primary" type="submit">
-                                        "Dead"
-                                    </button>
-                                </span>
-                            </li> 
-                            <li>
-                                <span class="input-group-btn">
-                                    <button (click)="filterByStatus('All')" class="btn btn-primary" type="submit">
-                                        "All"
+                                    <button 
+                                        (click)="filterByStatus(option)" 
+                                        class="btn dropdown-item" 
+                                        type="submit"
+                                    >
+                                        {{ option }}
                                     </button>
                                 </span>
                             </li> 
@@ -51,31 +55,52 @@
                     </div>
                 </div>   
                 <form class="form" autocomplete="off">
-                    <div class="input-group">
-                        
+                    <div 
+                        class="input-group col px-md-4"
+                    >                        
                         <input
                             [(ngModel)]="companyOrContactNameFilter"
                             name="companyOrContactNameFilter"
                             autoFocus
-                            class="form-control m-input"
+                            class="form-control m-input search-bar-summary"
                             [placeholder]="'Search Leads'"
                             type="text"
                         />
                         <span class="input-group-btn">
-                            <button (click)="getLeads()" class="btn btn-primary" type="submit">
-                                <i class="flaticon-search-1"></i>
+                            <button 
+                                (click)="getLeads()"
+                                class="btn btn-outline-secondary border-left-0 search-bar-summary-button"  
+                                type="submit"   
+                            >
+                                <i 
+                                    class="fas fa-search fa-sm"
+                                >
+                                </i>
                             </button>
                         </span>
                     </div>
-                </form>    
-                <button (click)="exportToExcel()" class="btn btn-outline-success">
-                    <i class="fa fa-download"></i>
-                    {{ l('ExportLead') }}
-                </button>
-                <button *ngIf="isGranted('Pages.Leads.Create')" (click)="createLead()" class="btn btn-primary blue">
-                    <i class="fa fa-plus"></i>
-                    {{ l('NewLead') }}
-                </button>
+                </form>     
+                    <button 
+                        (click)="exportToExcel()" 
+                        class="btn btn-primary mr-3"
+                        style="
+                            max-height: 35px;
+                            background-color: blue !important;"
+                    >
+                        <i class="fa fa-download fa-lg"></i>
+                        {{ l('ExportLead') }}
+                    </button>
+                    <button 
+                        *ngIf="isGranted('Pages.Leads.Create')" 
+                        (click)="createLead()" 
+                        class="btn btn-primary btn-sm mr-3"
+                        style="
+                            max-height: 35px;
+                            background-color: blue !important;"
+                    >
+                        <i class="fa fa-plus fa-lg"></i>
+                        {{ l('NewLead') }}
+                    </button>
             </div>
         </sub-header>
 
@@ -111,10 +136,16 @@
                             >   
                                 <ng-template pTemplate="header" tableHeaderCheckbox>                                                                     
                                     <tr>
-                                        <th style="width: 38px">
+                                        <th style="width: 28px">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="companyName">
+                                        <th 
+                                            style="
+                                                width: 150px;
+                                                font-weight: bold;
+                                                color: hsl(206, 7%, 62%);" 
+                                            pSortableColumn="companyName"
+                                        >
                                             {{ l('LeadCompanyName') }}
                                             <p-sortIcon field="lead.companyName"></p-sortIcon>
                                         </th>
@@ -134,6 +165,10 @@
                                             {{ l('LeadCreationTime') }}
                                             <p-sortIcon field="lead.creationTime'"></p-sortIcon>
                                         </th>
+                                        <th style="width: 150px" pSortableColumn="priorityDescription">
+                                            {{ l('LeadPriority') }}
+                                            <p-sortIcon field="lead.priorityDescription'"></p-sortIcon>
+                                        </th>
                                         <th
                                         style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
@@ -151,8 +186,17 @@
                                             </p-tableCheckbox>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('LeadCompanyName') }}</span>
-                                            {{ record.lead.companyName }}
+                                            <span 
+                                                class="p-column-title"
+                                            >
+                                                {{ l('LeadCompanyName') }}
+                                            </span>    
+                                            <a                                                
+                                                [routerLink]="['/app/main/crm/leads/view']"
+                                                [queryParams]="{ id: record.lead.id }"
+                                            >
+                                                {{ record.lead.companyName }}   
+                                            </a>                                            
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadContactName') }}</span>
@@ -170,23 +214,30 @@
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
                                             {{ record.lead.creationTime  | date: 'dd/MM/yyyy' }}
                                         </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadPriority') }}</span>
+                                            {{ record.priorityDescription }}
+                                        </td>
                                         <td
                                             style="width: 130px"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
                                             >
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="btn btn-sm btn-primary-outline" dropdownToggle>
-                                                    <i class="fas fa-ellipsis-h"></i>
+                                                    <i 
+                                                        class="fas fa-ellipsis-h"
+                                                        style="color: blue;"
+                                                    ></i>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
-                                                        <a
+                                                        <a                                                            
                                                             class="dropdown-item"
                                                             href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Leads.Delete')"
+                                                            *ngIf="permission.isGranted('Pages.Leads.Delete') && leadIsNotAccount(record)"
                                                         >
-                                                            Make Account
+                                                            {{ l('MakeAccount') }}
                                                         </a>
                                                     </li>
                                                     <li>
