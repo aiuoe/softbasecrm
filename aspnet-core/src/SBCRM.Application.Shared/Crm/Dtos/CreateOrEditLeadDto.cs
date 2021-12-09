@@ -29,6 +29,9 @@ namespace SBCRM.Crm.Dtos
         [StringLength(LeadConsts.MaxStateLength, MinimumLength = LeadConsts.MinStateLength)]
         public string State { get; set; }
 
+        [StringLength(LeadConsts.MaxCityLength, MinimumLength = LeadConsts.MinCityLength)]
+        public string City { get; set; }
+
         public string Description { get; set; }
 
         [Required]

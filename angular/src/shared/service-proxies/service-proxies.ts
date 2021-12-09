@@ -9843,13 +9843,14 @@ export class LeadsServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param companyNameFilter (optional) 
+     * @param companyOrContactNameFilter (optional) 
      * @param contactNameFilter (optional) 
      * @param contactPositionFilter (optional) 
      * @param webSiteFilter (optional) 
      * @param addressFilter (optional) 
      * @param countryFilter (optional) 
      * @param stateFilter (optional) 
+     * @param cityFilter (optional) 
      * @param descriptionFilter (optional) 
      * @param companyPhoneFilter (optional) 
      * @param companyEmailFilter (optional) 
@@ -9869,16 +9870,16 @@ export class LeadsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (companyNameFilter === null)
-            throw new Error("The parameter 'companyNameFilter' cannot be null.");
-        else if (companyNameFilter !== undefined)
-            url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
+        if (companyOrContactNameFilter === null)
+            throw new Error("The parameter 'companyOrContactNameFilter' cannot be null.");
+        else if (companyOrContactNameFilter !== undefined)
+            url_ += "CompanyOrContactNameFilter=" + encodeURIComponent("" + companyOrContactNameFilter) + "&";
         if (contactNameFilter === null)
             throw new Error("The parameter 'contactNameFilter' cannot be null.");
         else if (contactNameFilter !== undefined)
@@ -9903,6 +9904,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'stateFilter' cannot be null.");
         else if (stateFilter !== undefined)
             url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
+        if (cityFilter === null)
+            throw new Error("The parameter 'cityFilter' cannot be null.");
+        else if (cityFilter !== undefined)
+            url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
         if (descriptionFilter === null)
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
@@ -10242,6 +10247,7 @@ export class LeadsServiceProxy {
      * @param addressFilter (optional) 
      * @param countryFilter (optional) 
      * @param stateFilter (optional) 
+     * @param cityFilter (optional) 
      * @param descriptionFilter (optional) 
      * @param companyPhoneFilter (optional) 
      * @param companyEmailFilter (optional) 
@@ -10258,7 +10264,7 @@ export class LeadsServiceProxy {
      * @param priorityDescriptionFilter (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10292,6 +10298,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'stateFilter' cannot be null.");
         else if (stateFilter !== undefined)
             url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
+        if (cityFilter === null)
+            throw new Error("The parameter 'cityFilter' cannot be null.");
+        else if (cityFilter !== undefined)
+            url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
         if (descriptionFilter === null)
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
@@ -22257,6 +22267,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     address!: string | undefined;
     country!: string | undefined;
     state!: string | undefined;
+    city!: string | undefined;
     description!: string | undefined;
     companyPhone!: string;
     companyEmail!: string | undefined;
@@ -22291,6 +22302,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
             this.address = _data["address"];
             this.country = _data["country"];
             this.state = _data["state"];
+            this.city = _data["city"];
             this.description = _data["description"];
             this.companyPhone = _data["companyPhone"];
             this.companyEmail = _data["companyEmail"];
@@ -22325,6 +22337,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
         data["address"] = this.address;
         data["country"] = this.country;
         data["state"] = this.state;
+        data["city"] = this.city;
         data["description"] = this.description;
         data["companyPhone"] = this.companyPhone;
         data["companyEmail"] = this.companyEmail;
@@ -22352,6 +22365,7 @@ export interface ICreateOrEditLeadDto {
     address: string | undefined;
     country: string | undefined;
     state: string | undefined;
+    city: string | undefined;
     description: string | undefined;
     companyPhone: string;
     companyEmail: string | undefined;
@@ -28769,6 +28783,7 @@ export class LeadDto implements ILeadDto {
     address!: string | undefined;
     country!: string | undefined;
     state!: string | undefined;
+    city!: string | undefined;
     description!: string | undefined;
     companyPhone!: string | undefined;
     companyEmail!: string | undefined;
@@ -28804,6 +28819,7 @@ export class LeadDto implements ILeadDto {
             this.address = _data["address"];
             this.country = _data["country"];
             this.state = _data["state"];
+            this.city = _data["city"];
             this.description = _data["description"];
             this.companyPhone = _data["companyPhone"];
             this.companyEmail = _data["companyEmail"];
@@ -28839,6 +28855,7 @@ export class LeadDto implements ILeadDto {
         data["address"] = this.address;
         data["country"] = this.country;
         data["state"] = this.state;
+        data["city"] = this.city;
         data["description"] = this.description;
         data["companyPhone"] = this.companyPhone;
         data["companyEmail"] = this.companyEmail;
@@ -28867,6 +28884,7 @@ export interface ILeadDto {
     address: string | undefined;
     country: string | undefined;
     state: string | undefined;
+    city: string | undefined;
     description: string | undefined;
     companyPhone: string | undefined;
     companyEmail: string | undefined;
