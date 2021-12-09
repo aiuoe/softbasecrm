@@ -1,10 +1,76 @@
 ﻿<div [@routerTransition]>
-    <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Leads' | localize" [description]="'LeadsHeaderInfo' | localize">
-            <div role="actions">
+    <div class="content d-inline-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Leads'" >
+            <div role="actions" class="d-flex flex-row bd-highlight mb-3">
+                 <div class="form-group d-flex flex-row bd-highlight mb-3" autocomplete="off">
+                    <label for="LeadStatusDescriptionFilter">
+                        {{ l('LeadStatus') }}
+                    </label>
+                    <div class="btn-group dropdown filter" dropdown container="body">
+                        <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                        <span class="caret"></span>
+                            {{ selectedStatusFilter }}
+                        </button>
+                    <ul class="dropdown-menu" *dropdownMenu>
+                            <li>
+                                <span class="input-group-btn">
+                                    <button (click)="filterByStatus('New')" class="btn btn-primary" type="submit">
+                                        "New"
+                                    </button>
+                                </span>
+                            </li> 
+                            <li>
+                                <span class="input-group-btn">
+                                    <button (click)="filterByStatus('In progress')" class="btn btn-primary" type="submit">
+                                        "In progress"
+                                    </button>
+                                </span>
+                            </li> 
+                            <li>
+                                <span class="input-group-btn">
+                                    <button (click)="filterByStatus('Converted')" class="btn btn-primary" type="submit">
+                                        "Converted"
+                                    </button>
+                                </span>
+                            </li> 
+                            <li>
+                                <span class="input-group-btn">
+                                    <button (click)="filterByStatus('Dead')" class="btn btn-primary" type="submit">
+                                        "Dead"
+                                    </button>
+                                </span>
+                            </li> 
+                            <li>
+                                <span class="input-group-btn">
+                                    <button (click)="filterByStatus('All')" class="btn btn-primary" type="submit">
+                                        "All"
+                                    </button>
+                                </span>
+                            </li> 
+                        </ul>
+                    </div>
+                </div>   
+                <form class="form" autocomplete="off">
+                    <div class="input-group">
+                        
+                        <input
+                            [(ngModel)]="companyOrContactNameFilter"
+                            name="companyOrContactNameFilter"
+                            autoFocus
+                            class="form-control m-input"
+                            [placeholder]="'Search Leads'"
+                            type="text"
+                        />
+                        <span class="input-group-btn">
+                            <button (click)="getLeads()" class="btn btn-primary" type="submit">
+                                <i class="flaticon-search-1"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>    
                 <button (click)="exportToExcel()" class="btn btn-outline-success">
-                    <i class="fa fa-file-excel"></i>
-                    {{ l('ExportToExcel') }}
+                    <i class="fa fa-download"></i>
+                    {{ l('ExportLead') }}
                 </button>
 
                 <button *ngIf="isGranted('Pages.Leads.Create')" (click)="showModalDialog()" class="btn btn-primary blue">
@@ -14,7 +80,7 @@
 
                 <button *ngIf="isGranted('Pages.Leads.Create')" (click)="createLead()" class="btn btn-primary blue">
                     <i class="fa fa-plus"></i>
-                    {{ l('CreateNewLead') }}
+                    {{ l('NewLead') }}
                 </button>
             </div>
         </sub-header>
@@ -24,313 +90,9 @@
                 <div class="card-body">
                     <form class="form" autocomplete="off">
                         <div>
-                            <div class="row align-items-center">
-                                <div class="col-xl-12">
-                                    <div class="form-group m-form__group align-items-center">
-                                        <div class="input-group">
-                                            <input
-                                                [(ngModel)]="filterText"
-                                                name="filterText"
-                                                autoFocus
-                                                class="form-control m-input"
-                                                [placeholder]="l('SearchWithThreeDot')"
-                                                type="text"
-                                            />
-                                            <span class="input-group-btn">
-                                                <button (click)="getLeads()" class="btn btn-primary" type="submit">
-                                                    <i class="flaticon-search-1"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" [hidden]="!advancedFiltersAreShown">
-                                <div class="col-md-12">
-                                    <div class="separator separator-dashed"></div>
-                                </div>
-
                                 <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="CompanyNameFilter">{{ l('CompanyName') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="CompanyNameFilter"
-                                            name="companyNameFilter"
-                                            [(ngModel)]="companyNameFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactNameFilter">{{ l('ContactName') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactNameFilter"
-                                            name="contactNameFilter"
-                                            [(ngModel)]="contactNameFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactPositionFilter">{{ l('ContactPosition') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactPositionFilter"
-                                            name="contactPositionFilter"
-                                            [(ngModel)]="contactPositionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="WebSiteFilter">{{ l('WebSite') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="WebSiteFilter"
-                                            name="webSiteFilter"
-                                            [(ngModel)]="webSiteFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="AddressFilter">{{ l('Address') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="AddressFilter"
-                                            name="addressFilter"
-                                            [(ngModel)]="addressFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="CountryFilter">{{ l('Country') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="CountryFilter"
-                                            name="countryFilter"
-                                            [(ngModel)]="countryFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="StateFilter">{{ l('State') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="StateFilter"
-                                            name="stateFilter"
-                                            [(ngModel)]="stateFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="DescriptionFilter">{{ l('Description') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="DescriptionFilter"
-                                            name="descriptionFilter"
-                                            [(ngModel)]="descriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="CompanyPhoneFilter">{{ l('CompanyPhone') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="CompanyPhoneFilter"
-                                            name="companyPhoneFilter"
-                                            [(ngModel)]="companyPhoneFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="CompanyEmailFilter">{{ l('CompanyEmail') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="CompanyEmailFilter"
-                                            name="companyEmailFilter"
-                                            [(ngModel)]="companyEmailFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PoBoxFilter">{{ l('PoBox') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="PoBoxFilter"
-                                            name="poBoxFilter"
-                                            [(ngModel)]="poBoxFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ZipCodeFilter">{{ l('ZipCode') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ZipCodeFilter"
-                                            name="zipCodeFilter"
-                                            [(ngModel)]="zipCodeFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactPhoneFilter">{{ l('ContactPhone') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactPhoneFilter"
-                                            name="contactPhoneFilter"
-                                            [(ngModel)]="contactPhoneFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactPhoneExtensionFilter">
-                                            {{ l('ContactPhoneExtension') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactPhoneExtensionFilter"
-                                            name="contactPhoneExtensionFilter"
-                                            [(ngModel)]="contactPhoneExtensionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactCellPhoneFilter">{{ l('ContactCellPhone') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactCellPhoneFilter"
-                                            name="contactCellPhoneFilter"
-                                            [(ngModel)]="contactCellPhoneFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactFaxNumberFilter">{{ l('ContactFaxNumber') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactFaxNumberFilter"
-                                            name="contactFaxNumberFilter"
-                                            [(ngModel)]="contactFaxNumberFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PagerNumberFilter">{{ l('PagerNumber') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="PagerNumberFilter"
-                                            name="pagerNumberFilter"
-                                            [(ngModel)]="pagerNumberFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="ContactEmailFilter">{{ l('ContactEmail') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ContactEmailFilter"
-                                            name="contactEmailFilter"
-                                            [(ngModel)]="contactEmailFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="LeadSourceDescriptionFilter">
-                                            ({{ l('LeadSource') }}) {{ l('Description') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="LeadSourceDescriptionFilter"
-                                            name="leadSourceDescriptionFilter"
-                                            [(ngModel)]="leadSourceDescriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="LeadStatusDescriptionFilter">
-                                            ({{ l('LeadStatus') }}) {{ l('Description') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="LeadStatusDescriptionFilter"
-                                            name="leadStatusDescriptionFilter"
-                                            [(ngModel)]="leadStatusDescriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="PriorityDescriptionFilter">
-                                            ({{ l('Priority') }}) {{ l('Description') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="PriorityDescriptionFilter"
-                                            name="priorityDescriptionFilter"
-                                            [(ngModel)]="priorityDescriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-12">
-                                    <span
-                                        class="clickable-item text-muted"
-                                        *ngIf="!advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
-                                    >
-                                        <i class="fa fa-angle-down"></i>
-                                        {{ l('ShowAdvancedFilters') }}
-                                    </span>
-                                    <span
-                                        class="clickable-item text-muted"
-                                        *ngIf="advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
-                                    >
-                                        <i class="fa fa-angle-up"></i>
-                                        {{ l('HideAdvancedFilters') }}
-                                    </span>
-                                </div>
-                            </div>
+                                    
+                                </div> 
                         </div>
                     </form>
 
@@ -342,124 +104,97 @@
                                 (onLazyLoad)="getLeads($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
-                                [paginator]="false"
+                                [paginator]="true"
                                 [lazy]="true"
                                 [scrollable]="true"
                                 ScrollWidth="100%"
                                 [responsive]="primengTableHelper.isResponsive"
                                 [resizableColumns]="primengTableHelper.resizableColumns"
-                            >
-                                <ng-template pTemplate="header">
+                                (onHeaderCheckboxToggle)="onTableHeaderCheckboxToggle($event)"
+                                (onRowSelect)="onRowSelect($event)"
+                                (onRowUnselect)="onRowUnselect($event)"
+                                selectionMode="multiple"
+                            >   
+                                <ng-template pTemplate="header" tableHeaderCheckbox>                                                                     
                                     <tr>
-                                        <th
-                                            style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                        >
-                                            {{ l('Actions') }}
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="leadSourceFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="leadSourceDescription"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="leadStatusFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="leadStatusDescription"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="priorityFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="priorityDescription"></p-sortIcon>
+                                        <th style="width: 38px">
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="companyName">
-                                            {{ l('CompanyName') }}
+                                            {{ l('LeadCompanyName') }}
                                             <p-sortIcon field="lead.companyName"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="contactName">
-                                            {{ l('ContactName') }}
+                                            {{ l('LeadContactName') }}
                                             <p-sortIcon field="lead.contactName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="contactPosition">
-                                            {{ l('ContactPosition') }}
-                                            <p-sortIcon field="lead.contactPosition"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="webSite">
-                                            {{ l('WebSite') }}
-                                            <p-sortIcon field="lead.webSite"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="address">
-                                            {{ l('Address') }}
-                                            <p-sortIcon field="lead.address"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="country">
-                                            {{ l('Country') }}
-                                            <p-sortIcon field="lead.country"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="state">
-                                            {{ l('State') }}
-                                            <p-sortIcon field="lead.state"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="lead.description"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="leadStatusFk.description">
+                                            {{ l('LeadStatus') }}
+                                            <p-sortIcon field="leadStatusDescription"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="companyPhone">
-                                            {{ l('CompanyPhone') }}
+                                            {{ l('LeadCompanyPhone') }}
                                             <p-sortIcon field="lead.companyPhone"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="companyEmail">
-                                            {{ l('CompanyEmail') }}
-                                            <p-sortIcon field="lead.companyEmail"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="poBox">
-                                            {{ l('PoBox') }}
-                                            <p-sortIcon field="lead.poBox"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="zipCode">
-                                            {{ l('ZipCode') }}
-                                            <p-sortIcon field="lead.zipCode"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="contactPhone">
-                                            {{ l('ContactPhone') }}
-                                            <p-sortIcon field="lead.contactPhone"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="contactPhoneExtension">
-                                            {{ l('ContactPhoneExtension') }}
-                                            <p-sortIcon field="lead.contactPhoneExtension"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="contactCellPhone">
-                                            {{ l('ContactCellPhone') }}
-                                            <p-sortIcon field="lead.contactCellPhone"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="contactFaxNumber">
-                                            {{ l('ContactFaxNumber') }}
-                                            <p-sortIcon field="lead.contactFaxNumber"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="pagerNumber">
-                                            {{ l('PagerNumber') }}
-                                            <p-sortIcon field="lead.pagerNumber"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="contactEmail">
-                                            {{ l('ContactEmail') }}
-                                            <p-sortIcon field="lead.contactEmail"></p-sortIcon>
-                                        </th>
                                         <th style="width: 150px" pSortableColumn="creationTime">
-                                            Creation Time
-                                            <p-sortIcon field="lead.creationTime"></p-sortIcon>
+                                            {{ l('LeadCreationTime') }}
+                                            <p-sortIcon field="lead.creationTime'"></p-sortIcon>
+                                        </th>
+                                        <th
+                                        style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
+                                        >
+                                            {{ l('Actions') }}
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
+                                        <td style="width: 38px" >
+                                            <p-tableCheckbox
+                                            [value]="record"
+                                            >    
+                                            </p-tableCheckbox>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadCompanyName') }}</span>
+                                            {{ record.lead.companyName }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadContactName') }}</span>
+                                            {{ record.lead.contactName }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadStatus') }}</span>
+                                            {{ record.leadStatusDescription }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
+                                            {{ record.lead.companyPhone }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('CreationTime') }}</span>
+                                            {{ record.lead.creationTime  | date: 'dd/MM/yyyy' }}
+                                        </td>
                                         <td
                                             style="width: 130px"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                        >
+                                            >
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i>
+                                                <button class="btn btn-sm btn-primary-outline" dropdownToggle>
+                                                    <i class="fas fa-ellipsis-h"></i>
                                                     <span class="caret"></span>
-                                                    {{ l('Actions') }}
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="javascript:;"
+                                                            *ngIf="permission.isGranted('Pages.Leads.Delete')"
+                                                        >
+                                                            Make Account
+                                                        </a>
+                                                    </li>
                                                     <li>
                                                         <a
                                                             *ngIf="permission.isGranted('Pages.Leads.Edit')"
@@ -480,106 +215,8 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Leads.Delete')"
-                                                            (click)="deleteLead(record.lead)"
-                                                        >
-                                                            {{ l('Delete') }}
-                                                        </a>
-                                                    </li>
                                                 </ul>
                                             </div>
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.leadSourceDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.leadStatusDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.priorityDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('CompanyName') }}</span>
-                                            {{ record.lead.companyName }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactName') }}</span>
-                                            {{ record.lead.contactName }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactPosition') }}</span>
-                                            {{ record.lead.contactPosition }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('WebSite') }}</span>
-                                            {{ record.lead.webSite }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Address') }}</span>
-                                            {{ record.lead.address }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Country') }}</span>
-                                            {{ record.lead.country }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('State') }}</span>
-                                            {{ record.lead.state }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.lead.description }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('CompanyPhone') }}</span>
-                                            {{ record.lead.companyPhone }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('CompanyEmail') }}</span>
-                                            {{ record.lead.companyEmail }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('PoBox') }}</span>
-                                            {{ record.lead.poBox }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ZipCode') }}</span>
-                                            {{ record.lead.zipCode }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactPhone') }}</span>
-                                            {{ record.lead.contactPhone }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactPhoneExtension') }}</span>
-                                            {{ record.lead.contactPhoneExtension }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactCellPhone') }}</span>
-                                            {{ record.lead.contactCellPhone }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactFaxNumber') }}</span>
-                                            {{ record.lead.contactFaxNumber }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('PagerNumber') }}</span>
-                                            {{ record.lead.pagerNumber }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactEmail') }}</span>
-                                            {{ record.lead.contactEmail }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ContactEmail') }}</span>
-                                            {{ record.lead.creationTime }}
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -597,7 +234,7 @@
                                     [showCurrentPageReport]="true"
                                     [currentPageReportTemplate]="
                                         'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
-                                    "
+                                    "    
                                 ></p-paginator>
                             </div>
                         </div>

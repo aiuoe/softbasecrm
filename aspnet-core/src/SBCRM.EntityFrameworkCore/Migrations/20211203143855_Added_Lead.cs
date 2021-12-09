@@ -19,6 +19,7 @@ namespace SBCRM.Migrations
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     
                     PriorityId = table.Column<int>(type: "int", nullable: true),
@@ -49,6 +50,7 @@ namespace SBCRM.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Leads", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Leads_Priorities_PriorityId",
                         column: x => x.PriorityId,

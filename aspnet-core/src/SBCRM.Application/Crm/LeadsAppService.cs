@@ -48,14 +48,15 @@ namespace SBCRM.Crm
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
                         .Include(e => e.PriorityFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CompanyName.Contains(input.Filter) || e.ContactName.Contains(input.Filter) || e.ContactPosition.Contains(input.Filter) || e.WebSite.Contains(input.Filter) || e.Address.Contains(input.Filter) || e.Country.Contains(input.Filter) || e.State.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.CompanyPhone.Contains(input.Filter) || e.CompanyEmail.Contains(input.Filter) || e.PoBox.Contains(input.Filter) || e.ZipCode.Contains(input.Filter) || e.ContactPhone.Contains(input.Filter) || e.ContactPhoneExtension.Contains(input.Filter) || e.ContactCellPhone.Contains(input.Filter) || e.ContactFaxNumber.Contains(input.Filter) || e.PagerNumber.Contains(input.Filter) || e.ContactEmail.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyNameFilter), e => e.CompanyName == input.CompanyNameFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPositionFilter), e => e.ContactPosition == input.ContactPositionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.WebSiteFilter), e => e.WebSite == input.WebSiteFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AddressFilter), e => e.Address == input.AddressFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
@@ -95,6 +96,7 @@ namespace SBCRM.Crm
                             o.Address,
                             o.Country,
                             o.State,
+                            o.City,
                             o.Description,
                             o.CompanyPhone,
                             o.CompanyEmail,
@@ -132,6 +134,7 @@ namespace SBCRM.Crm
                         Address = o.Address,
                         Country = o.Country,
                         State = o.State,
+                        City = o.City,
                         Description = o.Description,
                         CompanyPhone = o.CompanyPhone,
                         CompanyEmail = o.CompanyEmail,
@@ -307,6 +310,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.AddressFilter), e => e.Address == input.AddressFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
@@ -343,6 +347,7 @@ namespace SBCRM.Crm
                                  Address = o.Address,
                                  Country = o.Country,
                                  State = o.State,
+                                 City = o.City,
                                  Description = o.Description,
                                  CompanyPhone = o.CompanyPhone,
                                  CompanyEmail = o.CompanyEmail,
