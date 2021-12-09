@@ -23,7 +23,11 @@ namespace SBCRM.Web.Controllers
             _leadsAppService = leadsAppService;
         }
 
-
+        /// <summary>
+        /// This method recieves an input file with a list of Leads to import and save them on the database
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<UploadLeadOutput> UploadLeads(FileDto input)
         {
             try
@@ -35,10 +39,17 @@ namespace SBCRM.Web.Controllers
                 int assignedUserId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
 
                 await _leadsAppService.ImportLeadsFromFile(byteArrayFile, leadSourceId, assignedUserId);
-                return null;
+
+                var dataReturn = new UploadLeadOutput
+                {
+                    FileName = excelLeads.FileName,
+                    FileType = excelLeads.ContentType
+                };
+                return dataReturn;
             }
             catch (UserFriendlyException ex)
             {
+                Console.Write(ex.Message);
                 throw;
             }
         }
