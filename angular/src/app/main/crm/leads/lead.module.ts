@@ -11,8 +11,13 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { PanelModule } from 'primeng/panel';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
+
 @NgModule({
-    declarations: [LeadsComponent, CreateOrEditLeadComponent, ViewLeadComponent],
-    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, SplitButtonModule, DividerModule, FieldsetModule, PanelModule, InputTextareaModule],
+    declarations: [LeadsComponent, CreateOrEditLeadComponent, ViewLeadComponent, ImportLeadsModalComponent],
+    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, SplitButtonModule, DividerModule, FieldsetModule, PanelModule, InputTextareaModule, DialogModule, DropdownModule],
 })
 export class LeadModule { }
+

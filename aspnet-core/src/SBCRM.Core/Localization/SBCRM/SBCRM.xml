@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
-    <text name="ContactName">Contact name</text>
+	<text name="Import">Import</text>
+	<text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
+	<text name="ContactName">Contact name</text>
+	<text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>
 	<text name="LeadContactName">CONTACT NAME</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
