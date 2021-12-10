@@ -30,6 +30,21 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var opportunities = pages.CreateChildPermission(AppPermissions.Pages_Opportunities, L("Opportunities"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Create, L("CreateNewOpportunity"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Edit, L("EditOpportunity"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Delete, L("DeleteOpportunity"));
+
+            var opportunityTypes = pages.CreateChildPermission(AppPermissions.Pages_OpportunityTypes, L("OpportunityTypes"));
+            opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Create, L("CreateNewOpportunityType"));
+            opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Edit, L("EditOpportunityType"));
+            opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Delete, L("DeleteOpportunityType"));
+
+            var opportunityStages = pages.CreateChildPermission(AppPermissions.Pages_OpportunityStages, L("OpportunityStages"));
+            opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Create, L("CreateNewOpportunityStage"));
+            opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Edit, L("EditOpportunityStage"));
+            opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Delete, L("DeleteOpportunityStage"));
+
             var priorities = pages.CreateChildPermission(AppPermissions.Pages_Priorities, L("Priorities"));
             priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Create, L("CreateNewPriority"));
             priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Edit, L("EditPriority"));

@@ -1,6 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="IsLeadConversionValid">Is lead conversion valid</text>
+  <texts>    <text name="Opportunity">Opportunity</text>
+    <text name="SBCRM.Crm.Opportunity">Opportunity</text>
+    <text name="Probability">Probability</text>
+    <text name="CloseDate">Close date</text>
+    <text name="Department">Department</text>
+    <text name="OpportunitiesHeaderInfo">Opportunities header info</text>
+    <text name="CreateNewOpportunity">Create new opportunity</text>
+    <text name="EditOpportunity">Edit opportunity</text>
+    <text name="DeleteOpportunity">Delete opportunity</text>
+    <text name="Opportunities">Opportunities</text>
+    <text name="OpportunityStageDescription">Opportunity stage description</text>
+    <text name="PickOpportunityStage">Pick opportunity stage</text>
+    <text name="OpportunityTypeDescription">Opportunity type description</text>
+    <text name="PickOpportunityType">Pick opportunity type</text>
+    <text name="CloseDateRange">Close date range</text>
+    <text name="OpportunityType">Opportunity type</text>
+    <text name="CreateNewOpportunityType">Create new opportunity type</text>
+    <text name="EditOpportunityType">Edit opportunity type</text>
+    <text name="DeleteOpportunityType">Delete opportunity type</text>
+    <text name="OpportunityStage">Opportunity stage</text>
+    <text name="CreateNewOpportunityStage">Create new opportunity stage</text>
+    <text name="EditOpportunityStage">Edit opportunity stage</text>
+    <text name="DeleteOpportunityStage">Delete opportunity stage</text>
+    <text name="IsLeadConversionValid">Is lead conversion valid</text>
     <text name="NotIsLeadConversionValid">Not is lead conversion valid</text>
 
     <text name="Color">Color</text>

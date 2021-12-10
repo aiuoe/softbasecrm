@@ -52,6 +52,12 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditOpportunityDto, Opportunity>().ReverseMap();
+            configuration.CreateMap<OpportunityDto, Opportunity>().ReverseMap();
+            configuration.CreateMap<CreateOrEditOpportunityTypeDto, OpportunityType>().ReverseMap();
+            configuration.CreateMap<OpportunityTypeDto, OpportunityType>().ReverseMap();
+            configuration.CreateMap<CreateOrEditOpportunityStageDto, OpportunityStage>().ReverseMap();
+            configuration.CreateMap<OpportunityStageDto, OpportunityStage>().ReverseMap();
             configuration.CreateMap<CreateOrEditPriorityDto, Priority>().ReverseMap();
             configuration.CreateMap<PriorityDto, Priority>().ReverseMap();
             configuration.CreateMap<CreateOrEditLeadDto, Lead>().ReverseMap();
