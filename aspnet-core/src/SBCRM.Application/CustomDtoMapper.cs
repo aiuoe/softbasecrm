@@ -52,6 +52,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditLeadUserDto, LeadUser>().ReverseMap();
+            configuration.CreateMap<LeadUserDto, LeadUser>().ReverseMap();
             configuration.CreateMap<CreateOrEditPriorityDto, Priority>().ReverseMap();
             configuration.CreateMap<PriorityDto, Priority>().ReverseMap();
             configuration.CreateMap<CreateOrEditLeadDto, Lead>().ReverseMap();

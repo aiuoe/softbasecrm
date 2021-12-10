@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import {
@@ -20,8 +20,9 @@ import { MenuItem } from 'primeng/api';
 
 @Component({
     templateUrl: './create-or-edit-lead.component.html',
-    styleUrls: ['./create-or-edit-lead.component.less'],
     animations: [appModuleAnimation()],
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./create-or-edit-lead.component.scss']
 })
 export class CreateOrEditLeadComponent extends AppComponentBase implements OnInit {
     active = false;
@@ -38,33 +39,47 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     allPrioritys: LeadPriorityLookupTableDto[];
 
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Lead'), '/app/main/crm/leads'),
-        new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
+        new BreadcrumbItem(this.l('Lead'), '/app/main/crm/leads')
     ];
 
     items: MenuItem[];
 
     countries: any[];
     selectedCountry: any = { countryCode: '+1', code: 'US', flag: "famfamfam-flags us" };
-    states: any[];
+   
 
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _leadsServiceProxy: LeadsServiceProxy,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
-        this.show(this._activatedRoute.snapshot.queryParams['id']);
+        const hasId = this._activatedRoute.snapshot.queryParams['id'];
+        this.show(hasId);
+        this.breadcrumbs.push(new BreadcrumbItem(hasId ? "Edit Lead" : "New Lead"));
         this.countries = [
-            { countryCode: '+1', code: 'US', name:"United States", flag: "famfamfam-flags us" },
-            { countryCode: '+1', code: 'CA', name:"Canada", flag: "famfamfam-flags ca" },
-            { countryCode: '+52', code: 'MX', name:"Mexico", flag: "famfamfam-flags mx" },
+            { countryCode: '+1', code: 'US', name: "United States", flag: "famfamfam-flags us" },
+            { countryCode: '+1', code: 'CA', name: "Canada", flag: "famfamfam-flags ca" },
+            { countryCode: '+52', code: 'MX', name: "Mexico", flag: "famfamfam-flags mx" },
         ];
+    }
+
+    checkCountryCode(phone) {
+        let areaCodes = this.countries.map((c) => c.countryCode);
+        let hasAreaCode = areaCodes.some((a) => phone.startsWith(a));
+        if (!hasAreaCode) {
+            phone = `${this.selectedCountry.countryCode}${phone}`;
+        }
+        return phone;
+    }
+
+    goToLeads() {
+        this._router.navigate(['/app/main/crm/leads'])
     }
 
     show(leadId?: number): void {
@@ -100,7 +115,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
     save(): void {
         this.saving = true;
-
+        this.lead.companyPhone = this.checkCountryCode(this.lead.companyPhone);
         this._leadsServiceProxy
             .createOrEdit(this.lead)
             .pipe(
@@ -111,7 +126,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
             .subscribe((x) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
-                this._router.navigate(['/app/main/crm/leads']);
+                this.goToLeads();
             });
     }
 }

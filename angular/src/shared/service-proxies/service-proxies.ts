@@ -2248,17 +2248,22 @@ export class CustomerServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param accountTypeId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
+    getAll(filter: string | undefined, accountTypeId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (accountTypeId === null)
+            throw new Error("The parameter 'accountTypeId' cannot be null.");
+        else if (accountTypeId !== undefined)
+            url_ += "AccountTypeId=" + encodeURIComponent("" + accountTypeId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -8768,6 +8773,68 @@ export class LeadsServiceProxy {
     }
 
     /**
+     * @param leadSourceId (optional) 
+     * @param assignedUserId (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/ImportLeadsFromFile?";
+        if (leadSourceId === null)
+            throw new Error("The parameter 'leadSourceId' cannot be null.");
+        else if (leadSourceId !== undefined)
+            url_ += "leadSourceId=" + encodeURIComponent("" + leadSourceId) + "&";
+        if (assignedUserId === null)
+            throw new Error("The parameter 'assignedUserId' cannot be null.");
+        else if (assignedUserId !== undefined)
+            url_ += "assignedUserId=" + encodeURIComponent("" + assignedUserId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processImportLeadsFromFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processImportLeadsFromFile(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processImportLeadsFromFile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -9990,6 +10057,375 @@ export class LeadStatusesServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LeadUsersServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLeadUserForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLeadUserForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLeadUserForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLeadUserForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLeadUserForEdit(id: number | undefined): Observable<GetLeadUserForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetLeadUserForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadUserForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadUserForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLeadUserForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLeadUserForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadUserForEdit(response: HttpResponseBase): Observable<GetLeadUserForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLeadUserForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLeadUserForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLeadUserDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadForTableDropdown(): Observable<LeadUserLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAllLeadForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadUserLeadLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadUserLeadLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadForTableDropdown(response: HttpResponseBase): Observable<LeadUserLeadLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadUserLeadLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadUserLeadLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadUserUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadUserUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<LeadUserUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadUserUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadUserUserLookupTableDto[]>(<any>null);
     }
 }
 
@@ -18745,6 +19181,7 @@ export interface IAcceptFriendshipRequestInput {
 }
 
 export class AccountTypeDto implements IAccountTypeDto {
+    description!: string | undefined;
     id!: number;
 
     constructor(data?: IAccountTypeDto) {
@@ -18758,6 +19195,7 @@ export class AccountTypeDto implements IAccountTypeDto {
 
     init(_data?: any) {
         if (_data) {
+            this.description = _data["description"];
             this.id = _data["id"];
         }
     }
@@ -18771,12 +19209,14 @@ export class AccountTypeDto implements IAccountTypeDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IAccountTypeDto {
+    description: string | undefined;
     id: number;
 }
 
@@ -20537,6 +20977,50 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
 
 export interface ICreateOrEditLeadStatusDto {
     description: string;
+    id: number | undefined;
+}
+
+export class CreateOrEditLeadUserDto implements ICreateOrEditLeadUserDto {
+    leadId!: number | undefined;
+    userId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLeadUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLeadUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLeadUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLeadUserDto {
+    leadId: number | undefined;
+    userId: number | undefined;
     id: number | undefined;
 }
 
@@ -24793,6 +25277,94 @@ export interface IGetLeadStatusForViewDto {
     leadStatus: LeadStatusDto;
 }
 
+export class GetLeadUserForEditOutput implements IGetLeadUserForEditOutput {
+    leadUser!: CreateOrEditLeadUserDto;
+    leadCompanyName!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetLeadUserForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadUser = _data["leadUser"] ? CreateOrEditLeadUserDto.fromJS(_data["leadUser"]) : <any>undefined;
+            this.leadCompanyName = _data["leadCompanyName"];
+            this.userName = _data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadUserForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadUserForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadUser"] = this.leadUser ? this.leadUser.toJSON() : <any>undefined;
+        data["leadCompanyName"] = this.leadCompanyName;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetLeadUserForEditOutput {
+    leadUser: CreateOrEditLeadUserDto;
+    leadCompanyName: string | undefined;
+    userName: string | undefined;
+}
+
+export class GetLeadUserForViewDto implements IGetLeadUserForViewDto {
+    leadUser!: LeadUserDto;
+    leadCompanyName!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetLeadUserForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadUser = _data["leadUser"] ? LeadUserDto.fromJS(_data["leadUser"]) : <any>undefined;
+            this.leadCompanyName = _data["leadCompanyName"];
+            this.userName = _data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadUserForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadUserForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadUser"] = this.leadUser ? this.leadUser.toJSON() : <any>undefined;
+        data["leadCompanyName"] = this.leadCompanyName;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetLeadUserForViewDto {
+    leadUser: LeadUserDto;
+    leadCompanyName: string | undefined;
+    userName: string | undefined;
+}
+
 export class GetMemberActivityOutput implements IGetMemberActivityOutput {
     memberActivities!: MemberActivity[] | undefined;
 
@@ -27192,6 +27764,130 @@ export interface ILeadStatusDto {
     id: number;
 }
 
+export class LeadUserDto implements ILeadUserDto {
+    leadId!: number | undefined;
+    userId!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILeadUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILeadUserDto {
+    leadId: number | undefined;
+    userId: number | undefined;
+    id: number;
+}
+
+export class LeadUserLeadLookupTableDto implements ILeadUserLeadLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadUserLeadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserLeadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserLeadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadUserLeadLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class LeadUserUserLookupTableDto implements ILeadUserUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadUserUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadUserUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
 export class LinkedUserDto implements ILinkedUserDto {
     tenantId!: number | undefined;
     tenancyName!: string | undefined;
@@ -29394,6 +30090,54 @@ export class PagedResultDtoOfGetLeadStatusForViewDto implements IPagedResultDtoO
 export interface IPagedResultDtoOfGetLeadStatusForViewDto {
     totalCount: number;
     items: GetLeadStatusForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetLeadUserForViewDto implements IPagedResultDtoOfGetLeadUserForViewDto {
+    totalCount!: number;
+    items!: GetLeadUserForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLeadUserForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetLeadUserForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLeadUserForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLeadUserForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLeadUserForViewDto {
+    totalCount: number;
+    items: GetLeadUserForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetPriorityForViewDto implements IPagedResultDtoOfGetPriorityForViewDto {

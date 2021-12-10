@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SBCRM.GraphQL.Tests", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SBCRM.Test.Base", "test\SBCRM.Test.Base\SBCRM.Test.Base.csproj", "{62EC592B-CC95-43C2-9736-0EC6E46B01FA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SBCRM.Infrastructure", "src\SBCRM.Infrastructure\SBCRM.Infrastructure.csproj", "{FC5B6EC2-B384-42E7-82F4-7A8D89C72358}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{62EC592B-CC95-43C2-9736-0EC6E46B01FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62EC592B-CC95-43C2-9736-0EC6E46B01FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62EC592B-CC95-43C2-9736-0EC6E46B01FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC5B6EC2-B384-42E7-82F4-7A8D89C72358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC5B6EC2-B384-42E7-82F4-7A8D89C72358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC5B6EC2-B384-42E7-82F4-7A8D89C72358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC5B6EC2-B384-42E7-82F4-7A8D89C72358}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +127,7 @@ Global
 		{06BE6AD3-3D14-4D0B-935A-4228C7904A9D} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 		{E09101B3-F77E-4C72-8465-7B430FA93AD1} = {F10AA149-2626-486E-85BB-9CD5365F3016}
 		{62EC592B-CC95-43C2-9736-0EC6E46B01FA} = {F10AA149-2626-486E-85BB-9CD5365F3016}
+		{FC5B6EC2-B384-42E7-82F4-7A8D89C72358} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23CD4D4B-B131-473D-9ECB-5DD96E739671}

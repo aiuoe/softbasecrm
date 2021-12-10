@@ -2,10 +2,17 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="LeadUser">Lead user</text>
+    <text name="CreateNewLeadUser">Create new lead user</text>
+    <text name="EditLeadUser">Edit lead user</text>
+    <text name="DeleteLeadUser">Delete lead user</text>
+    <text name="Import">Import</text>
+    <text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
+    <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>
+    <text name="LeadContactName">CONTACT NAME</text>
     <text name="AssignedUser">Assigned User</text>
     <text name="DescriptionLabel">Description</text>
     <text name="ContactName">Contact name</text>
-    <text name="LeadContactName">CONTACT NAME</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
     <text name="LeadCompanyPhone">PHONE</text>
@@ -57,7 +64,8 @@
     <text name="LeadStatuses">Lead statuses</text>
     <text name="LeadSource">Lead source</text>
     <text name="SBCRM.Crm.LeadSource">LeadSource</text>
-    <text name="Description">Enter Description</text>
+    <text name="Description">Description</text>
+    <text name="EnterDescription">Enter Description</text>
     <text name="LeadSourcesHeaderInfo">Lead sources header info</text>
     <text name="CreateNewLeadSource">Create new lead source</text>
     <text name="EditLeadSource">Edit lead source</text>
@@ -294,7 +302,8 @@
     <text name="EditARTerms">Edit a r terms</text>
     <text name="DeleteARTerms">Delete a r terms</text>
 
-    <text name="ZipCode">Zip code/Province</text>
+    <text name="ZipCode">Zip code</text>
+    <text name="ZipCodeProvince">Zip code/Province</text>
     <text name="CreateNewZipCode">Create new zip code</text>
     <text name="EditZipCode">Edit zip code</text>
     <text name="DeleteZipCode">Delete zip code</text>

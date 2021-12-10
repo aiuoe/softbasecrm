@@ -17,6 +17,8 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using SBCRM.Infrastructure.Excel;
+using SBCRM.DataImporting;
 
 namespace SBCRM.Crm
 {
@@ -160,6 +162,47 @@ namespace SBCRM.Crm
                 results
             );
 
+        }
+
+        /// <summary>
+        /// This method allows to upload imported leads from an excel file
+        /// </summary>
+        /// <param name="inputFile"></param>
+        /// <param name="leadSourceId"></param>
+        /// <param name="assignedUserId"></param>
+        /// <returns></returns>
+        public async Task ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
+        {
+            var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
+
+            // Defining default status and priority
+            var leadStatusId = _lookup_leadStatusRepository.FirstOrDefault(p => p.Description == "New");
+            var leadPriorityId = _lookup_priorityRepository.FirstOrDefault(p => p.Description == "Low");
+
+            int duplicatedLeads = 0;
+
+            foreach (var item in leadsToImport)
+            {
+                CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
+                leadAux.CompanyName = item.CompanyName;
+                leadAux.CompanyPhone = item.Phone;
+                leadAux.LeadSourceId = leadSourceId;
+                leadAux.LeadStatusId = leadStatusId.Id;
+                leadAux.PriorityId = leadPriorityId.Id;
+
+
+                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.CompanyPhone == leadAux.CompanyPhone);
+                if (storedLead == null)
+                {
+                    var lead = ObjectMapper.Map<Lead>(leadAux);
+                    await _leadRepository.InsertAsync(lead);
+                }
+                else
+                {
+                    duplicatedLeads++;
+                }
+            }
+            
         }
 
         public async Task<GetLeadForViewDto> GetLeadForView(int id)

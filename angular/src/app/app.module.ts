@@ -143,7 +143,7 @@ import { SubheaderModule } from './shared/common/sub-header/subheader.module';
         SessionTimeoutModalComponent,
         SessionTimeoutComponent,
         MenuSearchBarComponent,
-        ActiveDelegatedUsersComboComponent,
+        ActiveDelegatedUsersComboComponent
     ],
     imports: [
         CommonModule,
@@ -172,7 +172,7 @@ import { SubheaderModule } from './shared/common/sub-header/subheader.module';
         AutoCompleteModule,
         NgxSpinnerModule,
         AppBsModalModule,
-        SubheaderModule,
+        SubheaderModule
     ],
     providers: [
         ImpersonationService,
@@ -181,9 +181,12 @@ import { SubheaderModule } from './shared/common/sub-header/subheader.module';
         ChatSignalrService,
         {
             provide: PERFECT_SCROLLBAR_CONFIG,
-            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-        },
+            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+        }
     ],
     entryComponents: [NgxSpinnerComponent],
+    exports: [
+        ChangeProfilePictureModalComponent
+    ]
 })
 export class AppModule {}
