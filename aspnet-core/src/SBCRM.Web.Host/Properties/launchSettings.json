@@ -25,7 +25,7 @@
     },
     "SBCRM.Web.Host": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "https://localhost:44301",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

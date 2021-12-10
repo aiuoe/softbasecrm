@@ -90,6 +90,10 @@
                         <i class="fa fa-download fa-lg"></i>
                         {{ l('ExportLead') }}
                     </button>
+                    <button *ngIf="isGranted('Pages.Leads.Create')" (click)="showModalDialog()" class="btn btn-primary blue">
+                    <i class="fa fa-address-card"></i>
+                    {{ l('Import') }}
+                    </button>
                     <button 
                         *ngIf="isGranted('Pages.Leads.Create')" 
                         (click)="createLead()" 
@@ -324,4 +328,7 @@
             </div>
         </div>
     </div>
+
+    <importLeadsModal (modalUpload)="getLeads()" #importLeadsModalComponent></importLeadsModal>
+
 </div>

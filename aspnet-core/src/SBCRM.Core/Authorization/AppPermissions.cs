@@ -21,6 +21,11 @@
         public const string Pages_OpportunityStages_Edit = "Pages.OpportunityStages.Edit";
         public const string Pages_OpportunityStages_Delete = "Pages.OpportunityStages.Delete";
 
+        public const string Pages_LeadUsers = "Pages.LeadUsers";
+        public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
+        public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
+        public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";
+
         public const string Pages_Priorities = "Pages.Priorities";
         public const string Pages_Priorities_Create = "Pages.Priorities.Create";
         public const string Pages_Priorities_Edit = "Pages.Priorities.Edit";

@@ -73,6 +73,10 @@ export abstract class AppComponentBase implements OnDestroy {
         return this.ls.apply(this, args);
     }
 
+    lupper(key: string, ...args: any[]): string {
+        return this.l(key, ...args).toUpperCase();
+    }
+
     ls(sourcename: string, key: string, ...args: any[]): string {
         let localizedText = this.localization.localize(key, sourcename);
 

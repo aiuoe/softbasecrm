@@ -58,6 +58,8 @@ namespace SBCRM
             configuration.CreateMap<OpportunityTypeDto, OpportunityType>().ReverseMap();
             configuration.CreateMap<CreateOrEditOpportunityStageDto, OpportunityStage>().ReverseMap();
             configuration.CreateMap<OpportunityStageDto, OpportunityStage>().ReverseMap();
+            configuration.CreateMap<CreateOrEditLeadUserDto, LeadUser>().ReverseMap();
+            configuration.CreateMap<LeadUserDto, LeadUser>().ReverseMap();
             configuration.CreateMap<CreateOrEditPriorityDto, Priority>().ReverseMap();
             configuration.CreateMap<PriorityDto, Priority>().ReverseMap();
             configuration.CreateMap<CreateOrEditLeadDto, Lead>().ReverseMap();

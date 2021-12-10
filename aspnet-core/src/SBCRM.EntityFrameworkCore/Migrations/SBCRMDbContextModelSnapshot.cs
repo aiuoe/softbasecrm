@@ -2147,6 +2147,49 @@ namespace SBCRM.Migrations
                     b.ToTable("OpportunityTypes");
                 });
 
+            modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("LeadId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeadId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LeadUsers");
+                });
+
             modelBuilder.Entity("SBCRM.Crm.Priority", b =>
                 {
                     b.Property<int>("Id")
@@ -3551,13 +3594,27 @@ namespace SBCRM.Migrations
                     b.Navigation("OpportunityTypeFk");
                 });
 
+            modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
+                {
+                    b.HasOne("SBCRM.Crm.Lead", "LeadFk")
+                        .WithMany()
+                        .HasForeignKey("LeadId");
+
+                    b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("LeadFk");
+
+                    b.Navigation("UserFk");
+                });
+
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>
                 {
                     b.HasOne("SBCRM.Crm.AccountType", "AccountTypeFk")
                         .WithMany()
                         .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AccountTypeFk");
                 });

@@ -28,11 +28,21 @@ namespace SBCRM.Crm
 
         }
 
+        //public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll()
+        //{
+        //    var defaultInput = new GetAllAccountTypesInput
+        //    {
+        //        SkipCount = 0,
+        //        MaxResultCount = int.MaxValue
+        //    };
+        //    return await GetAll(defaultInput);
+        //}
+
         public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input)
         {
 
             var filteredAccountTypes = _accountTypeRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter));
+                        .WhereIf(!string.IsNullOrWhiteSpace(input?.Filter), e => false || e.Description.Contains(input.Filter));
 
             var pagedAndFilteredAccountTypes = filteredAccountTypes
                 .OrderBy(input.Sorting ?? "id asc")
@@ -41,8 +51,8 @@ namespace SBCRM.Crm
             var accountTypes = from o in pagedAndFilteredAccountTypes
                                select new
                                {
-
-                                   Id = o.Id
+                                   Id = o.Id,
+                                   o.Description
                                };
 
             var totalCount = await filteredAccountTypes.CountAsync();
@@ -56,8 +66,8 @@ namespace SBCRM.Crm
                 {
                     AccountType = new AccountTypeDto
                     {
-
                         Id = o.Id,
+                        Description = o.Description
                     }
                 };
 

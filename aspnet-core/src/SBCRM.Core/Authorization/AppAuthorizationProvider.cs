@@ -45,6 +45,11 @@ namespace SBCRM.Authorization
             opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Edit, L("EditOpportunityStage"));
             opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Delete, L("DeleteOpportunityStage"));
 
+            var leadUsers = pages.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadUsers"));
+            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
+            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Edit, L("EditLeadUser"));
+            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Delete, L("DeleteLeadUser"));
+
             var priorities = pages.CreateChildPermission(AppPermissions.Pages_Priorities, L("Priorities"));
             priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Create, L("CreateNewPriority"));
             priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Edit, L("EditPriority"));

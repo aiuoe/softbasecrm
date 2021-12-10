@@ -1,8 +1,8 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
+import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 
@@ -15,6 +15,12 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { finalize } from 'rxjs/operators';
+import { base64ToFile } from '@node_modules/ngx-image-cropper';
+import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
+import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 @Component({
@@ -22,10 +28,12 @@ import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
 })
-export class LeadsComponent extends AppComponentBase {
+export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
+    @ViewChild('importLeadsModalComponent', { static: true })
+    importLeadsModalComponent: ImportLeadsModalComponent;
     
     filterText = '';
     companyOrContactNameFilter = '';
@@ -51,6 +59,17 @@ export class LeadsComponent extends AppComponentBase {
     leadStatusDescriptionFilter = '';
     priorityDescriptionFilter = '';
 
+    displayModal = false;
+    allLeadSources: LeadLeadSourceLookupTableDto[];
+    leadSourceDescription = '';
+    leadSourceId: number;
+    formData = new FormData();
+    importFile: File;
+
+    public uploader: FileUploader;
+    private _uploaderOptions: FileUploaderOptions = {}
+    public saving = false;
+
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
@@ -60,7 +79,9 @@ export class LeadsComponent extends AppComponentBase {
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private http: HttpClient,
+        private _tokenService: TokenService
     ) {
         super(injector);
     }    
@@ -90,7 +111,11 @@ export class LeadsComponent extends AppComponentBase {
         this.statusFilterOptions.push("All");
     }
 
-      
+    ngOnInit(){
+        this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
+            this.allLeadSources = result;
+        });
+    }
 
     getLeads(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
@@ -215,5 +240,9 @@ export class LeadsComponent extends AppComponentBase {
 
     onRowUnselect(event) {      
         console.log("Not implemented");  
+    }
+
+    showModalDialog() {
+        this.importLeadsModalComponent.show();
     }
 }

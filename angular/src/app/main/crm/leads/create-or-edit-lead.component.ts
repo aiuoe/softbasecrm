@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import {
@@ -17,17 +17,20 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { MenuItem } from 'primeng/api';
+import { NgForm } from '@angular/forms';
 
 @Component({
     templateUrl: './create-or-edit-lead.component.html',
-    styleUrls: ['./create-or-edit-lead.component.less'],
     animations: [appModuleAnimation()],
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./create-or-edit-lead.component.scss']
 })
 export class CreateOrEditLeadComponent extends AppComponentBase implements OnInit {
     active = false;
     saving = false;
 
     lead: CreateOrEditLeadDto = new CreateOrEditLeadDto();
+    @ViewChild('LeadForm', { static: true }) LeadForm: NgForm;
 
     leadSourceDescription = '';
     leadStatusDescription = '';
@@ -38,33 +41,29 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     allPrioritys: LeadPriorityLookupTableDto[];
 
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Lead'), '/app/main/crm/leads'),
-        new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
+        new BreadcrumbItem(this.l('Lead'), '/app/main/crm/leads')
     ];
 
     items: MenuItem[];
-
-    countries: any[];
-    selectedCountry: any = { countryCode: '+1', code: 'US', flag: "famfamfam-flags us" };
-    states: any[];
 
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _leadsServiceProxy: LeadsServiceProxy,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
-        this.show(this._activatedRoute.snapshot.queryParams['id']);
-        this.countries = [
-            { countryCode: '+1', code: 'US', name:"United States", flag: "famfamfam-flags us" },
-            { countryCode: '+1', code: 'CA', name:"Canada", flag: "famfamfam-flags ca" },
-            { countryCode: '+52', code: 'MX', name:"Mexico", flag: "famfamfam-flags mx" },
-        ];
+        const hasId = this._activatedRoute.snapshot.queryParams['id'];
+        this.show(hasId);
+        this.breadcrumbs.push(new BreadcrumbItem(hasId ? "Edit Lead" : "New Lead"));
+    }
+
+    goToLeads() {
+        this._router.navigate(['/app/main/crm/leads'])
     }
 
     show(leadId?: number): void {
@@ -98,20 +97,23 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         });
     }
 
-    save(): void {
-        this.saving = true;
-
-        this._leadsServiceProxy
-            .createOrEdit(this.lead)
-            .pipe(
-                finalize(() => {
+    save(): void {        
+        if (this.LeadForm.form.valid) {
+            this.saving = true;
+            this._leadsServiceProxy
+                .createOrEdit(this.lead)
+                .pipe(
+                    finalize(() => {
+                        this.saving = false;                        
+                    })
+                )
+                .subscribe((x) => {
                     this.saving = false;
-                })
-            )
-            .subscribe((x) => {
-                this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
-                this._router.navigate(['/app/main/crm/leads']);
-            });
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.goToLeads();
+                });
+        }
+        else{
+        console.log("working"); }
     }
 }

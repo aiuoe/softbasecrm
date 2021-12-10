@@ -24,6 +24,8 @@ namespace SBCRM.EntityFrameworkCore
 
         public virtual DbSet<OpportunityStage> OpportunityStages { get; set; }
 
+        public virtual DbSet<LeadUser> LeadUsers { get; set; }
+
         public virtual DbSet<Priority> Priorities { get; set; }
 
         public virtual DbSet<Lead> Leads { get; set; }
