@@ -2,17 +2,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
 
 namespace SBCRM.Legacy
 {
     [Table("Customer", Schema = "dbo")]
     public class Customer
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public virtual int Id { get; set; }
-
         [Key]
         [Required]
         [StringLength(CustomerConsts.MaxNumberLength, MinimumLength = CustomerConsts.MinNumberLength)]

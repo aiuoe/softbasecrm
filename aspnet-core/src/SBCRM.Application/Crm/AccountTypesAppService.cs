@@ -32,7 +32,7 @@ namespace SBCRM.Crm
         {
 
             var filteredAccountTypes = _accountTypeRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter));
+                        .WhereIf(!string.IsNullOrWhiteSpace(input?.Filter), e => false || e.Description.Contains(input.Filter));
 
             var pagedAndFilteredAccountTypes = filteredAccountTypes
                 .OrderBy(input.Sorting ?? "id asc")
@@ -41,8 +41,8 @@ namespace SBCRM.Crm
             var accountTypes = from o in pagedAndFilteredAccountTypes
                                select new
                                {
-
-                                   Id = o.Id
+                                   Id = o.Id,
+                                   o.Description
                                };
 
             var totalCount = await filteredAccountTypes.CountAsync();
@@ -56,7 +56,6 @@ namespace SBCRM.Crm
                 {
                     AccountType = new AccountTypeDto
                     {
-
                         Id = o.Id,
                     }
                 };

@@ -51,23 +51,23 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     show(customerId?: number): void {
         if (!customerId) {
             this.customer = new CreateOrEditCustomerDto();
-            this.customer.id = customerId;
-            this.customer.added = this._dateTimeService.getStartOfDay();
-            this.customer.changed = this._dateTimeService.getStartOfDay();
-            this.customer.companyCommentsDate = this._dateTimeService.getStartOfDay();
-            this.customer.hoursOfOpStart = this._dateTimeService.getStartOfDay();
-            this.customer.hoursOfOpEnd = this._dateTimeService.getStartOfDay();
-            this.customer.resaleExpDate = this._dateTimeService.getStartOfDay();
-            this.customer.mfgPermitExpDate = this._dateTimeService.getStartOfDay();
-            this.customer.insuranceNoDate = this._dateTimeService.getStartOfDay();
-            this.customer.insuranceNoRecvDate = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate1 = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate2 = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate3 = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate4 = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate5 = this._dateTimeService.getStartOfDay();
-            this.customer.lastAutoSalesmanUpdate6 = this._dateTimeService.getStartOfDay();
+            // this.customer.id = customerId;
+            // this.customer.added = this._dateTimeService.getStartOfDay();
+            // this.customer.changed = this._dateTimeService.getStartOfDay();
+            // this.customer.companyCommentsDate = this._dateTimeService.getStartOfDay();
+            // this.customer.hoursOfOpStart = this._dateTimeService.getStartOfDay();
+            // this.customer.hoursOfOpEnd = this._dateTimeService.getStartOfDay();
+            // this.customer.resaleExpDate = this._dateTimeService.getStartOfDay();
+            // this.customer.mfgPermitExpDate = this._dateTimeService.getStartOfDay();
+            // this.customer.insuranceNoDate = this._dateTimeService.getStartOfDay();
+            // this.customer.insuranceNoRecvDate = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate1 = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate2 = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate3 = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate4 = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate5 = this._dateTimeService.getStartOfDay();
+            // this.customer.lastAutoSalesmanUpdate6 = this._dateTimeService.getStartOfDay();
             this.accountTypeDescription = '';
 
             this.active = true;

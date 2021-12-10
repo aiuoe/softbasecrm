@@ -1,11 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <localizationDictionary culture="en">
   <texts>
+    <text name="AssignedUser">Assigned User</text>
+    <text name="DescriptionLabel">Description</text>
     <text name="ContactName">Contact name</text>
-	<text name="LeadContactName">CONTACT NAME</text>
+    <text name="LeadContactName">CONTACT NAME</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
-	<text name="LeadCompanyPhone">PHONE</text>
+    <text name="LeadCompanyPhone">PHONE</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -26,7 +29,7 @@
     <text name="Priorities">Priorities</text>
     <text name="Lead">Lead</text>
     <text name="SBCRM.Crm.Lead">Lead</text>
-	<text name="CompanyName">Company name</text>
+    <text name="CompanyName">Company name</text>
     <text name="LeadCompanyName">COMPANY NAME</text>
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
@@ -64,7 +67,7 @@
     <text name="CreateNewIndustry">Create new industry</text>
     <text name="EditIndustry">Edit industry</text>
     <text name="DeleteIndustry">Delete industry</text>
-    <text name="Customer">Customer</text>
+    <text name="Customer">Account</text>
     <text name="SBCRM.Legacy.Customer">Customer</text>
     <text name="Number">Number</text>
     <text name="BillTo">Bill to</text>
@@ -250,7 +253,7 @@
     <text name="ID">I d</text>
     <text name="ARStatementsEmailAddress">A r statements email address</text>
     <text name="CustomerHeaderInfo">Customer header info</text>
-    <text name="CreateNewCustomer">Create new customer</text>
+    <text name="CreateNewCustomer">Account</text>
     <text name="EditCustomer">Edit customer</text>
     <text name="DeleteCustomer">Delete customer</text>
     <text name="{0}IsRequired">{0} is required.</text>
@@ -376,6 +379,7 @@
     <text name="CreationTime">Creation time</text>
     <text name="LeadCreationTime">CREATED AT</text>
     <text name="SearchWithThreeDot">Search...</text>
+    <text name="AccountSearchWithThreeDot">Search Account</text>
     <text name="ResetSpecialPermissions">Reset special permissions</text>
     <text name="SavingWithThreeDot">Saving...</text>
     <text name="Settings">Settings</text>
@@ -440,7 +444,7 @@
     <text name="StaticRole_Tooltip">Static roles can not be deleted.</text>
     <text name="EmailConfirmationRequiredForLogin">Email confirmation required for login.</text>
     <text name="{0}UserCannotBeDeleted">{0} user can not be deleted.</text>
-    <text name="TenantNameCanNotBeEmpty">Tenant name can not be empty</text>    
+    <text name="TenantNameCanNotBeEmpty">Tenant name can not be empty</text>
     <text name="ChangeProfilePicture">Change profile picture</text>
     <text name="TenantName_Regex_Description">Tenant name must be at least 2 chars, starts with a letter and continue with letter, number, dash or underscore.</text>
     <text name="ProfilePicture_Change_Info">You can select a JPG/JPEG/PNG file with a maximum {0}MB size.</text>
@@ -1160,8 +1164,9 @@
     <text name="ExcelOperations">Excel operations</text>
     <text name="ImportFromExcel">Import from excel</text>
     <text name="ExportToExcel">Export to excel</text>
-	<text name="ExportLead">Export</text>
-	<text name="NewLead">Lead</text>
+    <text name="Export">Export</text>
+    <text name="ExportLead">Export</text>
+    <text name="NewLead">Lead</text>
     <text name="ImportToExcelSampleFileDownloadInfo">{0} to download sample import file.</text>
     <text name="ImportUsersProcessStart">User import process has begun.</text>
     <text name="ImportUsersUploadFailed">User import process has failed.</text>
