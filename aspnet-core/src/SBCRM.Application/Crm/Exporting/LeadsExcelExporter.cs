@@ -31,8 +31,8 @@ namespace SBCRM.Crm.Exporting
                 excelPackage =>
                 {
 
-                    var sheet = excelPackage.CreateSheet(L("Leads"));
-
+                    var sheet = excelPackage.CreateSheet(L("Leads"));                       
+                    
                     AddHeader(
                         sheet,
                         L("CompanyName"),
@@ -54,8 +54,8 @@ namespace SBCRM.Crm.Exporting
                         //L("PagerNumber"),
                         //L("ContactEmail"),
                         //(L("LeadSource")) + L("Description"),
-                        (L("LeadStatus")) + L("Description"),
-                        (L("Priority")) + L("Description")
+                        (L("LeadStatus")),
+                        (L("Priority"))
                         );
 
                     AddObjects(
@@ -82,6 +82,10 @@ namespace SBCRM.Crm.Exporting
                         _ => _.LeadStatusDescription,
                         _ => _.PriorityDescription
                         );
+
+                        int numberOfColumns = sheet.GetRow(0).LastCellNum;
+                        for(int column = 0; column < numberOfColumns; column++)
+                            sheet.AutoSizeColumn(column);
 
                 });
         }

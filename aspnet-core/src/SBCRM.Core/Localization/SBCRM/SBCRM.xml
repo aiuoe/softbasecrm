@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>    <text name="Opportunity">Opportunity</text>
+  <texts>    <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
+    <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
+    <text name="OpportunityTypes">Opportunity types</text>
+    <text name="SBCRM.Crm.OpportunityStage">OpportunityStage</text>
+    <text name="OpportunityStagesHeaderInfo">Opportunity stages header info</text>
+    <text name="OpportunityStages">Opportunity stages</text>
+    <text name="Opportunity">Opportunity</text>
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
     <text name="CloseDate">Close date</text>

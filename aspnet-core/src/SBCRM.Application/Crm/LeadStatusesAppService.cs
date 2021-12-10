@@ -44,6 +44,7 @@ namespace SBCRM.Crm
                                {
 
                                    o.Description,
+                                   o.IsLeadConversionValid,
                                    Id = o.Id
                                };
 
@@ -60,6 +61,7 @@ namespace SBCRM.Crm
                     {
 
                         Description = o.Description,
+                        IsLeadConversionValid = o.IsLeadConversionValid,
                         Id = o.Id,
                     }
                 };

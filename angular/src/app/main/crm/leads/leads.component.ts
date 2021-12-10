@@ -69,7 +69,7 @@ export class LeadsComponent extends AppComponentBase {
 
     statusFilterOptions = [];
 
-    readOnlyOptions = ["Converted"];
+    readOnlyStatus = [];
 
     getLeadsStatuses(event?: LazyLoadEvent) {
         this._leadStatusesServiceProxy
@@ -81,10 +81,12 @@ export class LeadsComponent extends AppComponentBase {
                 undefined
             ).subscribe((result) => {
                 let resultItems = result.items;
-                resultItems.forEach( (item) => {
-                    this.statusFilterOptions.push(item.leadStatus.description)
+                resultItems.forEach( (item) => {                    
+                    this.statusFilterOptions.push(item.leadStatus.description);
+                    if (item.leadStatus.isLeadConversionValid )
+                        this.readOnlyStatus.push(item.leadStatus.description);
                 });
-            });
+            });           
         this.statusFilterOptions.push("All");
     }
 
@@ -143,7 +145,7 @@ export class LeadsComponent extends AppComponentBase {
     }
 
     leadCanBeEdittedOrConverted(event: any) : boolean {
-        return this.readOnlyOptions.includes(event);
+        return this.readOnlyStatus.includes(event);
     }
 
     reloadPage(): void {

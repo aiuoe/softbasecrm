@@ -1,5 +1,4 @@
-﻿
-          
+﻿           
 import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
@@ -31,6 +30,8 @@ export class AppNavigationService {
                 '',
                 [],
                 [
+                    new AppMenuItem('OpportunityStages', 'Pages.OpportunityStages', 'flaticon-more', '/app/main/crm/opportunityStages'),
+                    new AppMenuItem('OpportunityTypes', 'Pages.OpportunityTypes', 'flaticon-more', '/app/main/crm/opportunityTypes'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),
                     new AppMenuItem('Opportunities', 'Pages.Opportunities', 'flaticon-more', '/app/main/crm/opportunities'),
                     new AppMenuItem('Customer', 'Pages.Customer', 'flaticon-more', '/app/main/business/customer'),

@@ -12363,17 +12363,22 @@ export class OpportunityStagesServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param descriptionFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -12430,6 +12435,62 @@ export class OpportunityStagesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetOpportunityStageForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityStageForView(id: number | undefined): Observable<GetOpportunityStageForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStageForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityStageForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityStageForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityStageForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityStageForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityStageForView(response: HttpResponseBase): Observable<GetOpportunityStageForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityStageForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityStageForViewDto>(<any>null);
     }
 
     /**
@@ -12678,6 +12739,62 @@ export class OpportunityTypesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetOpportunityTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityTypeForView(id: number | undefined): Observable<GetOpportunityTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetOpportunityTypeForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityTypeForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityTypeForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityTypeForView(response: HttpResponseBase): Observable<GetOpportunityTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityTypeForViewDto>(<any>null);
     }
 
     /**
@@ -23729,6 +23846,7 @@ export interface ICreateOrEditOpportunityDto {
 }
 
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
+    description!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -23742,6 +23860,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 
     init(_data?: any) {
         if (_data) {
+            this.description = _data["description"];
             this.id = _data["id"];
         }
     }
@@ -23755,16 +23874,19 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditOpportunityStageDto {
+    description: string;
     id: number | undefined;
 }
 
 export class CreateOrEditOpportunityTypeDto implements ICreateOrEditOpportunityTypeDto {
+    description!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityTypeDto) {
@@ -23778,6 +23900,7 @@ export class CreateOrEditOpportunityTypeDto implements ICreateOrEditOpportunityT
 
     init(_data?: any) {
         if (_data) {
+            this.description = _data["description"];
             this.id = _data["id"];
         }
     }
@@ -23791,12 +23914,14 @@ export class CreateOrEditOpportunityTypeDto implements ICreateOrEditOpportunityT
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditOpportunityTypeDto {
+    description: string;
     id: number | undefined;
 }
 
@@ -30650,6 +30775,7 @@ export interface ILeadSourceDto {
 
 export class LeadStatusDto implements ILeadStatusDto {
     description!: string | undefined;
+    isLeadConversionValid!: boolean;
     id!: number;
 
     constructor(data?: ILeadStatusDto) {
@@ -30664,6 +30790,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isLeadConversionValid = _data["isLeadConversionValid"];
             this.id = _data["id"];
         }
     }
@@ -30678,6 +30805,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isLeadConversionValid"] = this.isLeadConversionValid;
         data["id"] = this.id;
         return data; 
     }
@@ -30685,6 +30813,7 @@ export class LeadStatusDto implements ILeadStatusDto {
 
 export interface ILeadStatusDto {
     description: string | undefined;
+    isLeadConversionValid: boolean;
     id: number;
 }
 
@@ -32381,6 +32510,7 @@ export interface IOpportunityStageDto {
 }
 
 export class OpportunityTypeDto implements IOpportunityTypeDto {
+    description!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityTypeDto) {
@@ -32394,6 +32524,7 @@ export class OpportunityTypeDto implements IOpportunityTypeDto {
 
     init(_data?: any) {
         if (_data) {
+            this.description = _data["description"];
             this.id = _data["id"];
         }
     }
@@ -32407,12 +32538,14 @@ export class OpportunityTypeDto implements IOpportunityTypeDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IOpportunityTypeDto {
+    description: string | undefined;
     id: number;
 }
 
