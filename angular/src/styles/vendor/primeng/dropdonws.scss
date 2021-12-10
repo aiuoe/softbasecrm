@@ -1,0 +1,14 @@
+.p-dropdown {
+    background: #ffffff;
+    border: 1px solid $primaryBorderInputColor;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+    border-color: $primaryBorderHoverInputColor;
+}

@@ -41,16 +41,22 @@ namespace SBCRM.Legacy
         {
             try
             {
+                if (input.AccountTypeId is 0)
+                {
+                    input.AccountTypeId = null;
+                }
+
                 var filteredCustomer = _customerRepository.GetAll()
                     .Include(e => e.AccountTypeFk)
                     .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
                         e => false || e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
                              e.Number.Equals(input.Filter) ||
                              e.Name.Contains(input.Filter) ||
-                             e.SearchName.Contains(input.Filter) ||
                              e.Address.Contains(input.Filter) ||
                              e.City.Contains(input.Filter) ||
-                             e.Phone.Contains(input.Filter));
+                             e.Phone.Contains(input.Filter))
+                    .WhereIf(input.AccountTypeId.HasValue, x => x.AccountTypeFk.Id == input.AccountTypeId)
+                    ;
 
                 var pagedAndFilteredCustomer = filteredCustomer
                     .OrderBy(input.Sorting ?? $"{nameof(Customer.Number)} asc")

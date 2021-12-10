@@ -1,0 +1,8 @@
+.p-datatable .p-datatable-thead > tr > th {
+    color: #A8AFB9;
+}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: $primaryColor;
+    border-color: $primaryColor;
+    color: white;
+}

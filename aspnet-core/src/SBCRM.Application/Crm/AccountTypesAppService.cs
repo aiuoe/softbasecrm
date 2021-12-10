@@ -28,6 +28,16 @@ namespace SBCRM.Crm
 
         }
 
+        //public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll()
+        //{
+        //    var defaultInput = new GetAllAccountTypesInput
+        //    {
+        //        SkipCount = 0,
+        //        MaxResultCount = int.MaxValue
+        //    };
+        //    return await GetAll(defaultInput);
+        //}
+
         public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input)
         {
 
@@ -57,6 +67,7 @@ namespace SBCRM.Crm
                     AccountType = new AccountTypeDto
                     {
                         Id = o.Id,
+                        Description = o.Description
                     }
                 };
 

@@ -5,7 +5,8 @@
             <div role="actions" class="d-flex flex-row align-items-center">
 
                 <div>
-                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+                    <p-dropdown [options]="accountTypes" (onChange)="getCustomer()" [(ngModel)]="selectedAccountType" optionLabel="description">
+                    </p-dropdown>
                 </div>
 
                 <div class="padding-left-5">
@@ -51,32 +52,6 @@
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
-                    <!--                    <form class="form" autocomplete="off">-->
-                    <!--                        <div>-->
-                    <!--                            <div class="row align-items-center">-->
-                    <!--                                <div class="col-xl-12">-->
-                    <!--                                    <div class="form-group m-form__group align-items-center">-->
-                    <!--                                        <div class="input-group">-->
-                    <!--                                            <input-->
-                    <!--                                                [(ngModel)]="filterText"-->
-                    <!--                                                name="filterText"-->
-                    <!--                                                autoFocus-->
-                    <!--                                                class="form-control m-input"-->
-                    <!--                                                [placeholder]="l('SearchWithThreeDot')"-->
-                    <!--                                                type="text"-->
-                    <!--                                            />-->
-                    <!--                                            <span class="input-group-btn">-->
-                    <!--                                                <button (click)="getCustomer()" class="btn btn-primary" type="submit">-->
-                    <!--                                                    <i class="flaticon-search-1"></i>-->
-                    <!--                                                </button>-->
-                    <!--                                            </span>-->
-                    <!--                                        </div>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </form>-->
-
                     <div class="row align-items-center">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
@@ -150,8 +125,15 @@
                                         </td>
 
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.accountTypeDescription }}
+<!--                                            <span class="p-column-title">{{ l('Description') }}</span>-->
+<!--                                            {{ record.accountTypeDescription }}-->
+
+                                            <span>
+                                                <a [href]="record.profilePictureUrl" target="_blank" class="float-left">
+                                                    <img class="img-circle" [src]="record.profilePictureUrl" />
+                                                </a>
+                                                {{ record.accountTypeDescription }}
+                                            </span>
                                         </td>
 
 

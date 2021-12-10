@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CustomerComponent } from './customer.component';
 import { CreateOrEditCustomerComponent } from './create-or-edit-customer.component';
 import { ViewCustomerComponent } from './view-customer.component';
+import { AccountTypesServiceProxy } from '@shared/service-proxies/service-proxies';
 
 const routes: Routes = [
     {
@@ -26,6 +27,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
+    providers: [AccountTypesServiceProxy],
     exports: [RouterModule],
 })
 export class CustomerRoutingModule {}
