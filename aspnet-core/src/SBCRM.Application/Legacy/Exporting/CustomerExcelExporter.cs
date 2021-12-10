@@ -408,7 +408,7 @@ namespace SBCRM.Legacy.Exporting
                         //_ => _.Customer.EmailPartsCounter,
                         //_ => _.Customer.EmailEquipmentSales,
                         //_ => _.Customer.EmailRentals,
-                        _ => _.Customer.ID,
+                        //_ => _.Customer.ID,
                         //_ => _.Customer.ARStatementsEmailAddress,
                         _ => _.AccountTypeDescription
                         );

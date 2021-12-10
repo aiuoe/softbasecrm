@@ -49,6 +49,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
 using SBCRM.EntityFrameworkCore.Repositories;
+using SBCRM.Web.Filter;
+using SBCRM.Web.Middleware;
 
 namespace SBCRM.Web.Startup
 {
@@ -70,8 +72,11 @@ namespace SBCRM.Web.Startup
             //MVC
             services.AddControllersWithViews(options =>
             {
+                options.Filters.Add<LoggerContextAttribute>();
+                options.Filters.Add<AppExceptionFilterAttribute>();
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
             }).AddNewtonsoftJson();
+
 
             services.AddSignalR();
 
@@ -210,6 +215,8 @@ namespace SBCRM.Web.Startup
                 app.UseStatusCodePagesWithRedirects("~/Error?statusCode={0}");
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
             app.UseStaticFiles();
             app.UseRouting();

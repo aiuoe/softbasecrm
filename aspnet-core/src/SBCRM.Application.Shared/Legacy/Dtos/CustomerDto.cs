@@ -1,9 +1,8 @@
-﻿using System;
-using Abp.Application.Services.Dto;
+﻿using SBCRM.Dto;
 
 namespace SBCRM.Legacy.Dtos
 {
-    public class CustomerDto : EntityDto
+    public class CustomerDto : LegacyAuditEntityDto
     {
         public string Name { get; set; }
 
@@ -14,8 +13,6 @@ namespace SBCRM.Legacy.Dtos
         public string Number { get; set; }
 
         public string BillTo { get; set; }
-
-        public int ID { get; set; }
 
         public int AccountTypeId { get; set; }
 

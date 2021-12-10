@@ -1,1 +1,13 @@
 
+.btn.btn-primary {
+    color: #fff;
+    background-color: $primaryColor !important;
+    border-color: $primaryColor !important;
+}
+
+.form-control:focus {
+    color: #3f4254;
+    background-color: #fff;
+    border-color: $primaryBorderHoverInputColor !important;
+    outline: 0;
+}

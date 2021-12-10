@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211206193808_RelateAccountTypeToCustomer")]
+    partial class RelateAccountTypeToCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1795,10 +1797,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("City")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("CompanyEmail")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -1988,49 +1986,6 @@ namespace SBCRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LeadStatuses");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("LeadId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LeadId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("LeadUsers");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.Priority", b =>
@@ -3416,27 +3371,13 @@ namespace SBCRM.Migrations
                     b.Navigation("PriorityFk");
                 });
 
-            modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
-                {
-                    b.HasOne("SBCRM.Crm.Lead", "LeadFk")
-                        .WithMany()
-                        .HasForeignKey("LeadId");
-
-                    b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("LeadFk");
-
-                    b.Navigation("UserFk");
-                });
-
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>
                 {
                     b.HasOne("SBCRM.Crm.AccountType", "AccountTypeFk")
                         .WithMany()
                         .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AccountTypeFk");
                 });

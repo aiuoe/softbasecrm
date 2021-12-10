@@ -9,6 +9,8 @@ namespace SBCRM.Crm
 {
     public interface IAccountTypesAppService : IApplicationService
     {
+        //Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll();
+
         Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input);
 
         Task<GetAccountTypeForEditOutput> GetAccountTypeForEdit(EntityDto input);
