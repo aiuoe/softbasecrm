@@ -15,7 +15,8 @@
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
-    <text name="LeadCompanyPhone">PHONE</text>
+	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
+	<text name="LeadCompanyPhone">PHONE</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -41,6 +42,7 @@
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
+	<text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
     <text name="CreateNewLead">Create new lead</text>
     <text name="EditLead">Edit lead</text>

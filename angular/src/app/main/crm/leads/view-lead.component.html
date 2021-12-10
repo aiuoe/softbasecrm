@@ -28,19 +28,6 @@
                                     <div class="form-group">
                                         <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
                                         <div class="input-group">
-                                            <!-- <p-dropdown id="countrySelector" disabled [options]="countries"
-                                               [value]="selectedCountry" optionLabel="countryCode">
-                                                <ng-template let-item pTemplate="selectedItem">
-                                                    <i class="margin-right-5  d-inline-block" [ngClass]="item.flag"></i>
-                                                    <span style="vertical-align: middle">{{item.countryCode}}
-                                                        {{item.name}}</span>
-                                                </ng-template>
-                                                <ng-template let-flag pTemplate="item">
-                                                    <i class="margin-right-5  d-inline-block" [ngClass]="flag.flag"></i>
-                                                    <span style="vertical-align: middle">{{flag.countryCode}}
-                                                        {{flag.name}}</span>
-                                                </ng-template>
-                                            </p-dropdown> -->
                                             <input class="form-control" type="tel"
                                                 [placeholder]="selectedCountry.countryCode"
                                                 [value]="item.lead.companyPhone" id="Lead_CompanyPhone"
