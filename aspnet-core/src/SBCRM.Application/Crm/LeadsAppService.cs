@@ -86,7 +86,6 @@ namespace SBCRM.Crm
 
                         select new
                         {
-
                             o.CompanyName,
                             o.ContactName,
                             o.ContactPosition,
@@ -109,13 +108,19 @@ namespace SBCRM.Crm
                             Id = o.Id,
                             LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                             LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color.ToString(),
+                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),                            
                             o.CreationTime
                         };
-
+                
             var totalCount = await filteredLeads.CountAsync();
 
-            var dbList = await leads.ToListAsync();
+            var dbList = await leads.OrderByDescending(o => o.CreationTime)
+                                    .ThenBy(s2 => s2.Description)
+                                    .ThenBy(o => o.CompanyName)
+                                    .ThenBy(o => o.ContactName).ToListAsync();
+
+            //var dbList = await leadsOrdered.ToListAsync();
             var results = new List<GetLeadForViewDto>();
 
             foreach (var o in dbList)
@@ -149,6 +154,7 @@ namespace SBCRM.Crm
                     },
                     LeadSourceDescription = o.LeadSourceDescription,
                     LeadStatusDescription = o.LeadStatusDescription,
+                    LeadStatusColor = o.LeadStatusColor,
                     PriorityDescription = o.PriorityDescription
                 };
 

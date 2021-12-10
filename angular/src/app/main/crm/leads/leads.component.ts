@@ -29,6 +29,8 @@ export class LeadsComponent extends AppComponentBase {
     selectedStatusFilter = "All";
 
     options = ["New","In Progress","Converted","Dead","All"];
+
+    readOnlyOptions = ["Converted"];
     
     filterText = '';
     companyOrContactNameFilter = '';
@@ -108,6 +110,7 @@ export class LeadsComponent extends AppComponentBase {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
+                console.log(result);
             });
     }
 
@@ -117,6 +120,10 @@ export class LeadsComponent extends AppComponentBase {
             statusSelected = '';
         this.leadStatusDescriptionFilter = statusSelected;
         this.getLeads();
+    }
+
+    leadCanBeEdittedOrConverted(event: any) : boolean {
+        return this.readOnlyOptions.includes(event);
     }
 
     reloadPage(): void {
@@ -169,11 +176,6 @@ export class LeadsComponent extends AppComponentBase {
                 this._fileDownloadService.downloadTempFile(result);                
             });
     } 
-
-    leadIsNotAccount(event: any) : boolean {
-        console.log(event.lead.id);
-        return false;
-    }
 
     /* 
     Below there are methods that act as placeholder for

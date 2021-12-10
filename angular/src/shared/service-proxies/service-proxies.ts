@@ -26516,7 +26516,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     lead!: LeadDto;
     leadSourceDescription!: string | undefined;
     leadStatusDescription!: string | undefined;
+    leadStatusColor!: string | undefined;
     priorityDescription!: string | undefined;
+    city!: any | undefined;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -26532,7 +26534,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.lead = _data["lead"] ? LeadDto.fromJS(_data["lead"]) : <any>undefined;
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.leadStatusDescription = _data["leadStatusDescription"];
+            this.leadStatusColor = _data["leadStatusColor"];
             this.priorityDescription = _data["priorityDescription"];
+            this.city = _data["city"];
         }
     }
 
@@ -26548,7 +26552,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["lead"] = this.lead ? this.lead.toJSON() : <any>undefined;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["leadStatusDescription"] = this.leadStatusDescription;
+        data["leadStatusColor"] = this.leadStatusColor;
         data["priorityDescription"] = this.priorityDescription;
+        data["city"] = this.city;
         return data; 
     }
 }
@@ -26557,7 +26563,9 @@ export interface IGetLeadForViewDto {
     lead: LeadDto;
     leadSourceDescription: string | undefined;
     leadStatusDescription: string | undefined;
+    leadStatusColor: string | undefined;
     priorityDescription: string | undefined;
+    city: any | undefined;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -29065,6 +29073,7 @@ export interface ILeadSourceDto {
 
 export class LeadStatusDto implements ILeadStatusDto {
     description!: string | undefined;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: ILeadStatusDto) {
@@ -29079,6 +29088,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -29093,6 +29103,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -29100,6 +29111,7 @@ export class LeadStatusDto implements ILeadStatusDto {
 
 export interface ILeadStatusDto {
     description: string | undefined;
+    color: string | undefined;
     id: number;
 }
 

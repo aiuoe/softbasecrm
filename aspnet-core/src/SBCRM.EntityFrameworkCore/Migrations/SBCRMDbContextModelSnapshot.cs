@@ -1795,6 +1795,10 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("CompanyEmail")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -1847,6 +1851,9 @@ namespace SBCRM.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("CustomerNumber")
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
 
@@ -1865,10 +1872,10 @@ namespace SBCRM.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("LeadSourceId")
+                    b.Property<int?>("LeadSourceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LeadStatusId")
+                    b.Property<int?>("LeadStatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("PagerNumber")
@@ -1886,10 +1893,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("City")
-                       .HasMaxLength(100)
-                       .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("WebSite")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -1899,6 +1902,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerNumber");
 
                     b.HasIndex("LeadSourceId");
 
@@ -1953,6 +1958,11 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -3343,21 +3353,23 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Crm.Lead", b =>
                 {
+                    b.HasOne("SBCRM.Legacy.Customer", "CustomerFk")
+                        .WithMany()
+                        .HasForeignKey("CustomerNumber");
+
                     b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceFk")
                         .WithMany()
-                        .HasForeignKey("LeadSourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LeadSourceId");
 
                     b.HasOne("SBCRM.Crm.LeadStatus", "LeadStatusFk")
                         .WithMany()
-                        .HasForeignKey("LeadStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LeadStatusId");
 
                     b.HasOne("SBCRM.Crm.Priority", "PriorityFk")
                         .WithMany()
                         .HasForeignKey("PriorityId");
+
+                    b.Navigation("CustomerFk");
 
                     b.Navigation("LeadSourceFk");
 

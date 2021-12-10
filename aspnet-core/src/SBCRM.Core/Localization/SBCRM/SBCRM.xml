@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="Color">Color</text>
+
     <text name="ContactName">Contact name</text>
 	<text name="LeadContactName">CONTACT NAME</text>
     <text name="ContactPosition">Contact position</text>
@@ -46,7 +48,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-    <text name="LeadStatus">STATUS</text>
+    <text name="LeadStatusTable">STATUS</text>
+	<text name="LeadStatus">Lead status</text>
 	<text name="MakeAccount">Make Account</text>	  
 	<text name="LeadStatusFilter">Status</text>
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
