@@ -20,7 +20,7 @@ INSERT INTO [web].[LeadStatuses]
 			'12/3/2021 3:20:16 PM',
 			'#FF8900',
 			0,
-			1
+			0
 		   ),
 		   (
 			'Converted',
@@ -34,7 +34,7 @@ INSERT INTO [web].[LeadStatuses]
 			'12/3/2021 3:20:16 PM',
 			'#263950',
 			0,
-			1
+			0
 		   )
 GO
 

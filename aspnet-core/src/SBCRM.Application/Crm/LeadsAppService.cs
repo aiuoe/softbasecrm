@@ -365,7 +365,8 @@ namespace SBCRM.Crm
                                  ContactFaxNumber = o.ContactFaxNumber,
                                  PagerNumber = o.PagerNumber,
                                  ContactEmail = o.ContactEmail,
-                                 Id = o.Id
+                                 Id = o.Id,
+                                 CreationTime = o.CreationTime
                              },
                              LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),

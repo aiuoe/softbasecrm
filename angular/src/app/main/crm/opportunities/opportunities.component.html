@@ -256,21 +256,45 @@
                             >
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th style="width: 150px" pSortableColumn="name">
-                                            {{ l('Name') }}
-                                            <p-sortIcon field="opportunity.name"></p-sortIcon>
+                                        <th
+                                            style="width: 130px"
+                                            [hidden]="
+                                                !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
+                                            "
+                                        >
+                                            {{ l('Actions') }}
                                         </th>
                                         <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
                                             {{ l('Description') }}
                                             <p-sortIcon field="opportunityStageDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="closeDate">
-                                            {{ l('CloseDate') }}
-                                            <p-sortIcon field="opportunity.closeDate"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="leadSourceFk.description">
+                                            {{ l('Description') }}
+                                            <p-sortIcon field="leadSourceDescription"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="opportunityTypeFk.description">
+                                            {{ l('Description') }}
+                                            <p-sortIcon field="opportunityTypeDescription"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="name">
+                                            {{ l('Name') }}
+                                            <p-sortIcon field="opportunity.name"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="amount">
                                             {{ l('Amount') }}
                                             <p-sortIcon field="opportunity.amount"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="probability">
+                                            {{ l('Probability') }}
+                                            <p-sortIcon field="opportunity.probability"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="closeDate">
+                                            {{ l('CloseDate') }}
+                                            <p-sortIcon field="opportunity.closeDate"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="description">
+                                            {{ l('Description') }}
+                                            <p-sortIcon field="opportunity.description"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="branch">
                                             {{ l('Branch') }}
@@ -280,18 +304,56 @@
                                             {{ l('Department') }}
                                             <p-sortIcon field="opportunity.department"></p-sortIcon>
                                         </th>
-                                        <th
-                                        style="width: 130px"
-                                        [hidden]="
-                                            !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
-                                        "
-                                        >
-                                            {{ l('Actions') }}
-                                        </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
-                                    <tr>                                       
+                                    <tr>
+                                        <td
+                                            style="width: 130px"
+                                            [hidden]="
+                                                !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
+                                            "
+                                        >
+                                            <div class="btn-group dropdown" dropdown container="body">
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i>
+                                                    <span class="caret"></span>
+                                                    {{ l('Actions') }}
+                                                </button>
+                                                <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/crm/opportunities/view']"
+                                                            [queryParams]="{ id: record.opportunity.id }"
+                                                        >
+                                                            {{ l('View') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
+                                                            [queryParams]="{ id: record.opportunity.id }"
+                                                        >
+                                                            {{ l('Edit') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="javascript:;"
+                                                            *ngIf="permission.isGranted('Pages.Opportunities.Delete')"
+                                                            (click)="deleteOpportunity(record.opportunity)"
+                                                        >
+                                                            {{ l('Delete') }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Description') }}</span>
                                             {{ record.opportunityStageDescription }}
@@ -335,53 +397,6 @@
                                             <span class="p-column-title">{{ l('Department') }}</span>
                                             {{ record.opportunity.department }}
                                         </td>
-                                        <td
-                                            style="width: 130px"
-                                            [hidden]="
-                                                !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
-                                            "
-                                        >
-                                            <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i>
-                                                    <span class="caret"></span>
-                                                    {{ l('Actions') }}
-                                                </button>
-                                                <ul class="dropdown-menu" *dropdownMenu>
-                                                    <li>
-                                                        <a
-                                                            href="javascript:;"
-                                                            class="dropdown-item"
-                                                            (click)="viewOpportunityModal.show(record)"
-                                                        >
-                                                            {{ l('View') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
-                                                            class="dropdown-item"
-                                                            (click)="
-                                                                createOrEditOpportunityModal.show(record.opportunity.id)
-                                                            "
-                                                        >
-                                                            {{ l('Edit') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Opportunities.Delete')"
-                                                            (click)="deleteOpportunity(record.opportunity)"
-                                                        >
-                                                            {{ l('Delete') }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>                                        
                                     </tr>
                                 </ng-template>
                             </p-table>
@@ -407,10 +422,5 @@
                 </div>
             </div>
         </div>
-        <createOrEditOpportunityModal
-            #createOrEditOpportunityModal
-            (modalSave)="getOpportunities()"
-        ></createOrEditOpportunityModal>
-        <viewOpportunityModal #viewOpportunityModal></viewOpportunityModal>
     </div>
 </div>

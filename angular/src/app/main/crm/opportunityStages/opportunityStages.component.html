@@ -138,23 +138,22 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
                                                         <a
-                                                            href="javascript:;"
+                                                            *ngIf="permission.isGranted('Pages.OpportunityStages.Edit')"
                                                             class="dropdown-item"
-                                                            (click)="viewOpportunityStageModal.show(record)"
+                                                            [routerLink]="['/app/main/crm/opportunityStages/view']"
+                                                            [queryParams]="{ id: record.opportunityStage.id }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.OpportunityStages.Edit')"
                                                             class="dropdown-item"
-                                                            (click)="
-                                                                createOrEditOpportunityStageModal.show(
-                                                                    record.opportunityStage.id
-                                                                )
-                                                            "
+                                                            [routerLink]="[
+                                                                '/app/main/crm/opportunityStages/createOrEdit'
+                                                            ]"
+                                                            [queryParams]="{ id: record.opportunityStage.id }"
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
@@ -203,10 +202,5 @@
                 </div>
             </div>
         </div>
-        <createOrEditOpportunityStageModal
-            #createOrEditOpportunityStageModal
-            (modalSave)="getOpportunityStages()"
-        ></createOrEditOpportunityStageModal>
-        <viewOpportunityStageModal #viewOpportunityStageModal></viewOpportunityStageModal>
     </div>
 </div>

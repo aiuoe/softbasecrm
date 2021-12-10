@@ -5,9 +5,7 @@ import { OpportunitiesServiceProxy, OpportunityDto } from '@shared/service-proxi
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateOrEditOpportunityModalComponent } from './create-or-edit-opportunity-modal.component';
 
-import { ViewOpportunityModalComponent } from './view-opportunity-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
@@ -24,10 +22,6 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
     animations: [appModuleAnimation()],
 })
 export class OpportunitiesComponent extends AppComponentBase {
-    @ViewChild('createOrEditOpportunityModal', { static: true })
-    createOrEditOpportunityModal: CreateOrEditOpportunityModalComponent;
-    @ViewChild('viewOpportunityModalComponent', { static: true }) viewOpportunityModal: ViewOpportunityModalComponent;
-
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -58,6 +52,7 @@ export class OpportunitiesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
+        private _router: Router,
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
@@ -107,7 +102,7 @@ export class OpportunitiesComponent extends AppComponentBase {
     }
 
     createOpportunity(): void {
-        this.createOrEditOpportunityModal.show();
+        this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }
 
     deleteOpportunity(opportunity: OpportunityDto): void {
