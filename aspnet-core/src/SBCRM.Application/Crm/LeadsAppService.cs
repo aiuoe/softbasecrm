@@ -116,6 +116,7 @@ namespace SBCRM.Crm
             var totalCount = await filteredLeads.CountAsync();
 
             var dbList = await leads.OrderByDescending(o => o.CreationTime)
+                                    .ThenByDescending(s1 => s1.Description)
                                     .ThenBy(s2 => s2.Description)
                                     .ThenBy(o => o.CompanyName)
                                     .ThenBy(o => o.ContactName).ToListAsync();

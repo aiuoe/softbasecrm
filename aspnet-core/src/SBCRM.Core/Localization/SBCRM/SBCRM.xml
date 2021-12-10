@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="IsLeadConversionValid">Is lead conversion valid</text>
+    <text name="NotIsLeadConversionValid">Not is lead conversion valid</text>
+
     <text name="Color">Color</text>
 
     <text name="ContactName">Contact name</text>

@@ -18,5 +18,7 @@ namespace SBCRM.Crm
         [StringLength(LeadStatusConsts.MaxColorLength, MinimumLength = LeadStatusConsts.MinColorLength)]
         public virtual string Color { get; set; }
 
+        public virtual bool IsLeadConversionValid { get; set; }
+
     }
 }

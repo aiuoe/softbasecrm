@@ -6,6 +6,6 @@ namespace SBCRM.Crm.Dtos
     public class LeadStatusDto : EntityDto
     {
         public string Description { get; set; }
-        public string Color { get; set; }
+
     }
 }

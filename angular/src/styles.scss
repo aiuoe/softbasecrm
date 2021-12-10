@@ -169,3 +169,18 @@ ngx-spinner .loading-text {
     box-shadow: none;
 }
 
+.summary-table-header {
+    font-weight: bold !important;
+    color: #7F8BB5 !important;
+} 
+
+.summary-table-column {
+    max-width: 100px !important;
+    text-align: center !important;
+}
+
+.summary-table-rows {                                                
+    font-family: Arial !important;
+    font-size: 15px !important; 
+    letter-spacing: 1px !important;
+}

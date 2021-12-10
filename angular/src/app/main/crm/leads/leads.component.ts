@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto } from '@shared/service-proxies/service-proxies';
+import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -26,11 +26,6 @@ export class LeadsComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    selectedStatusFilter = "All";
-
-    options = ["New","In Progress","Converted","Dead","All"];
-
-    readOnlyOptions = ["Converted"];
     
     filterText = '';
     companyOrContactNameFilter = '';
@@ -59,6 +54,7 @@ export class LeadsComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
+        private _leadStatusesServiceProxy : LeadStatusesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -67,7 +63,32 @@ export class LeadsComponent extends AppComponentBase {
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
+    }    
+
+    selectedStatusFilter = "All";
+
+    statusFilterOptions = [];
+
+    readOnlyOptions = ["Converted"];
+
+    getLeadsStatuses(event?: LazyLoadEvent) {
+        this._leadStatusesServiceProxy
+            .getAll(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined
+            ).subscribe((result) => {
+                let resultItems = result.items;
+                resultItems.forEach( (item) => {
+                    this.statusFilterOptions.push(item.leadStatus.description)
+                });
+            });
+        this.statusFilterOptions.push("All");
     }
+
+      
 
     getLeads(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
@@ -110,7 +131,6 @@ export class LeadsComponent extends AppComponentBase {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
-                console.log(result);
             });
     }
 
@@ -184,13 +204,14 @@ export class LeadsComponent extends AppComponentBase {
     */
 
     onTableHeaderCheckboxToggle(event: any) {
-        console.log(this.dataTable.value[1]);
+        console.log("Not implemented");
     }
 
     onRowSelect(event) {
-        console.log(event.data.lead.id);
+        console.log("Not implemented");
     }
 
-    onRowUnselect(event) {        
+    onRowUnselect(event) {      
+        console.log("Not implemented");  
     }
 }

@@ -44,8 +44,7 @@ namespace SBCRM.Crm
                                {
 
                                    o.Description,
-                                   Id = o.Id,
-                                   o.Color
+                                   Id = o.Id
                                };
 
             var totalCount = await filteredLeadStatuses.CountAsync();
@@ -62,7 +61,6 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         Id = o.Id,
-                        Color = o.Color
                     }
                 };
 

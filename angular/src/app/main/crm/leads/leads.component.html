@@ -13,7 +13,7 @@
                         for="LeadStatusDescriptionFilter"
                         style="
                             font-weight: bold;
-                            color: hsla(208, 7%, 62%, 0.973);"
+                            color: #7F8BB5;"
                     >
                         {{ l('LeadStatusFilter') }}
                     </label>
@@ -40,7 +40,7 @@
                             {{ selectedStatusFilter }}
                         </button>
                         <ul class="dropdown-menu" *dropdownMenu>
-                            <li *ngFor="let option of options">
+                            <li *ngFor="let option of statusFilterOptions">
                                 <span class="input-group-btn">
                                     <button 
                                         (click)="filterByStatus(option)" 
@@ -85,7 +85,7 @@
                         class="btn btn-primary mr-3"
                         style="
                             max-height: 35px;
-                            background-color: blue !important;"
+                            background-color: #2C4AB6 !important;"
                     >
                         <i class="fa fa-download fa-lg"></i>
                         {{ l('ExportLead') }}
@@ -96,7 +96,7 @@
                         class="btn btn-primary btn-sm mr-3"
                         style="
                             max-height: 35px;
-                            background-color: blue !important;"
+                            background-color: #2C4AB6 !important;"
                     >
                         <i class="fa fa-plus fa-lg"></i>
                         {{ l('NewLead') }}
@@ -120,7 +120,7 @@
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
                             <p-table
                                 #dataTable
-                                (onLazyLoad)="getLeads($event)"
+                                (onLazyLoad)="getLeadsStatuses($event); getLeads($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
                                 [paginator]="true"
@@ -136,44 +136,55 @@
                             >   
                                 <ng-template pTemplate="header" tableHeaderCheckbox>                                                                     
                                     <tr>
-                                        <th style="width: 28px">
+                                        <th style="width: 38px">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
                                         <th 
-                                            style="
-                                                width: 150px;
-                                                font-weight: bold;
-                                                color: hsl(206, 7%, 62%);" 
+                                            class="summary-table-header summary-table-column"
                                             pSortableColumn="companyName"
                                         >
                                             {{ l('LeadCompanyName') }}
                                             <p-sortIcon field="lead.companyName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="contactName">
+                                        <th 
+                                            class="summary-table-header summary-table-column"
+                                            pSortableColumn="contactName"
+                                        >
                                             {{ l('LeadContactName') }}
                                             <p-sortIcon field="lead.contactName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="leadStatusFk.description">
+                                        <th 
+                                            class="summary-table-header summary-table-column"
+                                            pSortableColumn="leadStatusFk.description"
+                                        >
                                             {{ l('LeadStatusTable') }}
                                             <p-sortIcon field="leadStatusDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="companyPhone">
+                                        <th 
+                                            class="summary-table-header summary-table-column" 
+                                            pSortableColumn="companyPhone"
+                                        >
                                             {{ l('LeadCompanyPhone') }}
                                             <p-sortIcon field="lead.companyPhone"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="creationTime">
+                                        <th 
+                                            class="summary-table-header summary-table-column"
+                                            pSortableColumn="creationTime"
+                                        >
                                             {{ l('LeadCreationTime') }}
-                                            <p-sortIcon field="lead.creationTime'"></p-sortIcon>
+                                            <p-sortIcon field="lead.creationTime"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="priorityDescription">
+                                        <th 
+                                            class="summary-table-header summary-table-column" 
+                                            pSortableColumn="PriorityFk.description"
+                                        >
                                             {{ l('LeadPriority') }}
-                                            <p-sortIcon field="lead.priorityDescription'"></p-sortIcon>
+                                            <p-sortIcon field="PriorityDescription"></p-sortIcon>
                                         </th>
                                         <th
-                                        style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                        >
-                                            {{ l('Actions') }}
+                                            class="summary-table-header summary-table-column"
+                                            [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
+                                        >                                            
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -185,7 +196,7 @@
                                             >    
                                             </p-tableCheckbox>
                                         </td>
-                                        <td style="width: 150px">
+                                        <td class="summary-table-column">
                                             <span 
                                                 class="p-column-title"
                                             >
@@ -194,50 +205,61 @@
                                             <a                                                
                                                 [routerLink]="['/app/main/crm/leads/view']"
                                                 [queryParams]="{ id: record.lead.id }"
+                                                class="summary-table-rows"
                                             >
                                                 {{ record.lead.companyName }}   
                                             </a>                                            
                                         </td>
-                                        <td style="width: 150px">
+                                        <td class="summary-table-column">
                                             <span class="p-column-title">{{ l('LeadContactName') }}</span>
-                                            {{ record.lead.contactName }}
+                                            <span class="summary-table-rows">
+                                                {{ record.lead.contactName }}
+                                            </span>    
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td class="summary-table-column">
                                             <span class="p-column-title">{{ l('LeadStatusTable') }}</span>
                                             <span
                                                 class="p-3 mb-2"
                                                 [ngStyle]="{
                                                     'color': record.leadStatusColor,
-                                                    'background-color': record.leadStatusColor + '33',
-                                                    'font-family': 'Arial, Helvetica, sans-serif',
-                                                    'letter-spacing': '1px',
-                                                    'font-weight': 'bold'
+                                                    'background-color': record.leadStatusColor + '33'
                                                 }"
+                                                style="                                              
+                                                    font-family: 'Arial';
+                                                    letter-spacing: '1px';
+                                                    font-size: '14px';
+                                                    font-weight: 'bold';"
                                             >
                                                 {{ record.leadStatusDescription }}
                                             </span>                                            
                                         </td>
-                                        <td style="width: 150px">
+                                        <td class="summary-table-column">
                                             <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
-                                            {{ record.lead.companyPhone }}
+                                            <span class="summary-table-rows">
+                                                {{ record.lead.companyPhone }}
+                                            </span>   
                                         </td>
-                                        <td style="width: 150px">
+                                        <td class="summary-table-column">
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
-                                            {{ record.lead.creationTime  | date: 'dd/MM/yyyy' }}
+                                            <span class="summary-table-rows">
+                                                {{ record.lead.creationTime  | date: 'dd/MM/yyyy' }}
+                                            </span>                                               
                                         </td>
-                                        <td style="width: 150px">
+                                        <td class="summary-table-column">
                                             <span class="p-column-title">{{ l('LeadPriority') }}</span>
-                                            {{ record.priorityDescription }}
+                                            <span class="summary-table-rows">
+                                                {{ record.priorityDescription }}
+                                            </span>                                               
                                         </td>
                                         <td
-                                            style="width: 130px"
+                                            class="summary-table-column"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
                                             >
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="btn btn-sm btn-primary-outline" dropdownToggle>
                                                     <i 
                                                         class="fas fa-ellipsis-h"
-                                                        style="color: blue;"
+                                                        style="color: #2C4AB6;"
                                                     ></i>
                                                     <span class="caret"></span>
                                                 </button>
