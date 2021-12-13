@@ -32,7 +32,7 @@ namespace SBCRM.Crm
         {
 
             var filteredLeadStatuses = _leadStatusRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredLeadStatuses = filteredLeadStatuses
@@ -44,6 +44,7 @@ namespace SBCRM.Crm
                                {
 
                                    o.Description,
+                                   o.IsLeadConversionValid,
                                    Id = o.Id
                                };
 
@@ -60,6 +61,7 @@ namespace SBCRM.Crm
                     {
 
                         Description = o.Description,
+                        IsLeadConversionValid = o.IsLeadConversionValid,
                         Id = o.Id,
                     }
                 };

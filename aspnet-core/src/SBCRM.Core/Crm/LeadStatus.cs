@@ -14,5 +14,11 @@ namespace SBCRM.Crm
         [StringLength(LeadStatusConsts.MaxDescriptionLength, MinimumLength = LeadStatusConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
+        [Required]
+        [StringLength(LeadStatusConsts.MaxColorLength, MinimumLength = LeadStatusConsts.MinColorLength)]
+        public virtual string Color { get; set; }
+
+        public virtual bool IsLeadConversionValid { get; set; }
+
     }
 }

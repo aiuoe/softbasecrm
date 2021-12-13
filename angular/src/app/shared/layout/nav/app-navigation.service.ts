@@ -1,4 +1,5 @@
-﻿import { Injectable } from '@angular/core';
+﻿           
+import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
 import { PermissionCheckerService } from 'abp-ng2-module';
@@ -18,7 +19,7 @@ export class AppNavigationService {
                 'Pages.Administration.Host.Dashboard',
                 'flaticon-line-graph',
                 '/app/admin/hostDashboard'
-            ),
+            ),            
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
@@ -29,6 +30,10 @@ export class AppNavigationService {
                 '',
                 [],
                 [
+                    new AppMenuItem('OpportunityStages', 'Pages.OpportunityStages', 'flaticon-more', '/app/main/crm/opportunityStages'),
+                    new AppMenuItem('OpportunityTypes', 'Pages.OpportunityTypes', 'flaticon-more', '/app/main/crm/opportunityTypes'),
+                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),
+                    new AppMenuItem('Opportunities', 'Pages.Opportunities', 'flaticon-more', '/app/main/crm/opportunities'),
                     new AppMenuItem('Customer', 'Pages.Customer', 'flaticon-more', '/app/main/business/customer'),
                     new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses'),

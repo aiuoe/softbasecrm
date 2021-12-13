@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto, LeadLeadSourceLookupTableDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -34,9 +34,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('importLeadsModalComponent', { static: true })
     importLeadsModalComponent: ImportLeadsModalComponent;
-
-    advancedFiltersAreShown = false;
-    selectedStatusFilter = "All";
     
     filterText = '';
     companyOrContactNameFilter = '';
@@ -76,6 +73,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
+        private _leadStatusesServiceProxy : LeadStatusesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -86,6 +84,31 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         private _tokenService: TokenService
     ) {
         super(injector);
+    }    
+
+    selectedStatusFilter : string = 'All';
+
+    statusFilterOptions : string[] = [];
+
+    readOnlyStatus = [];
+
+    getLeadsStatuses(event?: LazyLoadEvent) {
+        this._leadStatusesServiceProxy
+            .getAll(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined
+            ).subscribe((result) => {
+                let resultItems = result.items;
+                resultItems.forEach( (item) => {                    
+                    this.statusFilterOptions.push(item.leadStatus.description);
+                    if (item.leadStatus.isLeadConversionValid )
+                        this.readOnlyStatus.push(item.leadStatus.description);
+                });
+            });           
+        this.statusFilterOptions.push('All');
     }
 
     ngOnInit(){
@@ -140,10 +163,14 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     filterByStatus(statusSelected): void {
         this.selectedStatusFilter = statusSelected;
-        if (statusSelected == "All")
+        if (statusSelected == 'All')
             statusSelected = '';
         this.leadStatusDescriptionFilter = statusSelected;
         this.getLeads();
+    }
+
+    leadCanBeEdittedOrConverted(event: any) : boolean {
+        return this.readOnlyStatus.includes(event);
     }
 
     reloadPage(): void {
@@ -193,25 +220,26 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter
             )
             .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);
+                this._fileDownloadService.downloadTempFile(result);                
             });
     } 
 
     /* 
     Below there are methods that act as placeholder for
     rows selections, currently there are not valid actions
-    as 12/7/2021 - lead summary story
+    as 13/12/2021 - lead summary story
     */
 
     onTableHeaderCheckboxToggle(event: any) {
-        console.log(this.dataTable.value[1]);
+        console.log('Not implemented');
     }
 
     onRowSelect(event) {
-        console.log(event.data.lead.id);
+        console.log('Not implemented');
     }
 
-    onRowUnselect(event) {        
+    onRowUnselect(event) {      
+        console.log('Not implemented');  
     }
 
     showModalDialog() {

@@ -6,6 +6,21 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Opportunities = "Pages.Opportunities";
+        public const string Pages_Opportunities_Create = "Pages.Opportunities.Create";
+        public const string Pages_Opportunities_Edit = "Pages.Opportunities.Edit";
+        public const string Pages_Opportunities_Delete = "Pages.Opportunities.Delete";
+
+        public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
+        public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
+        public const string Pages_OpportunityTypes_Edit = "Pages.OpportunityTypes.Edit";
+        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";
+
+        public const string Pages_OpportunityStages = "Pages.OpportunityStages";
+        public const string Pages_OpportunityStages_Create = "Pages.OpportunityStages.Create";
+        public const string Pages_OpportunityStages_Edit = "Pages.OpportunityStages.Edit";
+        public const string Pages_OpportunityStages_Delete = "Pages.OpportunityStages.Delete";
+
         public const string Pages_LeadUsers = "Pages.LeadUsers";
         public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
         public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
