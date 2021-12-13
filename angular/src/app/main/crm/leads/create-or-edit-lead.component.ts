@@ -97,14 +97,14 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         });
     }
 
-    save(): void {
+    save(): void {        
         if (this.LeadForm.form.valid) {
             this.saving = true;
             this._leadsServiceProxy
                 .createOrEdit(this.lead)
                 .pipe(
                     finalize(() => {
-                        this.saving = false;
+                        this.saving = false;                        
                     })
                 )
                 .subscribe((x) => {
