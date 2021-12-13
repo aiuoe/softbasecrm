@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>    <text name="ActivityStatus">Activity status</text>
+  <texts>
+    <text name="ActivityStatus">Activity status</text>
     <text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
     <text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
     <text name="CreateNewActivityStatus">Create new activity status</text>
@@ -16,7 +17,6 @@
     <text name="DeleteActivityTaskType">Delete activity task type</text>
     <text name="ActivityTaskTypes">Activity task types</text>
     <text name="Order">Order</text>
-
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -94,7 +94,7 @@
     <text name="WebSite">Web site</text>
 	<text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
-    <text name="CreateNewLead">Create new lead</text>
+    <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
     <text name="DeleteLead">Delete lead</text>
     <text name="Leads">Leads</text>
