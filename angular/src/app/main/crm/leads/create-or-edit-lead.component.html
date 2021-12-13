@@ -53,7 +53,7 @@
                                             <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
                                             <input type="email" #Lead_CompanyEmail="ngModel" id="Lead_CompanyEmail"
                                                 class="form-control" [(ngModel)]="lead.companyEmail"
-                                                [placeholder]="l('CompanyEmail')" name="CompanyEmail" />
+                                                [placeholder]="l('CompanyEmail')" name="CompanyEmail" email />
                                             <validation-messages [formCtrl]="Lead_CompanyEmail"></validation-messages>
                                         </div>
                                     </div>
@@ -224,10 +224,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
-                                            <input type="text" #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
+                                            <input type="email" #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
                                                 class="form-control" [(ngModel)]="lead.contactEmail"
-                                                [placeholder]="l('ContactEmail')" name="ContactEmail" minlength="1"
-                                                maxlength="100" />
+                                                [placeholder]="l('ContactEmail')" name="ContactEmail" email />
                                             <validation-messages [formCtrl]="Lead_ContactEmail"></validation-messages>
                                         </div>
                                     </div>
