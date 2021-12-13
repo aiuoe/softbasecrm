@@ -1961,6 +1961,125 @@ namespace SBCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsLeadConversionValid")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeadStatuses");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.Opportunity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Branch")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CloseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("LeadSourceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int?>("OpportunityStageId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OpportunityTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Probability")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeadSourceId");
+
+                    b.HasIndex("OpportunityStageId");
+
+                    b.HasIndex("OpportunityTypeId");
+
+                    b.ToTable("Opportunities");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityStage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -1989,7 +2108,45 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LeadStatuses");
+                    b.ToTable("OpportunityStages");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OpportunityTypes");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
@@ -3413,6 +3570,27 @@ namespace SBCRM.Migrations
                     b.Navigation("LeadStatusFk");
 
                     b.Navigation("PriorityFk");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.Opportunity", b =>
+                {
+                    b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceFk")
+                        .WithMany()
+                        .HasForeignKey("LeadSourceId");
+
+                    b.HasOne("SBCRM.Crm.OpportunityStage", "OpportunityStageFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityStageId");
+
+                    b.HasOne("SBCRM.Crm.OpportunityType", "OpportunityTypeFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityTypeId");
+
+                    b.Navigation("LeadSourceFk");
+
+                    b.Navigation("OpportunityStageFk");
+
+                    b.Navigation("OpportunityTypeFk");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>

@@ -17,6 +17,7 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { MenuItem } from 'primeng/api';
+import { NgForm } from '@angular/forms';
 
 @Component({
     templateUrl: './create-or-edit-lead.component.html',
@@ -29,6 +30,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     saving = false;
 
     lead: CreateOrEditLeadDto = new CreateOrEditLeadDto();
+    @ViewChild('LeadForm', { static: true }) LeadForm: NgForm;
 
     leadSourceDescription = '';
     leadStatusDescription = '';
@@ -44,10 +46,6 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
     items: MenuItem[];
 
-    countries: any[];
-    selectedCountry: any = { countryCode: '+1', code: 'US', flag: "famfamfam-flags us" };
-   
-
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -61,21 +59,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     ngOnInit(): void {
         const hasId = this._activatedRoute.snapshot.queryParams['id'];
         this.show(hasId);
-        this.breadcrumbs.push(new BreadcrumbItem(hasId ? "Edit Lead" : "New Lead"));
-        this.countries = [
-            { countryCode: '+1', code: 'US', name: "United States", flag: "famfamfam-flags us" },
-            { countryCode: '+1', code: 'CA', name: "Canada", flag: "famfamfam-flags ca" },
-            { countryCode: '+52', code: 'MX', name: "Mexico", flag: "famfamfam-flags mx" },
-        ];
-    }
-
-    checkCountryCode(phone) {
-        let areaCodes = this.countries.map((c) => c.countryCode);
-        let hasAreaCode = areaCodes.some((a) => phone.startsWith(a));
-        if (!hasAreaCode) {
-            phone = `${this.selectedCountry.countryCode}${phone}`;
-        }
-        return phone;
+        this.breadcrumbs.push(new BreadcrumbItem(hasId ? this.l('EditLead') : this.l('CreateNewLead')));
     }
 
     goToLeads() {
@@ -114,8 +98,12 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     }
 
     save(): void {
+        if (!this.LeadForm.form.valid) {
+            this.LeadForm.form.markAllAsTouched();
+            this.message.warn(this.l('InvalidFormMessage'));
+            return;
+        }
         this.saving = true;
-        this.lead.companyPhone = this.checkCountryCode(this.lead.companyPhone);
         this._leadsServiceProxy
             .createOrEdit(this.lead)
             .pipe(
@@ -123,7 +111,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                     this.saving = false;
                 })
             )
-            .subscribe((x) => {
+            .subscribe((_) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.goToLeads();
