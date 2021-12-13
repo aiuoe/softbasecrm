@@ -123,7 +123,6 @@ namespace SBCRM.Crm
                                     .ThenBy(o => o.CompanyName)
                                     .ThenBy(o => o.ContactName).ToListAsync();
 
-            //var dbList = await leadsOrdered.ToListAsync();
             var results = new List<GetLeadForViewDto>();
 
             foreach (var o in dbList)

@@ -155,32 +155,3 @@ ngx-spinner .loading-text {
 }
 
 @import "styles/main";
-
-.search-bar-summary-button {
-    float: left;
-    margin-left: -10px;
-    border-color: #ced4da;
-    max-height: 35px;
-}
-
-.search-bar-summary {
-    max-height: 34px;
-    border-color: #ced4da;
-    box-shadow: none;
-}
-
-.summary-table-header {
-    font-weight: bold !important;
-    color: #7F8BB5 !important;
-} 
-
-.summary-table-column {
-    max-width: 100px !important;
-    text-align: center !important;
-}
-
-.summary-table-rows {                                                
-    font-family: Arial !important;
-    font-size: 15px !important; 
-    letter-spacing: 1px !important;
-}

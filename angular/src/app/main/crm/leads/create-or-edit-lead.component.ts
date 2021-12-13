@@ -113,7 +113,5 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                     this.goToLeads();
                 });
         }
-        else{
-        console.log("working"); }
     }
 }

@@ -86,9 +86,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         super(injector);
     }    
 
-    selectedStatusFilter = "All";
+    selectedStatusFilter : string = 'All';
 
-    statusFilterOptions = [];
+    statusFilterOptions : string[] = [];
 
     readOnlyStatus = [];
 
@@ -108,7 +108,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                         this.readOnlyStatus.push(item.leadStatus.description);
                 });
             });           
-        this.statusFilterOptions.push("All");
+        this.statusFilterOptions.push('All');
     }
 
     ngOnInit(){
@@ -163,7 +163,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     filterByStatus(statusSelected): void {
         this.selectedStatusFilter = statusSelected;
-        if (statusSelected == "All")
+        if (statusSelected == 'All')
             statusSelected = '';
         this.leadStatusDescriptionFilter = statusSelected;
         this.getLeads();
@@ -227,19 +227,19 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     /* 
     Below there are methods that act as placeholder for
     rows selections, currently there are not valid actions
-    as 12/7/2021 - lead summary story
+    as 13/12/2021 - lead summary story
     */
 
     onTableHeaderCheckboxToggle(event: any) {
-        console.log("Not implemented");
+        console.log('Not implemented');
     }
 
     onRowSelect(event) {
-        console.log("Not implemented");
+        console.log('Not implemented');
     }
 
     onRowUnselect(event) {      
-        console.log("Not implemented");  
+        console.log('Not implemented');  
     }
 
     showModalDialog() {

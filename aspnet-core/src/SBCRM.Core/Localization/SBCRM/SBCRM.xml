@@ -43,15 +43,14 @@
     <text name="DeleteLeadUser">Delete lead user</text>
     <text name="Import">Import</text>
     <text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
-    <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>
-    <text name="LeadContactNameTable">CONTACT NAME</text>
+    <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>    
     <text name="AssignedUser">Assigned User</text>
     <text name="DescriptionLabel">Description</text>
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
 	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
-	<text name="LeadCompanyPhone">PHONE</text>
+	<text name="LeadCompanyPhone">Phone</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -62,7 +61,7 @@
     <text name="ContactEmail">Contact email</text>
     <text name="PriorityDescription">Priority description</text>
     <text name="PickPriority">Pick priority</text>
-	<text name="LeadPriority">PRIORITY</text>
+	<text name="LeadPriority">Priority</text>
 	<text name="SelectAPriority">Select a priority</text>
     <text name="Priority">Priority</text>
     <text name="SBCRM.Crm.Priority">Priority</text>
@@ -74,7 +73,7 @@
     <text name="Lead">Lead</text>
     <text name="SBCRM.Crm.Lead">Lead</text>
     <text name="CompanyName">Company name</text>
-    <text name="LeadCompanyName">COMPANY NAME</text>
+    <text name="LeadCompanyName">Company name</text>
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
@@ -93,10 +92,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-    <text name="LeadStatusTable">STATUS</text>
 	<text name="LeadStatus">Lead status</text>
 	<text name="MakeAccount">Make Account</text>	  
-	<text name="LeadStatusFilter">Status</text>
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
@@ -427,8 +424,9 @@
     <text name="CreatingNewRole">Creating new role</text>
     <text name="DeletingRole">Deleting role</text>
     <text name="CreationTime">Creation time</text>
-    <text name="LeadCreationTime">CREATED AT</text>
+    <text name="LeadCreationTime">Created at</text>
     <text name="SearchWithThreeDot">Search...</text>
+	<text name="LeadSearchWithThreeDot">Search Lead</text>  
     <text name="AccountSearchWithThreeDot">Search Account</text>
     <text name="ResetSpecialPermissions">Reset special permissions</text>
     <text name="SavingWithThreeDot">Saving...</text>
@@ -1215,7 +1213,6 @@
     <text name="ImportFromExcel">Import from excel</text>
     <text name="ExportToExcel">Export to excel</text>
     <text name="Export">Export</text>
-    <text name="ExportLead">Export</text>
     <text name="NewLead">Lead</text>
     <text name="ImportToExcelSampleFileDownloadInfo">{0} to download sample import file.</text>
     <text name="ImportUsersProcessStart">User import process has begun.</text>

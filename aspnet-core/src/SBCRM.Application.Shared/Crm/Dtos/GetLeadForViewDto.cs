@@ -8,7 +8,7 @@
 
         public string LeadStatusDescription { get; set; }
 
-        public string LeadStatusColor{ get; set; }
+        public string LeadStatusColor { get; set; }
 
         public string PriorityDescription { get; set; }
         public object City { get; set; }

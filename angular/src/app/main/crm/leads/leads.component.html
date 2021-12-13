@@ -1,110 +1,98 @@
 ﻿<div [@routerTransition]>
     <div class="content d-inline-flex flex-column flex-column-fluid">
         <sub-header [title]="'Leads'" >
-            <div role="actions" class="d-flex flex-row bd-highlight">
-                <div 
-                    class="form-group d-flex flex-row bd-highlight" 
-                    autocomplete="off"
-                    style="
-                        max-height: 35px;
-                        line-height: 35px;"                
+
+            <div role="actions" class="d-flex flex-row align-items-center">
+                <label 
+                    for="LeadStatusDescriptionFilter"
                 >
-                    <label 
-                        for="LeadStatusDescriptionFilter"
-                        style="
-                            font-weight: bold;
-                            color: #7F8BB5;"
-                    >
-                        {{ l('LeadStatusFilter') }}
-                    </label>
-                    <div class="btn-group dropdown filter col px-md-3" dropdown container="body">
-                        <button 
+                    {{ l('Status') }}
+                </label>
+
+                <div class="btn-group dropdown filter col px-md-3" dropdown container="body">
+                    <button 
                             class="btn btn-sm btn-outline-secondary" 
-                            style="
-                                min-height: 35px;
-                                min-width: 135px;
-                                text-align: left;"
                             dropdownToggle
                         >
-                        <i class="dropdown-toggle"
-                            style="
-                                float: right;
-                                margin-top: 5px;
-                                margin-right: -10px;"                       
-                        >   
+                        <i class="dropdown-toggle">   
                         </i>
                         <span 
                             class="caret"
                         >
                         </span>
                             {{ selectedStatusFilter }}
-                        </button>
-                        <ul class="dropdown-menu" *dropdownMenu>
-                            <li *ngFor="let option of statusFilterOptions">
-                                <span class="input-group-btn">
-                                    <button 
-                                        (click)="filterByStatus(option)" 
-                                        class="btn dropdown-item" 
-                                        type="submit"
-                                    >
-                                        {{ option }}
-                                    </button>
-                                </span>
-                            </li> 
-                        </ul>
-                    </div>
-                </div>   
-                <form class="form" autocomplete="off">
-                    <div 
-                        class="input-group col px-md-4"
-                    >                        
+                    </button>
+                    <ul class="dropdown-menu" *dropdownMenu>
+                        <li *ngFor="let option of statusFilterOptions">
+                            <span class="input-group-btn">
+                                <button 
+                                    (click)="filterByStatus(option)" 
+                                    class="btn dropdown-item" 
+                                    type="submit"
+                                >
+                                    {{ option }}
+                                </button>
+                            </span>
+                        </li> 
+                    </ul>
+                </div>
+                   
+                <div class="padding-left-5">
+                    <div class="input-group p-2">                        
                         <input
                             [(ngModel)]="companyOrContactNameFilter"
                             name="companyOrContactNameFilter"
                             autoFocus
-                            class="form-control m-input search-bar-summary"
-                            [placeholder]="'Search Leads'"
+                            class="form-control m-input"
+                            [placeholder]="l('LeadSearchWithThreeDot')"
                             type="text"
                         />
                         <span class="input-group-btn">
                             <button 
                                 (click)="getLeads()"
-                                class="btn btn-outline-secondary border-left-0 search-bar-summary-button"  
+                                class="btn btn-primary"  
                                 type="submit"   
                             >
                                 <i 
-                                    class="fas fa-search fa-sm"
+                                    class="flaticon-search-1"
                                 >
                                 </i>
                             </button>
                         </span>
                     </div>
-                </form>     
+                </div>  
+
+                <div class = padding-left-5>
                     <button 
                         (click)="exportToExcel()" 
-                        class="btn btn-primary mr-3"
-                        style="
-                            max-height: 35px;
-                            background-color: #2C4AB6 !important;"
+                        class="btn btn btn-primary blue"
                     >
                         <i class="fa fa-download fa-lg"></i>
-                        {{ l('ExportLead') }}
+                        {{ l('Export') }}
                     </button>
-                    <button *ngIf="isGranted('Pages.Leads.Create')" (click)="showModalDialog()" class="btn btn-primary blue">
-                    <i class="fa fa-address-card"></i>
-                    {{ l('Import') }}
+                </div>   
+
+                <div class = padding-left-5> 
+                    <button 
+                        *ngIf="isGranted('Pages.Leads.Create')" 
+                        (click)="showModalDialog()" 
+                        class="btn btn-primary blue">
+                        <i class="fa fa-address-card"></i>
+                        {{ l('Import') }}
                     </button>
+                </div>
+
+                <div class = padding-left-5>    
                     <button 
                         *ngIf="isGranted('Pages.Leads.Create')" 
                         (click)="createLead()" 
-                        class="btn btn-primary btn-sm mr-3"
-                        style="
-                            max-height: 35px;
-                            background-color: #2C4AB6 !important;"
+                        class="btn btn btn-primary blue"
                     >
                         <i class="fa fa-plus fa-lg"></i>
                         {{ l('NewLead') }}
                     </button>
+                </div>   
+
             </div>
         </sub-header>
 
@@ -144,127 +132,110 @@
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
                                         <th 
-                                            class="summary-table-header summary-table-column"
+                                            style="width: 250px"   
                                             pSortableColumn="companyName"
                                         >
-                                            {{ l('LeadCompanyName') }}
+                                            {{ lupper('LeadCompanyName') }}
                                             <p-sortIcon field="lead.companyName"></p-sortIcon>
                                         </th>
                                         <th 
-                                            class="summary-table-header summary-table-column"
+                                            style="width: 150px"                                            
                                             pSortableColumn="contactName"
                                         >
-                                            {{ l('LeadContactName') }}
+                                            {{ lupper('LeadContactName') }}
                                             <p-sortIcon field="lead.contactName"></p-sortIcon>
                                         </th>
                                         <th 
-                                            class="summary-table-header summary-table-column"
+                                            style="width: 150px"
                                             pSortableColumn="leadStatusFk.description"
                                         >
-                                            {{ l('LeadStatusTable') }}
+                                            {{ lupper('Status') }}
                                             <p-sortIcon field="leadStatusDescription"></p-sortIcon>
                                         </th>
                                         <th 
-                                            class="summary-table-header summary-table-column" 
+                                            style="width: 150px"
                                             pSortableColumn="companyPhone"
                                         >
-                                            {{ l('LeadCompanyPhone') }}
+                                            {{ lupper('LeadCompanyPhone') }}
                                             <p-sortIcon field="lead.companyPhone"></p-sortIcon>
                                         </th>
                                         <th 
-                                            class="summary-table-header summary-table-column"
+                                            style="width: 150px"
                                             pSortableColumn="creationTime"
                                         >
-                                            {{ l('LeadCreationTime') }}
+                                            {{ lupper('LeadCreationTime') }}
                                             <p-sortIcon field="lead.creationTime"></p-sortIcon>
                                         </th>
                                         <th 
-                                            class="summary-table-header summary-table-column" 
+                                            style="width: 150px"
                                             pSortableColumn="PriorityFk.description"
                                         >
-                                            {{ l('LeadPriority') }}
+                                            {{ lupper('LeadPriority') }}
                                             <p-sortIcon field="PriorityDescription"></p-sortIcon>
                                         </th>
                                         <th
-                                            class="summary-table-header summary-table-column"
+                                            style="width: 130px"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                        >                                            
+                                        >    
+                                            {{ lupper('Actions') }}                                        
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td style="width: 38px" >
-                                            <p-tableCheckbox
-                                            [value]="record"
-                                            >    
+                                        <td 
+                                            style="width: 38px" >
+                                            <p-tableCheckbox    [value]="record">    
                                             </p-tableCheckbox>
                                         </td>
-                                        <td class="summary-table-column">
-                                            <span 
+                                        <td style="width: 250px">
+                                            <span                                                 
                                                 class="p-column-title"
                                             >
-                                                {{ l('LeadCompanyNameTable') }}
+                                                {{ lupper('LeadCompanyName') }}
                                             </span>    
                                             <a                                                
                                                 [routerLink]="['/app/main/crm/leads/view']"
                                                 [queryParams]="{ id: record.lead.id }"
-                                                class="summary-table-rows"
                                             >
                                                 {{ record.lead.companyName }}   
                                             </a>                                            
                                         </td>
-                                        <td class="summary-table-column">
-                                            <span class="p-column-title">{{ l('LeadContactName') }}</span>
-                                            <span class="summary-table-rows">
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ lupper('LeadContactName') }}</span>
                                                 {{ record.lead.contactName }}
-                                            </span>    
                                         </td>
-                                        <td class="summary-table-column">
-                                            <span class="p-column-title">{{ l('LeadStatusTable') }}</span>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ lupper('Status') }}</span>
                                             <span
                                                 class="p-3 mb-2"
                                                 [ngStyle]="{
                                                     'color': record.leadStatusColor,
                                                     'background-color': record.leadStatusColor + '33'
                                                 }"
-                                                style="                                              
-                                                    font-family: 'Arial';
-                                                    letter-spacing: '1px';
-                                                    font-size: '14px';
-                                                    font-weight: 'bold';"
                                             >
                                                 {{ record.leadStatusDescription }}
                                             </span>                                            
                                         </td>
-                                        <td class="summary-table-column">
-                                            <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
-                                            <span class="summary-table-rows">
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ lupper('LeadCompanyPhone') }}</span>
                                                 {{ record.lead.companyPhone }}
-                                            </span>   
                                         </td>
-                                        <td class="summary-table-column">
-                                            <span class="p-column-title">{{ l('CreationTime') }}</span>
-                                            <span class="summary-table-rows">
-                                                {{ record.lead.creationTime  | date: 'dd/MM/yyyy' }}
-                                            </span>                                               
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ lupper('CreationTime') }}</span>
+                                                {{ record.lead.creationTime  | date: 'dd/MM/yyyy' }}                                           
                                         </td>
-                                        <td class="summary-table-column">
-                                            <span class="p-column-title">{{ l('LeadPriority') }}</span>
-                                            <span class="summary-table-rows">
-                                                {{ record.priorityDescription }}
-                                            </span>                                               
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ lupper('LeadPriority') }}</span>
+                                                {{ record.priorityDescription }}                                             
                                         </td>
                                         <td
-                                            class="summary-table-column"
+                                            style="width: 130px"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                            >
+                                        >
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="btn btn-sm btn-primary-outline" dropdownToggle>
-                                                    <i 
-                                                        class="fas fa-ellipsis-h"
-                                                        style="color: #2C4AB6;"
-                                                    ></i>
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
