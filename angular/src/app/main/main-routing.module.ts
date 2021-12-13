@@ -9,6 +9,20 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'crm/activityStatuses',
+                        loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
+                        data: { permission: 'Pages.ActivityStatuses' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/activityTaskTypes',
+                        loadChildren: () => import('./crm/activityTaskTypes/activityTaskType.module').then(m => m.ActivityTaskTypeModule),
+                        data: { permission: 'Pages.ActivityTaskTypes' }
+                    },
+                
+                    
+                    {
                         path: 'crm/leadSources',
                         loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
                         data: { permission: 'Pages.LeadSources' }
