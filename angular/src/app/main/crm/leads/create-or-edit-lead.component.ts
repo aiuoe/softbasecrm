@@ -59,7 +59,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     ngOnInit(): void {
         const hasId = this._activatedRoute.snapshot.queryParams['id'];
         this.show(hasId);
-        this.breadcrumbs.push(new BreadcrumbItem(hasId ? "Edit Lead" : "New Lead"));
+        this.breadcrumbs.push(new BreadcrumbItem(hasId ? this.l('EditLead') : this.l('CreateNewLead')));
     }
 
     goToLeads() {
@@ -97,21 +97,24 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         });
     }
 
-    save(): void {        
-        if (this.LeadForm.form.valid) {
-            this.saving = true;
-            this._leadsServiceProxy
-                .createOrEdit(this.lead)
-                .pipe(
-                    finalize(() => {
-                        this.saving = false;                        
-                    })
-                )
-                .subscribe((x) => {
-                    this.saving = false;
-                    this.notify.info(this.l('SavedSuccessfully'));
-                    this.goToLeads();
-                });
+    save(): void {
+        if (!this.LeadForm.form.valid) {
+            this.LeadForm.form.markAllAsTouched();
+            this.message.warn(this.l('InvalidFormMessage'));
+            return;
         }
+        this.saving = true;
+        this._leadsServiceProxy
+            .createOrEdit(this.lead)
+            .pipe(
+                finalize(() => {
+                    this.saving = false;
+                })
+            )
+            .subscribe((_) => {
+                this.saving = false;
+                this.notify.info(this.l('SavedSuccessfully'));
+                this.goToLeads();
+            });
     }
 }

@@ -79,7 +79,7 @@
     <text name="WebSite">Web site</text>
 	<text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
-    <text name="CreateNewLead">Create new lead</text>
+    <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
     <text name="DeleteLead">Delete lead</text>
     <text name="Leads">Leads</text>
