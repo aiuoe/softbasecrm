@@ -19,6 +19,7 @@ using Abp.UI;
 using SBCRM.Storage;
 using SBCRM.Infrastructure.Excel;
 using SBCRM.DataImporting;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -43,7 +44,8 @@ namespace SBCRM.Crm
 
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
         {
-
+            ICustomerAppService s = new CustomerAppService(null, null, null);
+            await s.GetAll(null);
             var filteredLeads = _leadRepository.GetAll()
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)

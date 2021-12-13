@@ -1,22 +1,24 @@
 // Fonts
-$sansSerif  : 'Open Sans';
+$sansSerif: 'Open Sans';
 
 // Font Sizing
-$baseFontSize      : 16px;
-$baseLineHeight    : 1.5;
-$headingLineHeight : 1.2;
+$baseFontSize: 16px;
+$baseLineHeight: 1.5;
+$headingLineHeight: 1.2;
 
 // Colors
-$black : rgba(51,51,51,1);
-$red   : #d52b1e;
-$blue  : #3250B8;
+$black: rgba(51, 51, 51, 1);
+$red: #d52b1e;
+$blue: #3250B8;
 $primaryColor: #3250B8;
 $primaryBorderInputColor: #C3C8CF;
 $primaryBorderHoverInputColor: #C3C8CF;
+$datatableHeaderColor: #A8AFB9;
+$titleColor: #263950;
 
 // Spacing
-$pad : 1em;
+$pad: 1em;
 
 // Breakpoints
-$smallBreakpoint : 600px;
-$largeBreakpoint : 1080px;
+$smallBreakpoint: 600px;
+$largeBreakpoint: 1080px;

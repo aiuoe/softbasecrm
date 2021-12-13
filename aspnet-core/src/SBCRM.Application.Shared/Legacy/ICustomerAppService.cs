@@ -8,8 +8,16 @@ using System.Collections.Generic;
 
 namespace SBCRM.Legacy
 {
+    /// <summary>
+    /// App service to handle customer information
+    /// </summary>
     public interface ICustomerAppService : IApplicationService
     {
+        /// <summary>
+        /// Get all customers
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         Task<PagedResultDto<GetCustomerForViewDto>> GetAll(GetAllCustomerInput input);
 
         Task<GetCustomerForViewDto> GetCustomerForView(string customerNumber);
@@ -20,6 +28,11 @@ namespace SBCRM.Legacy
 
         Task Delete(DeleteCustomerInput input);
 
+        /// <summary>
+        /// Get Customers for excel export
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         Task<FileDto> GetCustomerToExcel(GetAllCustomerForExcelInput input);
 
         Task<List<CustomerAccountTypeLookupTableDto>> GetAllAccountTypeForTableDropdown();

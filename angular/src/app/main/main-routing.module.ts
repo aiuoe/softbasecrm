@@ -7,20 +7,20 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
-                    
+
                     {
                         path: 'crm/leads',
                         loadChildren: () => import('./crm/leads/lead.module').then(m => m.LeadModule),
                         data: { permission: 'Pages.Leads' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/priorities',
                         loadChildren: () => import('./crm/priorities/priority.module').then(m => m.PriorityModule),
                         data: { permission: 'Pages.Priorities' }
                     },
-                
+
 
                     {
                         path: 'business/leadStatuses',
@@ -44,11 +44,10 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.LeadSources' }
                     },
                     {
-                        path: 'business/customer',
+                        path: 'business/accounts',
                         loadChildren: () => import('./legacy/customer/customer.module').then(m => m.CustomerModule),
                         data: { permission: 'Pages.Customer' }
                     },
-
                     {
                         path: 'dashboard',
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),

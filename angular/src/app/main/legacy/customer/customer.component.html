@@ -17,6 +17,7 @@
                             autoFocus
                             class="form-control m-input"
                             [placeholder]="l('AccountSearchWithThreeDot')"
+                            (change)="getCustomer()"
                             type="text"
                         />
                         <span class="input-group-btn">
@@ -69,6 +70,13 @@
                             >
                                 <ng-template pTemplate="header">
                                     <tr>
+                                        <th
+                                            style="width: 80px"
+                                            [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
+                                        >
+                                            {{ lupper('Actions') }}
+                                        </th>
+
                                         <th style="width: 250px" pSortableColumn="name">
                                             {{ lupper('Name') }}
                                             <p-sortIcon field="customer.name"></p-sortIcon>
@@ -93,20 +101,68 @@
                                             {{ lupper('AssignedUser') }}
                                             <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                         </th>
-
-                                        <th
-                                            style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
-                                        >
-                                            {{ lupper('Actions') }}
-                                        </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
+
+                                        <td
+                                            style="width: 80px"
+                                            [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
+                                        >
+                                            <div class="btn-group dropdown" dropdown container="body">
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/legacy/accounts/view']"
+                                                            [queryParams]="{ id: record.customer.id }"
+                                                        >
+                                                            {{ l('View') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/business/accounts/createOrEdit']"
+                                                            [queryParams]="{ id: record.customer.id }"
+                                                        >
+                                                            {{ l('Edit') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="javascript:;"
+                                                            *ngIf="permission.isGranted('Pages.Customer.Delete')"
+                                                            (click)="deleteCustomer(record.customer)"
+                                                        >
+                                                            {{ l('Delete') }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+
                                         <td style="width: 250px">
-                                            <span class="p-column-title">{{ l('Name') }}</span>
-                                            {{ record.customer.name }}
+                                            <a
+                                                *ngIf="permission.isGranted('Pages.Customer.Edit')"
+                                                [routerLink]="['/app/main/business/accounts/createOrEdit']"
+                                                [queryParams]="{ id: record.customer.id }"
+                                            >
+                                                <span class="p-column-title">{{ l('Name') }}</span>
+                                                {{ record.customer.name }}
+                                            </a>
+                                            <a *ngIf="!permission.isGranted('Pages.Customer.Edit')">
+                                                <span class="p-column-title">{{ l('Name') }}</span>
+                                                {{ record.customer.name }}
+                                            </a>
                                         </td>
 
                                         <td style="width: 150px">
@@ -125,61 +181,12 @@
                                         </td>
 
                                         <td style="width: 150px">
-<!--                                            <span class="p-column-title">{{ l('Description') }}</span>-->
-<!--                                            {{ record.accountTypeDescription }}-->
-
                                             <span>
                                                 <a [href]="record.profilePictureUrl" target="_blank" class="float-left">
                                                     <img class="img-circle" [src]="record.profilePictureUrl" />
                                                 </a>
                                                 {{ record.accountTypeDescription }}
                                             </span>
-                                        </td>
-
-
-                                        <td
-                                            style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
-                                        >
-                                            <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i>
-                                                    <span class="caret"></span>
-                                                    {{ l('Actions') }}
-                                                </button>
-                                                <ul class="dropdown-menu" *dropdownMenu>
-                                                    <li>
-                                                        <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
-                                                            class="dropdown-item"
-                                                            [routerLink]="['/app/main/legacy/customer/view']"
-                                                            [queryParams]="{ id: record.customer.id }"
-                                                        >
-                                                            {{ l('View') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
-                                                            class="dropdown-item"
-                                                            [routerLink]="['/app/main/legacy/customer/createOrEdit']"
-                                                            [queryParams]="{ id: record.customer.id }"
-                                                        >
-                                                            {{ l('Edit') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Customer.Delete')"
-                                                            (click)="deleteCustomer(record.customer)"
-                                                        >
-                                                            {{ l('Delete') }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
                                         </td>
 
                                     </tr>

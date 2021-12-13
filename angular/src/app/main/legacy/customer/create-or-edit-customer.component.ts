@@ -23,6 +23,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     active = false;
     saving = false;
 
+    isNew = true;
+
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
 
     accountTypeDescription = '';
@@ -30,8 +32,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     allAccountTypes: CustomerAccountTypeLookupTableDto[];
 
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Customer'), '/app/main/legacy/customer'),
-        new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
+        new BreadcrumbItem(this.l('Customer'), '/app/main/business/accounts'),
     ];
 
     constructor(
@@ -45,7 +46,10 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     }
 
     ngOnInit(): void {
-        this.show(this._activatedRoute.snapshot.queryParams['id']);
+        const customerNumber = this._activatedRoute.snapshot.queryParams['number'];
+        this.isNew = !!!customerNumber;
+        this.show(customerNumber);
+        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.l('EditCustomer')));
     }
 
     show(customerId?: number): void {
@@ -117,5 +121,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.customer = new CreateOrEditCustomerDto();
             });
+    }
+
+    goToAccounts() {
+        this._router.navigate(['/app/main/legacy/customer']);
     }
 }

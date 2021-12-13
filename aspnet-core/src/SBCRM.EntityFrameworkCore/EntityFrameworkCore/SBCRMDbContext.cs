@@ -69,6 +69,12 @@ namespace SBCRM.EntityFrameworkCore
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
 
+            modelBuilder.HasSequence<int>("CustomerNumberSequence");
+
+            modelBuilder.Entity<Customer>()
+                .Property(o => o.Number)
+                .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
+
             modelBuilder.Entity<BinaryObject>(b =>
                                              {
                                                  b.HasIndex(e => new { e.TenantId });
