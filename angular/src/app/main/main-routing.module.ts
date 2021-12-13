@@ -9,6 +9,27 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'crm/leadSources',
+                        loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
+                        data: { permission: 'Pages.LeadSources' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/opportunityTypes',
+                        loadChildren: () => import('./crm/opportunityTypes/opportunityType.module').then(m => m.OpportunityTypeModule),
+                        data: { permission: 'Pages.OpportunityTypes' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/opportunityStages',
+                        loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
+                        data: { permission: 'Pages.OpportunityStages' }
+                    },
+                
+                    
+                    {
                         path: 'crm/opportunityTypes',
                         loadChildren: () => import('./crm/opportunityTypes/opportunityType.module').then(m => m.OpportunityTypeModule),
                         data: { permission: 'Pages.OpportunityTypes' }

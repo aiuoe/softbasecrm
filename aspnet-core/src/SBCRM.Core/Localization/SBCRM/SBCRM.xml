@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="Order">Order</text>
+
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
