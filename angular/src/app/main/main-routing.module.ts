@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
                     
                     {
                         path: 'crm/accountUsers',
-                        loadChildren: () => import('./crm/accountUsers/accountUser.module').then(m => m.AccountUserModule),
+                        loadChildren: () => import('./crm/accountUsers/assigned-user.module').then(m => m.AssignedUserModule),
                         data: { permission: 'Pages.AccountUsers' }
                     },
                 

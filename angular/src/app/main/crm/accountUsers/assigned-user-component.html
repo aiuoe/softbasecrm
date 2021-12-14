@@ -84,11 +84,11 @@
 												<ul class="dropdown-menu"  *dropdownMenu>
 												<li>
 													<a href="javascript:;" class="dropdown-item"
-														(click)="viewAccountUserModal.show(record)">{{l('View')}}</a>
+														(click)="viewAssignedUserModal.show(record)">{{l('View')}}</a>
 												</li>
 												<li>
                                                 <a href="javascript:;" *ngIf="permission.isGranted('Pages.AccountUsers.Edit')" class="dropdown-item"
-														(click)="createOrEditAccountUserModal.show(record.accountUser.id)">{{l('Edit')}}</a>												
+														(click)="createOrEditAssignedUserModal.show(record.accountUser.id)">{{l('Edit')}}</a>												
                                                 </li>
 												<li>
 											        <a class="dropdown-item" href="javascript:;" *ngIf="permission.isGranted('Pages.AccountUsers.Delete')"
@@ -126,8 +126,8 @@
             </div>
         </div>
     </div>
-    <createOrEditAccountUserModal #createOrEditAccountUserModal (modalSave)="getAccountUsers()"></createOrEditAccountUserModal>    
-    <viewAccountUserModal #viewAccountUserModal></viewAccountUserModal>
+    <app-create-or-edit-assined-user-modal #createOrEditAssignedUserModal (modalSave)="getAccountUsers()"></app-create-or-edit-assined-user-modal>    
+    <app-view-assigned-user-modal #viewAssignedUserModal></app-view-assigned-user-modal>
     
   </div>
 </div>

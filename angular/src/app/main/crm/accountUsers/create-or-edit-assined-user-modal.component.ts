@@ -9,10 +9,10 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 
 @Component({
-    selector: 'createOrEditAccountUserModal',
-    templateUrl: './create-or-edit-accountUser-modal.component.html'
+    selector: 'app-create-or-edit-assined-user-modal',
+    templateUrl: './create-or-edit-assined-user-modal.component.html',
 })
-export class CreateOrEditAccountUserModalComponent extends AppComponentBase implements OnInit{
+export class CreateOrEditAssignedUserModalComponent extends AppComponentBase implements OnInit{
    
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 

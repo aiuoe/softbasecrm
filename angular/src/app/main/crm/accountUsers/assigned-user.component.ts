@@ -5,9 +5,9 @@ import { AccountUsersServiceProxy, AccountUserDto  } from '@shared/service-proxi
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateOrEditAccountUserModalComponent } from './create-or-edit-accountUser-modal.component';
+import { CreateOrEditAssignedUserModalComponent } from './create-or-edit-assined-user-modal.component';
 
-import { ViewAccountUserModalComponent } from './view-accountUser-modal.component';
+import { ViewAssignedUserModalComponent } from './view-assigned-user-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
@@ -15,19 +15,18 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
-
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
-    templateUrl: './accountUsers.component.html',
+    templateUrl: './assigned-user-component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class AccountUsersComponent extends AppComponentBase {
+export class AssignedUserComponent extends AppComponentBase {
     
     
-    @ViewChild('createOrEditAccountUserModal', { static: true }) createOrEditAccountUserModal: CreateOrEditAccountUserModalComponent;
-    @ViewChild('viewAccountUserModalComponent', { static: true }) viewAccountUserModal: ViewAccountUserModalComponent;   
+    @ViewChild('createOrEditAssignedUserModal', { static: true }) createOrEditAssignedUserModal: CreateOrEditAssignedUserModalComponent;
+    @ViewChild('viewAssignedUserModal', { static: true }) viewAssignedUserModal: ViewAssignedUserModalComponent;   
     
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
@@ -35,10 +34,6 @@ export class AccountUsersComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
         userNameFilter = '';
-
-
-
-
 
 
     constructor(
@@ -79,7 +74,7 @@ export class AccountUsersComponent extends AppComponentBase {
     }
 
     createAccountUser(): void {
-        this.createOrEditAccountUserModal.show();        
+        this.createOrEditAssignedUserModal.show();        
     }
 
 

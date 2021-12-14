@@ -1,13 +1,13 @@
 ﻿import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AccountUsersComponent} from './accountUsers.component';
+import {AssignedUserComponent} from './assigned-user.component';
 
 
 
 const routes: Routes = [
     {
         path: '',
-        component: AccountUsersComponent,
+        component: AssignedUserComponent,
         pathMatch: 'full'
     },
     
@@ -18,5 +18,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class AccountUserRoutingModule {
+export class AssignedUserRoutingModule {
 }

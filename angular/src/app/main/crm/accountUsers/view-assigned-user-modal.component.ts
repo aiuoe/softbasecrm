@@ -5,10 +5,10 @@ import { GetAccountUserForViewDto, AccountUserDto } from '@shared/service-proxie
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
-    selector: 'viewAccountUserModal',
-    templateUrl: './view-accountUser-modal.component.html'
+    selector: 'app-view-assigned-user-modal',
+    templateUrl: './view-assigned-user-modal.component.html'
 })
-export class ViewAccountUserModalComponent extends AppComponentBase {
+export class ViewAssignedUserModalComponent extends AppComponentBase {
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
