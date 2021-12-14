@@ -244,7 +244,7 @@
                                                             class="dropdown-item"
                                                             href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.Leads.Delete') 
-                                                                && !leadCanBeEdittedOrConverted(record.leadStatusDescription)"
+                                                                && leadCanBeEdittedOrConverted(record.leadStatusDescription)"
                                                         >
                                                             {{ l('MakeAccount') }}
                                                         </a>
@@ -262,7 +262,7 @@
                                                     <li>
                                                         <a
                                                             *ngIf="permission.isGranted('Pages.Leads.Edit')
-                                                                && !leadCanBeEdittedOrConverted(record.leadStatusDescription)"
+                                                                && leadCanBeEdittedOrConverted(record.leadStatusDescription)"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/leads/createOrEdit']"
                                                             [queryParams]="{ id: record.lead.id }"

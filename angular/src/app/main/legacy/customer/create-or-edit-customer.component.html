@@ -1,15 +1,17 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header
+            [title]="('Customers' | localize)"
             [breadcrumbs]="breadcrumbs"
             [hideSeparator]="true"
         >
             <div role="actions">
-                <button (click)="goToAccounts()" class="btn btn-outline-primary float-left" [buttonBusy]="saving">
+                <button (click)="goToAccounts()" class="btn btn-secondary float-left" [buttonBusy]="saving">
                     <span>{{ l('Cancel') }}</span>
                 </button>
                 <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')">
+                    <i class="fa fa-save"></i>
                     <span>{{ l('Save') }}</span>
                 </button>
             </div>
