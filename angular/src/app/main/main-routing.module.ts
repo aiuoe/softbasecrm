@@ -7,6 +7,13 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
+                    
+                    {
+                        path: 'crm/accountUsers',
+                        loadChildren: () => import('./crm/accountUsers/accountUser.module').then(m => m.AccountUserModule),
+                        data: { permission: 'Pages.AccountUsers' }
+                    },
+                
 
                     {
                         path: 'crm/activityStatuses',
