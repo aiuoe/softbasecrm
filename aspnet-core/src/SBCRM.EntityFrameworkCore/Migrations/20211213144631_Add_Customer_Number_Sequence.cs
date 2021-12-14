@@ -2,7 +2,7 @@
 
 namespace SBCRM.Migrations
 {
-    public partial class AddCustomerNumberSequence : Migration
+    public partial class Add_Customer_Number_Sequence : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

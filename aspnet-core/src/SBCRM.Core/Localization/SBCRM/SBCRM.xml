@@ -39,10 +39,8 @@
     <text name="DeleteOpportunityStage">Delete opportunity stage</text>
     <text name="IsLeadConversionValid">Is lead conversion valid</text>
     <text name="NotIsLeadConversionValid">Not is lead conversion valid</text>
-
     <text name="Color">Color</text>
-
-	<text name="LeadContactName">Contact name</text>
+    <text name="LeadContactName">Contact name</text>
     <text name="LeadUser">Lead user</text>
     <text name="CreateNewLeadUser">Create new lead user</text>
     <text name="EditLeadUser">Edit lead user</text>
@@ -55,8 +53,8 @@
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
-	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
-	<text name="LeadCompanyPhone">Phone</text>
+	  <text name="CompanyPhone_Invalid">Invalid Company phone</text>
+	  <text name="LeadCompanyPhone">Phone</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po Box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -67,8 +65,8 @@
     <text name="ContactEmail">Contact email</text>
     <text name="PriorityDescription">Priority description</text>
     <text name="PickPriority">Pick priority</text>
-	<text name="LeadPriority">Priority</text>
-	<text name="SelectAPriority">Select a priority</text>
+	  <text name="LeadPriority">Priority</text>
+	  <text name="SelectAPriority">Select a priority</text>
     <text name="Priority">Priority</text>
     <text name="SBCRM.Crm.Priority">Priority</text>
     <text name="PrioritiesHeaderInfo">Priorities header info</text>
@@ -83,7 +81,7 @@
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
-	<text name="WebSite_Invalid">Invalid Web site</text>
+	  <text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
     <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
@@ -98,8 +96,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-	<text name="LeadStatus">Lead status</text>
-	<text name="MakeAccount">Make Account</text>	  
+	  <text name="LeadStatus">Lead status</text>
+	  <text name="MakeAccount">Make Account</text>	  
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>

@@ -2254,7 +2254,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, accountTypeId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
+    getAll(filter: string | undefined, accountTypeId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -2263,7 +2263,7 @@ export class CustomerServiceProxy {
         if (accountTypeId === null)
             throw new Error("The parameter 'accountTypeId' cannot be null.");
         else if (accountTypeId !== undefined)
-            url_ += "AccountTypeId=" + encodeURIComponent("" + accountTypeId) + "&";
+            accountTypeId && accountTypeId.forEach(item => { url_ += "AccountTypeId=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -2487,63 +2487,11 @@ export class CustomerServiceProxy {
     }
 
     /**
-     * @param customerNumber (optional) 
-     * @return Success
-     */
-    delete(customerNumber: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/Delete?";
-        if (customerNumber === null)
-            throw new Error("The parameter 'customerNumber' cannot be null.");
-        else if (customerNumber !== undefined)
-            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
      * @param filter (optional) 
      * @param accountTypeId (optional) 
      * @return Success
      */
-    getCustomerToExcel(filter: string | undefined, accountTypeId: number | undefined): Observable<FileDto> {
+    getCustomerToExcel(filter: string | undefined, accountTypeId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -2552,7 +2500,7 @@ export class CustomerServiceProxy {
         if (accountTypeId === null)
             throw new Error("The parameter 'accountTypeId' cannot be null.");
         else if (accountTypeId !== undefined)
-            url_ += "AccountTypeId=" + encodeURIComponent("" + accountTypeId) + "&";
+            accountTypeId && accountTypeId.forEach(item => { url_ += "AccountTypeId=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2655,6 +2603,64 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<CustomerAccountTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadSourceForTableDropdown(): Observable<CustomerLeadSourceLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllLeadSourceForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadSourceForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadSourceForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerLeadSourceLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerLeadSourceLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadSourceForTableDropdown(response: HttpResponseBase): Observable<CustomerLeadSourceLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CustomerLeadSourceLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerLeadSourceLookupTableDto[]>(<any>null);
     }
 }
 
@@ -19062,68 +19068,18 @@ export class ZipCodesServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
      * @param zipCodeFilter (optional) 
-     * @param cityFilter (optional) 
-     * @param stateFilter (optional) 
-     * @param countyFilter (optional) 
-     * @param addedByFilter (optional) 
-     * @param changedByFilter (optional) 
-     * @param maxDateAddedFilter (optional) 
-     * @param minDateAddedFilter (optional) 
-     * @param maxDateChangedFilter (optional) 
-     * @param minDateChangedFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, zipCodeFilter: string | undefined, cityFilter: string | undefined, stateFilter: string | undefined, countyFilter: string | undefined, addedByFilter: string | undefined, changedByFilter: string | undefined, maxDateAddedFilter: DateTime | undefined, minDateAddedFilter: DateTime | undefined, maxDateChangedFilter: DateTime | undefined, minDateChangedFilter: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+    getAll(zipCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAll?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (zipCodeFilter === null)
             throw new Error("The parameter 'zipCodeFilter' cannot be null.");
         else if (zipCodeFilter !== undefined)
             url_ += "ZipCodeFilter=" + encodeURIComponent("" + zipCodeFilter) + "&";
-        if (cityFilter === null)
-            throw new Error("The parameter 'cityFilter' cannot be null.");
-        else if (cityFilter !== undefined)
-            url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
-        if (stateFilter === null)
-            throw new Error("The parameter 'stateFilter' cannot be null.");
-        else if (stateFilter !== undefined)
-            url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
-        if (countyFilter === null)
-            throw new Error("The parameter 'countyFilter' cannot be null.");
-        else if (countyFilter !== undefined)
-            url_ += "CountyFilter=" + encodeURIComponent("" + countyFilter) + "&";
-        if (addedByFilter === null)
-            throw new Error("The parameter 'addedByFilter' cannot be null.");
-        else if (addedByFilter !== undefined)
-            url_ += "AddedByFilter=" + encodeURIComponent("" + addedByFilter) + "&";
-        if (changedByFilter === null)
-            throw new Error("The parameter 'changedByFilter' cannot be null.");
-        else if (changedByFilter !== undefined)
-            url_ += "ChangedByFilter=" + encodeURIComponent("" + changedByFilter) + "&";
-        if (maxDateAddedFilter === null)
-            throw new Error("The parameter 'maxDateAddedFilter' cannot be null.");
-        else if (maxDateAddedFilter !== undefined)
-            url_ += "MaxDateAddedFilter=" + encodeURIComponent(maxDateAddedFilter ? "" + maxDateAddedFilter.toJSON() : "") + "&";
-        if (minDateAddedFilter === null)
-            throw new Error("The parameter 'minDateAddedFilter' cannot be null.");
-        else if (minDateAddedFilter !== undefined)
-            url_ += "MinDateAddedFilter=" + encodeURIComponent(minDateAddedFilter ? "" + minDateAddedFilter.toJSON() : "") + "&";
-        if (maxDateChangedFilter === null)
-            throw new Error("The parameter 'maxDateChangedFilter' cannot be null.");
-        else if (maxDateChangedFilter !== undefined)
-            url_ += "MaxDateChangedFilter=" + encodeURIComponent(maxDateChangedFilter ? "" + maxDateChangedFilter.toJSON() : "") + "&";
-        if (minDateChangedFilter === null)
-            throw new Error("The parameter 'minDateChangedFilter' cannot be null.");
-        else if (minDateChangedFilter !== undefined)
-            url_ += "MinDateChangedFilter=" + encodeURIComponent(minDateChangedFilter ? "" + minDateChangedFilter.toJSON() : "") + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -20702,6 +20658,7 @@ export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
     state!: string | undefined;
     zipCode!: string | undefined;
     accountTypeId!: number | undefined;
+    leadSourceId!: number | undefined;
     dunsCode!: string | undefined;
     sicCode!: string | undefined;
     sicCode2!: string | undefined;
@@ -20733,6 +20690,7 @@ export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
             this.state = _data["state"];
             this.zipCode = _data["zipCode"];
             this.accountTypeId = _data["accountTypeId"];
+            this.leadSourceId = _data["leadSourceId"];
             this.dunsCode = _data["dunsCode"];
             this.sicCode = _data["sicCode"];
             this.sicCode2 = _data["sicCode2"];
@@ -20764,6 +20722,7 @@ export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
         data["state"] = this.state;
         data["zipCode"] = this.zipCode;
         data["accountTypeId"] = this.accountTypeId;
+        data["leadSourceId"] = this.leadSourceId;
         data["dunsCode"] = this.dunsCode;
         data["sicCode"] = this.sicCode;
         data["sicCode2"] = this.sicCode2;
@@ -20788,6 +20747,7 @@ export interface ICreateOrEditCustomerDto {
     state: string | undefined;
     zipCode: string | undefined;
     accountTypeId: number | undefined;
+    leadSourceId: number | undefined;
     dunsCode: string | undefined;
     sicCode: string | undefined;
     sicCode2: string | undefined;
@@ -21773,7 +21733,7 @@ export class CustomerDto implements ICustomerDto {
     address!: string | undefined;
     number!: string | undefined;
     billTo!: string | undefined;
-    accountTypeId!: number;
+    accountTypeId!: number | undefined;
     added!: DateTime | undefined;
     addedBy!: string | undefined;
     changed!: DateTime | undefined;
@@ -21832,11 +21792,51 @@ export interface ICustomerDto {
     address: string | undefined;
     number: string | undefined;
     billTo: string | undefined;
-    accountTypeId: number;
+    accountTypeId: number | undefined;
     added: DateTime | undefined;
     addedBy: string | undefined;
     changed: DateTime | undefined;
     changedBy: string | undefined;
+}
+
+export class CustomerLeadSourceLookupTableDto implements ICustomerLeadSourceLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ICustomerLeadSourceLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): CustomerLeadSourceLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerLeadSourceLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ICustomerLeadSourceLookupTableDto {
+    id: number;
+    displayName: string | undefined;
 }
 
 export class Dashboard implements IDashboard {

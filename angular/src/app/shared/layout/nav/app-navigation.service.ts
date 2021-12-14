@@ -1,4 +1,4 @@
-﻿           
+﻿
 import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
@@ -19,10 +19,11 @@ export class AppNavigationService {
                 'Pages.Administration.Host.Dashboard',
                 'flaticon-line-graph',
                 '/app/admin/hostDashboard'
-            ),            
+            ),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+            new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/'),
             new AppMenuItem(
                 'Business',
                 '',
@@ -30,7 +31,6 @@ export class AppNavigationService {
                 '',
                 [],
                 [
-                    new AppMenuItem('Customer', 'Pages.Customer', 'flaticon-more', '/app/main/business/accounts/'),
                     new AppMenuItem('OpportunityStages', 'Pages.OpportunityStages', 'flaticon-more', '/app/main/crm/opportunityStages'),
                     new AppMenuItem('OpportunityTypes', 'Pages.OpportunityTypes', 'flaticon-more', '/app/main/crm/opportunityTypes'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),

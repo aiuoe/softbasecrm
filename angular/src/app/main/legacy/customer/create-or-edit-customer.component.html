@@ -21,368 +21,392 @@
                 <tab heading="{{ 'Overview' | localize }}">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card card-custom gutter-b">
+                            <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
 
-                                    <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                        <i class="pi pi-user"></i> {{ l('GeneralInformation') }}
-                                    </h3>
+                                    <form #CustomerForm="ngForm" role="form" class="form-validation" novalidate>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_Name">{{ l('CompanyName') }} <span class="color-red">*</span></label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_Name="ngModel"
-                                                    id="Customer_Name"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.name"
-                                                    name="Name"
-                                                    minlength="0"
-                                                    maxlength="255"
-                                                    required
-                                                />
-                                                <validation-messages [formCtrl]="Customer_Name"></validation-messages>
-                                            </div>
-                                        </div>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                            {{ l('GeneralInformation') }}
+                                        </h3>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_Phone">{{ l('CompanyPhone') }} <span class="color-red">*</span></label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_Phone="ngModel"
-                                                    id="Customer_Phone"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.phone"
-                                                    name="Phone"
-                                                    minlength="0"
-                                                    maxlength="255"
-                                                    required
-                                                />
-                                                <validation-messages [formCtrl]="Customer_Phone"></validation-messages>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_EMail">{{ l('CompanyEmail') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_EMail="ngModel"
-                                                    id="Customer_EMail"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.eMail"
-                                                    name="EMail"
-                                                    minlength="0"
-                                                    maxlength="1000"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_EMail"></validation-messages>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_WWWAddress">{{ l('WebSite') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_WWWAddress="ngModel"
-                                                    id="Customer_WWWAddress"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.wwwAddress"
-                                                    name="WWWAddress"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_WWWAddress"></validation-messages>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_Address">{{ l('Address') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_Address="ngModel"
-                                                    id="Customer_Address"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.address"
-                                                    name="Address"
-                                                    minlength="0"
-                                                    maxlength="255"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_Address"></validation-messages>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_Name">{{ l('CompanyName') }} <span class="color-red">*</span></label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_Name="ngModel"
+                                                        id="Customer_Name"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.name"
+                                                        name="Name"
+                                                        minlength="0"
+                                                        maxlength="255"
+                                                        required
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_Name"></validation-messages>
+                                                </div>
                                             </div>
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_POBox">{{ l('POBox') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_POBox="ngModel"
-                                                    id="Customer_POBox"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.poBox"
-                                                    name="POBox"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_POBox"></validation-messages>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_Phone">{{ l('CompanyPhone') }} <span class="color-red">*</span></label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_Phone="ngModel"
+                                                        id="Customer_Phone"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.phone"
+                                                        name="Phone"
+                                                        minlength="0"
+                                                        maxlength="255"
+                                                        required
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_Phone"></validation-messages>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_Country">{{ l('Country') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_Country="ngModel"
-                                                    id="Customer_Country"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.country"
-                                                    name="Country"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_Country"></validation-messages>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_EMail">{{ l('CompanyEmail') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_EMail="ngModel"
+                                                        id="Customer_EMail"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.eMail"
+                                                        name="EMail"
+                                                        minlength="0"
+                                                        maxlength="1000"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_EMail"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_WWWAddress">{{ l('WebSite') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_WWWAddress="ngModel"
+                                                        id="Customer_WWWAddress"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.wwwAddress"
+                                                        name="WWWAddress"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_WWWAddress"></validation-messages>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_State">{{ l('State') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_State="ngModel"
-                                                    id="Customer_State"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.state"
-                                                    name="State"
-                                                    minlength="0"
-                                                    maxlength="255"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_State"></validation-messages>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_City">{{ l('City') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_City="ngModel"
-                                                    id="Customer_City"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.city"
-                                                    name="City"
-                                                    minlength="0"
-                                                    maxlength="255"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_City"></validation-messages>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_ZipCode">{{ l('ZipCode') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_ZipCode="ngModel"
-                                                    id="Customer_ZipCode"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.zipCode"
-                                                    name="ZipCode"
-                                                    minlength="0"
-                                                    maxlength="255"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                        <i class="pi pi-user"></i> {{ l('Details') }}
-                                    </h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_Address">{{ l('Address') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_Address="ngModel"
+                                                        id="Customer_Address"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.address"
+                                                        name="Address"
+                                                        minlength="0"
+                                                        maxlength="255"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_Address"></validation-messages>
+                                                </div>
 
-                                    <div class="row" *ngIf="!this.isNew">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_Number">{{ l('CustomerNumber') }} *</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_Number="ngModel"
-                                                    id="Customer_Number"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.number"
-                                                    name="Number"
-                                                    minlength="0"
-                                                    maxlength="100"
-                                                    required
-                                                />
-                                                <validation-messages [formCtrl]="Customer_Number"></validation-messages>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_POBox">{{ l('POBox') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_POBox="ngModel"
+                                                        id="Customer_POBox"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.poBox"
+                                                        name="POBox"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_POBox"></validation-messages>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="Customer_BillTo">{{ l('BillTo') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_BillTo="ngModel"
-                                                    id="Customer_BillTo"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.billTo"
-                                                    name="BillTo"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_BillTo"></validation-messages>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group m-form__group">
-                                                <label for="customerAccountTypeId">{{ l('AccountType') }}</label>
-                                                <select
-                                                    id="customerAccountTypeId"
-                                                    [(ngModel)]="customer.accountTypeId"
-                                                    class="form-control"
-                                                    required
-                                                >
-                                                    <option value="">{{ l('SelectAAccountType') }}</option>
-                                                    <option *ngFor="let item of allAccountTypes" value="{{ item.id }}">
-                                                        {{ item.displayName }}
-                                                    </option>
-                                                </select>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_Country">{{ l('Country') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_Country="ngModel"
+                                                        id="Customer_Country"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.country"
+                                                        name="Country"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_Country"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_State">{{ l('State') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_State="ngModel"
+                                                        id="Customer_State"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.state"
+                                                        name="State"
+                                                        minlength="0"
+                                                        maxlength="255"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_State"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_City">{{ l('City') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_City="ngModel"
+                                                        id="Customer_City"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.city"
+                                                        name="City"
+                                                        minlength="0"
+                                                        maxlength="255"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_City"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_ZipCode">{{ l('ZipCode') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_ZipCode="ngModel"
+                                                        id="Customer_ZipCode"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.zipCode"
+                                                        name="ZipCode"
+                                                        minlength="0"
+                                                        maxlength="255"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group m-form__group">
-                                                <label for="leadSourceId">{{ l('LeadSource') }}</label>
-                                                <select
-                                                    id="leadSourceId"
-                                                    [(ngModel)]="customer.accountTypeId"
-                                                    class="form-control"
-                                                    required
-                                                >
-                                                    <option value="">{{ l('SelectAAccountType') }}</option>
-                                                    <option *ngFor="let item of allAccountTypes" value="{{ item.id }}">
-                                                        {{ item.displayName }}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_DunsCode">{{ lupper('Duns') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_DunsCode="ngModel"
-                                                    id="Customer_DunsCode"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.dunsCode"
-                                                    name="DunsCode"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_DunsCode"></validation-messages>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_SICCode">{{ lupper('SICCode') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_SICCode="ngModel"
-                                                    id="Customer_SICCode"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.sicCode"
-                                                    name="SICCode"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_SICCode"></validation-messages>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_SICCode2">{{ lupper('SICCode2') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_SICCode2="ngModel"
-                                                    id="Customer_SICCode2"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.sicCode2"
-                                                    name="SICCode2"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_SICCode2"></validation-messages>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_SICCode3">{{ lupper('SICCode3') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_SICCode3="ngModel"
-                                                    id="Customer_SICCode3"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.sicCode3"
-                                                    name="SICCode3"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_SICCode3"></validation-messages>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Customer_SICCode4">{{ lupper('SICCode4') }}</label>
-                                                <input
-                                                    type="text"
-                                                    #Customer_SICCode4="ngModel"
-                                                    id="Customer_SICCode4"
-                                                    class="form-control"
-                                                    [(ngModel)]="customer.sicCode4"
-                                                    name="SICCode4"
-                                                    minlength="0"
-                                                    maxlength="50"
-                                                />
-                                                <validation-messages [formCtrl]="Customer_SICCode4"></validation-messages>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <hr>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                            {{ l('Details') }}
+                                        </h3>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="Customer_BusinessDescription">{{ l('Description') }}</label>
-                                                <textarea #Customer_BusinessDescription="ngModel"
-                                                          id="Customer_BusinessDescription"
-                                                          class="form-control"
-                                                          [(ngModel)]="customer.businessDescription"
-                                                          [placeholder]="l('EnterDescription')"
-                                                          name="Description"
-                                                          rows="10"></textarea>
-                                                <validation-messages [formCtrl]="Customer_BusinessDescription"></validation-messages>
+                                        <div class="row" *ngIf="!this.isNew">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_Number">{{ l('CustomerNumber') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_Number="ngModel"
+                                                        id="Customer_Number"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.number"
+                                                        name="Number"
+                                                        minlength="0"
+                                                        maxlength="100"
+                                                        readonly
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_Number"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Customer_BillTo">{{ l('BillTo') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_BillTo="ngModel"
+                                                        id="Customer_BillTo"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.billTo"
+                                                        name="BillTo"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_BillTo"></validation-messages>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group m-form__group">
+                                                    <label for="customerAccountTypeId">{{ l('AccountType') }}</label>
+                                                    <select
+                                                        id="customerAccountTypeId"
+                                                        [(ngModel)]="customer.accountTypeId"
+                                                        class="form-control"
+                                                        required
+                                                        disabled
+                                                    >
+                                                        <option value="">{{ l('SelectAAccountType') }}</option>
+                                                        <option *ngFor="let item of allAccountTypes" value="{{ item.id }}">
+                                                            {{ item.displayName }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group m-form__group">
+                                                    <label for="leadSourceId">{{ l('LeadSource') }}</label>
+                                                    <select
+                                                        id="leadSourceId"
+                                                        [(ngModel)]="customer.leadSourceId"
+                                                        class="form-control"
+                                                        required
+                                                    >
+                                                        <option value="">{{ l('SelectALeadSource') }}</option>
+                                                        <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
+                                                            {{ item.displayName }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_DunsCode">{{ lupper('Duns') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_DunsCode="ngModel"
+                                                        id="Customer_DunsCode"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.dunsCode"
+                                                        name="DunsCode"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_DunsCode"></validation-messages>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_SICCode">{{ lupper('SICCode') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_SICCode="ngModel"
+                                                        id="Customer_SICCode"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.sicCode"
+                                                        name="SICCode"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_SICCode"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_SICCode2">{{ lupper('SICCode2') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_SICCode2="ngModel"
+                                                        id="Customer_SICCode2"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.sicCode2"
+                                                        name="SICCode2"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_SICCode2"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_SICCode3">{{ lupper('SICCode3') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_SICCode3="ngModel"
+                                                        id="Customer_SICCode3"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.sicCode3"
+                                                        name="SICCode3"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_SICCode3"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Customer_SICCode4">{{ lupper('SICCode4') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        #Customer_SICCode4="ngModel"
+                                                        id="Customer_SICCode4"
+                                                        class="form-control"
+                                                        [(ngModel)]="customer.sicCode4"
+                                                        name="SICCode4"
+                                                        minlength="0"
+                                                        maxlength="50"
+                                                    />
+                                                    <validation-messages [formCtrl]="Customer_SICCode4"></validation-messages>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="Customer_BusinessDescription">{{ l('Description') }}</label>
+                                                    <textarea #Customer_BusinessDescription="ngModel"
+                                                              id="Customer_BusinessDescription"
+                                                              class="form-control"
+                                                              [(ngModel)]="customer.businessDescription"
+                                                              [placeholder]="l('EnterDescription')"
+                                                              name="Description"
+                                                              rows="10"></textarea>
+                                                    <validation-messages [formCtrl]="Customer_BusinessDescription"></validation-messages>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+
                                 </div>
 
                             </div>
                         </div>
                     </div>
                 </tab>
+
+                <tab heading="{{ 'Opportunities' | localize }}" *ngIf="!this.isNew">
+                </tab>
+
+                <tab heading="{{ 'Invoices' | localize }}" *ngIf="!this.isNew">
+                </tab>
+
+                <tab heading="{{ 'Equipment' | localize }}" *ngIf="!this.isNew">
+                </tab>
+
+                <tab heading="{{ 'WIP' | localize }}" *ngIf="!this.isNew">
+                </tab>
+
+                <tab heading="{{ 'Events' | localize }}" *ngIf="!this.isNew">
+                </tab>
+
             </tabset>
 
         </div>

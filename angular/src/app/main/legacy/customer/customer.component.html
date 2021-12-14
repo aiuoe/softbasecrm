@@ -4,30 +4,6 @@
 
             <div role="actions" class="d-flex flex-row align-items-center">
 
-                <div>
-                    <p-dropdown [options]="accountTypes" (onChange)="getCustomer()" [(ngModel)]="selectedAccountType" optionLabel="description">
-                    </p-dropdown>
-                </div>
-
-                <div class="padding-left-5">
-                    <div class="input-group p-2">
-                        <input
-                            [(ngModel)]="filterText"
-                            name="filterText"
-                            autoFocus
-                            class="form-control m-input"
-                            [placeholder]="l('AccountSearchWithThreeDot')"
-                            (change)="getCustomer()"
-                            type="text"
-                        />
-                        <span class="input-group-btn">
-                        <button (click)="getCustomer()" class="btn btn-primary" type="submit">
-                            <i class="flaticon-search-1"></i>
-                        </button>
-                    </span>
-                    </div>
-                </div>
-
                 <div class="padding-left-5">
                     <button (click)="exportToExcel()" class="btn btn-primary blue">
                         <i class="fa fa-download"></i>
@@ -53,6 +29,79 @@
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
+
+                    <form class="form" autocomplete="off">
+                        <div>
+                            <div class="row align-items-center">
+                                <div class="col-xl-12">
+                                    <div class="form-group m-form__group align-items-center">
+                                        <div class="input-group">
+                                            <input
+                                                [(ngModel)]="filterText"
+                                                name="filterText"
+                                                autoFocus
+                                                class="form-control m-input"
+                                                [placeholder]="l('SearchWithThreeDot')"
+                                                type="text"
+                                                (keyup)="getCustomerByTextFilter($event)"
+                                            />
+                                            <span class="input-group-btn">
+                                                <button
+                                                    (click)="getCustomer()"
+                                                    class="btn btn-primary"
+                                                    type="submit"
+                                                >
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" [hidden]="!advancedFiltersAreShown">
+                                <div class="col-md-12 mb-4">
+                                    <div class="separator separator-dashed"></div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="AccountTypeFilter">{{ l('AccountType') }}</label>
+                                        <div>
+                                            <p-multiSelect id="AccountTypeFilter"
+                                                           name="AccountTypeFilter"
+                                                           [options]="accountTypes"
+                                                           [(ngModel)]="selectedAccountTypes"
+                                                           optionLabel="description"
+                                                           placeholder="Filter by Type"
+                                                           (onChange)="getCustomer()">
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="!advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-down"></i>
+                                        {{ l('ShowAdvancedFilters') }}
+                                    </span>
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-up"></i>
+                                        {{ l('HideAdvancedFilters') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                     <div class="row align-items-center">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
@@ -74,31 +123,31 @@
                                             style="width: 80px"
                                             [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
                                         >
-                                            {{ lupper('Actions') }}
+                                            {{ l('Actions') }}
                                         </th>
 
                                         <th style="width: 250px" pSortableColumn="name">
-                                            {{ lupper('Name') }}
+                                            {{ l('Name') }}
                                             <p-sortIcon field="customer.name"></p-sortIcon>
                                         </th>
 
                                         <th style="width: 150px" pSortableColumn="phone">
-                                            {{ lupper('Phone') }}
+                                            {{ l('Phone') }}
                                             <p-sortIcon field="customer.phone"></p-sortIcon>
                                         </th>
 
                                         <th style="width: 150px" pSortableColumn="address">
-                                            {{ lupper('Address') }}
+                                            {{ l('Address') }}
                                             <p-sortIcon field="customer.address"></p-sortIcon>
                                         </th>
 
                                         <th style="width: 150px" pSortableColumn="accountTypeFk.description">
-                                            {{ lupper('AccountType') }}
+                                            {{ l('AccountType') }}
                                             <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                         </th>
 
                                         <th style="width: 150px" pSortableColumn="accountTypeFk.description">
-                                            {{ lupper('AssignedUser') }}
+                                            {{ l('AssignedUser') }}
                                             <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                         </th>
                                     </tr>
@@ -111,7 +160,7 @@
                                             [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
                                         >
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
                                                 </button>
@@ -120,8 +169,8 @@
                                                         <a
                                                             *ngIf="permission.isGranted('Pages.Customer.Edit')"
                                                             class="dropdown-item"
-                                                            [routerLink]="['/app/main/legacy/accounts/view']"
-                                                            [queryParams]="{ id: record.customer.id }"
+                                                            [routerLink]="['/app/main/business/accounts/view']"
+                                                            [queryParams]="{ number: record.customer.number }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -131,19 +180,9 @@
                                                             *ngIf="permission.isGranted('Pages.Customer.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/business/accounts/createOrEdit']"
-                                                            [queryParams]="{ id: record.customer.id }"
+                                                            [queryParams]="{ number: record.customer.number }"
                                                         >
                                                             {{ l('Edit') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Customer.Delete')"
-                                                            (click)="deleteCustomer(record.customer)"
-                                                        >
-                                                            {{ l('Delete') }}
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -185,7 +224,7 @@
                                                 <a [href]="record.profilePictureUrl" target="_blank" class="float-left">
                                                     <img class="img-circle" [src]="record.profilePictureUrl" />
                                                 </a>
-                                                {{ record.accountTypeDescription }}
+<!--                                                {{ record.accountTypeDescription }}-->
                                             </span>
                                         </td>
 

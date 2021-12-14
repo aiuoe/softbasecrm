@@ -39,6 +39,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         public async Task<T> InsertAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return entity;
         }
 

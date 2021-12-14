@@ -2,7 +2,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     CustomerServiceProxy,
-    CustomerDto,
     AccountTypesServiceProxy,
     PagedResultDtoOfGetAccountTypeForViewDto,
     AccountTypeDto
@@ -17,7 +16,9 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
-
+/***
+ * Component to manage the customers/accounts summary grid
+ */
 @Component({
     templateUrl: './customer.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -31,7 +32,20 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
     filterText = '';
     accountTypes: AccountTypeDto[];
     selectedAccountType: AccountTypeDto;
+    selectedAccountTypes: AccountTypeDto[];
 
+    /***
+     * Main constructor
+     * @param injector
+     * @param _customerServiceProxy
+     * @param _accountTypeServiceProxy
+     * @param _notifyService
+     * @param _tokenAuth
+     * @param _activatedRoute
+     * @param _fileDownloadService
+     * @param _router
+     * @param _dateTimeService
+     */
     constructor(
         injector: Injector,
         private _customerServiceProxy: CustomerServiceProxy,
@@ -46,19 +60,32 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
 
+    /***
+     * Initialize component
+     */
     ngOnInit(): void {
-
-        this._accountTypeServiceProxy.getAll('', '', 0 , 100)
+        this._accountTypeServiceProxy.getAll('', '', 0, 100)
             .subscribe((result: PagedResultDtoOfGetAccountTypeForViewDto) => {
                 this.accountTypes = result.items.map(x => x.accountType);
-                const allAccountType = new AccountTypeDto();
-                allAccountType.id = 0;
-                allAccountType.description = 'All';
-                this.accountTypes.unshift(allAccountType);
             });
-
     }
 
+    /***
+     * Get customers by text filter changed
+     * @param event
+     */
+    getCustomerByTextFilter(event: KeyboardEvent) {
+        const textFilterHasMoreThan2Characters = this.filterText && this.filterText?.trim().length >= 2;
+        const keyDownIsBackspace = event && event.key === 'Backspace';
+        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
+            this.getCustomer();
+        }
+    }
+
+    /***
+     * Get customers
+     * @param event
+     */
     getCustomer(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -70,7 +97,7 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
         this._customerServiceProxy
             .getAll(
                 this.filterText,
-                this.selectedAccountType?.id,
+                this.selectedAccountTypes?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -82,30 +109,28 @@ export class CustomerComponent extends AppComponentBase implements OnInit {
             });
     }
 
+    /***
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /***
+     * Go to create customer page
+     */
     createCustomer(): void {
         this._router.navigate(['/app/main/business/accounts/createOrEdit']);
     }
 
-    deleteCustomer(customer: CustomerDto): void {
-        // this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
-        //     if (isConfirmed) {
-        //         this._customerServiceProxy.delete(customer.id).subscribe(() => {
-        //             this.reloadPage();
-        //             this.notify.success(this.l('SuccessfullyDeleted'));
-        //         });
-        //     }
-        // });
-    }
-
+    /***
+     * Export to excel
+     */
     exportToExcel(): void {
         this._customerServiceProxy
             .getCustomerToExcel(
                 this.filterText,
-                this.selectedAccountType?.id,
+                this.selectedAccountTypes?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

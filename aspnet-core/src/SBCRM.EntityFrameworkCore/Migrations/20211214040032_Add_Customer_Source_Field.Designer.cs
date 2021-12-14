@@ -10,8 +10,8 @@ using SBCRM.EntityFrameworkCore;
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    [Migration("20211213144631_AddCustomerNumberSequence")]
-    partial class AddCustomerNumberSequence
+    [Migration("20211214040032_Add_Customer_Source_Field")]
+    partial class Add_Customer_Source_Field
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1963,6 +1963,11 @@ namespace SBCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -1981,6 +1986,9 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsLeadConversionValid")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -2035,6 +2043,155 @@ namespace SBCRM.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("LeadUsers");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.Opportunity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Branch")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CloseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("LeadSourceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int?>("OpportunityStageId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OpportunityTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Probability")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeadSourceId");
+
+                    b.HasIndex("OpportunityStageId");
+
+                    b.HasIndex("OpportunityTypeId");
+
+                    b.ToTable("Opportunities");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityStage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OpportunityStages");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OpportunityTypes");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.Priority", b =>
@@ -2176,24 +2333,10 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValueSql("NEXT VALUE FOR Web.OrderNumbers");
+                        .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
 
-                    b.Property<string>("ARComments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ARStatementsEmailAddress")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<short?>("AbsoluteTaxCodes")
-                        .HasColumnType("smallint");
-
-                    b.Property<int>("AccountTypeId")
+                    b.Property<int?>("AccountTypeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("AccountingContact")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("Added")
                         .HasColumnType("datetime2");
@@ -2206,42 +2349,12 @@ namespace SBCRM.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("AltCustomerNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("BackupRequired")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Beeper")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("BillTo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("Branch")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("BusinessCategory")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("BusinessDescription")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CSContact")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Category")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Cellular")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("Changed")
                         .HasColumnType("datetime2");
@@ -2254,101 +2367,9 @@ namespace SBCRM.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("CityTaxCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyComments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyCommentsBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("CompanyCommentsDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Country")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CountyTaxCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardAddress")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardCVV")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardCity")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardCountry")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardExpDate")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("CreditCardLastTransID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreditCardNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardPOBox")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardState")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditCardZipCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("CreditHoldDays")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("CreditHoldFlag")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("CreditRating1")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CreditRating2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("CurrencyType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("CustomerBillTo")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("CustomerTerritory")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("DeliveryInfo")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DunsCode")
                         .HasMaxLength(50)
@@ -2358,325 +2379,20 @@ namespace SBCRM.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<short?>("EMailInvoice")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("EMailInvoiceAddress")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("EMailInvoiceAttention")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("EmailEquipmentSales")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("EmailPMService")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("EmailPartsCounter")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("EmailRentalPMService")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("EmailRentals")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("EmailRoadService")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("EmailShopService")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<short?>("EquipmentBid")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Extention")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Fax")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("FinalCopies")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("FinanceCharge")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("FiscalEnd")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("GMSummary")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("HomePhone")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("HoursOfOpEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("HoursOfOpStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("Inactive")
+                    b.Property<int?>("LeadSourceId")
                         .HasColumnType("int");
-
-                    b.Property<string>("InsuranceNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("InsuranceNoDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("InsuranceNoRecvDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<short?>("InternalCustomer")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("InvoiceLanguage")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LaborDiscount")
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
-                    b.Property<string>("LaborRate")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate1")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate2")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate3")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate4")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate5")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastAutoSalesmanUpdate6")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LocalTaxCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("LockAPR1")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("LockAPR2")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("LockAPR3")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("LockAPR4")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("LockAPR5")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("LockAPR6")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("LockTaxCode")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("MFGPermitExpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MFGPermitNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MailingGroup")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Makes")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MapLocation")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MarketingSource")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("NameOnCreditCard")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("NoAddMisc")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("NoPrintInvoice")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("NoShippingCharge")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("OB10No")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("OldNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldSalesman1")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldSalesman2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldSalesman3")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldSalesman4")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldSalesman5")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("OldSalesman6")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("OnFileInsurance")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("OnFileMFGPermit")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("OnFileResale")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("OverRideShipTo")
-                        .HasColumnType("smallint");
-
-                    b.Property<int?>("OverRideShipToRates")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PMLaborRate")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("POBox")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<short?>("POBoxAndAddress")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("POReq")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("PSAccount")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PSCompany")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PSDept")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PSLocation")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PSProduct")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ParentCompany")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PartsRate")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<double?>("PartsRateDiscount")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("PeopleSoft")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Phone")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Phone2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("PrevShip")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("RFC")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ReferenceNo1")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ReferenceNo2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("RentalRate")
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
-                    b.Property<DateTime?>("ResaleExpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ResaleNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SICCode")
                         .HasMaxLength(50)
@@ -2694,145 +2410,9 @@ namespace SBCRM.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("SalesContact")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("SalesGroup1")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("SalesGroup2")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("SalesGroup3")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("SalesGroup4")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("SalesGroup5")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("SalesGroup6")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Salesman1")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Salesman2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Salesman3")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Salesman4")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Salesman5")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Salesman6")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Salutation")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("SearchName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal?>("ServiceCharge")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ServiceChargeDescription")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<short?>("Shifts")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("ShipVia")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ShippingAccount")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ShippingComments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShippingCompany")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ShopLaborRate")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("ShowLaborHours")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("ShowLaborRate")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("ShowPartNoAlias")
-                        .HasColumnType("smallint");
-
                     b.Property<string>("State")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("StateTaxCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("Statements")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("SubName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("SuppressPartsList")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("SuppressPartsPricing")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("TMHUNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TaxCode")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("TaxCodeImport")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TaxRate")
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
-                    b.Property<short?>("Taxable")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Terms")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("VendorNo")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("WWWAddress")
                         .HasMaxLength(50)
@@ -2845,6 +2425,8 @@ namespace SBCRM.Migrations
                     b.HasKey("Number");
 
                     b.HasIndex("AccountTypeId");
+
+                    b.HasIndex("LeadSourceId");
 
                     b.ToTable("Customer", "dbo");
                 });
@@ -3432,15 +3014,40 @@ namespace SBCRM.Migrations
                     b.Navigation("UserFk");
                 });
 
+            modelBuilder.Entity("SBCRM.Crm.Opportunity", b =>
+                {
+                    b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceFk")
+                        .WithMany()
+                        .HasForeignKey("LeadSourceId");
+
+                    b.HasOne("SBCRM.Crm.OpportunityStage", "OpportunityStageFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityStageId");
+
+                    b.HasOne("SBCRM.Crm.OpportunityType", "OpportunityTypeFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityTypeId");
+
+                    b.Navigation("LeadSourceFk");
+
+                    b.Navigation("OpportunityStageFk");
+
+                    b.Navigation("OpportunityTypeFk");
+                });
+
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>
                 {
                     b.HasOne("SBCRM.Crm.AccountType", "AccountTypeFk")
                         .WithMany()
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountTypeId");
+
+                    b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceDk")
+                        .WithMany()
+                        .HasForeignKey("LeadSourceId");
 
                     b.Navigation("AccountTypeFk");
+
+                    b.Navigation("LeadSourceDk");
                 });
 
             modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>

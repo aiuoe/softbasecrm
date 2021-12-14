@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211214035251_Add_Customer_LeadSource_Relation")]
+    partial class Add_Customer_LeadSource_Relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2377,9 +2379,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("LeadSourceId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -2423,8 +2422,6 @@ namespace SBCRM.Migrations
                     b.HasKey("Number");
 
                     b.HasIndex("AccountTypeId");
-
-                    b.HasIndex("LeadSourceId");
 
                     b.ToTable("Customer", "dbo");
                 });
@@ -3039,13 +3036,7 @@ namespace SBCRM.Migrations
                         .WithMany()
                         .HasForeignKey("AccountTypeId");
 
-                    b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceDk")
-                        .WithMany()
-                        .HasForeignKey("LeadSourceId");
-
                     b.Navigation("AccountTypeFk");
-
-                    b.Navigation("LeadSourceDk");
                 });
 
             modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>

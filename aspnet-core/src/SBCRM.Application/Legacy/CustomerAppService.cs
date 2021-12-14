@@ -12,6 +12,7 @@ using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Base;
 
 namespace SBCRM.Legacy
 {
@@ -22,8 +23,9 @@ namespace SBCRM.Legacy
     public class CustomerAppService : SBCRMAppServiceBase, ICustomerAppService
     {
         private readonly ICustomerExcelExporter _customerExcelExporter;
-        private readonly Base.IRepository<Customer> _customerRepository;
-        private readonly Base.IRepository<AccountType> _lookupAccountTypeRepository;
+        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<AccountType> _lookupAccountTypeRepository;
+        private readonly IRepository<LeadSource> _lookupLeadSourceRepository;
 
         /// <summary>
         /// Base constructor
@@ -31,14 +33,17 @@ namespace SBCRM.Legacy
         /// <param name="customerRepository"></param>
         /// <param name="customerExcelExporter"></param>
         /// <param name="lookupAccountTypeRepository"></param>
+        /// <param name="lookupLeadSourceRepository"></param>
         public CustomerAppService(
-            Base.IRepository<Customer> customerRepository,
+            IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
-            Base.IRepository<AccountType> lookupAccountTypeRepository)
+            IRepository<AccountType> lookupAccountTypeRepository,
+            IRepository<LeadSource> lookupLeadSourceRepository)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
+            _lookupLeadSourceRepository = lookupLeadSourceRepository;
         }
 
         /// <summary>
@@ -50,21 +55,16 @@ namespace SBCRM.Legacy
         {
             try
             {
-                if (input is {AccountTypeId: 0})
-                {
-                    input.AccountTypeId = null;
-                }
-
                 var filteredCustomer = _customerRepository.GetAll()
                     .Include(e => e.AccountTypeFk)
                     .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-                        e => false || e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
+                        e => e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
                              e.Number.Equals(input.Filter) ||
                              e.Name.Contains(input.Filter) ||
                              e.Address.Contains(input.Filter) ||
                              e.City.Contains(input.Filter) ||
                              e.Phone.Contains(input.Filter))
-                    .WhereIf(input.AccountTypeId.HasValue, x => x.AccountTypeFk.Id == input.AccountTypeId)
+                    .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id))
                     ;
 
                 var pagedAndFilteredCustomer = filteredCustomer
@@ -95,7 +95,7 @@ namespace SBCRM.Legacy
 
                 foreach (var o in dbList)
                 {
-                    var res = new GetCustomerForViewDto()
+                    var res = new GetCustomerForViewDto
                     {
                         Customer = new CustomerDto
                         {
@@ -122,27 +122,37 @@ namespace SBCRM.Legacy
             }
             catch (Exception e)
             {
-                Logger.Error("Error -> ", e);
+                Logger.Error("Error in CustomerAppService.GetAll -> ", e);
                 throw;
             }
 
         }
 
+        /// <summary>
+        /// Get customer for view mode by number
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
         public async Task<GetCustomerForViewDto> GetCustomerForView(string customerNumber)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(customerNumber));
 
             var output = new GetCustomerForViewDto { Customer = ObjectMapper.Map<CustomerDto>(customer) };
 
-            //if (output.Customer.AccountTypeId != null)
-            //{
-            //    var _lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync((int)output.Customer.AccountTypeId);
-            //    output.AccountTypeDescription = _lookupAccountType?.Description?.ToString();
-            //}
+            if (output.Customer.AccountTypeId != null)
+            {
+                var lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync((x => x.Id == output.Customer.AccountTypeId));
+                output.AccountTypeDescription = lookupAccountType?.Description;
+            }
 
             return output;
         }
-
+        
+        /// <summary>
+        /// Get customer for edition mode
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
         {
@@ -150,15 +160,20 @@ namespace SBCRM.Legacy
 
             var output = new GetCustomerForEditOutput { Customer = ObjectMapper.Map<CreateOrEditCustomerDto>(customer) };
 
-            //if (output.Customer.AccountTypeId != null)
-            //{
-            //    var _lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync((int)output.Customer.AccountTypeId);
-            //    output.AccountTypeDescription = _lookupAccountType?.Description?.ToString();
-            //}
+            if (output.Customer.AccountTypeId != null)
+            {
+                var lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.Id == output.Customer.AccountTypeId);
+                output.AccountTypeDescription = lookupAccountType?.Description;
+            }
 
             return output;
         }
 
+        /// <summary>
+        /// Create or edit customer
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditCustomerDto input)
         {
             if (string.IsNullOrEmpty(input.Number))
@@ -171,28 +186,38 @@ namespace SBCRM.Legacy
             }
         }
 
+        /// <summary>
+        /// Create customer
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Create)]
         protected virtual async Task Create(CreateOrEditCustomerDto input)
         {
             var customer = ObjectMapper.Map<Customer>(input);
 
+            var currentUser = await GetCurrentUserAsync();
+            customer.IsCreatedFromWebCrm = true;
+            customer.AddedBy = currentUser.Name;
+            customer.Added = DateTime.UtcNow;
             await _customerRepository.InsertAsync(customer);
-
         }
 
+        /// <summary>
+        /// Update customer
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         protected virtual async Task Update(CreateOrEditCustomerDto input)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
             ObjectMapper.Map(input, customer);
 
-        }
-
-        [AbpAuthorize(AppPermissions.Pages_Customer_Delete)]
-        public async Task Delete(DeleteCustomerInput input)
-        {
-            var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.CustomerNumber));
-            await _customerRepository.DeleteAsync(customer);
+            var currentUser = await GetCurrentUserAsync();
+            customer.ChangedBy = currentUser.Name;
+            customer.Changed = DateTime.UtcNow;
+            await _customerRepository.UpdateAsync(customer);
         }
 
         /// <summary>
@@ -202,24 +227,22 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         public async Task<FileDto> GetCustomerToExcel(GetAllCustomerForExcelInput input)
         {
-
             var filteredCustomer = _customerRepository.GetAll()
-                    .Include(e => e.AccountTypeFk)
-                    .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-                        e => false || e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
-                             e.Number.Equals(input.Filter) ||
-                             e.Name.Contains(input.Filter) ||
-                             e.Address.Contains(input.Filter) ||
-                             e.City.Contains(input.Filter) ||
-                             e.Phone.Contains(input.Filter))
-                    .WhereIf(input.AccountTypeId.HasValue, x => x.AccountTypeFk.Id == input.AccountTypeId)
-                ;
+                .Include(e => e.AccountTypeFk)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+                    e => e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
+                         e.Number.Equals(input.Filter) ||
+                         e.Name.Contains(input.Filter) ||
+                         e.Address.Contains(input.Filter) ||
+                         e.City.Contains(input.Filter) ||
+                         e.Phone.Contains(input.Filter))
+                .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id));
 
             var query = (from o in filteredCustomer
                          join o1 in _lookupAccountTypeRepository.GetAll() on o.AccountTypeId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
-                         select new GetCustomerForViewDto()
+                         select new GetCustomerForViewDto
                          {
                              Customer = new CustomerDto
                              {
@@ -237,11 +260,31 @@ namespace SBCRM.Legacy
             return _customerExcelExporter.ExportToFile(customers);
         }
 
+        /// <summary>
+        /// Get Account type lookup
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<List<CustomerAccountTypeLookupTableDto>> GetAllAccountTypeForTableDropdown()
         {
             return await _lookupAccountTypeRepository.GetAll()
                 .Select(accountType => new CustomerAccountTypeLookupTableDto
+                {
+                    Id = accountType.Id,
+                    DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString()
+                }).ToListAsync();
+        }
+
+
+        /// <summary>
+        /// Get Account type lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<List<CustomerLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
+        {
+            return await _lookupLeadSourceRepository.GetAll()
+                .Select(accountType => new CustomerLeadSourceLookupTableDto
                 {
                     Id = accountType.Id,
                     DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString()
