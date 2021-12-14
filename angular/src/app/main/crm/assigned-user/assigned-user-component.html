@@ -1,53 +1,13 @@
 ﻿<div [@routerTransition]>
   
-  <div class="content d-flex flex-column flex-column-fluid">
-   <sub-header [title]="'AccountUsers' | localize" [description]="'AccountUsersHeaderInfo' | localize">
-             <div role="actions">
-                 
-                 <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()" 
-                                        class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewAccountUser")}}</button>
-             </div>
-            </sub-header>
-    
+  <div class="content d-flex flex-column flex-column-fluid"> 
     <div [class]="containerClass">
         <div class="card card-custom gutter-b">
             <div class="card-body">
-                <form class="form" autocomplete="off">
-                    <div>
-                        <div class="row align-items-center">
-                            <div class="col-xl-12">
-                                <div class="form-group m-form__group align-items-center">
-                                    <div class="input-group">
-                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
-                                        <span class="input-group-btn">
-                                            <button (click)="getAccountUsers()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-						 <div class="row" [hidden]="!advancedFiltersAreShown">
-						 	<div class="col-md-12">
-						         <div class="separator separator-dashed"></div>
-						     </div>
-
-
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
-									<input type="text" class="form-control" id="UserNameFilter" name="userNameFilter" [(ngModel)]="userNameFilter">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
-                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div role="actions">               
+                    <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()" 
+                             class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("User")}}</button>
+                </div>
 
                 <div class="row align-items-center">
                     <!--<Primeng-Datatable-Start>-->

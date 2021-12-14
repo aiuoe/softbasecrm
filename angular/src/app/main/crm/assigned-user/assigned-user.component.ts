@@ -19,6 +19,7 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './assigned-user-component.html',
+    selector: 'app-assigned-user',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })

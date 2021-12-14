@@ -16,6 +16,7 @@ import {ViewAssignedUserModalComponent} from './view-assigned-user-modal.compone
         
     ],
     imports: [AppSharedModule, AssignedUserRoutingModule , AdminSharedModule ],
+    exports: [AssignedUserComponent]
     
 })
 export class AssignedUserModule {
