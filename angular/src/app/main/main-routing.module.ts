@@ -21,7 +21,7 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.Opportunities' }
                     },
                 
-                    
+                    {    
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
                         data: { permission: 'Pages.ActivityStatuses' }
@@ -55,6 +55,7 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.OpportunityStages' }
                     },
                 
+                    {
                         path: 'crm/opportunityTypes',
                         loadChildren: () => import('./crm/opportunityTypes/opportunityType.module').then(m => m.OpportunityTypeModule),
                         data: { permission: 'Pages.OpportunityTypes' }
