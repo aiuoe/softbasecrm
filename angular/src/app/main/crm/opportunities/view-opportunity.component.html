@@ -1,0 +1,58 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header
+            [title]="('Opportunities' | localize) + ' ' + ('Details' | localize)"
+            [breadcrumbs]="breadcrumbs"
+        ></sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Name') }} :</h6>
+                            {{ item.opportunity.name }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Amount') }} :</h6>
+                            {{ item.opportunity.amount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Probability') }} :</h6>
+                            {{ item.opportunity.probability }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('CloseDate') }} :</h6>
+                            {{ item.opportunity.closeDate | luxonFormat: 'yyyy-LL-dd HH:mm:ss' }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Description') }} :</h6>
+                            {{ item.opportunity.description }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Branch') }} :</h6>
+                            {{ item.opportunity.branch }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Department') }} :</h6>
+                            {{ item.opportunity.department }}
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('OpportunityStage') }}) {{ l('Description') }} :</h6>
+                            {{ item.opportunityStageDescription }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('LeadSource') }}) {{ l('Description') }} :</h6>
+                            {{ item.leadSourceDescription }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('OpportunityType') }}) {{ l('Description') }} :</h6>
+                            {{ item.opportunityTypeDescription }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
