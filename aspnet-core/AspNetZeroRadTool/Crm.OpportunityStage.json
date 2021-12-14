@@ -13,7 +13,7 @@
   "CreateUserInterface": true,
   "CreateViewOnly": true,
   "CreateExcelExport": false,
-  "IsNonModalCRUDPage": false,
+  "IsNonModalCRUDPage": true,
   "IsMasterDetailPage": false,
   "PagePermission": {
     "Host": false,

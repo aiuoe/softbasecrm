@@ -1,6 +1,4 @@
 ﻿using SBCRM.Crm;
-using SBCRM.Crm;
-using SBCRM.Crm;
 
 using System;
 using System.Linq;
@@ -275,93 +273,36 @@ namespace SBCRM.Crm
         }
 
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
-        public async Task<PagedResultDto<OpportunityOpportunityStageLookupTableDto>> GetAllOpportunityStageForLookupTable(GetAllForLookupTableInput input)
+        public async Task<List<OpportunityOpportunityStageLookupTableDto>> GetAllOpportunityStageForTableDropdown()
         {
-            var query = _lookup_opportunityStageRepository.GetAll().WhereIf(
-                   !string.IsNullOrWhiteSpace(input.Filter),
-                  e => e.Description != null && e.Description.Contains(input.Filter)
-               );
-
-            var totalCount = await query.CountAsync();
-
-            var opportunityStageList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-            var lookupTableDtoList = new List<OpportunityOpportunityStageLookupTableDto>();
-            foreach (var opportunityStage in opportunityStageList)
-            {
-                lookupTableDtoList.Add(new OpportunityOpportunityStageLookupTableDto
+            return await _lookup_opportunityStageRepository.GetAll()
+                .Select(opportunityStage => new OpportunityOpportunityStageLookupTableDto
                 {
                     Id = opportunityStage.Id,
-                    DisplayName = opportunityStage.Description?.ToString()
-                });
-            }
-
-            return new PagedResultDto<OpportunityOpportunityStageLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
+                    DisplayName = opportunityStage == null || opportunityStage.Description == null ? "" : opportunityStage.Description.ToString()
+                }).ToListAsync();
         }
 
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
-        public async Task<PagedResultDto<OpportunityLeadSourceLookupTableDto>> GetAllLeadSourceForLookupTable(GetAllForLookupTableInput input)
+        public async Task<List<OpportunityLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
-            var query = _lookup_leadSourceRepository.GetAll().WhereIf(
-                   !string.IsNullOrWhiteSpace(input.Filter),
-                  e => e.Description != null && e.Description.Contains(input.Filter)
-               );
-
-            var totalCount = await query.CountAsync();
-
-            var leadSourceList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-            var lookupTableDtoList = new List<OpportunityLeadSourceLookupTableDto>();
-            foreach (var leadSource in leadSourceList)
-            {
-                lookupTableDtoList.Add(new OpportunityLeadSourceLookupTableDto
+            return await _lookup_leadSourceRepository.GetAll()
+                .Select(leadSource => new OpportunityLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
-                    DisplayName = leadSource.Description?.ToString()
-                });
-            }
-
-            return new PagedResultDto<OpportunityLeadSourceLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
+                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString()
+                }).ToListAsync();
         }
 
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
-        public async Task<PagedResultDto<OpportunityOpportunityTypeLookupTableDto>> GetAllOpportunityTypeForLookupTable(GetAllForLookupTableInput input)
+        public async Task<List<OpportunityOpportunityTypeLookupTableDto>> GetAllOpportunityTypeForTableDropdown()
         {
-            var query = _lookup_opportunityTypeRepository.GetAll().WhereIf(
-                   !string.IsNullOrWhiteSpace(input.Filter),
-                  e => e.Description != null && e.Description.Contains(input.Filter)
-               );
-
-            var totalCount = await query.CountAsync();
-
-            var opportunityTypeList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-            var lookupTableDtoList = new List<OpportunityOpportunityTypeLookupTableDto>();
-            foreach (var opportunityType in opportunityTypeList)
-            {
-                lookupTableDtoList.Add(new OpportunityOpportunityTypeLookupTableDto
+            return await _lookup_opportunityTypeRepository.GetAll()
+                .Select(opportunityType => new OpportunityOpportunityTypeLookupTableDto
                 {
                     Id = opportunityType.Id,
-                    DisplayName = opportunityType.Description?.ToString()
-                });
-            }
-
-            return new PagedResultDto<OpportunityOpportunityTypeLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
+                    DisplayName = opportunityType == null || opportunityType.Description == null ? "" : opportunityType.Description.ToString()
+                }).ToListAsync();
         }
 
     }

@@ -11044,30 +11044,10 @@ export class OpportunitiesServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllOpportunityStageForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfOpportunityOpportunityStageLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityStageForLookupTable?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+    getAllOpportunityStageForTableDropdown() : Observable<OpportunityOpportunityStageLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityStageForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11079,20 +11059,20 @@ export class OpportunitiesServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllOpportunityStageForLookupTable(response_);
+            return this.processGetAllOpportunityStageForTableDropdown(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllOpportunityStageForLookupTable(<any>response_);
+                    return this.processGetAllOpportunityStageForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfOpportunityOpportunityStageLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<OpportunityOpportunityStageLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfOpportunityOpportunityStageLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<OpportunityOpportunityStageLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllOpportunityStageForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfOpportunityOpportunityStageLookupTableDto> {
+    protected processGetAllOpportunityStageForTableDropdown(response: HttpResponseBase): Observable<OpportunityOpportunityStageLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -11103,7 +11083,14 @@ export class OpportunitiesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfOpportunityOpportunityStageLookupTableDto.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityOpportunityStageLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11111,34 +11098,14 @@ export class OpportunitiesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfOpportunityOpportunityStageLookupTableDto>(<any>null);
+        return _observableOf<OpportunityOpportunityStageLookupTableDto[]>(<any>null);
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllLeadSourceForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfOpportunityLeadSourceLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllLeadSourceForLookupTable?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+    getAllLeadSourceForTableDropdown() : Observable<OpportunityLeadSourceLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllLeadSourceForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11150,20 +11117,20 @@ export class OpportunitiesServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllLeadSourceForLookupTable(response_);
+            return this.processGetAllLeadSourceForTableDropdown(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllLeadSourceForLookupTable(<any>response_);
+                    return this.processGetAllLeadSourceForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfOpportunityLeadSourceLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<OpportunityLeadSourceLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfOpportunityLeadSourceLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<OpportunityLeadSourceLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllLeadSourceForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfOpportunityLeadSourceLookupTableDto> {
+    protected processGetAllLeadSourceForTableDropdown(response: HttpResponseBase): Observable<OpportunityLeadSourceLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -11174,7 +11141,14 @@ export class OpportunitiesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfOpportunityLeadSourceLookupTableDto.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityLeadSourceLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11182,34 +11156,14 @@ export class OpportunitiesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfOpportunityLeadSourceLookupTableDto>(<any>null);
+        return _observableOf<OpportunityLeadSourceLookupTableDto[]>(<any>null);
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllOpportunityTypeForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityTypeForLookupTable?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+    getAllOpportunityTypeForTableDropdown() : Observable<OpportunityOpportunityTypeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11221,20 +11175,20 @@ export class OpportunitiesServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllOpportunityTypeForLookupTable(response_);
+            return this.processGetAllOpportunityTypeForTableDropdown(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllOpportunityTypeForLookupTable(<any>response_);
+                    return this.processGetAllOpportunityTypeForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<OpportunityOpportunityTypeLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<OpportunityOpportunityTypeLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllOpportunityTypeForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto> {
+    protected processGetAllOpportunityTypeForTableDropdown(response: HttpResponseBase): Observable<OpportunityOpportunityTypeLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -11245,7 +11199,14 @@ export class OpportunitiesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityOpportunityTypeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11253,7 +11214,7 @@ export class OpportunitiesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto>(<any>null);
+        return _observableOf<OpportunityOpportunityTypeLookupTableDto[]>(<any>null);
     }
 }
 
@@ -32900,150 +32861,6 @@ export class PagedResultDtoOfNameValueDto implements IPagedResultDtoOfNameValueD
 export interface IPagedResultDtoOfNameValueDto {
     totalCount: number;
     items: NameValueDto[] | undefined;
-}
-
-export class PagedResultDtoOfOpportunityLeadSourceLookupTableDto implements IPagedResultDtoOfOpportunityLeadSourceLookupTableDto {
-    totalCount!: number;
-    items!: OpportunityLeadSourceLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfOpportunityLeadSourceLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.totalCount = _data["totalCount"];
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(OpportunityLeadSourceLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfOpportunityLeadSourceLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfOpportunityLeadSourceLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfOpportunityLeadSourceLookupTableDto {
-    totalCount: number;
-    items: OpportunityLeadSourceLookupTableDto[] | undefined;
-}
-
-export class PagedResultDtoOfOpportunityOpportunityStageLookupTableDto implements IPagedResultDtoOfOpportunityOpportunityStageLookupTableDto {
-    totalCount!: number;
-    items!: OpportunityOpportunityStageLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfOpportunityOpportunityStageLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.totalCount = _data["totalCount"];
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(OpportunityOpportunityStageLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfOpportunityOpportunityStageLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfOpportunityOpportunityStageLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfOpportunityOpportunityStageLookupTableDto {
-    totalCount: number;
-    items: OpportunityOpportunityStageLookupTableDto[] | undefined;
-}
-
-export class PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto implements IPagedResultDtoOfOpportunityOpportunityTypeLookupTableDto {
-    totalCount!: number;
-    items!: OpportunityOpportunityTypeLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfOpportunityOpportunityTypeLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.totalCount = _data["totalCount"];
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(OpportunityOpportunityTypeLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfOpportunityOpportunityTypeLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfOpportunityOpportunityTypeLookupTableDto {
-    totalCount: number;
-    items: OpportunityOpportunityTypeLookupTableDto[] | undefined;
 }
 
 export class PagedResultDtoOfOrganizationUnitRoleListDto implements IPagedResultDtoOfOrganizationUnitRoleListDto {

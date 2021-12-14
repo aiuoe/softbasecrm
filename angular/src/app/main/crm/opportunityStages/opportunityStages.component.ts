@@ -5,9 +5,7 @@ import { OpportunityStagesServiceProxy, OpportunityStageDto  } from '@shared/ser
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateOrEditOpportunityStageModalComponent } from './create-or-edit-opportunityStage-modal.component';
 
-import { ViewOpportunityStageModalComponent } from './view-opportunityStage-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
@@ -16,30 +14,20 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './opportunityStages.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()]
+    animations: [appModuleAnimation()],
 })
 export class OpportunityStagesComponent extends AppComponentBase {
-    
-    
-    @ViewChild('createOrEditOpportunityStageModal', { static: true }) createOrEditOpportunityStageModal: CreateOrEditOpportunityStageModalComponent;
-    @ViewChild('viewOpportunityStageModalComponent', { static: true }) viewOpportunityStageModal: ViewOpportunityStageModalComponent;   
-    
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
-
-
-
-
-
 
     constructor(
         injector: Injector,
@@ -48,7 +36,8 @@ export class OpportunityStagesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-             private _dateTimeService: DateTimeService
+        private _router: Router,
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
@@ -61,17 +50,19 @@ export class OpportunityStagesComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._opportunityStagesServiceProxy.getAll(
-            this.filterText,
-            this.descriptionFilter,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        this._opportunityStagesServiceProxy
+            .getAll(
+                this.filterText,
+                this.descriptionFilter,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
     }
 
     reloadPage(): void {
@@ -79,28 +70,18 @@ export class OpportunityStagesComponent extends AppComponentBase {
     }
 
     createOpportunityStage(): void {
-        this.createOrEditOpportunityStageModal.show();        
+        this._router.navigate(['/app/main/crm/opportunityStages/createOrEdit']);
     }
 
 
     deleteOpportunityStage(opportunityStage: OpportunityStageDto): void {
-        this.message.confirm(
-            '',
-            this.l('AreYouSure'),
-            (isConfirmed) => {
-                if (isConfirmed) {
-                    this._opportunityStagesServiceProxy.delete(opportunityStage.id)
-                        .subscribe(() => {
-                            this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
-                        });
-                }
+        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
+            if (isConfirmed) {
+                this._opportunityStagesServiceProxy.delete(opportunityStage.id).subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('SuccessfullyDeleted'));
+                });
             }
-        );
+        });
     }
-    
-    
-    
-    
-    
 }

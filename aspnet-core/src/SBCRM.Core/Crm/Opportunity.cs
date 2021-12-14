@@ -17,7 +17,6 @@ namespace SBCRM.Crm
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
         public virtual string Name { get; set; }
 
-        [Range(OpportunityConsts.MinAmountValue, OpportunityConsts.MaxAmountValue)]
         public virtual decimal Amount { get; set; }
 
         [Range(OpportunityConsts.MinProbabilityValue, OpportunityConsts.MaxProbabilityValue)]

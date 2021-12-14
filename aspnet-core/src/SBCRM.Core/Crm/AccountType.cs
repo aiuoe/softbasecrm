@@ -15,5 +15,7 @@ namespace SBCRM.Crm
         [StringLength(AccountTypeConsts.MaxDescriptionLength, MinimumLength = AccountTypeConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
+        public virtual bool? IsDefault { get; set; }
+
     }
 }

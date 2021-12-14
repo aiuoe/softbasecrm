@@ -16,6 +16,19 @@ import { RouterModule } from '@angular/router';
                 
 
                     {
+                        path: 'crm/opportunityStages',
+                        loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
+                        data: { permission: 'Pages.OpportunityStages' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/opportunities',
+                        loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
+                        data: { permission: 'Pages.Opportunities' }
+                    },
+                
+                    {    
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
                         data: { permission: 'Pages.ActivityStatuses' }
@@ -49,7 +62,6 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.OpportunityStages' }
                     },
                 
-                    
                     {
                         path: 'crm/opportunityTypes',
                         loadChildren: () => import('./crm/opportunityTypes/opportunityType.module').then(m => m.OpportunityTypeModule),

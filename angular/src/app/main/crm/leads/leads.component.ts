@@ -104,7 +104,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 let resultItems = result.items;
                 resultItems.forEach( (item) => {                    
                     this.statusFilterOptions.push(item.leadStatus.description);
-                    if (item.leadStatus.isLeadConversionValid )
+                    if (!item.leadStatus.isLeadConversionValid )
                         this.readOnlyStatus.push(item.leadStatus.description);
                 });
             });           
@@ -170,7 +170,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     leadCanBeEdittedOrConverted(event: any) : boolean {
-        return this.readOnlyStatus.includes(event);
+        return !(this.readOnlyStatus.includes(event));
     }
 
     reloadPage(): void {

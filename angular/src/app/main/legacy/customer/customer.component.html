@@ -193,7 +193,7 @@
                                             <a
                                                 *ngIf="permission.isGranted('Pages.Customer.Edit')"
                                                 [routerLink]="['/app/main/business/accounts/createOrEdit']"
-                                                [queryParams]="{ id: record.customer.id }"
+                                                [queryParams]="{ number: record.customer.number }"
                                             >
                                                 <span class="p-column-title">{{ l('Name') }}</span>
                                                 {{ record.customer.name }}

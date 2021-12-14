@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>    <text name="AccountUser">Account user</text>
+  <texts>
+    <text name="AccountUser">Account user</text>
     <text name="SBCRM.Crm.AccountUser">AccountUser</text>
     <text name="AccountUsersHeaderInfo">Account users header info</text>
     <text name="CreateNewAccountUser">Create new account user</text>
@@ -9,6 +10,8 @@
     <text name="DeleteAccountUser">Delete account user</text>
     <text name="AccountUsers">Account users</text>
     <text name="PickUser">Pick user</text>
+    <text name="SelectAOpportunityStage">Select a opportunity stage</text>
+    <text name="SelectAOpportunityType">Select a opportunity type</text>
 
     <text name="ActivityStatus">Activity status</text>
     <text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
@@ -43,7 +46,7 @@
     <text name="CloseDate">Close date</text>
     <text name="Department">Department</text>
     <text name="OpportunitiesHeaderInfo">Opportunities header info</text>
-    <text name="CreateNewOpportunity">Create new opportunity</text>
+    <text name="CreateNewOpportunity">Opportunity</text>
     <text name="EditOpportunity">Edit opportunity</text>
     <text name="DeleteOpportunity">Delete opportunity</text>
     <text name="Opportunities">Opportunities</text>
@@ -57,6 +60,7 @@
     <text name="EditOpportunityType">Edit opportunity type</text>
     <text name="DeleteOpportunityType">Delete opportunity type</text>
     <text name="OpportunityStage">Opportunity stage</text>
+	<text name="Stage">Stage</text>
     <text name="CreateNewOpportunityStage">Create new opportunity stage</text>
     <text name="EditOpportunityStage">Edit opportunity stage</text>
     <text name="DeleteOpportunityStage">Delete opportunity stage</text>

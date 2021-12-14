@@ -5,6 +5,7 @@ using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
+using NPOI.SS.UserModel;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -26,18 +27,19 @@ namespace SBCRM.Crm.Exporting
 
         public FileDto ExportToFile(List<GetLeadForViewDto> leads)
         {
+
             return CreateExcelPackage(
                 "Leads.xlsx",
                 excelPackage =>
                 {
-
-                    var sheet = excelPackage.CreateSheet(L("Leads"));                       
-                    
+                    var sheet = excelPackage.CreateSheet(L("Leads"));
+                 
                     AddHeader(
                         sheet,
                         L("CompanyName"),
                         L("ContactName"),
                         L("CompanyPhone"),
+                        L("CreationTime"),
                         (L("LeadStatus")),
                         (L("Priority"))
                         );
@@ -47,10 +49,11 @@ namespace SBCRM.Crm.Exporting
                         _ => _.Lead.CompanyName,
                         _ => _.Lead.ContactName,
                         _ => _.Lead.CompanyPhone,
+                        _ => _.Lead.CreationTime.Value.ToString("MM/dd/yyyy"),
                         _ => _.LeadStatusDescription,
                         _ => _.PriorityDescription
                         );
-
+                        
                         int numberOfColumns = sheet.GetRow(0).LastCellNum;
                         for(int column = 0; column < numberOfColumns; column++)
                             sheet.AutoSizeColumn(column);
