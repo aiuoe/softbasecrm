@@ -2,12 +2,12 @@
 
 namespace SBCRM.Migrations
 {
-    public partial class RelateAccountTypeToCustomer : Migration
+    public partial class Add_Customer_LeadSource_Relation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "AccountTypeId",
+                name: "LeadSourceId",
                 schema: "dbo",
                 table: "Customer",
                 type: "int",
@@ -15,36 +15,35 @@ namespace SBCRM.Migrations
                 defaultValue: null);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_AccountTypeId",
+                name: "IX_Customer_LeadSourceId",
                 schema: "dbo",
                 table: "Customer",
-                column: "AccountTypeId");
+                column: "LeadSourceId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Customer_AccountTypes_AccountTypeId",
+                name: "FK_Customer_LeadSources_LeadSourceId",
                 schema: "dbo",
                 table: "Customer",
-                column: "AccountTypeId",
+                column: "LeadSourceId",
                 principalSchema: "web",
-                principalTable: "AccountTypes",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                principalTable: "LeadSources",
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Customer_AccountTypes_AccountTypeId",
+                name: "FK_Customer_LeadSources_LeadSourceId",
                 schema: "dbo",
                 table: "Customer");
 
             migrationBuilder.DropIndex(
-                name: "IX_Customer_AccountTypeId",
+                name: "IX_Customer_LeadSourceId",
                 schema: "dbo",
                 table: "Customer");
 
             migrationBuilder.DropColumn(
-                name: "AccountTypeId",
+                name: "LeadSourceId",
                 schema: "dbo",
                 table: "Customer");
         }

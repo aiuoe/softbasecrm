@@ -4,9 +4,9 @@ import { Table } from 'primeng/table';
 import * as rtlDetect from 'rtl-detect';
 
 export class PrimengTableHelper {
-    predefinedRecordsCountPerPage = [5, 10, 25, 50, 100, 250, 500];
+    predefinedRecordsCountPerPage = [5, 10, 30, 50, 100, 250, 500];
 
-    defaultRecordsCountPerPage = 10;
+    defaultRecordsCountPerPage = 30;
 
     isResponsive = true;
 

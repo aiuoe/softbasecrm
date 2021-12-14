@@ -2,6 +2,9 @@
 
 namespace SBCRM.Legacy.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object for creation/edition customer
+    /// </summary>
     public class CreateOrEditCustomerDto
     {
         [StringLength(CustomerConsts.MaxNumberLength, MinimumLength = CustomerConsts.MinNumberLength)]
@@ -41,6 +44,7 @@ namespace SBCRM.Legacy.Dtos
         public string ZipCode { get; set; }
 
         public int? AccountTypeId { get; set; }
+        public int? LeadSourceId { get; set; }
 
         [StringLength(CustomerConsts.MaxDunsCodeLength, MinimumLength = CustomerConsts.MinDunsCodeLength)]
         public string DunsCode { get; set; }

@@ -17,6 +17,7 @@ import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bo
 import { SubheaderModule } from '@app/shared/common/sub-header/subheader.module';
 
 import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -35,7 +36,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         BsDropdownModule.forRoot(),
         PopoverModule.forRoot(),
         SubheaderModule,
-        DropdownModule
+        DropdownModule,
+        MultiSelectModule
     ],
     declarations: [],
     providers: [

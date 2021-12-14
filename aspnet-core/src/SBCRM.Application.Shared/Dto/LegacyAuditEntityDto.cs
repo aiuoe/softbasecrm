@@ -2,6 +2,9 @@
 
 namespace SBCRM.Dto
 {
+    /// <summary>
+    /// DTO to manage the legacy object audit
+    /// </summary>
     public class LegacyAuditEntityDto
     {
         public DateTime? Added { get; set; }

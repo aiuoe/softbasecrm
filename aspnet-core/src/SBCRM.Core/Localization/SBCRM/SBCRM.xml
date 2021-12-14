@@ -17,6 +17,8 @@
     <text name="DeleteActivityTaskType">Delete activity task type</text>
     <text name="ActivityTaskTypes">Activity task types</text>
     <text name="Order">Order</text>
+    <text name="Overview">Overview</text>
+    <text name="GeneralInformation">General information</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -24,6 +26,10 @@
     <text name="OpportunityStagesHeaderInfo">Opportunity stages header info</text>
     <text name="OpportunityStages">Opportunity stages</text>
     <text name="Opportunity">Opportunity</text>
+    <text name="Invoices">Invoices</text>
+    <text name="Equipment">Equipment</text>
+    <text name="WIP">WIP</text>
+    <text name="Events">Events</text>
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
     <text name="CloseDate">Close date</text>
@@ -48,10 +54,8 @@
     <text name="DeleteOpportunityStage">Delete opportunity stage</text>
     <text name="IsLeadConversionValid">Is lead conversion valid</text>
     <text name="NotIsLeadConversionValid">Not is lead conversion valid</text>
-
     <text name="Color">Color</text>
-
-	<text name="LeadContactName">Contact name</text>
+    <text name="LeadContactName">Contact name</text>
     <text name="LeadUser">Lead user</text>
     <text name="CreateNewLeadUser">Create new lead user</text>
     <text name="EditLeadUser">Edit lead user</text>
@@ -64,10 +68,10 @@
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
-	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
-	<text name="LeadCompanyPhone">Phone</text>
+	  <text name="CompanyPhone_Invalid">Invalid Company phone</text>
+	  <text name="LeadCompanyPhone">Phone</text>
     <text name="CompanyEmail">Company email</text>
-    <text name="PoBox">Po box</text>
+    <text name="PoBox">Po Box</text>
     <text name="ContactPhone">Contact phone</text>
     <text name="ContactPhoneExtension">Contact phone extension</text>
     <text name="ContactCellPhone">Contact cell phone</text>
@@ -76,8 +80,8 @@
     <text name="ContactEmail">Contact email</text>
     <text name="PriorityDescription">Priority description</text>
     <text name="PickPriority">Pick priority</text>
-	<text name="LeadPriority">Priority</text>
-	<text name="SelectAPriority">Select a priority</text>
+	  <text name="LeadPriority">Priority</text>
+	  <text name="SelectAPriority">Select a priority</text>
     <text name="Priority">Priority</text>
     <text name="SBCRM.Crm.Priority">Priority</text>
     <text name="PrioritiesHeaderInfo">Priorities header info</text>
@@ -92,7 +96,7 @@
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
-	<text name="WebSite_Invalid">Invalid Web site</text>
+	  <text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
     <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
@@ -107,8 +111,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-	<text name="LeadStatus">Lead status</text>
-	<text name="MakeAccount">Make Account</text>	  
+	  <text name="LeadStatus">Lead status</text>
+	  <text name="MakeAccount">Make Account</text>	  
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
@@ -129,12 +133,14 @@
     <text name="EditIndustry">Edit industry</text>
     <text name="DeleteIndustry">Delete industry</text>
     <text name="Customer">Account</text>
+    <text name="Customers">Accounts</text>
     <text name="SBCRM.Legacy.Customer">Customer</text>
     <text name="Number">Number</text>
-    <text name="BillTo">Bill to</text>
+    <text name="CustomerNumber">Customer Number #</text>
+    <text name="BillTo">Bill To #</text>
     <text name="SearchName">Search name</text>
     <text name="SubName">Sub name</text>
-    <text name="POBox">P o box</text>
+    <text name="POBox">PO box</text>
     <text name="City">City</text>
     <text name="State">State</text>
     <text name="Country">Country</text>
@@ -172,7 +178,8 @@
     <text name="Terms">Terms</text>
     <text name="FiscalEnd">Fiscal end</text>
     <text name="DunsCode">Duns code</text>
-    <text name="SICCode">S i c code</text>
+    <text name="Duns">Duns</text>
+    <text name="SICCode">Sic</text>
     <text name="MailingGroup">Mailing group</text>
     <text name="Makes">Makes</text>
     <text name="POReq">P o req</text>
@@ -202,9 +209,9 @@
     <text name="CompanyCommentsBy">Company comments by</text>
     <text name="BusinessCategory">Business category</text>
     <text name="BusinessDescription">Business description</text>
-    <text name="SICCode2">S i c code 2</text>
-    <text name="SICCode3">S i c code 3</text>
-    <text name="SICCode4">S i c code 4</text>
+    <text name="SICCode2">Sic 2</text>
+    <text name="SICCode3">Sic 3</text>
+    <text name="SICCode4">Sic 4</text>
     <text name="Shifts">Shifts</text>
     <text name="Category">Category</text>
     <text name="HoursOfOpStart">Hours of op start</text>
@@ -314,8 +321,8 @@
     <text name="ID">I d</text>
     <text name="ARStatementsEmailAddress">A r statements email address</text>
     <text name="CustomerHeaderInfo">Customer header info</text>
-    <text name="CreateNewCustomer">Account</text>
-    <text name="EditCustomer">Edit customer</text>
+    <text name="CreateNewCustomer">New Account</text>
+    <text name="EditCustomer">Edit Account</text>
     <text name="DeleteCustomer">Delete customer</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="AccountTypeDescription">Account type description</text>

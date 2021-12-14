@@ -2,6 +2,9 @@
 
 namespace SBCRM.Legacy.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object customer
+    /// </summary>
     public class CustomerDto : LegacyAuditEntityDto
     {
         public string Name { get; set; }
@@ -14,7 +17,7 @@ namespace SBCRM.Legacy.Dtos
 
         public string BillTo { get; set; }
 
-        public int AccountTypeId { get; set; }
+        public int? AccountTypeId { get; set; }
 
     }
 }

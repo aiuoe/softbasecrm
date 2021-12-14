@@ -1,8 +1,17 @@
 .p-datatable .p-datatable-thead > tr > th {
-    color: #7F8BB5;
+    color: $datatableHeaderColor;
 }
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-    background: $primaryColor;
+    background: $secondaryColor;
     border-color: $primaryColor;
-    color: white;
+    color: $primaryColor;
+    font-weight: bold;
+}
+
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+    color: $datatableHeaderColor;
+}
+
+.p-datatable {
+    font-size: 100%;
 }
