@@ -6,6 +6,16 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_ActivityStatuses = "Pages.ActivityStatuses";
+        public const string Pages_ActivityStatuses_Create = "Pages.ActivityStatuses.Create";
+        public const string Pages_ActivityStatuses_Edit = "Pages.ActivityStatuses.Edit";
+        public const string Pages_ActivityStatuses_Delete = "Pages.ActivityStatuses.Delete";
+
+        public const string Pages_ActivityTaskTypes = "Pages.ActivityTaskTypes";
+        public const string Pages_ActivityTaskTypes_Create = "Pages.ActivityTaskTypes.Create";
+        public const string Pages_ActivityTaskTypes_Edit = "Pages.ActivityTaskTypes.Edit";
+        public const string Pages_ActivityTaskTypes_Delete = "Pages.ActivityTaskTypes.Delete";
+
         public const string Pages_Opportunities = "Pages.Opportunities";
         public const string Pages_Opportunities_Create = "Pages.Opportunities.Create";
         public const string Pages_Opportunities_Edit = "Pages.Opportunities.Edit";

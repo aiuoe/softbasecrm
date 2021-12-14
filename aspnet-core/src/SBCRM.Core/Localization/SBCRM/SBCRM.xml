@@ -2,6 +2,21 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="ActivityStatus">Activity status</text>
+    <text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
+    <text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
+    <text name="CreateNewActivityStatus">Create new activity status</text>
+    <text name="EditActivityStatus">Edit activity status</text>
+    <text name="DeleteActivityStatus">Delete activity status</text>
+    <text name="ActivityStatuses">Activity statuses</text>
+    <text name="ActivityTaskType">Activity task type</text>
+    <text name="SBCRM.Crm.ActivityTaskType">ActivityTaskType</text>
+    <text name="ActivityTaskTypesHeaderInfo">Activity task types header info</text>
+    <text name="CreateNewActivityTaskType">Create new activity task type</text>
+    <text name="EditActivityTaskType">Edit activity task type</text>
+    <text name="DeleteActivityTaskType">Delete activity task type</text>
+    <text name="ActivityTaskTypes">Activity task types</text>
+    <text name="Order">Order</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>

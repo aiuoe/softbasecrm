@@ -35,12 +35,14 @@ namespace SBCRM.Crm.Exporting
 
                     AddHeader(
                         sheet,
-                        L("Description")
+                        L("Description"),
+                        L("Order")
                         );
 
                     AddObjects(
                         sheet, leadSources,
-                        _ => _.LeadSource.Description
+                        _ => _.LeadSource.Description,
+                        _ => _.LeadSource.Order
                         );
 
                 });

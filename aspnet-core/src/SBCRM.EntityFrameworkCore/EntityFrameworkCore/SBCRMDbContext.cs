@@ -18,6 +18,10 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ActivityStatus> ActivityStatuses { get; set; }
+
+        public virtual DbSet<ActivityTaskType> ActivityTaskTypes { get; set; }
+
         public virtual DbSet<Opportunity> Opportunities { get; set; }
 
         public virtual DbSet<OpportunityType> OpportunityTypes { get; set; }

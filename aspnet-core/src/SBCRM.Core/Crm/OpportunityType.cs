@@ -14,5 +14,7 @@ namespace SBCRM.Crm
         [StringLength(OpportunityTypeConsts.MaxDescriptionLength, MinimumLength = OpportunityTypeConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
+        public virtual int Order { get; set; }
+
     }
 }
