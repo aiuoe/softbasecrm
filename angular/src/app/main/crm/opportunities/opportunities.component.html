@@ -264,45 +264,21 @@
                                         >
                                             {{ l('Actions') }}
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="opportunityStageDescription"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="leadSourceFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="leadSourceDescription"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="opportunityTypeFk.description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="opportunityTypeDescription"></p-sortIcon>
-                                        </th>
                                         <th style="width: 150px" pSortableColumn="name">
-                                            {{ l('Name') }}
+                                            {{ l('Name') }}/{{ l('Stage')}}
                                             <p-sortIcon field="opportunity.name"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="amount">
-                                            {{ l('Amount') }}
-                                            <p-sortIcon field="opportunity.amount"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="probability">
-                                            {{ l('Probability') }}
-                                            <p-sortIcon field="opportunity.probability"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="closeDate">
                                             {{ l('CloseDate') }}
                                             <p-sortIcon field="opportunity.closeDate"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="description">
-                                            {{ l('Description') }}
-                                            <p-sortIcon field="opportunity.description"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="amount">
+                                            {{ l('Amount') }}
+                                            <p-sortIcon field="opportunity.amount"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="branch">
-                                            {{ l('Branch') }}
+                                            {{ l('Branch') }} and {{ l('Department') }}
                                             <p-sortIcon field="opportunity.branch"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="department">
-                                            {{ l('Department') }}
-                                            <p-sortIcon field="opportunity.department"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -318,7 +294,6 @@
                                                 <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
-                                                    {{ l('Actions') }}
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
@@ -341,60 +316,35 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Opportunities.Delete')"
-                                                            (click)="deleteOpportunity(record.opportunity)"
-                                                        >
-                                                            {{ l('Delete') }}
-                                                        </a>
-                                                    </li>
                                                 </ul>
                                             </div>
+                                        </td>                                       
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
+                                            <a                                                
+                                                [routerLink]="['/app/main/crm/opportunities/view']"
+                                                [queryParams]="{ id: record.opportunity.id }"
+                                            >
+                                                {{ record.opportunity.name }}
+                                            </a>
+                                            <br>   
+                                            {{ record.opportunityStageDescription }} 
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.opportunityStageDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.leadSourceDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.opportunityTypeDescription }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Name') }}</span>
-                                            {{ record.opportunity.name }}
+                                            <span class="p-column-title">{{ l('CloseDate') }}</span>
+                                            <span *ngIf="record.opportunity.closeDate">
+                                                {{ record.opportunity.closeDate | date: 'MM/dd/yyyy' }}
+                                            </span>
+                                            <span *ngIf="!record.opportunity.closeDate">-</span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Amount') }}</span>
                                             {{ record.opportunity.amount }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Probability') }}</span>
-                                            {{ record.opportunity.probability }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('CloseDate') }}</span>
-                                            <span *ngIf="record.opportunity.closeDate">
-                                                {{ record.opportunity.closeDate | luxonFormat: 'F' }}
-                                            </span>
-                                            <span *ngIf="!record.opportunity.closeDate">-</span>
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Description') }}</span>
-                                            {{ record.opportunity.description }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Branch') }}</span>
+                                            <span class="p-column-title">{{ l('Branch') }} and {{ l('Department') }}</span>
                                             {{ record.opportunity.branch }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Department') }}</span>
+                                            <br>
                                             {{ record.opportunity.department }}
                                         </td>
                                     </tr>
