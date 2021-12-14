@@ -13,5 +13,8 @@ namespace SBCRM.Crm
         [Required]
         [StringLength(LeadSourceConsts.MaxDescriptionLength, MinimumLength = LeadSourceConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
+
+        public virtual int Order { get; set; }
+
     }
 }

@@ -1,7 +1,7 @@
-﻿import { AppConsts } from '@shared/AppConsts';
+﻿import {AppConsts} from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LeadSourcesServiceProxy, LeadSourceDto } from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute , Router} from '@angular/router';
+import { LeadSourcesServiceProxy, LeadSourceDto  } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -16,24 +16,30 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './leadSources.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()],
+    animations: [appModuleAnimation()]
 })
 export class LeadSourcesComponent extends AppComponentBase {
-    @ViewChild('createOrEditLeadSourceModal', { static: true })
-    createOrEditLeadSourceModal: CreateOrEditLeadSourceModalComponent;
-    @ViewChild('viewLeadSourceModalComponent', { static: true }) viewLeadSourceModal: ViewLeadSourceModalComponent;
-
+    
+    
+    @ViewChild('createOrEditLeadSourceModal', { static: true }) createOrEditLeadSourceModal: CreateOrEditLeadSourceModalComponent;
+    @ViewChild('viewLeadSourceModalComponent', { static: true }) viewLeadSourceModal: ViewLeadSourceModalComponent;   
+    
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
+
+
+
+
+
 
     constructor(
         injector: Injector,
@@ -42,7 +48,7 @@ export class LeadSourcesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-        private _dateTimeService: DateTimeService
+             private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
@@ -55,19 +61,17 @@ export class LeadSourcesComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._leadSourcesServiceProxy
-            .getAll(
-                this.filterText,
-                this.descriptionFilter,
-                this.primengTableHelper.getSorting(this.dataTable),
-                this.primengTableHelper.getSkipCount(this.paginator, event),
-                this.primengTableHelper.getMaxResultCount(this.paginator, event)
-            )
-            .subscribe((result) => {
-                this.primengTableHelper.totalRecordsCount = result.totalCount;
-                this.primengTableHelper.records = result.items;
-                this.primengTableHelper.hideLoadingIndicator();
-            });
+        this._leadSourcesServiceProxy.getAll(
+            this.filterText,
+            this.descriptionFilter,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getSkipCount(this.paginator, event),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event)
+        ).subscribe(result => {
+            this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.primengTableHelper.records = result.items;
+            this.primengTableHelper.hideLoadingIndicator();
+        });
     }
 
     reloadPage(): void {
@@ -75,25 +79,38 @@ export class LeadSourcesComponent extends AppComponentBase {
     }
 
     createLeadSource(): void {
-        this.createOrEditLeadSourceModal.show();
+        this.createOrEditLeadSourceModal.show();        
     }
 
+
     deleteLeadSource(leadSource: LeadSourceDto): void {
-        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
-            if (isConfirmed) {
-                this._leadSourcesServiceProxy.delete(leadSource.id).subscribe(() => {
-                    this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
-                });
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._leadSourcesServiceProxy.delete(leadSource.id)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                }
             }
-        });
+        );
     }
 
     exportToExcel(): void {
-        this._leadSourcesServiceProxy
-            .getLeadSourcesToExcel(this.filterText, this.descriptionFilter)
-            .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);
-            });
+        this._leadSourcesServiceProxy.getLeadSourcesToExcel(
+        this.filterText,
+            this.descriptionFilter,
+        )
+        .subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+         });
     }
+    
+    
+    
+    
+    
 }

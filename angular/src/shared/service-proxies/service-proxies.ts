@@ -927,6 +927,614 @@ export class AccountTypesServiceProxy {
 }
 
 @Injectable()
+export class ActivityStatusesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityStatusForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityStatusForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityStatusForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityStatusForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityStatusForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityStatusForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityStatusForView(id: number | undefined): Observable<GetActivityStatusForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetActivityStatusForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityStatusForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityStatusForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityStatusForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityStatusForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityStatusForView(response: HttpResponseBase): Observable<GetActivityStatusForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityStatusForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityStatusForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityStatusForEdit(id: number | undefined): Observable<GetActivityStatusForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetActivityStatusForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityStatusForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityStatusForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityStatusForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityStatusForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityStatusForEdit(response: HttpResponseBase): Observable<GetActivityStatusForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityStatusForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityStatusForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityStatusDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class ActivityTaskTypesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityTaskTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityTaskTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityTaskTypeForView(id: number | undefined): Observable<GetActivityTaskTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetActivityTaskTypeForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityTaskTypeForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityTaskTypeForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityTaskTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityTaskTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityTaskTypeForView(response: HttpResponseBase): Observable<GetActivityTaskTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityTaskTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityTaskTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityTaskTypeForEdit(id: number | undefined): Observable<GetActivityTaskTypeForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetActivityTaskTypeForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityTaskTypeForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityTaskTypeForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityTaskTypeForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityTaskTypeForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityTaskTypeForEdit(response: HttpResponseBase): Observable<GetActivityTaskTypeForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityTaskTypeForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityTaskTypeForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityTaskTypeDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class ARTermsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -19316,6 +19924,94 @@ export interface IActivateWebhookSubscriptionInput {
     isActive: boolean;
 }
 
+export class ActivityStatusDto implements IActivityStatusDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number;
+
+    constructor(data?: IActivityStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivityStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivityStatusDto {
+    description: string | undefined;
+    order: number;
+    id: number;
+}
+
+export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number;
+
+    constructor(data?: IActivityTaskTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivityTaskTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityTaskTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivityTaskTypeDto {
+    description: string | undefined;
+    order: number;
+    id: number;
+}
+
 export class AddNewPageInput implements IAddNewPageInput {
     dashboardName!: string | undefined;
     name!: string | undefined;
@@ -20641,6 +21337,86 @@ export class CreateOrEditAccountTypeDto implements ICreateOrEditAccountTypeDto {
 }
 
 export interface ICreateOrEditAccountTypeDto {
+    id: number | undefined;
+}
+
+export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatusDto {
+    description!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivityStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditActivityStatusDto {
+    description: string | undefined;
+    id: number | undefined;
+}
+
+export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTaskTypeDto {
+    description!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivityTaskTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityTaskTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityTaskTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditActivityTaskTypeDto {
+    description: string | undefined;
     id: number | undefined;
 }
 
@@ -24039,6 +24815,150 @@ export class GetAccountTypeForViewDto implements IGetAccountTypeForViewDto {
 
 export interface IGetAccountTypeForViewDto {
     accountType: AccountTypeDto;
+}
+
+export class GetActivityStatusForEditOutput implements IGetActivityStatusForEditOutput {
+    activityStatus!: CreateOrEditActivityStatusDto;
+
+    constructor(data?: IGetActivityStatusForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityStatus = _data["activityStatus"] ? CreateOrEditActivityStatusDto.fromJS(_data["activityStatus"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityStatusForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityStatusForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityStatus"] = this.activityStatus ? this.activityStatus.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityStatusForEditOutput {
+    activityStatus: CreateOrEditActivityStatusDto;
+}
+
+export class GetActivityStatusForViewDto implements IGetActivityStatusForViewDto {
+    activityStatus!: ActivityStatusDto;
+
+    constructor(data?: IGetActivityStatusForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityStatus = _data["activityStatus"] ? ActivityStatusDto.fromJS(_data["activityStatus"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityStatusForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityStatusForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityStatus"] = this.activityStatus ? this.activityStatus.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityStatusForViewDto {
+    activityStatus: ActivityStatusDto;
+}
+
+export class GetActivityTaskTypeForEditOutput implements IGetActivityTaskTypeForEditOutput {
+    activityTaskType!: CreateOrEditActivityTaskTypeDto;
+
+    constructor(data?: IGetActivityTaskTypeForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityTaskType = _data["activityTaskType"] ? CreateOrEditActivityTaskTypeDto.fromJS(_data["activityTaskType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityTaskTypeForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityTaskTypeForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityTaskType"] = this.activityTaskType ? this.activityTaskType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityTaskTypeForEditOutput {
+    activityTaskType: CreateOrEditActivityTaskTypeDto;
+}
+
+export class GetActivityTaskTypeForViewDto implements IGetActivityTaskTypeForViewDto {
+    activityTaskType!: ActivityTaskTypeDto;
+
+    constructor(data?: IGetActivityTaskTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityTaskType = _data["activityTaskType"] ? ActivityTaskTypeDto.fromJS(_data["activityTaskType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityTaskTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityTaskTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityTaskType"] = this.activityTaskType ? this.activityTaskType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityTaskTypeForViewDto {
+    activityTaskType: ActivityTaskTypeDto;
 }
 
 export class GetAllAvailableWebhooksOutput implements IGetAllAvailableWebhooksOutput {
@@ -28146,6 +29066,7 @@ export interface ILeadPriorityLookupTableDto {
 
 export class LeadSourceDto implements ILeadSourceDto {
     description!: string | undefined;
+    order!: number;
     id!: number;
 
     constructor(data?: ILeadSourceDto) {
@@ -28160,6 +29081,7 @@ export class LeadSourceDto implements ILeadSourceDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.id = _data["id"];
         }
     }
@@ -28174,6 +29096,7 @@ export class LeadSourceDto implements ILeadSourceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["id"] = this.id;
         return data; 
     }
@@ -28181,6 +29104,7 @@ export class LeadSourceDto implements ILeadSourceDto {
 
 export interface ILeadSourceDto {
     description: string | undefined;
+    order: number;
     id: number;
 }
 
@@ -30006,6 +30930,7 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
+    order!: number;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -30020,6 +30945,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.id = _data["id"];
         }
     }
@@ -30034,6 +30960,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["id"] = this.id;
         return data; 
     }
@@ -30041,11 +30968,13 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 
 export interface IOpportunityStageDto {
     description: string | undefined;
+    order: number;
     id: number;
 }
 
 export class OpportunityTypeDto implements IOpportunityTypeDto {
     description!: string | undefined;
+    order!: number;
     id!: number;
 
     constructor(data?: IOpportunityTypeDto) {
@@ -30060,6 +30989,7 @@ export class OpportunityTypeDto implements IOpportunityTypeDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.id = _data["id"];
         }
     }
@@ -30074,6 +31004,7 @@ export class OpportunityTypeDto implements IOpportunityTypeDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["id"] = this.id;
         return data; 
     }
@@ -30081,6 +31012,7 @@ export class OpportunityTypeDto implements IOpportunityTypeDto {
 
 export interface IOpportunityTypeDto {
     description: string | undefined;
+    order: number;
     id: number;
 }
 
@@ -30494,6 +31426,102 @@ export class PagedResultDtoOfGetAccountTypeForViewDto implements IPagedResultDto
 export interface IPagedResultDtoOfGetAccountTypeForViewDto {
     totalCount: number;
     items: GetAccountTypeForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetActivityStatusForViewDto implements IPagedResultDtoOfGetActivityStatusForViewDto {
+    totalCount!: number;
+    items!: GetActivityStatusForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivityStatusForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivityStatusForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivityStatusForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivityStatusForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivityStatusForViewDto {
+    totalCount: number;
+    items: GetActivityStatusForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetActivityTaskTypeForViewDto implements IPagedResultDtoOfGetActivityTaskTypeForViewDto {
+    totalCount!: number;
+    items!: GetActivityTaskTypeForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivityTaskTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivityTaskTypeForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivityTaskTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivityTaskTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivityTaskTypeForViewDto {
+    totalCount: number;
+    items: GetActivityTaskTypeForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetAllSendAttemptsOutput implements IPagedResultDtoOfGetAllSendAttemptsOutput {

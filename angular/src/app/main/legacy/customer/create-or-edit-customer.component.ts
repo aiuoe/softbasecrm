@@ -53,19 +53,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     show(customerId?: string): void {
         if (!customerId) {
             this.customer = new CreateOrEditCustomerDto();
-            this.customer.name = 'Smith Construction 2';
-            this.customer.phone = '123-987-9878';
-            this.customer.eMail = 'info@smithconstruction.io';
-            this.customer.wwwAddress = 'smithconstruction.io';
-            this.customer.address = '4917 Jerome Avenue Phoenix, AZ 77777';
-            this.customer.poBox = 'PO Box 123';
-            this.customer.accountTypeId = 2;
-            this.customer.dunsCode = '00001';
-            this.customer.sicCode = 'N/A';
-            this.customer.sicCode2 = 'N/A';
-            this.customer.sicCode3 = 'N/A';
-            this.customer.sicCode4 = 'N/A';
-            this.customer.businessDescription = 'Offers solutions for industrial equipment dealerships who want to manage their operations and grow their bottom line.';
             this.active = true;
         } else {
             this._customerServiceProxy.getCustomerForEdit(customerId).subscribe((result) => {
