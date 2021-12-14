@@ -4,6 +4,9 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
+using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm
 {
@@ -21,11 +24,11 @@ namespace SBCRM.Crm
 
         Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input);
 
-        Task<PagedResultDto<OpportunityOpportunityStageLookupTableDto>> GetAllOpportunityStageForLookupTable(GetAllForLookupTableInput input);
+        Task<List<OpportunityOpportunityStageLookupTableDto>> GetAllOpportunityStageForTableDropdown();
 
-        Task<PagedResultDto<OpportunityLeadSourceLookupTableDto>> GetAllLeadSourceForLookupTable(GetAllForLookupTableInput input);
+        Task<List<OpportunityLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown();
 
-        Task<PagedResultDto<OpportunityOpportunityTypeLookupTableDto>> GetAllOpportunityTypeForLookupTable(GetAllForLookupTableInput input);
+        Task<List<OpportunityOpportunityTypeLookupTableDto>> GetAllOpportunityTypeForTableDropdown();
 
     }
 }

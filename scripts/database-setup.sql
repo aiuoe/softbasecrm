@@ -1,8 +1,8 @@
 
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid])
-VALUES ('New', getdate(), '#2C4AB6', 0, 0),
+VALUES ('New', getdate(), '#2C4AB6', 0, 1),
        ('In progress', getdate(), '#FF8900', 0, 1),
-       ('Converted', getdate(), '#008E26', 0, 1),
+       ('Converted', getdate(), '#008E26', 0, 0),
        ('Dead', getdate(), '#263950', 0, 1)
 GO
 
