@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm
 {
@@ -19,7 +20,7 @@ namespace SBCRM.Crm
 
         Task Delete(EntityDto input);
 
-        Task<PagedResultDto<AccountUserUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input);
+        Task<List<AccountUserUserLookupTableDto>> GetAllUserForTableDropdown();
 
     }
 }

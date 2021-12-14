@@ -15,18 +15,13 @@
                  
 
 					<div class="form-group m-form__group">
-                        <label for="UserName">{{l("User")}}</label>
-                        <div class="input-group">
-                            <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>     
-                            <div class="input-group-append">
-                                <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                            </div> <div class="input-group-prepend">
-                                <button class="btn btn-danger btn-icon" type="button" (click)="setUserIdNull()"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <input class="form-control" name="accountUser.userId" [(ngModel)]="accountUser.userId" type="text" required hidden>
-		 
+						<label for="UserName">{{l("User")}}</label>
+						<select name="accountUser.userId" [(ngModel)]="accountUser.userId" class="form-control" required>
+							<option value="">{{l("SelectAUser")}}</option>
+							<option *ngFor="let item of allUsers" value="{{item.id}}">{{item.displayName}}</option>
+						</select>
+					</div>
+					 
 
 
                 </div>
@@ -37,6 +32,5 @@
             </form>
         </div>
     </div>
-<accountUserUserLookupTableModal #accountUserUserLookupTableModal (modalSave)="getNewUserId()"></accountUserUserLookupTableModal>
-		 
+
 </div>

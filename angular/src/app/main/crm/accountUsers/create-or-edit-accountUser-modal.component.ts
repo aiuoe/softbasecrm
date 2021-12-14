@@ -1,12 +1,10 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import { AccountUsersServiceProxy, CreateOrEditAccountUserDto } from '@shared/service-proxies/service-proxies';
+import { AccountUsersServiceProxy, CreateOrEditAccountUserDto ,AccountUserUserLookupTableDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
-
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { AccountUserUserLookupTableModalComponent } from './accountUser-user-lookup-table-modal.component';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 
 
@@ -17,7 +15,6 @@ import { AccountUserUserLookupTableModalComponent } from './accountUser-user-loo
 export class CreateOrEditAccountUserModalComponent extends AppComponentBase implements OnInit{
    
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    @ViewChild('accountUserUserLookupTableModal', { static: true }) accountUserUserLookupTableModal: AccountUserUserLookupTableModalComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -28,7 +25,8 @@ export class CreateOrEditAccountUserModalComponent extends AppComponentBase impl
 
     userName = '';
 
-
+	allUsers: AccountUserUserLookupTableDto[];
+					
 
     constructor(
         injector: Injector,
@@ -60,7 +58,10 @@ export class CreateOrEditAccountUserModalComponent extends AppComponentBase impl
                 this.modal.show();
             });
         }
-        
+        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
+						this.allUsers = result;
+					});
+					
         
     }
 
@@ -78,23 +79,10 @@ export class CreateOrEditAccountUserModalComponent extends AppComponentBase impl
              });
     }
 
-    openSelectUserModal() {
-        this.accountUserUserLookupTableModal.id = this.accountUser.userId;
-        this.accountUserUserLookupTableModal.displayName = this.userName;
-        this.accountUserUserLookupTableModal.show();
-    }
 
 
-    setUserIdNull() {
-        this.accountUser.userId = null;
-        this.userName = '';
-    }
 
 
-    getNewUserId() {
-        this.accountUser.userId = this.accountUserUserLookupTableModal.id;
-        this.userName = this.accountUserUserLookupTableModal.displayName;
-    }
 
 
 

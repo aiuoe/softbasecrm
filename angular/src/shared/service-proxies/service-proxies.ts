@@ -1230,30 +1230,10 @@ export class AccountUsersServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfAccountUserUserLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAllUserForLookupTable?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+    getAllUserForTableDropdown() : Observable<AccountUserUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1265,20 +1245,20 @@ export class AccountUsersServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllUserForLookupTable(response_);
+            return this.processGetAllUserForTableDropdown(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllUserForLookupTable(<any>response_);
+                    return this.processGetAllUserForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfAccountUserUserLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<AccountUserUserLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfAccountUserUserLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<AccountUserUserLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfAccountUserUserLookupTableDto> {
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserUserLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1289,7 +1269,14 @@ export class AccountUsersServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfAccountUserUserLookupTableDto.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AccountUserUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1297,7 +1284,7 @@ export class AccountUsersServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfAccountUserUserLookupTableDto>(<any>null);
+        return _observableOf<AccountUserUserLookupTableDto[]>(<any>null);
     }
 }
 
@@ -31857,54 +31844,6 @@ export interface IPage {
     id: string | undefined;
     name: string | undefined;
     widgets: Widget[] | undefined;
-}
-
-export class PagedResultDtoOfAccountUserUserLookupTableDto implements IPagedResultDtoOfAccountUserUserLookupTableDto {
-    totalCount!: number;
-    items!: AccountUserUserLookupTableDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfAccountUserUserLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.totalCount = _data["totalCount"];
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(AccountUserUserLookupTableDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfAccountUserUserLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfAccountUserUserLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfAccountUserUserLookupTableDto {
-    totalCount: number;
-    items: AccountUserUserLookupTableDto[] | undefined;
 }
 
 export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLogListDto {

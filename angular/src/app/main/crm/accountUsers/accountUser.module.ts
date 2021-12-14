@@ -5,8 +5,7 @@ import {AccountUserRoutingModule} from './accountUser-routing.module';
 import {AccountUsersComponent} from './accountUsers.component';
 import {CreateOrEditAccountUserModalComponent} from './create-or-edit-accountUser-modal.component';
 import {ViewAccountUserModalComponent} from './view-accountUser-modal.component';
-import {AccountUserUserLookupTableModalComponent} from './accountUser-user-lookup-table-modal.component';
-    					
+
 
 
 @NgModule({
@@ -15,7 +14,6 @@ import {AccountUserUserLookupTableModalComponent} from './accountUser-user-looku
         CreateOrEditAccountUserModalComponent,
         ViewAccountUserModalComponent,
         
-    					AccountUserUserLookupTableModalComponent,
     ],
     imports: [AppSharedModule, AccountUserRoutingModule , AdminSharedModule ],
     

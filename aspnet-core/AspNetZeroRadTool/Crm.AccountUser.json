@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "Crm",
   "EntityName": "AccountUser",
@@ -8,7 +8,7 @@
   "PrimaryKeyType": "int",
   "BaseClass": "FullAuditedEntity",
   "EntityHistory": false,
-  "AutoMigration": true,
+  "AutoMigration": false,
   "UpdateDatabase": false,
   "CreateUserInterface": true,
   "CreateViewOnly": true,
@@ -30,7 +30,7 @@
       "DisplayPropertyName": "Name",
       "DuplicationNumber": 0,
       "RelationType": "single",
-      "ViewType": "LookupTable"
+      "ViewType": "Dropdown"
     }
   ],
   "NavigationPropertyOneToManyTables": [],

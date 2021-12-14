@@ -147,35 +147,15 @@ namespace SBCRM.Crm
         {
             await _accountUserRepository.DeleteAsync(input.Id);
         }
-
         [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
-        public async Task<PagedResultDto<AccountUserUserLookupTableDto>> GetAllUserForLookupTable(GetAllForLookupTableInput input)
+        public async Task<List<AccountUserUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            var query = _lookup_userRepository.GetAll().WhereIf(
-                   !string.IsNullOrWhiteSpace(input.Filter),
-                  e => e.Name != null && e.Name.Contains(input.Filter)
-               );
-
-            var totalCount = await query.CountAsync();
-
-            var userList = await query
-                .PageBy(input)
-                .ToListAsync();
-
-            var lookupTableDtoList = new List<AccountUserUserLookupTableDto>();
-            foreach (var user in userList)
-            {
-                lookupTableDtoList.Add(new AccountUserUserLookupTableDto
+            return await _lookup_userRepository.GetAll()
+                .Select(user => new AccountUserUserLookupTableDto
                 {
                     Id = user.Id,
-                    DisplayName = user.Name?.ToString()
-                });
-            }
-
-            return new PagedResultDto<AccountUserUserLookupTableDto>(
-                totalCount,
-                lookupTableDtoList
-            );
+                    DisplayName = user == null || user.Name == null ? "" : user.Name.ToString()
+                }).ToListAsync();
         }
 
     }
