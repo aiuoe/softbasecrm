@@ -15,13 +15,13 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
-
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './opportunityTypes.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()]
+    animations: [appModuleAnimation()],
+    selector: 'app-opportunity-types'
 })
 export class OpportunityTypesComponent extends AppComponentBase {
     

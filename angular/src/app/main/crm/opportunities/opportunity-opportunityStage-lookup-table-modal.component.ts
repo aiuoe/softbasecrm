@@ -1,9 +1,6 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import {
-    OpportunitiesServiceProxy,
-    OpportunityOpportunityStageLookupTableDto,
-} from '@shared/service-proxies/service-proxies';
+import { OpportunitiesServiceProxy, OpportunityOpportunityStageLookupTableDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';

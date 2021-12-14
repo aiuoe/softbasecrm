@@ -6,6 +6,9 @@ using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Table wich storages the activity types used on the Activities Module, this table belongs to Configuration module
+    /// </summary>
     [Table("ActivityTaskTypes")]
     public class ActivityTaskType : FullAuditedEntity
     {

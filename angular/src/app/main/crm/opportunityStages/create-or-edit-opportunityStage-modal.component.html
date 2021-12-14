@@ -13,14 +13,11 @@
                 </div>
                 <div class="modal-body">
                  
-
-
-								<div class="form-group">
-									<label for="OpportunityStage_Description">{{l("Description")}} *</label>
-									<input type="text" #OpportunityStage_Description="ngModel" id="OpportunityStage_Description" class="form-control" [(ngModel)]="opportunityStage.description" name="Description"   minlength="1"  maxlength="100"  required/>
-								    <validation-messages [formCtrl]="OpportunityStage_Description"></validation-messages>
-								</div>
-					
+                    <div class="form-group">
+                        <label for="OpportunityStage_Description">{{l("Description")}} *</label>
+                        <input type="text" #OpportunityStage_Description="ngModel" id="OpportunityStage_Description" class="form-control" [(ngModel)]="opportunityStage.description" name="Description"   minlength="1"  maxlength="100"  required/>
+                        <validation-messages [formCtrl]="OpportunityStage_Description"></validation-messages>
+                    </div>
 
                 </div>
                 <div class="modal-footer">

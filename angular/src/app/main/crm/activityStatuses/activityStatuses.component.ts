@@ -15,8 +15,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
-
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './activityStatuses.component.html',

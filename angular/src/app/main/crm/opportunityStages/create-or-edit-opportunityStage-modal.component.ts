@@ -4,8 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { OpportunityStagesServiceProxy, CreateOrEditOpportunityStageDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
-
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 
 
@@ -72,17 +71,6 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
                 this.modalSave.emit(null);
              });
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     close(): void {

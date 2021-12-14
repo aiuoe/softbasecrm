@@ -12,16 +12,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                 
 
-
-								<div class="form-group">
-									<label for="ActivityTaskType_Description">{{l("Description")}}</label>
-									<input type="text" #ActivityTaskType_Description="ngModel" id="ActivityTaskType_Description" class="form-control" [(ngModel)]="activityTaskType.description" name="Description"   minlength="1"  maxlength="100" />
-								    <validation-messages [formCtrl]="ActivityTaskType_Description"></validation-messages>
-								</div>
-					
-
+                    <div class="form-group">
+                        <label for="ActivityTaskType_Description">{{l("Description")}}</label>
+                        <input type="text" #ActivityTaskType_Description="ngModel" id="ActivityTaskType_Description" class="form-control" [(ngModel)]="activityTaskType.description" name="Description"   minlength="1"  maxlength="100" />
+                        <validation-messages [formCtrl]="ActivityTaskType_Description"></validation-messages>
+                    </div>
+        
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
