@@ -38,14 +38,14 @@
                 {{ title }}
             </h6>
             <div
-                *ngIf="description"
+                *ngIf="!hideSeparator && description"
                 class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"
             ></div>
             <div *ngIf="description" class="d-flex align-items-center">
                 <span class="text-muted font-weight-bold mr-4">{{ description }}</span>
             </div>
             <div
-                *ngIf="breadcrumbs && breadcrumbs.length > 0"
+                *ngIf="!hideSeparator && breadcrumbs && breadcrumbs.length > 0"
                 class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"
             ></div>
             <ul

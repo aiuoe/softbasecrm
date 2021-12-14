@@ -1,8 +1,8 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
+import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 
@@ -15,6 +15,12 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { finalize } from 'rxjs/operators';
+import { base64ToFile } from '@node_modules/ngx-image-cropper';
+import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
+import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 @Component({
@@ -22,11 +28,12 @@ import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
 })
-export class LeadsComponent extends AppComponentBase {
+export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    selectedStatusFilter = "All";
+    @ViewChild('importLeadsModalComponent', { static: true })
+    importLeadsModalComponent: ImportLeadsModalComponent;
     
     filterText = '';
     companyOrContactNameFilter = '';
@@ -52,17 +59,62 @@ export class LeadsComponent extends AppComponentBase {
     leadStatusDescriptionFilter = '';
     priorityDescriptionFilter = '';
 
+    displayModal = false;
+    allLeadSources: LeadLeadSourceLookupTableDto[];
+    leadSourceDescription = '';
+    leadSourceId: number;
+    formData = new FormData();
+    importFile: File;
+
+    public uploader: FileUploader;
+    private _uploaderOptions: FileUploaderOptions = {}
+    public saving = false;
+
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
+        private _leadStatusesServiceProxy : LeadStatusesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private http: HttpClient,
+        private _tokenService: TokenService
     ) {
         super(injector);
+    }    
+
+    selectedStatusFilter : string = 'All';
+
+    statusFilterOptions : string[] = [];
+
+    readOnlyStatus = [];
+
+    getLeadsStatuses(event?: LazyLoadEvent) {
+        this._leadStatusesServiceProxy
+            .getAll(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined
+            ).subscribe((result) => {
+                let resultItems = result.items;
+                resultItems.forEach( (item) => {                    
+                    this.statusFilterOptions.push(item.leadStatus.description);
+                    if (!item.leadStatus.isLeadConversionValid )
+                        this.readOnlyStatus.push(item.leadStatus.description);
+                });
+            });           
+        this.statusFilterOptions.push('All');
+    }
+
+    ngOnInit(){
+        this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
+            this.allLeadSources = result;
+        });
     }
 
     getLeads(event?: LazyLoadEvent) {
@@ -111,10 +163,14 @@ export class LeadsComponent extends AppComponentBase {
 
     filterByStatus(statusSelected): void {
         this.selectedStatusFilter = statusSelected;
-        if (statusSelected == "All")
+        if (statusSelected == 'All')
             statusSelected = '';
         this.leadStatusDescriptionFilter = statusSelected;
         this.getLeads();
+    }
+
+    leadCanBeEdittedOrConverted(event: any) : boolean {
+        return !(this.readOnlyStatus.includes(event));
     }
 
     reloadPage(): void {
@@ -164,24 +220,29 @@ export class LeadsComponent extends AppComponentBase {
                 this.priorityDescriptionFilter
             )
             .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);
+                this._fileDownloadService.downloadTempFile(result);                
             });
     } 
 
     /* 
     Below there are methods that act as placeholder for
     rows selections, currently there are not valid actions
-    as 12/7/2021 - lead summary story
+    as 13/12/2021 - lead summary story
     */
 
     onTableHeaderCheckboxToggle(event: any) {
-        console.log(this.dataTable.value[1]);
+        console.log('Not implemented');
     }
 
     onRowSelect(event) {
-        console.log(event.data.lead.id);
+        console.log('Not implemented');
     }
 
-    onRowUnselect(event) {        
+    onRowUnselect(event) {      
+        console.log('Not implemented');  
+    }
+
+    showModalDialog() {
+        this.importLeadsModalComponent.show();
     }
 }

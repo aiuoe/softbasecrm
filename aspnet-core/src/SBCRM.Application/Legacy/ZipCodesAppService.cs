@@ -5,16 +5,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SBCRM.Legacy.Dtos;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Base;
 
 namespace SBCRM.Legacy
 {
     //[AbpAuthorize(AppPermissions.Pages_ZipCodes)]
+    [AbpAllowAnonymous]
     public class ZipCodesAppService : SBCRMAppServiceBase, IZipCodesAppService
     {
-        private readonly Base.IRepository<ZipCode> _zipCodeRepository;
+        private readonly IRepository<ZipCode> _zipCodeRepository;
 
-        public ZipCodesAppService(Base.IRepository<ZipCode> zipCodeRepository)
+        public ZipCodesAppService(IRepository<ZipCode> zipCodeRepository)
         {
             _zipCodeRepository = zipCodeRepository;
         }
@@ -22,20 +25,7 @@ namespace SBCRM.Legacy
         public async Task<PagedResultDto<GetZipCodeForViewDto>> GetAll(GetAllZipCodesInput input)
         {
             var filteredZipCodes = _zipCodeRepository.GetAll()
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-                    e => false || e.ZipCodeField.Contains(input.Filter) || e.City.Contains(input.Filter) ||
-                         e.State.Contains(input.Filter) || e.County.Contains(input.Filter) ||
-                         e.AddedBy.Contains(input.Filter) || e.ChangedBy.Contains(input.Filter))
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ZipCodeFilter), e => e.ZipCodeField == input.ZipCodeFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.City == input.CityFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.CountyFilter), e => e.County == input.CountyFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.AddedByFilter), e => e.AddedBy == input.AddedByFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ChangedByFilter), e => e.ChangedBy == input.ChangedByFilter)
-                .WhereIf(input.MinDateAddedFilter != null, e => e.DateAdded >= input.MinDateAddedFilter)
-                .WhereIf(input.MaxDateAddedFilter != null, e => e.DateAdded <= input.MaxDateAddedFilter)
-                .WhereIf(input.MinDateChangedFilter != null, e => e.DateChanged >= input.MinDateChangedFilter)
-                .WhereIf(input.MaxDateChangedFilter != null, e => e.DateChanged <= input.MaxDateChangedFilter);
+                .WhereIf(!string.IsNullOrWhiteSpace(input.ZipCodeFilter), e => e.ZipCodeField == input.ZipCodeFilter);
 
             var pagedAndFilteredZipCodes = filteredZipCodes
                 .OrderBy(input.Sorting ?? $"{nameof(ZipCode.ZipCodeField)} asc")
@@ -61,7 +51,7 @@ namespace SBCRM.Legacy
 
             foreach (var o in dbList)
             {
-                var res = new GetZipCodeForViewDto()
+                var res = new GetZipCodeForViewDto
                 {
                     ZipCode = new ZipCodeDto
                     {

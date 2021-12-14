@@ -22,5 +22,6 @@
     <ProjectReference Include="..\SBCRM.Application.Shared\SBCRM.Application.Shared.csproj" />
     <ProjectReference Include="..\SBCRM.Core\SBCRM.Core.csproj" />
     <ProjectReference Include="..\SBCRM.EntityFrameworkCore\SBCRM.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\SBCRM.Infrastructure\SBCRM.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

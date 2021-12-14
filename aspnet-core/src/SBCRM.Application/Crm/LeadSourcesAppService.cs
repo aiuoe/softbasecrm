@@ -47,6 +47,7 @@ namespace SBCRM.Crm
                               {
 
                                   o.Description,
+                                  o.Order,
                                   Id = o.Id
                               };
 
@@ -63,6 +64,7 @@ namespace SBCRM.Crm
                     {
 
                         Description = o.Description,
+                        Order = o.Order,
                         Id = o.Id,
                     }
                 };
@@ -144,6 +146,7 @@ namespace SBCRM.Crm
                              LeadSource = new LeadSourceDto
                              {
                                  Description = o.Description,
+                                 Order = o.Order,
                                  Id = o.Id
                              }
                          });

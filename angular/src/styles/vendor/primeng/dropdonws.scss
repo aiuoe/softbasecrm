@@ -1,0 +1,25 @@
+.p-dropdown {
+    background: #ffffff;
+    border: 1px solid $primaryBorderInputColor;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    min-width: 100% !important;
+    padding: 0 6px 0 6px !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+    border-color: $primaryBorderHoverInputColor;
+}
+
+.p-dropdown:not(.p-disabled).p-focus,
+.p-multiselect:not(.p-disabled).p-focus {
+    box-shadow: inset 0 0 0 0;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+    border-color: $primaryBorderInputColor !important;
+}

@@ -18,6 +18,18 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<ActivityStatus> ActivityStatuses { get; set; }
+
+        public virtual DbSet<ActivityTaskType> ActivityTaskTypes { get; set; }
+
+        public virtual DbSet<Opportunity> Opportunities { get; set; }
+
+        public virtual DbSet<OpportunityType> OpportunityTypes { get; set; }
+
+        public virtual DbSet<OpportunityStage> OpportunityStages { get; set; }
+
+        public virtual DbSet<LeadUser> LeadUsers { get; set; }
+
         public virtual DbSet<Priority> Priorities { get; set; }
 
         public virtual DbSet<Lead> Leads { get; set; }
@@ -59,13 +71,18 @@ namespace SBCRM.EntityFrameworkCore
         public SBCRMDbContext(DbContextOptions<SBCRMDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
+
+            modelBuilder.HasSequence<int>("CustomerNumberSequence");
+
+            modelBuilder.Entity<Customer>()
+                .Property(o => o.Number)
+                .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
 
             modelBuilder.Entity<BinaryObject>(b =>
                                              {

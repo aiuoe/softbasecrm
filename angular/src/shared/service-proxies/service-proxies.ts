@@ -927,6 +927,614 @@ export class AccountTypesServiceProxy {
 }
 
 @Injectable()
+export class ActivityStatusesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityStatusForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityStatusForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityStatusForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityStatusForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityStatusForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityStatusForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityStatusForView(id: number | undefined): Observable<GetActivityStatusForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetActivityStatusForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityStatusForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityStatusForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityStatusForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityStatusForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityStatusForView(response: HttpResponseBase): Observable<GetActivityStatusForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityStatusForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityStatusForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityStatusForEdit(id: number | undefined): Observable<GetActivityStatusForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetActivityStatusForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityStatusForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityStatusForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityStatusForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityStatusForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityStatusForEdit(response: HttpResponseBase): Observable<GetActivityStatusForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityStatusForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityStatusForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityStatusDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class ActivityTaskTypesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityTaskTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityTaskTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityTaskTypeForView(id: number | undefined): Observable<GetActivityTaskTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetActivityTaskTypeForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityTaskTypeForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityTaskTypeForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityTaskTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityTaskTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityTaskTypeForView(response: HttpResponseBase): Observable<GetActivityTaskTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityTaskTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityTaskTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityTaskTypeForEdit(id: number | undefined): Observable<GetActivityTaskTypeForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetActivityTaskTypeForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityTaskTypeForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityTaskTypeForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityTaskTypeForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityTaskTypeForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityTaskTypeForEdit(response: HttpResponseBase): Observable<GetActivityTaskTypeForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityTaskTypeForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityTaskTypeForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityTaskTypeDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class ARTermsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -2248,1272 +2856,22 @@ export class CustomerServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param numberFilter (optional) 
-     * @param billToFilter (optional) 
-     * @param nameFilter (optional) 
-     * @param searchNameFilter (optional) 
-     * @param subNameFilter (optional) 
-     * @param pOBoxFilter (optional) 
-     * @param addressFilter (optional) 
-     * @param cityFilter (optional) 
-     * @param stateFilter (optional) 
-     * @param zipCodeFilter (optional) 
-     * @param countryFilter (optional) 
-     * @param salutationFilter (optional) 
-     * @param phoneFilter (optional) 
-     * @param extentionFilter (optional) 
-     * @param phone2Filter (optional) 
-     * @param cellularFilter (optional) 
-     * @param beeperFilter (optional) 
-     * @param homePhoneFilter (optional) 
-     * @param faxFilter (optional) 
-     * @param resaleNoFilter (optional) 
-     * @param eMailFilter (optional) 
-     * @param wWWAddressFilter (optional) 
-     * @param parentCompanyFilter (optional) 
-     * @param mapLocationFilter (optional) 
-     * @param salesman1Filter (optional) 
-     * @param salesman2Filter (optional) 
-     * @param salesman3Filter (optional) 
-     * @param salesman4Filter (optional) 
-     * @param salesman5Filter (optional) 
-     * @param salesman6Filter (optional) 
-     * @param maxLockAPR1Filter (optional) 
-     * @param minLockAPR1Filter (optional) 
-     * @param maxLockAPR2Filter (optional) 
-     * @param minLockAPR2Filter (optional) 
-     * @param maxLockAPR3Filter (optional) 
-     * @param minLockAPR3Filter (optional) 
-     * @param maxLockAPR4Filter (optional) 
-     * @param minLockAPR4Filter (optional) 
-     * @param maxLockAPR5Filter (optional) 
-     * @param minLockAPR5Filter (optional) 
-     * @param maxLockAPR6Filter (optional) 
-     * @param minLockAPR6Filter (optional) 
-     * @param maxSalesGroup1Filter (optional) 
-     * @param minSalesGroup1Filter (optional) 
-     * @param maxSalesGroup2Filter (optional) 
-     * @param minSalesGroup2Filter (optional) 
-     * @param maxSalesGroup3Filter (optional) 
-     * @param minSalesGroup3Filter (optional) 
-     * @param maxSalesGroup4Filter (optional) 
-     * @param minSalesGroup4Filter (optional) 
-     * @param maxSalesGroup5Filter (optional) 
-     * @param minSalesGroup5Filter (optional) 
-     * @param maxSalesGroup6Filter (optional) 
-     * @param minSalesGroup6Filter (optional) 
-     * @param termsFilter (optional) 
-     * @param fiscalEndFilter (optional) 
-     * @param dunsCodeFilter (optional) 
-     * @param sICCodeFilter (optional) 
-     * @param mailingGroupFilter (optional) 
-     * @param makesFilter (optional) 
-     * @param maxPOReqFilter (optional) 
-     * @param minPOReqFilter (optional) 
-     * @param maxPrevShipFilter (optional) 
-     * @param minPrevShipFilter (optional) 
-     * @param maxTaxableFilter (optional) 
-     * @param minTaxableFilter (optional) 
-     * @param taxCodeFilter (optional) 
-     * @param laborRateFilter (optional) 
-     * @param shopLaborRateFilter (optional) 
-     * @param maxShowLaborRateFilter (optional) 
-     * @param minShowLaborRateFilter (optional) 
-     * @param rentalRateFilter (optional) 
-     * @param maxShowPartNoAliasFilter (optional) 
-     * @param minShowPartNoAliasFilter (optional) 
-     * @param partsRateFilter (optional) 
-     * @param maxPartsRateDiscountFilter (optional) 
-     * @param minPartsRateDiscountFilter (optional) 
-     * @param maxAddedFilter (optional) 
-     * @param minAddedFilter (optional) 
-     * @param addedByFilter (optional) 
-     * @param maxChangedFilter (optional) 
-     * @param minChangedFilter (optional) 
-     * @param changedByFilter (optional) 
-     * @param salesContactFilter (optional) 
-     * @param cSContactFilter (optional) 
-     * @param accountingContactFilter (optional) 
-     * @param maxInternalCustomerFilter (optional) 
-     * @param minInternalCustomerFilter (optional) 
-     * @param maxEquipmentBidFilter (optional) 
-     * @param minEquipmentBidFilter (optional) 
-     * @param commentsFilter (optional) 
-     * @param aRCommentsFilter (optional) 
-     * @param companyCommentsFilter (optional) 
-     * @param maxCompanyCommentsDateFilter (optional) 
-     * @param minCompanyCommentsDateFilter (optional) 
-     * @param companyCommentsByFilter (optional) 
-     * @param businessCategoryFilter (optional) 
-     * @param businessDescriptionFilter (optional) 
-     * @param sICCode2Filter (optional) 
-     * @param sICCode3Filter (optional) 
-     * @param sICCode4Filter (optional) 
-     * @param maxShiftsFilter (optional) 
-     * @param minShiftsFilter (optional) 
-     * @param categoryFilter (optional) 
-     * @param maxHoursOfOpStartFilter (optional) 
-     * @param minHoursOfOpStartFilter (optional) 
-     * @param maxHoursOfOpEndFilter (optional) 
-     * @param minHoursOfOpEndFilter (optional) 
-     * @param deliveryInfoFilter (optional) 
-     * @param customerTerritoryFilter (optional) 
-     * @param maxCreditHoldFlagFilter (optional) 
-     * @param minCreditHoldFlagFilter (optional) 
-     * @param creditRating1Filter (optional) 
-     * @param creditRating2Filter (optional) 
-     * @param maxStatementsFilter (optional) 
-     * @param minStatementsFilter (optional) 
-     * @param maxCreditHoldDaysFilter (optional) 
-     * @param minCreditHoldDaysFilter (optional) 
-     * @param maxFinanceChargeFilter (optional) 
-     * @param minFinanceChargeFilter (optional) 
-     * @param maxResaleExpDateFilter (optional) 
-     * @param minResaleExpDateFilter (optional) 
-     * @param stateTaxCodeFilter (optional) 
-     * @param countyTaxCodeFilter (optional) 
-     * @param cityTaxCodeFilter (optional) 
-     * @param maxAbsoluteTaxCodesFilter (optional) 
-     * @param minAbsoluteTaxCodesFilter (optional) 
-     * @param mFGPermitNoFilter (optional) 
-     * @param maxMFGPermitExpDateFilter (optional) 
-     * @param minMFGPermitExpDateFilter (optional) 
-     * @param maxBranchFilter (optional) 
-     * @param minBranchFilter (optional) 
-     * @param maxShowLaborHoursFilter (optional) 
-     * @param minShowLaborHoursFilter (optional) 
-     * @param vendorNoFilter (optional) 
-     * @param localTaxCodeFilter (optional) 
-     * @param currencyTypeFilter (optional) 
-     * @param creditCardNoFilter (optional) 
-     * @param creditCardCVVFilter (optional) 
-     * @param creditCardExpDateFilter (optional) 
-     * @param creditCardTypeFilter (optional) 
-     * @param nameOnCreditCardFilter (optional) 
-     * @param rFCFilter (optional) 
-     * @param oldNumberFilter (optional) 
-     * @param maxSuppressPartsPricingFilter (optional) 
-     * @param minSuppressPartsPricingFilter (optional) 
-     * @param maxServiceChargeFilter (optional) 
-     * @param minServiceChargeFilter (optional) 
-     * @param serviceChargeDescriptionFilter (optional) 
-     * @param maxFinalCopiesFilter (optional) 
-     * @param minFinalCopiesFilter (optional) 
-     * @param maxPOBoxAndAddressFilter (optional) 
-     * @param minPOBoxAndAddressFilter (optional) 
-     * @param insuranceNoFilter (optional) 
-     * @param maxInsuranceNoDateFilter (optional) 
-     * @param minInsuranceNoDateFilter (optional) 
-     * @param maxInsuranceNoRecvDateFilter (optional) 
-     * @param minInsuranceNoRecvDateFilter (optional) 
-     * @param creditCardAddressFilter (optional) 
-     * @param creditCardPOBoxFilter (optional) 
-     * @param creditCardCityFilter (optional) 
-     * @param creditCardStateFilter (optional) 
-     * @param creditCardZipCodeFilter (optional) 
-     * @param creditCardCountryFilter (optional) 
-     * @param pMLaborRateFilter (optional) 
-     * @param referenceNo1Filter (optional) 
-     * @param referenceNo2Filter (optional) 
-     * @param maxGMSummaryFilter (optional) 
-     * @param minGMSummaryFilter (optional) 
-     * @param oB10NoFilter (optional) 
-     * @param oldNameFilter (optional) 
-     * @param maxCustomerBillToFilter (optional) 
-     * @param minCustomerBillToFilter (optional) 
-     * @param shipViaFilter (optional) 
-     * @param maxNoAddMiscFilter (optional) 
-     * @param minNoAddMiscFilter (optional) 
-     * @param laborDiscountFilter (optional) 
-     * @param taxRateFilter (optional) 
-     * @param tMHUNoFilter (optional) 
-     * @param maxLockTaxCodeFilter (optional) 
-     * @param minLockTaxCodeFilter (optional) 
-     * @param taxCodeImportFilter (optional) 
-     * @param shippingCommentsFilter (optional) 
-     * @param maxNoShippingChargeFilter (optional) 
-     * @param minNoShippingChargeFilter (optional) 
-     * @param shippingCompanyFilter (optional) 
-     * @param shippingAccountFilter (optional) 
-     * @param eMailInvoiceAddressFilter (optional) 
-     * @param eMailInvoiceAttentionFilter (optional) 
-     * @param maxEMailInvoiceFilter (optional) 
-     * @param minEMailInvoiceFilter (optional) 
-     * @param maxNoPrintInvoiceFilter (optional) 
-     * @param minNoPrintInvoiceFilter (optional) 
-     * @param maxBackupRequiredFilter (optional) 
-     * @param minBackupRequiredFilter (optional) 
-     * @param oldSalesman1Filter (optional) 
-     * @param oldSalesman2Filter (optional) 
-     * @param oldSalesman3Filter (optional) 
-     * @param oldSalesman4Filter (optional) 
-     * @param oldSalesman5Filter (optional) 
-     * @param oldSalesman6Filter (optional) 
-     * @param maxLastAutoSalesmanUpdateFilter (optional) 
-     * @param minLastAutoSalesmanUpdateFilter (optional) 
-     * @param maxLastAutoSalesmanUpdate1Filter (optional) 
-     * @param minLastAutoSalesmanUpdate1Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate2Filter (optional) 
-     * @param minLastAutoSalesmanUpdate2Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate3Filter (optional) 
-     * @param minLastAutoSalesmanUpdate3Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate4Filter (optional) 
-     * @param minLastAutoSalesmanUpdate4Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate5Filter (optional) 
-     * @param minLastAutoSalesmanUpdate5Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate6Filter (optional) 
-     * @param minLastAutoSalesmanUpdate6Filter (optional) 
-     * @param invoiceLanguageFilter (optional) 
-     * @param peopleSoftFilter (optional) 
-     * @param pSCompanyFilter (optional) 
-     * @param pSAccountFilter (optional) 
-     * @param pSLocationFilter (optional) 
-     * @param pSDeptFilter (optional) 
-     * @param pSProductFilter (optional) 
-     * @param altCustomerNoFilter (optional) 
-     * @param maxOverRideShipToFilter (optional) 
-     * @param minOverRideShipToFilter (optional) 
-     * @param maxOnFileResaleFilter (optional) 
-     * @param minOnFileResaleFilter (optional) 
-     * @param maxOnFileMFGPermitFilter (optional) 
-     * @param minOnFileMFGPermitFilter (optional) 
-     * @param maxOnFileInsuranceFilter (optional) 
-     * @param minOnFileInsuranceFilter (optional) 
-     * @param maxInactiveFilter (optional) 
-     * @param minInactiveFilter (optional) 
-     * @param maxOverRideShipToRatesFilter (optional) 
-     * @param minOverRideShipToRatesFilter (optional) 
-     * @param maxSuppressPartsListFilter (optional) 
-     * @param minSuppressPartsListFilter (optional) 
-     * @param marketingSourceFilter (optional) 
-     * @param maxCreditCardLastTransIDFilter (optional) 
-     * @param minCreditCardLastTransIDFilter (optional) 
-     * @param emailRoadServiceFilter (optional) 
-     * @param emailShopServiceFilter (optional) 
-     * @param emailPMServiceFilter (optional) 
-     * @param emailRentalPMServiceFilter (optional) 
-     * @param emailPartsCounterFilter (optional) 
-     * @param emailEquipmentSalesFilter (optional) 
-     * @param emailRentalsFilter (optional) 
-     * @param maxIDFilter (optional) 
-     * @param minIDFilter (optional) 
-     * @param aRStatementsEmailAddressFilter (optional) 
-     * @param accountTypeDescriptionFilter (optional) 
+     * @param accountTypeId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, numberFilter: string | undefined, billToFilter: string | undefined, nameFilter: string | undefined, searchNameFilter: string | undefined, subNameFilter: string | undefined, pOBoxFilter: string | undefined, addressFilter: string | undefined, cityFilter: string | undefined, stateFilter: string | undefined, zipCodeFilter: string | undefined, countryFilter: string | undefined, salutationFilter: string | undefined, phoneFilter: string | undefined, extentionFilter: string | undefined, phone2Filter: string | undefined, cellularFilter: string | undefined, beeperFilter: string | undefined, homePhoneFilter: string | undefined, faxFilter: string | undefined, resaleNoFilter: string | undefined, eMailFilter: string | undefined, wWWAddressFilter: string | undefined, parentCompanyFilter: string | undefined, mapLocationFilter: string | undefined, salesman1Filter: string | undefined, salesman2Filter: string | undefined, salesman3Filter: string | undefined, salesman4Filter: string | undefined, salesman5Filter: string | undefined, salesman6Filter: string | undefined, maxLockAPR1Filter: number | undefined, minLockAPR1Filter: number | undefined, maxLockAPR2Filter: number | undefined, minLockAPR2Filter: number | undefined, maxLockAPR3Filter: number | undefined, minLockAPR3Filter: number | undefined, maxLockAPR4Filter: number | undefined, minLockAPR4Filter: number | undefined, maxLockAPR5Filter: number | undefined, minLockAPR5Filter: number | undefined, maxLockAPR6Filter: number | undefined, minLockAPR6Filter: number | undefined, maxSalesGroup1Filter: number | undefined, minSalesGroup1Filter: number | undefined, maxSalesGroup2Filter: number | undefined, minSalesGroup2Filter: number | undefined, maxSalesGroup3Filter: number | undefined, minSalesGroup3Filter: number | undefined, maxSalesGroup4Filter: number | undefined, minSalesGroup4Filter: number | undefined, maxSalesGroup5Filter: number | undefined, minSalesGroup5Filter: number | undefined, maxSalesGroup6Filter: number | undefined, minSalesGroup6Filter: number | undefined, termsFilter: string | undefined, fiscalEndFilter: string | undefined, dunsCodeFilter: string | undefined, sICCodeFilter: string | undefined, mailingGroupFilter: string | undefined, makesFilter: string | undefined, maxPOReqFilter: number | undefined, minPOReqFilter: number | undefined, maxPrevShipFilter: number | undefined, minPrevShipFilter: number | undefined, maxTaxableFilter: number | undefined, minTaxableFilter: number | undefined, taxCodeFilter: string | undefined, laborRateFilter: string | undefined, shopLaborRateFilter: string | undefined, maxShowLaborRateFilter: number | undefined, minShowLaborRateFilter: number | undefined, rentalRateFilter: string | undefined, maxShowPartNoAliasFilter: number | undefined, minShowPartNoAliasFilter: number | undefined, partsRateFilter: string | undefined, maxPartsRateDiscountFilter: number | undefined, minPartsRateDiscountFilter: number | undefined, maxAddedFilter: DateTime | undefined, minAddedFilter: DateTime | undefined, addedByFilter: string | undefined, maxChangedFilter: DateTime | undefined, minChangedFilter: DateTime | undefined, changedByFilter: string | undefined, salesContactFilter: string | undefined, cSContactFilter: string | undefined, accountingContactFilter: string | undefined, maxInternalCustomerFilter: number | undefined, minInternalCustomerFilter: number | undefined, maxEquipmentBidFilter: number | undefined, minEquipmentBidFilter: number | undefined, commentsFilter: string | undefined, aRCommentsFilter: string | undefined, companyCommentsFilter: string | undefined, maxCompanyCommentsDateFilter: DateTime | undefined, minCompanyCommentsDateFilter: DateTime | undefined, companyCommentsByFilter: string | undefined, businessCategoryFilter: string | undefined, businessDescriptionFilter: string | undefined, sICCode2Filter: string | undefined, sICCode3Filter: string | undefined, sICCode4Filter: string | undefined, maxShiftsFilter: number | undefined, minShiftsFilter: number | undefined, categoryFilter: string | undefined, maxHoursOfOpStartFilter: DateTime | undefined, minHoursOfOpStartFilter: DateTime | undefined, maxHoursOfOpEndFilter: DateTime | undefined, minHoursOfOpEndFilter: DateTime | undefined, deliveryInfoFilter: string | undefined, customerTerritoryFilter: string | undefined, maxCreditHoldFlagFilter: number | undefined, minCreditHoldFlagFilter: number | undefined, creditRating1Filter: string | undefined, creditRating2Filter: string | undefined, maxStatementsFilter: number | undefined, minStatementsFilter: number | undefined, maxCreditHoldDaysFilter: number | undefined, minCreditHoldDaysFilter: number | undefined, maxFinanceChargeFilter: number | undefined, minFinanceChargeFilter: number | undefined, maxResaleExpDateFilter: DateTime | undefined, minResaleExpDateFilter: DateTime | undefined, stateTaxCodeFilter: string | undefined, countyTaxCodeFilter: string | undefined, cityTaxCodeFilter: string | undefined, maxAbsoluteTaxCodesFilter: number | undefined, minAbsoluteTaxCodesFilter: number | undefined, mFGPermitNoFilter: string | undefined, maxMFGPermitExpDateFilter: DateTime | undefined, minMFGPermitExpDateFilter: DateTime | undefined, maxBranchFilter: number | undefined, minBranchFilter: number | undefined, maxShowLaborHoursFilter: number | undefined, minShowLaborHoursFilter: number | undefined, vendorNoFilter: string | undefined, localTaxCodeFilter: string | undefined, currencyTypeFilter: string | undefined, creditCardNoFilter: string | undefined, creditCardCVVFilter: string | undefined, creditCardExpDateFilter: string | undefined, creditCardTypeFilter: string | undefined, nameOnCreditCardFilter: string | undefined, rFCFilter: string | undefined, oldNumberFilter: string | undefined, maxSuppressPartsPricingFilter: number | undefined, minSuppressPartsPricingFilter: number | undefined, maxServiceChargeFilter: number | undefined, minServiceChargeFilter: number | undefined, serviceChargeDescriptionFilter: string | undefined, maxFinalCopiesFilter: number | undefined, minFinalCopiesFilter: number | undefined, maxPOBoxAndAddressFilter: number | undefined, minPOBoxAndAddressFilter: number | undefined, insuranceNoFilter: string | undefined, maxInsuranceNoDateFilter: DateTime | undefined, minInsuranceNoDateFilter: DateTime | undefined, maxInsuranceNoRecvDateFilter: DateTime | undefined, minInsuranceNoRecvDateFilter: DateTime | undefined, creditCardAddressFilter: string | undefined, creditCardPOBoxFilter: string | undefined, creditCardCityFilter: string | undefined, creditCardStateFilter: string | undefined, creditCardZipCodeFilter: string | undefined, creditCardCountryFilter: string | undefined, pMLaborRateFilter: string | undefined, referenceNo1Filter: string | undefined, referenceNo2Filter: string | undefined, maxGMSummaryFilter: number | undefined, minGMSummaryFilter: number | undefined, oB10NoFilter: string | undefined, oldNameFilter: string | undefined, maxCustomerBillToFilter: number | undefined, minCustomerBillToFilter: number | undefined, shipViaFilter: string | undefined, maxNoAddMiscFilter: number | undefined, minNoAddMiscFilter: number | undefined, laborDiscountFilter: string | undefined, taxRateFilter: string | undefined, tMHUNoFilter: string | undefined, maxLockTaxCodeFilter: number | undefined, minLockTaxCodeFilter: number | undefined, taxCodeImportFilter: string | undefined, shippingCommentsFilter: string | undefined, maxNoShippingChargeFilter: number | undefined, minNoShippingChargeFilter: number | undefined, shippingCompanyFilter: string | undefined, shippingAccountFilter: string | undefined, eMailInvoiceAddressFilter: string | undefined, eMailInvoiceAttentionFilter: string | undefined, maxEMailInvoiceFilter: number | undefined, minEMailInvoiceFilter: number | undefined, maxNoPrintInvoiceFilter: number | undefined, minNoPrintInvoiceFilter: number | undefined, maxBackupRequiredFilter: number | undefined, minBackupRequiredFilter: number | undefined, oldSalesman1Filter: string | undefined, oldSalesman2Filter: string | undefined, oldSalesman3Filter: string | undefined, oldSalesman4Filter: string | undefined, oldSalesman5Filter: string | undefined, oldSalesman6Filter: string | undefined, maxLastAutoSalesmanUpdateFilter: DateTime | undefined, minLastAutoSalesmanUpdateFilter: DateTime | undefined, maxLastAutoSalesmanUpdate1Filter: DateTime | undefined, minLastAutoSalesmanUpdate1Filter: DateTime | undefined, maxLastAutoSalesmanUpdate2Filter: DateTime | undefined, minLastAutoSalesmanUpdate2Filter: DateTime | undefined, maxLastAutoSalesmanUpdate3Filter: DateTime | undefined, minLastAutoSalesmanUpdate3Filter: DateTime | undefined, maxLastAutoSalesmanUpdate4Filter: DateTime | undefined, minLastAutoSalesmanUpdate4Filter: DateTime | undefined, maxLastAutoSalesmanUpdate5Filter: DateTime | undefined, minLastAutoSalesmanUpdate5Filter: DateTime | undefined, maxLastAutoSalesmanUpdate6Filter: DateTime | undefined, minLastAutoSalesmanUpdate6Filter: DateTime | undefined, invoiceLanguageFilter: string | undefined, peopleSoftFilter: number | undefined, pSCompanyFilter: string | undefined, pSAccountFilter: string | undefined, pSLocationFilter: string | undefined, pSDeptFilter: string | undefined, pSProductFilter: string | undefined, altCustomerNoFilter: string | undefined, maxOverRideShipToFilter: number | undefined, minOverRideShipToFilter: number | undefined, maxOnFileResaleFilter: number | undefined, minOnFileResaleFilter: number | undefined, maxOnFileMFGPermitFilter: number | undefined, minOnFileMFGPermitFilter: number | undefined, maxOnFileInsuranceFilter: number | undefined, minOnFileInsuranceFilter: number | undefined, maxInactiveFilter: number | undefined, minInactiveFilter: number | undefined, maxOverRideShipToRatesFilter: number | undefined, minOverRideShipToRatesFilter: number | undefined, maxSuppressPartsListFilter: number | undefined, minSuppressPartsListFilter: number | undefined, marketingSourceFilter: string | undefined, maxCreditCardLastTransIDFilter: number | undefined, minCreditCardLastTransIDFilter: number | undefined, emailRoadServiceFilter: string | undefined, emailShopServiceFilter: string | undefined, emailPMServiceFilter: string | undefined, emailRentalPMServiceFilter: string | undefined, emailPartsCounterFilter: string | undefined, emailEquipmentSalesFilter: string | undefined, emailRentalsFilter: string | undefined, maxIDFilter: number | undefined, minIDFilter: number | undefined, aRStatementsEmailAddressFilter: string | undefined, accountTypeDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
+    getAll(filter: string | undefined, accountTypeId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (numberFilter === null)
-            throw new Error("The parameter 'numberFilter' cannot be null.");
-        else if (numberFilter !== undefined)
-            url_ += "NumberFilter=" + encodeURIComponent("" + numberFilter) + "&";
-        if (billToFilter === null)
-            throw new Error("The parameter 'billToFilter' cannot be null.");
-        else if (billToFilter !== undefined)
-            url_ += "BillToFilter=" + encodeURIComponent("" + billToFilter) + "&";
-        if (nameFilter === null)
-            throw new Error("The parameter 'nameFilter' cannot be null.");
-        else if (nameFilter !== undefined)
-            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
-        if (searchNameFilter === null)
-            throw new Error("The parameter 'searchNameFilter' cannot be null.");
-        else if (searchNameFilter !== undefined)
-            url_ += "SearchNameFilter=" + encodeURIComponent("" + searchNameFilter) + "&";
-        if (subNameFilter === null)
-            throw new Error("The parameter 'subNameFilter' cannot be null.");
-        else if (subNameFilter !== undefined)
-            url_ += "SubNameFilter=" + encodeURIComponent("" + subNameFilter) + "&";
-        if (pOBoxFilter === null)
-            throw new Error("The parameter 'pOBoxFilter' cannot be null.");
-        else if (pOBoxFilter !== undefined)
-            url_ += "POBoxFilter=" + encodeURIComponent("" + pOBoxFilter) + "&";
-        if (addressFilter === null)
-            throw new Error("The parameter 'addressFilter' cannot be null.");
-        else if (addressFilter !== undefined)
-            url_ += "AddressFilter=" + encodeURIComponent("" + addressFilter) + "&";
-        if (cityFilter === null)
-            throw new Error("The parameter 'cityFilter' cannot be null.");
-        else if (cityFilter !== undefined)
-            url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
-        if (stateFilter === null)
-            throw new Error("The parameter 'stateFilter' cannot be null.");
-        else if (stateFilter !== undefined)
-            url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
-        if (zipCodeFilter === null)
-            throw new Error("The parameter 'zipCodeFilter' cannot be null.");
-        else if (zipCodeFilter !== undefined)
-            url_ += "ZipCodeFilter=" + encodeURIComponent("" + zipCodeFilter) + "&";
-        if (countryFilter === null)
-            throw new Error("The parameter 'countryFilter' cannot be null.");
-        else if (countryFilter !== undefined)
-            url_ += "CountryFilter=" + encodeURIComponent("" + countryFilter) + "&";
-        if (salutationFilter === null)
-            throw new Error("The parameter 'salutationFilter' cannot be null.");
-        else if (salutationFilter !== undefined)
-            url_ += "SalutationFilter=" + encodeURIComponent("" + salutationFilter) + "&";
-        if (phoneFilter === null)
-            throw new Error("The parameter 'phoneFilter' cannot be null.");
-        else if (phoneFilter !== undefined)
-            url_ += "PhoneFilter=" + encodeURIComponent("" + phoneFilter) + "&";
-        if (extentionFilter === null)
-            throw new Error("The parameter 'extentionFilter' cannot be null.");
-        else if (extentionFilter !== undefined)
-            url_ += "ExtentionFilter=" + encodeURIComponent("" + extentionFilter) + "&";
-        if (phone2Filter === null)
-            throw new Error("The parameter 'phone2Filter' cannot be null.");
-        else if (phone2Filter !== undefined)
-            url_ += "Phone2Filter=" + encodeURIComponent("" + phone2Filter) + "&";
-        if (cellularFilter === null)
-            throw new Error("The parameter 'cellularFilter' cannot be null.");
-        else if (cellularFilter !== undefined)
-            url_ += "CellularFilter=" + encodeURIComponent("" + cellularFilter) + "&";
-        if (beeperFilter === null)
-            throw new Error("The parameter 'beeperFilter' cannot be null.");
-        else if (beeperFilter !== undefined)
-            url_ += "BeeperFilter=" + encodeURIComponent("" + beeperFilter) + "&";
-        if (homePhoneFilter === null)
-            throw new Error("The parameter 'homePhoneFilter' cannot be null.");
-        else if (homePhoneFilter !== undefined)
-            url_ += "HomePhoneFilter=" + encodeURIComponent("" + homePhoneFilter) + "&";
-        if (faxFilter === null)
-            throw new Error("The parameter 'faxFilter' cannot be null.");
-        else if (faxFilter !== undefined)
-            url_ += "FaxFilter=" + encodeURIComponent("" + faxFilter) + "&";
-        if (resaleNoFilter === null)
-            throw new Error("The parameter 'resaleNoFilter' cannot be null.");
-        else if (resaleNoFilter !== undefined)
-            url_ += "ResaleNoFilter=" + encodeURIComponent("" + resaleNoFilter) + "&";
-        if (eMailFilter === null)
-            throw new Error("The parameter 'eMailFilter' cannot be null.");
-        else if (eMailFilter !== undefined)
-            url_ += "EMailFilter=" + encodeURIComponent("" + eMailFilter) + "&";
-        if (wWWAddressFilter === null)
-            throw new Error("The parameter 'wWWAddressFilter' cannot be null.");
-        else if (wWWAddressFilter !== undefined)
-            url_ += "WWWAddressFilter=" + encodeURIComponent("" + wWWAddressFilter) + "&";
-        if (parentCompanyFilter === null)
-            throw new Error("The parameter 'parentCompanyFilter' cannot be null.");
-        else if (parentCompanyFilter !== undefined)
-            url_ += "ParentCompanyFilter=" + encodeURIComponent("" + parentCompanyFilter) + "&";
-        if (mapLocationFilter === null)
-            throw new Error("The parameter 'mapLocationFilter' cannot be null.");
-        else if (mapLocationFilter !== undefined)
-            url_ += "MapLocationFilter=" + encodeURIComponent("" + mapLocationFilter) + "&";
-        if (salesman1Filter === null)
-            throw new Error("The parameter 'salesman1Filter' cannot be null.");
-        else if (salesman1Filter !== undefined)
-            url_ += "Salesman1Filter=" + encodeURIComponent("" + salesman1Filter) + "&";
-        if (salesman2Filter === null)
-            throw new Error("The parameter 'salesman2Filter' cannot be null.");
-        else if (salesman2Filter !== undefined)
-            url_ += "Salesman2Filter=" + encodeURIComponent("" + salesman2Filter) + "&";
-        if (salesman3Filter === null)
-            throw new Error("The parameter 'salesman3Filter' cannot be null.");
-        else if (salesman3Filter !== undefined)
-            url_ += "Salesman3Filter=" + encodeURIComponent("" + salesman3Filter) + "&";
-        if (salesman4Filter === null)
-            throw new Error("The parameter 'salesman4Filter' cannot be null.");
-        else if (salesman4Filter !== undefined)
-            url_ += "Salesman4Filter=" + encodeURIComponent("" + salesman4Filter) + "&";
-        if (salesman5Filter === null)
-            throw new Error("The parameter 'salesman5Filter' cannot be null.");
-        else if (salesman5Filter !== undefined)
-            url_ += "Salesman5Filter=" + encodeURIComponent("" + salesman5Filter) + "&";
-        if (salesman6Filter === null)
-            throw new Error("The parameter 'salesman6Filter' cannot be null.");
-        else if (salesman6Filter !== undefined)
-            url_ += "Salesman6Filter=" + encodeURIComponent("" + salesman6Filter) + "&";
-        if (maxLockAPR1Filter === null)
-            throw new Error("The parameter 'maxLockAPR1Filter' cannot be null.");
-        else if (maxLockAPR1Filter !== undefined)
-            url_ += "MaxLockAPR1Filter=" + encodeURIComponent("" + maxLockAPR1Filter) + "&";
-        if (minLockAPR1Filter === null)
-            throw new Error("The parameter 'minLockAPR1Filter' cannot be null.");
-        else if (minLockAPR1Filter !== undefined)
-            url_ += "MinLockAPR1Filter=" + encodeURIComponent("" + minLockAPR1Filter) + "&";
-        if (maxLockAPR2Filter === null)
-            throw new Error("The parameter 'maxLockAPR2Filter' cannot be null.");
-        else if (maxLockAPR2Filter !== undefined)
-            url_ += "MaxLockAPR2Filter=" + encodeURIComponent("" + maxLockAPR2Filter) + "&";
-        if (minLockAPR2Filter === null)
-            throw new Error("The parameter 'minLockAPR2Filter' cannot be null.");
-        else if (minLockAPR2Filter !== undefined)
-            url_ += "MinLockAPR2Filter=" + encodeURIComponent("" + minLockAPR2Filter) + "&";
-        if (maxLockAPR3Filter === null)
-            throw new Error("The parameter 'maxLockAPR3Filter' cannot be null.");
-        else if (maxLockAPR3Filter !== undefined)
-            url_ += "MaxLockAPR3Filter=" + encodeURIComponent("" + maxLockAPR3Filter) + "&";
-        if (minLockAPR3Filter === null)
-            throw new Error("The parameter 'minLockAPR3Filter' cannot be null.");
-        else if (minLockAPR3Filter !== undefined)
-            url_ += "MinLockAPR3Filter=" + encodeURIComponent("" + minLockAPR3Filter) + "&";
-        if (maxLockAPR4Filter === null)
-            throw new Error("The parameter 'maxLockAPR4Filter' cannot be null.");
-        else if (maxLockAPR4Filter !== undefined)
-            url_ += "MaxLockAPR4Filter=" + encodeURIComponent("" + maxLockAPR4Filter) + "&";
-        if (minLockAPR4Filter === null)
-            throw new Error("The parameter 'minLockAPR4Filter' cannot be null.");
-        else if (minLockAPR4Filter !== undefined)
-            url_ += "MinLockAPR4Filter=" + encodeURIComponent("" + minLockAPR4Filter) + "&";
-        if (maxLockAPR5Filter === null)
-            throw new Error("The parameter 'maxLockAPR5Filter' cannot be null.");
-        else if (maxLockAPR5Filter !== undefined)
-            url_ += "MaxLockAPR5Filter=" + encodeURIComponent("" + maxLockAPR5Filter) + "&";
-        if (minLockAPR5Filter === null)
-            throw new Error("The parameter 'minLockAPR5Filter' cannot be null.");
-        else if (minLockAPR5Filter !== undefined)
-            url_ += "MinLockAPR5Filter=" + encodeURIComponent("" + minLockAPR5Filter) + "&";
-        if (maxLockAPR6Filter === null)
-            throw new Error("The parameter 'maxLockAPR6Filter' cannot be null.");
-        else if (maxLockAPR6Filter !== undefined)
-            url_ += "MaxLockAPR6Filter=" + encodeURIComponent("" + maxLockAPR6Filter) + "&";
-        if (minLockAPR6Filter === null)
-            throw new Error("The parameter 'minLockAPR6Filter' cannot be null.");
-        else if (minLockAPR6Filter !== undefined)
-            url_ += "MinLockAPR6Filter=" + encodeURIComponent("" + minLockAPR6Filter) + "&";
-        if (maxSalesGroup1Filter === null)
-            throw new Error("The parameter 'maxSalesGroup1Filter' cannot be null.");
-        else if (maxSalesGroup1Filter !== undefined)
-            url_ += "MaxSalesGroup1Filter=" + encodeURIComponent("" + maxSalesGroup1Filter) + "&";
-        if (minSalesGroup1Filter === null)
-            throw new Error("The parameter 'minSalesGroup1Filter' cannot be null.");
-        else if (minSalesGroup1Filter !== undefined)
-            url_ += "MinSalesGroup1Filter=" + encodeURIComponent("" + minSalesGroup1Filter) + "&";
-        if (maxSalesGroup2Filter === null)
-            throw new Error("The parameter 'maxSalesGroup2Filter' cannot be null.");
-        else if (maxSalesGroup2Filter !== undefined)
-            url_ += "MaxSalesGroup2Filter=" + encodeURIComponent("" + maxSalesGroup2Filter) + "&";
-        if (minSalesGroup2Filter === null)
-            throw new Error("The parameter 'minSalesGroup2Filter' cannot be null.");
-        else if (minSalesGroup2Filter !== undefined)
-            url_ += "MinSalesGroup2Filter=" + encodeURIComponent("" + minSalesGroup2Filter) + "&";
-        if (maxSalesGroup3Filter === null)
-            throw new Error("The parameter 'maxSalesGroup3Filter' cannot be null.");
-        else if (maxSalesGroup3Filter !== undefined)
-            url_ += "MaxSalesGroup3Filter=" + encodeURIComponent("" + maxSalesGroup3Filter) + "&";
-        if (minSalesGroup3Filter === null)
-            throw new Error("The parameter 'minSalesGroup3Filter' cannot be null.");
-        else if (minSalesGroup3Filter !== undefined)
-            url_ += "MinSalesGroup3Filter=" + encodeURIComponent("" + minSalesGroup3Filter) + "&";
-        if (maxSalesGroup4Filter === null)
-            throw new Error("The parameter 'maxSalesGroup4Filter' cannot be null.");
-        else if (maxSalesGroup4Filter !== undefined)
-            url_ += "MaxSalesGroup4Filter=" + encodeURIComponent("" + maxSalesGroup4Filter) + "&";
-        if (minSalesGroup4Filter === null)
-            throw new Error("The parameter 'minSalesGroup4Filter' cannot be null.");
-        else if (minSalesGroup4Filter !== undefined)
-            url_ += "MinSalesGroup4Filter=" + encodeURIComponent("" + minSalesGroup4Filter) + "&";
-        if (maxSalesGroup5Filter === null)
-            throw new Error("The parameter 'maxSalesGroup5Filter' cannot be null.");
-        else if (maxSalesGroup5Filter !== undefined)
-            url_ += "MaxSalesGroup5Filter=" + encodeURIComponent("" + maxSalesGroup5Filter) + "&";
-        if (minSalesGroup5Filter === null)
-            throw new Error("The parameter 'minSalesGroup5Filter' cannot be null.");
-        else if (minSalesGroup5Filter !== undefined)
-            url_ += "MinSalesGroup5Filter=" + encodeURIComponent("" + minSalesGroup5Filter) + "&";
-        if (maxSalesGroup6Filter === null)
-            throw new Error("The parameter 'maxSalesGroup6Filter' cannot be null.");
-        else if (maxSalesGroup6Filter !== undefined)
-            url_ += "MaxSalesGroup6Filter=" + encodeURIComponent("" + maxSalesGroup6Filter) + "&";
-        if (minSalesGroup6Filter === null)
-            throw new Error("The parameter 'minSalesGroup6Filter' cannot be null.");
-        else if (minSalesGroup6Filter !== undefined)
-            url_ += "MinSalesGroup6Filter=" + encodeURIComponent("" + minSalesGroup6Filter) + "&";
-        if (termsFilter === null)
-            throw new Error("The parameter 'termsFilter' cannot be null.");
-        else if (termsFilter !== undefined)
-            url_ += "TermsFilter=" + encodeURIComponent("" + termsFilter) + "&";
-        if (fiscalEndFilter === null)
-            throw new Error("The parameter 'fiscalEndFilter' cannot be null.");
-        else if (fiscalEndFilter !== undefined)
-            url_ += "FiscalEndFilter=" + encodeURIComponent("" + fiscalEndFilter) + "&";
-        if (dunsCodeFilter === null)
-            throw new Error("The parameter 'dunsCodeFilter' cannot be null.");
-        else if (dunsCodeFilter !== undefined)
-            url_ += "DunsCodeFilter=" + encodeURIComponent("" + dunsCodeFilter) + "&";
-        if (sICCodeFilter === null)
-            throw new Error("The parameter 'sICCodeFilter' cannot be null.");
-        else if (sICCodeFilter !== undefined)
-            url_ += "SICCodeFilter=" + encodeURIComponent("" + sICCodeFilter) + "&";
-        if (mailingGroupFilter === null)
-            throw new Error("The parameter 'mailingGroupFilter' cannot be null.");
-        else if (mailingGroupFilter !== undefined)
-            url_ += "MailingGroupFilter=" + encodeURIComponent("" + mailingGroupFilter) + "&";
-        if (makesFilter === null)
-            throw new Error("The parameter 'makesFilter' cannot be null.");
-        else if (makesFilter !== undefined)
-            url_ += "MakesFilter=" + encodeURIComponent("" + makesFilter) + "&";
-        if (maxPOReqFilter === null)
-            throw new Error("The parameter 'maxPOReqFilter' cannot be null.");
-        else if (maxPOReqFilter !== undefined)
-            url_ += "MaxPOReqFilter=" + encodeURIComponent("" + maxPOReqFilter) + "&";
-        if (minPOReqFilter === null)
-            throw new Error("The parameter 'minPOReqFilter' cannot be null.");
-        else if (minPOReqFilter !== undefined)
-            url_ += "MinPOReqFilter=" + encodeURIComponent("" + minPOReqFilter) + "&";
-        if (maxPrevShipFilter === null)
-            throw new Error("The parameter 'maxPrevShipFilter' cannot be null.");
-        else if (maxPrevShipFilter !== undefined)
-            url_ += "MaxPrevShipFilter=" + encodeURIComponent("" + maxPrevShipFilter) + "&";
-        if (minPrevShipFilter === null)
-            throw new Error("The parameter 'minPrevShipFilter' cannot be null.");
-        else if (minPrevShipFilter !== undefined)
-            url_ += "MinPrevShipFilter=" + encodeURIComponent("" + minPrevShipFilter) + "&";
-        if (maxTaxableFilter === null)
-            throw new Error("The parameter 'maxTaxableFilter' cannot be null.");
-        else if (maxTaxableFilter !== undefined)
-            url_ += "MaxTaxableFilter=" + encodeURIComponent("" + maxTaxableFilter) + "&";
-        if (minTaxableFilter === null)
-            throw new Error("The parameter 'minTaxableFilter' cannot be null.");
-        else if (minTaxableFilter !== undefined)
-            url_ += "MinTaxableFilter=" + encodeURIComponent("" + minTaxableFilter) + "&";
-        if (taxCodeFilter === null)
-            throw new Error("The parameter 'taxCodeFilter' cannot be null.");
-        else if (taxCodeFilter !== undefined)
-            url_ += "TaxCodeFilter=" + encodeURIComponent("" + taxCodeFilter) + "&";
-        if (laborRateFilter === null)
-            throw new Error("The parameter 'laborRateFilter' cannot be null.");
-        else if (laborRateFilter !== undefined)
-            url_ += "LaborRateFilter=" + encodeURIComponent("" + laborRateFilter) + "&";
-        if (shopLaborRateFilter === null)
-            throw new Error("The parameter 'shopLaborRateFilter' cannot be null.");
-        else if (shopLaborRateFilter !== undefined)
-            url_ += "ShopLaborRateFilter=" + encodeURIComponent("" + shopLaborRateFilter) + "&";
-        if (maxShowLaborRateFilter === null)
-            throw new Error("The parameter 'maxShowLaborRateFilter' cannot be null.");
-        else if (maxShowLaborRateFilter !== undefined)
-            url_ += "MaxShowLaborRateFilter=" + encodeURIComponent("" + maxShowLaborRateFilter) + "&";
-        if (minShowLaborRateFilter === null)
-            throw new Error("The parameter 'minShowLaborRateFilter' cannot be null.");
-        else if (minShowLaborRateFilter !== undefined)
-            url_ += "MinShowLaborRateFilter=" + encodeURIComponent("" + minShowLaborRateFilter) + "&";
-        if (rentalRateFilter === null)
-            throw new Error("The parameter 'rentalRateFilter' cannot be null.");
-        else if (rentalRateFilter !== undefined)
-            url_ += "RentalRateFilter=" + encodeURIComponent("" + rentalRateFilter) + "&";
-        if (maxShowPartNoAliasFilter === null)
-            throw new Error("The parameter 'maxShowPartNoAliasFilter' cannot be null.");
-        else if (maxShowPartNoAliasFilter !== undefined)
-            url_ += "MaxShowPartNoAliasFilter=" + encodeURIComponent("" + maxShowPartNoAliasFilter) + "&";
-        if (minShowPartNoAliasFilter === null)
-            throw new Error("The parameter 'minShowPartNoAliasFilter' cannot be null.");
-        else if (minShowPartNoAliasFilter !== undefined)
-            url_ += "MinShowPartNoAliasFilter=" + encodeURIComponent("" + minShowPartNoAliasFilter) + "&";
-        if (partsRateFilter === null)
-            throw new Error("The parameter 'partsRateFilter' cannot be null.");
-        else if (partsRateFilter !== undefined)
-            url_ += "PartsRateFilter=" + encodeURIComponent("" + partsRateFilter) + "&";
-        if (maxPartsRateDiscountFilter === null)
-            throw new Error("The parameter 'maxPartsRateDiscountFilter' cannot be null.");
-        else if (maxPartsRateDiscountFilter !== undefined)
-            url_ += "MaxPartsRateDiscountFilter=" + encodeURIComponent("" + maxPartsRateDiscountFilter) + "&";
-        if (minPartsRateDiscountFilter === null)
-            throw new Error("The parameter 'minPartsRateDiscountFilter' cannot be null.");
-        else if (minPartsRateDiscountFilter !== undefined)
-            url_ += "MinPartsRateDiscountFilter=" + encodeURIComponent("" + minPartsRateDiscountFilter) + "&";
-        if (maxAddedFilter === null)
-            throw new Error("The parameter 'maxAddedFilter' cannot be null.");
-        else if (maxAddedFilter !== undefined)
-            url_ += "MaxAddedFilter=" + encodeURIComponent(maxAddedFilter ? "" + maxAddedFilter.toJSON() : "") + "&";
-        if (minAddedFilter === null)
-            throw new Error("The parameter 'minAddedFilter' cannot be null.");
-        else if (minAddedFilter !== undefined)
-            url_ += "MinAddedFilter=" + encodeURIComponent(minAddedFilter ? "" + minAddedFilter.toJSON() : "") + "&";
-        if (addedByFilter === null)
-            throw new Error("The parameter 'addedByFilter' cannot be null.");
-        else if (addedByFilter !== undefined)
-            url_ += "AddedByFilter=" + encodeURIComponent("" + addedByFilter) + "&";
-        if (maxChangedFilter === null)
-            throw new Error("The parameter 'maxChangedFilter' cannot be null.");
-        else if (maxChangedFilter !== undefined)
-            url_ += "MaxChangedFilter=" + encodeURIComponent(maxChangedFilter ? "" + maxChangedFilter.toJSON() : "") + "&";
-        if (minChangedFilter === null)
-            throw new Error("The parameter 'minChangedFilter' cannot be null.");
-        else if (minChangedFilter !== undefined)
-            url_ += "MinChangedFilter=" + encodeURIComponent(minChangedFilter ? "" + minChangedFilter.toJSON() : "") + "&";
-        if (changedByFilter === null)
-            throw new Error("The parameter 'changedByFilter' cannot be null.");
-        else if (changedByFilter !== undefined)
-            url_ += "ChangedByFilter=" + encodeURIComponent("" + changedByFilter) + "&";
-        if (salesContactFilter === null)
-            throw new Error("The parameter 'salesContactFilter' cannot be null.");
-        else if (salesContactFilter !== undefined)
-            url_ += "SalesContactFilter=" + encodeURIComponent("" + salesContactFilter) + "&";
-        if (cSContactFilter === null)
-            throw new Error("The parameter 'cSContactFilter' cannot be null.");
-        else if (cSContactFilter !== undefined)
-            url_ += "CSContactFilter=" + encodeURIComponent("" + cSContactFilter) + "&";
-        if (accountingContactFilter === null)
-            throw new Error("The parameter 'accountingContactFilter' cannot be null.");
-        else if (accountingContactFilter !== undefined)
-            url_ += "AccountingContactFilter=" + encodeURIComponent("" + accountingContactFilter) + "&";
-        if (maxInternalCustomerFilter === null)
-            throw new Error("The parameter 'maxInternalCustomerFilter' cannot be null.");
-        else if (maxInternalCustomerFilter !== undefined)
-            url_ += "MaxInternalCustomerFilter=" + encodeURIComponent("" + maxInternalCustomerFilter) + "&";
-        if (minInternalCustomerFilter === null)
-            throw new Error("The parameter 'minInternalCustomerFilter' cannot be null.");
-        else if (minInternalCustomerFilter !== undefined)
-            url_ += "MinInternalCustomerFilter=" + encodeURIComponent("" + minInternalCustomerFilter) + "&";
-        if (maxEquipmentBidFilter === null)
-            throw new Error("The parameter 'maxEquipmentBidFilter' cannot be null.");
-        else if (maxEquipmentBidFilter !== undefined)
-            url_ += "MaxEquipmentBidFilter=" + encodeURIComponent("" + maxEquipmentBidFilter) + "&";
-        if (minEquipmentBidFilter === null)
-            throw new Error("The parameter 'minEquipmentBidFilter' cannot be null.");
-        else if (minEquipmentBidFilter !== undefined)
-            url_ += "MinEquipmentBidFilter=" + encodeURIComponent("" + minEquipmentBidFilter) + "&";
-        if (commentsFilter === null)
-            throw new Error("The parameter 'commentsFilter' cannot be null.");
-        else if (commentsFilter !== undefined)
-            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&";
-        if (aRCommentsFilter === null)
-            throw new Error("The parameter 'aRCommentsFilter' cannot be null.");
-        else if (aRCommentsFilter !== undefined)
-            url_ += "ARCommentsFilter=" + encodeURIComponent("" + aRCommentsFilter) + "&";
-        if (companyCommentsFilter === null)
-            throw new Error("The parameter 'companyCommentsFilter' cannot be null.");
-        else if (companyCommentsFilter !== undefined)
-            url_ += "CompanyCommentsFilter=" + encodeURIComponent("" + companyCommentsFilter) + "&";
-        if (maxCompanyCommentsDateFilter === null)
-            throw new Error("The parameter 'maxCompanyCommentsDateFilter' cannot be null.");
-        else if (maxCompanyCommentsDateFilter !== undefined)
-            url_ += "MaxCompanyCommentsDateFilter=" + encodeURIComponent(maxCompanyCommentsDateFilter ? "" + maxCompanyCommentsDateFilter.toJSON() : "") + "&";
-        if (minCompanyCommentsDateFilter === null)
-            throw new Error("The parameter 'minCompanyCommentsDateFilter' cannot be null.");
-        else if (minCompanyCommentsDateFilter !== undefined)
-            url_ += "MinCompanyCommentsDateFilter=" + encodeURIComponent(minCompanyCommentsDateFilter ? "" + minCompanyCommentsDateFilter.toJSON() : "") + "&";
-        if (companyCommentsByFilter === null)
-            throw new Error("The parameter 'companyCommentsByFilter' cannot be null.");
-        else if (companyCommentsByFilter !== undefined)
-            url_ += "CompanyCommentsByFilter=" + encodeURIComponent("" + companyCommentsByFilter) + "&";
-        if (businessCategoryFilter === null)
-            throw new Error("The parameter 'businessCategoryFilter' cannot be null.");
-        else if (businessCategoryFilter !== undefined)
-            url_ += "BusinessCategoryFilter=" + encodeURIComponent("" + businessCategoryFilter) + "&";
-        if (businessDescriptionFilter === null)
-            throw new Error("The parameter 'businessDescriptionFilter' cannot be null.");
-        else if (businessDescriptionFilter !== undefined)
-            url_ += "BusinessDescriptionFilter=" + encodeURIComponent("" + businessDescriptionFilter) + "&";
-        if (sICCode2Filter === null)
-            throw new Error("The parameter 'sICCode2Filter' cannot be null.");
-        else if (sICCode2Filter !== undefined)
-            url_ += "SICCode2Filter=" + encodeURIComponent("" + sICCode2Filter) + "&";
-        if (sICCode3Filter === null)
-            throw new Error("The parameter 'sICCode3Filter' cannot be null.");
-        else if (sICCode3Filter !== undefined)
-            url_ += "SICCode3Filter=" + encodeURIComponent("" + sICCode3Filter) + "&";
-        if (sICCode4Filter === null)
-            throw new Error("The parameter 'sICCode4Filter' cannot be null.");
-        else if (sICCode4Filter !== undefined)
-            url_ += "SICCode4Filter=" + encodeURIComponent("" + sICCode4Filter) + "&";
-        if (maxShiftsFilter === null)
-            throw new Error("The parameter 'maxShiftsFilter' cannot be null.");
-        else if (maxShiftsFilter !== undefined)
-            url_ += "MaxShiftsFilter=" + encodeURIComponent("" + maxShiftsFilter) + "&";
-        if (minShiftsFilter === null)
-            throw new Error("The parameter 'minShiftsFilter' cannot be null.");
-        else if (minShiftsFilter !== undefined)
-            url_ += "MinShiftsFilter=" + encodeURIComponent("" + minShiftsFilter) + "&";
-        if (categoryFilter === null)
-            throw new Error("The parameter 'categoryFilter' cannot be null.");
-        else if (categoryFilter !== undefined)
-            url_ += "CategoryFilter=" + encodeURIComponent("" + categoryFilter) + "&";
-        if (maxHoursOfOpStartFilter === null)
-            throw new Error("The parameter 'maxHoursOfOpStartFilter' cannot be null.");
-        else if (maxHoursOfOpStartFilter !== undefined)
-            url_ += "MaxHoursOfOpStartFilter=" + encodeURIComponent(maxHoursOfOpStartFilter ? "" + maxHoursOfOpStartFilter.toJSON() : "") + "&";
-        if (minHoursOfOpStartFilter === null)
-            throw new Error("The parameter 'minHoursOfOpStartFilter' cannot be null.");
-        else if (minHoursOfOpStartFilter !== undefined)
-            url_ += "MinHoursOfOpStartFilter=" + encodeURIComponent(minHoursOfOpStartFilter ? "" + minHoursOfOpStartFilter.toJSON() : "") + "&";
-        if (maxHoursOfOpEndFilter === null)
-            throw new Error("The parameter 'maxHoursOfOpEndFilter' cannot be null.");
-        else if (maxHoursOfOpEndFilter !== undefined)
-            url_ += "MaxHoursOfOpEndFilter=" + encodeURIComponent(maxHoursOfOpEndFilter ? "" + maxHoursOfOpEndFilter.toJSON() : "") + "&";
-        if (minHoursOfOpEndFilter === null)
-            throw new Error("The parameter 'minHoursOfOpEndFilter' cannot be null.");
-        else if (minHoursOfOpEndFilter !== undefined)
-            url_ += "MinHoursOfOpEndFilter=" + encodeURIComponent(minHoursOfOpEndFilter ? "" + minHoursOfOpEndFilter.toJSON() : "") + "&";
-        if (deliveryInfoFilter === null)
-            throw new Error("The parameter 'deliveryInfoFilter' cannot be null.");
-        else if (deliveryInfoFilter !== undefined)
-            url_ += "DeliveryInfoFilter=" + encodeURIComponent("" + deliveryInfoFilter) + "&";
-        if (customerTerritoryFilter === null)
-            throw new Error("The parameter 'customerTerritoryFilter' cannot be null.");
-        else if (customerTerritoryFilter !== undefined)
-            url_ += "CustomerTerritoryFilter=" + encodeURIComponent("" + customerTerritoryFilter) + "&";
-        if (maxCreditHoldFlagFilter === null)
-            throw new Error("The parameter 'maxCreditHoldFlagFilter' cannot be null.");
-        else if (maxCreditHoldFlagFilter !== undefined)
-            url_ += "MaxCreditHoldFlagFilter=" + encodeURIComponent("" + maxCreditHoldFlagFilter) + "&";
-        if (minCreditHoldFlagFilter === null)
-            throw new Error("The parameter 'minCreditHoldFlagFilter' cannot be null.");
-        else if (minCreditHoldFlagFilter !== undefined)
-            url_ += "MinCreditHoldFlagFilter=" + encodeURIComponent("" + minCreditHoldFlagFilter) + "&";
-        if (creditRating1Filter === null)
-            throw new Error("The parameter 'creditRating1Filter' cannot be null.");
-        else if (creditRating1Filter !== undefined)
-            url_ += "CreditRating1Filter=" + encodeURIComponent("" + creditRating1Filter) + "&";
-        if (creditRating2Filter === null)
-            throw new Error("The parameter 'creditRating2Filter' cannot be null.");
-        else if (creditRating2Filter !== undefined)
-            url_ += "CreditRating2Filter=" + encodeURIComponent("" + creditRating2Filter) + "&";
-        if (maxStatementsFilter === null)
-            throw new Error("The parameter 'maxStatementsFilter' cannot be null.");
-        else if (maxStatementsFilter !== undefined)
-            url_ += "MaxStatementsFilter=" + encodeURIComponent("" + maxStatementsFilter) + "&";
-        if (minStatementsFilter === null)
-            throw new Error("The parameter 'minStatementsFilter' cannot be null.");
-        else if (minStatementsFilter !== undefined)
-            url_ += "MinStatementsFilter=" + encodeURIComponent("" + minStatementsFilter) + "&";
-        if (maxCreditHoldDaysFilter === null)
-            throw new Error("The parameter 'maxCreditHoldDaysFilter' cannot be null.");
-        else if (maxCreditHoldDaysFilter !== undefined)
-            url_ += "MaxCreditHoldDaysFilter=" + encodeURIComponent("" + maxCreditHoldDaysFilter) + "&";
-        if (minCreditHoldDaysFilter === null)
-            throw new Error("The parameter 'minCreditHoldDaysFilter' cannot be null.");
-        else if (minCreditHoldDaysFilter !== undefined)
-            url_ += "MinCreditHoldDaysFilter=" + encodeURIComponent("" + minCreditHoldDaysFilter) + "&";
-        if (maxFinanceChargeFilter === null)
-            throw new Error("The parameter 'maxFinanceChargeFilter' cannot be null.");
-        else if (maxFinanceChargeFilter !== undefined)
-            url_ += "MaxFinanceChargeFilter=" + encodeURIComponent("" + maxFinanceChargeFilter) + "&";
-        if (minFinanceChargeFilter === null)
-            throw new Error("The parameter 'minFinanceChargeFilter' cannot be null.");
-        else if (minFinanceChargeFilter !== undefined)
-            url_ += "MinFinanceChargeFilter=" + encodeURIComponent("" + minFinanceChargeFilter) + "&";
-        if (maxResaleExpDateFilter === null)
-            throw new Error("The parameter 'maxResaleExpDateFilter' cannot be null.");
-        else if (maxResaleExpDateFilter !== undefined)
-            url_ += "MaxResaleExpDateFilter=" + encodeURIComponent(maxResaleExpDateFilter ? "" + maxResaleExpDateFilter.toJSON() : "") + "&";
-        if (minResaleExpDateFilter === null)
-            throw new Error("The parameter 'minResaleExpDateFilter' cannot be null.");
-        else if (minResaleExpDateFilter !== undefined)
-            url_ += "MinResaleExpDateFilter=" + encodeURIComponent(minResaleExpDateFilter ? "" + minResaleExpDateFilter.toJSON() : "") + "&";
-        if (stateTaxCodeFilter === null)
-            throw new Error("The parameter 'stateTaxCodeFilter' cannot be null.");
-        else if (stateTaxCodeFilter !== undefined)
-            url_ += "StateTaxCodeFilter=" + encodeURIComponent("" + stateTaxCodeFilter) + "&";
-        if (countyTaxCodeFilter === null)
-            throw new Error("The parameter 'countyTaxCodeFilter' cannot be null.");
-        else if (countyTaxCodeFilter !== undefined)
-            url_ += "CountyTaxCodeFilter=" + encodeURIComponent("" + countyTaxCodeFilter) + "&";
-        if (cityTaxCodeFilter === null)
-            throw new Error("The parameter 'cityTaxCodeFilter' cannot be null.");
-        else if (cityTaxCodeFilter !== undefined)
-            url_ += "CityTaxCodeFilter=" + encodeURIComponent("" + cityTaxCodeFilter) + "&";
-        if (maxAbsoluteTaxCodesFilter === null)
-            throw new Error("The parameter 'maxAbsoluteTaxCodesFilter' cannot be null.");
-        else if (maxAbsoluteTaxCodesFilter !== undefined)
-            url_ += "MaxAbsoluteTaxCodesFilter=" + encodeURIComponent("" + maxAbsoluteTaxCodesFilter) + "&";
-        if (minAbsoluteTaxCodesFilter === null)
-            throw new Error("The parameter 'minAbsoluteTaxCodesFilter' cannot be null.");
-        else if (minAbsoluteTaxCodesFilter !== undefined)
-            url_ += "MinAbsoluteTaxCodesFilter=" + encodeURIComponent("" + minAbsoluteTaxCodesFilter) + "&";
-        if (mFGPermitNoFilter === null)
-            throw new Error("The parameter 'mFGPermitNoFilter' cannot be null.");
-        else if (mFGPermitNoFilter !== undefined)
-            url_ += "MFGPermitNoFilter=" + encodeURIComponent("" + mFGPermitNoFilter) + "&";
-        if (maxMFGPermitExpDateFilter === null)
-            throw new Error("The parameter 'maxMFGPermitExpDateFilter' cannot be null.");
-        else if (maxMFGPermitExpDateFilter !== undefined)
-            url_ += "MaxMFGPermitExpDateFilter=" + encodeURIComponent(maxMFGPermitExpDateFilter ? "" + maxMFGPermitExpDateFilter.toJSON() : "") + "&";
-        if (minMFGPermitExpDateFilter === null)
-            throw new Error("The parameter 'minMFGPermitExpDateFilter' cannot be null.");
-        else if (minMFGPermitExpDateFilter !== undefined)
-            url_ += "MinMFGPermitExpDateFilter=" + encodeURIComponent(minMFGPermitExpDateFilter ? "" + minMFGPermitExpDateFilter.toJSON() : "") + "&";
-        if (maxBranchFilter === null)
-            throw new Error("The parameter 'maxBranchFilter' cannot be null.");
-        else if (maxBranchFilter !== undefined)
-            url_ += "MaxBranchFilter=" + encodeURIComponent("" + maxBranchFilter) + "&";
-        if (minBranchFilter === null)
-            throw new Error("The parameter 'minBranchFilter' cannot be null.");
-        else if (minBranchFilter !== undefined)
-            url_ += "MinBranchFilter=" + encodeURIComponent("" + minBranchFilter) + "&";
-        if (maxShowLaborHoursFilter === null)
-            throw new Error("The parameter 'maxShowLaborHoursFilter' cannot be null.");
-        else if (maxShowLaborHoursFilter !== undefined)
-            url_ += "MaxShowLaborHoursFilter=" + encodeURIComponent("" + maxShowLaborHoursFilter) + "&";
-        if (minShowLaborHoursFilter === null)
-            throw new Error("The parameter 'minShowLaborHoursFilter' cannot be null.");
-        else if (minShowLaborHoursFilter !== undefined)
-            url_ += "MinShowLaborHoursFilter=" + encodeURIComponent("" + minShowLaborHoursFilter) + "&";
-        if (vendorNoFilter === null)
-            throw new Error("The parameter 'vendorNoFilter' cannot be null.");
-        else if (vendorNoFilter !== undefined)
-            url_ += "VendorNoFilter=" + encodeURIComponent("" + vendorNoFilter) + "&";
-        if (localTaxCodeFilter === null)
-            throw new Error("The parameter 'localTaxCodeFilter' cannot be null.");
-        else if (localTaxCodeFilter !== undefined)
-            url_ += "LocalTaxCodeFilter=" + encodeURIComponent("" + localTaxCodeFilter) + "&";
-        if (currencyTypeFilter === null)
-            throw new Error("The parameter 'currencyTypeFilter' cannot be null.");
-        else if (currencyTypeFilter !== undefined)
-            url_ += "CurrencyTypeFilter=" + encodeURIComponent("" + currencyTypeFilter) + "&";
-        if (creditCardNoFilter === null)
-            throw new Error("The parameter 'creditCardNoFilter' cannot be null.");
-        else if (creditCardNoFilter !== undefined)
-            url_ += "CreditCardNoFilter=" + encodeURIComponent("" + creditCardNoFilter) + "&";
-        if (creditCardCVVFilter === null)
-            throw new Error("The parameter 'creditCardCVVFilter' cannot be null.");
-        else if (creditCardCVVFilter !== undefined)
-            url_ += "CreditCardCVVFilter=" + encodeURIComponent("" + creditCardCVVFilter) + "&";
-        if (creditCardExpDateFilter === null)
-            throw new Error("The parameter 'creditCardExpDateFilter' cannot be null.");
-        else if (creditCardExpDateFilter !== undefined)
-            url_ += "CreditCardExpDateFilter=" + encodeURIComponent("" + creditCardExpDateFilter) + "&";
-        if (creditCardTypeFilter === null)
-            throw new Error("The parameter 'creditCardTypeFilter' cannot be null.");
-        else if (creditCardTypeFilter !== undefined)
-            url_ += "CreditCardTypeFilter=" + encodeURIComponent("" + creditCardTypeFilter) + "&";
-        if (nameOnCreditCardFilter === null)
-            throw new Error("The parameter 'nameOnCreditCardFilter' cannot be null.");
-        else if (nameOnCreditCardFilter !== undefined)
-            url_ += "NameOnCreditCardFilter=" + encodeURIComponent("" + nameOnCreditCardFilter) + "&";
-        if (rFCFilter === null)
-            throw new Error("The parameter 'rFCFilter' cannot be null.");
-        else if (rFCFilter !== undefined)
-            url_ += "RFCFilter=" + encodeURIComponent("" + rFCFilter) + "&";
-        if (oldNumberFilter === null)
-            throw new Error("The parameter 'oldNumberFilter' cannot be null.");
-        else if (oldNumberFilter !== undefined)
-            url_ += "OldNumberFilter=" + encodeURIComponent("" + oldNumberFilter) + "&";
-        if (maxSuppressPartsPricingFilter === null)
-            throw new Error("The parameter 'maxSuppressPartsPricingFilter' cannot be null.");
-        else if (maxSuppressPartsPricingFilter !== undefined)
-            url_ += "MaxSuppressPartsPricingFilter=" + encodeURIComponent("" + maxSuppressPartsPricingFilter) + "&";
-        if (minSuppressPartsPricingFilter === null)
-            throw new Error("The parameter 'minSuppressPartsPricingFilter' cannot be null.");
-        else if (minSuppressPartsPricingFilter !== undefined)
-            url_ += "MinSuppressPartsPricingFilter=" + encodeURIComponent("" + minSuppressPartsPricingFilter) + "&";
-        if (maxServiceChargeFilter === null)
-            throw new Error("The parameter 'maxServiceChargeFilter' cannot be null.");
-        else if (maxServiceChargeFilter !== undefined)
-            url_ += "MaxServiceChargeFilter=" + encodeURIComponent("" + maxServiceChargeFilter) + "&";
-        if (minServiceChargeFilter === null)
-            throw new Error("The parameter 'minServiceChargeFilter' cannot be null.");
-        else if (minServiceChargeFilter !== undefined)
-            url_ += "MinServiceChargeFilter=" + encodeURIComponent("" + minServiceChargeFilter) + "&";
-        if (serviceChargeDescriptionFilter === null)
-            throw new Error("The parameter 'serviceChargeDescriptionFilter' cannot be null.");
-        else if (serviceChargeDescriptionFilter !== undefined)
-            url_ += "ServiceChargeDescriptionFilter=" + encodeURIComponent("" + serviceChargeDescriptionFilter) + "&";
-        if (maxFinalCopiesFilter === null)
-            throw new Error("The parameter 'maxFinalCopiesFilter' cannot be null.");
-        else if (maxFinalCopiesFilter !== undefined)
-            url_ += "MaxFinalCopiesFilter=" + encodeURIComponent("" + maxFinalCopiesFilter) + "&";
-        if (minFinalCopiesFilter === null)
-            throw new Error("The parameter 'minFinalCopiesFilter' cannot be null.");
-        else if (minFinalCopiesFilter !== undefined)
-            url_ += "MinFinalCopiesFilter=" + encodeURIComponent("" + minFinalCopiesFilter) + "&";
-        if (maxPOBoxAndAddressFilter === null)
-            throw new Error("The parameter 'maxPOBoxAndAddressFilter' cannot be null.");
-        else if (maxPOBoxAndAddressFilter !== undefined)
-            url_ += "MaxPOBoxAndAddressFilter=" + encodeURIComponent("" + maxPOBoxAndAddressFilter) + "&";
-        if (minPOBoxAndAddressFilter === null)
-            throw new Error("The parameter 'minPOBoxAndAddressFilter' cannot be null.");
-        else if (minPOBoxAndAddressFilter !== undefined)
-            url_ += "MinPOBoxAndAddressFilter=" + encodeURIComponent("" + minPOBoxAndAddressFilter) + "&";
-        if (insuranceNoFilter === null)
-            throw new Error("The parameter 'insuranceNoFilter' cannot be null.");
-        else if (insuranceNoFilter !== undefined)
-            url_ += "InsuranceNoFilter=" + encodeURIComponent("" + insuranceNoFilter) + "&";
-        if (maxInsuranceNoDateFilter === null)
-            throw new Error("The parameter 'maxInsuranceNoDateFilter' cannot be null.");
-        else if (maxInsuranceNoDateFilter !== undefined)
-            url_ += "MaxInsuranceNoDateFilter=" + encodeURIComponent(maxInsuranceNoDateFilter ? "" + maxInsuranceNoDateFilter.toJSON() : "") + "&";
-        if (minInsuranceNoDateFilter === null)
-            throw new Error("The parameter 'minInsuranceNoDateFilter' cannot be null.");
-        else if (minInsuranceNoDateFilter !== undefined)
-            url_ += "MinInsuranceNoDateFilter=" + encodeURIComponent(minInsuranceNoDateFilter ? "" + minInsuranceNoDateFilter.toJSON() : "") + "&";
-        if (maxInsuranceNoRecvDateFilter === null)
-            throw new Error("The parameter 'maxInsuranceNoRecvDateFilter' cannot be null.");
-        else if (maxInsuranceNoRecvDateFilter !== undefined)
-            url_ += "MaxInsuranceNoRecvDateFilter=" + encodeURIComponent(maxInsuranceNoRecvDateFilter ? "" + maxInsuranceNoRecvDateFilter.toJSON() : "") + "&";
-        if (minInsuranceNoRecvDateFilter === null)
-            throw new Error("The parameter 'minInsuranceNoRecvDateFilter' cannot be null.");
-        else if (minInsuranceNoRecvDateFilter !== undefined)
-            url_ += "MinInsuranceNoRecvDateFilter=" + encodeURIComponent(minInsuranceNoRecvDateFilter ? "" + minInsuranceNoRecvDateFilter.toJSON() : "") + "&";
-        if (creditCardAddressFilter === null)
-            throw new Error("The parameter 'creditCardAddressFilter' cannot be null.");
-        else if (creditCardAddressFilter !== undefined)
-            url_ += "CreditCardAddressFilter=" + encodeURIComponent("" + creditCardAddressFilter) + "&";
-        if (creditCardPOBoxFilter === null)
-            throw new Error("The parameter 'creditCardPOBoxFilter' cannot be null.");
-        else if (creditCardPOBoxFilter !== undefined)
-            url_ += "CreditCardPOBoxFilter=" + encodeURIComponent("" + creditCardPOBoxFilter) + "&";
-        if (creditCardCityFilter === null)
-            throw new Error("The parameter 'creditCardCityFilter' cannot be null.");
-        else if (creditCardCityFilter !== undefined)
-            url_ += "CreditCardCityFilter=" + encodeURIComponent("" + creditCardCityFilter) + "&";
-        if (creditCardStateFilter === null)
-            throw new Error("The parameter 'creditCardStateFilter' cannot be null.");
-        else if (creditCardStateFilter !== undefined)
-            url_ += "CreditCardStateFilter=" + encodeURIComponent("" + creditCardStateFilter) + "&";
-        if (creditCardZipCodeFilter === null)
-            throw new Error("The parameter 'creditCardZipCodeFilter' cannot be null.");
-        else if (creditCardZipCodeFilter !== undefined)
-            url_ += "CreditCardZipCodeFilter=" + encodeURIComponent("" + creditCardZipCodeFilter) + "&";
-        if (creditCardCountryFilter === null)
-            throw new Error("The parameter 'creditCardCountryFilter' cannot be null.");
-        else if (creditCardCountryFilter !== undefined)
-            url_ += "CreditCardCountryFilter=" + encodeURIComponent("" + creditCardCountryFilter) + "&";
-        if (pMLaborRateFilter === null)
-            throw new Error("The parameter 'pMLaborRateFilter' cannot be null.");
-        else if (pMLaborRateFilter !== undefined)
-            url_ += "PMLaborRateFilter=" + encodeURIComponent("" + pMLaborRateFilter) + "&";
-        if (referenceNo1Filter === null)
-            throw new Error("The parameter 'referenceNo1Filter' cannot be null.");
-        else if (referenceNo1Filter !== undefined)
-            url_ += "ReferenceNo1Filter=" + encodeURIComponent("" + referenceNo1Filter) + "&";
-        if (referenceNo2Filter === null)
-            throw new Error("The parameter 'referenceNo2Filter' cannot be null.");
-        else if (referenceNo2Filter !== undefined)
-            url_ += "ReferenceNo2Filter=" + encodeURIComponent("" + referenceNo2Filter) + "&";
-        if (maxGMSummaryFilter === null)
-            throw new Error("The parameter 'maxGMSummaryFilter' cannot be null.");
-        else if (maxGMSummaryFilter !== undefined)
-            url_ += "MaxGMSummaryFilter=" + encodeURIComponent("" + maxGMSummaryFilter) + "&";
-        if (minGMSummaryFilter === null)
-            throw new Error("The parameter 'minGMSummaryFilter' cannot be null.");
-        else if (minGMSummaryFilter !== undefined)
-            url_ += "MinGMSummaryFilter=" + encodeURIComponent("" + minGMSummaryFilter) + "&";
-        if (oB10NoFilter === null)
-            throw new Error("The parameter 'oB10NoFilter' cannot be null.");
-        else if (oB10NoFilter !== undefined)
-            url_ += "OB10NoFilter=" + encodeURIComponent("" + oB10NoFilter) + "&";
-        if (oldNameFilter === null)
-            throw new Error("The parameter 'oldNameFilter' cannot be null.");
-        else if (oldNameFilter !== undefined)
-            url_ += "OldNameFilter=" + encodeURIComponent("" + oldNameFilter) + "&";
-        if (maxCustomerBillToFilter === null)
-            throw new Error("The parameter 'maxCustomerBillToFilter' cannot be null.");
-        else if (maxCustomerBillToFilter !== undefined)
-            url_ += "MaxCustomerBillToFilter=" + encodeURIComponent("" + maxCustomerBillToFilter) + "&";
-        if (minCustomerBillToFilter === null)
-            throw new Error("The parameter 'minCustomerBillToFilter' cannot be null.");
-        else if (minCustomerBillToFilter !== undefined)
-            url_ += "MinCustomerBillToFilter=" + encodeURIComponent("" + minCustomerBillToFilter) + "&";
-        if (shipViaFilter === null)
-            throw new Error("The parameter 'shipViaFilter' cannot be null.");
-        else if (shipViaFilter !== undefined)
-            url_ += "ShipViaFilter=" + encodeURIComponent("" + shipViaFilter) + "&";
-        if (maxNoAddMiscFilter === null)
-            throw new Error("The parameter 'maxNoAddMiscFilter' cannot be null.");
-        else if (maxNoAddMiscFilter !== undefined)
-            url_ += "MaxNoAddMiscFilter=" + encodeURIComponent("" + maxNoAddMiscFilter) + "&";
-        if (minNoAddMiscFilter === null)
-            throw new Error("The parameter 'minNoAddMiscFilter' cannot be null.");
-        else if (minNoAddMiscFilter !== undefined)
-            url_ += "MinNoAddMiscFilter=" + encodeURIComponent("" + minNoAddMiscFilter) + "&";
-        if (laborDiscountFilter === null)
-            throw new Error("The parameter 'laborDiscountFilter' cannot be null.");
-        else if (laborDiscountFilter !== undefined)
-            url_ += "LaborDiscountFilter=" + encodeURIComponent("" + laborDiscountFilter) + "&";
-        if (taxRateFilter === null)
-            throw new Error("The parameter 'taxRateFilter' cannot be null.");
-        else if (taxRateFilter !== undefined)
-            url_ += "TaxRateFilter=" + encodeURIComponent("" + taxRateFilter) + "&";
-        if (tMHUNoFilter === null)
-            throw new Error("The parameter 'tMHUNoFilter' cannot be null.");
-        else if (tMHUNoFilter !== undefined)
-            url_ += "TMHUNoFilter=" + encodeURIComponent("" + tMHUNoFilter) + "&";
-        if (maxLockTaxCodeFilter === null)
-            throw new Error("The parameter 'maxLockTaxCodeFilter' cannot be null.");
-        else if (maxLockTaxCodeFilter !== undefined)
-            url_ += "MaxLockTaxCodeFilter=" + encodeURIComponent("" + maxLockTaxCodeFilter) + "&";
-        if (minLockTaxCodeFilter === null)
-            throw new Error("The parameter 'minLockTaxCodeFilter' cannot be null.");
-        else if (minLockTaxCodeFilter !== undefined)
-            url_ += "MinLockTaxCodeFilter=" + encodeURIComponent("" + minLockTaxCodeFilter) + "&";
-        if (taxCodeImportFilter === null)
-            throw new Error("The parameter 'taxCodeImportFilter' cannot be null.");
-        else if (taxCodeImportFilter !== undefined)
-            url_ += "TaxCodeImportFilter=" + encodeURIComponent("" + taxCodeImportFilter) + "&";
-        if (shippingCommentsFilter === null)
-            throw new Error("The parameter 'shippingCommentsFilter' cannot be null.");
-        else if (shippingCommentsFilter !== undefined)
-            url_ += "ShippingCommentsFilter=" + encodeURIComponent("" + shippingCommentsFilter) + "&";
-        if (maxNoShippingChargeFilter === null)
-            throw new Error("The parameter 'maxNoShippingChargeFilter' cannot be null.");
-        else if (maxNoShippingChargeFilter !== undefined)
-            url_ += "MaxNoShippingChargeFilter=" + encodeURIComponent("" + maxNoShippingChargeFilter) + "&";
-        if (minNoShippingChargeFilter === null)
-            throw new Error("The parameter 'minNoShippingChargeFilter' cannot be null.");
-        else if (minNoShippingChargeFilter !== undefined)
-            url_ += "MinNoShippingChargeFilter=" + encodeURIComponent("" + minNoShippingChargeFilter) + "&";
-        if (shippingCompanyFilter === null)
-            throw new Error("The parameter 'shippingCompanyFilter' cannot be null.");
-        else if (shippingCompanyFilter !== undefined)
-            url_ += "ShippingCompanyFilter=" + encodeURIComponent("" + shippingCompanyFilter) + "&";
-        if (shippingAccountFilter === null)
-            throw new Error("The parameter 'shippingAccountFilter' cannot be null.");
-        else if (shippingAccountFilter !== undefined)
-            url_ += "ShippingAccountFilter=" + encodeURIComponent("" + shippingAccountFilter) + "&";
-        if (eMailInvoiceAddressFilter === null)
-            throw new Error("The parameter 'eMailInvoiceAddressFilter' cannot be null.");
-        else if (eMailInvoiceAddressFilter !== undefined)
-            url_ += "EMailInvoiceAddressFilter=" + encodeURIComponent("" + eMailInvoiceAddressFilter) + "&";
-        if (eMailInvoiceAttentionFilter === null)
-            throw new Error("The parameter 'eMailInvoiceAttentionFilter' cannot be null.");
-        else if (eMailInvoiceAttentionFilter !== undefined)
-            url_ += "EMailInvoiceAttentionFilter=" + encodeURIComponent("" + eMailInvoiceAttentionFilter) + "&";
-        if (maxEMailInvoiceFilter === null)
-            throw new Error("The parameter 'maxEMailInvoiceFilter' cannot be null.");
-        else if (maxEMailInvoiceFilter !== undefined)
-            url_ += "MaxEMailInvoiceFilter=" + encodeURIComponent("" + maxEMailInvoiceFilter) + "&";
-        if (minEMailInvoiceFilter === null)
-            throw new Error("The parameter 'minEMailInvoiceFilter' cannot be null.");
-        else if (minEMailInvoiceFilter !== undefined)
-            url_ += "MinEMailInvoiceFilter=" + encodeURIComponent("" + minEMailInvoiceFilter) + "&";
-        if (maxNoPrintInvoiceFilter === null)
-            throw new Error("The parameter 'maxNoPrintInvoiceFilter' cannot be null.");
-        else if (maxNoPrintInvoiceFilter !== undefined)
-            url_ += "MaxNoPrintInvoiceFilter=" + encodeURIComponent("" + maxNoPrintInvoiceFilter) + "&";
-        if (minNoPrintInvoiceFilter === null)
-            throw new Error("The parameter 'minNoPrintInvoiceFilter' cannot be null.");
-        else if (minNoPrintInvoiceFilter !== undefined)
-            url_ += "MinNoPrintInvoiceFilter=" + encodeURIComponent("" + minNoPrintInvoiceFilter) + "&";
-        if (maxBackupRequiredFilter === null)
-            throw new Error("The parameter 'maxBackupRequiredFilter' cannot be null.");
-        else if (maxBackupRequiredFilter !== undefined)
-            url_ += "MaxBackupRequiredFilter=" + encodeURIComponent("" + maxBackupRequiredFilter) + "&";
-        if (minBackupRequiredFilter === null)
-            throw new Error("The parameter 'minBackupRequiredFilter' cannot be null.");
-        else if (minBackupRequiredFilter !== undefined)
-            url_ += "MinBackupRequiredFilter=" + encodeURIComponent("" + minBackupRequiredFilter) + "&";
-        if (oldSalesman1Filter === null)
-            throw new Error("The parameter 'oldSalesman1Filter' cannot be null.");
-        else if (oldSalesman1Filter !== undefined)
-            url_ += "OldSalesman1Filter=" + encodeURIComponent("" + oldSalesman1Filter) + "&";
-        if (oldSalesman2Filter === null)
-            throw new Error("The parameter 'oldSalesman2Filter' cannot be null.");
-        else if (oldSalesman2Filter !== undefined)
-            url_ += "OldSalesman2Filter=" + encodeURIComponent("" + oldSalesman2Filter) + "&";
-        if (oldSalesman3Filter === null)
-            throw new Error("The parameter 'oldSalesman3Filter' cannot be null.");
-        else if (oldSalesman3Filter !== undefined)
-            url_ += "OldSalesman3Filter=" + encodeURIComponent("" + oldSalesman3Filter) + "&";
-        if (oldSalesman4Filter === null)
-            throw new Error("The parameter 'oldSalesman4Filter' cannot be null.");
-        else if (oldSalesman4Filter !== undefined)
-            url_ += "OldSalesman4Filter=" + encodeURIComponent("" + oldSalesman4Filter) + "&";
-        if (oldSalesman5Filter === null)
-            throw new Error("The parameter 'oldSalesman5Filter' cannot be null.");
-        else if (oldSalesman5Filter !== undefined)
-            url_ += "OldSalesman5Filter=" + encodeURIComponent("" + oldSalesman5Filter) + "&";
-        if (oldSalesman6Filter === null)
-            throw new Error("The parameter 'oldSalesman6Filter' cannot be null.");
-        else if (oldSalesman6Filter !== undefined)
-            url_ += "OldSalesman6Filter=" + encodeURIComponent("" + oldSalesman6Filter) + "&";
-        if (maxLastAutoSalesmanUpdateFilter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdateFilter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdateFilter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdateFilter=" + encodeURIComponent(maxLastAutoSalesmanUpdateFilter ? "" + maxLastAutoSalesmanUpdateFilter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdateFilter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdateFilter' cannot be null.");
-        else if (minLastAutoSalesmanUpdateFilter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdateFilter=" + encodeURIComponent(minLastAutoSalesmanUpdateFilter ? "" + minLastAutoSalesmanUpdateFilter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate1Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate1Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate1Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate1Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate1Filter ? "" + maxLastAutoSalesmanUpdate1Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate1Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate1Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate1Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate1Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate1Filter ? "" + minLastAutoSalesmanUpdate1Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate2Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate2Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate2Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate2Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate2Filter ? "" + maxLastAutoSalesmanUpdate2Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate2Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate2Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate2Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate2Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate2Filter ? "" + minLastAutoSalesmanUpdate2Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate3Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate3Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate3Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate3Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate3Filter ? "" + maxLastAutoSalesmanUpdate3Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate3Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate3Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate3Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate3Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate3Filter ? "" + minLastAutoSalesmanUpdate3Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate4Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate4Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate4Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate4Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate4Filter ? "" + maxLastAutoSalesmanUpdate4Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate4Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate4Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate4Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate4Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate4Filter ? "" + minLastAutoSalesmanUpdate4Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate5Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate5Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate5Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate5Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate5Filter ? "" + maxLastAutoSalesmanUpdate5Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate5Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate5Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate5Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate5Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate5Filter ? "" + minLastAutoSalesmanUpdate5Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate6Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate6Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate6Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate6Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate6Filter ? "" + maxLastAutoSalesmanUpdate6Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate6Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate6Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate6Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate6Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate6Filter ? "" + minLastAutoSalesmanUpdate6Filter.toJSON() : "") + "&";
-        if (invoiceLanguageFilter === null)
-            throw new Error("The parameter 'invoiceLanguageFilter' cannot be null.");
-        else if (invoiceLanguageFilter !== undefined)
-            url_ += "InvoiceLanguageFilter=" + encodeURIComponent("" + invoiceLanguageFilter) + "&";
-        if (peopleSoftFilter === null)
-            throw new Error("The parameter 'peopleSoftFilter' cannot be null.");
-        else if (peopleSoftFilter !== undefined)
-            url_ += "PeopleSoftFilter=" + encodeURIComponent("" + peopleSoftFilter) + "&";
-        if (pSCompanyFilter === null)
-            throw new Error("The parameter 'pSCompanyFilter' cannot be null.");
-        else if (pSCompanyFilter !== undefined)
-            url_ += "PSCompanyFilter=" + encodeURIComponent("" + pSCompanyFilter) + "&";
-        if (pSAccountFilter === null)
-            throw new Error("The parameter 'pSAccountFilter' cannot be null.");
-        else if (pSAccountFilter !== undefined)
-            url_ += "PSAccountFilter=" + encodeURIComponent("" + pSAccountFilter) + "&";
-        if (pSLocationFilter === null)
-            throw new Error("The parameter 'pSLocationFilter' cannot be null.");
-        else if (pSLocationFilter !== undefined)
-            url_ += "PSLocationFilter=" + encodeURIComponent("" + pSLocationFilter) + "&";
-        if (pSDeptFilter === null)
-            throw new Error("The parameter 'pSDeptFilter' cannot be null.");
-        else if (pSDeptFilter !== undefined)
-            url_ += "PSDeptFilter=" + encodeURIComponent("" + pSDeptFilter) + "&";
-        if (pSProductFilter === null)
-            throw new Error("The parameter 'pSProductFilter' cannot be null.");
-        else if (pSProductFilter !== undefined)
-            url_ += "PSProductFilter=" + encodeURIComponent("" + pSProductFilter) + "&";
-        if (altCustomerNoFilter === null)
-            throw new Error("The parameter 'altCustomerNoFilter' cannot be null.");
-        else if (altCustomerNoFilter !== undefined)
-            url_ += "AltCustomerNoFilter=" + encodeURIComponent("" + altCustomerNoFilter) + "&";
-        if (maxOverRideShipToFilter === null)
-            throw new Error("The parameter 'maxOverRideShipToFilter' cannot be null.");
-        else if (maxOverRideShipToFilter !== undefined)
-            url_ += "MaxOverRideShipToFilter=" + encodeURIComponent("" + maxOverRideShipToFilter) + "&";
-        if (minOverRideShipToFilter === null)
-            throw new Error("The parameter 'minOverRideShipToFilter' cannot be null.");
-        else if (minOverRideShipToFilter !== undefined)
-            url_ += "MinOverRideShipToFilter=" + encodeURIComponent("" + minOverRideShipToFilter) + "&";
-        if (maxOnFileResaleFilter === null)
-            throw new Error("The parameter 'maxOnFileResaleFilter' cannot be null.");
-        else if (maxOnFileResaleFilter !== undefined)
-            url_ += "MaxOnFileResaleFilter=" + encodeURIComponent("" + maxOnFileResaleFilter) + "&";
-        if (minOnFileResaleFilter === null)
-            throw new Error("The parameter 'minOnFileResaleFilter' cannot be null.");
-        else if (minOnFileResaleFilter !== undefined)
-            url_ += "MinOnFileResaleFilter=" + encodeURIComponent("" + minOnFileResaleFilter) + "&";
-        if (maxOnFileMFGPermitFilter === null)
-            throw new Error("The parameter 'maxOnFileMFGPermitFilter' cannot be null.");
-        else if (maxOnFileMFGPermitFilter !== undefined)
-            url_ += "MaxOnFileMFGPermitFilter=" + encodeURIComponent("" + maxOnFileMFGPermitFilter) + "&";
-        if (minOnFileMFGPermitFilter === null)
-            throw new Error("The parameter 'minOnFileMFGPermitFilter' cannot be null.");
-        else if (minOnFileMFGPermitFilter !== undefined)
-            url_ += "MinOnFileMFGPermitFilter=" + encodeURIComponent("" + minOnFileMFGPermitFilter) + "&";
-        if (maxOnFileInsuranceFilter === null)
-            throw new Error("The parameter 'maxOnFileInsuranceFilter' cannot be null.");
-        else if (maxOnFileInsuranceFilter !== undefined)
-            url_ += "MaxOnFileInsuranceFilter=" + encodeURIComponent("" + maxOnFileInsuranceFilter) + "&";
-        if (minOnFileInsuranceFilter === null)
-            throw new Error("The parameter 'minOnFileInsuranceFilter' cannot be null.");
-        else if (minOnFileInsuranceFilter !== undefined)
-            url_ += "MinOnFileInsuranceFilter=" + encodeURIComponent("" + minOnFileInsuranceFilter) + "&";
-        if (maxInactiveFilter === null)
-            throw new Error("The parameter 'maxInactiveFilter' cannot be null.");
-        else if (maxInactiveFilter !== undefined)
-            url_ += "MaxInactiveFilter=" + encodeURIComponent("" + maxInactiveFilter) + "&";
-        if (minInactiveFilter === null)
-            throw new Error("The parameter 'minInactiveFilter' cannot be null.");
-        else if (minInactiveFilter !== undefined)
-            url_ += "MinInactiveFilter=" + encodeURIComponent("" + minInactiveFilter) + "&";
-        if (maxOverRideShipToRatesFilter === null)
-            throw new Error("The parameter 'maxOverRideShipToRatesFilter' cannot be null.");
-        else if (maxOverRideShipToRatesFilter !== undefined)
-            url_ += "MaxOverRideShipToRatesFilter=" + encodeURIComponent("" + maxOverRideShipToRatesFilter) + "&";
-        if (minOverRideShipToRatesFilter === null)
-            throw new Error("The parameter 'minOverRideShipToRatesFilter' cannot be null.");
-        else if (minOverRideShipToRatesFilter !== undefined)
-            url_ += "MinOverRideShipToRatesFilter=" + encodeURIComponent("" + minOverRideShipToRatesFilter) + "&";
-        if (maxSuppressPartsListFilter === null)
-            throw new Error("The parameter 'maxSuppressPartsListFilter' cannot be null.");
-        else if (maxSuppressPartsListFilter !== undefined)
-            url_ += "MaxSuppressPartsListFilter=" + encodeURIComponent("" + maxSuppressPartsListFilter) + "&";
-        if (minSuppressPartsListFilter === null)
-            throw new Error("The parameter 'minSuppressPartsListFilter' cannot be null.");
-        else if (minSuppressPartsListFilter !== undefined)
-            url_ += "MinSuppressPartsListFilter=" + encodeURIComponent("" + minSuppressPartsListFilter) + "&";
-        if (marketingSourceFilter === null)
-            throw new Error("The parameter 'marketingSourceFilter' cannot be null.");
-        else if (marketingSourceFilter !== undefined)
-            url_ += "MarketingSourceFilter=" + encodeURIComponent("" + marketingSourceFilter) + "&";
-        if (maxCreditCardLastTransIDFilter === null)
-            throw new Error("The parameter 'maxCreditCardLastTransIDFilter' cannot be null.");
-        else if (maxCreditCardLastTransIDFilter !== undefined)
-            url_ += "MaxCreditCardLastTransIDFilter=" + encodeURIComponent("" + maxCreditCardLastTransIDFilter) + "&";
-        if (minCreditCardLastTransIDFilter === null)
-            throw new Error("The parameter 'minCreditCardLastTransIDFilter' cannot be null.");
-        else if (minCreditCardLastTransIDFilter !== undefined)
-            url_ += "MinCreditCardLastTransIDFilter=" + encodeURIComponent("" + minCreditCardLastTransIDFilter) + "&";
-        if (emailRoadServiceFilter === null)
-            throw new Error("The parameter 'emailRoadServiceFilter' cannot be null.");
-        else if (emailRoadServiceFilter !== undefined)
-            url_ += "EmailRoadServiceFilter=" + encodeURIComponent("" + emailRoadServiceFilter) + "&";
-        if (emailShopServiceFilter === null)
-            throw new Error("The parameter 'emailShopServiceFilter' cannot be null.");
-        else if (emailShopServiceFilter !== undefined)
-            url_ += "EmailShopServiceFilter=" + encodeURIComponent("" + emailShopServiceFilter) + "&";
-        if (emailPMServiceFilter === null)
-            throw new Error("The parameter 'emailPMServiceFilter' cannot be null.");
-        else if (emailPMServiceFilter !== undefined)
-            url_ += "EmailPMServiceFilter=" + encodeURIComponent("" + emailPMServiceFilter) + "&";
-        if (emailRentalPMServiceFilter === null)
-            throw new Error("The parameter 'emailRentalPMServiceFilter' cannot be null.");
-        else if (emailRentalPMServiceFilter !== undefined)
-            url_ += "EmailRentalPMServiceFilter=" + encodeURIComponent("" + emailRentalPMServiceFilter) + "&";
-        if (emailPartsCounterFilter === null)
-            throw new Error("The parameter 'emailPartsCounterFilter' cannot be null.");
-        else if (emailPartsCounterFilter !== undefined)
-            url_ += "EmailPartsCounterFilter=" + encodeURIComponent("" + emailPartsCounterFilter) + "&";
-        if (emailEquipmentSalesFilter === null)
-            throw new Error("The parameter 'emailEquipmentSalesFilter' cannot be null.");
-        else if (emailEquipmentSalesFilter !== undefined)
-            url_ += "EmailEquipmentSalesFilter=" + encodeURIComponent("" + emailEquipmentSalesFilter) + "&";
-        if (emailRentalsFilter === null)
-            throw new Error("The parameter 'emailRentalsFilter' cannot be null.");
-        else if (emailRentalsFilter !== undefined)
-            url_ += "EmailRentalsFilter=" + encodeURIComponent("" + emailRentalsFilter) + "&";
-        if (maxIDFilter === null)
-            throw new Error("The parameter 'maxIDFilter' cannot be null.");
-        else if (maxIDFilter !== undefined)
-            url_ += "MaxIDFilter=" + encodeURIComponent("" + maxIDFilter) + "&";
-        if (minIDFilter === null)
-            throw new Error("The parameter 'minIDFilter' cannot be null.");
-        else if (minIDFilter !== undefined)
-            url_ += "MinIDFilter=" + encodeURIComponent("" + minIDFilter) + "&";
-        if (aRStatementsEmailAddressFilter === null)
-            throw new Error("The parameter 'aRStatementsEmailAddressFilter' cannot be null.");
-        else if (aRStatementsEmailAddressFilter !== undefined)
-            url_ += "ARStatementsEmailAddressFilter=" + encodeURIComponent("" + aRStatementsEmailAddressFilter) + "&";
-        if (accountTypeDescriptionFilter === null)
-            throw new Error("The parameter 'accountTypeDescriptionFilter' cannot be null.");
-        else if (accountTypeDescriptionFilter !== undefined)
-            url_ += "AccountTypeDescriptionFilter=" + encodeURIComponent("" + accountTypeDescriptionFilter) + "&";
+        if (accountTypeId === null)
+            throw new Error("The parameter 'accountTypeId' cannot be null.");
+        else if (accountTypeId !== undefined)
+            accountTypeId && accountTypeId.forEach(item => { url_ += "AccountTypeId=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -3737,1322 +3095,20 @@ export class CustomerServiceProxy {
     }
 
     /**
-     * @param customerNumber (optional) 
-     * @return Success
-     */
-    delete(customerNumber: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/Delete?";
-        if (customerNumber === null)
-            throw new Error("The parameter 'customerNumber' cannot be null.");
-        else if (customerNumber !== undefined)
-            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
      * @param filter (optional) 
-     * @param numberFilter (optional) 
-     * @param billToFilter (optional) 
-     * @param nameFilter (optional) 
-     * @param searchNameFilter (optional) 
-     * @param subNameFilter (optional) 
-     * @param pOBoxFilter (optional) 
-     * @param addressFilter (optional) 
-     * @param cityFilter (optional) 
-     * @param stateFilter (optional) 
-     * @param zipCodeFilter (optional) 
-     * @param countryFilter (optional) 
-     * @param salutationFilter (optional) 
-     * @param phoneFilter (optional) 
-     * @param extentionFilter (optional) 
-     * @param phone2Filter (optional) 
-     * @param cellularFilter (optional) 
-     * @param beeperFilter (optional) 
-     * @param homePhoneFilter (optional) 
-     * @param faxFilter (optional) 
-     * @param resaleNoFilter (optional) 
-     * @param eMailFilter (optional) 
-     * @param wWWAddressFilter (optional) 
-     * @param parentCompanyFilter (optional) 
-     * @param mapLocationFilter (optional) 
-     * @param salesman1Filter (optional) 
-     * @param salesman2Filter (optional) 
-     * @param salesman3Filter (optional) 
-     * @param salesman4Filter (optional) 
-     * @param salesman5Filter (optional) 
-     * @param salesman6Filter (optional) 
-     * @param maxLockAPR1Filter (optional) 
-     * @param minLockAPR1Filter (optional) 
-     * @param maxLockAPR2Filter (optional) 
-     * @param minLockAPR2Filter (optional) 
-     * @param maxLockAPR3Filter (optional) 
-     * @param minLockAPR3Filter (optional) 
-     * @param maxLockAPR4Filter (optional) 
-     * @param minLockAPR4Filter (optional) 
-     * @param maxLockAPR5Filter (optional) 
-     * @param minLockAPR5Filter (optional) 
-     * @param maxLockAPR6Filter (optional) 
-     * @param minLockAPR6Filter (optional) 
-     * @param maxSalesGroup1Filter (optional) 
-     * @param minSalesGroup1Filter (optional) 
-     * @param maxSalesGroup2Filter (optional) 
-     * @param minSalesGroup2Filter (optional) 
-     * @param maxSalesGroup3Filter (optional) 
-     * @param minSalesGroup3Filter (optional) 
-     * @param maxSalesGroup4Filter (optional) 
-     * @param minSalesGroup4Filter (optional) 
-     * @param maxSalesGroup5Filter (optional) 
-     * @param minSalesGroup5Filter (optional) 
-     * @param maxSalesGroup6Filter (optional) 
-     * @param minSalesGroup6Filter (optional) 
-     * @param termsFilter (optional) 
-     * @param fiscalEndFilter (optional) 
-     * @param dunsCodeFilter (optional) 
-     * @param sICCodeFilter (optional) 
-     * @param mailingGroupFilter (optional) 
-     * @param makesFilter (optional) 
-     * @param maxPOReqFilter (optional) 
-     * @param minPOReqFilter (optional) 
-     * @param maxPrevShipFilter (optional) 
-     * @param minPrevShipFilter (optional) 
-     * @param maxTaxableFilter (optional) 
-     * @param minTaxableFilter (optional) 
-     * @param taxCodeFilter (optional) 
-     * @param laborRateFilter (optional) 
-     * @param shopLaborRateFilter (optional) 
-     * @param maxShowLaborRateFilter (optional) 
-     * @param minShowLaborRateFilter (optional) 
-     * @param rentalRateFilter (optional) 
-     * @param maxShowPartNoAliasFilter (optional) 
-     * @param minShowPartNoAliasFilter (optional) 
-     * @param partsRateFilter (optional) 
-     * @param maxPartsRateDiscountFilter (optional) 
-     * @param minPartsRateDiscountFilter (optional) 
-     * @param maxAddedFilter (optional) 
-     * @param minAddedFilter (optional) 
-     * @param addedByFilter (optional) 
-     * @param maxChangedFilter (optional) 
-     * @param minChangedFilter (optional) 
-     * @param changedByFilter (optional) 
-     * @param salesContactFilter (optional) 
-     * @param cSContactFilter (optional) 
-     * @param accountingContactFilter (optional) 
-     * @param maxInternalCustomerFilter (optional) 
-     * @param minInternalCustomerFilter (optional) 
-     * @param maxEquipmentBidFilter (optional) 
-     * @param minEquipmentBidFilter (optional) 
-     * @param commentsFilter (optional) 
-     * @param aRCommentsFilter (optional) 
-     * @param companyCommentsFilter (optional) 
-     * @param maxCompanyCommentsDateFilter (optional) 
-     * @param minCompanyCommentsDateFilter (optional) 
-     * @param companyCommentsByFilter (optional) 
-     * @param businessCategoryFilter (optional) 
-     * @param businessDescriptionFilter (optional) 
-     * @param sICCode2Filter (optional) 
-     * @param sICCode3Filter (optional) 
-     * @param sICCode4Filter (optional) 
-     * @param maxShiftsFilter (optional) 
-     * @param minShiftsFilter (optional) 
-     * @param categoryFilter (optional) 
-     * @param maxHoursOfOpStartFilter (optional) 
-     * @param minHoursOfOpStartFilter (optional) 
-     * @param maxHoursOfOpEndFilter (optional) 
-     * @param minHoursOfOpEndFilter (optional) 
-     * @param deliveryInfoFilter (optional) 
-     * @param customerTerritoryFilter (optional) 
-     * @param maxCreditHoldFlagFilter (optional) 
-     * @param minCreditHoldFlagFilter (optional) 
-     * @param creditRating1Filter (optional) 
-     * @param creditRating2Filter (optional) 
-     * @param maxStatementsFilter (optional) 
-     * @param minStatementsFilter (optional) 
-     * @param maxCreditHoldDaysFilter (optional) 
-     * @param minCreditHoldDaysFilter (optional) 
-     * @param maxFinanceChargeFilter (optional) 
-     * @param minFinanceChargeFilter (optional) 
-     * @param maxResaleExpDateFilter (optional) 
-     * @param minResaleExpDateFilter (optional) 
-     * @param stateTaxCodeFilter (optional) 
-     * @param countyTaxCodeFilter (optional) 
-     * @param cityTaxCodeFilter (optional) 
-     * @param maxAbsoluteTaxCodesFilter (optional) 
-     * @param minAbsoluteTaxCodesFilter (optional) 
-     * @param mFGPermitNoFilter (optional) 
-     * @param maxMFGPermitExpDateFilter (optional) 
-     * @param minMFGPermitExpDateFilter (optional) 
-     * @param maxBranchFilter (optional) 
-     * @param minBranchFilter (optional) 
-     * @param maxShowLaborHoursFilter (optional) 
-     * @param minShowLaborHoursFilter (optional) 
-     * @param vendorNoFilter (optional) 
-     * @param localTaxCodeFilter (optional) 
-     * @param currencyTypeFilter (optional) 
-     * @param creditCardNoFilter (optional) 
-     * @param creditCardCVVFilter (optional) 
-     * @param creditCardExpDateFilter (optional) 
-     * @param creditCardTypeFilter (optional) 
-     * @param nameOnCreditCardFilter (optional) 
-     * @param rFCFilter (optional) 
-     * @param oldNumberFilter (optional) 
-     * @param maxSuppressPartsPricingFilter (optional) 
-     * @param minSuppressPartsPricingFilter (optional) 
-     * @param maxServiceChargeFilter (optional) 
-     * @param minServiceChargeFilter (optional) 
-     * @param serviceChargeDescriptionFilter (optional) 
-     * @param maxFinalCopiesFilter (optional) 
-     * @param minFinalCopiesFilter (optional) 
-     * @param maxPOBoxAndAddressFilter (optional) 
-     * @param minPOBoxAndAddressFilter (optional) 
-     * @param insuranceNoFilter (optional) 
-     * @param maxInsuranceNoDateFilter (optional) 
-     * @param minInsuranceNoDateFilter (optional) 
-     * @param maxInsuranceNoRecvDateFilter (optional) 
-     * @param minInsuranceNoRecvDateFilter (optional) 
-     * @param creditCardAddressFilter (optional) 
-     * @param creditCardPOBoxFilter (optional) 
-     * @param creditCardCityFilter (optional) 
-     * @param creditCardStateFilter (optional) 
-     * @param creditCardZipCodeFilter (optional) 
-     * @param creditCardCountryFilter (optional) 
-     * @param pMLaborRateFilter (optional) 
-     * @param referenceNo1Filter (optional) 
-     * @param referenceNo2Filter (optional) 
-     * @param maxGMSummaryFilter (optional) 
-     * @param minGMSummaryFilter (optional) 
-     * @param oB10NoFilter (optional) 
-     * @param oldNameFilter (optional) 
-     * @param maxCustomerBillToFilter (optional) 
-     * @param minCustomerBillToFilter (optional) 
-     * @param shipViaFilter (optional) 
-     * @param maxNoAddMiscFilter (optional) 
-     * @param minNoAddMiscFilter (optional) 
-     * @param laborDiscountFilter (optional) 
-     * @param taxRateFilter (optional) 
-     * @param tMHUNoFilter (optional) 
-     * @param maxLockTaxCodeFilter (optional) 
-     * @param minLockTaxCodeFilter (optional) 
-     * @param taxCodeImportFilter (optional) 
-     * @param shippingCommentsFilter (optional) 
-     * @param maxNoShippingChargeFilter (optional) 
-     * @param minNoShippingChargeFilter (optional) 
-     * @param shippingCompanyFilter (optional) 
-     * @param shippingAccountFilter (optional) 
-     * @param eMailInvoiceAddressFilter (optional) 
-     * @param eMailInvoiceAttentionFilter (optional) 
-     * @param maxEMailInvoiceFilter (optional) 
-     * @param minEMailInvoiceFilter (optional) 
-     * @param maxNoPrintInvoiceFilter (optional) 
-     * @param minNoPrintInvoiceFilter (optional) 
-     * @param maxBackupRequiredFilter (optional) 
-     * @param minBackupRequiredFilter (optional) 
-     * @param oldSalesman1Filter (optional) 
-     * @param oldSalesman2Filter (optional) 
-     * @param oldSalesman3Filter (optional) 
-     * @param oldSalesman4Filter (optional) 
-     * @param oldSalesman5Filter (optional) 
-     * @param oldSalesman6Filter (optional) 
-     * @param maxLastAutoSalesmanUpdateFilter (optional) 
-     * @param minLastAutoSalesmanUpdateFilter (optional) 
-     * @param maxLastAutoSalesmanUpdate1Filter (optional) 
-     * @param minLastAutoSalesmanUpdate1Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate2Filter (optional) 
-     * @param minLastAutoSalesmanUpdate2Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate3Filter (optional) 
-     * @param minLastAutoSalesmanUpdate3Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate4Filter (optional) 
-     * @param minLastAutoSalesmanUpdate4Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate5Filter (optional) 
-     * @param minLastAutoSalesmanUpdate5Filter (optional) 
-     * @param maxLastAutoSalesmanUpdate6Filter (optional) 
-     * @param minLastAutoSalesmanUpdate6Filter (optional) 
-     * @param invoiceLanguageFilter (optional) 
-     * @param peopleSoftFilter (optional) 
-     * @param pSCompanyFilter (optional) 
-     * @param pSAccountFilter (optional) 
-     * @param pSLocationFilter (optional) 
-     * @param pSDeptFilter (optional) 
-     * @param pSProductFilter (optional) 
-     * @param altCustomerNoFilter (optional) 
-     * @param maxOverRideShipToFilter (optional) 
-     * @param minOverRideShipToFilter (optional) 
-     * @param maxOnFileResaleFilter (optional) 
-     * @param minOnFileResaleFilter (optional) 
-     * @param maxOnFileMFGPermitFilter (optional) 
-     * @param minOnFileMFGPermitFilter (optional) 
-     * @param maxOnFileInsuranceFilter (optional) 
-     * @param minOnFileInsuranceFilter (optional) 
-     * @param maxInactiveFilter (optional) 
-     * @param minInactiveFilter (optional) 
-     * @param maxOverRideShipToRatesFilter (optional) 
-     * @param minOverRideShipToRatesFilter (optional) 
-     * @param maxSuppressPartsListFilter (optional) 
-     * @param minSuppressPartsListFilter (optional) 
-     * @param marketingSourceFilter (optional) 
-     * @param maxCreditCardLastTransIDFilter (optional) 
-     * @param minCreditCardLastTransIDFilter (optional) 
-     * @param emailRoadServiceFilter (optional) 
-     * @param emailShopServiceFilter (optional) 
-     * @param emailPMServiceFilter (optional) 
-     * @param emailRentalPMServiceFilter (optional) 
-     * @param emailPartsCounterFilter (optional) 
-     * @param emailEquipmentSalesFilter (optional) 
-     * @param emailRentalsFilter (optional) 
-     * @param maxIDFilter (optional) 
-     * @param minIDFilter (optional) 
-     * @param aRStatementsEmailAddressFilter (optional) 
-     * @param accountTypeDescriptionFilter (optional) 
+     * @param accountTypeId (optional) 
      * @return Success
      */
-    getCustomerToExcel(filter: string | undefined, numberFilter: string | undefined, billToFilter: string | undefined, nameFilter: string | undefined, searchNameFilter: string | undefined, subNameFilter: string | undefined, pOBoxFilter: string | undefined, addressFilter: string | undefined, cityFilter: string | undefined, stateFilter: string | undefined, zipCodeFilter: string | undefined, countryFilter: string | undefined, salutationFilter: string | undefined, phoneFilter: string | undefined, extentionFilter: string | undefined, phone2Filter: string | undefined, cellularFilter: string | undefined, beeperFilter: string | undefined, homePhoneFilter: string | undefined, faxFilter: string | undefined, resaleNoFilter: string | undefined, eMailFilter: string | undefined, wWWAddressFilter: string | undefined, parentCompanyFilter: string | undefined, mapLocationFilter: string | undefined, salesman1Filter: string | undefined, salesman2Filter: string | undefined, salesman3Filter: string | undefined, salesman4Filter: string | undefined, salesman5Filter: string | undefined, salesman6Filter: string | undefined, maxLockAPR1Filter: number | undefined, minLockAPR1Filter: number | undefined, maxLockAPR2Filter: number | undefined, minLockAPR2Filter: number | undefined, maxLockAPR3Filter: number | undefined, minLockAPR3Filter: number | undefined, maxLockAPR4Filter: number | undefined, minLockAPR4Filter: number | undefined, maxLockAPR5Filter: number | undefined, minLockAPR5Filter: number | undefined, maxLockAPR6Filter: number | undefined, minLockAPR6Filter: number | undefined, maxSalesGroup1Filter: number | undefined, minSalesGroup1Filter: number | undefined, maxSalesGroup2Filter: number | undefined, minSalesGroup2Filter: number | undefined, maxSalesGroup3Filter: number | undefined, minSalesGroup3Filter: number | undefined, maxSalesGroup4Filter: number | undefined, minSalesGroup4Filter: number | undefined, maxSalesGroup5Filter: number | undefined, minSalesGroup5Filter: number | undefined, maxSalesGroup6Filter: number | undefined, minSalesGroup6Filter: number | undefined, termsFilter: string | undefined, fiscalEndFilter: string | undefined, dunsCodeFilter: string | undefined, sICCodeFilter: string | undefined, mailingGroupFilter: string | undefined, makesFilter: string | undefined, maxPOReqFilter: number | undefined, minPOReqFilter: number | undefined, maxPrevShipFilter: number | undefined, minPrevShipFilter: number | undefined, maxTaxableFilter: number | undefined, minTaxableFilter: number | undefined, taxCodeFilter: string | undefined, laborRateFilter: string | undefined, shopLaborRateFilter: string | undefined, maxShowLaborRateFilter: number | undefined, minShowLaborRateFilter: number | undefined, rentalRateFilter: string | undefined, maxShowPartNoAliasFilter: number | undefined, minShowPartNoAliasFilter: number | undefined, partsRateFilter: string | undefined, maxPartsRateDiscountFilter: number | undefined, minPartsRateDiscountFilter: number | undefined, maxAddedFilter: DateTime | undefined, minAddedFilter: DateTime | undefined, addedByFilter: string | undefined, maxChangedFilter: DateTime | undefined, minChangedFilter: DateTime | undefined, changedByFilter: string | undefined, salesContactFilter: string | undefined, cSContactFilter: string | undefined, accountingContactFilter: string | undefined, maxInternalCustomerFilter: number | undefined, minInternalCustomerFilter: number | undefined, maxEquipmentBidFilter: number | undefined, minEquipmentBidFilter: number | undefined, commentsFilter: string | undefined, aRCommentsFilter: string | undefined, companyCommentsFilter: string | undefined, maxCompanyCommentsDateFilter: DateTime | undefined, minCompanyCommentsDateFilter: DateTime | undefined, companyCommentsByFilter: string | undefined, businessCategoryFilter: string | undefined, businessDescriptionFilter: string | undefined, sICCode2Filter: string | undefined, sICCode3Filter: string | undefined, sICCode4Filter: string | undefined, maxShiftsFilter: number | undefined, minShiftsFilter: number | undefined, categoryFilter: string | undefined, maxHoursOfOpStartFilter: DateTime | undefined, minHoursOfOpStartFilter: DateTime | undefined, maxHoursOfOpEndFilter: DateTime | undefined, minHoursOfOpEndFilter: DateTime | undefined, deliveryInfoFilter: string | undefined, customerTerritoryFilter: string | undefined, maxCreditHoldFlagFilter: number | undefined, minCreditHoldFlagFilter: number | undefined, creditRating1Filter: string | undefined, creditRating2Filter: string | undefined, maxStatementsFilter: number | undefined, minStatementsFilter: number | undefined, maxCreditHoldDaysFilter: number | undefined, minCreditHoldDaysFilter: number | undefined, maxFinanceChargeFilter: number | undefined, minFinanceChargeFilter: number | undefined, maxResaleExpDateFilter: DateTime | undefined, minResaleExpDateFilter: DateTime | undefined, stateTaxCodeFilter: string | undefined, countyTaxCodeFilter: string | undefined, cityTaxCodeFilter: string | undefined, maxAbsoluteTaxCodesFilter: number | undefined, minAbsoluteTaxCodesFilter: number | undefined, mFGPermitNoFilter: string | undefined, maxMFGPermitExpDateFilter: DateTime | undefined, minMFGPermitExpDateFilter: DateTime | undefined, maxBranchFilter: number | undefined, minBranchFilter: number | undefined, maxShowLaborHoursFilter: number | undefined, minShowLaborHoursFilter: number | undefined, vendorNoFilter: string | undefined, localTaxCodeFilter: string | undefined, currencyTypeFilter: string | undefined, creditCardNoFilter: string | undefined, creditCardCVVFilter: string | undefined, creditCardExpDateFilter: string | undefined, creditCardTypeFilter: string | undefined, nameOnCreditCardFilter: string | undefined, rFCFilter: string | undefined, oldNumberFilter: string | undefined, maxSuppressPartsPricingFilter: number | undefined, minSuppressPartsPricingFilter: number | undefined, maxServiceChargeFilter: number | undefined, minServiceChargeFilter: number | undefined, serviceChargeDescriptionFilter: string | undefined, maxFinalCopiesFilter: number | undefined, minFinalCopiesFilter: number | undefined, maxPOBoxAndAddressFilter: number | undefined, minPOBoxAndAddressFilter: number | undefined, insuranceNoFilter: string | undefined, maxInsuranceNoDateFilter: DateTime | undefined, minInsuranceNoDateFilter: DateTime | undefined, maxInsuranceNoRecvDateFilter: DateTime | undefined, minInsuranceNoRecvDateFilter: DateTime | undefined, creditCardAddressFilter: string | undefined, creditCardPOBoxFilter: string | undefined, creditCardCityFilter: string | undefined, creditCardStateFilter: string | undefined, creditCardZipCodeFilter: string | undefined, creditCardCountryFilter: string | undefined, pMLaborRateFilter: string | undefined, referenceNo1Filter: string | undefined, referenceNo2Filter: string | undefined, maxGMSummaryFilter: number | undefined, minGMSummaryFilter: number | undefined, oB10NoFilter: string | undefined, oldNameFilter: string | undefined, maxCustomerBillToFilter: number | undefined, minCustomerBillToFilter: number | undefined, shipViaFilter: string | undefined, maxNoAddMiscFilter: number | undefined, minNoAddMiscFilter: number | undefined, laborDiscountFilter: string | undefined, taxRateFilter: string | undefined, tMHUNoFilter: string | undefined, maxLockTaxCodeFilter: number | undefined, minLockTaxCodeFilter: number | undefined, taxCodeImportFilter: string | undefined, shippingCommentsFilter: string | undefined, maxNoShippingChargeFilter: number | undefined, minNoShippingChargeFilter: number | undefined, shippingCompanyFilter: string | undefined, shippingAccountFilter: string | undefined, eMailInvoiceAddressFilter: string | undefined, eMailInvoiceAttentionFilter: string | undefined, maxEMailInvoiceFilter: number | undefined, minEMailInvoiceFilter: number | undefined, maxNoPrintInvoiceFilter: number | undefined, minNoPrintInvoiceFilter: number | undefined, maxBackupRequiredFilter: number | undefined, minBackupRequiredFilter: number | undefined, oldSalesman1Filter: string | undefined, oldSalesman2Filter: string | undefined, oldSalesman3Filter: string | undefined, oldSalesman4Filter: string | undefined, oldSalesman5Filter: string | undefined, oldSalesman6Filter: string | undefined, maxLastAutoSalesmanUpdateFilter: DateTime | undefined, minLastAutoSalesmanUpdateFilter: DateTime | undefined, maxLastAutoSalesmanUpdate1Filter: DateTime | undefined, minLastAutoSalesmanUpdate1Filter: DateTime | undefined, maxLastAutoSalesmanUpdate2Filter: DateTime | undefined, minLastAutoSalesmanUpdate2Filter: DateTime | undefined, maxLastAutoSalesmanUpdate3Filter: DateTime | undefined, minLastAutoSalesmanUpdate3Filter: DateTime | undefined, maxLastAutoSalesmanUpdate4Filter: DateTime | undefined, minLastAutoSalesmanUpdate4Filter: DateTime | undefined, maxLastAutoSalesmanUpdate5Filter: DateTime | undefined, minLastAutoSalesmanUpdate5Filter: DateTime | undefined, maxLastAutoSalesmanUpdate6Filter: DateTime | undefined, minLastAutoSalesmanUpdate6Filter: DateTime | undefined, invoiceLanguageFilter: string | undefined, peopleSoftFilter: number | undefined, pSCompanyFilter: string | undefined, pSAccountFilter: string | undefined, pSLocationFilter: string | undefined, pSDeptFilter: string | undefined, pSProductFilter: string | undefined, altCustomerNoFilter: string | undefined, maxOverRideShipToFilter: number | undefined, minOverRideShipToFilter: number | undefined, maxOnFileResaleFilter: number | undefined, minOnFileResaleFilter: number | undefined, maxOnFileMFGPermitFilter: number | undefined, minOnFileMFGPermitFilter: number | undefined, maxOnFileInsuranceFilter: number | undefined, minOnFileInsuranceFilter: number | undefined, maxInactiveFilter: number | undefined, minInactiveFilter: number | undefined, maxOverRideShipToRatesFilter: number | undefined, minOverRideShipToRatesFilter: number | undefined, maxSuppressPartsListFilter: number | undefined, minSuppressPartsListFilter: number | undefined, marketingSourceFilter: string | undefined, maxCreditCardLastTransIDFilter: number | undefined, minCreditCardLastTransIDFilter: number | undefined, emailRoadServiceFilter: string | undefined, emailShopServiceFilter: string | undefined, emailPMServiceFilter: string | undefined, emailRentalPMServiceFilter: string | undefined, emailPartsCounterFilter: string | undefined, emailEquipmentSalesFilter: string | undefined, emailRentalsFilter: string | undefined, maxIDFilter: number | undefined, minIDFilter: number | undefined, aRStatementsEmailAddressFilter: string | undefined, accountTypeDescriptionFilter: string | undefined): Observable<FileDto> {
+    getCustomerToExcel(filter: string | undefined, accountTypeId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (numberFilter === null)
-            throw new Error("The parameter 'numberFilter' cannot be null.");
-        else if (numberFilter !== undefined)
-            url_ += "NumberFilter=" + encodeURIComponent("" + numberFilter) + "&";
-        if (billToFilter === null)
-            throw new Error("The parameter 'billToFilter' cannot be null.");
-        else if (billToFilter !== undefined)
-            url_ += "BillToFilter=" + encodeURIComponent("" + billToFilter) + "&";
-        if (nameFilter === null)
-            throw new Error("The parameter 'nameFilter' cannot be null.");
-        else if (nameFilter !== undefined)
-            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
-        if (searchNameFilter === null)
-            throw new Error("The parameter 'searchNameFilter' cannot be null.");
-        else if (searchNameFilter !== undefined)
-            url_ += "SearchNameFilter=" + encodeURIComponent("" + searchNameFilter) + "&";
-        if (subNameFilter === null)
-            throw new Error("The parameter 'subNameFilter' cannot be null.");
-        else if (subNameFilter !== undefined)
-            url_ += "SubNameFilter=" + encodeURIComponent("" + subNameFilter) + "&";
-        if (pOBoxFilter === null)
-            throw new Error("The parameter 'pOBoxFilter' cannot be null.");
-        else if (pOBoxFilter !== undefined)
-            url_ += "POBoxFilter=" + encodeURIComponent("" + pOBoxFilter) + "&";
-        if (addressFilter === null)
-            throw new Error("The parameter 'addressFilter' cannot be null.");
-        else if (addressFilter !== undefined)
-            url_ += "AddressFilter=" + encodeURIComponent("" + addressFilter) + "&";
-        if (cityFilter === null)
-            throw new Error("The parameter 'cityFilter' cannot be null.");
-        else if (cityFilter !== undefined)
-            url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
-        if (stateFilter === null)
-            throw new Error("The parameter 'stateFilter' cannot be null.");
-        else if (stateFilter !== undefined)
-            url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
-        if (zipCodeFilter === null)
-            throw new Error("The parameter 'zipCodeFilter' cannot be null.");
-        else if (zipCodeFilter !== undefined)
-            url_ += "ZipCodeFilter=" + encodeURIComponent("" + zipCodeFilter) + "&";
-        if (countryFilter === null)
-            throw new Error("The parameter 'countryFilter' cannot be null.");
-        else if (countryFilter !== undefined)
-            url_ += "CountryFilter=" + encodeURIComponent("" + countryFilter) + "&";
-        if (salutationFilter === null)
-            throw new Error("The parameter 'salutationFilter' cannot be null.");
-        else if (salutationFilter !== undefined)
-            url_ += "SalutationFilter=" + encodeURIComponent("" + salutationFilter) + "&";
-        if (phoneFilter === null)
-            throw new Error("The parameter 'phoneFilter' cannot be null.");
-        else if (phoneFilter !== undefined)
-            url_ += "PhoneFilter=" + encodeURIComponent("" + phoneFilter) + "&";
-        if (extentionFilter === null)
-            throw new Error("The parameter 'extentionFilter' cannot be null.");
-        else if (extentionFilter !== undefined)
-            url_ += "ExtentionFilter=" + encodeURIComponent("" + extentionFilter) + "&";
-        if (phone2Filter === null)
-            throw new Error("The parameter 'phone2Filter' cannot be null.");
-        else if (phone2Filter !== undefined)
-            url_ += "Phone2Filter=" + encodeURIComponent("" + phone2Filter) + "&";
-        if (cellularFilter === null)
-            throw new Error("The parameter 'cellularFilter' cannot be null.");
-        else if (cellularFilter !== undefined)
-            url_ += "CellularFilter=" + encodeURIComponent("" + cellularFilter) + "&";
-        if (beeperFilter === null)
-            throw new Error("The parameter 'beeperFilter' cannot be null.");
-        else if (beeperFilter !== undefined)
-            url_ += "BeeperFilter=" + encodeURIComponent("" + beeperFilter) + "&";
-        if (homePhoneFilter === null)
-            throw new Error("The parameter 'homePhoneFilter' cannot be null.");
-        else if (homePhoneFilter !== undefined)
-            url_ += "HomePhoneFilter=" + encodeURIComponent("" + homePhoneFilter) + "&";
-        if (faxFilter === null)
-            throw new Error("The parameter 'faxFilter' cannot be null.");
-        else if (faxFilter !== undefined)
-            url_ += "FaxFilter=" + encodeURIComponent("" + faxFilter) + "&";
-        if (resaleNoFilter === null)
-            throw new Error("The parameter 'resaleNoFilter' cannot be null.");
-        else if (resaleNoFilter !== undefined)
-            url_ += "ResaleNoFilter=" + encodeURIComponent("" + resaleNoFilter) + "&";
-        if (eMailFilter === null)
-            throw new Error("The parameter 'eMailFilter' cannot be null.");
-        else if (eMailFilter !== undefined)
-            url_ += "EMailFilter=" + encodeURIComponent("" + eMailFilter) + "&";
-        if (wWWAddressFilter === null)
-            throw new Error("The parameter 'wWWAddressFilter' cannot be null.");
-        else if (wWWAddressFilter !== undefined)
-            url_ += "WWWAddressFilter=" + encodeURIComponent("" + wWWAddressFilter) + "&";
-        if (parentCompanyFilter === null)
-            throw new Error("The parameter 'parentCompanyFilter' cannot be null.");
-        else if (parentCompanyFilter !== undefined)
-            url_ += "ParentCompanyFilter=" + encodeURIComponent("" + parentCompanyFilter) + "&";
-        if (mapLocationFilter === null)
-            throw new Error("The parameter 'mapLocationFilter' cannot be null.");
-        else if (mapLocationFilter !== undefined)
-            url_ += "MapLocationFilter=" + encodeURIComponent("" + mapLocationFilter) + "&";
-        if (salesman1Filter === null)
-            throw new Error("The parameter 'salesman1Filter' cannot be null.");
-        else if (salesman1Filter !== undefined)
-            url_ += "Salesman1Filter=" + encodeURIComponent("" + salesman1Filter) + "&";
-        if (salesman2Filter === null)
-            throw new Error("The parameter 'salesman2Filter' cannot be null.");
-        else if (salesman2Filter !== undefined)
-            url_ += "Salesman2Filter=" + encodeURIComponent("" + salesman2Filter) + "&";
-        if (salesman3Filter === null)
-            throw new Error("The parameter 'salesman3Filter' cannot be null.");
-        else if (salesman3Filter !== undefined)
-            url_ += "Salesman3Filter=" + encodeURIComponent("" + salesman3Filter) + "&";
-        if (salesman4Filter === null)
-            throw new Error("The parameter 'salesman4Filter' cannot be null.");
-        else if (salesman4Filter !== undefined)
-            url_ += "Salesman4Filter=" + encodeURIComponent("" + salesman4Filter) + "&";
-        if (salesman5Filter === null)
-            throw new Error("The parameter 'salesman5Filter' cannot be null.");
-        else if (salesman5Filter !== undefined)
-            url_ += "Salesman5Filter=" + encodeURIComponent("" + salesman5Filter) + "&";
-        if (salesman6Filter === null)
-            throw new Error("The parameter 'salesman6Filter' cannot be null.");
-        else if (salesman6Filter !== undefined)
-            url_ += "Salesman6Filter=" + encodeURIComponent("" + salesman6Filter) + "&";
-        if (maxLockAPR1Filter === null)
-            throw new Error("The parameter 'maxLockAPR1Filter' cannot be null.");
-        else if (maxLockAPR1Filter !== undefined)
-            url_ += "MaxLockAPR1Filter=" + encodeURIComponent("" + maxLockAPR1Filter) + "&";
-        if (minLockAPR1Filter === null)
-            throw new Error("The parameter 'minLockAPR1Filter' cannot be null.");
-        else if (minLockAPR1Filter !== undefined)
-            url_ += "MinLockAPR1Filter=" + encodeURIComponent("" + minLockAPR1Filter) + "&";
-        if (maxLockAPR2Filter === null)
-            throw new Error("The parameter 'maxLockAPR2Filter' cannot be null.");
-        else if (maxLockAPR2Filter !== undefined)
-            url_ += "MaxLockAPR2Filter=" + encodeURIComponent("" + maxLockAPR2Filter) + "&";
-        if (minLockAPR2Filter === null)
-            throw new Error("The parameter 'minLockAPR2Filter' cannot be null.");
-        else if (minLockAPR2Filter !== undefined)
-            url_ += "MinLockAPR2Filter=" + encodeURIComponent("" + minLockAPR2Filter) + "&";
-        if (maxLockAPR3Filter === null)
-            throw new Error("The parameter 'maxLockAPR3Filter' cannot be null.");
-        else if (maxLockAPR3Filter !== undefined)
-            url_ += "MaxLockAPR3Filter=" + encodeURIComponent("" + maxLockAPR3Filter) + "&";
-        if (minLockAPR3Filter === null)
-            throw new Error("The parameter 'minLockAPR3Filter' cannot be null.");
-        else if (minLockAPR3Filter !== undefined)
-            url_ += "MinLockAPR3Filter=" + encodeURIComponent("" + minLockAPR3Filter) + "&";
-        if (maxLockAPR4Filter === null)
-            throw new Error("The parameter 'maxLockAPR4Filter' cannot be null.");
-        else if (maxLockAPR4Filter !== undefined)
-            url_ += "MaxLockAPR4Filter=" + encodeURIComponent("" + maxLockAPR4Filter) + "&";
-        if (minLockAPR4Filter === null)
-            throw new Error("The parameter 'minLockAPR4Filter' cannot be null.");
-        else if (minLockAPR4Filter !== undefined)
-            url_ += "MinLockAPR4Filter=" + encodeURIComponent("" + minLockAPR4Filter) + "&";
-        if (maxLockAPR5Filter === null)
-            throw new Error("The parameter 'maxLockAPR5Filter' cannot be null.");
-        else if (maxLockAPR5Filter !== undefined)
-            url_ += "MaxLockAPR5Filter=" + encodeURIComponent("" + maxLockAPR5Filter) + "&";
-        if (minLockAPR5Filter === null)
-            throw new Error("The parameter 'minLockAPR5Filter' cannot be null.");
-        else if (minLockAPR5Filter !== undefined)
-            url_ += "MinLockAPR5Filter=" + encodeURIComponent("" + minLockAPR5Filter) + "&";
-        if (maxLockAPR6Filter === null)
-            throw new Error("The parameter 'maxLockAPR6Filter' cannot be null.");
-        else if (maxLockAPR6Filter !== undefined)
-            url_ += "MaxLockAPR6Filter=" + encodeURIComponent("" + maxLockAPR6Filter) + "&";
-        if (minLockAPR6Filter === null)
-            throw new Error("The parameter 'minLockAPR6Filter' cannot be null.");
-        else if (minLockAPR6Filter !== undefined)
-            url_ += "MinLockAPR6Filter=" + encodeURIComponent("" + minLockAPR6Filter) + "&";
-        if (maxSalesGroup1Filter === null)
-            throw new Error("The parameter 'maxSalesGroup1Filter' cannot be null.");
-        else if (maxSalesGroup1Filter !== undefined)
-            url_ += "MaxSalesGroup1Filter=" + encodeURIComponent("" + maxSalesGroup1Filter) + "&";
-        if (minSalesGroup1Filter === null)
-            throw new Error("The parameter 'minSalesGroup1Filter' cannot be null.");
-        else if (minSalesGroup1Filter !== undefined)
-            url_ += "MinSalesGroup1Filter=" + encodeURIComponent("" + minSalesGroup1Filter) + "&";
-        if (maxSalesGroup2Filter === null)
-            throw new Error("The parameter 'maxSalesGroup2Filter' cannot be null.");
-        else if (maxSalesGroup2Filter !== undefined)
-            url_ += "MaxSalesGroup2Filter=" + encodeURIComponent("" + maxSalesGroup2Filter) + "&";
-        if (minSalesGroup2Filter === null)
-            throw new Error("The parameter 'minSalesGroup2Filter' cannot be null.");
-        else if (minSalesGroup2Filter !== undefined)
-            url_ += "MinSalesGroup2Filter=" + encodeURIComponent("" + minSalesGroup2Filter) + "&";
-        if (maxSalesGroup3Filter === null)
-            throw new Error("The parameter 'maxSalesGroup3Filter' cannot be null.");
-        else if (maxSalesGroup3Filter !== undefined)
-            url_ += "MaxSalesGroup3Filter=" + encodeURIComponent("" + maxSalesGroup3Filter) + "&";
-        if (minSalesGroup3Filter === null)
-            throw new Error("The parameter 'minSalesGroup3Filter' cannot be null.");
-        else if (minSalesGroup3Filter !== undefined)
-            url_ += "MinSalesGroup3Filter=" + encodeURIComponent("" + minSalesGroup3Filter) + "&";
-        if (maxSalesGroup4Filter === null)
-            throw new Error("The parameter 'maxSalesGroup4Filter' cannot be null.");
-        else if (maxSalesGroup4Filter !== undefined)
-            url_ += "MaxSalesGroup4Filter=" + encodeURIComponent("" + maxSalesGroup4Filter) + "&";
-        if (minSalesGroup4Filter === null)
-            throw new Error("The parameter 'minSalesGroup4Filter' cannot be null.");
-        else if (minSalesGroup4Filter !== undefined)
-            url_ += "MinSalesGroup4Filter=" + encodeURIComponent("" + minSalesGroup4Filter) + "&";
-        if (maxSalesGroup5Filter === null)
-            throw new Error("The parameter 'maxSalesGroup5Filter' cannot be null.");
-        else if (maxSalesGroup5Filter !== undefined)
-            url_ += "MaxSalesGroup5Filter=" + encodeURIComponent("" + maxSalesGroup5Filter) + "&";
-        if (minSalesGroup5Filter === null)
-            throw new Error("The parameter 'minSalesGroup5Filter' cannot be null.");
-        else if (minSalesGroup5Filter !== undefined)
-            url_ += "MinSalesGroup5Filter=" + encodeURIComponent("" + minSalesGroup5Filter) + "&";
-        if (maxSalesGroup6Filter === null)
-            throw new Error("The parameter 'maxSalesGroup6Filter' cannot be null.");
-        else if (maxSalesGroup6Filter !== undefined)
-            url_ += "MaxSalesGroup6Filter=" + encodeURIComponent("" + maxSalesGroup6Filter) + "&";
-        if (minSalesGroup6Filter === null)
-            throw new Error("The parameter 'minSalesGroup6Filter' cannot be null.");
-        else if (minSalesGroup6Filter !== undefined)
-            url_ += "MinSalesGroup6Filter=" + encodeURIComponent("" + minSalesGroup6Filter) + "&";
-        if (termsFilter === null)
-            throw new Error("The parameter 'termsFilter' cannot be null.");
-        else if (termsFilter !== undefined)
-            url_ += "TermsFilter=" + encodeURIComponent("" + termsFilter) + "&";
-        if (fiscalEndFilter === null)
-            throw new Error("The parameter 'fiscalEndFilter' cannot be null.");
-        else if (fiscalEndFilter !== undefined)
-            url_ += "FiscalEndFilter=" + encodeURIComponent("" + fiscalEndFilter) + "&";
-        if (dunsCodeFilter === null)
-            throw new Error("The parameter 'dunsCodeFilter' cannot be null.");
-        else if (dunsCodeFilter !== undefined)
-            url_ += "DunsCodeFilter=" + encodeURIComponent("" + dunsCodeFilter) + "&";
-        if (sICCodeFilter === null)
-            throw new Error("The parameter 'sICCodeFilter' cannot be null.");
-        else if (sICCodeFilter !== undefined)
-            url_ += "SICCodeFilter=" + encodeURIComponent("" + sICCodeFilter) + "&";
-        if (mailingGroupFilter === null)
-            throw new Error("The parameter 'mailingGroupFilter' cannot be null.");
-        else if (mailingGroupFilter !== undefined)
-            url_ += "MailingGroupFilter=" + encodeURIComponent("" + mailingGroupFilter) + "&";
-        if (makesFilter === null)
-            throw new Error("The parameter 'makesFilter' cannot be null.");
-        else if (makesFilter !== undefined)
-            url_ += "MakesFilter=" + encodeURIComponent("" + makesFilter) + "&";
-        if (maxPOReqFilter === null)
-            throw new Error("The parameter 'maxPOReqFilter' cannot be null.");
-        else if (maxPOReqFilter !== undefined)
-            url_ += "MaxPOReqFilter=" + encodeURIComponent("" + maxPOReqFilter) + "&";
-        if (minPOReqFilter === null)
-            throw new Error("The parameter 'minPOReqFilter' cannot be null.");
-        else if (minPOReqFilter !== undefined)
-            url_ += "MinPOReqFilter=" + encodeURIComponent("" + minPOReqFilter) + "&";
-        if (maxPrevShipFilter === null)
-            throw new Error("The parameter 'maxPrevShipFilter' cannot be null.");
-        else if (maxPrevShipFilter !== undefined)
-            url_ += "MaxPrevShipFilter=" + encodeURIComponent("" + maxPrevShipFilter) + "&";
-        if (minPrevShipFilter === null)
-            throw new Error("The parameter 'minPrevShipFilter' cannot be null.");
-        else if (minPrevShipFilter !== undefined)
-            url_ += "MinPrevShipFilter=" + encodeURIComponent("" + minPrevShipFilter) + "&";
-        if (maxTaxableFilter === null)
-            throw new Error("The parameter 'maxTaxableFilter' cannot be null.");
-        else if (maxTaxableFilter !== undefined)
-            url_ += "MaxTaxableFilter=" + encodeURIComponent("" + maxTaxableFilter) + "&";
-        if (minTaxableFilter === null)
-            throw new Error("The parameter 'minTaxableFilter' cannot be null.");
-        else if (minTaxableFilter !== undefined)
-            url_ += "MinTaxableFilter=" + encodeURIComponent("" + minTaxableFilter) + "&";
-        if (taxCodeFilter === null)
-            throw new Error("The parameter 'taxCodeFilter' cannot be null.");
-        else if (taxCodeFilter !== undefined)
-            url_ += "TaxCodeFilter=" + encodeURIComponent("" + taxCodeFilter) + "&";
-        if (laborRateFilter === null)
-            throw new Error("The parameter 'laborRateFilter' cannot be null.");
-        else if (laborRateFilter !== undefined)
-            url_ += "LaborRateFilter=" + encodeURIComponent("" + laborRateFilter) + "&";
-        if (shopLaborRateFilter === null)
-            throw new Error("The parameter 'shopLaborRateFilter' cannot be null.");
-        else if (shopLaborRateFilter !== undefined)
-            url_ += "ShopLaborRateFilter=" + encodeURIComponent("" + shopLaborRateFilter) + "&";
-        if (maxShowLaborRateFilter === null)
-            throw new Error("The parameter 'maxShowLaborRateFilter' cannot be null.");
-        else if (maxShowLaborRateFilter !== undefined)
-            url_ += "MaxShowLaborRateFilter=" + encodeURIComponent("" + maxShowLaborRateFilter) + "&";
-        if (minShowLaborRateFilter === null)
-            throw new Error("The parameter 'minShowLaborRateFilter' cannot be null.");
-        else if (minShowLaborRateFilter !== undefined)
-            url_ += "MinShowLaborRateFilter=" + encodeURIComponent("" + minShowLaborRateFilter) + "&";
-        if (rentalRateFilter === null)
-            throw new Error("The parameter 'rentalRateFilter' cannot be null.");
-        else if (rentalRateFilter !== undefined)
-            url_ += "RentalRateFilter=" + encodeURIComponent("" + rentalRateFilter) + "&";
-        if (maxShowPartNoAliasFilter === null)
-            throw new Error("The parameter 'maxShowPartNoAliasFilter' cannot be null.");
-        else if (maxShowPartNoAliasFilter !== undefined)
-            url_ += "MaxShowPartNoAliasFilter=" + encodeURIComponent("" + maxShowPartNoAliasFilter) + "&";
-        if (minShowPartNoAliasFilter === null)
-            throw new Error("The parameter 'minShowPartNoAliasFilter' cannot be null.");
-        else if (minShowPartNoAliasFilter !== undefined)
-            url_ += "MinShowPartNoAliasFilter=" + encodeURIComponent("" + minShowPartNoAliasFilter) + "&";
-        if (partsRateFilter === null)
-            throw new Error("The parameter 'partsRateFilter' cannot be null.");
-        else if (partsRateFilter !== undefined)
-            url_ += "PartsRateFilter=" + encodeURIComponent("" + partsRateFilter) + "&";
-        if (maxPartsRateDiscountFilter === null)
-            throw new Error("The parameter 'maxPartsRateDiscountFilter' cannot be null.");
-        else if (maxPartsRateDiscountFilter !== undefined)
-            url_ += "MaxPartsRateDiscountFilter=" + encodeURIComponent("" + maxPartsRateDiscountFilter) + "&";
-        if (minPartsRateDiscountFilter === null)
-            throw new Error("The parameter 'minPartsRateDiscountFilter' cannot be null.");
-        else if (minPartsRateDiscountFilter !== undefined)
-            url_ += "MinPartsRateDiscountFilter=" + encodeURIComponent("" + minPartsRateDiscountFilter) + "&";
-        if (maxAddedFilter === null)
-            throw new Error("The parameter 'maxAddedFilter' cannot be null.");
-        else if (maxAddedFilter !== undefined)
-            url_ += "MaxAddedFilter=" + encodeURIComponent(maxAddedFilter ? "" + maxAddedFilter.toJSON() : "") + "&";
-        if (minAddedFilter === null)
-            throw new Error("The parameter 'minAddedFilter' cannot be null.");
-        else if (minAddedFilter !== undefined)
-            url_ += "MinAddedFilter=" + encodeURIComponent(minAddedFilter ? "" + minAddedFilter.toJSON() : "") + "&";
-        if (addedByFilter === null)
-            throw new Error("The parameter 'addedByFilter' cannot be null.");
-        else if (addedByFilter !== undefined)
-            url_ += "AddedByFilter=" + encodeURIComponent("" + addedByFilter) + "&";
-        if (maxChangedFilter === null)
-            throw new Error("The parameter 'maxChangedFilter' cannot be null.");
-        else if (maxChangedFilter !== undefined)
-            url_ += "MaxChangedFilter=" + encodeURIComponent(maxChangedFilter ? "" + maxChangedFilter.toJSON() : "") + "&";
-        if (minChangedFilter === null)
-            throw new Error("The parameter 'minChangedFilter' cannot be null.");
-        else if (minChangedFilter !== undefined)
-            url_ += "MinChangedFilter=" + encodeURIComponent(minChangedFilter ? "" + minChangedFilter.toJSON() : "") + "&";
-        if (changedByFilter === null)
-            throw new Error("The parameter 'changedByFilter' cannot be null.");
-        else if (changedByFilter !== undefined)
-            url_ += "ChangedByFilter=" + encodeURIComponent("" + changedByFilter) + "&";
-        if (salesContactFilter === null)
-            throw new Error("The parameter 'salesContactFilter' cannot be null.");
-        else if (salesContactFilter !== undefined)
-            url_ += "SalesContactFilter=" + encodeURIComponent("" + salesContactFilter) + "&";
-        if (cSContactFilter === null)
-            throw new Error("The parameter 'cSContactFilter' cannot be null.");
-        else if (cSContactFilter !== undefined)
-            url_ += "CSContactFilter=" + encodeURIComponent("" + cSContactFilter) + "&";
-        if (accountingContactFilter === null)
-            throw new Error("The parameter 'accountingContactFilter' cannot be null.");
-        else if (accountingContactFilter !== undefined)
-            url_ += "AccountingContactFilter=" + encodeURIComponent("" + accountingContactFilter) + "&";
-        if (maxInternalCustomerFilter === null)
-            throw new Error("The parameter 'maxInternalCustomerFilter' cannot be null.");
-        else if (maxInternalCustomerFilter !== undefined)
-            url_ += "MaxInternalCustomerFilter=" + encodeURIComponent("" + maxInternalCustomerFilter) + "&";
-        if (minInternalCustomerFilter === null)
-            throw new Error("The parameter 'minInternalCustomerFilter' cannot be null.");
-        else if (minInternalCustomerFilter !== undefined)
-            url_ += "MinInternalCustomerFilter=" + encodeURIComponent("" + minInternalCustomerFilter) + "&";
-        if (maxEquipmentBidFilter === null)
-            throw new Error("The parameter 'maxEquipmentBidFilter' cannot be null.");
-        else if (maxEquipmentBidFilter !== undefined)
-            url_ += "MaxEquipmentBidFilter=" + encodeURIComponent("" + maxEquipmentBidFilter) + "&";
-        if (minEquipmentBidFilter === null)
-            throw new Error("The parameter 'minEquipmentBidFilter' cannot be null.");
-        else if (minEquipmentBidFilter !== undefined)
-            url_ += "MinEquipmentBidFilter=" + encodeURIComponent("" + minEquipmentBidFilter) + "&";
-        if (commentsFilter === null)
-            throw new Error("The parameter 'commentsFilter' cannot be null.");
-        else if (commentsFilter !== undefined)
-            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&";
-        if (aRCommentsFilter === null)
-            throw new Error("The parameter 'aRCommentsFilter' cannot be null.");
-        else if (aRCommentsFilter !== undefined)
-            url_ += "ARCommentsFilter=" + encodeURIComponent("" + aRCommentsFilter) + "&";
-        if (companyCommentsFilter === null)
-            throw new Error("The parameter 'companyCommentsFilter' cannot be null.");
-        else if (companyCommentsFilter !== undefined)
-            url_ += "CompanyCommentsFilter=" + encodeURIComponent("" + companyCommentsFilter) + "&";
-        if (maxCompanyCommentsDateFilter === null)
-            throw new Error("The parameter 'maxCompanyCommentsDateFilter' cannot be null.");
-        else if (maxCompanyCommentsDateFilter !== undefined)
-            url_ += "MaxCompanyCommentsDateFilter=" + encodeURIComponent(maxCompanyCommentsDateFilter ? "" + maxCompanyCommentsDateFilter.toJSON() : "") + "&";
-        if (minCompanyCommentsDateFilter === null)
-            throw new Error("The parameter 'minCompanyCommentsDateFilter' cannot be null.");
-        else if (minCompanyCommentsDateFilter !== undefined)
-            url_ += "MinCompanyCommentsDateFilter=" + encodeURIComponent(minCompanyCommentsDateFilter ? "" + minCompanyCommentsDateFilter.toJSON() : "") + "&";
-        if (companyCommentsByFilter === null)
-            throw new Error("The parameter 'companyCommentsByFilter' cannot be null.");
-        else if (companyCommentsByFilter !== undefined)
-            url_ += "CompanyCommentsByFilter=" + encodeURIComponent("" + companyCommentsByFilter) + "&";
-        if (businessCategoryFilter === null)
-            throw new Error("The parameter 'businessCategoryFilter' cannot be null.");
-        else if (businessCategoryFilter !== undefined)
-            url_ += "BusinessCategoryFilter=" + encodeURIComponent("" + businessCategoryFilter) + "&";
-        if (businessDescriptionFilter === null)
-            throw new Error("The parameter 'businessDescriptionFilter' cannot be null.");
-        else if (businessDescriptionFilter !== undefined)
-            url_ += "BusinessDescriptionFilter=" + encodeURIComponent("" + businessDescriptionFilter) + "&";
-        if (sICCode2Filter === null)
-            throw new Error("The parameter 'sICCode2Filter' cannot be null.");
-        else if (sICCode2Filter !== undefined)
-            url_ += "SICCode2Filter=" + encodeURIComponent("" + sICCode2Filter) + "&";
-        if (sICCode3Filter === null)
-            throw new Error("The parameter 'sICCode3Filter' cannot be null.");
-        else if (sICCode3Filter !== undefined)
-            url_ += "SICCode3Filter=" + encodeURIComponent("" + sICCode3Filter) + "&";
-        if (sICCode4Filter === null)
-            throw new Error("The parameter 'sICCode4Filter' cannot be null.");
-        else if (sICCode4Filter !== undefined)
-            url_ += "SICCode4Filter=" + encodeURIComponent("" + sICCode4Filter) + "&";
-        if (maxShiftsFilter === null)
-            throw new Error("The parameter 'maxShiftsFilter' cannot be null.");
-        else if (maxShiftsFilter !== undefined)
-            url_ += "MaxShiftsFilter=" + encodeURIComponent("" + maxShiftsFilter) + "&";
-        if (minShiftsFilter === null)
-            throw new Error("The parameter 'minShiftsFilter' cannot be null.");
-        else if (minShiftsFilter !== undefined)
-            url_ += "MinShiftsFilter=" + encodeURIComponent("" + minShiftsFilter) + "&";
-        if (categoryFilter === null)
-            throw new Error("The parameter 'categoryFilter' cannot be null.");
-        else if (categoryFilter !== undefined)
-            url_ += "CategoryFilter=" + encodeURIComponent("" + categoryFilter) + "&";
-        if (maxHoursOfOpStartFilter === null)
-            throw new Error("The parameter 'maxHoursOfOpStartFilter' cannot be null.");
-        else if (maxHoursOfOpStartFilter !== undefined)
-            url_ += "MaxHoursOfOpStartFilter=" + encodeURIComponent(maxHoursOfOpStartFilter ? "" + maxHoursOfOpStartFilter.toJSON() : "") + "&";
-        if (minHoursOfOpStartFilter === null)
-            throw new Error("The parameter 'minHoursOfOpStartFilter' cannot be null.");
-        else if (minHoursOfOpStartFilter !== undefined)
-            url_ += "MinHoursOfOpStartFilter=" + encodeURIComponent(minHoursOfOpStartFilter ? "" + minHoursOfOpStartFilter.toJSON() : "") + "&";
-        if (maxHoursOfOpEndFilter === null)
-            throw new Error("The parameter 'maxHoursOfOpEndFilter' cannot be null.");
-        else if (maxHoursOfOpEndFilter !== undefined)
-            url_ += "MaxHoursOfOpEndFilter=" + encodeURIComponent(maxHoursOfOpEndFilter ? "" + maxHoursOfOpEndFilter.toJSON() : "") + "&";
-        if (minHoursOfOpEndFilter === null)
-            throw new Error("The parameter 'minHoursOfOpEndFilter' cannot be null.");
-        else if (minHoursOfOpEndFilter !== undefined)
-            url_ += "MinHoursOfOpEndFilter=" + encodeURIComponent(minHoursOfOpEndFilter ? "" + minHoursOfOpEndFilter.toJSON() : "") + "&";
-        if (deliveryInfoFilter === null)
-            throw new Error("The parameter 'deliveryInfoFilter' cannot be null.");
-        else if (deliveryInfoFilter !== undefined)
-            url_ += "DeliveryInfoFilter=" + encodeURIComponent("" + deliveryInfoFilter) + "&";
-        if (customerTerritoryFilter === null)
-            throw new Error("The parameter 'customerTerritoryFilter' cannot be null.");
-        else if (customerTerritoryFilter !== undefined)
-            url_ += "CustomerTerritoryFilter=" + encodeURIComponent("" + customerTerritoryFilter) + "&";
-        if (maxCreditHoldFlagFilter === null)
-            throw new Error("The parameter 'maxCreditHoldFlagFilter' cannot be null.");
-        else if (maxCreditHoldFlagFilter !== undefined)
-            url_ += "MaxCreditHoldFlagFilter=" + encodeURIComponent("" + maxCreditHoldFlagFilter) + "&";
-        if (minCreditHoldFlagFilter === null)
-            throw new Error("The parameter 'minCreditHoldFlagFilter' cannot be null.");
-        else if (minCreditHoldFlagFilter !== undefined)
-            url_ += "MinCreditHoldFlagFilter=" + encodeURIComponent("" + minCreditHoldFlagFilter) + "&";
-        if (creditRating1Filter === null)
-            throw new Error("The parameter 'creditRating1Filter' cannot be null.");
-        else if (creditRating1Filter !== undefined)
-            url_ += "CreditRating1Filter=" + encodeURIComponent("" + creditRating1Filter) + "&";
-        if (creditRating2Filter === null)
-            throw new Error("The parameter 'creditRating2Filter' cannot be null.");
-        else if (creditRating2Filter !== undefined)
-            url_ += "CreditRating2Filter=" + encodeURIComponent("" + creditRating2Filter) + "&";
-        if (maxStatementsFilter === null)
-            throw new Error("The parameter 'maxStatementsFilter' cannot be null.");
-        else if (maxStatementsFilter !== undefined)
-            url_ += "MaxStatementsFilter=" + encodeURIComponent("" + maxStatementsFilter) + "&";
-        if (minStatementsFilter === null)
-            throw new Error("The parameter 'minStatementsFilter' cannot be null.");
-        else if (minStatementsFilter !== undefined)
-            url_ += "MinStatementsFilter=" + encodeURIComponent("" + minStatementsFilter) + "&";
-        if (maxCreditHoldDaysFilter === null)
-            throw new Error("The parameter 'maxCreditHoldDaysFilter' cannot be null.");
-        else if (maxCreditHoldDaysFilter !== undefined)
-            url_ += "MaxCreditHoldDaysFilter=" + encodeURIComponent("" + maxCreditHoldDaysFilter) + "&";
-        if (minCreditHoldDaysFilter === null)
-            throw new Error("The parameter 'minCreditHoldDaysFilter' cannot be null.");
-        else if (minCreditHoldDaysFilter !== undefined)
-            url_ += "MinCreditHoldDaysFilter=" + encodeURIComponent("" + minCreditHoldDaysFilter) + "&";
-        if (maxFinanceChargeFilter === null)
-            throw new Error("The parameter 'maxFinanceChargeFilter' cannot be null.");
-        else if (maxFinanceChargeFilter !== undefined)
-            url_ += "MaxFinanceChargeFilter=" + encodeURIComponent("" + maxFinanceChargeFilter) + "&";
-        if (minFinanceChargeFilter === null)
-            throw new Error("The parameter 'minFinanceChargeFilter' cannot be null.");
-        else if (minFinanceChargeFilter !== undefined)
-            url_ += "MinFinanceChargeFilter=" + encodeURIComponent("" + minFinanceChargeFilter) + "&";
-        if (maxResaleExpDateFilter === null)
-            throw new Error("The parameter 'maxResaleExpDateFilter' cannot be null.");
-        else if (maxResaleExpDateFilter !== undefined)
-            url_ += "MaxResaleExpDateFilter=" + encodeURIComponent(maxResaleExpDateFilter ? "" + maxResaleExpDateFilter.toJSON() : "") + "&";
-        if (minResaleExpDateFilter === null)
-            throw new Error("The parameter 'minResaleExpDateFilter' cannot be null.");
-        else if (minResaleExpDateFilter !== undefined)
-            url_ += "MinResaleExpDateFilter=" + encodeURIComponent(minResaleExpDateFilter ? "" + minResaleExpDateFilter.toJSON() : "") + "&";
-        if (stateTaxCodeFilter === null)
-            throw new Error("The parameter 'stateTaxCodeFilter' cannot be null.");
-        else if (stateTaxCodeFilter !== undefined)
-            url_ += "StateTaxCodeFilter=" + encodeURIComponent("" + stateTaxCodeFilter) + "&";
-        if (countyTaxCodeFilter === null)
-            throw new Error("The parameter 'countyTaxCodeFilter' cannot be null.");
-        else if (countyTaxCodeFilter !== undefined)
-            url_ += "CountyTaxCodeFilter=" + encodeURIComponent("" + countyTaxCodeFilter) + "&";
-        if (cityTaxCodeFilter === null)
-            throw new Error("The parameter 'cityTaxCodeFilter' cannot be null.");
-        else if (cityTaxCodeFilter !== undefined)
-            url_ += "CityTaxCodeFilter=" + encodeURIComponent("" + cityTaxCodeFilter) + "&";
-        if (maxAbsoluteTaxCodesFilter === null)
-            throw new Error("The parameter 'maxAbsoluteTaxCodesFilter' cannot be null.");
-        else if (maxAbsoluteTaxCodesFilter !== undefined)
-            url_ += "MaxAbsoluteTaxCodesFilter=" + encodeURIComponent("" + maxAbsoluteTaxCodesFilter) + "&";
-        if (minAbsoluteTaxCodesFilter === null)
-            throw new Error("The parameter 'minAbsoluteTaxCodesFilter' cannot be null.");
-        else if (minAbsoluteTaxCodesFilter !== undefined)
-            url_ += "MinAbsoluteTaxCodesFilter=" + encodeURIComponent("" + minAbsoluteTaxCodesFilter) + "&";
-        if (mFGPermitNoFilter === null)
-            throw new Error("The parameter 'mFGPermitNoFilter' cannot be null.");
-        else if (mFGPermitNoFilter !== undefined)
-            url_ += "MFGPermitNoFilter=" + encodeURIComponent("" + mFGPermitNoFilter) + "&";
-        if (maxMFGPermitExpDateFilter === null)
-            throw new Error("The parameter 'maxMFGPermitExpDateFilter' cannot be null.");
-        else if (maxMFGPermitExpDateFilter !== undefined)
-            url_ += "MaxMFGPermitExpDateFilter=" + encodeURIComponent(maxMFGPermitExpDateFilter ? "" + maxMFGPermitExpDateFilter.toJSON() : "") + "&";
-        if (minMFGPermitExpDateFilter === null)
-            throw new Error("The parameter 'minMFGPermitExpDateFilter' cannot be null.");
-        else if (minMFGPermitExpDateFilter !== undefined)
-            url_ += "MinMFGPermitExpDateFilter=" + encodeURIComponent(minMFGPermitExpDateFilter ? "" + minMFGPermitExpDateFilter.toJSON() : "") + "&";
-        if (maxBranchFilter === null)
-            throw new Error("The parameter 'maxBranchFilter' cannot be null.");
-        else if (maxBranchFilter !== undefined)
-            url_ += "MaxBranchFilter=" + encodeURIComponent("" + maxBranchFilter) + "&";
-        if (minBranchFilter === null)
-            throw new Error("The parameter 'minBranchFilter' cannot be null.");
-        else if (minBranchFilter !== undefined)
-            url_ += "MinBranchFilter=" + encodeURIComponent("" + minBranchFilter) + "&";
-        if (maxShowLaborHoursFilter === null)
-            throw new Error("The parameter 'maxShowLaborHoursFilter' cannot be null.");
-        else if (maxShowLaborHoursFilter !== undefined)
-            url_ += "MaxShowLaborHoursFilter=" + encodeURIComponent("" + maxShowLaborHoursFilter) + "&";
-        if (minShowLaborHoursFilter === null)
-            throw new Error("The parameter 'minShowLaborHoursFilter' cannot be null.");
-        else if (minShowLaborHoursFilter !== undefined)
-            url_ += "MinShowLaborHoursFilter=" + encodeURIComponent("" + minShowLaborHoursFilter) + "&";
-        if (vendorNoFilter === null)
-            throw new Error("The parameter 'vendorNoFilter' cannot be null.");
-        else if (vendorNoFilter !== undefined)
-            url_ += "VendorNoFilter=" + encodeURIComponent("" + vendorNoFilter) + "&";
-        if (localTaxCodeFilter === null)
-            throw new Error("The parameter 'localTaxCodeFilter' cannot be null.");
-        else if (localTaxCodeFilter !== undefined)
-            url_ += "LocalTaxCodeFilter=" + encodeURIComponent("" + localTaxCodeFilter) + "&";
-        if (currencyTypeFilter === null)
-            throw new Error("The parameter 'currencyTypeFilter' cannot be null.");
-        else if (currencyTypeFilter !== undefined)
-            url_ += "CurrencyTypeFilter=" + encodeURIComponent("" + currencyTypeFilter) + "&";
-        if (creditCardNoFilter === null)
-            throw new Error("The parameter 'creditCardNoFilter' cannot be null.");
-        else if (creditCardNoFilter !== undefined)
-            url_ += "CreditCardNoFilter=" + encodeURIComponent("" + creditCardNoFilter) + "&";
-        if (creditCardCVVFilter === null)
-            throw new Error("The parameter 'creditCardCVVFilter' cannot be null.");
-        else if (creditCardCVVFilter !== undefined)
-            url_ += "CreditCardCVVFilter=" + encodeURIComponent("" + creditCardCVVFilter) + "&";
-        if (creditCardExpDateFilter === null)
-            throw new Error("The parameter 'creditCardExpDateFilter' cannot be null.");
-        else if (creditCardExpDateFilter !== undefined)
-            url_ += "CreditCardExpDateFilter=" + encodeURIComponent("" + creditCardExpDateFilter) + "&";
-        if (creditCardTypeFilter === null)
-            throw new Error("The parameter 'creditCardTypeFilter' cannot be null.");
-        else if (creditCardTypeFilter !== undefined)
-            url_ += "CreditCardTypeFilter=" + encodeURIComponent("" + creditCardTypeFilter) + "&";
-        if (nameOnCreditCardFilter === null)
-            throw new Error("The parameter 'nameOnCreditCardFilter' cannot be null.");
-        else if (nameOnCreditCardFilter !== undefined)
-            url_ += "NameOnCreditCardFilter=" + encodeURIComponent("" + nameOnCreditCardFilter) + "&";
-        if (rFCFilter === null)
-            throw new Error("The parameter 'rFCFilter' cannot be null.");
-        else if (rFCFilter !== undefined)
-            url_ += "RFCFilter=" + encodeURIComponent("" + rFCFilter) + "&";
-        if (oldNumberFilter === null)
-            throw new Error("The parameter 'oldNumberFilter' cannot be null.");
-        else if (oldNumberFilter !== undefined)
-            url_ += "OldNumberFilter=" + encodeURIComponent("" + oldNumberFilter) + "&";
-        if (maxSuppressPartsPricingFilter === null)
-            throw new Error("The parameter 'maxSuppressPartsPricingFilter' cannot be null.");
-        else if (maxSuppressPartsPricingFilter !== undefined)
-            url_ += "MaxSuppressPartsPricingFilter=" + encodeURIComponent("" + maxSuppressPartsPricingFilter) + "&";
-        if (minSuppressPartsPricingFilter === null)
-            throw new Error("The parameter 'minSuppressPartsPricingFilter' cannot be null.");
-        else if (minSuppressPartsPricingFilter !== undefined)
-            url_ += "MinSuppressPartsPricingFilter=" + encodeURIComponent("" + minSuppressPartsPricingFilter) + "&";
-        if (maxServiceChargeFilter === null)
-            throw new Error("The parameter 'maxServiceChargeFilter' cannot be null.");
-        else if (maxServiceChargeFilter !== undefined)
-            url_ += "MaxServiceChargeFilter=" + encodeURIComponent("" + maxServiceChargeFilter) + "&";
-        if (minServiceChargeFilter === null)
-            throw new Error("The parameter 'minServiceChargeFilter' cannot be null.");
-        else if (minServiceChargeFilter !== undefined)
-            url_ += "MinServiceChargeFilter=" + encodeURIComponent("" + minServiceChargeFilter) + "&";
-        if (serviceChargeDescriptionFilter === null)
-            throw new Error("The parameter 'serviceChargeDescriptionFilter' cannot be null.");
-        else if (serviceChargeDescriptionFilter !== undefined)
-            url_ += "ServiceChargeDescriptionFilter=" + encodeURIComponent("" + serviceChargeDescriptionFilter) + "&";
-        if (maxFinalCopiesFilter === null)
-            throw new Error("The parameter 'maxFinalCopiesFilter' cannot be null.");
-        else if (maxFinalCopiesFilter !== undefined)
-            url_ += "MaxFinalCopiesFilter=" + encodeURIComponent("" + maxFinalCopiesFilter) + "&";
-        if (minFinalCopiesFilter === null)
-            throw new Error("The parameter 'minFinalCopiesFilter' cannot be null.");
-        else if (minFinalCopiesFilter !== undefined)
-            url_ += "MinFinalCopiesFilter=" + encodeURIComponent("" + minFinalCopiesFilter) + "&";
-        if (maxPOBoxAndAddressFilter === null)
-            throw new Error("The parameter 'maxPOBoxAndAddressFilter' cannot be null.");
-        else if (maxPOBoxAndAddressFilter !== undefined)
-            url_ += "MaxPOBoxAndAddressFilter=" + encodeURIComponent("" + maxPOBoxAndAddressFilter) + "&";
-        if (minPOBoxAndAddressFilter === null)
-            throw new Error("The parameter 'minPOBoxAndAddressFilter' cannot be null.");
-        else if (minPOBoxAndAddressFilter !== undefined)
-            url_ += "MinPOBoxAndAddressFilter=" + encodeURIComponent("" + minPOBoxAndAddressFilter) + "&";
-        if (insuranceNoFilter === null)
-            throw new Error("The parameter 'insuranceNoFilter' cannot be null.");
-        else if (insuranceNoFilter !== undefined)
-            url_ += "InsuranceNoFilter=" + encodeURIComponent("" + insuranceNoFilter) + "&";
-        if (maxInsuranceNoDateFilter === null)
-            throw new Error("The parameter 'maxInsuranceNoDateFilter' cannot be null.");
-        else if (maxInsuranceNoDateFilter !== undefined)
-            url_ += "MaxInsuranceNoDateFilter=" + encodeURIComponent(maxInsuranceNoDateFilter ? "" + maxInsuranceNoDateFilter.toJSON() : "") + "&";
-        if (minInsuranceNoDateFilter === null)
-            throw new Error("The parameter 'minInsuranceNoDateFilter' cannot be null.");
-        else if (minInsuranceNoDateFilter !== undefined)
-            url_ += "MinInsuranceNoDateFilter=" + encodeURIComponent(minInsuranceNoDateFilter ? "" + minInsuranceNoDateFilter.toJSON() : "") + "&";
-        if (maxInsuranceNoRecvDateFilter === null)
-            throw new Error("The parameter 'maxInsuranceNoRecvDateFilter' cannot be null.");
-        else if (maxInsuranceNoRecvDateFilter !== undefined)
-            url_ += "MaxInsuranceNoRecvDateFilter=" + encodeURIComponent(maxInsuranceNoRecvDateFilter ? "" + maxInsuranceNoRecvDateFilter.toJSON() : "") + "&";
-        if (minInsuranceNoRecvDateFilter === null)
-            throw new Error("The parameter 'minInsuranceNoRecvDateFilter' cannot be null.");
-        else if (minInsuranceNoRecvDateFilter !== undefined)
-            url_ += "MinInsuranceNoRecvDateFilter=" + encodeURIComponent(minInsuranceNoRecvDateFilter ? "" + minInsuranceNoRecvDateFilter.toJSON() : "") + "&";
-        if (creditCardAddressFilter === null)
-            throw new Error("The parameter 'creditCardAddressFilter' cannot be null.");
-        else if (creditCardAddressFilter !== undefined)
-            url_ += "CreditCardAddressFilter=" + encodeURIComponent("" + creditCardAddressFilter) + "&";
-        if (creditCardPOBoxFilter === null)
-            throw new Error("The parameter 'creditCardPOBoxFilter' cannot be null.");
-        else if (creditCardPOBoxFilter !== undefined)
-            url_ += "CreditCardPOBoxFilter=" + encodeURIComponent("" + creditCardPOBoxFilter) + "&";
-        if (creditCardCityFilter === null)
-            throw new Error("The parameter 'creditCardCityFilter' cannot be null.");
-        else if (creditCardCityFilter !== undefined)
-            url_ += "CreditCardCityFilter=" + encodeURIComponent("" + creditCardCityFilter) + "&";
-        if (creditCardStateFilter === null)
-            throw new Error("The parameter 'creditCardStateFilter' cannot be null.");
-        else if (creditCardStateFilter !== undefined)
-            url_ += "CreditCardStateFilter=" + encodeURIComponent("" + creditCardStateFilter) + "&";
-        if (creditCardZipCodeFilter === null)
-            throw new Error("The parameter 'creditCardZipCodeFilter' cannot be null.");
-        else if (creditCardZipCodeFilter !== undefined)
-            url_ += "CreditCardZipCodeFilter=" + encodeURIComponent("" + creditCardZipCodeFilter) + "&";
-        if (creditCardCountryFilter === null)
-            throw new Error("The parameter 'creditCardCountryFilter' cannot be null.");
-        else if (creditCardCountryFilter !== undefined)
-            url_ += "CreditCardCountryFilter=" + encodeURIComponent("" + creditCardCountryFilter) + "&";
-        if (pMLaborRateFilter === null)
-            throw new Error("The parameter 'pMLaborRateFilter' cannot be null.");
-        else if (pMLaborRateFilter !== undefined)
-            url_ += "PMLaborRateFilter=" + encodeURIComponent("" + pMLaborRateFilter) + "&";
-        if (referenceNo1Filter === null)
-            throw new Error("The parameter 'referenceNo1Filter' cannot be null.");
-        else if (referenceNo1Filter !== undefined)
-            url_ += "ReferenceNo1Filter=" + encodeURIComponent("" + referenceNo1Filter) + "&";
-        if (referenceNo2Filter === null)
-            throw new Error("The parameter 'referenceNo2Filter' cannot be null.");
-        else if (referenceNo2Filter !== undefined)
-            url_ += "ReferenceNo2Filter=" + encodeURIComponent("" + referenceNo2Filter) + "&";
-        if (maxGMSummaryFilter === null)
-            throw new Error("The parameter 'maxGMSummaryFilter' cannot be null.");
-        else if (maxGMSummaryFilter !== undefined)
-            url_ += "MaxGMSummaryFilter=" + encodeURIComponent("" + maxGMSummaryFilter) + "&";
-        if (minGMSummaryFilter === null)
-            throw new Error("The parameter 'minGMSummaryFilter' cannot be null.");
-        else if (minGMSummaryFilter !== undefined)
-            url_ += "MinGMSummaryFilter=" + encodeURIComponent("" + minGMSummaryFilter) + "&";
-        if (oB10NoFilter === null)
-            throw new Error("The parameter 'oB10NoFilter' cannot be null.");
-        else if (oB10NoFilter !== undefined)
-            url_ += "OB10NoFilter=" + encodeURIComponent("" + oB10NoFilter) + "&";
-        if (oldNameFilter === null)
-            throw new Error("The parameter 'oldNameFilter' cannot be null.");
-        else if (oldNameFilter !== undefined)
-            url_ += "OldNameFilter=" + encodeURIComponent("" + oldNameFilter) + "&";
-        if (maxCustomerBillToFilter === null)
-            throw new Error("The parameter 'maxCustomerBillToFilter' cannot be null.");
-        else if (maxCustomerBillToFilter !== undefined)
-            url_ += "MaxCustomerBillToFilter=" + encodeURIComponent("" + maxCustomerBillToFilter) + "&";
-        if (minCustomerBillToFilter === null)
-            throw new Error("The parameter 'minCustomerBillToFilter' cannot be null.");
-        else if (minCustomerBillToFilter !== undefined)
-            url_ += "MinCustomerBillToFilter=" + encodeURIComponent("" + minCustomerBillToFilter) + "&";
-        if (shipViaFilter === null)
-            throw new Error("The parameter 'shipViaFilter' cannot be null.");
-        else if (shipViaFilter !== undefined)
-            url_ += "ShipViaFilter=" + encodeURIComponent("" + shipViaFilter) + "&";
-        if (maxNoAddMiscFilter === null)
-            throw new Error("The parameter 'maxNoAddMiscFilter' cannot be null.");
-        else if (maxNoAddMiscFilter !== undefined)
-            url_ += "MaxNoAddMiscFilter=" + encodeURIComponent("" + maxNoAddMiscFilter) + "&";
-        if (minNoAddMiscFilter === null)
-            throw new Error("The parameter 'minNoAddMiscFilter' cannot be null.");
-        else if (minNoAddMiscFilter !== undefined)
-            url_ += "MinNoAddMiscFilter=" + encodeURIComponent("" + minNoAddMiscFilter) + "&";
-        if (laborDiscountFilter === null)
-            throw new Error("The parameter 'laborDiscountFilter' cannot be null.");
-        else if (laborDiscountFilter !== undefined)
-            url_ += "LaborDiscountFilter=" + encodeURIComponent("" + laborDiscountFilter) + "&";
-        if (taxRateFilter === null)
-            throw new Error("The parameter 'taxRateFilter' cannot be null.");
-        else if (taxRateFilter !== undefined)
-            url_ += "TaxRateFilter=" + encodeURIComponent("" + taxRateFilter) + "&";
-        if (tMHUNoFilter === null)
-            throw new Error("The parameter 'tMHUNoFilter' cannot be null.");
-        else if (tMHUNoFilter !== undefined)
-            url_ += "TMHUNoFilter=" + encodeURIComponent("" + tMHUNoFilter) + "&";
-        if (maxLockTaxCodeFilter === null)
-            throw new Error("The parameter 'maxLockTaxCodeFilter' cannot be null.");
-        else if (maxLockTaxCodeFilter !== undefined)
-            url_ += "MaxLockTaxCodeFilter=" + encodeURIComponent("" + maxLockTaxCodeFilter) + "&";
-        if (minLockTaxCodeFilter === null)
-            throw new Error("The parameter 'minLockTaxCodeFilter' cannot be null.");
-        else if (minLockTaxCodeFilter !== undefined)
-            url_ += "MinLockTaxCodeFilter=" + encodeURIComponent("" + minLockTaxCodeFilter) + "&";
-        if (taxCodeImportFilter === null)
-            throw new Error("The parameter 'taxCodeImportFilter' cannot be null.");
-        else if (taxCodeImportFilter !== undefined)
-            url_ += "TaxCodeImportFilter=" + encodeURIComponent("" + taxCodeImportFilter) + "&";
-        if (shippingCommentsFilter === null)
-            throw new Error("The parameter 'shippingCommentsFilter' cannot be null.");
-        else if (shippingCommentsFilter !== undefined)
-            url_ += "ShippingCommentsFilter=" + encodeURIComponent("" + shippingCommentsFilter) + "&";
-        if (maxNoShippingChargeFilter === null)
-            throw new Error("The parameter 'maxNoShippingChargeFilter' cannot be null.");
-        else if (maxNoShippingChargeFilter !== undefined)
-            url_ += "MaxNoShippingChargeFilter=" + encodeURIComponent("" + maxNoShippingChargeFilter) + "&";
-        if (minNoShippingChargeFilter === null)
-            throw new Error("The parameter 'minNoShippingChargeFilter' cannot be null.");
-        else if (minNoShippingChargeFilter !== undefined)
-            url_ += "MinNoShippingChargeFilter=" + encodeURIComponent("" + minNoShippingChargeFilter) + "&";
-        if (shippingCompanyFilter === null)
-            throw new Error("The parameter 'shippingCompanyFilter' cannot be null.");
-        else if (shippingCompanyFilter !== undefined)
-            url_ += "ShippingCompanyFilter=" + encodeURIComponent("" + shippingCompanyFilter) + "&";
-        if (shippingAccountFilter === null)
-            throw new Error("The parameter 'shippingAccountFilter' cannot be null.");
-        else if (shippingAccountFilter !== undefined)
-            url_ += "ShippingAccountFilter=" + encodeURIComponent("" + shippingAccountFilter) + "&";
-        if (eMailInvoiceAddressFilter === null)
-            throw new Error("The parameter 'eMailInvoiceAddressFilter' cannot be null.");
-        else if (eMailInvoiceAddressFilter !== undefined)
-            url_ += "EMailInvoiceAddressFilter=" + encodeURIComponent("" + eMailInvoiceAddressFilter) + "&";
-        if (eMailInvoiceAttentionFilter === null)
-            throw new Error("The parameter 'eMailInvoiceAttentionFilter' cannot be null.");
-        else if (eMailInvoiceAttentionFilter !== undefined)
-            url_ += "EMailInvoiceAttentionFilter=" + encodeURIComponent("" + eMailInvoiceAttentionFilter) + "&";
-        if (maxEMailInvoiceFilter === null)
-            throw new Error("The parameter 'maxEMailInvoiceFilter' cannot be null.");
-        else if (maxEMailInvoiceFilter !== undefined)
-            url_ += "MaxEMailInvoiceFilter=" + encodeURIComponent("" + maxEMailInvoiceFilter) + "&";
-        if (minEMailInvoiceFilter === null)
-            throw new Error("The parameter 'minEMailInvoiceFilter' cannot be null.");
-        else if (minEMailInvoiceFilter !== undefined)
-            url_ += "MinEMailInvoiceFilter=" + encodeURIComponent("" + minEMailInvoiceFilter) + "&";
-        if (maxNoPrintInvoiceFilter === null)
-            throw new Error("The parameter 'maxNoPrintInvoiceFilter' cannot be null.");
-        else if (maxNoPrintInvoiceFilter !== undefined)
-            url_ += "MaxNoPrintInvoiceFilter=" + encodeURIComponent("" + maxNoPrintInvoiceFilter) + "&";
-        if (minNoPrintInvoiceFilter === null)
-            throw new Error("The parameter 'minNoPrintInvoiceFilter' cannot be null.");
-        else if (minNoPrintInvoiceFilter !== undefined)
-            url_ += "MinNoPrintInvoiceFilter=" + encodeURIComponent("" + minNoPrintInvoiceFilter) + "&";
-        if (maxBackupRequiredFilter === null)
-            throw new Error("The parameter 'maxBackupRequiredFilter' cannot be null.");
-        else if (maxBackupRequiredFilter !== undefined)
-            url_ += "MaxBackupRequiredFilter=" + encodeURIComponent("" + maxBackupRequiredFilter) + "&";
-        if (minBackupRequiredFilter === null)
-            throw new Error("The parameter 'minBackupRequiredFilter' cannot be null.");
-        else if (minBackupRequiredFilter !== undefined)
-            url_ += "MinBackupRequiredFilter=" + encodeURIComponent("" + minBackupRequiredFilter) + "&";
-        if (oldSalesman1Filter === null)
-            throw new Error("The parameter 'oldSalesman1Filter' cannot be null.");
-        else if (oldSalesman1Filter !== undefined)
-            url_ += "OldSalesman1Filter=" + encodeURIComponent("" + oldSalesman1Filter) + "&";
-        if (oldSalesman2Filter === null)
-            throw new Error("The parameter 'oldSalesman2Filter' cannot be null.");
-        else if (oldSalesman2Filter !== undefined)
-            url_ += "OldSalesman2Filter=" + encodeURIComponent("" + oldSalesman2Filter) + "&";
-        if (oldSalesman3Filter === null)
-            throw new Error("The parameter 'oldSalesman3Filter' cannot be null.");
-        else if (oldSalesman3Filter !== undefined)
-            url_ += "OldSalesman3Filter=" + encodeURIComponent("" + oldSalesman3Filter) + "&";
-        if (oldSalesman4Filter === null)
-            throw new Error("The parameter 'oldSalesman4Filter' cannot be null.");
-        else if (oldSalesman4Filter !== undefined)
-            url_ += "OldSalesman4Filter=" + encodeURIComponent("" + oldSalesman4Filter) + "&";
-        if (oldSalesman5Filter === null)
-            throw new Error("The parameter 'oldSalesman5Filter' cannot be null.");
-        else if (oldSalesman5Filter !== undefined)
-            url_ += "OldSalesman5Filter=" + encodeURIComponent("" + oldSalesman5Filter) + "&";
-        if (oldSalesman6Filter === null)
-            throw new Error("The parameter 'oldSalesman6Filter' cannot be null.");
-        else if (oldSalesman6Filter !== undefined)
-            url_ += "OldSalesman6Filter=" + encodeURIComponent("" + oldSalesman6Filter) + "&";
-        if (maxLastAutoSalesmanUpdateFilter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdateFilter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdateFilter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdateFilter=" + encodeURIComponent(maxLastAutoSalesmanUpdateFilter ? "" + maxLastAutoSalesmanUpdateFilter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdateFilter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdateFilter' cannot be null.");
-        else if (minLastAutoSalesmanUpdateFilter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdateFilter=" + encodeURIComponent(minLastAutoSalesmanUpdateFilter ? "" + minLastAutoSalesmanUpdateFilter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate1Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate1Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate1Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate1Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate1Filter ? "" + maxLastAutoSalesmanUpdate1Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate1Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate1Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate1Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate1Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate1Filter ? "" + minLastAutoSalesmanUpdate1Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate2Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate2Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate2Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate2Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate2Filter ? "" + maxLastAutoSalesmanUpdate2Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate2Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate2Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate2Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate2Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate2Filter ? "" + minLastAutoSalesmanUpdate2Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate3Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate3Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate3Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate3Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate3Filter ? "" + maxLastAutoSalesmanUpdate3Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate3Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate3Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate3Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate3Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate3Filter ? "" + minLastAutoSalesmanUpdate3Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate4Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate4Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate4Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate4Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate4Filter ? "" + maxLastAutoSalesmanUpdate4Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate4Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate4Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate4Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate4Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate4Filter ? "" + minLastAutoSalesmanUpdate4Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate5Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate5Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate5Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate5Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate5Filter ? "" + maxLastAutoSalesmanUpdate5Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate5Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate5Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate5Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate5Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate5Filter ? "" + minLastAutoSalesmanUpdate5Filter.toJSON() : "") + "&";
-        if (maxLastAutoSalesmanUpdate6Filter === null)
-            throw new Error("The parameter 'maxLastAutoSalesmanUpdate6Filter' cannot be null.");
-        else if (maxLastAutoSalesmanUpdate6Filter !== undefined)
-            url_ += "MaxLastAutoSalesmanUpdate6Filter=" + encodeURIComponent(maxLastAutoSalesmanUpdate6Filter ? "" + maxLastAutoSalesmanUpdate6Filter.toJSON() : "") + "&";
-        if (minLastAutoSalesmanUpdate6Filter === null)
-            throw new Error("The parameter 'minLastAutoSalesmanUpdate6Filter' cannot be null.");
-        else if (minLastAutoSalesmanUpdate6Filter !== undefined)
-            url_ += "MinLastAutoSalesmanUpdate6Filter=" + encodeURIComponent(minLastAutoSalesmanUpdate6Filter ? "" + minLastAutoSalesmanUpdate6Filter.toJSON() : "") + "&";
-        if (invoiceLanguageFilter === null)
-            throw new Error("The parameter 'invoiceLanguageFilter' cannot be null.");
-        else if (invoiceLanguageFilter !== undefined)
-            url_ += "InvoiceLanguageFilter=" + encodeURIComponent("" + invoiceLanguageFilter) + "&";
-        if (peopleSoftFilter === null)
-            throw new Error("The parameter 'peopleSoftFilter' cannot be null.");
-        else if (peopleSoftFilter !== undefined)
-            url_ += "PeopleSoftFilter=" + encodeURIComponent("" + peopleSoftFilter) + "&";
-        if (pSCompanyFilter === null)
-            throw new Error("The parameter 'pSCompanyFilter' cannot be null.");
-        else if (pSCompanyFilter !== undefined)
-            url_ += "PSCompanyFilter=" + encodeURIComponent("" + pSCompanyFilter) + "&";
-        if (pSAccountFilter === null)
-            throw new Error("The parameter 'pSAccountFilter' cannot be null.");
-        else if (pSAccountFilter !== undefined)
-            url_ += "PSAccountFilter=" + encodeURIComponent("" + pSAccountFilter) + "&";
-        if (pSLocationFilter === null)
-            throw new Error("The parameter 'pSLocationFilter' cannot be null.");
-        else if (pSLocationFilter !== undefined)
-            url_ += "PSLocationFilter=" + encodeURIComponent("" + pSLocationFilter) + "&";
-        if (pSDeptFilter === null)
-            throw new Error("The parameter 'pSDeptFilter' cannot be null.");
-        else if (pSDeptFilter !== undefined)
-            url_ += "PSDeptFilter=" + encodeURIComponent("" + pSDeptFilter) + "&";
-        if (pSProductFilter === null)
-            throw new Error("The parameter 'pSProductFilter' cannot be null.");
-        else if (pSProductFilter !== undefined)
-            url_ += "PSProductFilter=" + encodeURIComponent("" + pSProductFilter) + "&";
-        if (altCustomerNoFilter === null)
-            throw new Error("The parameter 'altCustomerNoFilter' cannot be null.");
-        else if (altCustomerNoFilter !== undefined)
-            url_ += "AltCustomerNoFilter=" + encodeURIComponent("" + altCustomerNoFilter) + "&";
-        if (maxOverRideShipToFilter === null)
-            throw new Error("The parameter 'maxOverRideShipToFilter' cannot be null.");
-        else if (maxOverRideShipToFilter !== undefined)
-            url_ += "MaxOverRideShipToFilter=" + encodeURIComponent("" + maxOverRideShipToFilter) + "&";
-        if (minOverRideShipToFilter === null)
-            throw new Error("The parameter 'minOverRideShipToFilter' cannot be null.");
-        else if (minOverRideShipToFilter !== undefined)
-            url_ += "MinOverRideShipToFilter=" + encodeURIComponent("" + minOverRideShipToFilter) + "&";
-        if (maxOnFileResaleFilter === null)
-            throw new Error("The parameter 'maxOnFileResaleFilter' cannot be null.");
-        else if (maxOnFileResaleFilter !== undefined)
-            url_ += "MaxOnFileResaleFilter=" + encodeURIComponent("" + maxOnFileResaleFilter) + "&";
-        if (minOnFileResaleFilter === null)
-            throw new Error("The parameter 'minOnFileResaleFilter' cannot be null.");
-        else if (minOnFileResaleFilter !== undefined)
-            url_ += "MinOnFileResaleFilter=" + encodeURIComponent("" + minOnFileResaleFilter) + "&";
-        if (maxOnFileMFGPermitFilter === null)
-            throw new Error("The parameter 'maxOnFileMFGPermitFilter' cannot be null.");
-        else if (maxOnFileMFGPermitFilter !== undefined)
-            url_ += "MaxOnFileMFGPermitFilter=" + encodeURIComponent("" + maxOnFileMFGPermitFilter) + "&";
-        if (minOnFileMFGPermitFilter === null)
-            throw new Error("The parameter 'minOnFileMFGPermitFilter' cannot be null.");
-        else if (minOnFileMFGPermitFilter !== undefined)
-            url_ += "MinOnFileMFGPermitFilter=" + encodeURIComponent("" + minOnFileMFGPermitFilter) + "&";
-        if (maxOnFileInsuranceFilter === null)
-            throw new Error("The parameter 'maxOnFileInsuranceFilter' cannot be null.");
-        else if (maxOnFileInsuranceFilter !== undefined)
-            url_ += "MaxOnFileInsuranceFilter=" + encodeURIComponent("" + maxOnFileInsuranceFilter) + "&";
-        if (minOnFileInsuranceFilter === null)
-            throw new Error("The parameter 'minOnFileInsuranceFilter' cannot be null.");
-        else if (minOnFileInsuranceFilter !== undefined)
-            url_ += "MinOnFileInsuranceFilter=" + encodeURIComponent("" + minOnFileInsuranceFilter) + "&";
-        if (maxInactiveFilter === null)
-            throw new Error("The parameter 'maxInactiveFilter' cannot be null.");
-        else if (maxInactiveFilter !== undefined)
-            url_ += "MaxInactiveFilter=" + encodeURIComponent("" + maxInactiveFilter) + "&";
-        if (minInactiveFilter === null)
-            throw new Error("The parameter 'minInactiveFilter' cannot be null.");
-        else if (minInactiveFilter !== undefined)
-            url_ += "MinInactiveFilter=" + encodeURIComponent("" + minInactiveFilter) + "&";
-        if (maxOverRideShipToRatesFilter === null)
-            throw new Error("The parameter 'maxOverRideShipToRatesFilter' cannot be null.");
-        else if (maxOverRideShipToRatesFilter !== undefined)
-            url_ += "MaxOverRideShipToRatesFilter=" + encodeURIComponent("" + maxOverRideShipToRatesFilter) + "&";
-        if (minOverRideShipToRatesFilter === null)
-            throw new Error("The parameter 'minOverRideShipToRatesFilter' cannot be null.");
-        else if (minOverRideShipToRatesFilter !== undefined)
-            url_ += "MinOverRideShipToRatesFilter=" + encodeURIComponent("" + minOverRideShipToRatesFilter) + "&";
-        if (maxSuppressPartsListFilter === null)
-            throw new Error("The parameter 'maxSuppressPartsListFilter' cannot be null.");
-        else if (maxSuppressPartsListFilter !== undefined)
-            url_ += "MaxSuppressPartsListFilter=" + encodeURIComponent("" + maxSuppressPartsListFilter) + "&";
-        if (minSuppressPartsListFilter === null)
-            throw new Error("The parameter 'minSuppressPartsListFilter' cannot be null.");
-        else if (minSuppressPartsListFilter !== undefined)
-            url_ += "MinSuppressPartsListFilter=" + encodeURIComponent("" + minSuppressPartsListFilter) + "&";
-        if (marketingSourceFilter === null)
-            throw new Error("The parameter 'marketingSourceFilter' cannot be null.");
-        else if (marketingSourceFilter !== undefined)
-            url_ += "MarketingSourceFilter=" + encodeURIComponent("" + marketingSourceFilter) + "&";
-        if (maxCreditCardLastTransIDFilter === null)
-            throw new Error("The parameter 'maxCreditCardLastTransIDFilter' cannot be null.");
-        else if (maxCreditCardLastTransIDFilter !== undefined)
-            url_ += "MaxCreditCardLastTransIDFilter=" + encodeURIComponent("" + maxCreditCardLastTransIDFilter) + "&";
-        if (minCreditCardLastTransIDFilter === null)
-            throw new Error("The parameter 'minCreditCardLastTransIDFilter' cannot be null.");
-        else if (minCreditCardLastTransIDFilter !== undefined)
-            url_ += "MinCreditCardLastTransIDFilter=" + encodeURIComponent("" + minCreditCardLastTransIDFilter) + "&";
-        if (emailRoadServiceFilter === null)
-            throw new Error("The parameter 'emailRoadServiceFilter' cannot be null.");
-        else if (emailRoadServiceFilter !== undefined)
-            url_ += "EmailRoadServiceFilter=" + encodeURIComponent("" + emailRoadServiceFilter) + "&";
-        if (emailShopServiceFilter === null)
-            throw new Error("The parameter 'emailShopServiceFilter' cannot be null.");
-        else if (emailShopServiceFilter !== undefined)
-            url_ += "EmailShopServiceFilter=" + encodeURIComponent("" + emailShopServiceFilter) + "&";
-        if (emailPMServiceFilter === null)
-            throw new Error("The parameter 'emailPMServiceFilter' cannot be null.");
-        else if (emailPMServiceFilter !== undefined)
-            url_ += "EmailPMServiceFilter=" + encodeURIComponent("" + emailPMServiceFilter) + "&";
-        if (emailRentalPMServiceFilter === null)
-            throw new Error("The parameter 'emailRentalPMServiceFilter' cannot be null.");
-        else if (emailRentalPMServiceFilter !== undefined)
-            url_ += "EmailRentalPMServiceFilter=" + encodeURIComponent("" + emailRentalPMServiceFilter) + "&";
-        if (emailPartsCounterFilter === null)
-            throw new Error("The parameter 'emailPartsCounterFilter' cannot be null.");
-        else if (emailPartsCounterFilter !== undefined)
-            url_ += "EmailPartsCounterFilter=" + encodeURIComponent("" + emailPartsCounterFilter) + "&";
-        if (emailEquipmentSalesFilter === null)
-            throw new Error("The parameter 'emailEquipmentSalesFilter' cannot be null.");
-        else if (emailEquipmentSalesFilter !== undefined)
-            url_ += "EmailEquipmentSalesFilter=" + encodeURIComponent("" + emailEquipmentSalesFilter) + "&";
-        if (emailRentalsFilter === null)
-            throw new Error("The parameter 'emailRentalsFilter' cannot be null.");
-        else if (emailRentalsFilter !== undefined)
-            url_ += "EmailRentalsFilter=" + encodeURIComponent("" + emailRentalsFilter) + "&";
-        if (maxIDFilter === null)
-            throw new Error("The parameter 'maxIDFilter' cannot be null.");
-        else if (maxIDFilter !== undefined)
-            url_ += "MaxIDFilter=" + encodeURIComponent("" + maxIDFilter) + "&";
-        if (minIDFilter === null)
-            throw new Error("The parameter 'minIDFilter' cannot be null.");
-        else if (minIDFilter !== undefined)
-            url_ += "MinIDFilter=" + encodeURIComponent("" + minIDFilter) + "&";
-        if (aRStatementsEmailAddressFilter === null)
-            throw new Error("The parameter 'aRStatementsEmailAddressFilter' cannot be null.");
-        else if (aRStatementsEmailAddressFilter !== undefined)
-            url_ += "ARStatementsEmailAddressFilter=" + encodeURIComponent("" + aRStatementsEmailAddressFilter) + "&";
-        if (accountTypeDescriptionFilter === null)
-            throw new Error("The parameter 'accountTypeDescriptionFilter' cannot be null.");
-        else if (accountTypeDescriptionFilter !== undefined)
-            url_ += "AccountTypeDescriptionFilter=" + encodeURIComponent("" + accountTypeDescriptionFilter) + "&";
+        if (accountTypeId === null)
+            throw new Error("The parameter 'accountTypeId' cannot be null.");
+        else if (accountTypeId !== undefined)
+            accountTypeId && accountTypeId.forEach(item => { url_ += "AccountTypeId=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5155,6 +3211,64 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<CustomerAccountTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadSourceForTableDropdown(): Observable<CustomerLeadSourceLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllLeadSourceForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadSourceForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadSourceForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerLeadSourceLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerLeadSourceLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadSourceForTableDropdown(response: HttpResponseBase): Observable<CustomerLeadSourceLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CustomerLeadSourceLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerLeadSourceLookupTableDto[]>(<any>null);
     }
 }
 
@@ -10023,6 +8137,68 @@ export class LeadsServiceProxy {
     }
 
     /**
+     * @param leadSourceId (optional) 
+     * @param assignedUserId (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/ImportLeadsFromFile?";
+        if (leadSourceId === null)
+            throw new Error("The parameter 'leadSourceId' cannot be null.");
+        else if (leadSourceId !== undefined)
+            url_ += "leadSourceId=" + encodeURIComponent("" + leadSourceId) + "&";
+        if (assignedUserId === null)
+            throw new Error("The parameter 'assignedUserId' cannot be null.");
+        else if (assignedUserId !== undefined)
+            url_ += "assignedUserId=" + encodeURIComponent("" + assignedUserId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processImportLeadsFromFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processImportLeadsFromFile(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processImportLeadsFromFile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -11249,6 +9425,375 @@ export class LeadStatusesServiceProxy {
 }
 
 @Injectable()
+export class LeadUsersServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLeadUserForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLeadUserForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLeadUserForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLeadUserForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLeadUserForEdit(id: number | undefined): Observable<GetLeadUserForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetLeadUserForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadUserForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadUserForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLeadUserForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLeadUserForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadUserForEdit(response: HttpResponseBase): Observable<GetLeadUserForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLeadUserForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLeadUserForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLeadUserDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadForTableDropdown(): Observable<LeadUserLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAllLeadForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadUserLeadLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadUserLeadLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadForTableDropdown(response: HttpResponseBase): Observable<LeadUserLeadLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadUserLeadLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadUserLeadLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadUserUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadUserUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<LeadUserUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadUserUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadUserUserLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class NotificationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -11633,6 +10178,1273 @@ export class NotificationServiceProxy {
     }
 
     protected processDeleteAllUserNotifications(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class OpportunitiesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param maxProbabilityFilter (optional) 
+     * @param minProbabilityFilter (optional) 
+     * @param maxCloseDateFilter (optional) 
+     * @param minCloseDateFilter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param branchFilter (optional) 
+     * @param departmentFilter (optional) 
+     * @param opportunityStageDescriptionFilter (optional) 
+     * @param leadSourceDescriptionFilter (optional) 
+     * @param opportunityTypeDescriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (maxAmountFilter === null)
+            throw new Error("The parameter 'maxAmountFilter' cannot be null.");
+        else if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&";
+        if (minAmountFilter === null)
+            throw new Error("The parameter 'minAmountFilter' cannot be null.");
+        else if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&";
+        if (maxProbabilityFilter === null)
+            throw new Error("The parameter 'maxProbabilityFilter' cannot be null.");
+        else if (maxProbabilityFilter !== undefined)
+            url_ += "MaxProbabilityFilter=" + encodeURIComponent("" + maxProbabilityFilter) + "&";
+        if (minProbabilityFilter === null)
+            throw new Error("The parameter 'minProbabilityFilter' cannot be null.");
+        else if (minProbabilityFilter !== undefined)
+            url_ += "MinProbabilityFilter=" + encodeURIComponent("" + minProbabilityFilter) + "&";
+        if (maxCloseDateFilter === null)
+            throw new Error("The parameter 'maxCloseDateFilter' cannot be null.");
+        else if (maxCloseDateFilter !== undefined)
+            url_ += "MaxCloseDateFilter=" + encodeURIComponent(maxCloseDateFilter ? "" + maxCloseDateFilter.toJSON() : "") + "&";
+        if (minCloseDateFilter === null)
+            throw new Error("The parameter 'minCloseDateFilter' cannot be null.");
+        else if (minCloseDateFilter !== undefined)
+            url_ += "MinCloseDateFilter=" + encodeURIComponent(minCloseDateFilter ? "" + minCloseDateFilter.toJSON() : "") + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (branchFilter === null)
+            throw new Error("The parameter 'branchFilter' cannot be null.");
+        else if (branchFilter !== undefined)
+            url_ += "BranchFilter=" + encodeURIComponent("" + branchFilter) + "&";
+        if (departmentFilter === null)
+            throw new Error("The parameter 'departmentFilter' cannot be null.");
+        else if (departmentFilter !== undefined)
+            url_ += "DepartmentFilter=" + encodeURIComponent("" + departmentFilter) + "&";
+        if (opportunityStageDescriptionFilter === null)
+            throw new Error("The parameter 'opportunityStageDescriptionFilter' cannot be null.");
+        else if (opportunityStageDescriptionFilter !== undefined)
+            url_ += "OpportunityStageDescriptionFilter=" + encodeURIComponent("" + opportunityStageDescriptionFilter) + "&";
+        if (leadSourceDescriptionFilter === null)
+            throw new Error("The parameter 'leadSourceDescriptionFilter' cannot be null.");
+        else if (leadSourceDescriptionFilter !== undefined)
+            url_ += "LeadSourceDescriptionFilter=" + encodeURIComponent("" + leadSourceDescriptionFilter) + "&";
+        if (opportunityTypeDescriptionFilter === null)
+            throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
+        else if (opportunityTypeDescriptionFilter !== undefined)
+            url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetOpportunityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetOpportunityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetOpportunityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetOpportunityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityForView(id: number | undefined): Observable<GetOpportunityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunityForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityForView(response: HttpResponseBase): Observable<GetOpportunityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityForEdit(id: number | undefined): Observable<GetOpportunityForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunityForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityForEdit(response: HttpResponseBase): Observable<GetOpportunityForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditOpportunityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param maxProbabilityFilter (optional) 
+     * @param minProbabilityFilter (optional) 
+     * @param maxCloseDateFilter (optional) 
+     * @param minCloseDateFilter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param branchFilter (optional) 
+     * @param departmentFilter (optional) 
+     * @param opportunityStageDescriptionFilter (optional) 
+     * @param leadSourceDescriptionFilter (optional) 
+     * @param opportunityTypeDescriptionFilter (optional) 
+     * @return Success
+     */
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (maxAmountFilter === null)
+            throw new Error("The parameter 'maxAmountFilter' cannot be null.");
+        else if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&";
+        if (minAmountFilter === null)
+            throw new Error("The parameter 'minAmountFilter' cannot be null.");
+        else if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&";
+        if (maxProbabilityFilter === null)
+            throw new Error("The parameter 'maxProbabilityFilter' cannot be null.");
+        else if (maxProbabilityFilter !== undefined)
+            url_ += "MaxProbabilityFilter=" + encodeURIComponent("" + maxProbabilityFilter) + "&";
+        if (minProbabilityFilter === null)
+            throw new Error("The parameter 'minProbabilityFilter' cannot be null.");
+        else if (minProbabilityFilter !== undefined)
+            url_ += "MinProbabilityFilter=" + encodeURIComponent("" + minProbabilityFilter) + "&";
+        if (maxCloseDateFilter === null)
+            throw new Error("The parameter 'maxCloseDateFilter' cannot be null.");
+        else if (maxCloseDateFilter !== undefined)
+            url_ += "MaxCloseDateFilter=" + encodeURIComponent(maxCloseDateFilter ? "" + maxCloseDateFilter.toJSON() : "") + "&";
+        if (minCloseDateFilter === null)
+            throw new Error("The parameter 'minCloseDateFilter' cannot be null.");
+        else if (minCloseDateFilter !== undefined)
+            url_ += "MinCloseDateFilter=" + encodeURIComponent(minCloseDateFilter ? "" + minCloseDateFilter.toJSON() : "") + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (branchFilter === null)
+            throw new Error("The parameter 'branchFilter' cannot be null.");
+        else if (branchFilter !== undefined)
+            url_ += "BranchFilter=" + encodeURIComponent("" + branchFilter) + "&";
+        if (departmentFilter === null)
+            throw new Error("The parameter 'departmentFilter' cannot be null.");
+        else if (departmentFilter !== undefined)
+            url_ += "DepartmentFilter=" + encodeURIComponent("" + departmentFilter) + "&";
+        if (opportunityStageDescriptionFilter === null)
+            throw new Error("The parameter 'opportunityStageDescriptionFilter' cannot be null.");
+        else if (opportunityStageDescriptionFilter !== undefined)
+            url_ += "OpportunityStageDescriptionFilter=" + encodeURIComponent("" + opportunityStageDescriptionFilter) + "&";
+        if (leadSourceDescriptionFilter === null)
+            throw new Error("The parameter 'leadSourceDescriptionFilter' cannot be null.");
+        else if (leadSourceDescriptionFilter !== undefined)
+            url_ += "LeadSourceDescriptionFilter=" + encodeURIComponent("" + leadSourceDescriptionFilter) + "&";
+        if (opportunityTypeDescriptionFilter === null)
+            throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
+        else if (opportunityTypeDescriptionFilter !== undefined)
+            url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunitiesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunitiesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunitiesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllOpportunityStageForTableDropdown(): Observable<OpportunityOpportunityStageLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityStageForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOpportunityStageForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOpportunityStageForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityOpportunityStageLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityOpportunityStageLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOpportunityStageForTableDropdown(response: HttpResponseBase): Observable<OpportunityOpportunityStageLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityOpportunityStageLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityOpportunityStageLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadSourceForTableDropdown(): Observable<OpportunityLeadSourceLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllLeadSourceForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadSourceForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadSourceForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityLeadSourceLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityLeadSourceLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadSourceForTableDropdown(response: HttpResponseBase): Observable<OpportunityLeadSourceLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityLeadSourceLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityLeadSourceLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllOpportunityTypeForTableDropdown(): Observable<OpportunityOpportunityTypeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityTypeForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOpportunityTypeForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOpportunityTypeForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityOpportunityTypeLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityOpportunityTypeLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOpportunityTypeForTableDropdown(response: HttpResponseBase): Observable<OpportunityOpportunityTypeLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityOpportunityTypeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityOpportunityTypeLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class OpportunityStagesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetOpportunityStageForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetOpportunityStageForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetOpportunityStageForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetOpportunityStageForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityStageForView(id: number | undefined): Observable<GetOpportunityStageForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStageForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityStageForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityStageForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityStageForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityStageForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityStageForView(response: HttpResponseBase): Observable<GetOpportunityStageForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityStageForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityStageForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityStageForEdit(id: number | undefined): Observable<GetOpportunityStageForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStageForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityStageForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityStageForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityStageForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityStageForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityStageForEdit(response: HttpResponseBase): Observable<GetOpportunityStageForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityStageForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityStageForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditOpportunityStageDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class OpportunityTypesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetOpportunityTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetOpportunityTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetOpportunityTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetOpportunityTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetOpportunityTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityTypeForView(id: number | undefined): Observable<GetOpportunityTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetOpportunityTypeForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityTypeForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityTypeForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityTypeForView(response: HttpResponseBase): Observable<GetOpportunityTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityTypeForEdit(id: number | undefined): Observable<GetOpportunityTypeForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetOpportunityTypeForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityTypeForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityTypeForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityTypeForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityTypeForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityTypeForEdit(response: HttpResponseBase): Observable<GetOpportunityTypeForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityTypeForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityTypeForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditOpportunityTypeDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -19825,68 +19637,18 @@ export class ZipCodesServiceProxy {
     }
 
     /**
-     * @param filter (optional) 
      * @param zipCodeFilter (optional) 
-     * @param cityFilter (optional) 
-     * @param stateFilter (optional) 
-     * @param countyFilter (optional) 
-     * @param addedByFilter (optional) 
-     * @param changedByFilter (optional) 
-     * @param maxDateAddedFilter (optional) 
-     * @param minDateAddedFilter (optional) 
-     * @param maxDateChangedFilter (optional) 
-     * @param minDateChangedFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, zipCodeFilter: string | undefined, cityFilter: string | undefined, stateFilter: string | undefined, countyFilter: string | undefined, addedByFilter: string | undefined, changedByFilter: string | undefined, maxDateAddedFilter: DateTime | undefined, minDateAddedFilter: DateTime | undefined, maxDateChangedFilter: DateTime | undefined, minDateChangedFilter: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+    getAll(zipCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAll?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (zipCodeFilter === null)
             throw new Error("The parameter 'zipCodeFilter' cannot be null.");
         else if (zipCodeFilter !== undefined)
             url_ += "ZipCodeFilter=" + encodeURIComponent("" + zipCodeFilter) + "&";
-        if (cityFilter === null)
-            throw new Error("The parameter 'cityFilter' cannot be null.");
-        else if (cityFilter !== undefined)
-            url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
-        if (stateFilter === null)
-            throw new Error("The parameter 'stateFilter' cannot be null.");
-        else if (stateFilter !== undefined)
-            url_ += "StateFilter=" + encodeURIComponent("" + stateFilter) + "&";
-        if (countyFilter === null)
-            throw new Error("The parameter 'countyFilter' cannot be null.");
-        else if (countyFilter !== undefined)
-            url_ += "CountyFilter=" + encodeURIComponent("" + countyFilter) + "&";
-        if (addedByFilter === null)
-            throw new Error("The parameter 'addedByFilter' cannot be null.");
-        else if (addedByFilter !== undefined)
-            url_ += "AddedByFilter=" + encodeURIComponent("" + addedByFilter) + "&";
-        if (changedByFilter === null)
-            throw new Error("The parameter 'changedByFilter' cannot be null.");
-        else if (changedByFilter !== undefined)
-            url_ += "ChangedByFilter=" + encodeURIComponent("" + changedByFilter) + "&";
-        if (maxDateAddedFilter === null)
-            throw new Error("The parameter 'maxDateAddedFilter' cannot be null.");
-        else if (maxDateAddedFilter !== undefined)
-            url_ += "MaxDateAddedFilter=" + encodeURIComponent(maxDateAddedFilter ? "" + maxDateAddedFilter.toJSON() : "") + "&";
-        if (minDateAddedFilter === null)
-            throw new Error("The parameter 'minDateAddedFilter' cannot be null.");
-        else if (minDateAddedFilter !== undefined)
-            url_ += "MinDateAddedFilter=" + encodeURIComponent(minDateAddedFilter ? "" + minDateAddedFilter.toJSON() : "") + "&";
-        if (maxDateChangedFilter === null)
-            throw new Error("The parameter 'maxDateChangedFilter' cannot be null.");
-        else if (maxDateChangedFilter !== undefined)
-            url_ += "MaxDateChangedFilter=" + encodeURIComponent(maxDateChangedFilter ? "" + maxDateChangedFilter.toJSON() : "") + "&";
-        if (minDateChangedFilter === null)
-            throw new Error("The parameter 'minDateChangedFilter' cannot be null.");
-        else if (minDateChangedFilter !== undefined)
-            url_ += "MinDateChangedFilter=" + encodeURIComponent(minDateChangedFilter ? "" + minDateChangedFilter.toJSON() : "") + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -20000,6 +19762,7 @@ export interface IAcceptFriendshipRequestInput {
 }
 
 export class AccountTypeDto implements IAccountTypeDto {
+    description!: string | undefined;
     id!: number;
 
     constructor(data?: IAccountTypeDto) {
@@ -20013,6 +19776,7 @@ export class AccountTypeDto implements IAccountTypeDto {
 
     init(_data?: any) {
         if (_data) {
+            this.description = _data["description"];
             this.id = _data["id"];
         }
     }
@@ -20026,12 +19790,14 @@ export class AccountTypeDto implements IAccountTypeDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IAccountTypeDto {
+    description: string | undefined;
     id: number;
 }
 
@@ -20117,6 +19883,94 @@ export class ActivateWebhookSubscriptionInput implements IActivateWebhookSubscri
 export interface IActivateWebhookSubscriptionInput {
     subscriptionId: string;
     isActive: boolean;
+}
+
+export class ActivityStatusDto implements IActivityStatusDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number;
+
+    constructor(data?: IActivityStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivityStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivityStatusDto {
+    description: string | undefined;
+    order: number;
+    id: number;
+}
+
+export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number;
+
+    constructor(data?: IActivityTaskTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivityTaskTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityTaskTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivityTaskTypeDto {
+    description: string | undefined;
+    order: number;
+    id: number;
 }
 
 export class AddNewPageInput implements IAddNewPageInput {
@@ -21447,193 +21301,107 @@ export interface ICreateOrEditAccountTypeDto {
     id: number | undefined;
 }
 
+export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatusDto {
+    description!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivityStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditActivityStatusDto {
+    description: string | undefined;
+    id: number | undefined;
+}
+
+export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTaskTypeDto {
+    description!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivityTaskTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityTaskTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityTaskTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditActivityTaskTypeDto {
+    description: string | undefined;
+    id: number | undefined;
+}
+
 export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
-    number!: string;
+    number!: string | undefined;
     billTo!: string | undefined;
     name!: string | undefined;
-    searchName!: string | undefined;
-    subName!: string | undefined;
-    poBox!: string | undefined;
+    phone!: string | undefined;
+    eMail!: string | undefined;
+    wwwAddress!: string | undefined;
     address!: string | undefined;
+    poBox!: string | undefined;
+    country!: string | undefined;
     city!: string | undefined;
     state!: string | undefined;
     zipCode!: string | undefined;
-    country!: string | undefined;
-    salutation!: string | undefined;
-    phone!: string | undefined;
-    extention!: string | undefined;
-    phone2!: string | undefined;
-    cellular!: string | undefined;
-    beeper!: string | undefined;
-    homePhone!: string | undefined;
-    fax!: string | undefined;
-    resaleNo!: string | undefined;
-    eMail!: string | undefined;
-    wwwAddress!: string | undefined;
-    parentCompany!: string | undefined;
-    mapLocation!: string | undefined;
-    salesman1!: string | undefined;
-    salesman2!: string | undefined;
-    salesman3!: string | undefined;
-    salesman4!: string | undefined;
-    salesman5!: string | undefined;
-    salesman6!: string | undefined;
-    lockAPR1!: number | undefined;
-    lockAPR2!: number | undefined;
-    lockAPR3!: number | undefined;
-    lockAPR4!: number | undefined;
-    lockAPR5!: number | undefined;
-    lockAPR6!: number | undefined;
-    salesGroup1!: number | undefined;
-    salesGroup2!: number | undefined;
-    salesGroup3!: number | undefined;
-    salesGroup4!: number | undefined;
-    salesGroup5!: number | undefined;
-    salesGroup6!: number | undefined;
-    terms!: string | undefined;
-    fiscalEnd!: string | undefined;
+    accountTypeId!: number | undefined;
+    leadSourceId!: number | undefined;
     dunsCode!: string | undefined;
     sicCode!: string | undefined;
-    mailingGroup!: string | undefined;
-    makes!: string | undefined;
-    poReq!: number | undefined;
-    prevShip!: number | undefined;
-    taxable!: number | undefined;
-    taxCode!: string | undefined;
-    laborRate!: string | undefined;
-    shopLaborRate!: string | undefined;
-    showLaborRate!: number | undefined;
-    rentalRate!: string | undefined;
-    showPartNoAlias!: number | undefined;
-    partsRate!: string | undefined;
-    partsRateDiscount!: number | undefined;
-    added!: DateTime | undefined;
-    addedBy!: string | undefined;
-    changed!: DateTime | undefined;
-    changedBy!: string | undefined;
-    salesContact!: string | undefined;
-    csContact!: string | undefined;
-    accountingContact!: string | undefined;
-    internalCustomer!: number | undefined;
-    equipmentBid!: number | undefined;
-    comments!: string | undefined;
-    arComments!: string | undefined;
-    companyComments!: string | undefined;
-    companyCommentsDate!: DateTime | undefined;
-    companyCommentsBy!: string | undefined;
-    businessCategory!: string | undefined;
-    businessDescription!: string | undefined;
     sicCode2!: string | undefined;
     sicCode3!: string | undefined;
     sicCode4!: string | undefined;
-    shifts!: number | undefined;
-    category!: string | undefined;
-    hoursOfOpStart!: DateTime | undefined;
-    hoursOfOpEnd!: DateTime | undefined;
-    deliveryInfo!: string | undefined;
-    customerTerritory!: string | undefined;
-    creditHoldFlag!: number | undefined;
-    creditRating1!: string | undefined;
-    creditRating2!: string | undefined;
-    statements!: number | undefined;
-    creditHoldDays!: number | undefined;
-    financeCharge!: number | undefined;
-    resaleExpDate!: DateTime | undefined;
-    stateTaxCode!: string | undefined;
-    countyTaxCode!: string | undefined;
-    cityTaxCode!: string | undefined;
-    absoluteTaxCodes!: number | undefined;
-    mfgPermitNo!: string | undefined;
-    mfgPermitExpDate!: DateTime | undefined;
-    branch!: number | undefined;
-    showLaborHours!: number | undefined;
-    vendorNo!: string | undefined;
-    localTaxCode!: string | undefined;
-    currencyType!: string | undefined;
-    creditCardNo!: string | undefined;
-    creditCardCVV!: string | undefined;
-    creditCardExpDate!: string | undefined;
-    creditCardType!: string | undefined;
-    nameOnCreditCard!: string | undefined;
-    rfc!: string | undefined;
-    oldNumber!: string | undefined;
-    suppressPartsPricing!: number | undefined;
-    serviceCharge!: number | undefined;
-    serviceChargeDescription!: string | undefined;
-    finalCopies!: number | undefined;
-    poBoxAndAddress!: number | undefined;
-    insuranceNo!: string | undefined;
-    insuranceNoDate!: DateTime | undefined;
-    insuranceNoRecvDate!: DateTime | undefined;
-    creditCardAddress!: string | undefined;
-    creditCardPOBox!: string | undefined;
-    creditCardCity!: string | undefined;
-    creditCardState!: string | undefined;
-    creditCardZipCode!: string | undefined;
-    creditCardCountry!: string | undefined;
-    pmLaborRate!: string | undefined;
-    referenceNo1!: string | undefined;
-    referenceNo2!: string | undefined;
-    gmSummary!: number | undefined;
-    oB10No!: string | undefined;
-    oldName!: string | undefined;
-    customerBillTo!: number | undefined;
-    shipVia!: string | undefined;
-    noAddMisc!: number | undefined;
-    laborDiscount!: string | undefined;
-    taxRate!: string | undefined;
-    tmhuNo!: string | undefined;
-    lockTaxCode!: number | undefined;
-    taxCodeImport!: string | undefined;
-    shippingComments!: string | undefined;
-    noShippingCharge!: number | undefined;
-    shippingCompany!: string | undefined;
-    shippingAccount!: string | undefined;
-    eMailInvoiceAddress!: string | undefined;
-    eMailInvoiceAttention!: string | undefined;
-    eMailInvoice!: number | undefined;
-    noPrintInvoice!: number | undefined;
-    backupRequired!: number | undefined;
-    oldSalesman1!: string | undefined;
-    oldSalesman2!: string | undefined;
-    oldSalesman3!: string | undefined;
-    oldSalesman4!: string | undefined;
-    oldSalesman5!: string | undefined;
-    oldSalesman6!: string | undefined;
-    lastAutoSalesmanUpdate!: DateTime | undefined;
-    lastAutoSalesmanUpdate1!: DateTime | undefined;
-    lastAutoSalesmanUpdate2!: DateTime | undefined;
-    lastAutoSalesmanUpdate3!: DateTime | undefined;
-    lastAutoSalesmanUpdate4!: DateTime | undefined;
-    lastAutoSalesmanUpdate5!: DateTime | undefined;
-    lastAutoSalesmanUpdate6!: DateTime | undefined;
-    invoiceLanguage!: string | undefined;
-    peopleSoft!: boolean;
-    psCompany!: string | undefined;
-    psAccount!: string | undefined;
-    psLocation!: string | undefined;
-    psDept!: string | undefined;
-    psProduct!: string | undefined;
-    altCustomerNo!: string | undefined;
-    overRideShipTo!: number | undefined;
-    onFileResale!: number | undefined;
-    onFileMFGPermit!: number | undefined;
-    onFileInsurance!: number | undefined;
-    inactive!: number | undefined;
-    overRideShipToRates!: number | undefined;
-    suppressPartsList!: number | undefined;
-    marketingSource!: string | undefined;
-    creditCardLastTransID!: number | undefined;
-    emailRoadService!: string | undefined;
-    emailShopService!: string | undefined;
-    emailPMService!: string | undefined;
-    emailRentalPMService!: string | undefined;
-    emailPartsCounter!: string | undefined;
-    emailEquipmentSales!: string | undefined;
-    emailRentals!: string | undefined;
-    id!: number;
-    arStatementsEmailAddress!: string | undefined;
-    accountTypeId!: number;
+    businessDescription!: string | undefined;
 
     constructor(data?: ICreateOrEditCustomerDto) {
         if (data) {
@@ -21649,189 +21417,23 @@ export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
             this.number = _data["number"];
             this.billTo = _data["billTo"];
             this.name = _data["name"];
-            this.searchName = _data["searchName"];
-            this.subName = _data["subName"];
-            this.poBox = _data["poBox"];
+            this.phone = _data["phone"];
+            this.eMail = _data["eMail"];
+            this.wwwAddress = _data["wwwAddress"];
             this.address = _data["address"];
+            this.poBox = _data["poBox"];
+            this.country = _data["country"];
             this.city = _data["city"];
             this.state = _data["state"];
             this.zipCode = _data["zipCode"];
-            this.country = _data["country"];
-            this.salutation = _data["salutation"];
-            this.phone = _data["phone"];
-            this.extention = _data["extention"];
-            this.phone2 = _data["phone2"];
-            this.cellular = _data["cellular"];
-            this.beeper = _data["beeper"];
-            this.homePhone = _data["homePhone"];
-            this.fax = _data["fax"];
-            this.resaleNo = _data["resaleNo"];
-            this.eMail = _data["eMail"];
-            this.wwwAddress = _data["wwwAddress"];
-            this.parentCompany = _data["parentCompany"];
-            this.mapLocation = _data["mapLocation"];
-            this.salesman1 = _data["salesman1"];
-            this.salesman2 = _data["salesman2"];
-            this.salesman3 = _data["salesman3"];
-            this.salesman4 = _data["salesman4"];
-            this.salesman5 = _data["salesman5"];
-            this.salesman6 = _data["salesman6"];
-            this.lockAPR1 = _data["lockAPR1"];
-            this.lockAPR2 = _data["lockAPR2"];
-            this.lockAPR3 = _data["lockAPR3"];
-            this.lockAPR4 = _data["lockAPR4"];
-            this.lockAPR5 = _data["lockAPR5"];
-            this.lockAPR6 = _data["lockAPR6"];
-            this.salesGroup1 = _data["salesGroup1"];
-            this.salesGroup2 = _data["salesGroup2"];
-            this.salesGroup3 = _data["salesGroup3"];
-            this.salesGroup4 = _data["salesGroup4"];
-            this.salesGroup5 = _data["salesGroup5"];
-            this.salesGroup6 = _data["salesGroup6"];
-            this.terms = _data["terms"];
-            this.fiscalEnd = _data["fiscalEnd"];
+            this.accountTypeId = _data["accountTypeId"];
+            this.leadSourceId = _data["leadSourceId"];
             this.dunsCode = _data["dunsCode"];
             this.sicCode = _data["sicCode"];
-            this.mailingGroup = _data["mailingGroup"];
-            this.makes = _data["makes"];
-            this.poReq = _data["poReq"];
-            this.prevShip = _data["prevShip"];
-            this.taxable = _data["taxable"];
-            this.taxCode = _data["taxCode"];
-            this.laborRate = _data["laborRate"];
-            this.shopLaborRate = _data["shopLaborRate"];
-            this.showLaborRate = _data["showLaborRate"];
-            this.rentalRate = _data["rentalRate"];
-            this.showPartNoAlias = _data["showPartNoAlias"];
-            this.partsRate = _data["partsRate"];
-            this.partsRateDiscount = _data["partsRateDiscount"];
-            this.added = _data["added"] ? DateTime.fromISO(_data["added"].toString()) : <any>undefined;
-            this.addedBy = _data["addedBy"];
-            this.changed = _data["changed"] ? DateTime.fromISO(_data["changed"].toString()) : <any>undefined;
-            this.changedBy = _data["changedBy"];
-            this.salesContact = _data["salesContact"];
-            this.csContact = _data["csContact"];
-            this.accountingContact = _data["accountingContact"];
-            this.internalCustomer = _data["internalCustomer"];
-            this.equipmentBid = _data["equipmentBid"];
-            this.comments = _data["comments"];
-            this.arComments = _data["arComments"];
-            this.companyComments = _data["companyComments"];
-            this.companyCommentsDate = _data["companyCommentsDate"] ? DateTime.fromISO(_data["companyCommentsDate"].toString()) : <any>undefined;
-            this.companyCommentsBy = _data["companyCommentsBy"];
-            this.businessCategory = _data["businessCategory"];
-            this.businessDescription = _data["businessDescription"];
             this.sicCode2 = _data["sicCode2"];
             this.sicCode3 = _data["sicCode3"];
             this.sicCode4 = _data["sicCode4"];
-            this.shifts = _data["shifts"];
-            this.category = _data["category"];
-            this.hoursOfOpStart = _data["hoursOfOpStart"] ? DateTime.fromISO(_data["hoursOfOpStart"].toString()) : <any>undefined;
-            this.hoursOfOpEnd = _data["hoursOfOpEnd"] ? DateTime.fromISO(_data["hoursOfOpEnd"].toString()) : <any>undefined;
-            this.deliveryInfo = _data["deliveryInfo"];
-            this.customerTerritory = _data["customerTerritory"];
-            this.creditHoldFlag = _data["creditHoldFlag"];
-            this.creditRating1 = _data["creditRating1"];
-            this.creditRating2 = _data["creditRating2"];
-            this.statements = _data["statements"];
-            this.creditHoldDays = _data["creditHoldDays"];
-            this.financeCharge = _data["financeCharge"];
-            this.resaleExpDate = _data["resaleExpDate"] ? DateTime.fromISO(_data["resaleExpDate"].toString()) : <any>undefined;
-            this.stateTaxCode = _data["stateTaxCode"];
-            this.countyTaxCode = _data["countyTaxCode"];
-            this.cityTaxCode = _data["cityTaxCode"];
-            this.absoluteTaxCodes = _data["absoluteTaxCodes"];
-            this.mfgPermitNo = _data["mfgPermitNo"];
-            this.mfgPermitExpDate = _data["mfgPermitExpDate"] ? DateTime.fromISO(_data["mfgPermitExpDate"].toString()) : <any>undefined;
-            this.branch = _data["branch"];
-            this.showLaborHours = _data["showLaborHours"];
-            this.vendorNo = _data["vendorNo"];
-            this.localTaxCode = _data["localTaxCode"];
-            this.currencyType = _data["currencyType"];
-            this.creditCardNo = _data["creditCardNo"];
-            this.creditCardCVV = _data["creditCardCVV"];
-            this.creditCardExpDate = _data["creditCardExpDate"];
-            this.creditCardType = _data["creditCardType"];
-            this.nameOnCreditCard = _data["nameOnCreditCard"];
-            this.rfc = _data["rfc"];
-            this.oldNumber = _data["oldNumber"];
-            this.suppressPartsPricing = _data["suppressPartsPricing"];
-            this.serviceCharge = _data["serviceCharge"];
-            this.serviceChargeDescription = _data["serviceChargeDescription"];
-            this.finalCopies = _data["finalCopies"];
-            this.poBoxAndAddress = _data["poBoxAndAddress"];
-            this.insuranceNo = _data["insuranceNo"];
-            this.insuranceNoDate = _data["insuranceNoDate"] ? DateTime.fromISO(_data["insuranceNoDate"].toString()) : <any>undefined;
-            this.insuranceNoRecvDate = _data["insuranceNoRecvDate"] ? DateTime.fromISO(_data["insuranceNoRecvDate"].toString()) : <any>undefined;
-            this.creditCardAddress = _data["creditCardAddress"];
-            this.creditCardPOBox = _data["creditCardPOBox"];
-            this.creditCardCity = _data["creditCardCity"];
-            this.creditCardState = _data["creditCardState"];
-            this.creditCardZipCode = _data["creditCardZipCode"];
-            this.creditCardCountry = _data["creditCardCountry"];
-            this.pmLaborRate = _data["pmLaborRate"];
-            this.referenceNo1 = _data["referenceNo1"];
-            this.referenceNo2 = _data["referenceNo2"];
-            this.gmSummary = _data["gmSummary"];
-            this.oB10No = _data["oB10No"];
-            this.oldName = _data["oldName"];
-            this.customerBillTo = _data["customerBillTo"];
-            this.shipVia = _data["shipVia"];
-            this.noAddMisc = _data["noAddMisc"];
-            this.laborDiscount = _data["laborDiscount"];
-            this.taxRate = _data["taxRate"];
-            this.tmhuNo = _data["tmhuNo"];
-            this.lockTaxCode = _data["lockTaxCode"];
-            this.taxCodeImport = _data["taxCodeImport"];
-            this.shippingComments = _data["shippingComments"];
-            this.noShippingCharge = _data["noShippingCharge"];
-            this.shippingCompany = _data["shippingCompany"];
-            this.shippingAccount = _data["shippingAccount"];
-            this.eMailInvoiceAddress = _data["eMailInvoiceAddress"];
-            this.eMailInvoiceAttention = _data["eMailInvoiceAttention"];
-            this.eMailInvoice = _data["eMailInvoice"];
-            this.noPrintInvoice = _data["noPrintInvoice"];
-            this.backupRequired = _data["backupRequired"];
-            this.oldSalesman1 = _data["oldSalesman1"];
-            this.oldSalesman2 = _data["oldSalesman2"];
-            this.oldSalesman3 = _data["oldSalesman3"];
-            this.oldSalesman4 = _data["oldSalesman4"];
-            this.oldSalesman5 = _data["oldSalesman5"];
-            this.oldSalesman6 = _data["oldSalesman6"];
-            this.lastAutoSalesmanUpdate = _data["lastAutoSalesmanUpdate"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate"].toString()) : <any>undefined;
-            this.lastAutoSalesmanUpdate1 = _data["lastAutoSalesmanUpdate1"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate1"].toString()) : <any>undefined;
-            this.lastAutoSalesmanUpdate2 = _data["lastAutoSalesmanUpdate2"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate2"].toString()) : <any>undefined;
-            this.lastAutoSalesmanUpdate3 = _data["lastAutoSalesmanUpdate3"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate3"].toString()) : <any>undefined;
-            this.lastAutoSalesmanUpdate4 = _data["lastAutoSalesmanUpdate4"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate4"].toString()) : <any>undefined;
-            this.lastAutoSalesmanUpdate5 = _data["lastAutoSalesmanUpdate5"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate5"].toString()) : <any>undefined;
-            this.lastAutoSalesmanUpdate6 = _data["lastAutoSalesmanUpdate6"] ? DateTime.fromISO(_data["lastAutoSalesmanUpdate6"].toString()) : <any>undefined;
-            this.invoiceLanguage = _data["invoiceLanguage"];
-            this.peopleSoft = _data["peopleSoft"];
-            this.psCompany = _data["psCompany"];
-            this.psAccount = _data["psAccount"];
-            this.psLocation = _data["psLocation"];
-            this.psDept = _data["psDept"];
-            this.psProduct = _data["psProduct"];
-            this.altCustomerNo = _data["altCustomerNo"];
-            this.overRideShipTo = _data["overRideShipTo"];
-            this.onFileResale = _data["onFileResale"];
-            this.onFileMFGPermit = _data["onFileMFGPermit"];
-            this.onFileInsurance = _data["onFileInsurance"];
-            this.inactive = _data["inactive"];
-            this.overRideShipToRates = _data["overRideShipToRates"];
-            this.suppressPartsList = _data["suppressPartsList"];
-            this.marketingSource = _data["marketingSource"];
-            this.creditCardLastTransID = _data["creditCardLastTransID"];
-            this.emailRoadService = _data["emailRoadService"];
-            this.emailShopService = _data["emailShopService"];
-            this.emailPMService = _data["emailPMService"];
-            this.emailRentalPMService = _data["emailRentalPMService"];
-            this.emailPartsCounter = _data["emailPartsCounter"];
-            this.emailEquipmentSales = _data["emailEquipmentSales"];
-            this.emailRentals = _data["emailRentals"];
-            this.id = _data["id"];
-            this.arStatementsEmailAddress = _data["arStatementsEmailAddress"];
-            this.accountTypeId = _data["accountTypeId"];
+            this.businessDescription = _data["businessDescription"];
         }
     }
 
@@ -21847,380 +21449,48 @@ export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
         data["number"] = this.number;
         data["billTo"] = this.billTo;
         data["name"] = this.name;
-        data["searchName"] = this.searchName;
-        data["subName"] = this.subName;
-        data["poBox"] = this.poBox;
+        data["phone"] = this.phone;
+        data["eMail"] = this.eMail;
+        data["wwwAddress"] = this.wwwAddress;
         data["address"] = this.address;
+        data["poBox"] = this.poBox;
+        data["country"] = this.country;
         data["city"] = this.city;
         data["state"] = this.state;
         data["zipCode"] = this.zipCode;
-        data["country"] = this.country;
-        data["salutation"] = this.salutation;
-        data["phone"] = this.phone;
-        data["extention"] = this.extention;
-        data["phone2"] = this.phone2;
-        data["cellular"] = this.cellular;
-        data["beeper"] = this.beeper;
-        data["homePhone"] = this.homePhone;
-        data["fax"] = this.fax;
-        data["resaleNo"] = this.resaleNo;
-        data["eMail"] = this.eMail;
-        data["wwwAddress"] = this.wwwAddress;
-        data["parentCompany"] = this.parentCompany;
-        data["mapLocation"] = this.mapLocation;
-        data["salesman1"] = this.salesman1;
-        data["salesman2"] = this.salesman2;
-        data["salesman3"] = this.salesman3;
-        data["salesman4"] = this.salesman4;
-        data["salesman5"] = this.salesman5;
-        data["salesman6"] = this.salesman6;
-        data["lockAPR1"] = this.lockAPR1;
-        data["lockAPR2"] = this.lockAPR2;
-        data["lockAPR3"] = this.lockAPR3;
-        data["lockAPR4"] = this.lockAPR4;
-        data["lockAPR5"] = this.lockAPR5;
-        data["lockAPR6"] = this.lockAPR6;
-        data["salesGroup1"] = this.salesGroup1;
-        data["salesGroup2"] = this.salesGroup2;
-        data["salesGroup3"] = this.salesGroup3;
-        data["salesGroup4"] = this.salesGroup4;
-        data["salesGroup5"] = this.salesGroup5;
-        data["salesGroup6"] = this.salesGroup6;
-        data["terms"] = this.terms;
-        data["fiscalEnd"] = this.fiscalEnd;
+        data["accountTypeId"] = this.accountTypeId;
+        data["leadSourceId"] = this.leadSourceId;
         data["dunsCode"] = this.dunsCode;
         data["sicCode"] = this.sicCode;
-        data["mailingGroup"] = this.mailingGroup;
-        data["makes"] = this.makes;
-        data["poReq"] = this.poReq;
-        data["prevShip"] = this.prevShip;
-        data["taxable"] = this.taxable;
-        data["taxCode"] = this.taxCode;
-        data["laborRate"] = this.laborRate;
-        data["shopLaborRate"] = this.shopLaborRate;
-        data["showLaborRate"] = this.showLaborRate;
-        data["rentalRate"] = this.rentalRate;
-        data["showPartNoAlias"] = this.showPartNoAlias;
-        data["partsRate"] = this.partsRate;
-        data["partsRateDiscount"] = this.partsRateDiscount;
-        data["added"] = this.added ? this.added.toString() : <any>undefined;
-        data["addedBy"] = this.addedBy;
-        data["changed"] = this.changed ? this.changed.toString() : <any>undefined;
-        data["changedBy"] = this.changedBy;
-        data["salesContact"] = this.salesContact;
-        data["csContact"] = this.csContact;
-        data["accountingContact"] = this.accountingContact;
-        data["internalCustomer"] = this.internalCustomer;
-        data["equipmentBid"] = this.equipmentBid;
-        data["comments"] = this.comments;
-        data["arComments"] = this.arComments;
-        data["companyComments"] = this.companyComments;
-        data["companyCommentsDate"] = this.companyCommentsDate ? this.companyCommentsDate.toString() : <any>undefined;
-        data["companyCommentsBy"] = this.companyCommentsBy;
-        data["businessCategory"] = this.businessCategory;
-        data["businessDescription"] = this.businessDescription;
         data["sicCode2"] = this.sicCode2;
         data["sicCode3"] = this.sicCode3;
         data["sicCode4"] = this.sicCode4;
-        data["shifts"] = this.shifts;
-        data["category"] = this.category;
-        data["hoursOfOpStart"] = this.hoursOfOpStart ? this.hoursOfOpStart.toString() : <any>undefined;
-        data["hoursOfOpEnd"] = this.hoursOfOpEnd ? this.hoursOfOpEnd.toString() : <any>undefined;
-        data["deliveryInfo"] = this.deliveryInfo;
-        data["customerTerritory"] = this.customerTerritory;
-        data["creditHoldFlag"] = this.creditHoldFlag;
-        data["creditRating1"] = this.creditRating1;
-        data["creditRating2"] = this.creditRating2;
-        data["statements"] = this.statements;
-        data["creditHoldDays"] = this.creditHoldDays;
-        data["financeCharge"] = this.financeCharge;
-        data["resaleExpDate"] = this.resaleExpDate ? this.resaleExpDate.toString() : <any>undefined;
-        data["stateTaxCode"] = this.stateTaxCode;
-        data["countyTaxCode"] = this.countyTaxCode;
-        data["cityTaxCode"] = this.cityTaxCode;
-        data["absoluteTaxCodes"] = this.absoluteTaxCodes;
-        data["mfgPermitNo"] = this.mfgPermitNo;
-        data["mfgPermitExpDate"] = this.mfgPermitExpDate ? this.mfgPermitExpDate.toString() : <any>undefined;
-        data["branch"] = this.branch;
-        data["showLaborHours"] = this.showLaborHours;
-        data["vendorNo"] = this.vendorNo;
-        data["localTaxCode"] = this.localTaxCode;
-        data["currencyType"] = this.currencyType;
-        data["creditCardNo"] = this.creditCardNo;
-        data["creditCardCVV"] = this.creditCardCVV;
-        data["creditCardExpDate"] = this.creditCardExpDate;
-        data["creditCardType"] = this.creditCardType;
-        data["nameOnCreditCard"] = this.nameOnCreditCard;
-        data["rfc"] = this.rfc;
-        data["oldNumber"] = this.oldNumber;
-        data["suppressPartsPricing"] = this.suppressPartsPricing;
-        data["serviceCharge"] = this.serviceCharge;
-        data["serviceChargeDescription"] = this.serviceChargeDescription;
-        data["finalCopies"] = this.finalCopies;
-        data["poBoxAndAddress"] = this.poBoxAndAddress;
-        data["insuranceNo"] = this.insuranceNo;
-        data["insuranceNoDate"] = this.insuranceNoDate ? this.insuranceNoDate.toString() : <any>undefined;
-        data["insuranceNoRecvDate"] = this.insuranceNoRecvDate ? this.insuranceNoRecvDate.toString() : <any>undefined;
-        data["creditCardAddress"] = this.creditCardAddress;
-        data["creditCardPOBox"] = this.creditCardPOBox;
-        data["creditCardCity"] = this.creditCardCity;
-        data["creditCardState"] = this.creditCardState;
-        data["creditCardZipCode"] = this.creditCardZipCode;
-        data["creditCardCountry"] = this.creditCardCountry;
-        data["pmLaborRate"] = this.pmLaborRate;
-        data["referenceNo1"] = this.referenceNo1;
-        data["referenceNo2"] = this.referenceNo2;
-        data["gmSummary"] = this.gmSummary;
-        data["oB10No"] = this.oB10No;
-        data["oldName"] = this.oldName;
-        data["customerBillTo"] = this.customerBillTo;
-        data["shipVia"] = this.shipVia;
-        data["noAddMisc"] = this.noAddMisc;
-        data["laborDiscount"] = this.laborDiscount;
-        data["taxRate"] = this.taxRate;
-        data["tmhuNo"] = this.tmhuNo;
-        data["lockTaxCode"] = this.lockTaxCode;
-        data["taxCodeImport"] = this.taxCodeImport;
-        data["shippingComments"] = this.shippingComments;
-        data["noShippingCharge"] = this.noShippingCharge;
-        data["shippingCompany"] = this.shippingCompany;
-        data["shippingAccount"] = this.shippingAccount;
-        data["eMailInvoiceAddress"] = this.eMailInvoiceAddress;
-        data["eMailInvoiceAttention"] = this.eMailInvoiceAttention;
-        data["eMailInvoice"] = this.eMailInvoice;
-        data["noPrintInvoice"] = this.noPrintInvoice;
-        data["backupRequired"] = this.backupRequired;
-        data["oldSalesman1"] = this.oldSalesman1;
-        data["oldSalesman2"] = this.oldSalesman2;
-        data["oldSalesman3"] = this.oldSalesman3;
-        data["oldSalesman4"] = this.oldSalesman4;
-        data["oldSalesman5"] = this.oldSalesman5;
-        data["oldSalesman6"] = this.oldSalesman6;
-        data["lastAutoSalesmanUpdate"] = this.lastAutoSalesmanUpdate ? this.lastAutoSalesmanUpdate.toString() : <any>undefined;
-        data["lastAutoSalesmanUpdate1"] = this.lastAutoSalesmanUpdate1 ? this.lastAutoSalesmanUpdate1.toString() : <any>undefined;
-        data["lastAutoSalesmanUpdate2"] = this.lastAutoSalesmanUpdate2 ? this.lastAutoSalesmanUpdate2.toString() : <any>undefined;
-        data["lastAutoSalesmanUpdate3"] = this.lastAutoSalesmanUpdate3 ? this.lastAutoSalesmanUpdate3.toString() : <any>undefined;
-        data["lastAutoSalesmanUpdate4"] = this.lastAutoSalesmanUpdate4 ? this.lastAutoSalesmanUpdate4.toString() : <any>undefined;
-        data["lastAutoSalesmanUpdate5"] = this.lastAutoSalesmanUpdate5 ? this.lastAutoSalesmanUpdate5.toString() : <any>undefined;
-        data["lastAutoSalesmanUpdate6"] = this.lastAutoSalesmanUpdate6 ? this.lastAutoSalesmanUpdate6.toString() : <any>undefined;
-        data["invoiceLanguage"] = this.invoiceLanguage;
-        data["peopleSoft"] = this.peopleSoft;
-        data["psCompany"] = this.psCompany;
-        data["psAccount"] = this.psAccount;
-        data["psLocation"] = this.psLocation;
-        data["psDept"] = this.psDept;
-        data["psProduct"] = this.psProduct;
-        data["altCustomerNo"] = this.altCustomerNo;
-        data["overRideShipTo"] = this.overRideShipTo;
-        data["onFileResale"] = this.onFileResale;
-        data["onFileMFGPermit"] = this.onFileMFGPermit;
-        data["onFileInsurance"] = this.onFileInsurance;
-        data["inactive"] = this.inactive;
-        data["overRideShipToRates"] = this.overRideShipToRates;
-        data["suppressPartsList"] = this.suppressPartsList;
-        data["marketingSource"] = this.marketingSource;
-        data["creditCardLastTransID"] = this.creditCardLastTransID;
-        data["emailRoadService"] = this.emailRoadService;
-        data["emailShopService"] = this.emailShopService;
-        data["emailPMService"] = this.emailPMService;
-        data["emailRentalPMService"] = this.emailRentalPMService;
-        data["emailPartsCounter"] = this.emailPartsCounter;
-        data["emailEquipmentSales"] = this.emailEquipmentSales;
-        data["emailRentals"] = this.emailRentals;
-        data["id"] = this.id;
-        data["arStatementsEmailAddress"] = this.arStatementsEmailAddress;
-        data["accountTypeId"] = this.accountTypeId;
+        data["businessDescription"] = this.businessDescription;
         return data; 
     }
 }
 
 export interface ICreateOrEditCustomerDto {
-    number: string;
+    number: string | undefined;
     billTo: string | undefined;
     name: string | undefined;
-    searchName: string | undefined;
-    subName: string | undefined;
-    poBox: string | undefined;
+    phone: string | undefined;
+    eMail: string | undefined;
+    wwwAddress: string | undefined;
     address: string | undefined;
+    poBox: string | undefined;
+    country: string | undefined;
     city: string | undefined;
     state: string | undefined;
     zipCode: string | undefined;
-    country: string | undefined;
-    salutation: string | undefined;
-    phone: string | undefined;
-    extention: string | undefined;
-    phone2: string | undefined;
-    cellular: string | undefined;
-    beeper: string | undefined;
-    homePhone: string | undefined;
-    fax: string | undefined;
-    resaleNo: string | undefined;
-    eMail: string | undefined;
-    wwwAddress: string | undefined;
-    parentCompany: string | undefined;
-    mapLocation: string | undefined;
-    salesman1: string | undefined;
-    salesman2: string | undefined;
-    salesman3: string | undefined;
-    salesman4: string | undefined;
-    salesman5: string | undefined;
-    salesman6: string | undefined;
-    lockAPR1: number | undefined;
-    lockAPR2: number | undefined;
-    lockAPR3: number | undefined;
-    lockAPR4: number | undefined;
-    lockAPR5: number | undefined;
-    lockAPR6: number | undefined;
-    salesGroup1: number | undefined;
-    salesGroup2: number | undefined;
-    salesGroup3: number | undefined;
-    salesGroup4: number | undefined;
-    salesGroup5: number | undefined;
-    salesGroup6: number | undefined;
-    terms: string | undefined;
-    fiscalEnd: string | undefined;
+    accountTypeId: number | undefined;
+    leadSourceId: number | undefined;
     dunsCode: string | undefined;
     sicCode: string | undefined;
-    mailingGroup: string | undefined;
-    makes: string | undefined;
-    poReq: number | undefined;
-    prevShip: number | undefined;
-    taxable: number | undefined;
-    taxCode: string | undefined;
-    laborRate: string | undefined;
-    shopLaborRate: string | undefined;
-    showLaborRate: number | undefined;
-    rentalRate: string | undefined;
-    showPartNoAlias: number | undefined;
-    partsRate: string | undefined;
-    partsRateDiscount: number | undefined;
-    added: DateTime | undefined;
-    addedBy: string | undefined;
-    changed: DateTime | undefined;
-    changedBy: string | undefined;
-    salesContact: string | undefined;
-    csContact: string | undefined;
-    accountingContact: string | undefined;
-    internalCustomer: number | undefined;
-    equipmentBid: number | undefined;
-    comments: string | undefined;
-    arComments: string | undefined;
-    companyComments: string | undefined;
-    companyCommentsDate: DateTime | undefined;
-    companyCommentsBy: string | undefined;
-    businessCategory: string | undefined;
-    businessDescription: string | undefined;
     sicCode2: string | undefined;
     sicCode3: string | undefined;
     sicCode4: string | undefined;
-    shifts: number | undefined;
-    category: string | undefined;
-    hoursOfOpStart: DateTime | undefined;
-    hoursOfOpEnd: DateTime | undefined;
-    deliveryInfo: string | undefined;
-    customerTerritory: string | undefined;
-    creditHoldFlag: number | undefined;
-    creditRating1: string | undefined;
-    creditRating2: string | undefined;
-    statements: number | undefined;
-    creditHoldDays: number | undefined;
-    financeCharge: number | undefined;
-    resaleExpDate: DateTime | undefined;
-    stateTaxCode: string | undefined;
-    countyTaxCode: string | undefined;
-    cityTaxCode: string | undefined;
-    absoluteTaxCodes: number | undefined;
-    mfgPermitNo: string | undefined;
-    mfgPermitExpDate: DateTime | undefined;
-    branch: number | undefined;
-    showLaborHours: number | undefined;
-    vendorNo: string | undefined;
-    localTaxCode: string | undefined;
-    currencyType: string | undefined;
-    creditCardNo: string | undefined;
-    creditCardCVV: string | undefined;
-    creditCardExpDate: string | undefined;
-    creditCardType: string | undefined;
-    nameOnCreditCard: string | undefined;
-    rfc: string | undefined;
-    oldNumber: string | undefined;
-    suppressPartsPricing: number | undefined;
-    serviceCharge: number | undefined;
-    serviceChargeDescription: string | undefined;
-    finalCopies: number | undefined;
-    poBoxAndAddress: number | undefined;
-    insuranceNo: string | undefined;
-    insuranceNoDate: DateTime | undefined;
-    insuranceNoRecvDate: DateTime | undefined;
-    creditCardAddress: string | undefined;
-    creditCardPOBox: string | undefined;
-    creditCardCity: string | undefined;
-    creditCardState: string | undefined;
-    creditCardZipCode: string | undefined;
-    creditCardCountry: string | undefined;
-    pmLaborRate: string | undefined;
-    referenceNo1: string | undefined;
-    referenceNo2: string | undefined;
-    gmSummary: number | undefined;
-    oB10No: string | undefined;
-    oldName: string | undefined;
-    customerBillTo: number | undefined;
-    shipVia: string | undefined;
-    noAddMisc: number | undefined;
-    laborDiscount: string | undefined;
-    taxRate: string | undefined;
-    tmhuNo: string | undefined;
-    lockTaxCode: number | undefined;
-    taxCodeImport: string | undefined;
-    shippingComments: string | undefined;
-    noShippingCharge: number | undefined;
-    shippingCompany: string | undefined;
-    shippingAccount: string | undefined;
-    eMailInvoiceAddress: string | undefined;
-    eMailInvoiceAttention: string | undefined;
-    eMailInvoice: number | undefined;
-    noPrintInvoice: number | undefined;
-    backupRequired: number | undefined;
-    oldSalesman1: string | undefined;
-    oldSalesman2: string | undefined;
-    oldSalesman3: string | undefined;
-    oldSalesman4: string | undefined;
-    oldSalesman5: string | undefined;
-    oldSalesman6: string | undefined;
-    lastAutoSalesmanUpdate: DateTime | undefined;
-    lastAutoSalesmanUpdate1: DateTime | undefined;
-    lastAutoSalesmanUpdate2: DateTime | undefined;
-    lastAutoSalesmanUpdate3: DateTime | undefined;
-    lastAutoSalesmanUpdate4: DateTime | undefined;
-    lastAutoSalesmanUpdate5: DateTime | undefined;
-    lastAutoSalesmanUpdate6: DateTime | undefined;
-    invoiceLanguage: string | undefined;
-    peopleSoft: boolean;
-    psCompany: string | undefined;
-    psAccount: string | undefined;
-    psLocation: string | undefined;
-    psDept: string | undefined;
-    psProduct: string | undefined;
-    altCustomerNo: string | undefined;
-    overRideShipTo: number | undefined;
-    onFileResale: number | undefined;
-    onFileMFGPermit: number | undefined;
-    onFileInsurance: number | undefined;
-    inactive: number | undefined;
-    overRideShipToRates: number | undefined;
-    suppressPartsList: number | undefined;
-    marketingSource: string | undefined;
-    creditCardLastTransID: number | undefined;
-    emailRoadService: string | undefined;
-    emailShopService: string | undefined;
-    emailPMService: string | undefined;
-    emailRentalPMService: string | undefined;
-    emailPartsCounter: string | undefined;
-    emailEquipmentSales: string | undefined;
-    emailRentals: string | undefined;
-    id: number;
-    arStatementsEmailAddress: string | undefined;
-    accountTypeId: number;
+    businessDescription: string | undefined;
 }
 
 export class CreateOrEditIndustryDto implements ICreateOrEditIndustryDto {
@@ -22459,6 +21729,206 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
 }
 
 export interface ICreateOrEditLeadStatusDto {
+    description: string;
+    id: number | undefined;
+}
+
+export class CreateOrEditLeadUserDto implements ICreateOrEditLeadUserDto {
+    leadId!: number | undefined;
+    userId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLeadUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLeadUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLeadUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLeadUserDto {
+    leadId: number | undefined;
+    userId: number | undefined;
+    id: number | undefined;
+}
+
+export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
+    name!: string;
+    amount!: number;
+    probability!: number;
+    closeDate!: DateTime;
+    description!: string | undefined;
+    branch!: string | undefined;
+    department!: string | undefined;
+    opportunityStageId!: number | undefined;
+    leadSourceId!: number | undefined;
+    opportunityTypeId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditOpportunityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.amount = _data["amount"];
+            this.probability = _data["probability"];
+            this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.branch = _data["branch"];
+            this.department = _data["department"];
+            this.opportunityStageId = _data["opportunityStageId"];
+            this.leadSourceId = _data["leadSourceId"];
+            this.opportunityTypeId = _data["opportunityTypeId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditOpportunityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditOpportunityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["amount"] = this.amount;
+        data["probability"] = this.probability;
+        data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
+        data["description"] = this.description;
+        data["branch"] = this.branch;
+        data["department"] = this.department;
+        data["opportunityStageId"] = this.opportunityStageId;
+        data["leadSourceId"] = this.leadSourceId;
+        data["opportunityTypeId"] = this.opportunityTypeId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditOpportunityDto {
+    name: string;
+    amount: number;
+    probability: number;
+    closeDate: DateTime;
+    description: string | undefined;
+    branch: string | undefined;
+    department: string | undefined;
+    opportunityStageId: number | undefined;
+    leadSourceId: number | undefined;
+    opportunityTypeId: number | undefined;
+    id: number | undefined;
+}
+
+export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
+    description!: string;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditOpportunityStageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditOpportunityStageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditOpportunityStageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditOpportunityStageDto {
+    description: string;
+    id: number | undefined;
+}
+
+export class CreateOrEditOpportunityTypeDto implements ICreateOrEditOpportunityTypeDto {
+    description!: string;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditOpportunityTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditOpportunityTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditOpportunityTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditOpportunityTypeDto {
     description: string;
     id: number | undefined;
 }
@@ -23000,8 +22470,11 @@ export class CustomerDto implements ICustomerDto {
     address!: string | undefined;
     number!: string | undefined;
     billTo!: string | undefined;
-    id!: number;
-    accountTypeId!: number;
+    accountTypeId!: number | undefined;
+    added!: DateTime | undefined;
+    addedBy!: string | undefined;
+    changed!: DateTime | undefined;
+    changedBy!: string | undefined;
 
     constructor(data?: ICustomerDto) {
         if (data) {
@@ -23019,8 +22492,11 @@ export class CustomerDto implements ICustomerDto {
             this.address = _data["address"];
             this.number = _data["number"];
             this.billTo = _data["billTo"];
-            this.id = _data["id"];
             this.accountTypeId = _data["accountTypeId"];
+            this.added = _data["added"] ? DateTime.fromISO(_data["added"].toString()) : <any>undefined;
+            this.addedBy = _data["addedBy"];
+            this.changed = _data["changed"] ? DateTime.fromISO(_data["changed"].toString()) : <any>undefined;
+            this.changedBy = _data["changedBy"];
         }
     }
 
@@ -23038,8 +22514,11 @@ export class CustomerDto implements ICustomerDto {
         data["address"] = this.address;
         data["number"] = this.number;
         data["billTo"] = this.billTo;
-        data["id"] = this.id;
         data["accountTypeId"] = this.accountTypeId;
+        data["added"] = this.added ? this.added.toString() : <any>undefined;
+        data["addedBy"] = this.addedBy;
+        data["changed"] = this.changed ? this.changed.toString() : <any>undefined;
+        data["changedBy"] = this.changedBy;
         return data; 
     }
 }
@@ -23050,8 +22529,51 @@ export interface ICustomerDto {
     address: string | undefined;
     number: string | undefined;
     billTo: string | undefined;
+    accountTypeId: number | undefined;
+    added: DateTime | undefined;
+    addedBy: string | undefined;
+    changed: DateTime | undefined;
+    changedBy: string | undefined;
+}
+
+export class CustomerLeadSourceLookupTableDto implements ICustomerLeadSourceLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ICustomerLeadSourceLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): CustomerLeadSourceLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerLeadSourceLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ICustomerLeadSourceLookupTableDto {
     id: number;
-    accountTypeId: number;
+    displayName: string | undefined;
 }
 
 export class Dashboard implements IDashboard {
@@ -25256,6 +24778,150 @@ export interface IGetAccountTypeForViewDto {
     accountType: AccountTypeDto;
 }
 
+export class GetActivityStatusForEditOutput implements IGetActivityStatusForEditOutput {
+    activityStatus!: CreateOrEditActivityStatusDto;
+
+    constructor(data?: IGetActivityStatusForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityStatus = _data["activityStatus"] ? CreateOrEditActivityStatusDto.fromJS(_data["activityStatus"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityStatusForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityStatusForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityStatus"] = this.activityStatus ? this.activityStatus.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityStatusForEditOutput {
+    activityStatus: CreateOrEditActivityStatusDto;
+}
+
+export class GetActivityStatusForViewDto implements IGetActivityStatusForViewDto {
+    activityStatus!: ActivityStatusDto;
+
+    constructor(data?: IGetActivityStatusForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityStatus = _data["activityStatus"] ? ActivityStatusDto.fromJS(_data["activityStatus"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityStatusForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityStatusForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityStatus"] = this.activityStatus ? this.activityStatus.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityStatusForViewDto {
+    activityStatus: ActivityStatusDto;
+}
+
+export class GetActivityTaskTypeForEditOutput implements IGetActivityTaskTypeForEditOutput {
+    activityTaskType!: CreateOrEditActivityTaskTypeDto;
+
+    constructor(data?: IGetActivityTaskTypeForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityTaskType = _data["activityTaskType"] ? CreateOrEditActivityTaskTypeDto.fromJS(_data["activityTaskType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityTaskTypeForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityTaskTypeForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityTaskType"] = this.activityTaskType ? this.activityTaskType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityTaskTypeForEditOutput {
+    activityTaskType: CreateOrEditActivityTaskTypeDto;
+}
+
+export class GetActivityTaskTypeForViewDto implements IGetActivityTaskTypeForViewDto {
+    activityTaskType!: ActivityTaskTypeDto;
+
+    constructor(data?: IGetActivityTaskTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityTaskType = _data["activityTaskType"] ? ActivityTaskTypeDto.fromJS(_data["activityTaskType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityTaskTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityTaskTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityTaskType"] = this.activityTaskType ? this.activityTaskType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityTaskTypeForViewDto {
+    activityTaskType: ActivityTaskTypeDto;
+}
+
 export class GetAllAvailableWebhooksOutput implements IGetAllAvailableWebhooksOutput {
     name!: string | undefined;
     displayName!: string | undefined;
@@ -26516,7 +26182,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     lead!: LeadDto;
     leadSourceDescription!: string | undefined;
     leadStatusDescription!: string | undefined;
+    leadStatusColor!: string | undefined;
     priorityDescription!: string | undefined;
+    city!: any | undefined;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -26532,7 +26200,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.lead = _data["lead"] ? LeadDto.fromJS(_data["lead"]) : <any>undefined;
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.leadStatusDescription = _data["leadStatusDescription"];
+            this.leadStatusColor = _data["leadStatusColor"];
             this.priorityDescription = _data["priorityDescription"];
+            this.city = _data["city"];
         }
     }
 
@@ -26548,7 +26218,9 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["lead"] = this.lead ? this.lead.toJSON() : <any>undefined;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["leadStatusDescription"] = this.leadStatusDescription;
+        data["leadStatusColor"] = this.leadStatusColor;
         data["priorityDescription"] = this.priorityDescription;
+        data["city"] = this.city;
         return data; 
     }
 }
@@ -26557,7 +26229,9 @@ export interface IGetLeadForViewDto {
     lead: LeadDto;
     leadSourceDescription: string | undefined;
     leadStatusDescription: string | undefined;
+    leadStatusColor: string | undefined;
     priorityDescription: string | undefined;
+    city: any | undefined;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -26704,6 +26378,94 @@ export interface IGetLeadStatusForViewDto {
     leadStatus: LeadStatusDto;
 }
 
+export class GetLeadUserForEditOutput implements IGetLeadUserForEditOutput {
+    leadUser!: CreateOrEditLeadUserDto;
+    leadCompanyName!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetLeadUserForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadUser = _data["leadUser"] ? CreateOrEditLeadUserDto.fromJS(_data["leadUser"]) : <any>undefined;
+            this.leadCompanyName = _data["leadCompanyName"];
+            this.userName = _data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadUserForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadUserForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadUser"] = this.leadUser ? this.leadUser.toJSON() : <any>undefined;
+        data["leadCompanyName"] = this.leadCompanyName;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetLeadUserForEditOutput {
+    leadUser: CreateOrEditLeadUserDto;
+    leadCompanyName: string | undefined;
+    userName: string | undefined;
+}
+
+export class GetLeadUserForViewDto implements IGetLeadUserForViewDto {
+    leadUser!: LeadUserDto;
+    leadCompanyName!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetLeadUserForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadUser = _data["leadUser"] ? LeadUserDto.fromJS(_data["leadUser"]) : <any>undefined;
+            this.leadCompanyName = _data["leadCompanyName"];
+            this.userName = _data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadUserForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadUserForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadUser"] = this.leadUser ? this.leadUser.toJSON() : <any>undefined;
+        data["leadCompanyName"] = this.leadCompanyName;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetLeadUserForViewDto {
+    leadUser: LeadUserDto;
+    leadCompanyName: string | undefined;
+    userName: string | undefined;
+}
+
 export class GetMemberActivityOutput implements IGetMemberActivityOutput {
     memberActivities!: MemberActivity[] | undefined;
 
@@ -26846,6 +26608,246 @@ export interface IGetNotificationsOutput {
     unreadCount: number;
     totalCount: number;
     items: UserNotification[] | undefined;
+}
+
+export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput {
+    opportunity!: CreateOrEditOpportunityDto;
+    opportunityStageDescription!: string | undefined;
+    leadSourceDescription!: string | undefined;
+    opportunityTypeDescription!: string | undefined;
+
+    constructor(data?: IGetOpportunityForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunity = _data["opportunity"] ? CreateOrEditOpportunityDto.fromJS(_data["opportunity"]) : <any>undefined;
+            this.opportunityStageDescription = _data["opportunityStageDescription"];
+            this.leadSourceDescription = _data["leadSourceDescription"];
+            this.opportunityTypeDescription = _data["opportunityTypeDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunity"] = this.opportunity ? this.opportunity.toJSON() : <any>undefined;
+        data["opportunityStageDescription"] = this.opportunityStageDescription;
+        data["leadSourceDescription"] = this.leadSourceDescription;
+        data["opportunityTypeDescription"] = this.opportunityTypeDescription;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityForEditOutput {
+    opportunity: CreateOrEditOpportunityDto;
+    opportunityStageDescription: string | undefined;
+    leadSourceDescription: string | undefined;
+    opportunityTypeDescription: string | undefined;
+}
+
+export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
+    opportunity!: OpportunityDto;
+    opportunityStageDescription!: string | undefined;
+    leadSourceDescription!: string | undefined;
+    opportunityTypeDescription!: string | undefined;
+
+    constructor(data?: IGetOpportunityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunity = _data["opportunity"] ? OpportunityDto.fromJS(_data["opportunity"]) : <any>undefined;
+            this.opportunityStageDescription = _data["opportunityStageDescription"];
+            this.leadSourceDescription = _data["leadSourceDescription"];
+            this.opportunityTypeDescription = _data["opportunityTypeDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunity"] = this.opportunity ? this.opportunity.toJSON() : <any>undefined;
+        data["opportunityStageDescription"] = this.opportunityStageDescription;
+        data["leadSourceDescription"] = this.leadSourceDescription;
+        data["opportunityTypeDescription"] = this.opportunityTypeDescription;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityForViewDto {
+    opportunity: OpportunityDto;
+    opportunityStageDescription: string | undefined;
+    leadSourceDescription: string | undefined;
+    opportunityTypeDescription: string | undefined;
+}
+
+export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
+    opportunityStage!: CreateOrEditOpportunityStageDto;
+
+    constructor(data?: IGetOpportunityStageForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityStage = _data["opportunityStage"] ? CreateOrEditOpportunityStageDto.fromJS(_data["opportunityStage"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityStageForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityStageForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityStage"] = this.opportunityStage ? this.opportunityStage.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityStageForEditOutput {
+    opportunityStage: CreateOrEditOpportunityStageDto;
+}
+
+export class GetOpportunityStageForViewDto implements IGetOpportunityStageForViewDto {
+    opportunityStage!: OpportunityStageDto;
+
+    constructor(data?: IGetOpportunityStageForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityStage = _data["opportunityStage"] ? OpportunityStageDto.fromJS(_data["opportunityStage"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityStageForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityStageForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityStage"] = this.opportunityStage ? this.opportunityStage.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityStageForViewDto {
+    opportunityStage: OpportunityStageDto;
+}
+
+export class GetOpportunityTypeForEditOutput implements IGetOpportunityTypeForEditOutput {
+    opportunityType!: CreateOrEditOpportunityTypeDto;
+
+    constructor(data?: IGetOpportunityTypeForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityType = _data["opportunityType"] ? CreateOrEditOpportunityTypeDto.fromJS(_data["opportunityType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityTypeForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityTypeForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityType"] = this.opportunityType ? this.opportunityType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityTypeForEditOutput {
+    opportunityType: CreateOrEditOpportunityTypeDto;
+}
+
+export class GetOpportunityTypeForViewDto implements IGetOpportunityTypeForViewDto {
+    opportunityType!: OpportunityTypeDto;
+
+    constructor(data?: IGetOpportunityTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityType = _data["opportunityType"] ? OpportunityTypeDto.fromJS(_data["opportunityType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityType"] = this.opportunityType ? this.opportunityType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityTypeForViewDto {
+    opportunityType: OpportunityTypeDto;
 }
 
 export class GetPasswordComplexitySettingOutput implements IGetPasswordComplexitySettingOutput {
@@ -29025,6 +29027,7 @@ export interface ILeadPriorityLookupTableDto {
 
 export class LeadSourceDto implements ILeadSourceDto {
     description!: string | undefined;
+    order!: number;
     id!: number;
 
     constructor(data?: ILeadSourceDto) {
@@ -29039,6 +29042,7 @@ export class LeadSourceDto implements ILeadSourceDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.id = _data["id"];
         }
     }
@@ -29053,6 +29057,7 @@ export class LeadSourceDto implements ILeadSourceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["id"] = this.id;
         return data; 
     }
@@ -29060,11 +29065,13 @@ export class LeadSourceDto implements ILeadSourceDto {
 
 export interface ILeadSourceDto {
     description: string | undefined;
+    order: number;
     id: number;
 }
 
 export class LeadStatusDto implements ILeadStatusDto {
     description!: string | undefined;
+    isLeadConversionValid!: boolean;
     id!: number;
 
     constructor(data?: ILeadStatusDto) {
@@ -29079,6 +29086,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isLeadConversionValid = _data["isLeadConversionValid"];
             this.id = _data["id"];
         }
     }
@@ -29093,6 +29101,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isLeadConversionValid"] = this.isLeadConversionValid;
         data["id"] = this.id;
         return data; 
     }
@@ -29100,7 +29109,132 @@ export class LeadStatusDto implements ILeadStatusDto {
 
 export interface ILeadStatusDto {
     description: string | undefined;
+    isLeadConversionValid: boolean;
     id: number;
+}
+
+export class LeadUserDto implements ILeadUserDto {
+    leadId!: number | undefined;
+    userId!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILeadUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILeadUserDto {
+    leadId: number | undefined;
+    userId: number | undefined;
+    id: number;
+}
+
+export class LeadUserLeadLookupTableDto implements ILeadUserLeadLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadUserLeadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserLeadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserLeadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadUserLeadLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class LeadUserUserLookupTableDto implements ILeadUserUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadUserUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadUserUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
 }
 
 export class LinkedUserDto implements ILinkedUserDto {
@@ -30559,6 +30693,290 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
     validateIssuer: boolean;
 }
 
+export class OpportunityDto implements IOpportunityDto {
+    name!: string | undefined;
+    amount!: number;
+    probability!: number;
+    closeDate!: DateTime;
+    description!: string | undefined;
+    branch!: string | undefined;
+    department!: string | undefined;
+    opportunityStageId!: number | undefined;
+    leadSourceId!: number | undefined;
+    opportunityTypeId!: number | undefined;
+    id!: number;
+
+    constructor(data?: IOpportunityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.amount = _data["amount"];
+            this.probability = _data["probability"];
+            this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.branch = _data["branch"];
+            this.department = _data["department"];
+            this.opportunityStageId = _data["opportunityStageId"];
+            this.leadSourceId = _data["leadSourceId"];
+            this.opportunityTypeId = _data["opportunityTypeId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["amount"] = this.amount;
+        data["probability"] = this.probability;
+        data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
+        data["description"] = this.description;
+        data["branch"] = this.branch;
+        data["department"] = this.department;
+        data["opportunityStageId"] = this.opportunityStageId;
+        data["leadSourceId"] = this.leadSourceId;
+        data["opportunityTypeId"] = this.opportunityTypeId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IOpportunityDto {
+    name: string | undefined;
+    amount: number;
+    probability: number;
+    closeDate: DateTime;
+    description: string | undefined;
+    branch: string | undefined;
+    department: string | undefined;
+    opportunityStageId: number | undefined;
+    leadSourceId: number | undefined;
+    opportunityTypeId: number | undefined;
+    id: number;
+}
+
+export class OpportunityLeadSourceLookupTableDto implements IOpportunityLeadSourceLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IOpportunityLeadSourceLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityLeadSourceLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityLeadSourceLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IOpportunityLeadSourceLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class OpportunityOpportunityStageLookupTableDto implements IOpportunityOpportunityStageLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IOpportunityOpportunityStageLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityOpportunityStageLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityOpportunityStageLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IOpportunityOpportunityStageLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class OpportunityOpportunityTypeLookupTableDto implements IOpportunityOpportunityTypeLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IOpportunityOpportunityTypeLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityOpportunityTypeLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityOpportunityTypeLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IOpportunityOpportunityTypeLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class OpportunityStageDto implements IOpportunityStageDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number;
+
+    constructor(data?: IOpportunityStageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityStageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityStageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IOpportunityStageDto {
+    description: string | undefined;
+    order: number;
+    id: number;
+}
+
+export class OpportunityTypeDto implements IOpportunityTypeDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number;
+
+    constructor(data?: IOpportunityTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IOpportunityTypeDto {
+    description: string | undefined;
+    order: number;
+    id: number;
+}
+
 export class OrganizationUnitDto implements IOrganizationUnitDto {
     parentId!: number | undefined;
     code!: string | undefined;
@@ -30971,6 +31389,102 @@ export interface IPagedResultDtoOfGetAccountTypeForViewDto {
     items: GetAccountTypeForViewDto[] | undefined;
 }
 
+export class PagedResultDtoOfGetActivityStatusForViewDto implements IPagedResultDtoOfGetActivityStatusForViewDto {
+    totalCount!: number;
+    items!: GetActivityStatusForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivityStatusForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivityStatusForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivityStatusForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivityStatusForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivityStatusForViewDto {
+    totalCount: number;
+    items: GetActivityStatusForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetActivityTaskTypeForViewDto implements IPagedResultDtoOfGetActivityTaskTypeForViewDto {
+    totalCount!: number;
+    items!: GetActivityTaskTypeForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivityTaskTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivityTaskTypeForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivityTaskTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivityTaskTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivityTaskTypeForViewDto {
+    totalCount: number;
+    items: GetActivityTaskTypeForViewDto[] | undefined;
+}
+
 export class PagedResultDtoOfGetAllSendAttemptsOutput implements IPagedResultDtoOfGetAllSendAttemptsOutput {
     totalCount!: number;
     items!: GetAllSendAttemptsOutput[] | undefined;
@@ -31305,6 +31819,198 @@ export class PagedResultDtoOfGetLeadStatusForViewDto implements IPagedResultDtoO
 export interface IPagedResultDtoOfGetLeadStatusForViewDto {
     totalCount: number;
     items: GetLeadStatusForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetLeadUserForViewDto implements IPagedResultDtoOfGetLeadUserForViewDto {
+    totalCount!: number;
+    items!: GetLeadUserForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLeadUserForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetLeadUserForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLeadUserForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLeadUserForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLeadUserForViewDto {
+    totalCount: number;
+    items: GetLeadUserForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetOpportunityForViewDto implements IPagedResultDtoOfGetOpportunityForViewDto {
+    totalCount!: number;
+    items!: GetOpportunityForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetOpportunityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetOpportunityForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetOpportunityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetOpportunityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetOpportunityForViewDto {
+    totalCount: number;
+    items: GetOpportunityForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetOpportunityStageForViewDto implements IPagedResultDtoOfGetOpportunityStageForViewDto {
+    totalCount!: number;
+    items!: GetOpportunityStageForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetOpportunityStageForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetOpportunityStageForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetOpportunityStageForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetOpportunityStageForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetOpportunityStageForViewDto {
+    totalCount: number;
+    items: GetOpportunityStageForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetOpportunityTypeForViewDto implements IPagedResultDtoOfGetOpportunityTypeForViewDto {
+    totalCount!: number;
+    items!: GetOpportunityTypeForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetOpportunityTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetOpportunityTypeForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetOpportunityTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetOpportunityTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetOpportunityTypeForViewDto {
+    totalCount: number;
+    items: GetOpportunityTypeForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetPriorityForViewDto implements IPagedResultDtoOfGetPriorityForViewDto {

@@ -1,11 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Account Type entity
+    /// </summary>
     [Table("AccountTypes")]
     public class AccountType : FullAuditedEntity
     {
@@ -13,6 +14,8 @@ namespace SBCRM.Crm
         [Required]
         [StringLength(AccountTypeConsts.MaxDescriptionLength, MinimumLength = AccountTypeConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
+
+        public virtual bool? IsDefault { get; set; }
 
     }
 }

@@ -17,6 +17,9 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using SBCRM.Infrastructure.Excel;
+using SBCRM.DataImporting;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -41,7 +44,6 @@ namespace SBCRM.Crm
 
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
         {
-
             var filteredLeads = _leadRepository.GetAll()
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
@@ -86,7 +88,6 @@ namespace SBCRM.Crm
 
                         select new
                         {
-
                             o.CompanyName,
                             o.ContactName,
                             o.ContactPosition,
@@ -109,13 +110,19 @@ namespace SBCRM.Crm
                             Id = o.Id,
                             LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                             LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color.ToString(),
+                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),                            
                             o.CreationTime
                         };
-
+                
             var totalCount = await filteredLeads.CountAsync();
 
-            var dbList = await leads.ToListAsync();
+            var dbList = await leads.OrderByDescending(o => o.CreationTime)
+                                    .ThenByDescending(s1 => s1.Description)
+                                    .ThenBy(s2 => s2.Description)
+                                    .ThenBy(o => o.CompanyName)
+                                    .ThenBy(o => o.ContactName).ToListAsync();
+
             var results = new List<GetLeadForViewDto>();
 
             foreach (var o in dbList)
@@ -149,6 +156,7 @@ namespace SBCRM.Crm
                     },
                     LeadSourceDescription = o.LeadSourceDescription,
                     LeadStatusDescription = o.LeadStatusDescription,
+                    LeadStatusColor = o.LeadStatusColor,
                     PriorityDescription = o.PriorityDescription
                 };
 
@@ -160,6 +168,47 @@ namespace SBCRM.Crm
                 results
             );
 
+        }
+
+        /// <summary>
+        /// This method allows to upload imported leads from an excel file
+        /// </summary>
+        /// <param name="inputFile"></param>
+        /// <param name="leadSourceId"></param>
+        /// <param name="assignedUserId"></param>
+        /// <returns></returns>
+        public async Task ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
+        {
+            var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
+
+            // Defining default status and priority
+            var leadStatusId = _lookup_leadStatusRepository.FirstOrDefault(p => p.Description == "New");
+            var leadPriorityId = _lookup_priorityRepository.FirstOrDefault(p => p.Description == "Low");
+
+            int duplicatedLeads = 0;
+
+            foreach (var item in leadsToImport)
+            {
+                CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
+                leadAux.CompanyName = item.CompanyName;
+                leadAux.CompanyPhone = item.Phone;
+                leadAux.LeadSourceId = leadSourceId;
+                leadAux.LeadStatusId = leadStatusId.Id;
+                leadAux.PriorityId = leadPriorityId.Id;
+
+
+                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.CompanyPhone == leadAux.CompanyPhone);
+                if (storedLead == null)
+                {
+                    var lead = ObjectMapper.Map<Lead>(leadAux);
+                    await _leadRepository.InsertAsync(lead);
+                }
+                else
+                {
+                    duplicatedLeads++;
+                }
+            }
+            
         }
 
         public async Task<GetLeadForViewDto> GetLeadForView(int id)
@@ -316,7 +365,8 @@ namespace SBCRM.Crm
                                  ContactFaxNumber = o.ContactFaxNumber,
                                  PagerNumber = o.PagerNumber,
                                  ContactEmail = o.ContactEmail,
-                                 Id = o.Id
+                                 Id = o.Id,
+                                 CreationTime = o.CreationTime
                              },
                              LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
