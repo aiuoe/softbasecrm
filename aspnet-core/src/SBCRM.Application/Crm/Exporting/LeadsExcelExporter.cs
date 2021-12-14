@@ -49,7 +49,7 @@ namespace SBCRM.Crm.Exporting
                         _ => _.Lead.CompanyName,
                         _ => _.Lead.ContactName,
                         _ => _.Lead.CompanyPhone,
-                        _ => _.Lead.CreationTime.Value.ToString("dd/MM/yyyy"),
+                        _ => _.Lead.CreationTime.Value.ToString("MM/dd/yyyy"),
                         _ => _.LeadStatusDescription,
                         _ => _.PriorityDescription
                         );
