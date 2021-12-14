@@ -71,13 +71,18 @@ namespace SBCRM.EntityFrameworkCore
         public SBCRMDbContext(DbContextOptions<SBCRMDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
+
+            modelBuilder.HasSequence<int>("CustomerNumberSequence");
+
+            modelBuilder.Entity<Customer>()
+                .Property(o => o.Number)
+                .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
 
             modelBuilder.Entity<BinaryObject>(b =>
                                              {

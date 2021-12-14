@@ -1,11 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Account Type entity
+    /// </summary>
     [Table("AccountTypes")]
     public class AccountType : FullAuditedEntity
     {

@@ -26,6 +26,7 @@ export class SubHeaderComponent extends AppComponentBase {
     @Input() title: string;
     @Input() description: string;
     @Input() breadcrumbs: BreadcrumbItem[];
+    @Input() hideSeparator: boolean;
 
     constructor(private _router: Router, injector: Injector) {
         super(injector);
