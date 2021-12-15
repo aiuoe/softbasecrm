@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OpportunitiesServiceProxy, OpportunityDto } from '@shared/service-proxies/service-proxies';
+import { OpportunitiesServiceProxy, OpportunityDto, OpportunityStageDto, OpportunityStagesServiceProxy, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -24,6 +24,10 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 export class OpportunitiesComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+
+    opportunityStages: OpportunityStageDto[];
+    selectedOpportunityStage: OpportunityStageDto;
+    selectedOpportunityStages: OpportunityStageDto[];
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -48,6 +52,7 @@ export class OpportunitiesComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _opportunitiesServiceProxy: OpportunitiesServiceProxy,
+        private _opportunityStagesServiceProxy: OpportunityStagesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -56,6 +61,22 @@ export class OpportunitiesComponent extends AppComponentBase {
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
+    }
+
+    
+    /***
+    * Initialize component
+    */
+     ngOnInit(){
+        this._opportunityStagesServiceProxy.getAll(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined)
+        .subscribe((result: PagedResultDtoOfGetOpportunityStageForViewDto) => {
+            this.opportunityStages = result.items.map(x => x.opportunityStage);
+        });
     }
 
     getOpportunities(event?: LazyLoadEvent) {
@@ -86,6 +107,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.opportunityStageDescriptionFilter,
                 this.leadSourceDescriptionFilter,
                 this.opportunityTypeDescriptionFilter,
+                this.selectedOpportunityStages?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
