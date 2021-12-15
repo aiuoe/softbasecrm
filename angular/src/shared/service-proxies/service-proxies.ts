@@ -7979,12 +7979,13 @@ export class LeadsServiceProxy {
      * @param leadSourceDescriptionFilter (optional) 
      * @param leadStatusDescriptionFilter (optional) 
      * @param priorityDescriptionFilter (optional) 
+     * @param leadStatusId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -8078,6 +8079,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'priorityDescriptionFilter' cannot be null.");
         else if (priorityDescriptionFilter !== undefined)
             url_ += "PriorityDescriptionFilter=" + encodeURIComponent("" + priorityDescriptionFilter) + "&";
+        if (leadStatusId === null)
+            throw new Error("The parameter 'leadStatusId' cannot be null.");
+        else if (leadStatusId !== undefined)
+            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -8416,7 +8421,7 @@ export class LeadsServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param companyNameFilter (optional) 
+     * @param companyOrContactNameFilter (optional) 
      * @param contactNameFilter (optional) 
      * @param contactPositionFilter (optional) 
      * @param webSiteFilter (optional) 
@@ -8438,18 +8443,19 @@ export class LeadsServiceProxy {
      * @param leadSourceDescriptionFilter (optional) 
      * @param leadStatusDescriptionFilter (optional) 
      * @param priorityDescriptionFilter (optional) 
+     * @param leadStatusId (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (companyNameFilter === null)
-            throw new Error("The parameter 'companyNameFilter' cannot be null.");
-        else if (companyNameFilter !== undefined)
-            url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
+        if (companyOrContactNameFilter === null)
+            throw new Error("The parameter 'companyOrContactNameFilter' cannot be null.");
+        else if (companyOrContactNameFilter !== undefined)
+            url_ += "CompanyOrContactNameFilter=" + encodeURIComponent("" + companyOrContactNameFilter) + "&";
         if (contactNameFilter === null)
             throw new Error("The parameter 'contactNameFilter' cannot be null.");
         else if (contactNameFilter !== undefined)
@@ -8534,6 +8540,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'priorityDescriptionFilter' cannot be null.");
         else if (priorityDescriptionFilter !== undefined)
             url_ += "PriorityDescriptionFilter=" + encodeURIComponent("" + priorityDescriptionFilter) + "&";
+        if (leadStatusId === null)
+            throw new Error("The parameter 'leadStatusId' cannot be null.");
+        else if (leadStatusId !== undefined)
+            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using System;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -50,6 +51,8 @@ namespace SBCRM.Crm.Dtos
         public string LeadStatusDescriptionFilter { get; set; }
 
         public string PriorityDescriptionFilter { get; set; }
+
+        public List<int?> LeadStatusId { get; set; } = new List<int?>();
 
     }
 }
