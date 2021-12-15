@@ -39,7 +39,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     leadStatuses: LeadStatusDto[];
     selectedLeadStatus: LeadStatusDto;
     selectedLeadStatuses: LeadStatusDto[];
-    readOnlyStatus : string[];
+    readOnlyStatus = [];
     
     advancedFiltersAreShown = false;
     filterText = '';
@@ -157,7 +157,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     leadCanBeEdittedOrConverted(event: any) : boolean {
-        return true;
+        return !(this.readOnlyStatus.includes(event));
     }
 
     reloadPage(): void {
