@@ -18,25 +18,41 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+
+    /// <summary>
+    /// LeadSourcesAppService
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_LeadSources)]
     public class LeadSourcesAppService : SBCRMAppServiceBase, ILeadSourcesAppService
     {
         private readonly IRepository<LeadSource> _leadSourceRepository;
         private readonly ILeadSourcesExcelExporter _leadSourcesExcelExporter;
-
-        public LeadSourcesAppService(IRepository<LeadSource> leadSourceRepository, ILeadSourcesExcelExporter leadSourcesExcelExporter)
+        /// <summary>
+        /// LeadSourcesAppService constructor
+        /// </summary>
+        /// <param name="leadSourceRepository"></param>
+        /// <param name="leadSourcesExcelExporter"></param>
+        public LeadSourcesAppService(
+            IRepository<LeadSource> leadSourceRepository,
+            ILeadSourcesExcelExporter leadSourcesExcelExporter)
         {
             _leadSourceRepository = leadSourceRepository;
             _leadSourcesExcelExporter = leadSourcesExcelExporter;
 
         }
 
+        /// <summary>
+        /// Gets all the lead sources
+        /// </summary>
+        /// <param name="input"><see cref="GetAllLeadSourcesInput"/></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetLeadSourceForViewDto>> GetAll(GetAllLeadSourcesInput input)
         {
 
             var filteredLeadSources = _leadSourceRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                        .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
             var pagedAndFilteredLeadSources = filteredLeadSources
                 .OrderBy(input.Sorting ?? "id asc")
@@ -48,6 +64,7 @@ namespace SBCRM.Crm
 
                                   o.Description,
                                   o.Order,
+                                  o.IsDefault,
                                   Id = o.Id
                               };
 
@@ -65,6 +82,7 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         Order = o.Order,
+                        IsDefault = o.IsDefault,
                         Id = o.Id,
                     }
                 };
@@ -79,6 +97,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets leads for source view by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetLeadSourceForViewDto> GetLeadSourceForView(int id)
         {
             var leadSource = await _leadSourceRepository.GetAsync(id);
@@ -88,6 +111,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Gets a lead soruce object to be edited
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         public async Task<GetLeadSourceForEditOutput> GetLeadSourceForEdit(EntityDto input)
         {
@@ -98,6 +126,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Creates or edits a lead source
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditLeadSourceDto input)
         {
             if (input.Id == null)
@@ -110,6 +143,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Creates a new lead soruce
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Create)]
         protected virtual async Task Create(CreateOrEditLeadSourceDto input)
         {
@@ -119,6 +157,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Updates a lead source
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         protected virtual async Task Update(CreateOrEditLeadSourceDto input)
         {
@@ -127,18 +170,29 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Deletes a lead source
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _leadSourceRepository.DeleteAsync(input.Id);
         }
 
+        /// <summary>
+        /// Gets an excel file with a list of lead sources
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<FileDto> GetLeadSourcesToExcel(GetAllLeadSourcesForExcelInput input)
         {
 
             var filteredLeadSources = _leadSourceRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                        .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
             var query = (from o in filteredLeadSources
                          select new GetLeadSourceForViewDto()
@@ -147,6 +201,7 @@ namespace SBCRM.Crm
                              {
                                  Description = o.Description,
                                  Order = o.Order,
+                                 IsDefault = o.IsDefault,
                                  Id = o.Id
                              }
                          });

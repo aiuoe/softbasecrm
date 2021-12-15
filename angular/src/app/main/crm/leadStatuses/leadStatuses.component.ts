@@ -34,6 +34,8 @@ export class LeadStatusesComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
+    isLeadConversionValidFilter = -1;
+    isDefaultFilter = -1;
 
     constructor(
         injector: Injector,
@@ -59,6 +61,8 @@ export class LeadStatusesComponent extends AppComponentBase {
             .getAll(
                 this.filterText,
                 this.descriptionFilter,
+                this.isLeadConversionValidFilter,
+                this.isDefaultFilter,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)

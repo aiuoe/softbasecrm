@@ -24,6 +24,24 @@
                         <h6>{{ l('Description') }} :</h6>
                         {{ item.leadStatus.description }}
                     </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{ l('IsLeadConversionValid') }} :</h6>
+                        <div *ngIf="item.leadStatus.isLeadConversionValid" class="text-left">
+                            <i class="fa fa-check-circle text-success" title="True"></i>
+                        </div>
+                        <div *ngIf="!item.leadStatus.isLeadConversionValid" class="text-left">
+                            <i class="fa fa-times-circle" title="False"></i>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{ l('IsDefault') }} :</h6>
+                        <div *ngIf="item.leadStatus.isDefault" class="text-left">
+                            <i class="fa fa-check-circle text-success" title="True"></i>
+                        </div>
+                        <div *ngIf="!item.leadStatus.isDefault" class="text-left">
+                            <i class="fa fa-times-circle" title="False"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

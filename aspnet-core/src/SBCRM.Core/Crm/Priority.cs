@@ -14,5 +14,7 @@ namespace SBCRM.Crm
         [StringLength(PriorityConsts.MaxDescriptionLength, MinimumLength = PriorityConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
+        public virtual bool IsDefault { get; set; }
+
     }
 }
