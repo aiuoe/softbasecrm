@@ -157,7 +157,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     leadCanBeEdittedOrConverted(event: any) : boolean {
-        return !(this.readOnlyStatus.includes(event));
+        return true;
     }
 
     reloadPage(): void {
