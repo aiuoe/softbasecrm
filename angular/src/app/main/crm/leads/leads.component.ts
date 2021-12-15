@@ -24,6 +24,9 @@ import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-moda
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 import { read } from 'fs';
 
+/***
+ * Component to manage the leads summary grid
+ */
 @Component({
     templateUrl: './leads.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -77,6 +80,21 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     private _uploaderOptions: FileUploaderOptions = {}
     public saving = false;
 
+    
+    /***
+     * Main constructor
+     * @param injector
+     * @param _leadsServiceProxy
+     * @param _leadStatusesServiceProxy
+     * @param _notifyService
+     * @param _tokenAuth
+     * @param _activatedRoute
+     * @param _fileDownloadService
+     * @param _router
+     * @param _dateTimeService
+     * @param http
+     * @param _tokenService
+     */
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
@@ -93,6 +111,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         super(injector);
     }    
 
+    /***
+    * Initialize component
+    */
     ngOnInit(){
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
@@ -111,6 +132,10 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    /***
+    * Get leads on page load/filter changes
+    * @param event
+    */
     getLeads(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -156,29 +181,31 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             });
     }
 
-    leadCanBeEdittedOrConverted(event: any) : boolean {
-        return !(this.readOnlyStatus.includes(event));
+    /***
+    * Verify if a lead on 'status' can be edited or converted
+    */
+    leadCanBeEdittedOrConverted(status: any) : boolean {
+        return !(this.readOnlyStatus.includes(status));
     }
 
+    
+    /***
+    * Reload page
+    */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /***
+    * Go to create lead page
+    */
     createLead(): void {
         this._router.navigate(['/app/main/crm/leads/createOrEdit']);
     }
 
-    deleteLead(lead: LeadDto): void {
-        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
-            if (isConfirmed) {
-                this._leadsServiceProxy.delete(lead.id).subscribe(() => {
-                    this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
-                });
-            }
-        });
-    }
-
+    /***
+    * Export to excel
+    */
     exportToExcel(): void {
         this._leadsServiceProxy
             .getLeadsToExcel(

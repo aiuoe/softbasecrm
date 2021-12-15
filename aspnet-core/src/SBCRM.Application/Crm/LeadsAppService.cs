@@ -129,13 +129,6 @@ namespace SBCRM.Crm
                 
             var totalCount = await filteredLeads.CountAsync();
 
-            //var dbList = await leads.OrderByDescending(o => o.CreationTime)
-            //                        .ThenByDescending(s1 => s1.Description)
-            //                        .ThenBy(s2 => s2.Description)
-            //                        .ThenBy(o => o.CompanyName)
-            //                        .ThenBy(o => o.ContactName).ToListAsync();
-
-
             var dbList = await leads.ToListAsync();
             var results = new List<GetLeadForViewDto>();
 
@@ -225,6 +218,11 @@ namespace SBCRM.Crm
             
         }
 
+        /// <summary>
+        /// Get lead for view mode by lead
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetLeadForViewDto> GetLeadForView(int id)
         {
             var lead = await _leadRepository.GetAsync(id);
@@ -252,6 +250,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get lead for edition mode
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads_Edit)]
         public async Task<GetLeadForEditOutput> GetLeadForEdit(EntityDto input)
         {
@@ -280,6 +283,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Create or edit lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditLeadDto input)
         {
             if (input.Id == null)
@@ -292,6 +300,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Create lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads_Create)]
         protected virtual async Task Create(CreateOrEditLeadDto input)
         {
@@ -301,6 +314,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Update lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads_Edit)]
         protected virtual async Task Update(CreateOrEditLeadDto input)
         {
@@ -309,6 +327,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Delete lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads_Delete)]
         public async Task Delete(EntityDto input)
         {
@@ -393,6 +416,10 @@ namespace SBCRM.Crm
             return _leadsExcelExporter.ExportToFile(leadListDtos);
         }
 
+        /// <summary>
+        /// Get Lead Source type dropdown
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
@@ -404,6 +431,10 @@ namespace SBCRM.Crm
                 }).ToListAsync();
         }
 
+        /// <summary>
+        /// Get Lead Status type dropdown
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadLeadStatusLookupTableDto>> GetAllLeadStatusForTableDropdown()
         {
@@ -415,6 +446,10 @@ namespace SBCRM.Crm
                 }).ToListAsync();
         }
 
+        /// <summary>
+        /// Get Priorities type dropdown
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadPriorityLookupTableDto>> GetAllPriorityForTableDropdown()
         {

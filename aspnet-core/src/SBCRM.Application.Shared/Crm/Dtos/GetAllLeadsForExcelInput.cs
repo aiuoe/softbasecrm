@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// DTO to manage the object filters to export excel
+/// </summary>
 namespace SBCRM.Crm.Dtos
 {
     public class GetAllLeadsForExcelInput
