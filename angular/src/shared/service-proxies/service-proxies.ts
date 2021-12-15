@@ -30725,7 +30725,7 @@ export class OpportunityDto implements IOpportunityDto {
     name!: string | undefined;
     amount!: number;
     probability!: number;
-    closeDate!: DateTime;
+    closeDate!: DateTime | undefined;
     description!: string | undefined;
     branch!: string | undefined;
     department!: string | undefined;
@@ -30787,7 +30787,7 @@ export interface IOpportunityDto {
     name: string | undefined;
     amount: number;
     probability: number;
-    closeDate: DateTime;
+    closeDate: DateTime | undefined;
     description: string | undefined;
     branch: string | undefined;
     department: string | undefined;

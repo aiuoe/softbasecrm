@@ -54,6 +54,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.show(this._activatedRoute.snapshot.queryParams['id']);
     }
 
+    goToOpportunities() {
+        this._router.navigate(['/app/main/crm/opportunities'])
+    }
+
     show(opportunityId?: number): void {
         if (!opportunityId) {
             this.opportunity = new CreateOrEditOpportunityDto();

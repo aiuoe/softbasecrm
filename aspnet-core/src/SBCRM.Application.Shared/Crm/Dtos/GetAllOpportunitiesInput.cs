@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-/// <summary>
-/// DTO to manage the object filters to view
-/// </summary>
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage filter object to get paged result from opportunities
+    /// </summary>
     public class GetAllOpportunitiesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

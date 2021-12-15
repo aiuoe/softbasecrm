@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object opportunity for view purposes
+    /// </summary>
     public class GetOpportunityForViewDto
     {
         public OpportunityDto Opportunity { get; set; }

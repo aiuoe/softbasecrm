@@ -16,6 +16,9 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/***
+ * Component to manage the opportunity summary grid
+ */
 @Component({
     templateUrl: './opportunities.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -49,6 +52,18 @@ export class OpportunitiesComponent extends AppComponentBase {
     leadSourceDescriptionFilter = '';
     opportunityTypeDescriptionFilter = '';
 
+    /***
+     * Main constructor
+     * @param injector
+     * @param _opportunityServiceProxy
+     * @param _opportunityStageServiceProxy
+     * @param _notifyService
+     * @param _tokenAuth
+     * @param _activatedRoute
+     * @param _fileDownloadService
+     * @param _router
+     * @param _dateTimeService
+     */
     constructor(
         injector: Injector,
         private _opportunitiesServiceProxy: OpportunitiesServiceProxy,
@@ -79,6 +94,10 @@ export class OpportunitiesComponent extends AppComponentBase {
         });
     }
 
+    /***
+    * Get opportunities on page load/filter changes
+    * @param event
+    */
     getOpportunities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -116,29 +135,26 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
-                console.log(result)
             });
     }
 
+    /***
+    * Reload page
+    */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /***
+    * Go to create lead page
+    */    
     createOpportunity(): void {
         this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }
 
-    deleteOpportunity(opportunity: OpportunityDto): void {
-        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
-            if (isConfirmed) {
-                this._opportunitiesServiceProxy.delete(opportunity.id).subscribe(() => {
-                    this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
-                });
-            }
-        });
-    }
-
+    /***
+    * Export to excel
+    */
     exportToExcel(): void {
         this._opportunitiesServiceProxy
             .getOpportunitiesToExcel(

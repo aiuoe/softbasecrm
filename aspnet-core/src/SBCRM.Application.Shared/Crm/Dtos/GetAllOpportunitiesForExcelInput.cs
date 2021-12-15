@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-/// <summary>
-/// DTO to manage the object filters to export excel
-/// </summary>
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object filters to export excel
+    /// </summary>
     public class GetAllOpportunitiesForExcelInput
     {
         public string Filter { get; set; }
