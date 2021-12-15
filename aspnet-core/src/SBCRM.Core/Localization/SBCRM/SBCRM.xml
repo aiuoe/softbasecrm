@@ -340,6 +340,7 @@
     <text name="CreateNewCustomer">New Account</text>
     <text name="EditCustomer">Edit Account</text>
     <text name="DeleteCustomer">Delete customer</text>
+    <text name="CustomerViewInvoices">Customer view invoices</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="AccountTypeDescription">Account type description</text>
     <text name="PickAccountType">Pick account type</text>

@@ -424,7 +424,7 @@
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Invoices' | localize }}" [hidden]="this.isNew">
+                <tab heading="{{ 'Invoices' | localize }}" [hidden]="this.hideInvoiceTab">
                     <div class="card card-custom card-in-tab gutter-b">
                         <div class="card-body">
                             <div class="row">
@@ -524,9 +524,9 @@
                                                         {{ record.rentalContractNo }}
                                                     </td>
 
-                                                    <td style="width: 150px">
+                                                    <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('Amount') }}</span>
-                                                        {{ record.grandTotal }}
+                                                        {{ record.grandTotal | number:'1.2-2' }}
                                                     </td>
                                                 </tr>
                                             </ng-template>
@@ -652,19 +652,19 @@
                                                         {{ record.model }}
                                                     </td>
 
-                                                    <td style="width: 150px">
+                                                    <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('Meter') }}</span>
-                                                        {{ record.meter }}
+                                                        {{ record.meter | number:'1.2-2' }}
                                                     </td>
 
-                                                    <td style="width: 150px">
+                                                    <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('TotalExp') }}</span>
-                                                        {{ record.totalExp }}
+                                                        {{ record.totalExp | number:'1.2-2' }}
                                                     </td>
 
-                                                    <td style="width: 150px">
+                                                    <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('ExpMeter') }}</span>
-                                                        {{ record.expMeter }}
+                                                        {{ record.expMeter | number:'1.2-2' }}
                                                     </td>
                                                 </tr>
                                             </ng-template>
@@ -691,6 +691,7 @@
                         </div>
                     </div>
                 </tab>
+
 
                 <tab heading="{{ 'WIP' | localize }}" [hidden]="this.isNew">
                     <div class="card card-custom card-in-tab gutter-b">

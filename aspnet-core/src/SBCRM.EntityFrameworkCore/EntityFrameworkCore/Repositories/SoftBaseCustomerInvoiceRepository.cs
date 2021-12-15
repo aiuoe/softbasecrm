@@ -54,8 +54,6 @@ namespace SBCRM.EntityFrameworkCore.Repositories
                     CustomerFlag = invoiceRegList.CustomerFlag
                 };
 
-            var ddd = filteredCustomerInvoices.ToString();
-
             var pagedAndFilteredCustomerInvoices = filteredCustomerInvoices
                 .OrderBy(input.Sorting ?? $"{nameof(InvoiceRegList.CustomerFlag)} asc")
                 .PageBy(input);

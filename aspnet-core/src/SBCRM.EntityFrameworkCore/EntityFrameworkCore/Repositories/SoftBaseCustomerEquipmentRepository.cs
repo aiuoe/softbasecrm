@@ -36,7 +36,10 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         {
             try
             {
+                var invoiceRegQuery = from invoiceReg in _dbContext.Set<InvoiceReg>() select invoiceReg;
+
                 var filteredCustomerInvoices = from equipment in _dbContext.Set<Equipment>()
+                    join customer in _dbContext.Set<Customer>() on equipment.CustomerNo equals customer.Number
                     join eqCustomFields in _dbContext.Set<EQCustomFields>() on equipment.SerialNo equals eqCustomFields.SerialNo into e
                     from s1 in e.DefaultIfEmpty()
                     where equipment.Customer == FilterCustomer && equipment.CustomerNo == input.CustomerNumber
@@ -47,10 +50,10 @@ namespace SBCRM.EntityFrameworkCore.Repositories
                         ModelYear = equipment.ModelYear,
                         Make = equipment.Make,
                         Model = equipment.Model,
-                        Meter = equipment.DeliveryHourMeter
+                        Meter = equipment.LastHourMeter,
+                        TotalExp = invoiceRegQuery.Where(x => x.SerialNo == equipment.SerialNo && x.Customer == FilterCustomer)
+                            .Sum(x => x.GrandTotal - x.TotalTax - x.RentalTaxable - x.RentalNonTax - x.EquipmentTaxable - x.EquipmentNonTax),
                     };
-
-                var ddd = filteredCustomerInvoices.ToString();
 
                 var pagedAndFilteredCustomerInvoices = filteredCustomerInvoices
                     .OrderBy(input.Sorting ?? $"{nameof(CustomerEquipmentViewDto.Serial)} asc")
@@ -58,6 +61,12 @@ namespace SBCRM.EntityFrameworkCore.Repositories
 
                 var totalCount = await filteredCustomerInvoices.CountAsync();
                 var results = await pagedAndFilteredCustomerInvoices.ToListAsync();
+                results.ForEach(x =>
+                {
+                    x.TotalExp = x.TotalExp is null or 0 ? 0 : x.TotalExp;
+                    x.Meter = x.Meter is null or 0 ? 0 : x.Meter;
+                    x.ExpMeter = x.Meter.Value == 0 ? 0 : x.TotalExp / (decimal?) x.Meter;
+                });
 
                 return new PagedResultDto<CustomerEquipmentViewDto>(
                     totalCount,

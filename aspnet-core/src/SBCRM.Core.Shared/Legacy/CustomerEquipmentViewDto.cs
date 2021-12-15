@@ -11,7 +11,7 @@
         public string Make { get; set; }
         public string Model { get; set; }
         public double? Meter { get; set; }
-        public float? TotalExp { get; set; }
-        public float? ExpMeter { get; set; }
+        public decimal? TotalExp { get; set; }
+        public decimal? ExpMeter { get; set; }
     }
 }

@@ -65,6 +65,7 @@
         public const string Pages_Customer_Create = "Pages.Customer.Create";
         public const string Pages_Customer_Edit = "Pages.Customer.Edit";
         public const string Pages_Customer_Delete = "Pages.Customer.Delete";
+        public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

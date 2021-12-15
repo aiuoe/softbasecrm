@@ -1,4 +1,4 @@
-﻿import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+﻿import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import {
     CustomerServiceProxy,
@@ -41,6 +41,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     isNew = true;
     showSaveButton = false;
     isReadOnlyMode = false;
+    hideInvoiceTab = false;
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
     accountTypeDescription = '';
     allAccountTypes: CustomerAccountTypeLookupTableDto[] = [];
@@ -70,7 +71,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     ngOnInit(): void {
         // this.primengTableHelper.adjustScroll(this.customerInvoicesDataTable);
         // this.primengTableHelper.adjustScroll(this.dataTableEntityChanges);
-
+        this.hideInvoiceTab = !this.isGrantedAny('Pages.Customer.ViewInvoices');
         this.isReadOnlyMode = this._activatedRoute.snapshot.routeConfig.path === 'view';
         this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!this.customerNumber;
