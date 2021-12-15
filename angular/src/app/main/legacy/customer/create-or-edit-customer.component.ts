@@ -3,7 +3,11 @@ import { finalize } from 'rxjs/operators';
 import {
     CustomerServiceProxy,
     CreateOrEditCustomerDto,
-    CustomerAccountTypeLookupTableDto, CustomerLeadSourceLookupTableDto, ZipCodesServiceProxy, GetZipCodeForViewDto
+    CustomerAccountTypeLookupTableDto,
+    CustomerLeadSourceLookupTableDto,
+    ZipCodesServiceProxy,
+    GetZipCodeForViewDto,
+    GetCustomerForEditOutput, PagedResultDtoOfGetZipCodeForViewDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +19,8 @@ import { DateTime } from 'luxon';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
+import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
     templateUrl: './create-or-edit-customer.component.html',
@@ -23,16 +29,22 @@ import { Table } from 'primeng/table';
 })
 export class CreateOrEditCustomerComponent extends AppComponentBase implements OnInit {
     @ViewChild('customerForm', { static: true }) customerForm: NgForm;
-    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('customerInvoicesDataTable', { static: true }) customerInvoicesDataTable: Table;
     @ViewChild('CustomerInvoicesPaginator', { static: true }) paginator: Paginator;
+    @ViewChild('customerEquipmentsDataTable', { static: true }) customerEquipmentsDataTable: Table;
+    @ViewChild('customerEquipmentsPaginator', { static: true }) customerEquipmentsPaginator: Paginator;
+    @ViewChild('customerWipDataTable', { static: true }) customerWipDataTable: Table;
+    @ViewChild('customerWipPaginator', { static: true }) customerWipPaginator: Paginator;
 
     active = false;
     saving = false;
     isNew = true;
+    showSaveButton = false;
     isReadOnlyMode = false;
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
     accountTypeDescription = '';
     allAccountTypes: CustomerAccountTypeLookupTableDto[] = [];
+    selectedAccountType: CustomerAccountTypeLookupTableDto;
     allLeadSources: CustomerLeadSourceLookupTableDto[] = [];
     usZipCodes: GetZipCodeForViewDto[] = [];
     routerLink = '/app/main/business/accounts';
@@ -40,7 +52,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         new BreadcrumbItem(this.l('Customer'), this.routerLink)
     ];
     dateRange: DateTime[] = [this._dateTimeService.getStartOfDayMinusDays(30), this._dateTimeService.getEndOfDay()];
-    // primengTableHelperAuditLogs = new PrimengTableHelper();
+    customerNumber: string;
+    primengTableHelperEquipments = new PrimengTableHelper();
+    primengTableHelperWip = new PrimengTableHelper();
 
     constructor(
         injector: Injector,
@@ -54,41 +68,64 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     }
 
     ngOnInit(): void {
-        this.primengTableHelper.adjustScroll(this.dataTable);
+        // this.primengTableHelper.adjustScroll(this.customerInvoicesDataTable);
         // this.primengTableHelper.adjustScroll(this.dataTableEntityChanges);
 
         this.isReadOnlyMode = this._activatedRoute.snapshot.routeConfig.path === 'view';
-        const customerNumber = this._activatedRoute.snapshot.queryParams['number'];
-        this.isNew = !!!customerNumber;
-        this.show(customerNumber);
+        this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
+        this.isNew = !!!this.customerNumber;
+        this.show(this.customerNumber);
         this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.l('EditCustomer')));
     }
 
     show(customerId?: string): void {
-        if (!customerId) {
-            this.customer = new CreateOrEditCustomerDto();
-            this.active = true;
-        } else {
-            this._customerServiceProxy.getCustomerForEdit(customerId).subscribe((result) => {
-                this.customer = result.customer;
-                this.accountTypeDescription = result.accountTypeDescription;
-                this.active = true;
-            });
-        }
 
-        //TODO ForkJoin
-        this._customerServiceProxy.getAllAccountTypeForTableDropdown()
-            .subscribe((result) => {
-                this.allAccountTypes = result;
-            });
-        this._customerServiceProxy.getAllLeadSourceForTableDropdown()
-            .subscribe((result) => {
-                this.allLeadSources = result;
-            });
-        this._zipCodeServiceProxy.getAll('', '', 0, 100_000_000)
-            .subscribe((result) => {
-                this.usZipCodes = result.items;
-            });
+        const requests: Observable<any>[] = [
+            this._customerServiceProxy.getAllAccountTypeForTableDropdown(),
+            this._customerServiceProxy.getAllLeadSourceForTableDropdown(),
+            this._zipCodeServiceProxy.getAllZipCodesForTableDropdown()
+        ];
+
+        if (!customerId) {
+
+            forkJoin([...requests])
+                .subscribe(([accountTypes, leadSources, zipCodes]: [
+                    CustomerAccountTypeLookupTableDto[],
+                    CustomerLeadSourceLookupTableDto[],
+                    PagedResultDtoOfGetZipCodeForViewDto]) => {
+                    this.active = true;
+
+                    this.customer = new CreateOrEditCustomerDto();
+                    this.allAccountTypes = accountTypes;
+                    this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
+                    this.customer.accountTypeId = this.selectedAccountType?.id;
+                    this.allLeadSources = leadSources;
+                    this.usZipCodes = zipCodes.items;
+
+                    this.showSaveButton = true;
+                });
+
+        } else {
+
+            requests.push(this._customerServiceProxy.getCustomerForEdit(customerId));
+            forkJoin([...requests])
+                .subscribe(([accountTypes, leadSources, zipCodes, customerForEdit]: [
+                    CustomerAccountTypeLookupTableDto[],
+                    CustomerLeadSourceLookupTableDto[],
+                    PagedResultDtoOfGetZipCodeForViewDto,
+                    GetCustomerForEditOutput]) => {
+                    this.active = true;
+
+                    this.customer = customerForEdit.customer;
+                    this.accountTypeDescription = customerForEdit.accountTypeDescription;
+                    this.allAccountTypes = accountTypes;
+                    this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
+                    this.allLeadSources = leadSources;
+                    this.usZipCodes = zipCodes.items;
+
+                    this.showSaveButton = true;
+                });
+        }
     }
 
     save(): void {
@@ -133,13 +170,67 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 this.customer.number,
                 this.dateRange[0],
                 this.dateRange[1],
-                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSorting(this.customerInvoicesDataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
             ).subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
+            });
+        }
+    }
+
+
+    /***
+     * Get customer equipments
+     * @param event
+     */
+    getCustomerEquipments(event?: LazyLoadEvent) {
+        if (!this.isNew) {
+            if (this.primengTableHelperEquipments.shouldResetPaging(event)) {
+                this.customerEquipmentsPaginator.changePage(0);
+                return;
+            }
+
+            this.primengTableHelperEquipments.showLoadingIndicator();
+
+            this._customerServiceProxy.getAllCustomerEquipments(
+                this.customerNumber,
+                this.primengTableHelperEquipments.getSorting(this.customerEquipmentsDataTable),
+                this.primengTableHelperEquipments.getSkipCount(this.customerEquipmentsPaginator, event),
+                this.primengTableHelperEquipments.getMaxResultCount(this.customerEquipmentsPaginator, event)
+            ).subscribe((result) => {
+                this.primengTableHelperEquipments.totalRecordsCount = result.totalCount;
+                this.primengTableHelperEquipments.records = result.items;
+                this.primengTableHelperEquipments.hideLoadingIndicator();
+            });
+        }
+    }
+
+
+    /***
+     * Get customer WIP
+     * @param event
+     */
+    getCustomerWip(event?: LazyLoadEvent) {
+        if (!this.isNew) {
+            if (this.primengTableHelperWip.shouldResetPaging(event)) {
+                this.customerWipPaginator.changePage(0);
+                return;
+            }
+
+            this.primengTableHelperWip.showLoadingIndicator();
+
+            this._customerServiceProxy.getAllCustomerEquipments(
+                this.customerNumber,
+                this.primengTableHelperWip.getSorting(this.customerEquipmentsDataTable),
+                this.primengTableHelperWip.getSkipCount(this.customerWipPaginator, event),
+                this.primengTableHelperWip.getMaxResultCount(this.customerWipPaginator, event)
+            ).subscribe((result) => {
+                this.primengTableHelperWip.totalRecordsCount = result.totalCount;
+                this.primengTableHelperWip.records = result.items;
+                this.primengTableHelperWip.hideLoadingIndicator();
             });
         }
     }

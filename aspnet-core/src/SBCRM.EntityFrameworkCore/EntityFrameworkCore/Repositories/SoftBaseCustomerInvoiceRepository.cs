@@ -12,7 +12,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
     /// <summary>
     /// Repository to manage the customer invoices information
     /// </summary>
-    public class SoftBaseInvoiceRepository : ISoftBaseInvoiceRepository
+    public class SoftBaseCustomerInvoiceRepository : ISoftBaseCustomerInvoiceRepository
     {
         private const int FilteredDisposition = 2;
         private readonly SBCRMDbContext _dbContext;
@@ -21,7 +21,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         /// Main constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public SoftBaseInvoiceRepository(SBCRMDbContext dbContext)
+        public SoftBaseCustomerInvoiceRepository(SBCRMDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -5,15 +5,15 @@ using SBCRM.Legacy;
 namespace SBCRM.Base
 {
     /// <summary>
-    /// Repository to manage the customer invoices information
+    /// Repository to manage the customer equipment information
     /// </summary>
-    public interface ISoftBaseInvoiceRepository
+    public interface ISoftBaseCustomerEquipmentRepository
     {
         /// <summary>
         /// Get customer invoices
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<CustomerInvoiceViewDto>> GetPagedCustomerInvoices(GetAllCustomerInvoicesInput input);
+        Task<PagedResultDto<CustomerEquipmentViewDto>> GetPagedCustomerEquipment(GetAllCustomerEquipmentInput input);
     }
 }

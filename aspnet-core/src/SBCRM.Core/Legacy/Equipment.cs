@@ -11,6 +11,13 @@ namespace SBCRM.Legacy
     {
         [Key]
         public virtual string SerialNo { get; set; }
+        public virtual string CustomerNo { get; set; }
         public virtual string AttachedTo { get; set; }
+        public virtual string UnitNo { get; set; }
+        public virtual string ModelYear { get; set; }
+        public virtual string Make { get; set; }
+        public virtual string Model { get; set; }
+        public double? DeliveryHourMeter { get; set; }
+        public short? Customer { get; set; }
     }
 }

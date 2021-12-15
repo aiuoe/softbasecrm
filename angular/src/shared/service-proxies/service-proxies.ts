@@ -3351,6 +3351,77 @@ export class CustomerServiceProxy {
         }
         return _observableOf<PagedResultDtoOfCustomerInvoiceViewDto>(<any>null);
     }
+
+    /**
+     * @param customerNumber (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllCustomerEquipments(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerEquipments?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerEquipments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerEquipments(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCustomerEquipmentViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCustomerEquipmentViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerEquipments(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerEquipmentViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerEquipmentViewDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -19718,6 +19789,57 @@ export class ZipCodesServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllZipCodesForTableDropdown(): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAllZipCodesForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllZipCodesForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllZipCodesForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetZipCodeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetZipCodeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllZipCodesForTableDropdown(response: HttpResponseBase): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetZipCodeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetZipCodeForViewDto>(<any>null);
+    }
+
+    /**
      * @param zipCodeFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
@@ -22508,6 +22630,7 @@ export interface ICurrentUserProfileEditDto {
 export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ICustomerAccountTypeLookupTableDto) {
         if (data) {
@@ -22522,6 +22645,7 @@ export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLo
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -22536,6 +22660,7 @@ export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLo
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -22543,6 +22668,7 @@ export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLo
 export interface ICustomerAccountTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class CustomerDto implements ICustomerDto {
@@ -22615,6 +22741,70 @@ export interface ICustomerDto {
     addedBy: string | undefined;
     changed: DateTime | undefined;
     changedBy: string | undefined;
+}
+
+export class CustomerEquipmentViewDto implements ICustomerEquipmentViewDto {
+    unitNo!: string | undefined;
+    serial!: string | undefined;
+    modelYear!: string | undefined;
+    make!: string | undefined;
+    model!: string | undefined;
+    meter!: number | undefined;
+    totalExp!: number | undefined;
+    expMeter!: number | undefined;
+
+    constructor(data?: ICustomerEquipmentViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.unitNo = _data["unitNo"];
+            this.serial = _data["serial"];
+            this.modelYear = _data["modelYear"];
+            this.make = _data["make"];
+            this.model = _data["model"];
+            this.meter = _data["meter"];
+            this.totalExp = _data["totalExp"];
+            this.expMeter = _data["expMeter"];
+        }
+    }
+
+    static fromJS(data: any): CustomerEquipmentViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerEquipmentViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["unitNo"] = this.unitNo;
+        data["serial"] = this.serial;
+        data["modelYear"] = this.modelYear;
+        data["make"] = this.make;
+        data["model"] = this.model;
+        data["meter"] = this.meter;
+        data["totalExp"] = this.totalExp;
+        data["expMeter"] = this.expMeter;
+        return data; 
+    }
+}
+
+export interface ICustomerEquipmentViewDto {
+    unitNo: string | undefined;
+    serial: string | undefined;
+    modelYear: string | undefined;
+    make: string | undefined;
+    model: string | undefined;
+    meter: number | undefined;
+    totalExp: number | undefined;
+    expMeter: number | undefined;
 }
 
 export class CustomerInvoiceViewDto implements ICustomerInvoiceViewDto {
@@ -31436,6 +31626,54 @@ export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLo
 export interface IPagedResultDtoOfAuditLogListDto {
     totalCount: number;
     items: AuditLogListDto[] | undefined;
+}
+
+export class PagedResultDtoOfCustomerEquipmentViewDto implements IPagedResultDtoOfCustomerEquipmentViewDto {
+    totalCount!: number;
+    items!: CustomerEquipmentViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerEquipmentViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerEquipmentViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerEquipmentViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerEquipmentViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfCustomerEquipmentViewDto {
+    totalCount: number;
+    items: CustomerEquipmentViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfCustomerInvoiceViewDto implements IPagedResultDtoOfCustomerInvoiceViewDto {

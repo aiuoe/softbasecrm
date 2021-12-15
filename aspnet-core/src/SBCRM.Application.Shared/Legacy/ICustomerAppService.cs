@@ -66,5 +66,13 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         Task<PagedResultDto<CustomerInvoiceViewDto>> GetAllCustomerInvoices(GetAllCustomerInvoicesInput input);
 
+
+        /// <summary>
+        /// Get all Customer equipments
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<CustomerEquipmentViewDto>> GetAllCustomerEquipments(GetAllCustomerEquipmentInput input);
+
     }
 }

@@ -22,6 +22,7 @@ namespace SBCRM.EntityFrameworkCore
         public virtual DbSet<InvoiceReg> InvoiceReg { get; set; }
         public virtual DbSet<WO> WO { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<EQCustomFields> EQCustomFields { get; set; }
 
         public virtual DbSet<ActivityStatus> ActivityStatuses { get; set; }
 

@@ -192,7 +192,14 @@ namespace SBCRM.Web.Startup
                     .LifestyleTransient());
 
                 options.IocManager.IocContainer.Register(
-                    Component.For<ISoftBaseInvoiceRepository>().ImplementedBy<SoftBaseInvoiceRepository>().LifestyleTransient());
+                    Component.For<ISoftBaseCustomerInvoiceRepository>()
+                    .ImplementedBy<SoftBaseCustomerInvoiceRepository>().LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
+                    Component.For<ISoftBaseCustomerEquipmentRepository>()
+                        .ImplementedBy<SoftBaseCustomerEquipmentRepository>().LifestyleTransient());
+
+                
 
             });
         }

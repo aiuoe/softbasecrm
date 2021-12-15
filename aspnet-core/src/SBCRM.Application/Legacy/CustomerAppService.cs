@@ -26,7 +26,8 @@ namespace SBCRM.Legacy
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<AccountType> _lookupAccountTypeRepository;
         private readonly IRepository<LeadSource> _lookupLeadSourceRepository;
-        private readonly ISoftBaseInvoiceRepository _customerInvoiceRepository;
+        private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
+        private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
 
         /// <summary>
         /// Base constructor
@@ -35,19 +36,22 @@ namespace SBCRM.Legacy
         /// <param name="customerExcelExporter"></param>
         /// <param name="lookupAccountTypeRepository"></param>
         /// <param name="lookupLeadSourceRepository"></param>
-        /// <param name="customerInvoiceRepository"></param>
+        /// <param name="customerCustomerInvoiceRepository"></param>
+        /// <param name="customerEquipmentRepository"></param>
         public CustomerAppService(
             IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
             IRepository<AccountType> lookupAccountTypeRepository,
             IRepository<LeadSource> lookupLeadSourceRepository,
-            ISoftBaseInvoiceRepository customerInvoiceRepository)
+            ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
+            ISoftBaseCustomerEquipmentRepository customerEquipmentRepository)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
-            _customerInvoiceRepository = customerInvoiceRepository;
+            _customerCustomerInvoiceRepository = customerCustomerInvoiceRepository;
+            _customerEquipmentRepository = customerEquipmentRepository;
         }
 
         /// <summary>
@@ -275,7 +279,8 @@ namespace SBCRM.Legacy
                 .Select(accountType => new CustomerAccountTypeLookupTableDto
                 {
                     Id = accountType.Id,
-                    DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString()
+                    DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString(),
+                    IsDefault = accountType.IsDefault ?? false
                 }).ToListAsync();
         }
 
@@ -303,8 +308,19 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<PagedResultDto<CustomerInvoiceViewDto>> GetAllCustomerInvoices(GetAllCustomerInvoicesInput input)
         {
-            var pagedCustomerInvoices = await _customerInvoiceRepository.GetPagedCustomerInvoices(input);
-            return pagedCustomerInvoices;
+            return await _customerCustomerInvoiceRepository.GetPagedCustomerInvoices(input);
+        }
+
+
+        /// <summary>
+        /// Get all Customer equipments
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerEquipmentViewDto>> GetAllCustomerEquipments(GetAllCustomerEquipmentInput input)
+        {
+            return await _customerEquipmentRepository.GetPagedCustomerEquipment(input);
         }
     }
 }

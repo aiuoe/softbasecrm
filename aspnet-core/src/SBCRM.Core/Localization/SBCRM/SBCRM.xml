@@ -5,6 +5,12 @@
     <text name="PO">Po</text>
     <text name="Serial">Serial</text>
     <text name="Unit">Unit</text>
+    <text name="Year">Year</text>
+    <text name="Make">Make</text>
+    <text name="Model">Model</text>
+    <text name="Meter">Meter</text>
+    <text name="TotalExp">Total/Exp</text>
+    <text name="ExpMeter">Exp/Meter</text>
     <text name="AssociatedDoc">Associated Doc</text>
     <text name="RentalNumber">Rental Number</text>
     <text name="Invoiced">Invoiced</text>
