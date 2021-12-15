@@ -8779,12 +8779,13 @@ export class LeadSourcesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -8794,6 +8795,10 @@ export class LeadSourcesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -9071,9 +9076,10 @@ export class LeadSourcesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourcesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9083,6 +9089,10 @@ export class LeadSourcesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9144,12 +9154,14 @@ export class LeadStatusesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isLeadConversionValidFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9159,6 +9171,14 @@ export class LeadStatusesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isLeadConversionValidFilter === null)
+            throw new Error("The parameter 'isLeadConversionValidFilter' cannot be null.");
+        else if (isLeadConversionValidFilter !== undefined)
+            url_ += "IsLeadConversionValidFilter=" + encodeURIComponent("" + isLeadConversionValidFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -13263,12 +13283,13 @@ export class PrioritiesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPriorityForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13278,6 +13299,10 @@ export class PrioritiesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -13555,9 +13580,10 @@ export class PrioritiesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetPrioritiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13567,6 +13593,10 @@ export class PrioritiesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -21559,7 +21589,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     state!: string | undefined;
     city!: string | undefined;
     description!: string | undefined;
-    companyPhone!: string;
+    companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
     zipCode!: string | undefined;
@@ -21657,7 +21687,7 @@ export interface ICreateOrEditLeadDto {
     state: string | undefined;
     city: string | undefined;
     description: string | undefined;
-    companyPhone: string;
+    companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
     zipCode: string | undefined;
@@ -21675,6 +21705,7 @@ export interface ICreateOrEditLeadDto {
 
 export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     description!: string;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditLeadSourceDto) {
@@ -21689,6 +21720,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -21703,6 +21735,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -21710,11 +21743,14 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
 
 export interface ICreateOrEditLeadSourceDto {
     description: string;
+    isDefault: boolean;
     id: number | undefined;
 }
 
 export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     description!: string;
+    isLeadConversionValid!: boolean;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditLeadStatusDto) {
@@ -21729,6 +21765,8 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isLeadConversionValid = _data["isLeadConversionValid"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -21743,6 +21781,8 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isLeadConversionValid"] = this.isLeadConversionValid;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -21750,6 +21790,8 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
 
 export interface ICreateOrEditLeadStatusDto {
     description: string;
+    isLeadConversionValid: boolean;
+    isDefault: boolean;
     id: number | undefined;
 }
 
@@ -21959,6 +22001,7 @@ export interface ICreateOrEditOpportunityTypeDto {
 
 export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     description!: string;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditPriorityDto) {
@@ -21973,6 +22016,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -21987,6 +22031,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -21994,6 +22039,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
 
 export interface ICreateOrEditPriorityDto {
     description: string;
+    isDefault: boolean;
     id: number | undefined;
 }
 
@@ -28936,6 +28982,7 @@ export interface ILeadDto {
 export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ILeadLeadSourceLookupTableDto) {
         if (data) {
@@ -28950,6 +28997,7 @@ export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableD
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -28964,6 +29012,7 @@ export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableD
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -28971,11 +29020,13 @@ export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableD
 export interface ILeadLeadSourceLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ILeadLeadStatusLookupTableDto) {
         if (data) {
@@ -28990,6 +29041,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -29004,6 +29056,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -29011,11 +29064,13 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 export interface ILeadLeadStatusLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ILeadPriorityLookupTableDto) {
         if (data) {
@@ -29030,6 +29085,7 @@ export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -29044,6 +29100,7 @@ export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -29051,11 +29108,13 @@ export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
 export interface ILeadPriorityLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class LeadSourceDto implements ILeadSourceDto {
     description!: string | undefined;
     order!: number;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: ILeadSourceDto) {
@@ -29071,6 +29130,7 @@ export class LeadSourceDto implements ILeadSourceDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -29086,6 +29146,7 @@ export class LeadSourceDto implements ILeadSourceDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -29094,12 +29155,14 @@ export class LeadSourceDto implements ILeadSourceDto {
 export interface ILeadSourceDto {
     description: string | undefined;
     order: number;
+    isDefault: boolean;
     id: number;
 }
 
 export class LeadStatusDto implements ILeadStatusDto {
     description!: string | undefined;
     isLeadConversionValid!: boolean;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: ILeadStatusDto) {
@@ -29115,6 +29178,7 @@ export class LeadStatusDto implements ILeadStatusDto {
         if (_data) {
             this.description = _data["description"];
             this.isLeadConversionValid = _data["isLeadConversionValid"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -29130,6 +29194,7 @@ export class LeadStatusDto implements ILeadStatusDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["isLeadConversionValid"] = this.isLeadConversionValid;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -29138,6 +29203,7 @@ export class LeadStatusDto implements ILeadStatusDto {
 export interface ILeadStatusDto {
     description: string | undefined;
     isLeadConversionValid: boolean;
+    isDefault: boolean;
     id: number;
 }
 
@@ -32818,6 +32884,7 @@ export interface IPayPalConfigurationDto {
 
 export class PriorityDto implements IPriorityDto {
     description!: string | undefined;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IPriorityDto) {
@@ -32832,6 +32899,7 @@ export class PriorityDto implements IPriorityDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -32846,6 +32914,7 @@ export class PriorityDto implements IPriorityDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -32853,6 +32922,7 @@ export class PriorityDto implements IPriorityDto {
 
 export interface IPriorityDto {
     description: string | undefined;
+    isDefault: boolean;
     id: number;
 }
 

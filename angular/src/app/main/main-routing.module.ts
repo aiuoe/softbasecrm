@@ -13,6 +13,26 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
                     },
+
+                    {    
+                        path: 'crm/leadSources',
+                        loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
+                        data: { permission: 'Pages.LeadSources' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/leadStatuses',
+                        loadChildren: () => import('./crm/leadStatuses/leadStatus.module').then(m => m.LeadStatusModule),
+                        data: { permission: 'Pages.LeadStatuses' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/priorities',
+                        loadChildren: () => import('./crm/priorities/priority.module').then(m => m.PriorityModule),
+                        data: { permission: 'Pages.Priorities' }
+                    },
                 
 
                     {
