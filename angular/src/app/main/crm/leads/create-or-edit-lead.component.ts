@@ -18,7 +18,9 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { MenuItem } from 'primeng/api';
 import { NgForm } from '@angular/forms';
-
+/**
+ * Component to create or edit leads
+ */
 @Component({
     templateUrl: './create-or-edit-lead.component.html',
     animations: [appModuleAnimation()],
@@ -46,6 +48,14 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
     items: MenuItem[];
 
+    /**
+     * Main constructor
+     * @param injector 
+     * @param _activatedRoute 
+     * @param _leadsServiceProxy 
+     * @param _router 
+     * @param _dateTimeService 
+     */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -56,16 +66,26 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         super(injector);
     }
 
+    /**
+     * Initialize component
+     */
     ngOnInit(): void {
         const hasId = this._activatedRoute.snapshot.queryParams['id'];
         this.show(hasId);
         this.breadcrumbs.push(new BreadcrumbItem(hasId ? this.l('EditLead') : this.l('CreateNewLead')));
     }
 
+    /**
+     * Redirects to leads page
+     */
     goToLeads() {
         this._router.navigate(['/app/main/crm/leads'])
     }
 
+    /**
+     * Shows the form
+     * @param leadId the id of the lead to be used, it can be null
+     */
     show(leadId?: number): void {
         if (!leadId) {
             this.lead = new CreateOrEditLeadDto();
@@ -88,15 +108,31 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         }
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
+            if (!this.lead.leadSourceId) {
+                const defaultSource = result.find(p => p.isDefault)?.id;
+                this.lead.leadSourceId = defaultSource;
+            }
         });
         this._leadsServiceProxy.getAllLeadStatusForTableDropdown().subscribe((result) => {
             this.allLeadStatuss = result;
+            if (!this.lead.leadStatusId) {
+                const defaultStatus = result.find(p => p.isDefault)?.id;
+                this.lead.leadStatusId = defaultStatus;
+            }
         });
         this._leadsServiceProxy.getAllPriorityForTableDropdown().subscribe((result) => {
             this.allPrioritys = result;
+            if (!this.lead.priorityId) {
+                const defaultPriority = result.find(p => p.isDefault)?.id;
+                this.lead.priorityId = defaultPriority;
+            }
         });
     }
 
+    /**
+     * Saves the lead information to the db
+     * @returns void
+     */
     save(): void {
         if (!this.LeadForm.form.valid) {
             this.LeadForm.form.markAllAsTouched();

@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>
-    <text name="SelectAOpportunityStage">Select a opportunity stage</text>
-    <text name="SelectAOpportunityType">Select a opportunity type</text>
+  <texts>    <text name="NotIsDefault">Not is default</text>
+    <text name="IsDefault">Is default</text>
 
+    <text name="SelectAOpportunityStage">Select a opportunity stage</text>
+    <text name="SelectAOpportunityType">Select a opportunity type</text>  
     <text name="ActivityStatus">Activity status</text>
     <text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
     <text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
@@ -21,7 +22,9 @@
     <text name="ActivityTaskTypes">Activity task types</text>
     <text name="Order">Order</text>
     <text name="Overview">Overview</text>
-    <text name="GeneralInformation">General information</text>
+    <text name="GeneralInformation">General Information</text>
+	<text name="ContactDetails">Contact Details</text>
+	<text name="LeadDetails">Lead Details</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -72,8 +75,8 @@
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
-	  <text name="CompanyPhone_Invalid">Invalid Company phone</text>
-	  <text name="LeadCompanyPhone">Phone</text>
+	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
+	<text name="LeadCompanyPhone">Phone</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po Box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -84,8 +87,8 @@
     <text name="ContactEmail">Contact email</text>
     <text name="PriorityDescription">Priority description</text>
     <text name="PickPriority">Pick priority</text>
-	  <text name="LeadPriority">Priority</text>
-	  <text name="SelectAPriority">Select a priority</text>
+	<text name="LeadPriority">Priority</text>
+	<text name="SelectAPriority">Select a priority</text>
     <text name="Priority">Priority</text>
     <text name="SBCRM.Crm.Priority">Priority</text>
     <text name="PrioritiesHeaderInfo">Priorities header info</text>

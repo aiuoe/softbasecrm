@@ -36,6 +36,22 @@
                         />
                         <validation-messages [formCtrl]="Priority_Description"></validation-messages>
                     </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="Priority_IsDefault" class="kt-checkbox">
+                            <input
+                                id="Priority_IsDefault"
+                                #Priority_IsDefault="ngModel"
+                                type="checkbox"
+                                name="IsDefault"
+                                [(ngModel)]="priority.isDefault"
+                            />
+                            {{ l('IsDefault') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="Priority_IsDefault"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
