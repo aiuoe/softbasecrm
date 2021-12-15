@@ -4,65 +4,69 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Lead dto used by the ui to create or edit a lead
+    /// </summary>
     public class CreateOrEditLeadDto : EntityDto<int?>
     {
 
         [Required]
-        [StringLength(LeadConsts.MaxCompanyNameLength, MinimumLength = LeadConsts.MinCompanyNameLength)]
+        [StringLength(LeadConsts.MaxCompanyNameLength)]
         public string CompanyName { get; set; }
 
-        [StringLength(LeadConsts.MaxContactNameLength, MinimumLength = LeadConsts.MinContactNameLength)]
+        [StringLength(LeadConsts.MaxContactNameLength)]
         public string ContactName { get; set; }
 
-        [StringLength(LeadConsts.MaxContactPositionLength, MinimumLength = LeadConsts.MinContactPositionLength)]
+        [StringLength(LeadConsts.MaxContactPositionLength)]
         public string ContactPosition { get; set; }
 
-        [StringLength(LeadConsts.MaxWebSiteLength, MinimumLength = LeadConsts.MinWebSiteLength)]
+        [StringLength(LeadConsts.MaxWebSiteLength)]
         public string WebSite { get; set; }
 
-        [StringLength(LeadConsts.MaxAddressLength, MinimumLength = LeadConsts.MinAddressLength)]
+        [StringLength(LeadConsts.MaxAddressLength)]
         public string Address { get; set; }
 
-        [StringLength(LeadConsts.MaxCountryLength, MinimumLength = LeadConsts.MinCountryLength)]
+        [StringLength(LeadConsts.MaxCountryLength)]
         public string Country { get; set; }
 
-        [StringLength(LeadConsts.MaxStateLength, MinimumLength = LeadConsts.MinStateLength)]
+        [StringLength(LeadConsts.MaxStateLength)]
         public string State { get; set; }
 
-        [StringLength(LeadConsts.MaxCityLength, MinimumLength = LeadConsts.MinCityLength)]
+        [StringLength(LeadConsts.MaxCityLength)]
         public string City { get; set; }
 
+        [StringLength(LeadConsts.MaxDescriptionLength)]
         public string Description { get; set; }
 
         [Required]
-        [StringLength(LeadConsts.MaxCompanyPhoneLength, MinimumLength = LeadConsts.MinCompanyPhoneLength)]
+        [StringLength(LeadConsts.MaxCompanyPhoneLength)]
         public string CompanyPhone { get; set; }
 
-        [StringLength(LeadConsts.MaxCompanyEmailLength, MinimumLength = LeadConsts.MinCompanyEmailLength)]
+        [StringLength(LeadConsts.MaxCompanyEmailLength)]
         public string CompanyEmail { get; set; }
 
-        [StringLength(LeadConsts.MaxPoBoxLength, MinimumLength = LeadConsts.MinPoBoxLength)]
+        [StringLength(LeadConsts.MaxPoBoxLength)]
         public string PoBox { get; set; }
 
-        [StringLength(LeadConsts.MaxZipCodeLength, MinimumLength = LeadConsts.MinZipCodeLength)]
+        [StringLength(LeadConsts.MaxZipCodeLength)]
         public string ZipCode { get; set; }
 
-        [StringLength(LeadConsts.MaxContactPhoneLength, MinimumLength = LeadConsts.MinContactPhoneLength)]
+        [StringLength(LeadConsts.MaxContactPhoneLength)]
         public string ContactPhone { get; set; }
 
-        [StringLength(LeadConsts.MaxContactPhoneExtensionLength, MinimumLength = LeadConsts.MinContactPhoneExtensionLength)]
+        [StringLength(LeadConsts.MaxContactPhoneExtensionLength)]
         public string ContactPhoneExtension { get; set; }
 
-        [StringLength(LeadConsts.MaxContactCellPhoneLength, MinimumLength = LeadConsts.MinContactCellPhoneLength)]
+        [StringLength(LeadConsts.MaxContactCellPhoneLength)]
         public string ContactCellPhone { get; set; }
 
-        [StringLength(LeadConsts.MaxContactFaxNumberLength, MinimumLength = LeadConsts.MinContactFaxNumberLength)]
+        [StringLength(LeadConsts.MaxContactFaxNumberLength)]
         public string ContactFaxNumber { get; set; }
 
-        [StringLength(LeadConsts.MaxPagerNumberLength, MinimumLength = LeadConsts.MinPagerNumberLength)]
+        [StringLength(LeadConsts.MaxPagerNumberLength)]
         public string PagerNumber { get; set; }
 
-        [StringLength(LeadConsts.MaxContactEmailLength, MinimumLength = LeadConsts.MinContactEmailLength)]
+        [StringLength(LeadConsts.MaxContactEmailLength)]
         public string ContactEmail { get; set; }
 
         public int? LeadSourceId { get; set; }

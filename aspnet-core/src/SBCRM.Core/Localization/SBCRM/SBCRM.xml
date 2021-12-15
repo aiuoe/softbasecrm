@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="NotIsDefault">Not is default</text>
+    <text name="IsDefault">Is default</text>
+
     <text name="SelectAOpportunityStage">Select a opportunity stage</text>
     <text name="SelectAOpportunityType">Select a opportunity type</text>
 

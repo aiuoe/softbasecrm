@@ -8,7 +8,7 @@
   "PrimaryKeyType": "int",
   "BaseClass": "FullAuditedEntity",
   "EntityHistory": false,
-  "AutoMigration": true,
+  "AutoMigration": false,
   "UpdateDatabase": false,
   "CreateUserInterface": true,
   "CreateViewOnly": true,
@@ -42,8 +42,8 @@
     {
       "Name": "Order",
       "Type": "int",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "MaxLength": -1,
+      "MinLength": -1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0.0,
@@ -56,6 +56,25 @@
         "AdvancedFilter": false,
         "List": true,
         "CreateOrUpdate": false
+      }
+    },
+    {
+      "Name": "IsDefault",
+      "Type": "bool",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
       }
     }
   ],

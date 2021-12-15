@@ -36,6 +36,38 @@
                         />
                         <validation-messages [formCtrl]="LeadStatus_Description"></validation-messages>
                     </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="LeadStatus_IsLeadConversionValid" class="kt-checkbox">
+                            <input
+                                id="LeadStatus_IsLeadConversionValid"
+                                #LeadStatus_IsLeadConversionValid="ngModel"
+                                type="checkbox"
+                                name="IsLeadConversionValid"
+                                [(ngModel)]="leadStatus.isLeadConversionValid"
+                            />
+                            {{ l('IsLeadConversionValid') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="LeadStatus_IsLeadConversionValid"></validation-messages>
+                    </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="LeadStatus_IsDefault" class="kt-checkbox">
+                            <input
+                                id="LeadStatus_IsDefault"
+                                #LeadStatus_IsDefault="ngModel"
+                                type="checkbox"
+                                name="IsDefault"
+                                [(ngModel)]="leadStatus.isDefault"
+                            />
+                            {{ l('IsDefault') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="LeadStatus_IsDefault"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

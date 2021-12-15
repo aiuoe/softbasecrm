@@ -42,6 +42,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets all the leads
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
         {
             var filteredLeads = _leadRepository.GetAll()
@@ -123,10 +128,10 @@ namespace SBCRM.Crm
                             LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                             LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                             LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color.ToString(),
-                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),                            
+                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                             o.CreationTime
                         };
-                
+
             var totalCount = await filteredLeads.CountAsync();
 
             var dbList = await leads.ToListAsync();
@@ -215,7 +220,7 @@ namespace SBCRM.Crm
                     duplicatedLeads++;
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -246,7 +251,7 @@ namespace SBCRM.Crm
                 var _lookupPriority = await _lookup_priorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
                 output.PriorityDescription = _lookupPriority?.Description?.ToString();
             }
-            
+
             return output;
         }
 
@@ -427,7 +432,8 @@ namespace SBCRM.Crm
                 .Select(leadSource => new LeadLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
-                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString()
+                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString(),
+                    IsDefault = leadSource.IsDefault
                 }).ToListAsync();
         }
 
@@ -442,7 +448,8 @@ namespace SBCRM.Crm
                 .Select(leadStatus => new LeadLeadStatusLookupTableDto
                 {
                     Id = leadStatus.Id,
-                    DisplayName = leadStatus == null || leadStatus.Description == null ? "" : leadStatus.Description.ToString()
+                    DisplayName = leadStatus == null || leadStatus.Description == null ? "" : leadStatus.Description.ToString(),
+                    IsDefault = leadStatus.IsDefault
                 }).ToListAsync();
         }
 
@@ -457,7 +464,8 @@ namespace SBCRM.Crm
                 .Select(priority => new LeadPriorityLookupTableDto
                 {
                     Id = priority.Id,
-                    DisplayName = priority == null || priority.Description == null ? "" : priority.Description.ToString()
+                    DisplayName = priority == null || priority.Description == null ? "" : priority.Description.ToString(),
+                    IsDefault = priority.IsDefault
                 }).ToListAsync();
         }
 

@@ -8,22 +8,36 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// Excel exporter for priorities
+    /// </summary>
     public class PrioritiesExcelExporter : NpoiExcelExporterBase, IPrioritiesExcelExporter
     {
 
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
+        /// <summary>
+        /// Constructor for PrioritiesExcelExporter
+        /// </summary>
+        /// <param name="timeZoneConverter"></param>
+        /// <param name="abpSession"></param>
+        /// <param name="tempFileCacheManager"></param>
         public PrioritiesExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
-            ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
+            ITempFileCacheManager tempFileCacheManager)
+            : base(tempFileCacheManager)
         {
             _timeZoneConverter = timeZoneConverter;
             _abpSession = abpSession;
         }
 
+        /// <summary>
+        /// Exports a list of priorities sources to excel
+        /// </summary>
+        /// <param name="priorities">The list of priorities to be exported<</param>
+        /// <returns><see cref="FileDto"/></returns>
         public FileDto ExportToFile(List<GetPriorityForViewDto> priorities)
         {
             return CreateExcelPackage(
@@ -35,12 +49,14 @@ namespace SBCRM.Crm.Exporting
 
                     AddHeader(
                         sheet,
-                        L("Description")
+                        L("Description"),
+                        L("IsDefault")
                         );
 
                     AddObjects(
                         sheet, priorities,
-                        _ => _.Priority.Description
+                        _ => _.Priority.Description,
+                        _ => _.Priority.IsDefault
                         );
 
                 });

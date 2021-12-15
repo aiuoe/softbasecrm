@@ -9,5 +9,7 @@ namespace SBCRM.Crm.Dtos
 
         public string DescriptionFilter { get; set; }
 
+        public int? IsDefaultFilter { get; set; }
+
     }
 }

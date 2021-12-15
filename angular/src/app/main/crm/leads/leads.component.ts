@@ -122,6 +122,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             undefined,
             undefined,
             undefined,
+            undefined,
+            undefined,
             undefined)
         .subscribe((result: PagedResultDtoOfGetLeadStatusForViewDto) => {
             this.leadStatuses = result.items.map(x => x.leadStatus);
@@ -261,3 +263,4 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         this.importLeadsModalComponent.show();
     }
 }
+ 

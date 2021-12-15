@@ -20,5 +20,7 @@ namespace SBCRM.Crm
 
         public virtual bool IsLeadConversionValid { get; set; }
 
+        public virtual bool IsDefault { get; set; }
+
     }
 }
