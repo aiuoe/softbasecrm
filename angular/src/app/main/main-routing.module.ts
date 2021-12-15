@@ -7,6 +7,13 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
+                    
+                    {
+                        path: 'crm/opportunityStages',
+                        loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
+                        data: { permission: 'Pages.OpportunityStages' }
+                    },
+                
 
                     {
                         path: 'crm/opportunityStages',

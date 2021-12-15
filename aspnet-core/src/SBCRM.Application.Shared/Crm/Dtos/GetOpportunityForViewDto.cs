@@ -6,6 +6,8 @@
 
         public string OpportunityStageDescription { get; set; }
 
+        public string OpportunityStageColor { get; set; }
+
         public string LeadSourceDescription { get; set; }
 
         public string OpportunityTypeDescription { get; set; }

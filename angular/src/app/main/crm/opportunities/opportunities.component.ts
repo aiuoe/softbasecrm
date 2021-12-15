@@ -116,6 +116,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
+                console.log(result)
             });
     }
 
@@ -158,7 +159,8 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.departmentFilter,
                 this.opportunityStageDescriptionFilter,
                 this.leadSourceDescriptionFilter,
-                this.opportunityTypeDescriptionFilter
+                this.opportunityTypeDescriptionFilter,
+                this.selectedOpportunityStages?.map(x => x.id)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

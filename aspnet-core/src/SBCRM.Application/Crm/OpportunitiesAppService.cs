@@ -59,10 +59,21 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.Department == input.DepartmentFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
+                        .WhereIf(input.OpportunityStageId.Any(), x => input.OpportunityStageId.Contains(x.OpportunityStageFk.Id));
 
-            var pagedAndFilteredOpportunities = filteredOpportunities
-                .OrderBy(input.Sorting ?? "id asc")
+            IQueryable<Opportunity> pagedAndFilteredOpportunities;
+
+            if (input.Sorting != null)
+                pagedAndFilteredOpportunities = filteredOpportunities
+                .OrderBy(input.Sorting)
+                .PageBy(input);
+            else
+                pagedAndFilteredOpportunities = filteredOpportunities
+                .OrderByDescending(o => o.CloseDate)
+                .ThenBy(o => o.Name)
+                .ThenBy(o => o.Branch)
+                .ThenBy(o => o.Department)
                 .PageBy(input);
 
             var opportunities = from o in pagedAndFilteredOpportunities
@@ -87,6 +98,7 @@ namespace SBCRM.Crm
                                     o.Department,
                                     Id = o.Id,
                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                    OpportunityStageColor = s1 == null || s1.Color == null ? "" : s1.Color.ToString(),
                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
                                 };
@@ -114,6 +126,7 @@ namespace SBCRM.Crm
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
                     LeadSourceDescription = o.LeadSourceDescription,
+                    OpportunityStageColor = o.OpportunityStageColor,
                     OpportunityTypeDescription = o.OpportunityTypeDescription
                 };
 
@@ -237,7 +250,8 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.Department == input.DepartmentFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
+                        .WhereIf(input.OpportunityStageId.Any(), x => input.OpportunityStageId.Contains(x.OpportunityStageFk.Id));
 
             var query = (from o in filteredOpportunities
                          join o1 in _lookup_opportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1

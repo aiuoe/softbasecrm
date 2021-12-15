@@ -24,6 +24,7 @@ export class AppNavigationService {
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/'),
             new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads'),
+            new AppMenuItem('Opportunities', 'Pages.Opportunities', 'fa fa-thumbs-up', '/app/main/crm/opportunities'),
             new AppMenuItem(
                 'Business',
                 '',
@@ -33,8 +34,7 @@ export class AppNavigationService {
                 [
                     new AppMenuItem('OpportunityStages', 'Pages.OpportunityStages', 'flaticon-more', '/app/main/crm/opportunityStages'),
                     new AppMenuItem('OpportunityTypes', 'Pages.OpportunityTypes', 'flaticon-more', '/app/main/crm/opportunityTypes'),
-                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),
-                    new AppMenuItem('Opportunities', 'Pages.Opportunities', 'flaticon-more', '/app/main/crm/opportunities'),
+                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),                    
                     new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses'),
                     new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),                    

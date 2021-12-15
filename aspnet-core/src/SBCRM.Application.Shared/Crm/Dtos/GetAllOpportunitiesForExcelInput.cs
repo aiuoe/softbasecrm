@@ -1,6 +1,10 @@
 ﻿using Abp.Application.Services.Dto;
 using System;
+using System.Collections.Generic;
 
+/// <summary>
+/// DTO to manage the object filters to export excel
+/// </summary>
 namespace SBCRM.Crm.Dtos
 {
     public class GetAllOpportunitiesForExcelInput
@@ -30,5 +34,6 @@ namespace SBCRM.Crm.Dtos
 
         public string OpportunityTypeDescriptionFilter { get; set; }
 
+        public List<int?> OpportunityStageId { get; set; } = new List<int?>();
     }
 }

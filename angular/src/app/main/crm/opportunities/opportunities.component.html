@@ -122,7 +122,7 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th
-                                            style="width: 130px"
+                                            style="width: 80px"
                                             [hidden]="
                                                 !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
                                             "
@@ -158,7 +158,7 @@
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
                                         <td
-                                            style="width: 130px"
+                                            style="width: 80px"
                                             [hidden]="
                                                 !isGrantedAny('Pages.Opportunities.Edit')
                                             "
@@ -203,7 +203,15 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Stage') }}</span>
-                                                {{ record.opportunityStageDescription }}                                            
+                                            <span
+                                                class="p-3 mb-2"
+                                                [ngStyle]="{
+                                                    'color': record.opportunityStageColor,
+                                                    'background-color': record.opportunityStageColor + '33'
+                                                }"
+                                            >    
+                                                {{ record.opportunityStageDescription }}        
+                                            </span>                                        
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CloseDate') }}</span>
