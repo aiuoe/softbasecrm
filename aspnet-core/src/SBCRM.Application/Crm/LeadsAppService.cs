@@ -70,10 +70,22 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactEmailFilter), e => e.ContactEmail == input.ContactEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
+                        .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
 
-            var pagedAndFilteredLeads = filteredLeads
-                .OrderBy(input.Sorting ?? "id asc")
+            IQueryable<Lead> pagedAndFilteredLeads;
+
+            if (input.Sorting != null)
+                    pagedAndFilteredLeads = filteredLeads
+                    .OrderBy(input.Sorting)
+                    .PageBy(input);
+            else
+                pagedAndFilteredLeads = filteredLeads
+                .OrderByDescending(o => o.CreationTime)
+                .ThenByDescending(s1 => s1.Description)
+                .ThenBy(s2 => s2.Description)
+                .ThenBy(o => o.CompanyName)
+                .ThenBy(o => o.ContactName)
                 .PageBy(input);
 
             var leads = from o in pagedAndFilteredLeads
@@ -117,12 +129,14 @@ namespace SBCRM.Crm
                 
             var totalCount = await filteredLeads.CountAsync();
 
-            var dbList = await leads.OrderByDescending(o => o.CreationTime)
-                                    .ThenByDescending(s1 => s1.Description)
-                                    .ThenBy(s2 => s2.Description)
-                                    .ThenBy(o => o.CompanyName)
-                                    .ThenBy(o => o.ContactName).ToListAsync();
+            //var dbList = await leads.OrderByDescending(o => o.CreationTime)
+            //                        .ThenByDescending(s1 => s1.Description)
+            //                        .ThenBy(s2 => s2.Description)
+            //                        .ThenBy(o => o.CompanyName)
+            //                        .ThenBy(o => o.ContactName).ToListAsync();
 
+
+            var dbList = await leads.ToListAsync();
             var results = new List<GetLeadForViewDto>();
 
             foreach (var o in dbList)
@@ -308,8 +322,8 @@ namespace SBCRM.Crm
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
                         .Include(e => e.PriorityFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CompanyName.Contains(input.Filter) || e.ContactName.Contains(input.Filter) || e.ContactPosition.Contains(input.Filter) || e.WebSite.Contains(input.Filter) || e.Address.Contains(input.Filter) || e.Country.Contains(input.Filter) || e.State.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.CompanyPhone.Contains(input.Filter) || e.CompanyEmail.Contains(input.Filter) || e.PoBox.Contains(input.Filter) || e.ZipCode.Contains(input.Filter) || e.ContactPhone.Contains(input.Filter) || e.ContactPhoneExtension.Contains(input.Filter) || e.ContactCellPhone.Contains(input.Filter) || e.ContactFaxNumber.Contains(input.Filter) || e.PagerNumber.Contains(input.Filter) || e.ContactEmail.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyNameFilter), e => e.CompanyName == input.CompanyNameFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPositionFilter), e => e.ContactPosition == input.ContactPositionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.WebSiteFilter), e => e.WebSite == input.WebSiteFilter)
@@ -330,7 +344,8 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactEmailFilter), e => e.ContactEmail == input.ContactEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
+                        .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
 
             var query = (from o in filteredLeads
                          join o1 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1

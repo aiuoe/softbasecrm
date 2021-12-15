@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy, LeadStatusDto, PagedResultDtoOfGetLeadStatusForViewDto } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -22,6 +22,7 @@ import { base64ToFile } from '@node_modules/ngx-image-cropper';
 import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
+import { read } from 'fs';
 
 @Component({
     templateUrl: './leads.component.html',
@@ -33,8 +34,14 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     @ViewChild('importLeadsModalComponent', { static: true })
+
     importLeadsModalComponent: ImportLeadsModalComponent;
+    leadStatuses: LeadStatusDto[];
+    selectedLeadStatus: LeadStatusDto;
+    selectedLeadStatuses: LeadStatusDto[];
+    readOnlyStatus : string[];
     
+    advancedFiltersAreShown = false;
     filterText = '';
     companyOrContactNameFilter = '';
     contactNameFilter = '';
@@ -86,34 +93,21 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         super(injector);
     }    
 
-    selectedStatusFilter : string = 'All';
-
-    statusFilterOptions : string[] = [];
-
-    readOnlyStatus = [];
-
-    getLeadsStatuses(event?: LazyLoadEvent) {
-        this._leadStatusesServiceProxy
-            .getAll(
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined
-            ).subscribe((result) => {
-                let resultItems = result.items;
-                resultItems.forEach( (item) => {                    
-                    this.statusFilterOptions.push(item.leadStatus.description);
-                    if (!item.leadStatus.isLeadConversionValid )
-                        this.readOnlyStatus.push(item.leadStatus.description);
-                });
-            });           
-        this.statusFilterOptions.push('All');
-    }
-
     ngOnInit(){
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
+        });
+        this._leadStatusesServiceProxy.getAll(undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined)
+        .subscribe((result: PagedResultDtoOfGetLeadStatusForViewDto) => {
+            this.leadStatuses = result.items.map(x => x.leadStatus);
+            this.leadStatuses.forEach( (leadStatus) => {
+                if (!leadStatus.isLeadConversionValid)
+                    this.readOnlyStatus.push(leadStatus.description);
+            })
         });
     }
 
@@ -150,23 +144,16 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
+                this.selectedLeadStatuses?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
             )
-            .subscribe((result) => {
+            .subscribe((result) => {                
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
             });
-    }
-
-    filterByStatus(statusSelected): void {
-        this.selectedStatusFilter = statusSelected;
-        if (statusSelected == 'All')
-            statusSelected = '';
-        this.leadStatusDescriptionFilter = statusSelected;
-        this.getLeads();
     }
 
     leadCanBeEdittedOrConverted(event: any) : boolean {
@@ -217,7 +204,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.contactEmailFilter,
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
-                this.priorityDescriptionFilter
+                this.priorityDescriptionFilter,
+                this.selectedLeadStatuses?.map(x => x.id)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);                
