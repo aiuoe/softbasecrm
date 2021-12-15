@@ -424,8 +424,8 @@
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Invoices' | localize }}" [hidden]="this.hideInvoiceTab">
-                    <div class="card card-custom card-in-tab gutter-b">
+                <tab heading="{{ 'Invoices' | localize }}">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showInvoiceTab">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -552,10 +552,21 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="!this.showInvoiceTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
-                <tab heading="{{ 'Equipment' | localize }}" [hidden]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b">
+                <tab heading="{{ 'Equipment' | localize }}">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showEquipmentTab">
                         <div class="card-body">
 
                             <div class="row pb-5">
@@ -690,11 +701,22 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="!this.showEquipmentTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
 
-                <tab heading="{{ 'WIP' | localize }}" [hidden]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b">
+                <tab heading="{{ 'WIP' | localize }}">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showWipTab">
                         <div class="card-body">
 
                             <div class="row pb-5">
@@ -824,6 +846,17 @@
                                     "
                                             ></p-paginator>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!this.showWipTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
                                     </div>
                                 </div>
                             </div>

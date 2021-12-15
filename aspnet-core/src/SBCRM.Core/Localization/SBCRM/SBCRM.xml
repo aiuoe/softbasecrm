@@ -339,8 +339,10 @@
     <text name="CustomerHeaderInfo">Customer header info</text>
     <text name="CreateNewCustomer">New Account</text>
     <text name="EditCustomer">Edit Account</text>
-    <text name="DeleteCustomer">Delete customer</text>
-    <text name="CustomerViewInvoices">Customer view invoices</text>
+    <text name="DeleteCustomer">Delete Account</text>
+    <text name="CustomerViewInvoices">View invoices in Account detail</text>
+    <text name="CustomerViewEquipments">View equipments in Account detail</text>
+    <text name="CustomerViewWip">View WIP in Account detail</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="AccountTypeDescription">Account type description</text>
     <text name="PickAccountType">Pick account type</text>
@@ -410,6 +412,7 @@
     <text name="CreateNewRole">Create new role</text>
     <text name="RoleProperties">Role properties</text>
     <text name="Permissions">Permissions</text>
+    <text name="UserDontHavePermission">You do not have permission to see this detail.</text>
     <text name="Save">Save</text>
     <text name="Cancel">Cancel</text>
     <text name="RolesHeaderInfo">Use roles to group permissions.</text>
