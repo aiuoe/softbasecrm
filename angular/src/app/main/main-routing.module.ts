@@ -96,13 +96,6 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.Priorities' }
                     },
 
-
-                    {
-                        path: 'business/leadStatuses',
-                        loadChildren: () => import('./crm/leadStatuses/leadStatus.module').then(m => m.LeadStatusModule),
-                        data: { permission: 'Pages.LeadStatuses' }
-                    },
-
                     {
                         path: 'crm/leads',
                         loadChildren: () => import('./crm/leads/lead.module').then(m => m.LeadModule),
