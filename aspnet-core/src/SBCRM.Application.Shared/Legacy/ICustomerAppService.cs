@@ -59,5 +59,12 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         Task<List<CustomerLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown();
 
+        /// <summary>
+        /// Get all Customer invoices
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<CustomerInvoiceViewDto>> GetAllCustomerInvoices(GetAllCustomerInvoicesInput input);
+
     }
 }

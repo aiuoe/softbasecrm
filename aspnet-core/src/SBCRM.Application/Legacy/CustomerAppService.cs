@@ -26,6 +26,7 @@ namespace SBCRM.Legacy
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<AccountType> _lookupAccountTypeRepository;
         private readonly IRepository<LeadSource> _lookupLeadSourceRepository;
+        private readonly ISoftBaseInvoiceRepository _customerInvoiceRepository;
 
         /// <summary>
         /// Base constructor
@@ -34,16 +35,19 @@ namespace SBCRM.Legacy
         /// <param name="customerExcelExporter"></param>
         /// <param name="lookupAccountTypeRepository"></param>
         /// <param name="lookupLeadSourceRepository"></param>
+        /// <param name="customerInvoiceRepository"></param>
         public CustomerAppService(
             IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
             IRepository<AccountType> lookupAccountTypeRepository,
-            IRepository<LeadSource> lookupLeadSourceRepository)
+            IRepository<LeadSource> lookupLeadSourceRepository,
+            ISoftBaseInvoiceRepository customerInvoiceRepository)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _customerInvoiceRepository = customerInvoiceRepository;
         }
 
         /// <summary>
@@ -291,5 +295,16 @@ namespace SBCRM.Legacy
                 }).ToListAsync();
         }
 
+        /// <summary>
+        /// Get all Customer invoices
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerInvoiceViewDto>> GetAllCustomerInvoices(GetAllCustomerInvoicesInput input)
+        {
+            var pagedCustomerInvoices = await _customerInvoiceRepository.GetPagedCustomerInvoices(input);
+            return pagedCustomerInvoices;
+        }
     }
 }

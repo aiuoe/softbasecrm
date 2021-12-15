@@ -9,7 +9,6 @@ using Abp.AspNetCore.Mvc.Extensions;
 using Abp.AspNetCore.SignalR.Hubs;
 using Abp.AspNetZeroCore.Web.Authentication.JwtBearer;
 using Abp.Castle.Logging.Log4Net;
-using Abp.Dependency;
 using Abp.Extensions;
 using Abp.Hangfire;
 using Abp.PlugIns;
@@ -26,12 +25,10 @@ using SBCRM.EntityFrameworkCore;
 using SBCRM.Identity;
 using SBCRM.Web.Chat.SignalR;
 using SBCRM.Web.Common;
-using Swashbuckle.AspNetCore.Swagger;
 using SBCRM.Web.IdentityServer;
 using SBCRM.Web.Swagger;
 using Stripe;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
-using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using HealthChecks.UI.Client;
 using IdentityServer4.Configuration;
@@ -42,7 +39,6 @@ using Microsoft.OpenApi.Models;
 using SBCRM.Configure;
 using SBCRM.Schemas;
 using SBCRM.Web.HealthCheck;
-using Newtonsoft.Json.Serialization;
 using Owl.reCAPTCHA;
 using HealthChecksUISettings = HealthChecks.UI.Configuration.Settings;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
@@ -194,6 +190,9 @@ namespace SBCRM.Web.Startup
                     .For(typeof(IRepository<>))
                     .ImplementedBy(typeof(Repository<>))
                     .LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
+                    Component.For<ISoftBaseInvoiceRepository>().ImplementedBy<SoftBaseInvoiceRepository>().LifestyleTransient());
 
             });
         }

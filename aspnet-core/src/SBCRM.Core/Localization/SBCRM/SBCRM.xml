@@ -2,9 +2,15 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="PO">Po</text>
+    <text name="Serial">Serial</text>
+    <text name="Unit">Unit</text>
+    <text name="AssociatedDoc">Associated Doc</text>
+    <text name="RentalNumber">Rental Number</text>
+    <text name="Invoiced">Invoiced</text>
     <text name="SelectAOpportunityStage">Select a opportunity stage</text>
     <text name="SelectAOpportunityType">Select a opportunity type</text>
-
+    <text name="RefreshData">Refresh Data</text>
     <text name="ActivityStatus">Activity status</text>
     <text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
     <text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
