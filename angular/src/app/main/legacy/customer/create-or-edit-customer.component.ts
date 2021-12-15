@@ -20,13 +20,14 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     active = false;
     saving = false;
     isNew = true;
+    isReadOnlyMode = false;
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
     accountTypeDescription = '';
     allAccountTypes: CustomerAccountTypeLookupTableDto[] = [];
     allLeadSources: CustomerLeadSourceLookupTableDto[] = [];
     usZipCodes: GetZipCodeForViewDto[] = [];
     routerLink = '/app/main/business/accounts';
-    @ViewChild('CustomerForm', { static: true }) customerForm: NgForm;
+    @ViewChild('customerForm', { static: true }) customerForm: NgForm;
 
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Customer'), this.routerLink)
@@ -44,6 +45,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     }
 
     ngOnInit(): void {
+        this.isReadOnlyMode = this._activatedRoute.snapshot.routeConfig.path === 'view';
         const customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!customerNumber;
         this.show(customerNumber);
