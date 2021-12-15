@@ -21579,7 +21579,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     state!: string | undefined;
     city!: string | undefined;
     description!: string | undefined;
-    companyPhone!: string;
+    companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
     zipCode!: string | undefined;
@@ -21677,7 +21677,7 @@ export interface ICreateOrEditLeadDto {
     state: string | undefined;
     city: string | undefined;
     description: string | undefined;
-    companyPhone: string;
+    companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
     zipCode: string | undefined;

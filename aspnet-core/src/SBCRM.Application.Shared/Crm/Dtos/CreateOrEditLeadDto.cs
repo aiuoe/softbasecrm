@@ -1,13 +1,14 @@
 ﻿using System;
 using Abp.Application.Services.Dto;
 using System.ComponentModel.DataAnnotations;
+using Abp.Runtime.Validation;
 
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// Lead dto used by the ui to create or edit a lead
     /// </summary>
-    public class CreateOrEditLeadDto : EntityDto<int?>
+    public class CreateOrEditLeadDto : EntityDto<int?>, ICustomValidate
     {
 
         [Required]
@@ -38,7 +39,7 @@ namespace SBCRM.Crm.Dtos
         [StringLength(LeadConsts.MaxDescriptionLength)]
         public string Description { get; set; }
 
-        [Required]
+
         [StringLength(LeadConsts.MaxCompanyPhoneLength)]
         public string CompanyPhone { get; set; }
 
@@ -75,5 +76,13 @@ namespace SBCRM.Crm.Dtos
 
         public int? PriorityId { get; set; }
 
+        public void AddValidationErrors(CustomValidationContext context)
+        {
+            if (string.IsNullOrWhiteSpace(CompanyPhone) && string.IsNullOrWhiteSpace(CompanyEmail))
+            {
+                context.Results.Add(new ValidationResult("Email or Phone should be provided"));
+            }
+        }
     }
+
 }

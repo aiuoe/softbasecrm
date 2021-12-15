@@ -1885,8 +1885,7 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CompanyEmail")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
@@ -1894,9 +1893,7 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("CompanyPhone")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContactCellPhone")
                         .HasMaxLength(50)
