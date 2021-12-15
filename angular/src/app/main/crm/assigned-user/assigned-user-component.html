@@ -4,7 +4,8 @@
     <div [class]="containerClass">
         <div class="card card-custom gutter-b">
             <div class="card-body">
-                <div role="actions">               
+                <div role="actions">  
+                    <label>Assigned Users</label>             
                     <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()" 
                              class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("User")}}</button>
                 </div>
@@ -43,14 +44,6 @@
                                             </button>
 												<ul class="dropdown-menu"  *dropdownMenu>
 												<li>
-													<a href="javascript:;" class="dropdown-item"
-														(click)="viewAssignedUserModal.show(record)">{{l('View')}}</a>
-												</li>
-												<li>
-                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.AccountUsers.Edit')" class="dropdown-item"
-														(click)="createOrEditAssignedUserModal.show(record.accountUser.id)">{{l('Edit')}}</a>												
-                                                </li>
-												<li>
 											        <a class="dropdown-item" href="javascript:;" *ngIf="permission.isGranted('Pages.AccountUsers.Delete')"
 														(click)="deleteAccountUser(record.accountUser)">{{l('Delete')}}</a>
 												</li>
@@ -86,7 +79,10 @@
             </div>
         </div>
     </div>
-    <app-create-or-edit-assined-user-modal #createOrEditAssignedUserModal (modalSave)="getAccountUsers()"></app-create-or-edit-assined-user-modal>    
+    <app-create-or-edit-assined-user-modal #createOrEditAssignedUserModal 
+        (assignedUsers)="savingAssignedUsers($event)"
+        [assignedUsersExists]="this.assignedUsersExists">
+    </app-create-or-edit-assined-user-modal>    
     <app-view-assigned-user-modal #viewAssignedUserModal></app-view-assigned-user-modal>
     
   </div>

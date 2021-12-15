@@ -9,5 +9,7 @@ namespace SBCRM.Crm.Dtos
 
         public long UserId { get; set; }
 
+        public string CustomerNumber { get; set; }
+
     }
 }

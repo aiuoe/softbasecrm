@@ -22,5 +22,7 @@ namespace SBCRM.Crm
 
         Task<List<AccountUserUserLookupTableDto>> GetAllUserForTableDropdown();
 
+        Task CreateMultipleAccountUsers(List<CreateOrEditAccountUserDto> input);
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿import {AppConsts} from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
-import { AccountUsersServiceProxy, AccountUserDto  } from '@shared/service-proxies/service-proxies';
+import { AccountUsersServiceProxy, AccountUserDto, AccountUserUserLookupTableDto, CreateOrEditAccountUserDto, GetAccountUserForViewDto  } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -16,6 +16,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     templateUrl: './assigned-user-component.html',
@@ -32,9 +33,14 @@ export class AssignedUserComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
+    @Input() componentType: string = '';
+    @Input() idToStore: any;
+
     advancedFiltersAreShown = false;
     filterText = '';
-        userNameFilter = '';
+    userNameFilter = '';
+    saving = false;
+    assignedUsersExists: GetAccountUserForViewDto[];
 
 
     constructor(
@@ -60,12 +66,14 @@ export class AssignedUserComponent extends AppComponentBase {
         this._accountUsersServiceProxy.getAll(
             this.filterText,
             this.userNameFilter,
+            this.idToStore,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
+            this.assignedUsersExists = result.items;
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -95,6 +103,50 @@ export class AssignedUserComponent extends AppComponentBase {
         );
     }
     
+
+    /**
+     * This method manages the methods wich save users to some system 
+     * modules (Accounts/Leads/Opportunities)
+     * @param usersList 
+     * @returns 
+     */
+    savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]){
+       if (usersList.length > 0) {
+        if ( this.componentType === 'Account' ) {
+            this.saveAccountAssignedUser(usersList);
+           } 
+           else if ( this.componentType === 'Lead') {
+            //TO DO
+           } 
+           else {
+               return;
+           }
+       }
+
+    }
+
+
+    /**
+     * Save a list of users of an especific account
+     * @param usersList 
+     */
+    saveAccountAssignedUser( usersList: AccountUserUserLookupTableDto[] ){
+        var accountUserToSave: CreateOrEditAccountUserDto[] = [];
+        usersList.forEach(element => {
+            let accountUser = new CreateOrEditAccountUserDto();
+            accountUser.userId = element.id;
+            accountUser.customerNumber = this.idToStore+"";
+            accountUserToSave.push(accountUser);
+        });
+
+        this.saving = true;
+        this._accountUsersServiceProxy.createMultipleAccountUsers(accountUserToSave)
+         .pipe(finalize(() => { this.saving = false;}))
+         .subscribe(() => {
+            this.notify.info(this.l('SavedSuccessfully'));
+            this.getAccountUsers();
+         });
+    }
     
     
     

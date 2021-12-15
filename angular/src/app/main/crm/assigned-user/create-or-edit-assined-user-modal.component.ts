@@ -1,10 +1,11 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef} from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, Input} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import { AccountUsersServiceProxy, CreateOrEditAccountUserDto ,AccountUserUserLookupTableDto } from '@shared/service-proxies/service-proxies';
+import { AccountUsersServiceProxy, CreateOrEditAccountUserDto ,AccountUserUserLookupTableDto, GetAccountUserForViewDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { LazyLoadEvent } from 'primeng/api';
 
 
 
@@ -18,85 +19,68 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
+    @Output() assignedUsers: EventEmitter<AccountUserUserLookupTableDto[]> = new EventEmitter<AccountUserUserLookupTableDto[]>();
+    @Input() assignedUsersExists: GetAccountUserForViewDto[] = [];
+
     active = false;
     saving = false;
-
     accountUser: CreateOrEditAccountUserDto = new CreateOrEditAccountUserDto();
-
     userName = '';
-
 	allUsers: AccountUserUserLookupTableDto[];
+    selectedUsers: AccountUserUserLookupTableDto[];
 					
 
     constructor(
         injector: Injector,
         private _accountUsersServiceProxy: AccountUsersServiceProxy,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
+
+    ngOnInit(): void {
+        
+    }    
     
     show(accountUserId?: number): void {
-    
-
         if (!accountUserId) {
             this.accountUser = new CreateOrEditAccountUserDto();
             this.accountUser.id = accountUserId;
             this.userName = '';
-
-
             this.active = true;
             this.modal.show();
         } else {
             this._accountUsersServiceProxy.getAccountUserForEdit(accountUserId).subscribe(result => {
                 this.accountUser = result.accountUser;
-
                 this.userName = result.userName;
-
-
                 this.active = true;
                 this.modal.show();
             });
         }
         this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
 						this.allUsers = result;
-					});
-					
-        
+                        // Filtering by users who hasn't been assigned yet
+                        let index = 0;
+                        for(let item of this.allUsers){
+                            for(let auItem of this.assignedUsersExists){
+                                if(item.id === auItem.accountUser.userId){
+                                    this.allUsers.splice(index, 1);
+                                }
+                            }
+                            index++;
+                        }
+					});					
     }
 
-    save(): void {
-            this.saving = true;
-            
-			
-			
-            this._accountUsersServiceProxy.createOrEdit(this.accountUser)
-             .pipe(finalize(() => { this.saving = false;}))
-             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
-             });
+    confirm(): void {
+        this.assignedUsers.emit(this.selectedUsers);
+        this.close();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     close(): void {
         this.active = false;
+        this.selectedUsers = [];
         this.modal.hide();
-    }
-    
-     ngOnInit(): void {
-        
-     }    
+    }    
+
 }

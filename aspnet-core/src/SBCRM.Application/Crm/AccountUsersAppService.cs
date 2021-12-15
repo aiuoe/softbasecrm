@@ -16,6 +16,7 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using Abp.Domain.Uow;
 
 namespace SBCRM.Crm
 {
@@ -24,11 +25,15 @@ namespace SBCRM.Crm
     {
         private readonly IRepository<AccountUser> _accountUserRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-        public AccountUsersAppService(IRepository<AccountUser> accountUserRepository, IRepository<User, long> lookup_userRepository)
+        public AccountUsersAppService(  IRepository<AccountUser> accountUserRepository, 
+                                        IRepository<User, long> lookup_userRepository,
+                                        IUnitOfWorkManager unitOfWorkManager)
         {
             _accountUserRepository = accountUserRepository;
             _lookup_userRepository = lookup_userRepository;
+            _unitOfWorkManager = unitOfWorkManager;
 
         }
 
@@ -37,8 +42,11 @@ namespace SBCRM.Crm
 
             var filteredAccountUsers = _accountUserRepository.GetAll()
                         .Include(e => e.UserFk)
+                        .Include(e => e.CustomerFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CustomerNumber), e => e.CustomerFk != null && e.CustomerFk.Number == input.CustomerNumber)
+                        .Where(p => !p.IsDeleted);
 
             var pagedAndFilteredAccountUsers = filteredAccountUsers
                 .OrderBy(input.Sorting ?? "id asc")
@@ -52,6 +60,7 @@ namespace SBCRM.Crm
                                {
 
                                    Id = o.Id,
+                                   UserId = o.UserId,
                                    UserName = s1 == null || s1.Name == null ? "" : s1.Name.ToString()
                                };
 
@@ -68,6 +77,7 @@ namespace SBCRM.Crm
                     {
 
                         Id = o.Id,
+                        UserId = o.UserId
                     },
                     UserName = o.UserName
                 };
@@ -158,5 +168,39 @@ namespace SBCRM.Crm
                 }).ToListAsync();
         }
 
+        /// <summary>
+        /// This method save a list of users connected with an especific Account
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
+        public async Task CreateMultipleAccountUsers(List<CreateOrEditAccountUserDto> input)
+        {
+            using (var unitOfWork = _unitOfWorkManager.Begin())
+            {
+                foreach (var item in input)
+                {
+                    var accountUserExists = _accountUserRepository.
+                                            FirstOrDefault(p => p.UserId == item.UserId 
+                                            && p.CustomerNumber == item.CustomerNumber
+                                            && p.IsDeleted);
+
+                    if (accountUserExists == null)
+                    {
+                        var accountUser = ObjectMapper.Map<AccountUser>(item);
+
+                        await _accountUserRepository.InsertAsync(accountUser);
+                    }
+                    else
+                    {
+                        accountUserExists.IsDeleted = false;
+                        var accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
+                        await Update(accountUserInDatabase);
+                    }
+                }
+                unitOfWork.Complete();
+            }
+
+        }
     }
 }

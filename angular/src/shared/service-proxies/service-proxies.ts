@@ -940,12 +940,13 @@ export class AccountUsersServiceProxy {
     /**
      * @param filter (optional) 
      * @param userNameFilter (optional) 
+     * @param customerNumber (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetAccountUserForViewDto> {
+    getAll(filter: string | undefined, userNameFilter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetAccountUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -955,6 +956,10 @@ export class AccountUsersServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -1285,6 +1290,139 @@ export class AccountUsersServiceProxy {
             }));
         }
         return _observableOf<AccountUserUserLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createMultipleAccountUsers(body: CreateOrEditAccountUserDto[] | undefined) : Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AccountUsers/CreateMultipleAccountUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateMultipleAccountUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMultipleAccountUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMultipleAccountUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param userNameFilter (optional) 
+     * @param customerNumber (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAccountUserByCustomerNumber(filter: string | undefined, userNameFilter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetAccountUserForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAccountUserByCustomerNumber?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAccountUserByCustomerNumber(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAccountUserByCustomerNumber(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetAccountUserForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetAccountUserForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAccountUserByCustomerNumber(response: HttpResponseBase): Observable<PagedResultDtoOfGetAccountUserForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetAccountUserForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetAccountUserForViewDto>(<any>null);
     }
 }
 
@@ -21745,6 +21883,7 @@ export interface ICreateOrEditAccountTypeDto {
 
 export class CreateOrEditAccountUserDto implements ICreateOrEditAccountUserDto {
     userId!: number;
+    customerNumber!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditAccountUserDto) {
@@ -21759,6 +21898,7 @@ export class CreateOrEditAccountUserDto implements ICreateOrEditAccountUserDto {
     init(_data?: any) {
         if (_data) {
             this.userId = _data["userId"];
+            this.customerNumber = _data["customerNumber"];
             this.id = _data["id"];
         }
     }
@@ -21773,6 +21913,7 @@ export class CreateOrEditAccountUserDto implements ICreateOrEditAccountUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["userId"] = this.userId;
+        data["customerNumber"] = this.customerNumber;
         data["id"] = this.id;
         return data; 
     }
@@ -21780,6 +21921,7 @@ export class CreateOrEditAccountUserDto implements ICreateOrEditAccountUserDto {
 
 export interface ICreateOrEditAccountUserDto {
     userId: number;
+    customerNumber: string | undefined;
     id: number | undefined;
 }
 
