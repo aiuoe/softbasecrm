@@ -3,19 +3,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace SBCRM.Legacy
 {
     /// <summary>
     /// dbo.Secure table from legacy database
     /// </summary>
-    [Table("Secure")]
-    public class Secure : Entity, IMayHaveTenant
+    [Table("Secure", Schema = "dbo")]
+    [Keyless]
+    public class Secure
     {
-        public int? TenantId { get; set; }
 
-        [Required]
-        [StringLength(SecureConsts.MaxPasswordLength, MinimumLength = SecureConsts.MinPasswordLength)]
         public virtual string Password { get; set; }
 
         public virtual int? EmployeeNo { get; set; }
@@ -194,7 +193,6 @@ namespace SBCRM.Legacy
 
         public virtual bool WebCustomer { get; set; }
 
-        [StringLength(SecureConsts.MaxWebCustomerNoLength, MinimumLength = SecureConsts.MinWebCustomerNoLength)]
         public virtual string WebCustomerNo { get; set; }
 
         public virtual bool WebWIP { get; set; }
@@ -251,7 +249,6 @@ namespace SBCRM.Legacy
 
         public virtual bool ProfileARComments { get; set; }
 
-        [StringLength(SecureConsts.MaxWebUserIDLength, MinimumLength = SecureConsts.MinWebUserIDLength)]
         public virtual string WebUserID { get; set; }
 
         public virtual bool ManagementInformation { get; set; }
@@ -275,8 +272,6 @@ namespace SBCRM.Legacy
         public virtual bool InvoiceOverRideCurrencyRate { get; set; }
 
         public virtual bool InvoicePartsBelowCost { get; set; }
-
-        [StringLength(SecureConsts.MaxWebWarehouseLength, MinimumLength = SecureConsts.MinWebWarehouseLength)]
         public virtual string WebWarehouse { get; set; }
 
         public virtual bool WebPartsInquiry { get; set; }
@@ -325,7 +320,7 @@ namespace SBCRM.Legacy
 
         public virtual bool EquipmentChangeSerialNo { get; set; }
 
-        public virtual bool CustomerCC { get; set; }
+        public virtual bool? CustomerCC { get; set; }
 
         public virtual bool EquipmentTab10 { get; set; }
 
@@ -333,12 +328,10 @@ namespace SBCRM.Legacy
 
         public virtual int? InvoiceMechNo { get; set; }
 
-        [StringLength(SecureConsts.MaxAddedByLength, MinimumLength = SecureConsts.MinAddedByLength)]
         public virtual string AddedBy { get; set; }
 
         public virtual DateTime? DateAdded { get; set; }
 
-        [StringLength(SecureConsts.MaxChangedByLength, MinimumLength = SecureConsts.MinChangedByLength)]
         public virtual string ChangedBy { get; set; }
 
         public virtual DateTime? DateChanged { get; set; }
@@ -389,10 +382,9 @@ namespace SBCRM.Legacy
 
         public virtual bool InvoiceFixComments { get; set; }
 
-        [StringLength(SecureConsts.MaxDispatchNameLength, MinimumLength = SecureConsts.MinDispatchNameLength)]
         public virtual string DispatchName { get; set; }
 
-        public virtual bool SDI { get; set; }
+        public virtual bool? SDI { get; set; }
 
         public virtual bool AdminInspectionSetup { get; set; }
 
