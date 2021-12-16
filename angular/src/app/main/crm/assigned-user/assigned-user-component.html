@@ -5,10 +5,10 @@
         <div class="card card-custom gutter-b">
             <div class="card-body">
                 <div role="actions" class="d-flex justify-content-between">  
-                    <div class="alig-items-rigth">
+                    <div>
                         <strong>Assigned Users</strong>
                     </div>             
-                    <div class="alig-items-left">
+                    <div>
                         <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()" 
                         class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("User")}}</button>
                     </div>
