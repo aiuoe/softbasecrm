@@ -20,6 +20,9 @@ using Abp.Domain.Uow;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App Service that manages the AccounUser transactions
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
     public class AccountUsersAppService : SBCRMAppServiceBase, IAccountUsersAppService
     {
@@ -27,6 +30,12 @@ namespace SBCRM.Crm
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
 
+        /// <summary>
+        /// Contructor method
+        /// </summary>
+        /// <param name="accountUserRepository"></param>
+        /// <param name="lookup_userRepository"></param>
+        /// <param name="unitOfWorkManager"></param>
         public AccountUsersAppService(  IRepository<AccountUser> accountUserRepository, 
                                         IRepository<User, long> lookup_userRepository,
                                         IUnitOfWorkManager unitOfWorkManager)
@@ -37,6 +46,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets all the account users give a Customer number
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetAccountUserForViewDto>> GetAll(GetAllAccountUsersInput input)
         {
 
@@ -92,6 +106,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets an especific AccountUser given its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetAccountUserForViewDto> GetAccountUserForView(int id)
         {
             var accountUser = await _accountUserRepository.GetAsync(id);
@@ -107,6 +126,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get an especific accout user for edit purposes
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Edit)]
         public async Task<GetAccountUserForEditOutput> GetAccountUserForEdit(EntityDto input)
         {
@@ -123,6 +147,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Manages the create/edti of an account user
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditAccountUserDto input)
         {
             if (input.Id == null)
@@ -135,6 +164,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Creates an account user
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Create)]
         protected virtual async Task Create(CreateOrEditAccountUserDto input)
         {
@@ -144,6 +178,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Edits an account user
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Edit)]
         protected virtual async Task Update(CreateOrEditAccountUserDto input)
         {
@@ -152,6 +191,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Deletes an account user
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Delete)]
         public async Task Delete(EntityDto input)
         {

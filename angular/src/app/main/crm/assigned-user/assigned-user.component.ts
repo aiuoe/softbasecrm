@@ -55,6 +55,11 @@ export class AssignedUserComponent extends AppComponentBase {
         super(injector);
     }
 
+    /**
+     * 
+     * @param event Gets the list of users assigned to an Account/Lead/Opportunity
+     * @returns 
+     */
     getAccountUsers(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -78,15 +83,27 @@ export class AssignedUserComponent extends AppComponentBase {
         });
     }
 
+
+    /**
+     * Refresh the table
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+
+    /**
+     * Hadles the creating assigned user modal
+     */
     createAccountUser(): void {
         this.createOrEditAssignedUserModal.show();        
     }
 
-
+    
+    /**
+     * Handles the deletion of an user
+     * @param accountUser Hanl
+     */
     deleteAccountUser(accountUser: AccountUserDto): void {
         this.message.confirm(
             '',

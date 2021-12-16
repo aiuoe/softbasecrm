@@ -9,7 +9,7 @@ using SBCRM.Legacy;
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// This class refers 
+    /// This class stores Users connected to accounts
     /// </summary>
     [Table("AccountUsers")]
     public class AccountUser : FullAuditedEntity

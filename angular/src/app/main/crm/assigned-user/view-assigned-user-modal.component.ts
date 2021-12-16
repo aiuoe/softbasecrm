@@ -27,6 +27,10 @@ export class ViewAssignedUserModalComponent extends AppComponentBase {
         this.item.accountUser = new AccountUserDto();
     }
 
+    /**
+     * Shows the read only modal
+     * @param item 
+     */
     show(item: GetAccountUserForViewDto): void {
         this.item = item;
         this.active = true;
@@ -34,7 +38,9 @@ export class ViewAssignedUserModalComponent extends AppComponentBase {
     }
     
     
-
+    /**
+     * Method used to close the modal
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

@@ -43,7 +43,12 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     ngOnInit(): void {
         
     }    
-    
+
+
+    /**
+     * This method filter ther users to be shown on the list box 
+     * @param accountUserId 
+     */
     show(accountUserId?: number): void {
         if (!accountUserId) {
             this.accountUser = new CreateOrEditAccountUserDto();
@@ -80,11 +85,17 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
                     
     }
 
+    /**
+     * This method emites the list of selected users
+     */
     confirm(): void {
         this.assignedUsers.emit(this.selectedUsers);
         this.close();
     }
 
+    /**
+     * Method to use to close the modal 
+     */
     close(): void {
         this.active = false;
         this.selectedUsers = [];
