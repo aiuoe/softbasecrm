@@ -18,12 +18,16 @@ import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { finalize } from 'rxjs/operators';
 
+/***
+ * Component to manage the list of assigned users 
+ */
 @Component({
     templateUrl: './assigned-user-component.html',
     selector: 'app-assigned-user',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
+
 export class AssignedUserComponent extends AppComponentBase {
     
     

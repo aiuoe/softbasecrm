@@ -10,7 +10,9 @@ import { threadId } from 'worker_threads';
 import { isNgTemplate } from '@angular/compiler';
 
 
-
+/***
+ * Component to manage creation of assigned users
+ */
 @Component({
     selector: 'app-create-or-edit-assined-user-modal',
     templateUrl: './create-or-edit-assined-user-modal.component.html',
