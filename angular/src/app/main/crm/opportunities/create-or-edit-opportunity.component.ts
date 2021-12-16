@@ -40,7 +40,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Opportunity'), '/app/main/crm/opportunities'),
-        new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
     ];
 
     /**
