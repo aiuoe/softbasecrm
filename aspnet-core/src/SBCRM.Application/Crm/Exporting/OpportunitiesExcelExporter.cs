@@ -8,26 +8,22 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm.Exporting
 {
-    /// <summary>
-    /// Opportunity Excel exporter
-    /// </summary>
     public class OpportunitiesExcelExporter : NpoiExcelExporterBase, IOpportunitiesExcelExporter
     {
-        /// <summary>
-        /// Base constructor
-        /// </summary>
-        /// <param name="tempFileCacheManager"></param>
-        public OpportunitiesExcelExporter(
-            ITempFileCacheManager tempFileCacheManager) : base(tempFileCacheManager)
-        {
 
+        private readonly ITimeZoneConverter _timeZoneConverter;
+        private readonly IAbpSession _abpSession;
+
+        public OpportunitiesExcelExporter(
+            ITimeZoneConverter timeZoneConverter,
+            IAbpSession abpSession,
+            ITempFileCacheManager tempFileCacheManager) :
+    base(tempFileCacheManager)
+        {
+            _timeZoneConverter = timeZoneConverter;
+            _abpSession = abpSession;
         }
 
-        /// <summary>
-        /// Export opportunities to file
-        /// </summary>
-        /// <param name="opportunities"></param>
-        /// <returns></returns>
         public FileDto ExportToFile(List<GetOpportunityForViewDto> opportunities)
         {
             return CreateExcelPackage(
@@ -40,28 +36,36 @@ namespace SBCRM.Crm.Exporting
                     AddHeader(
                         sheet,
                         L("Name"),
-                        L("Stage"),
-                        L("CloseDate"),
                         L("Amount"),
                         L("Probability"),
+                        L("CloseDate"),
+                        L("Description"),
                         L("Branch"),
-                        L("Department")
+                        L("Department"),
+                        (L("OpportunityStage")) + L("Description"),
+                        (L("LeadSource")) + L("Description"),
+                        (L("OpportunityType")) + L("Description")
                         );
 
                     AddObjects(
                         sheet, opportunities,
                         _ => _.Opportunity.Name,
-                        _ => _.OpportunityStageDescription,
-                        _ => _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy"),
                         _ => _.Opportunity.Amount,
                         _ => _.Opportunity.Probability,
+                        _ => _timeZoneConverter.Convert(_.Opportunity.CloseDate, _abpSession.TenantId, _abpSession.GetUserId()),
+                        _ => _.Opportunity.Description,
                         _ => _.Opportunity.Branch,
-                        _ => _.Opportunity.Department
+                        _ => _.Opportunity.Department,
+                        _ => _.OpportunityStageDescription,
+                        _ => _.LeadSourceDescription,
+                        _ => _.OpportunityTypeDescription
                         );
 
-                    int numberOfColumns = sheet.GetRow(0).LastCellNum;
-                    for (int column = 0; column < numberOfColumns; column++)
-                        sheet.AutoSizeColumn(column);
+                    for (var i = 1; i <= opportunities.Count; i++)
+                    {
+                        SetCellDataFormat(sheet.GetRow(i).Cells[4], "yyyy-mm-dd");
+                    }
+                    sheet.AutoSizeColumn(4);
                 });
         }
     }

@@ -39,7 +39,7 @@ namespace SBCRM.Crm
         /// <param name="opportunitiesExcelExporter"></param>
         /// <param name="lookup_opportunityStageRepository"></param>
         /// <param name="lookup_leadSourceRepository"></param>
-        /// <param name="lookup_opportunityTypeRepository"></param>        
+        /// <param name="lookup_opportunityTypeRepository"></param>    
         public OpportunitiesAppService(IRepository<Opportunity> opportunityRepository, IOpportunitiesExcelExporter opportunitiesExcelExporter, IRepository<OpportunityStage, int> lookup_opportunityStageRepository, IRepository<LeadSource, int> lookup_leadSourceRepository, IRepository<OpportunityType, int> lookup_opportunityTypeRepository)
         {
             _opportunityRepository = opportunityRepository;
@@ -63,7 +63,7 @@ namespace SBCRM.Crm
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name == input.NameFilter)
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
                         .WhereIf(input.MinProbabilityFilter != null, e => e.Probability >= input.MinProbabilityFilter)
@@ -90,6 +90,10 @@ namespace SBCRM.Crm
                 .ThenBy(o => o.Name)
                 .ThenBy(o => o.Branch)
                 .ThenBy(o => o.Department)
+                .PageBy(input);
+
+            pagedAndFilteredOpportunities = filteredOpportunities
+                .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
             var opportunities = from o in pagedAndFilteredOpportunities
@@ -141,8 +145,8 @@ namespace SBCRM.Crm
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
-                    LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityStageColor = o.OpportunityStageColor,
+                    LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityTypeDescription = o.OpportunityTypeDescription
                 };
 
@@ -252,7 +256,6 @@ namespace SBCRM.Crm
 
         }
 
-
         /// <summary>
         /// Update opportunity
         /// </summary>
@@ -266,17 +269,17 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get Opportunities for excel export
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _opportunityRepository.DeleteAsync(input.Id);
         }
 
-        /// <summary>
-        /// Get Opportunities for excel export
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
 
@@ -285,7 +288,7 @@ namespace SBCRM.Crm
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name == input.NameFilter)
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
                         .WhereIf(input.MinProbabilityFilter != null, e => e.Probability >= input.MinProbabilityFilter)
