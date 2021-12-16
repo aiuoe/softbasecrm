@@ -28,6 +28,14 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <div class="row" *ngIf="!this.showSaveButton && this.isReadOnlyMode">
+                                        <div class="col-12">
+                                            <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                <span>{{ l('Edit') }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-12">
                                             <form #customerForm="ngForm" role="form" class="form-validation" novalidate>

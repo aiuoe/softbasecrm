@@ -192,7 +192,7 @@
                                         <td style="width: 250px">
                                             <a
                                                 *ngIf="permission.isGranted('Pages.Customer.Edit')"
-                                                [routerLink]="['/app/main/business/accounts/createOrEdit']"
+                                                [routerLink]="['/app/main/business/accounts/view']"
                                                 [queryParams]="{ number: record.customer.number }"
                                             >
                                                 <span class="p-column-title">{{ l('Name') }}</span>

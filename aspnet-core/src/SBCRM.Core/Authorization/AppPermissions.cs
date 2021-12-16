@@ -6,6 +6,8 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Base_Permission = "Pages.BasePermissions";
+
         public const string Pages_Countries = "Pages.Countries";
         public const string Pages_Countries_Create = "Pages.Countries.Create";
         public const string Pages_Countries_Edit = "Pages.Countries.Edit";

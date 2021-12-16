@@ -145,8 +145,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.usZipCodes = zipCodes.items;
                     this.countries = countries.map(x => x.country);
 
-                    this.showSaveButton = true;
-                }, () => {
+                    this.showSaveButton = !this.isReadOnlyMode;
+                }, (error) => {
                     this.goToAccounts();
                 });
 
@@ -171,9 +171,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.usZipCodes = zipCodes.items;
                     this.countries = countries.map(x => x.country);
 
-                    this.showSaveButton = true;
-                }, () => {
-                    this.isPageLoading = true;
+                    this.showSaveButton = !this.isReadOnlyMode;
+                }, (error) => {
                     this.goToAccounts();
                 });
         }
@@ -201,6 +200,14 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 this.notify.info(this.l('SavedSuccessfully'));
                 this._router.navigate([this.routerLink]);
             });
+    }
+
+    /***
+     * Open internal edition mode
+     */
+    openEditionMode() {
+        this.isReadOnlyMode = false;
+        this.showSaveButton = true;
     }
 
     /***

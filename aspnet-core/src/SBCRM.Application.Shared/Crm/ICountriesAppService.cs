@@ -20,7 +20,7 @@ namespace SBCRM.Crm
         Task<PagedResultDto<GetCountryForViewDto>> GetAll(GetAllCountriesInput input);
 
         /// <summary>
-        /// Get all countries
+        /// Get all countries for dropdown
         /// </summary>
         /// <returns></returns>
         Task<List<GetCountryForViewDto>> GetAllForTableDropdown();

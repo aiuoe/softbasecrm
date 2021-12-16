@@ -417,6 +417,8 @@
     <text name="DontYouHaveAnAccount">Don't you have an account?</text>
     <text name="CreateAnAccount">Create account</text>
     <text name="Pages">Pages</text>
+    <text name="Modules">Modules</text>
+    <text name="BasePermission">Base permission</text>
     <text name="RoleName">Role name</text>
     <text name="EditRole">Edit role</text>
     <text name="CreateNewRole">Create new role</text>

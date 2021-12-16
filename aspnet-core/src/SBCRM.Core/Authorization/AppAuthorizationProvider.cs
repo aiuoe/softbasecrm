@@ -28,7 +28,9 @@ namespace SBCRM.Authorization
         {
             //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
-            var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
+            var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
+
+            var basePermissions = pages.CreateChildPermission(AppPermissions.Base_Permission, L("BasePermission"));
 
             var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));

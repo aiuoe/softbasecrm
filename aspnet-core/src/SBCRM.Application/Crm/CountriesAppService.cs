@@ -17,7 +17,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// App service to handle Countries information
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_Countries)]
+    [AbpAuthorize(AppPermissions.Base_Permission)]
     public class CountriesAppService : SBCRMAppServiceBase, ICountriesAppService
     {
         private readonly IRepository<Country> _countryRepository;
@@ -91,9 +91,8 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get all countries
+        /// Get all countries for dropdown
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
         public async Task<List<GetCountryForViewDto>> GetAllForTableDropdown()
         {
