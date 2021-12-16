@@ -20,11 +20,11 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
  * Component to manage the customers/accounts summary grid
  */
 @Component({
-    templateUrl: './customer.component.html',
+    templateUrl: './customers.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class CustomerComponent extends AppComponentBase implements OnInit {
+export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 

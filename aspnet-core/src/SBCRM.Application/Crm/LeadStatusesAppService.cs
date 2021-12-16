@@ -17,6 +17,9 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// LeadStatusesAppService
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_LeadStatuses)]
     public class LeadStatusesAppService : SBCRMAppServiceBase, ILeadStatusesAppService
     {
@@ -28,12 +31,19 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets all lead statuses
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetLeadStatusForViewDto>> GetAll(GetAllLeadStatusesInput input)
         {
 
             var filteredLeadStatuses = _leadStatusRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                        .WhereIf(input.IsLeadConversionValidFilter.HasValue && input.IsLeadConversionValidFilter > -1, e => (input.IsLeadConversionValidFilter == 1 && e.IsLeadConversionValid) || (input.IsLeadConversionValidFilter == 0 && !e.IsLeadConversionValid))
+                        .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
             var pagedAndFilteredLeadStatuses = filteredLeadStatuses
                 .OrderBy(input.Sorting ?? "id asc")
@@ -45,6 +55,7 @@ namespace SBCRM.Crm
 
                                    o.Description,
                                    o.IsLeadConversionValid,
+                                   o.IsDefault,
                                    Id = o.Id
                                };
 
@@ -62,6 +73,7 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         IsLeadConversionValid = o.IsLeadConversionValid,
+                        IsDefault = o.IsDefault,
                         Id = o.Id,
                     }
                 };
@@ -76,6 +88,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets leads status for view by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetLeadStatusForViewDto> GetLeadStatusForView(int id)
         {
             var leadStatus = await _leadStatusRepository.GetAsync(id);
@@ -85,6 +102,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Gets a lead status to be edited
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Edit)]
         public async Task<GetLeadStatusForEditOutput> GetLeadStatusForEdit(EntityDto input)
         {
@@ -95,6 +117,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Method used to create or edit a lead status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditLeadStatusDto input)
         {
             if (input.Id == null)
@@ -107,6 +134,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Creates a new lead status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Create)]
         protected virtual async Task Create(CreateOrEditLeadStatusDto input)
         {
@@ -116,6 +148,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Updates a lead status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Edit)]
         protected virtual async Task Update(CreateOrEditLeadStatusDto input)
         {
@@ -124,6 +161,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Deletes a lead status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {

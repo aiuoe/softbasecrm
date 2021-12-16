@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Abp.Runtime.Validation;
 
 namespace SBCRM.Legacy.Dtos
 {
     /// <summary>
     /// DTO to manage the object for creation/edition customer
     /// </summary>
-    public class CreateOrEditCustomerDto
+    public class CreateOrEditCustomerDto : ICustomValidate
     {
         [StringLength(CustomerConsts.MaxNumberLength, MinimumLength = CustomerConsts.MinNumberLength)]
         public string Number { get; set; }
@@ -62,5 +63,14 @@ namespace SBCRM.Legacy.Dtos
         public string SICCode4 { get; set; }
 
         public string BusinessDescription { get; set; }
+
+
+        public void AddValidationErrors(CustomValidationContext context)
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                context.Results.Add(new ValidationResult("Name is required!"));
+            }
+        }
     }
 }

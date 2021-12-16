@@ -42,11 +42,10 @@ namespace SBCRM.Crm
 
         public virtual string Description { get; set; }
 
-        [Required]
-        [StringLength(LeadConsts.MaxCompanyPhoneLength, MinimumLength = LeadConsts.MinCompanyPhoneLength)]
+        [Phone]
         public virtual string CompanyPhone { get; set; }
 
-        [StringLength(LeadConsts.MaxCompanyEmailLength, MinimumLength = LeadConsts.MinCompanyEmailLength)]
+        [EmailAddress]
         public virtual string CompanyEmail { get; set; }
 
         [StringLength(LeadConsts.MaxPoBoxLength, MinimumLength = LeadConsts.MinPoBoxLength)]

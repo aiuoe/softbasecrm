@@ -3344,6 +3344,439 @@ export class CommonLookupServiceProxy {
 }
 
 @Injectable()
+export class CountriesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param codeFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCountryForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (codeFilter === null)
+            throw new Error("The parameter 'codeFilter' cannot be null.");
+        else if (codeFilter !== undefined)
+            url_ += "CodeFilter=" + encodeURIComponent("" + codeFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetCountryForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetCountryForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetCountryForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetCountryForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetCountryForViewDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllForTableDropdown(): Observable<GetCountryForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/GetAllForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCountryForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCountryForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllForTableDropdown(response: HttpResponseBase): Observable<GetCountryForViewDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetCountryForViewDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCountryForViewDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getCountryForView(id: number | undefined): Observable<GetCountryForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/GetCountryForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCountryForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCountryForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCountryForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCountryForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCountryForView(response: HttpResponseBase): Observable<GetCountryForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetCountryForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCountryForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getCountryForEdit(id: number | undefined): Observable<GetCountryForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/GetCountryForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCountryForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCountryForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCountryForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCountryForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCountryForEdit(response: HttpResponseBase): Observable<GetCountryForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetCountryForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCountryForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditCountryDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param codeFilter (optional) 
+     * @return Success
+     */
+    getCountriesToExcel(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Countries/GetCountriesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (codeFilter === null)
+            throw new Error("The parameter 'codeFilter' cannot be null.");
+        else if (codeFilter !== undefined)
+            url_ += "CodeFilter=" + encodeURIComponent("" + codeFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCountriesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCountriesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCountriesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class CustomerServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3769,6 +4202,244 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<CustomerLeadSourceLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param billTo (optional) 
+     * @param startDate (optional) 
+     * @param endDate (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllCustomerInvoices(billTo: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerInvoiceViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerInvoices?";
+        if (billTo === null)
+            throw new Error("The parameter 'billTo' cannot be null.");
+        else if (billTo !== undefined)
+            url_ += "BillTo=" + encodeURIComponent("" + billTo) + "&";
+        if (startDate === null)
+            throw new Error("The parameter 'startDate' cannot be null.");
+        else if (startDate !== undefined)
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
+        if (endDate === null)
+            throw new Error("The parameter 'endDate' cannot be null.");
+        else if (endDate !== undefined)
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerInvoices(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerInvoices(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCustomerInvoiceViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCustomerInvoiceViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerInvoices(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerInvoiceViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerInvoiceViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerInvoiceViewDto>(<any>null);
+    }
+
+    /**
+     * @param customerNumber (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllCustomerEquipments(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerEquipments?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerEquipments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerEquipments(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCustomerEquipmentViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCustomerEquipmentViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerEquipments(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerEquipmentViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerEquipmentViewDto>(<any>null);
+    }
+
+    /**
+     * @param customerNumber (optional) 
+     * @param quotes (optional) 
+     * @param acceptedQuotes (optional) 
+     * @param canceledQuotes (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllCustomerWip(customerNumber: string | undefined, quotes: boolean | undefined, acceptedQuotes: boolean | undefined, canceledQuotes: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerWipViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerWip?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        if (quotes === null)
+            throw new Error("The parameter 'quotes' cannot be null.");
+        else if (quotes !== undefined)
+            url_ += "Quotes=" + encodeURIComponent("" + quotes) + "&";
+        if (acceptedQuotes === null)
+            throw new Error("The parameter 'acceptedQuotes' cannot be null.");
+        else if (acceptedQuotes !== undefined)
+            url_ += "AcceptedQuotes=" + encodeURIComponent("" + acceptedQuotes) + "&";
+        if (canceledQuotes === null)
+            throw new Error("The parameter 'canceledQuotes' cannot be null.");
+        else if (canceledQuotes !== undefined)
+            url_ += "CanceledQuotes=" + encodeURIComponent("" + canceledQuotes) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerWip(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerWip(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCustomerWipViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCustomerWipViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerWip(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerWipViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerWipViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerWipViewDto>(<any>null);
     }
 }
 
@@ -8479,12 +9150,13 @@ export class LeadsServiceProxy {
      * @param leadSourceDescriptionFilter (optional) 
      * @param leadStatusDescriptionFilter (optional) 
      * @param priorityDescriptionFilter (optional) 
+     * @param leadStatusId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -8578,6 +9250,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'priorityDescriptionFilter' cannot be null.");
         else if (priorityDescriptionFilter !== undefined)
             url_ += "PriorityDescriptionFilter=" + encodeURIComponent("" + priorityDescriptionFilter) + "&";
+        if (leadStatusId === null)
+            throw new Error("The parameter 'leadStatusId' cannot be null.");
+        else if (leadStatusId !== undefined)
+            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -8916,7 +9592,7 @@ export class LeadsServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param companyNameFilter (optional) 
+     * @param companyOrContactNameFilter (optional) 
      * @param contactNameFilter (optional) 
      * @param contactPositionFilter (optional) 
      * @param webSiteFilter (optional) 
@@ -8938,18 +9614,19 @@ export class LeadsServiceProxy {
      * @param leadSourceDescriptionFilter (optional) 
      * @param leadStatusDescriptionFilter (optional) 
      * @param priorityDescriptionFilter (optional) 
+     * @param leadStatusId (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined) : Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (companyNameFilter === null)
-            throw new Error("The parameter 'companyNameFilter' cannot be null.");
-        else if (companyNameFilter !== undefined)
-            url_ += "CompanyNameFilter=" + encodeURIComponent("" + companyNameFilter) + "&";
+        if (companyOrContactNameFilter === null)
+            throw new Error("The parameter 'companyOrContactNameFilter' cannot be null.");
+        else if (companyOrContactNameFilter !== undefined)
+            url_ += "CompanyOrContactNameFilter=" + encodeURIComponent("" + companyOrContactNameFilter) + "&";
         if (contactNameFilter === null)
             throw new Error("The parameter 'contactNameFilter' cannot be null.");
         else if (contactNameFilter !== undefined)
@@ -9034,6 +9711,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'priorityDescriptionFilter' cannot be null.");
         else if (priorityDescriptionFilter !== undefined)
             url_ += "PriorityDescriptionFilter=" + encodeURIComponent("" + priorityDescriptionFilter) + "&";
+        if (leadStatusId === null)
+            throw new Error("The parameter 'leadStatusId' cannot be null.");
+        else if (leadStatusId !== undefined)
+            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9269,12 +9950,13 @@ export class LeadSourcesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9284,6 +9966,10 @@ export class LeadSourcesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -9561,9 +10247,10 @@ export class LeadSourcesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined) : Observable<FileDto> {
+    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourcesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9573,6 +10260,10 @@ export class LeadSourcesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9634,12 +10325,14 @@ export class LeadStatusesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isLeadConversionValidFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9649,6 +10342,14 @@ export class LeadStatusesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isLeadConversionValidFilter === null)
+            throw new Error("The parameter 'isLeadConversionValidFilter' cannot be null.");
+        else if (isLeadConversionValidFilter !== undefined)
+            url_ += "IsLeadConversionValidFilter=" + encodeURIComponent("" + isLeadConversionValidFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -10723,12 +11424,13 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageDescriptionFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
+     * @param opportunityStageId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10786,6 +11488,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
         else if (opportunityTypeDescriptionFilter !== undefined)
             url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (opportunityStageId === null)
+            throw new Error("The parameter 'opportunityStageId' cannot be null.");
+        else if (opportunityStageId !== undefined)
+            opportunityStageId && opportunityStageId.forEach(item => { url_ += "OpportunityStageId=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -11075,9 +11781,10 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageDescriptionFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
+     * @param opportunityStageId (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined) : Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11135,6 +11842,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
         else if (opportunityTypeDescriptionFilter !== undefined)
             url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (opportunityStageId === null)
+            throw new Error("The parameter 'opportunityStageId' cannot be null.");
+        else if (opportunityStageId !== undefined)
+            opportunityStageId && opportunityStageId.forEach(item => { url_ += "OpportunityStageId=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13743,12 +14454,13 @@ export class PrioritiesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetPriorityForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13758,6 +14470,10 @@ export class PrioritiesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -14035,9 +14751,10 @@ export class PrioritiesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined) : Observable<FileDto> {
+    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetPrioritiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14047,6 +14764,10 @@ export class PrioritiesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (isDefaultFilter === null)
+            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
+        else if (isDefaultFilter !== undefined)
+            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -20137,6 +20858,57 @@ export class ZipCodesServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllZipCodesForTableDropdown(): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAllZipCodesForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllZipCodesForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllZipCodesForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetZipCodeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetZipCodeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllZipCodesForTableDropdown(response: HttpResponseBase): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetZipCodeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetZipCodeForViewDto>(<any>null);
+    }
+
+    /**
      * @param zipCodeFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
@@ -21677,6 +22449,50 @@ export interface IComboboxItemDto {
     isSelected: boolean;
 }
 
+export class CountryDto implements ICountryDto {
+    name!: string | undefined;
+    code!: string | undefined;
+    id!: number;
+
+    constructor(data?: ICountryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.code = _data["code"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CountryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CountryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["code"] = this.code;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICountryDto {
+    name: string | undefined;
+    code: string | undefined;
+    id: number;
+}
+
 export class CreateEditionDto implements ICreateEditionDto {
     edition!: EditionCreateDto;
     featureValues!: NameValueDto[];
@@ -22005,6 +22821,50 @@ export interface ICreateOrEditActivityTaskTypeDto {
     id: number | undefined;
 }
 
+export class CreateOrEditCountryDto implements ICreateOrEditCountryDto {
+    name!: string;
+    code!: string;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditCountryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.code = _data["code"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditCountryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditCountryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["code"] = this.code;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditCountryDto {
+    name: string;
+    code: string;
+    id: number | undefined;
+}
+
 export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
     number!: string | undefined;
     billTo!: string | undefined;
@@ -22163,7 +23023,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     state!: string | undefined;
     city!: string | undefined;
     description!: string | undefined;
-    companyPhone!: string;
+    companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
     zipCode!: string | undefined;
@@ -22261,7 +23121,7 @@ export interface ICreateOrEditLeadDto {
     state: string | undefined;
     city: string | undefined;
     description: string | undefined;
-    companyPhone: string;
+    companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
     zipCode: string | undefined;
@@ -22279,6 +23139,7 @@ export interface ICreateOrEditLeadDto {
 
 export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     description!: string;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditLeadSourceDto) {
@@ -22293,6 +23154,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -22307,6 +23169,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -22314,11 +23177,14 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
 
 export interface ICreateOrEditLeadSourceDto {
     description: string;
+    isDefault: boolean;
     id: number | undefined;
 }
 
 export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     description!: string;
+    isLeadConversionValid!: boolean;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditLeadStatusDto) {
@@ -22333,6 +23199,8 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isLeadConversionValid = _data["isLeadConversionValid"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -22347,6 +23215,8 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isLeadConversionValid"] = this.isLeadConversionValid;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -22354,6 +23224,8 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
 
 export interface ICreateOrEditLeadStatusDto {
     description: string;
+    isLeadConversionValid: boolean;
+    isDefault: boolean;
     id: number | undefined;
 }
 
@@ -22479,6 +23351,7 @@ export interface ICreateOrEditOpportunityDto {
 
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
     description!: string;
+    color!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -22493,6 +23366,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -22507,6 +23381,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -22514,6 +23389,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 
 export interface ICreateOrEditOpportunityStageDto {
     description: string;
+    color: string;
     id: number | undefined;
 }
 
@@ -22559,6 +23435,7 @@ export interface ICreateOrEditOpportunityTypeDto {
 
 export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     description!: string;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditPriorityDto) {
@@ -22573,6 +23450,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -22587,6 +23465,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -22594,6 +23473,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
 
 export interface ICreateOrEditPriorityDto {
     description: string;
+    isDefault: boolean;
     id: number | undefined;
 }
 
@@ -23051,6 +23931,7 @@ export interface ICurrentUserProfileEditDto {
 export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ICustomerAccountTypeLookupTableDto) {
         if (data) {
@@ -23065,6 +23946,7 @@ export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLo
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -23079,6 +23961,7 @@ export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLo
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -23086,6 +23969,7 @@ export class CustomerAccountTypeLookupTableDto implements ICustomerAccountTypeLo
 export interface ICustomerAccountTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class CustomerDto implements ICustomerDto {
@@ -23160,6 +24044,134 @@ export interface ICustomerDto {
     changedBy: string | undefined;
 }
 
+export class CustomerEquipmentViewDto implements ICustomerEquipmentViewDto {
+    unitNo!: string | undefined;
+    serial!: string | undefined;
+    modelYear!: string | undefined;
+    make!: string | undefined;
+    model!: string | undefined;
+    meter!: number | undefined;
+    totalExp!: number | undefined;
+    expMeter!: number | undefined;
+
+    constructor(data?: ICustomerEquipmentViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.unitNo = _data["unitNo"];
+            this.serial = _data["serial"];
+            this.modelYear = _data["modelYear"];
+            this.make = _data["make"];
+            this.model = _data["model"];
+            this.meter = _data["meter"];
+            this.totalExp = _data["totalExp"];
+            this.expMeter = _data["expMeter"];
+        }
+    }
+
+    static fromJS(data: any): CustomerEquipmentViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerEquipmentViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["unitNo"] = this.unitNo;
+        data["serial"] = this.serial;
+        data["modelYear"] = this.modelYear;
+        data["make"] = this.make;
+        data["model"] = this.model;
+        data["meter"] = this.meter;
+        data["totalExp"] = this.totalExp;
+        data["expMeter"] = this.expMeter;
+        return data; 
+    }
+}
+
+export interface ICustomerEquipmentViewDto {
+    unitNo: string | undefined;
+    serial: string | undefined;
+    modelYear: string | undefined;
+    make: string | undefined;
+    model: string | undefined;
+    meter: number | undefined;
+    totalExp: number | undefined;
+    expMeter: number | undefined;
+}
+
+export class CustomerInvoiceViewDto implements ICustomerInvoiceViewDto {
+    invoiceNumber!: number | undefined;
+    poNumber!: string | undefined;
+    unitNo!: string | undefined;
+    associatedWONo!: number | undefined;
+    rentalContractNo!: number | undefined;
+    grandTotal!: number | undefined;
+    serial!: string | undefined;
+    customerFlag!: number | undefined;
+
+    constructor(data?: ICustomerInvoiceViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.invoiceNumber = _data["invoiceNumber"];
+            this.poNumber = _data["poNumber"];
+            this.unitNo = _data["unitNo"];
+            this.associatedWONo = _data["associatedWONo"];
+            this.rentalContractNo = _data["rentalContractNo"];
+            this.grandTotal = _data["grandTotal"];
+            this.serial = _data["serial"];
+            this.customerFlag = _data["customerFlag"];
+        }
+    }
+
+    static fromJS(data: any): CustomerInvoiceViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerInvoiceViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["invoiceNumber"] = this.invoiceNumber;
+        data["poNumber"] = this.poNumber;
+        data["unitNo"] = this.unitNo;
+        data["associatedWONo"] = this.associatedWONo;
+        data["rentalContractNo"] = this.rentalContractNo;
+        data["grandTotal"] = this.grandTotal;
+        data["serial"] = this.serial;
+        data["customerFlag"] = this.customerFlag;
+        return data; 
+    }
+}
+
+export interface ICustomerInvoiceViewDto {
+    invoiceNumber: number | undefined;
+    poNumber: string | undefined;
+    unitNo: string | undefined;
+    associatedWONo: number | undefined;
+    rentalContractNo: number | undefined;
+    grandTotal: number | undefined;
+    serial: string | undefined;
+    customerFlag: number | undefined;
+}
+
 export class CustomerLeadSourceLookupTableDto implements ICustomerLeadSourceLookupTableDto {
     id!: number;
     displayName!: string | undefined;
@@ -23198,6 +24210,78 @@ export class CustomerLeadSourceLookupTableDto implements ICustomerLeadSourceLook
 export interface ICustomerLeadSourceLookupTableDto {
     id: number;
     displayName: string | undefined;
+}
+
+export class CustomerWipViewDto implements ICustomerWipViewDto {
+    documentNumber!: number | undefined;
+    poNumber!: string | undefined;
+    serial!: string | undefined;
+    unitNo!: string | undefined;
+    make!: string | undefined;
+    model!: string | undefined;
+    salesman!: string | undefined;
+    associatedWONo!: number | undefined;
+    rentalContractNo!: number | undefined;
+    customerFlag!: number | undefined;
+
+    constructor(data?: ICustomerWipViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.documentNumber = _data["documentNumber"];
+            this.poNumber = _data["poNumber"];
+            this.serial = _data["serial"];
+            this.unitNo = _data["unitNo"];
+            this.make = _data["make"];
+            this.model = _data["model"];
+            this.salesman = _data["salesman"];
+            this.associatedWONo = _data["associatedWONo"];
+            this.rentalContractNo = _data["rentalContractNo"];
+            this.customerFlag = _data["customerFlag"];
+        }
+    }
+
+    static fromJS(data: any): CustomerWipViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerWipViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["documentNumber"] = this.documentNumber;
+        data["poNumber"] = this.poNumber;
+        data["serial"] = this.serial;
+        data["unitNo"] = this.unitNo;
+        data["make"] = this.make;
+        data["model"] = this.model;
+        data["salesman"] = this.salesman;
+        data["associatedWONo"] = this.associatedWONo;
+        data["rentalContractNo"] = this.rentalContractNo;
+        data["customerFlag"] = this.customerFlag;
+        return data; 
+    }
+}
+
+export interface ICustomerWipViewDto {
+    documentNumber: number | undefined;
+    poNumber: string | undefined;
+    serial: string | undefined;
+    unitNo: string | undefined;
+    make: string | undefined;
+    model: string | undefined;
+    salesman: string | undefined;
+    associatedWONo: number | undefined;
+    rentalContractNo: number | undefined;
+    customerFlag: number | undefined;
 }
 
 export class Dashboard implements IDashboard {
@@ -26030,6 +27114,78 @@ export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
 }
 
+export class GetCountryForEditOutput implements IGetCountryForEditOutput {
+    country!: CreateOrEditCountryDto;
+
+    constructor(data?: IGetCountryForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.country = _data["country"] ? CreateOrEditCountryDto.fromJS(_data["country"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetCountryForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCountryForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["country"] = this.country ? this.country.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetCountryForEditOutput {
+    country: CreateOrEditCountryDto;
+}
+
+export class GetCountryForViewDto implements IGetCountryForViewDto {
+    country!: CountryDto;
+
+    constructor(data?: IGetCountryForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.country = _data["country"] ? CountryDto.fromJS(_data["country"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetCountryForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCountryForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["country"] = this.country ? this.country.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetCountryForViewDto {
+    country: CountryDto;
+}
+
 export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInformationsOutput {
     user!: UserLoginInfoDto;
     impersonatorUser!: UserLoginInfoDto;
@@ -27365,6 +28521,7 @@ export interface IGetOpportunityForEditOutput {
 export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     opportunity!: OpportunityDto;
     opportunityStageDescription!: string | undefined;
+    opportunityStageColor!: string | undefined;
     leadSourceDescription!: string | undefined;
     opportunityTypeDescription!: string | undefined;
 
@@ -27381,6 +28538,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         if (_data) {
             this.opportunity = _data["opportunity"] ? OpportunityDto.fromJS(_data["opportunity"]) : <any>undefined;
             this.opportunityStageDescription = _data["opportunityStageDescription"];
+            this.opportunityStageColor = _data["opportunityStageColor"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.opportunityTypeDescription = _data["opportunityTypeDescription"];
         }
@@ -27397,6 +28555,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data = typeof data === 'object' ? data : {};
         data["opportunity"] = this.opportunity ? this.opportunity.toJSON() : <any>undefined;
         data["opportunityStageDescription"] = this.opportunityStageDescription;
+        data["opportunityStageColor"] = this.opportunityStageColor;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["opportunityTypeDescription"] = this.opportunityTypeDescription;
         return data; 
@@ -27406,6 +28565,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
 export interface IGetOpportunityForViewDto {
     opportunity: OpportunityDto;
     opportunityStageDescription: string | undefined;
+    opportunityStageColor: string | undefined;
     leadSourceDescription: string | undefined;
     opportunityTypeDescription: string | undefined;
 }
@@ -29612,6 +30772,7 @@ export interface ILeadDto {
 export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ILeadLeadSourceLookupTableDto) {
         if (data) {
@@ -29626,6 +30787,7 @@ export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableD
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -29640,6 +30802,7 @@ export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableD
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -29647,11 +30810,13 @@ export class LeadLeadSourceLookupTableDto implements ILeadLeadSourceLookupTableD
 export interface ILeadLeadSourceLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ILeadLeadStatusLookupTableDto) {
         if (data) {
@@ -29666,6 +30831,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -29680,6 +30846,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -29687,11 +30854,13 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 export interface ILeadLeadStatusLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: ILeadPriorityLookupTableDto) {
         if (data) {
@@ -29706,6 +30875,7 @@ export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -29720,6 +30890,7 @@ export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -29727,11 +30898,13 @@ export class LeadPriorityLookupTableDto implements ILeadPriorityLookupTableDto {
 export interface ILeadPriorityLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class LeadSourceDto implements ILeadSourceDto {
     description!: string | undefined;
     order!: number;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: ILeadSourceDto) {
@@ -29747,6 +30920,7 @@ export class LeadSourceDto implements ILeadSourceDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -29762,6 +30936,7 @@ export class LeadSourceDto implements ILeadSourceDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -29770,12 +30945,14 @@ export class LeadSourceDto implements ILeadSourceDto {
 export interface ILeadSourceDto {
     description: string | undefined;
     order: number;
+    isDefault: boolean;
     id: number;
 }
 
 export class LeadStatusDto implements ILeadStatusDto {
     description!: string | undefined;
     isLeadConversionValid!: boolean;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: ILeadStatusDto) {
@@ -29791,6 +30968,7 @@ export class LeadStatusDto implements ILeadStatusDto {
         if (_data) {
             this.description = _data["description"];
             this.isLeadConversionValid = _data["isLeadConversionValid"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -29806,6 +30984,7 @@ export class LeadStatusDto implements ILeadStatusDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["isLeadConversionValid"] = this.isLeadConversionValid;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -29814,6 +30993,7 @@ export class LeadStatusDto implements ILeadStatusDto {
 export interface ILeadStatusDto {
     description: string | undefined;
     isLeadConversionValid: boolean;
+    isDefault: boolean;
     id: number;
 }
 
@@ -31401,7 +32581,7 @@ export class OpportunityDto implements IOpportunityDto {
     name!: string | undefined;
     amount!: number;
     probability!: number;
-    closeDate!: DateTime;
+    closeDate!: DateTime | undefined;
     description!: string | undefined;
     branch!: string | undefined;
     department!: string | undefined;
@@ -31463,7 +32643,7 @@ export interface IOpportunityDto {
     name: string | undefined;
     amount: number;
     probability: number;
-    closeDate: DateTime;
+    closeDate: DateTime | undefined;
     description: string | undefined;
     branch: string | undefined;
     department: string | undefined;
@@ -31596,6 +32776,7 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -31611,6 +32792,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -31626,6 +32808,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -31634,6 +32817,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 export interface IOpportunityStageDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
     id: number;
 }
 
@@ -31997,6 +33181,150 @@ export interface IPagedResultDtoOfAuditLogListDto {
     items: AuditLogListDto[] | undefined;
 }
 
+export class PagedResultDtoOfCustomerEquipmentViewDto implements IPagedResultDtoOfCustomerEquipmentViewDto {
+    totalCount!: number;
+    items!: CustomerEquipmentViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerEquipmentViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerEquipmentViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerEquipmentViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerEquipmentViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfCustomerEquipmentViewDto {
+    totalCount: number;
+    items: CustomerEquipmentViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfCustomerInvoiceViewDto implements IPagedResultDtoOfCustomerInvoiceViewDto {
+    totalCount!: number;
+    items!: CustomerInvoiceViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerInvoiceViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerInvoiceViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerInvoiceViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerInvoiceViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfCustomerInvoiceViewDto {
+    totalCount: number;
+    items: CustomerInvoiceViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfCustomerWipViewDto implements IPagedResultDtoOfCustomerWipViewDto {
+    totalCount!: number;
+    items!: CustomerWipViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerWipViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerWipViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerWipViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerWipViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfCustomerWipViewDto {
+    totalCount: number;
+    items: CustomerWipViewDto[] | undefined;
+}
+
 export class PagedResultDtoOfEntityChangeListDto implements IPagedResultDtoOfEntityChangeListDto {
     totalCount!: number;
     items!: EntityChangeListDto[] | undefined;
@@ -32331,6 +33659,54 @@ export class PagedResultDtoOfGetARTermsForViewDto implements IPagedResultDtoOfGe
 export interface IPagedResultDtoOfGetARTermsForViewDto {
     totalCount: number;
     items: GetARTermsForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetCountryForViewDto implements IPagedResultDtoOfGetCountryForViewDto {
+    totalCount!: number;
+    items!: GetCountryForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetCountryForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetCountryForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetCountryForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetCountryForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetCountryForViewDto {
+    totalCount: number;
+    items: GetCountryForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetCustomerForViewDto implements IPagedResultDtoOfGetCustomerForViewDto {
@@ -33538,6 +34914,7 @@ export interface IPayPalConfigurationDto {
 
 export class PriorityDto implements IPriorityDto {
     description!: string | undefined;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IPriorityDto) {
@@ -33552,6 +34929,7 @@ export class PriorityDto implements IPriorityDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -33566,6 +34944,7 @@ export class PriorityDto implements IPriorityDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -33573,6 +34952,7 @@ export class PriorityDto implements IPriorityDto {
 
 export interface IPriorityDto {
     description: string | undefined;
+    isDefault: boolean;
     id: number;
 }
 

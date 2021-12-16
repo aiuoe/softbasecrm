@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Constants for leads
+    /// </summary>
     public class LeadConsts
     {
 
@@ -56,6 +59,8 @@
 
         public const int MinContactEmailLength = 1;
         public const int MaxContactEmailLength = 100;
+
+        public const int MaxDescriptionLength = 250;
 
     }
 }

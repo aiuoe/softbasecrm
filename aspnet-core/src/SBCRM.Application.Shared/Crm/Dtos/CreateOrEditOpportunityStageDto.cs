@@ -11,5 +11,9 @@ namespace SBCRM.Crm.Dtos
         [StringLength(OpportunityStageConsts.MaxDescriptionLength, MinimumLength = OpportunityStageConsts.MinDescriptionLength)]
         public string Description { get; set; }
 
+        [Required]
+        [StringLength(OpportunityStageConsts.MaxColorLength, MinimumLength = OpportunityStageConsts.MinColorLength)]
+        public string Color { get; set; }
+
     }
 }

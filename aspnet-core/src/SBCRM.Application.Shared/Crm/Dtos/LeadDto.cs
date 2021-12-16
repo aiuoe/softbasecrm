@@ -1,5 +1,8 @@
 ﻿using SBCRM.Dto;
 
+/// <summary>
+/// DTO to manage the object lead
+/// </summary>
 namespace SBCRM.Crm.Dtos
 {
     public class LeadDto : AuditEntityDto
