@@ -8,5 +8,7 @@ namespace SBCRM.Legacy
     public interface IZipCodesAppService : IApplicationService
     {
         Task<PagedResultDto<GetZipCodeForViewDto>> GetAll(GetAllZipCodesInput input);
+
+        Task<PagedResultDto<GetZipCodeForViewDto>> GetAllZipCodesForTableDropdown();
     }
 }

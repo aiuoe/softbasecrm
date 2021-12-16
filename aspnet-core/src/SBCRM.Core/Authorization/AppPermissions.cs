@@ -6,6 +6,13 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Base_Permission = "Pages.BasePermissions";
+
+        public const string Pages_Countries = "Pages.Countries";
+        public const string Pages_Countries_Create = "Pages.Countries.Create";
+        public const string Pages_Countries_Edit = "Pages.Countries.Edit";
+        public const string Pages_Countries_Delete = "Pages.Countries.Delete";
+
         public const string Pages_ActivityStatuses = "Pages.ActivityStatuses";
         public const string Pages_ActivityStatuses_Create = "Pages.ActivityStatuses.Create";
         public const string Pages_ActivityStatuses_Edit = "Pages.ActivityStatuses.Edit";
@@ -65,6 +72,9 @@
         public const string Pages_Customer_Create = "Pages.Customer.Create";
         public const string Pages_Customer_Edit = "Pages.Customer.Edit";
         public const string Pages_Customer_Delete = "Pages.Customer.Delete";
+        public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
+        public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
+        public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

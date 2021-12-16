@@ -26,6 +26,9 @@ namespace SBCRM.Legacy
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<AccountType> _lookupAccountTypeRepository;
         private readonly IRepository<LeadSource> _lookupLeadSourceRepository;
+        private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
+        private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
+        private readonly ISoftBaseCustomerWipRepository _customerWipRepository;
 
         /// <summary>
         /// Base constructor
@@ -34,16 +37,26 @@ namespace SBCRM.Legacy
         /// <param name="customerExcelExporter"></param>
         /// <param name="lookupAccountTypeRepository"></param>
         /// <param name="lookupLeadSourceRepository"></param>
+        /// <param name="customerCustomerInvoiceRepository"></param>
+        /// <param name="customerEquipmentRepository"></param>
+        /// <param name="customerWipRepository"></param>
+        /// <param name="unitOfWorkManager"></param>
         public CustomerAppService(
             IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
             IRepository<AccountType> lookupAccountTypeRepository,
-            IRepository<LeadSource> lookupLeadSourceRepository)
+            IRepository<LeadSource> lookupLeadSourceRepository,
+            ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
+            ISoftBaseCustomerEquipmentRepository customerEquipmentRepository,
+            ISoftBaseCustomerWipRepository customerWipRepository)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _customerCustomerInvoiceRepository = customerCustomerInvoiceRepository;
+            _customerEquipmentRepository = customerEquipmentRepository;
+            _customerWipRepository = customerWipRepository;
         }
 
         /// <summary>
@@ -195,12 +208,17 @@ namespace SBCRM.Legacy
         protected virtual async Task Create(CreateOrEditCustomerDto input)
         {
             var customer = ObjectMapper.Map<Customer>(input);
-
             var currentUser = await GetCurrentUserAsync();
+
             customer.IsCreatedFromWebCrm = true;
             customer.AddedBy = currentUser.Name;
             customer.Added = DateTime.UtcNow;
-            await _customerRepository.InsertAsync(customer);
+            customer = await _customerRepository.InsertAsync(customer);
+
+            customer.BillTo = customer.Number;
+            customer.ChangedBy = currentUser.Name;
+            customer.Changed = DateTime.UtcNow;
+            await _customerRepository.UpdateAsync(customer);
         }
 
         /// <summary>
@@ -271,7 +289,8 @@ namespace SBCRM.Legacy
                 .Select(accountType => new CustomerAccountTypeLookupTableDto
                 {
                     Id = accountType.Id,
-                    DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString()
+                    DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString(),
+                    IsDefault = accountType.IsDefault ?? false
                 }).ToListAsync();
         }
 
@@ -289,6 +308,39 @@ namespace SBCRM.Legacy
                     Id = accountType.Id,
                     DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString()
                 }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get all Customer invoices
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerInvoiceViewDto>> GetAllCustomerInvoices(GetAllCustomerInvoicesInput input)
+        {
+            return await _customerCustomerInvoiceRepository.GetPagedCustomerInvoices(input);
+        }
+
+        /// <summary>
+        /// Get all Customer equipments
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerEquipmentViewDto>> GetAllCustomerEquipments(GetAllCustomerEquipmentInput input)
+        {
+            return await _customerEquipmentRepository.GetPagedCustomerEquipment(input);
+        }
+
+        /// <summary>
+        /// Get all Customer WIP
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerWipViewDto>> GetAllCustomerWip(GetAllCustomerWipInput input)
+        {
+            return await _customerWipRepository.GetPagedCustomerWip(input);
         }
 
     }

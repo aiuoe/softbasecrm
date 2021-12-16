@@ -72,3 +72,7 @@ a:hover {
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     border-color: #fff !important;
 }
+
+.form-control[readonly] {
+    background-color: $readonlyInputBackgroundColor !important;
+}
