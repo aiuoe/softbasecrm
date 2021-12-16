@@ -6,6 +6,8 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LazyLoadEvent } from 'primeng/api';
+import { threadId } from 'worker_threads';
+import { isNgTemplate } from '@angular/compiler';
 
 
 
@@ -60,16 +62,22 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
         this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
 						this.allUsers = result;
                         // Filtering by users who hasn't been assigned yet
-                        let index = 0;
-                        for(let item of this.allUsers){
-                            for(let auItem of this.assignedUsersExists){
-                                if(item.id === auItem.accountUser.userId){
-                                    this.allUsers.splice(index, 1);
-                                }
-                            }
-                            index++;
+                        var userIdsArray = [];
+                        for(var i = 0; i< this.assignedUsersExists.length; i++){
+                            userIdsArray.push(this.assignedUsersExists[i].accountUser.userId);
                         }
-					});					
+
+                        var arrayResult = [];
+                        this.allUsers.forEach( element =>{
+                            if(!userIdsArray.find( p=> p == element.id )){
+                                arrayResult.push(element);
+                            }
+                        });
+                        this.allUsers = [];
+                        this.allUsers = arrayResult;                        
+					});			
+                    
+                    
     }
 
     confirm(): void {
