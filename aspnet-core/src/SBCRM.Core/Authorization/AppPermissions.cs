@@ -6,6 +6,7 @@
     /// </summary>
     public static class AppPermissions
     {
+
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
         public const string Pages_AccountUsers_Edit = "Pages.AccountUsers.Edit";

@@ -18,6 +18,8 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Secure> Secure { get; set; }
+
         public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
 
@@ -91,8 +93,8 @@ namespace SBCRM.EntityFrameworkCore
             modelBuilder.HasSequence<int>("CustomerNumberSequence");
 
             modelBuilder.Entity<Customer>()
-                .Property(o => o.Number)
-                .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
+                           .Property(o => o.Number)
+                           .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
 
             modelBuilder
                 .Entity<InvoiceRegList>(eb =>
