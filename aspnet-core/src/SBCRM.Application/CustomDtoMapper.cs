@@ -54,6 +54,8 @@ namespace SBCRM
         {
             configuration.CreateMap<CreateOrEditCountryDto, Country>().ReverseMap();
             configuration.CreateMap<CountryDto, Country>().ReverseMap();
+            configuration.CreateMap<CreateOrEditSecureDto, Secure>().ReverseMap();
+            configuration.CreateMap<SecureDto, Secure>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivityStatusDto, ActivityStatus>().ReverseMap();
             configuration.CreateMap<ActivityStatusDto, ActivityStatus>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivityTaskTypeDto, ActivityTaskType>().ReverseMap();

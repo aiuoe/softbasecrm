@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Secure = "Pages.Secure";
+        public const string Pages_Secure_Create = "Pages.Secure.Create";
+        public const string Pages_Secure_Edit = "Pages.Secure.Edit";
+        public const string Pages_Secure_Delete = "Pages.Secure.Delete";
+
         public const string Base_Permission = "Pages.BasePermissions";
 
         public const string Pages_Countries = "Pages.Countries";

@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>    <text name="SBCRM.Crm.Country">Country</text>
+  <texts>    <text name="Secure">Secure</text>
+    <text name="CreateNewSecure">Create new secure</text>
+    <text name="EditSecure">Edit secure</text>
+    <text name="DeleteSecure">Delete secure</text>
+    <text name="SBCRM.Crm.Country">Country</text>
     <text name="CountriesHeaderInfo">Countries header info</text>
     <text name="CreateNewCountry">Create new country</text>
     <text name="EditCountry">Edit country</text>
@@ -41,8 +45,8 @@
     <text name="Order">Order</text>
     <text name="Overview">Overview</text>
     <text name="GeneralInformation">General Information</text>
-	  <text name="ContactDetails">Contact Details</text>
-	  <text name="LeadDetails">Lead Details</text>
+	<text name="ContactDetails">Contact Details</text>
+	<text name="LeadDetails">Lead Details</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -121,7 +125,7 @@
     <text name="LastName">Last name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
-	  <text name="WebSite_Invalid">Invalid Web site</text>
+	<text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
     <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
@@ -136,8 +140,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-	  <text name="LeadStatus">Lead status</text>
-	  <text name="MakeAccount">Make Account</text>	  
+	<text name="LeadStatus">Lead status</text>
+	<text name="MakeAccount">Make Account</text>	  
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
