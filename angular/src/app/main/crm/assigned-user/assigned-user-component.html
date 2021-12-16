@@ -4,10 +4,14 @@
     <div [class]="containerClass">
         <div class="card card-custom gutter-b">
             <div class="card-body">
-                <div role="actions">  
-                    <label>Assigned Users</label>             
-                    <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()" 
-                             class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("User")}}</button>
+                <div role="actions" class="d-flex justify-content-between">  
+                    <div class="alig-items-rigth">
+                        <strong>Assigned Users</strong>
+                    </div>             
+                    <div class="alig-items-left">
+                        <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()" 
+                        class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("User")}}</button>
+                    </div>
                 </div>
 
                 <div class="row align-items-center">

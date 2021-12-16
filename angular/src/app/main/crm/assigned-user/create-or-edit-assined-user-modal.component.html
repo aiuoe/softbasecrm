@@ -1,7 +1,7 @@
-﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-lg">
+﻿<div bsModal #createOrEditModal="bs-modal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <form *ngIf="active" #accountUserForm="ngForm" novalidate (ngSubmit)="confirm()" autocomplete="off">
+            <div *ngIf="active">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         Assigned Users
@@ -11,11 +11,9 @@
                     </button>
                 </div>
 
-
                 <div class="modal-body">
-					<div>                     
+					<div class="col-md-8 offset-md-2">                 
                         <p-listbox 
-                            name = "accountUser.userId"
                             [options]="this.allUsers" 
                             [(ngModel)]="this.selectedUsers" 
                             [metaKeySelection]="false"
@@ -23,18 +21,17 @@
                             [multiple]="true" 
                             optionLabel="displayName"
                             [filter]="true"
-                            [listStyle]="{'max-height':'250px'}" 
-                            [style]="{'width':'15rem'}">
+                            [listStyle]="{'max-height':'300px'}" 
+                            [style]="{'border':'none'}">
                         </p-listbox>                        
                     </div>                   
                 </div>
 
-
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!accountUserForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><span>Confirm</span></button>
+                    <button type="submit" class="btn btn-primary blue" (click)="confirm()" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><span>Confirm</span></button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
