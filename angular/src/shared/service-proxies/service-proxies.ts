@@ -31876,7 +31876,7 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
 export class OpportunityDto implements IOpportunityDto {
     name!: string | undefined;
     amount!: number;
-    probability!: number;
+    probability!: number | undefined;
     closeDate!: DateTime | undefined;
     description!: string | undefined;
     branch!: string | undefined;
@@ -31938,7 +31938,7 @@ export class OpportunityDto implements IOpportunityDto {
 export interface IOpportunityDto {
     name: string | undefined;
     amount: number;
-    probability: number;
+    probability: number | undefined;
     closeDate: DateTime | undefined;
     description: string | undefined;
     branch: string | undefined;

@@ -1,7 +1,7 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
 
-        <sub-header [title]="('opportunities' | localize)" [breadcrumbs]="breadcrumbs">
+        <sub-header [title]="('Opportunities' | localize)" [breadcrumbs]="breadcrumbs">
             <div role="actions">
                 <button (click)="goToOpportunities()" class="btn btn-secondary float-left" [buttonBusy]="saving">
                     <span>{{ l('Cancel') }}</span>
@@ -18,7 +18,111 @@
                 <div class="col-sm-8 col-md-9">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
-                            <div class="form-group m-form__group">
+                            <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
+                                <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                    <i class="pi pi-user"></i>
+                                    {{ l('GeneralInformation') }}
+                                </h3>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group input-field required">
+                                            <label for="Opportunity_Name">{{ l('Name') }}</label>
+                                            <input 
+                                                type="text" 
+                                                #Opportunity_Name="ngModel" 
+                                                id="Opportunity_Name"
+                                                class="form-control" 
+                                                [(ngModel)]="opportunity.name"
+                                                [placeholder]="l('Name')" 
+                                                name="Name"
+                                                maxlength="64" required />
+                                            <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group m-form__group">
+                                            <label for="OpportunityStageDescription">{{ l('Stage') }}</label>
+                                            <select 
+                                                autocomplete="off"
+                                                name="opportunity.opportunityStageId" 
+                                                [(ngModel)]="opportunity.opportunityStageId"
+                                                class="form-control" required>                                                 
+                                                <option 
+                                                    *ngFor="let item of allOpportunityStages; 
+                                                    let i = index"
+                                                    value="item.id"
+                                                    [selected]="i == 0"
+                                                >
+                                                    {{ item.displayName }}                                                
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="Opportunity_Amount">{{ l('Amount') }}</label>
+                                            <input 
+                                                type="number" 
+                                                #Opportunity_Amount="ngModel" 
+                                                id="Opportunity_Amount"
+                                                class="form-control" 
+                                                [(ngModel)]="opportunity.amount"
+                                                [placeholder]="l('OpportunityAmmountFormat')" 
+                                                min="1"
+                                                name="Amount"
+                                            />
+                                            <validation-messages [formCtrl]="Opportunity_Amount"></validation-messages>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Opportunity_Probability">{{ l('Probability') }}</label>
+                                            <input
+                                                type="number"
+                                                #Opportunity_Probability="ngModel"
+                                                id="Opportunity_Probability"
+                                                class="form-control"
+                                                [(ngModel)]="opportunity.probability"
+                                                name="Probability"
+                                                min="1"
+                                                max="100"
+                                            />
+                                            <validation-messages [formCtrl]="Opportunity_Probability"></validation-messages>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
+                                            <input
+                                                class="form-control m-input"
+                                                #Opportunity_CloseDate="ngModel"
+                                                type="datetime"
+                                                bsDatepicker 
+                                                dateFormat="MM-dd-yyyy"     
+                                                [placeholder]= "l('CloseDate')"                                        
+                                                [(ngModel)]="opportunity.closeDate?  '' : opportunity.closeDate"                                                
+                                                id="Opportunity_CloseDate"
+                                                name="Opportunity_CloseDate"                                                
+                                            />
+                                            <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
+                                        </div>
+                                    </div>
+                                   
+
+                                </div>
+                            <!-- <div class="form-group m-form__group">
                                 <label for="OpportunityStageDescription">{{ l('OpportunityStage') }}</label>
                                 <select
                                     name="opportunity.opportunityStageId"
@@ -185,7 +289,8 @@
                                     <span>{{ l('SaveAndNew') }}</span>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
+                        </form>
                     </div>
                 </div>
             </div>        

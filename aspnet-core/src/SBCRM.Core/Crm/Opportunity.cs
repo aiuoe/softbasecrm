@@ -13,7 +13,7 @@ namespace SBCRM.Crm
     public class Opportunity : FullAuditedEntity
     {
 
-        [Required]
+        [Required(ErrorMessage = "Please add an opportunity name.")]
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
         public virtual string Name { get; set; }
 

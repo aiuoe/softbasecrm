@@ -12,6 +12,7 @@
     <text name="SelectAOpportunityStage">Select a opportunity stage</text>
     <text name="SelectAOpportunityType">Select a opportunity type</text>  
     <text name="PO">Po</text>
+	<text name="OpportunityAmmountFormat">$0.00</text>
     <text name="Unit">Unit</text>
     <text name="Serial">Serial</text>
     <text name="Year">Year</text>
