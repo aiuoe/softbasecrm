@@ -28,6 +28,7 @@ namespace SBCRM.Legacy
         private readonly IRepository<LeadSource> _lookupLeadSourceRepository;
         private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
         private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
+        private readonly ISoftBaseCustomerWipRepository _customerWipRepository;
 
         /// <summary>
         /// Base constructor
@@ -38,13 +39,15 @@ namespace SBCRM.Legacy
         /// <param name="lookupLeadSourceRepository"></param>
         /// <param name="customerCustomerInvoiceRepository"></param>
         /// <param name="customerEquipmentRepository"></param>
+        /// <param name="customerWipRepository"></param>
         public CustomerAppService(
             IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
             IRepository<AccountType> lookupAccountTypeRepository,
             IRepository<LeadSource> lookupLeadSourceRepository,
             ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
-            ISoftBaseCustomerEquipmentRepository customerEquipmentRepository)
+            ISoftBaseCustomerEquipmentRepository customerEquipmentRepository,
+            ISoftBaseCustomerWipRepository customerWipRepository)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
@@ -52,6 +55,7 @@ namespace SBCRM.Legacy
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
             _customerCustomerInvoiceRepository = customerCustomerInvoiceRepository;
             _customerEquipmentRepository = customerEquipmentRepository;
+            _customerWipRepository = customerWipRepository;
         }
 
         /// <summary>
@@ -311,7 +315,6 @@ namespace SBCRM.Legacy
             return await _customerCustomerInvoiceRepository.GetPagedCustomerInvoices(input);
         }
 
-
         /// <summary>
         /// Get all Customer equipments
         /// </summary>
@@ -322,5 +325,17 @@ namespace SBCRM.Legacy
         {
             return await _customerEquipmentRepository.GetPagedCustomerEquipment(input);
         }
+
+        /// <summary>
+        /// Get all Customer WIP
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerWipViewDto>> GetAllCustomerWip(GetAllCustomerWipInput input)
+        {
+            return await _customerWipRepository.GetPagedCustomerWip(input);
+        }
+
     }
 }

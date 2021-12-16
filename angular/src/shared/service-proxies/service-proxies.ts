@@ -3422,6 +3422,92 @@ export class CustomerServiceProxy {
         }
         return _observableOf<PagedResultDtoOfCustomerEquipmentViewDto>(<any>null);
     }
+
+    /**
+     * @param customerNumber (optional) 
+     * @param quotes (optional) 
+     * @param acceptedQuotes (optional) 
+     * @param canceledQuotes (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllCustomerWip(customerNumber: string | undefined, quotes: boolean | undefined, acceptedQuotes: boolean | undefined, canceledQuotes: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerWipViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerWip?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        if (quotes === null)
+            throw new Error("The parameter 'quotes' cannot be null.");
+        else if (quotes !== undefined)
+            url_ += "Quotes=" + encodeURIComponent("" + quotes) + "&";
+        if (acceptedQuotes === null)
+            throw new Error("The parameter 'acceptedQuotes' cannot be null.");
+        else if (acceptedQuotes !== undefined)
+            url_ += "AcceptedQuotes=" + encodeURIComponent("" + acceptedQuotes) + "&";
+        if (canceledQuotes === null)
+            throw new Error("The parameter 'canceledQuotes' cannot be null.");
+        else if (canceledQuotes !== undefined)
+            url_ += "CanceledQuotes=" + encodeURIComponent("" + canceledQuotes) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerWip(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerWip(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCustomerWipViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCustomerWipViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerWip(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerWipViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerWipViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerWipViewDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -22911,6 +22997,74 @@ export interface ICustomerLeadSourceLookupTableDto {
     displayName: string | undefined;
 }
 
+export class CustomerWipViewDto implements ICustomerWipViewDto {
+    documentNumber!: number | undefined;
+    poNumber!: string | undefined;
+    serial!: string | undefined;
+    unitNo!: string | undefined;
+    make!: string | undefined;
+    model!: string | undefined;
+    salesman!: string | undefined;
+    associatedWONo!: number | undefined;
+    rentalContractNo!: number | undefined;
+
+    constructor(data?: ICustomerWipViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.documentNumber = _data["documentNumber"];
+            this.poNumber = _data["poNumber"];
+            this.serial = _data["serial"];
+            this.unitNo = _data["unitNo"];
+            this.make = _data["make"];
+            this.model = _data["model"];
+            this.salesman = _data["salesman"];
+            this.associatedWONo = _data["associatedWONo"];
+            this.rentalContractNo = _data["rentalContractNo"];
+        }
+    }
+
+    static fromJS(data: any): CustomerWipViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerWipViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["documentNumber"] = this.documentNumber;
+        data["poNumber"] = this.poNumber;
+        data["serial"] = this.serial;
+        data["unitNo"] = this.unitNo;
+        data["make"] = this.make;
+        data["model"] = this.model;
+        data["salesman"] = this.salesman;
+        data["associatedWONo"] = this.associatedWONo;
+        data["rentalContractNo"] = this.rentalContractNo;
+        return data; 
+    }
+}
+
+export interface ICustomerWipViewDto {
+    documentNumber: number | undefined;
+    poNumber: string | undefined;
+    serial: string | undefined;
+    unitNo: string | undefined;
+    make: string | undefined;
+    model: string | undefined;
+    salesman: string | undefined;
+    associatedWONo: number | undefined;
+    rentalContractNo: number | undefined;
+}
+
 export class Dashboard implements IDashboard {
     dashboardName!: string | undefined;
     pages!: Page[] | undefined;
@@ -31722,6 +31876,54 @@ export class PagedResultDtoOfCustomerInvoiceViewDto implements IPagedResultDtoOf
 export interface IPagedResultDtoOfCustomerInvoiceViewDto {
     totalCount: number;
     items: CustomerInvoiceViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfCustomerWipViewDto implements IPagedResultDtoOfCustomerWipViewDto {
+    totalCount!: number;
+    items!: CustomerWipViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerWipViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerWipViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerWipViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerWipViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfCustomerWipViewDto {
+    totalCount: number;
+    items: CustomerWipViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfEntityChangeListDto implements IPagedResultDtoOfEntityChangeListDto {

@@ -10,10 +10,10 @@ namespace SBCRM.Base
     public interface ISoftBaseCustomerWipRepository
     {
         /// <summary>
-        /// Get customer invoices
+        /// Get customer wip
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<CustomerInvoiceWipViewDto>> GetPagedCustomerInvoices(GetAllCustomerInvoicesInput input);
+        Task<PagedResultDto<CustomerWipViewDto>> GetPagedCustomerWip(GetAllCustomerWipInput input);
     }
 }

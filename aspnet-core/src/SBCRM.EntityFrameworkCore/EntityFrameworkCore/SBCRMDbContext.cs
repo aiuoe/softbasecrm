@@ -19,6 +19,7 @@ namespace SBCRM.EntityFrameworkCore
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
         public virtual DbSet<InvoiceRegList> InvoiceRegList { get; set; }
+        public virtual DbSet<WIPList> WIPList { get; set; }
         public virtual DbSet<InvoiceReg> InvoiceReg { get; set; }
         public virtual DbSet<WO> WO { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
@@ -95,6 +96,13 @@ namespace SBCRM.EntityFrameworkCore
                 {
                     eb.HasNoKey();
                     eb.ToView("InvoiceRegList", "dbo");
+                });
+
+            modelBuilder
+                .Entity<WIPList>(eb =>
+                {
+                    eb.HasNoKey();
+                    eb.ToView("WIPList", "dbo");
                 });
 
             modelBuilder.Entity<BinaryObject>(b =>

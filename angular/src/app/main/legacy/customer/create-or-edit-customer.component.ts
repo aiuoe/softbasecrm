@@ -56,10 +56,16 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     primengTableHelperEquipments = new PrimengTableHelper();
     primengTableHelperWip = new PrimengTableHelper();
 
+    selectedValues: string[] = [];
+    wipQuotes = false;
+    wipAcceptedQuotes = false;
+    wipCanceledQuotes = false;
+
     // Tab permissions
     showInvoiceTab = true;
     showEquipmentTab = true;
     showWipTab = true;
+    isPageLoading = true;
 
     constructor(
         injector: Injector,
@@ -99,6 +105,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
                     PagedResultDtoOfGetZipCodeForViewDto]) => {
+                    this.isPageLoading = false;
                     this.active = true;
 
                     this.customer = new CreateOrEditCustomerDto();
@@ -120,6 +127,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     CustomerLeadSourceLookupTableDto[],
                     PagedResultDtoOfGetZipCodeForViewDto,
                     GetCustomerForEditOutput]) => {
+                    this.isPageLoading = false;
                     this.active = true;
 
                     this.customer = customerForEdit.customer;
@@ -228,9 +236,12 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
             this.primengTableHelperWip.showLoadingIndicator();
 
-            this._customerServiceProxy.getAllCustomerEquipments(
+            this._customerServiceProxy.getAllCustomerWip(
                 this.customerNumber,
-                this.primengTableHelperWip.getSorting(this.customerEquipmentsDataTable),
+                this.wipQuotes,
+                this.wipAcceptedQuotes,
+                this.wipCanceledQuotes,
+                this.primengTableHelperWip.getSorting(this.customerWipDataTable),
                 this.primengTableHelperWip.getSkipCount(this.customerWipPaginator, event),
                 this.primengTableHelperWip.getMaxResultCount(this.customerWipPaginator, event)
             ).subscribe((result) => {

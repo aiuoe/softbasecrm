@@ -19,5 +19,10 @@ namespace SBCRM.Legacy
         public virtual string UnitNo { get; set; }
         public virtual int? AssociatedWONo { get; set; }
         public virtual int? NumeroDeFactura { get; set; }
+        public virtual short? Disposition { get; set; }
+        public virtual string Make { get; set; }
+        public virtual string Model { get; set; }
+        public virtual string Salesman { get; set; }
+        public virtual short? CustomerSale { get; set; }
     }
 }

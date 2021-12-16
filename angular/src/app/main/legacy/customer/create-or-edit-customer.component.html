@@ -12,7 +12,7 @@
             </div>
         </sub-header>
 
-        <div [class]="containerClass">
+        <div [class]="containerClass" [busyIf]="this.isPageLoading">
             <tabset>
                 <tab heading="{{ 'Overview' | localize }}">
                     <div class="row">
@@ -687,7 +687,7 @@
                                             <p-paginator
                                                 [rows]="primengTableHelperEquipments.defaultRecordsCountPerPage"
                                                 #customerEquipmentsPaginator
-                                                (onPageChange)="getCustomerInvoices($event)"
+                                                (onPageChange)="getCustomerEquipments($event)"
                                                 [totalRecords]="primengTableHelperEquipments.totalRecordsCount"
                                                 [rowsPerPageOptions]="primengTableHelperEquipments.predefinedRecordsCountPerPage"
                                                 [showCurrentPageReport]="true"
@@ -718,10 +718,16 @@
                 <tab heading="{{ 'WIP' | localize }}">
                     <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showWipTab">
                         <div class="card-body">
-
                             <div class="row pb-5">
-                                <div class="col-md-12">
-                                    <button (click)="getCustomerEquipments()" class="btn btn-primary blue float-right">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <p-checkbox name="groupname" [label]="l('Quotes')" [(ngModel)]="wipQuotes" [binary]="true"></p-checkbox>
+                                        <p-checkbox class="ml-5" name="groupname" [label]="l('Accepted Quotes')" [(ngModel)]="wipAcceptedQuotes" [binary]="true"></p-checkbox>
+                                        <p-checkbox class="ml-5" name="groupname" [label]="l('Canceled Quotes')" [(ngModel)]="wipCanceledQuotes" [binary]="true"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button (click)="getCustomerWip()" class="btn btn-primary blue float-right">
                                         <i class="fas fa-sync-alt"></i>
                                         <span>{{ l('RefreshData') }}</span>
                                     </button>
@@ -746,18 +752,23 @@
                                             <ng-template pTemplate="header">
                                                 <tr>
                                                     <th style="width: 150px" pSortableColumn="name">
-                                                        {{ l('Unit') }}
+                                                        {{ l('Document') }}
                                                         <p-sortIcon field="customer.name"></p-sortIcon>
                                                     </th>
 
                                                     <th style="width: 150px" pSortableColumn="phone">
-                                                        {{ l('Serial') }}
+                                                        {{ l('Po') }}
                                                         <p-sortIcon field="customer.phone"></p-sortIcon>
                                                     </th>
 
                                                     <th style="width: 150px" pSortableColumn="address">
-                                                        {{ l('Year') }}
+                                                        {{ l('Serial') }}
                                                         <p-sortIcon field="customer.address"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                        {{ l('Unit') }}
+                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                                     </th>
 
                                                     <th style="width: 150px" pSortableColumn="accountTypeFk.description">
@@ -771,17 +782,22 @@
                                                     </th>
 
                                                     <th style="width: 150px" pSortableColumn="accountTypeFk.description">
-                                                        {{ l('Meter') }}
+                                                        {{ l('Salesman') }}
                                                         <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                                     </th>
 
                                                     <th style="width: 150px" pSortableColumn="accountTypeFk.description">
-                                                        {{ l('TotalExp') }}
+                                                        {{ l('AssociatedDoc') }}
                                                         <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                                     </th>
 
                                                     <th style="width: 150px" pSortableColumn="accountTypeFk.description">
-                                                        {{ l('ExpMeter') }}
+                                                        {{ l('RentalNumber') }}
+                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                        {{ l('Opened') }}
                                                         <p-sortIcon field="accountTypeDescription"></p-sortIcon>
                                                     </th>
                                                 </tr>
@@ -790,43 +806,54 @@
                                                 <tr>
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Unit') }}</span>
-                                                        {{ record.unitNo }}
+                                                        {{ record.documentNumber }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Serial') }}</span>
-                                                        {{ record.serial }}
+                                                        {{ record.poNumber }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Year') }}</span>
-                                                        {{ record.modelYear }}
+                                                        {{ record.serial }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Make') }}</span>
-                                                        {{ record.make }}
+                                                        {{ record.unitNo }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Model') }}</span>
-                                                        {{ record.model }}
+                                                        {{ record.make }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Meter') }}</span>
-                                                        {{ record.meter }}
+                                                        {{ record.model }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('TotalExp') }}</span>
-                                                        {{ record.totalExp }}
+                                                        {{ record.salesman }}
                                                     </td>
 
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('ExpMeter') }}</span>
-                                                        {{ record.expMeter }}
+                                                        {{ record.associatedWONo }}
                                                     </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('ExpMeter') }}</span>
+                                                        {{ record.rentalContractNo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('ExpMeter') }}</span>
+                                                        {{ record.rentalContractNo }}
+                                                    </td>
+
                                                 </tr>
                                             </ng-template>
                                         </p-table>
@@ -837,7 +864,7 @@
                                             <p-paginator
                                                 [rows]="primengTableHelperWip.defaultRecordsCountPerPage"
                                                 #customerWipPaginator
-                                                (onPageChange)="getCustomerInvoices($event)"
+                                                (onPageChange)="getCustomerWip($event)"
                                                 [totalRecords]="primengTableHelperWip.totalRecordsCount"
                                                 [rowsPerPageOptions]="primengTableHelperWip.predefinedRecordsCountPerPage"
                                                 [showCurrentPageReport]="true"
@@ -877,7 +904,6 @@
                 </tab>
 
             </tabset>
-
         </div>
     </div>
 </div>

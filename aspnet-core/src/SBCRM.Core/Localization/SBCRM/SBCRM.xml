@@ -380,13 +380,14 @@
     <text name="CreateNewARTerms">Create new a r terms</text>
     <text name="EditARTerms">Edit a r terms</text>
     <text name="DeleteARTerms">Delete a r terms</text>
-
+    <text name="Quotes">Quotes</text>
+    <text name="AcceptedQuotes">Accepted Quotes</text>
+    <text name="CanceledQuotes">Canceled Quotes</text>
     <text name="ZipCode">Zip code</text>
     <text name="ZipCodeProvince">Zip code/Province</text>
     <text name="CreateNewZipCode">Create new zip code</text>
     <text name="EditZipCode">Edit zip code</text>
     <text name="DeleteZipCode">Delete zip code</text>
-
     <text name="HomePage">Home page</text>
     <text name="AboutUs">About us</text>
     <text name="Administration">Administration</text>
