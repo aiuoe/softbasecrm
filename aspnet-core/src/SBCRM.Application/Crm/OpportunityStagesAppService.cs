@@ -32,7 +32,7 @@ namespace SBCRM.Crm
         {
 
             var filteredOpportunityStages = _opportunityStageRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredOpportunityStages = filteredOpportunityStages
@@ -45,6 +45,7 @@ namespace SBCRM.Crm
 
                                         o.Description,
                                         o.Order,
+                                        o.Color,
                                         Id = o.Id
                                     };
 
@@ -62,6 +63,7 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         Order = o.Order,
+                        Color = o.Color,
                         Id = o.Id,
                     }
                 };

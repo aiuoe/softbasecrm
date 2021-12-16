@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OpportunitiesServiceProxy, OpportunityDto } from '@shared/service-proxies/service-proxies';
+import { OpportunitiesServiceProxy, OpportunityDto, OpportunityStageDto, OpportunityStagesServiceProxy, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -16,6 +16,9 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/***
+ * Component to manage the opportunity summary grid
+ */
 @Component({
     templateUrl: './opportunities.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -24,6 +27,10 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 export class OpportunitiesComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+
+    opportunityStages: OpportunityStageDto[];
+    selectedOpportunityStage: OpportunityStageDto;
+    selectedOpportunityStages: OpportunityStageDto[];
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -45,9 +52,22 @@ export class OpportunitiesComponent extends AppComponentBase {
     leadSourceDescriptionFilter = '';
     opportunityTypeDescriptionFilter = '';
 
+    /***
+     * Main constructor
+     * @param injector
+     * @param _opportunityServiceProxy
+     * @param _opportunityStageServiceProxy
+     * @param _notifyService
+     * @param _tokenAuth
+     * @param _activatedRoute
+     * @param _fileDownloadService
+     * @param _router
+     * @param _dateTimeService
+     */
     constructor(
         injector: Injector,
         private _opportunitiesServiceProxy: OpportunitiesServiceProxy,
+        private _opportunityStagesServiceProxy: OpportunityStagesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -58,6 +78,26 @@ export class OpportunitiesComponent extends AppComponentBase {
         super(injector);
     }
 
+    
+    /***
+    * Initialize component
+    */
+     ngOnInit(){
+        this._opportunityStagesServiceProxy.getAll(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined)
+        .subscribe((result: PagedResultDtoOfGetOpportunityStageForViewDto) => {
+            this.opportunityStages = result.items.map(x => x.opportunityStage);
+        });
+    }
+
+    /***
+    * Get opportunities on page load/filter changes
+    * @param event
+    */
     getOpportunities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -86,6 +126,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.opportunityStageDescriptionFilter,
                 this.leadSourceDescriptionFilter,
                 this.opportunityTypeDescriptionFilter,
+                this.selectedOpportunityStages?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -97,25 +138,23 @@ export class OpportunitiesComponent extends AppComponentBase {
             });
     }
 
+    /***
+    * Reload page
+    */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /***
+    * Go to create lead page
+    */    
     createOpportunity(): void {
         this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }
 
-    deleteOpportunity(opportunity: OpportunityDto): void {
-        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
-            if (isConfirmed) {
-                this._opportunitiesServiceProxy.delete(opportunity.id).subscribe(() => {
-                    this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
-                });
-            }
-        });
-    }
-
+    /***
+    * Export to excel
+    */
     exportToExcel(): void {
         this._opportunitiesServiceProxy
             .getOpportunitiesToExcel(
@@ -136,7 +175,8 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.departmentFilter,
                 this.opportunityStageDescriptionFilter,
                 this.leadSourceDescriptionFilter,
-                this.opportunityTypeDescriptionFilter
+                this.opportunityTypeDescriptionFilter,
+                this.selectedOpportunityStages?.map(x => x.id)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

@@ -9,6 +9,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent],
-    imports: [AppSharedModule, OpportunityRoutingModule, AdminSharedModule],
+    imports: [AppSharedModule, OpportunityRoutingModule, AdminSharedModule,MultiSelectModule],
 })
 export class OpportunityModule {}

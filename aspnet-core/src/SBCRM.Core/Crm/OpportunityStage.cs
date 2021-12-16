@@ -16,5 +16,9 @@ namespace SBCRM.Crm
 
         public virtual int Order { get; set; }
 
+        [Required]
+        [StringLength(OpportunityStageConsts.MaxColorLength, MinimumLength = OpportunityStageConsts.MinColorLength)]
+        public virtual string Color { get; set; }
+
     }
 }

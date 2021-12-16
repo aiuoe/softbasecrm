@@ -22,6 +22,15 @@ namespace SBCRM.Legacy
             _zipCodeRepository = zipCodeRepository;
         }
 
+        public async Task<PagedResultDto<GetZipCodeForViewDto>> GetAllZipCodesForTableDropdown()
+        {
+            return await GetAll(new GetAllZipCodesInput()
+            {
+                SkipCount = 0,
+                MaxResultCount = int.MaxValue
+            });
+        }
+
         public async Task<PagedResultDto<GetZipCodeForViewDto>> GetAll(GetAllZipCodesInput input)
         {
             var filteredZipCodes = _zipCodeRepository.GetAll()

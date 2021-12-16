@@ -8,7 +8,7 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     min-width: 100% !important;
-    padding: 0 6px 0 6px !important;
+    padding: 2px 6px 2px 6px !important;
 }
 
 .p-dropdown:not(.p-disabled):hover {
@@ -22,4 +22,13 @@
 
 .p-dropdown:not(.p-disabled).p-focus {
     border-color: $primaryBorderInputColor !important;
+}
+
+.p-dropdown.p-disabled, .p-multiselect.p-disabled {
+    background-color: #F3F6F9;
+    border-color: $primaryBorderInputColor !important;
+}
+
+.p-dropdown.p-disabled .p-dropdown-label, .p-dropdown.p-disabled .p-dropdown-trigger-icon, .p-multiselect.p-disabled .p-dropdown-label, .p-multiselect.p-disabled .p-dropdown-trigger-icon {
+    color: $titleColor !important;
 }

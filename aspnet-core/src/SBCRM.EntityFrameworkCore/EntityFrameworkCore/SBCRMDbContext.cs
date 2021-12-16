@@ -18,6 +18,15 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Country> Countries { get; set; }
+
+        public virtual DbSet<InvoiceRegList> InvoiceRegList { get; set; }
+        public virtual DbSet<WIPList> WIPList { get; set; }
+        public virtual DbSet<InvoiceReg> InvoiceReg { get; set; }
+        public virtual DbSet<WO> WO { get; set; }
+        public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<EQCustomFields> EQCustomFields { get; set; }
+
         public virtual DbSet<ActivityStatus> ActivityStatuses { get; set; }
 
         public virtual DbSet<ActivityTaskType> ActivityTaskTypes { get; set; }
@@ -83,6 +92,20 @@ namespace SBCRM.EntityFrameworkCore
             modelBuilder.Entity<Customer>()
                 .Property(o => o.Number)
                 .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
+
+            modelBuilder
+                .Entity<InvoiceRegList>(eb =>
+                {
+                    eb.HasNoKey();
+                    eb.ToView("InvoiceRegList", "dbo");
+                });
+
+            modelBuilder
+                .Entity<WIPList>(eb =>
+                {
+                    eb.HasNoKey();
+                    eb.ToView("WIPList", "dbo");
+                });
 
             modelBuilder.Entity<BinaryObject>(b =>
                                              {
