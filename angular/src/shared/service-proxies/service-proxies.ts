@@ -10924,12 +10924,13 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageDescriptionFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
+     * @param opportunityStageId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10987,6 +10988,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
         else if (opportunityTypeDescriptionFilter !== undefined)
             url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (opportunityStageId === null)
+            throw new Error("The parameter 'opportunityStageId' cannot be null.");
+        else if (opportunityStageId !== undefined)
+            opportunityStageId && opportunityStageId.forEach(item => { url_ += "OpportunityStageId=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -11276,9 +11281,10 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageDescriptionFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
+     * @param opportunityStageId (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11336,6 +11342,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
         else if (opportunityTypeDescriptionFilter !== undefined)
             url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (opportunityStageId === null)
+            throw new Error("The parameter 'opportunityStageId' cannot be null.");
+        else if (opportunityStageId !== undefined)
+            opportunityStageId && opportunityStageId.forEach(item => { url_ += "OpportunityStageId=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -22717,6 +22727,7 @@ export interface ICreateOrEditOpportunityDto {
 
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
     description!: string;
+    color!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -22731,6 +22742,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -22745,6 +22757,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -22752,6 +22765,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 
 export interface ICreateOrEditOpportunityStageDto {
     description: string;
+    color: string;
     id: number | undefined;
 }
 
@@ -27803,6 +27817,7 @@ export interface IGetOpportunityForEditOutput {
 export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     opportunity!: OpportunityDto;
     opportunityStageDescription!: string | undefined;
+    opportunityStageColor!: string | undefined;
     leadSourceDescription!: string | undefined;
     opportunityTypeDescription!: string | undefined;
 
@@ -27819,6 +27834,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         if (_data) {
             this.opportunity = _data["opportunity"] ? OpportunityDto.fromJS(_data["opportunity"]) : <any>undefined;
             this.opportunityStageDescription = _data["opportunityStageDescription"];
+            this.opportunityStageColor = _data["opportunityStageColor"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.opportunityTypeDescription = _data["opportunityTypeDescription"];
         }
@@ -27835,6 +27851,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data = typeof data === 'object' ? data : {};
         data["opportunity"] = this.opportunity ? this.opportunity.toJSON() : <any>undefined;
         data["opportunityStageDescription"] = this.opportunityStageDescription;
+        data["opportunityStageColor"] = this.opportunityStageColor;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["opportunityTypeDescription"] = this.opportunityTypeDescription;
         return data; 
@@ -27844,6 +27861,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
 export interface IGetOpportunityForViewDto {
     opportunity: OpportunityDto;
     opportunityStageDescription: string | undefined;
+    opportunityStageColor: string | undefined;
     leadSourceDescription: string | undefined;
     opportunityTypeDescription: string | undefined;
 }
@@ -31859,7 +31877,7 @@ export class OpportunityDto implements IOpportunityDto {
     name!: string | undefined;
     amount!: number;
     probability!: number;
-    closeDate!: DateTime;
+    closeDate!: DateTime | undefined;
     description!: string | undefined;
     branch!: string | undefined;
     department!: string | undefined;
@@ -31921,7 +31939,7 @@ export interface IOpportunityDto {
     name: string | undefined;
     amount: number;
     probability: number;
-    closeDate: DateTime;
+    closeDate: DateTime | undefined;
     description: string | undefined;
     branch: string | undefined;
     department: string | undefined;
@@ -32054,6 +32072,7 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -32069,6 +32088,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -32084,6 +32104,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -32092,6 +32113,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 export interface IOpportunityStageDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
     id: number;
 }
 

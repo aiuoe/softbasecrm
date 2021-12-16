@@ -3,6 +3,9 @@ using Abp.Application.Services.Dto;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object opportunity
+    /// </summary>
     public class OpportunityDto : EntityDto
     {
         public string Name { get; set; }
@@ -11,7 +14,7 @@ namespace SBCRM.Crm.Dtos
 
         public decimal Probability { get; set; }
 
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
         public string Description { get; set; }
 

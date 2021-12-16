@@ -3,16 +3,6 @@
         <sub-header [title]="'Opportunities'">
             <div role="actions" class="d-flex flex-row align-items-center" >
 
-                <div class = padding-left-5> 
-                    <button                        
-                        (click)="createOpportunity()"
-                        class="btn btn-primary blue"
-                    >
-                        <i class="fa fa-plus"></i>
-                        {{ l('Filter') }}
-                    </button>
-                </div>
-
                 <div class = padding-left-5>
                     <button 
                         (click)="exportToExcel()" 
@@ -47,11 +37,11 @@
                                     <div class="form-group m-form__group align-items-center">
                                         <div class="input-group">
                                             <input
-                                                [(ngModel)]="filterText"
-                                                name="filterText"
+                                                [(ngModel)]="nameFilter"
+                                                name="nameFilter"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('SearchWithThreeDot')"
+                                                [placeholder]="l('Search')"
                                                 type="text"
                                             />
                                             <span class="input-group-btn">
@@ -74,167 +64,22 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="NameFilter">{{ l('Name') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="NameFilter"
-                                            name="nameFilter"
-                                            [(ngModel)]="nameFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinAmountFilter">{{ l('MinMax') }} {{ l('Amount') }}</label>
-                                        <div class="input-group">
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                id="MinAmountFilter"
-                                                [(ngModel)]="minAmountFilter"
-                                                placeholder="{{ l('MinValue') }}"
-                                                name="minAmountFilter"
-                                            />
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                [(ngModel)]="maxAmountFilter"
-                                                placeholder="{{ l('MaxValue') }}"
-                                                name="maxAmountFilter"
-                                            />
+                                        <label for="LeadStatusFilter"></label>
+                                        <div>
+                                            <p-multiSelect id="OpportunityStageFilter"
+                                                           name="OpportunityStagesFilter"
+                                                           [options]="opportunityStages"
+                                                           [(ngModel)]="selectedOpportunityStages"
+                                                           optionLabel="description"     
+                                                           placeholder="Filter by Stage"                                          
+                                                           (onChange)="getOpportunities($event)">
+                                            </p-multiSelect>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinProbabilityFilter">
-                                            {{ l('MinMax') }} {{ l('Probability') }}
-                                        </label>
-                                        <div class="input-group">
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                id="MinProbabilityFilter"
-                                                [(ngModel)]="minProbabilityFilter"
-                                                placeholder="{{ l('MinValue') }}"
-                                                name="minProbabilityFilter"
-                                            />
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                [(ngModel)]="maxProbabilityFilter"
-                                                placeholder="{{ l('MaxValue') }}"
-                                                name="maxProbabilityFilter"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinCloseDateFilter">{{ l('CloseDateRange') }}</label>
-                                        <div class="input-group">
-                                            <input
-                                                class="form-control m-input"
-                                                id="MinCloseDateFilter"
-                                                name="MinCloseDateFilter"
-                                                type="datetime"
-                                                bsDatepicker
-                                                placeholder="{{ l('MinValue') }}"
-                                                [(ngModel)]="minCloseDateFilter"
-                                            />
-                                            <span style="line-height: 40px; padding: 0 15px 0 15px">&mdash;</span>
-                                            <input
-                                                class="form-control m-input"
-                                                id="MaxCloseDateFilter"
-                                                name="MaxCloseDateFilter"
-                                                type="datetime"
-                                                bsDatepicker
-                                                placeholder="{{ l('MaxValue') }}"
-                                                [(ngModel)]="maxCloseDateFilter"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="DescriptionFilter">{{ l('Description') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="DescriptionFilter"
-                                            name="descriptionFilter"
-                                            [(ngModel)]="descriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="BranchFilter">{{ l('Branch') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="BranchFilter"
-                                            name="branchFilter"
-                                            [(ngModel)]="branchFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="DepartmentFilter">{{ l('Department') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="DepartmentFilter"
-                                            name="departmentFilter"
-                                            [(ngModel)]="departmentFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="OpportunityStageDescriptionFilter">
-                                            ({{ l('OpportunityStage') }}) {{ l('Description') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="OpportunityStageDescriptionFilter"
-                                            name="opportunityStageDescriptionFilter"
-                                            [(ngModel)]="opportunityStageDescriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="LeadSourceDescriptionFilter">
-                                            ({{ l('LeadSource') }}) {{ l('Description') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="LeadSourceDescriptionFilter"
-                                            name="leadSourceDescriptionFilter"
-                                            [(ngModel)]="leadSourceDescriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="OpportunityTypeDescriptionFilter">
-                                            ({{ l('OpportunityType') }}) {{ l('Description') }}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="OpportunityTypeDescriptionFilter"
-                                            name="opportunityTypeDescriptionFilter"
-                                            [(ngModel)]="opportunityTypeDescriptionFilter"
-                                        />
-                                    </div>
-                                </div>
+
                             </div>
+
                             <div class="row mb-2">
                                 <div class="col-sm-12">
                                     <span
@@ -255,6 +100,7 @@
                                     </span>
                                 </div>
                             </div>
+
                         </div>
                     </form>
 
@@ -276,7 +122,7 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th
-                                            style="width: 130px"
+                                            style="width: 80px"
                                             [hidden]="
                                                 !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
                                             "
@@ -284,8 +130,12 @@
                                             {{ l('Actions') }}
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
-                                            {{ l('Name') }}/{{ l('Stage')}}
+                                            {{ l('Name') }}
                                             <p-sortIcon field="opportunity.name"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
+                                            {{ l('Stage')}}
+                                            <p-sortIcon field="opportunityStageDescription"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="closeDate">
                                             {{ l('CloseDate') }}
@@ -296,15 +146,19 @@
                                             <p-sortIcon field="opportunity.amount"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="branch">
-                                            {{ l('Branch') }} and {{ l('Department') }}
+                                            {{ l('Branch') }}
                                             <p-sortIcon field="opportunity.branch"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="department">
+                                            {{ l('Department') }}
+                                            <p-sortIcon field="opportunity.department"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
                                         <td
-                                            style="width: 130px"
+                                            style="width: 80px"
                                             [hidden]="
                                                 !isGrantedAny('Pages.Opportunities.Edit')
                                             "
@@ -345,9 +199,19 @@
                                                 [queryParams]="{ id: record.opportunity.id }"
                                             >
                                                 {{ record.opportunity.name }}
-                                            </a>
-                                            <br>   
-                                                {{ record.opportunityStageDescription }} 
+                                            </a>                                               
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Stage') }}</span>
+                                            <span
+                                                class="p-3 mb-2"
+                                                [ngStyle]="{
+                                                    'color': record.opportunityStageColor,
+                                                    'background-color': record.opportunityStageColor + '33'
+                                                }"
+                                            >    
+                                                {{ record.opportunityStageDescription }}        
+                                            </span>                                        
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CloseDate') }}</span>
@@ -361,9 +225,11 @@
                                                 {{ record.opportunity.amount }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Branch') }} and {{ l('Department') }}</span>
-                                                {{ record.opportunity.branch }}
-                                            <br>
+                                            <span class="p-column-title">{{ l('Branch') }}}</span>
+                                                {{ record.opportunity.branch }}                                                   
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Department') }</span>
                                                 {{ record.opportunity.department }}
                                         </td>
                                     </tr>
