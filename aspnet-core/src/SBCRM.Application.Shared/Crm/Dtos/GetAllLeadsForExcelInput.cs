@@ -1,13 +1,17 @@
 ﻿using Abp.Application.Services.Dto;
 using System;
+using System.Collections.Generic;
 
+/// <summary>
+/// DTO to manage the object filters to export excel
+/// </summary>
 namespace SBCRM.Crm.Dtos
 {
     public class GetAllLeadsForExcelInput
     {
         public string Filter { get; set; }
 
-        public string CompanyNameFilter { get; set; }
+        public string CompanyOrContactNameFilter { get; set; }
 
         public string ContactNameFilter { get; set; }
 
@@ -50,6 +54,8 @@ namespace SBCRM.Crm.Dtos
         public string LeadStatusDescriptionFilter { get; set; }
 
         public string PriorityDescriptionFilter { get; set; }
+
+        public List<int?> LeadStatusId { get; set; } = new List<int?>();
 
     }
 }

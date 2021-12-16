@@ -2,66 +2,8 @@
     <div class="content d-inline-flex flex-column flex-column-fluid">
         <sub-header [title]="'Leads'" >
 
-            <div role="actions" class="d-flex flex-row align-items-center">
-                <label 
-                    for="LeadStatusDescriptionFilter"
-                >
-                    {{ l('Status') }}
-                </label>
-
-                <div class="btn-group dropdown filter col px-md-3" dropdown container="body">
-                    <button 
-                            class="btn btn-sm btn-outline-secondary" 
-                            dropdownToggle
-                        >
-                        <i class="dropdown-toggle">   
-                        </i>
-                        <span 
-                            class="caret"
-                        >
-                        </span>
-                            {{ selectedStatusFilter }}
-                    </button>
-                    <ul class="dropdown-menu" *dropdownMenu>
-                        <li *ngFor="let option of statusFilterOptions">
-                            <span class="input-group-btn">
-                                <button 
-                                    (click)="filterByStatus(option)" 
-                                    class="btn dropdown-item" 
-                                    type="submit"
-                                >
-                                    {{ option }}
-                                </button>
-                            </span>
-                        </li> 
-                    </ul>
-                </div>
+            <div role="actions" class="d-flex flex-row align-items-center">                
                    
-                <div class="padding-left-5">
-                    <div class="input-group p-2">                        
-                        <input
-                            [(ngModel)]="companyOrContactNameFilter"
-                            name="companyOrContactNameFilter"
-                            autoFocus
-                            class="form-control m-input"
-                            [placeholder]="l('LeadSearchWithThreeDot')"
-                            type="text"
-                        />
-                        <span class="input-group-btn">
-                            <button 
-                                (click)="getLeads()"
-                                class="btn btn-primary"  
-                                type="submit"   
-                            >
-                                <i 
-                                    class="flaticon-search-1"
-                                >
-                                </i>
-                            </button>
-                        </span>
-                    </div>
-                </div>  
-
                 <div class = padding-left-5>
                     <button 
                         (click)="exportToExcel()" 
@@ -101,9 +43,76 @@
                 <div class="card-body">
                     <form class="form" autocomplete="off">
                         <div>
+                            <div class="row align-items-center">
+                                <div class="col-xl-12">
+                                    <div class="form-group m-form__group align-items-center">
+                                        <div class="input-group">
+                                            <input
+                                                [(ngModel)]="companyOrContactNameFilter"
+                                                name="companyOrContactNameFilter"
+                                                autoFocus
+                                                class="form-control m-input"
+                                                [placeholder]="l('LeadSearchWithThreeDot')"
+                                                type="text"
+                                            />
+                                            <span class="input-group-btn">
+                                                <button
+                                                    (click)="getLeads()"
+                                                    class="btn btn-primary"
+                                                    type="submit"
+                                                >
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" [hidden]="!advancedFiltersAreShown">
+                                <div class="col-md-12">
+                                    <div class="separator separator-dashed"></div>
+                                </div>
+
                                 <div class="col-md-3">
-                                    
-                                </div> 
+                                    <div class="form-group">
+                                        <label for="LeadStatusFilter"></label>
+                                        <div>
+                                            <p-multiSelect id="LeadStatusFilter"
+                                                           name="LeadStatusFilter"
+                                                           [options]="leadStatuses"
+                                                           [(ngModel)]="selectedLeadStatuses"
+                                                           optionLabel="description"     
+                                                           placeholder="Filter by Status"                                          
+                                                           (onChange)="getLeads($event)">
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="!advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-down"></i>
+                                        {{ l('ShowAdvancedFilters') }}
+                                    </span>
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-up"></i>
+                                        {{ l('HideAdvancedFilters') }}
+                                    </span>
+                                </div>
+                            </div>    
+
                         </div>
                     </form>
 
@@ -112,7 +121,7 @@
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
                             <p-table
                                 #dataTable
-                                (onLazyLoad)="getLeadsStatuses($event); getLeads($event)"
+                                (onLazyLoad)="getLeads($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
                                 [paginator]="true"
@@ -126,8 +135,14 @@
                                 (onRowUnselect)="onRowUnselect($event)"
                                 selectionMode="multiple"
                             >   
-                                <ng-template pTemplate="header" tableHeaderCheckbox>                                                                     
+                                <ng-template pTemplate="header">                                                                     
                                     <tr>
+                                        <th
+                                            style="width: 80px"
+                                            [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
+                                        >    
+                                            {{ l('Actions') }}                                        
+                                        </th>
                                         <th style="width: 38px">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
@@ -135,107 +150,55 @@
                                             style="width: 150px"   
                                             pSortableColumn="companyName"
                                         >
-                                            {{ lupper('LeadCompanyName') }}
+                                            {{ l('LeadCompanyName') }}
                                             <p-sortIcon field="lead.companyName"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"                                            
                                             pSortableColumn="contactName"
                                         >
-                                            {{ lupper('LeadContactName') }}
+                                            {{ l('LeadContactName') }}
                                             <p-sortIcon field="lead.contactName"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="leadStatusFk.description"
                                         >
-                                            {{ lupper('Status') }}
+                                            {{ l('Status') }}
                                             <p-sortIcon field="leadStatusDescription"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="companyPhone"
                                         >
-                                            {{ lupper('LeadCompanyPhone') }}
+                                            {{ l('LeadCompanyPhone') }}
                                             <p-sortIcon field="lead.companyPhone"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="creationTime"
                                         >
-                                            {{ lupper('LeadCreationTime') }}
+                                            {{ l('LeadCreationTime') }}
                                             <p-sortIcon field="lead.creationTime"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="PriorityFk.description"
                                         >
-                                            {{ lupper('LeadPriority') }}
+                                            {{ l('LeadPriority') }}
                                             <p-sortIcon field="PriorityDescription"></p-sortIcon>
-                                        </th>
-                                        <th
-                                            style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                        >    
-                                            {{ lupper('Actions') }}                                        
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td 
-                                            style="width: 38px" >
-                                            <p-tableCheckbox    [value]="record">    
-                                            </p-tableCheckbox>
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span                                                 
-                                                class="p-column-title"
-                                            >
-                                                {{ lupper('LeadCompanyName') }}
-                                            </span>    
-                                            <a                                                
-                                                [routerLink]="['/app/main/crm/leads/view']"
-                                                [queryParams]="{ id: record.lead.id }"
-                                            >
-                                                {{ record.lead.companyName }}   
-                                            </a>                                            
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ lupper('LeadContactName') }}</span>
-                                                {{ record.lead.contactName }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ lupper('Status') }}</span>
-                                            <span
-                                                class="p-3 mb-2"
-                                                [ngStyle]="{
-                                                    'color': record.leadStatusColor,
-                                                    'background-color': record.leadStatusColor + '33'
-                                                }"
-                                            >
-                                                {{ record.leadStatusDescription }}
-                                            </span>                                            
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ lupper('LeadCompanyPhone') }}</span>
-                                                {{ record.lead.companyPhone }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ lupper('CreationTime') }}</span>
-                                                {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}                                           
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ lupper('LeadPriority') }}</span>
-                                                {{ record.priorityDescription }}                                             
-                                        </td>
                                         <td
-                                            style="width: 130px"
+                                            style="width: 80px"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
                                         >
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i>
+                                                <button class="dropdown-toggle btn btn-secondary i" dropdownToggle>
+                                                    <i class="fa fa-cog color-blue"></i>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
@@ -273,6 +236,52 @@
                                                 </ul>
                                             </div>
                                         </td>
+                                        <td 
+                                            style="width: 38px" >
+                                            <p-tableCheckbox    [value]="record">    
+                                            </p-tableCheckbox>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span                                                 
+                                                class="p-column-title"
+                                            >
+                                                {{ l('LeadCompanyName') }}
+                                            </span>    
+                                            <a                                                
+                                                [routerLink]="['/app/main/crm/leads/view']"
+                                                [queryParams]="{ id: record.lead.id }"
+                                            >
+                                                {{ record.lead.companyName }}   
+                                            </a>                                            
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadContactName') }}</span>
+                                                {{ record.lead.contactName }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Status') }}</span>
+                                            <span
+                                                class="p-3 mb-2"
+                                                [ngStyle]="{
+                                                    'color': record.leadStatusColor,
+                                                    'background-color': record.leadStatusColor + '33'
+                                                }"
+                                            >
+                                                {{ record.leadStatusDescription }}
+                                            </span>                                            
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
+                                                {{ record.lead.companyPhone }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('CreationTime') }}</span>
+                                                {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}                                           
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('LeadPriority') }}</span>
+                                                {{ record.priorityDescription }}                                             
+                                        </td>                                       
                                     </tr>
                                 </ng-template>
                             </p-table>

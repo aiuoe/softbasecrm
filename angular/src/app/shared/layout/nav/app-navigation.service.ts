@@ -23,6 +23,7 @@ export class AppNavigationService {
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/'),
+            new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads'),
             new AppMenuItem(
                 'Business',
                 '',
@@ -36,8 +37,7 @@ export class AppNavigationService {
                     new AppMenuItem('Opportunities', 'Pages.Opportunities', 'flaticon-more', '/app/main/crm/opportunities'),
                     new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses'),
-                    new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),
-                    new AppMenuItem('Leads', 'Pages.Leads', 'flaticon-more', '/app/main/crm/leads'),
+                    new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),                    
                     new AppMenuItem('ActivityTaskTypes', 'Pages.ActivityTaskTypes', 'flaticon-more', '/app/main/crm/activityTaskTypes'),
                 ]),
             new AppMenuItem(

@@ -2,20 +2,22 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="NotIsDefault">Not is default</text>
+    <text name="IsDefault">Is default</text>
+    <text name="SelectAOpportunityStage">Select a opportunity stage</text>
+    <text name="SelectAOpportunityType">Select a opportunity type</text>  
     <text name="PO">Po</text>
-    <text name="Serial">Serial</text>
     <text name="Unit">Unit</text>
+    <text name="Serial">Serial</text>
     <text name="Year">Year</text>
     <text name="Make">Make</text>
-    <text name="Model">Model</text>
     <text name="Meter">Meter</text>
+    <text name="Model">Model</text>
     <text name="TotalExp">Total/Exp</text>
     <text name="ExpMeter">Exp/Meter</text>
-    <text name="AssociatedDoc">Associated Doc</text>
     <text name="RentalNumber">Rental Number</text>
+    <text name="AssociatedDoc">Associated Doc</text>
     <text name="Invoiced">Invoiced</text>
-    <text name="SelectAOpportunityStage">Select a opportunity stage</text>
-    <text name="SelectAOpportunityType">Select a opportunity type</text>
     <text name="RefreshData">Refresh Data</text>
     <text name="ActivityStatus">Activity status</text>
     <text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
@@ -33,7 +35,9 @@
     <text name="ActivityTaskTypes">Activity task types</text>
     <text name="Order">Order</text>
     <text name="Overview">Overview</text>
-    <text name="GeneralInformation">General information</text>
+    <text name="GeneralInformation">General Information</text>
+	  <text name="ContactDetails">Contact Details</text>
+	  <text name="LeadDetails">Lead Details</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -84,8 +88,8 @@
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company phone</text>
-	  <text name="CompanyPhone_Invalid">Invalid Company phone</text>
-	  <text name="LeadCompanyPhone">Phone</text>
+	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
+	<text name="LeadCompanyPhone">Phone</text>
     <text name="CompanyEmail">Company email</text>
     <text name="PoBox">Po Box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -96,8 +100,8 @@
     <text name="ContactEmail">Contact email</text>
     <text name="PriorityDescription">Priority description</text>
     <text name="PickPriority">Pick priority</text>
-	  <text name="LeadPriority">Priority</text>
-	  <text name="SelectAPriority">Select a priority</text>
+	<text name="LeadPriority">Priority</text>
+	<text name="SelectAPriority">Select a priority</text>
     <text name="Priority">Priority</text>
     <text name="SBCRM.Crm.Priority">Priority</text>
     <text name="PrioritiesHeaderInfo">Priorities header info</text>

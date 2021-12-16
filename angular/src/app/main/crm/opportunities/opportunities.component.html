@@ -1,20 +1,39 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Opportunities' | localize" [description]="'OpportunitiesHeaderInfo' | localize">
-            <div role="actions">
-                <button (click)="exportToExcel()" class="btn btn-outline-success">
-                    <i class="fa fa-file-excel"></i>
-                    {{ l('ExportToExcel') }}
-                </button>
+        <sub-header [title]="'Opportunities'">
+            <div role="actions" class="d-flex flex-row align-items-center" >
 
-                <button
-                    *ngIf="isGranted('Pages.Opportunities.Create')"
-                    (click)="createOpportunity()"
-                    class="btn btn-primary blue"
-                >
-                    <i class="fa fa-plus"></i>
-                    {{ l('CreateNewOpportunity') }}
-                </button>
+                <div class = padding-left-5> 
+                    <button                        
+                        (click)="createOpportunity()"
+                        class="btn btn-primary blue"
+                    >
+                        <i class="fa fa-plus"></i>
+                        {{ l('Filter') }}
+                    </button>
+                </div>
+
+                <div class = padding-left-5>
+                    <button 
+                        (click)="exportToExcel()" 
+                        class="btn btn btn-primary blue"
+                    >
+                        <i class="fa fa-download fa-lg"></i>
+                        {{ l('Export') }}
+                    </button>
+                </div> 
+
+                <div class = padding-left-5> 
+                    <button
+                        *ngIf="isGranted('Pages.Opportunities.Create')"
+                        (click)="createOpportunity()"
+                        class="btn btn-primary blue"
+                    >
+                        <i class="fa fa-plus"></i>
+                        {{ l('Opportunity') }}
+                    </button>
+                </div>
+
             </div>
         </sub-header>
 
@@ -287,12 +306,12 @@
                                         <td
                                             style="width: 130px"
                                             [hidden]="
-                                                !isGrantedAny('Pages.Opportunities.Edit', 'Pages.Opportunities.Delete')
+                                                !isGrantedAny('Pages.Opportunities.Edit')
                                             "
                                         >
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i>
+                                                <button class="dropdown-toggle btn btn-secondary i" dropdownToggle>
+                                                    <i class="fa fa-cog color-blue"></i>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
@@ -328,7 +347,7 @@
                                                 {{ record.opportunity.name }}
                                             </a>
                                             <br>   
-                                            {{ record.opportunityStageDescription }} 
+                                                {{ record.opportunityStageDescription }} 
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CloseDate') }}</span>
@@ -339,13 +358,13 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Amount') }}</span>
-                                            {{ record.opportunity.amount }}
+                                                {{ record.opportunity.amount }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Branch') }} and {{ l('Department') }}</span>
-                                            {{ record.opportunity.branch }}
+                                                {{ record.opportunity.branch }}
                                             <br>
-                                            {{ record.opportunity.department }}
+                                                {{ record.opportunity.department }}
                                         </td>
                                     </tr>
                                 </ng-template>
