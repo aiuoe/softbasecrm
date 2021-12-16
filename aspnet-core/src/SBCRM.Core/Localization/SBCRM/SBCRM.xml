@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>    <text name="Secure">Secure</text>
+  <texts>    <text name="AccountUser">Account user</text>
+    <text name="SBCRM.Crm.AccountUser">AccountUser</text>
+    <text name="AccountUsersHeaderInfo">Account users header info</text>
+    <text name="CreateNewAccountUser">Create new account user</text>
+    <text name="EditAccountUser">Edit account user</text>
+    <text name="DeleteAccountUser">Delete account user</text>
+    <text name="AccountUsers">Account users</text>
+    <text name="PickUser">Pick user</text>
+    <text name="Secure">Secure</text>
     <text name="CreateNewSecure">Create new secure</text>
     <text name="EditSecure">Edit secure</text>
     <text name="DeleteSecure">Delete secure</text>

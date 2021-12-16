@@ -921,4 +921,14 @@
             </tabset>
         </div>
     </div>
+
+    <div class="row" *ngIf="this.customer.number !== undefined && this.customer.number !== ''">
+        <div class="col-md-6">
+            <app-assigned-user 
+                [componentType] = '"Account"' 
+                [idToStore] = 'this.customer.number'>
+            </app-assigned-user>
+        </div>
+    </div>
+
 </div>

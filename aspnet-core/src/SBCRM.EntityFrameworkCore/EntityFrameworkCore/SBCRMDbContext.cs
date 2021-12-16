@@ -20,6 +20,7 @@ namespace SBCRM.EntityFrameworkCore
     {
         public virtual DbSet<Secure> Secure { get; set; }
 
+        public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
 
         public virtual DbSet<InvoiceRegList> InvoiceRegList { get; set; }

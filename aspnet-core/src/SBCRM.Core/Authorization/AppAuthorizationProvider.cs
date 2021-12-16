@@ -37,6 +37,11 @@ namespace SBCRM.Authorization
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Delete, L("DeleteCountry"));
 
+            var accountUsers = pages.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("AccountUsers"));
+            accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
+            accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Edit, L("EditAccountUser"));
+            accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
+
             var secure = pages.CreateChildPermission(AppPermissions.Pages_Secure, L("Secure"));
             secure.CreateChildPermission(AppPermissions.Pages_Secure_Create, L("CreateNewSecure"));
             secure.CreateChildPermission(AppPermissions.Pages_Secure_Edit, L("EditSecure"));

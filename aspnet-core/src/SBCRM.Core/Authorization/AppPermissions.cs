@@ -11,6 +11,10 @@
         public const string Pages_Secure_Edit = "Pages.Secure.Edit";
         public const string Pages_Secure_Delete = "Pages.Secure.Delete";
 
+        public const string Pages_AccountUsers = "Pages.AccountUsers";
+        public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
+        public const string Pages_AccountUsers_Edit = "Pages.AccountUsers.Edit";
+        public const string Pages_AccountUsers_Delete = "Pages.AccountUsers.Delete";
         public const string Base_Permission = "Pages.BasePermissions";
 
         public const string Pages_Countries = "Pages.Countries";
