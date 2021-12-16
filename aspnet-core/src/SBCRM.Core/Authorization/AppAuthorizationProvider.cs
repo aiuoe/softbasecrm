@@ -28,7 +28,14 @@ namespace SBCRM.Authorization
         {
             //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
-            var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
+            var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
+
+            var basePermissions = pages.CreateChildPermission(AppPermissions.Base_Permission, L("BasePermission"));
+
+            var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
+            countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
+            countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
+            countries.CreateChildPermission(AppPermissions.Pages_Countries_Delete, L("DeleteCountry"));
 
             var activityStatuses = pages.CreateChildPermission(AppPermissions.Pages_ActivityStatuses, L("ActivityStatuses"));
             activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Create, L("CreateNewActivityStatus"));
@@ -88,7 +95,9 @@ namespace SBCRM.Authorization
             var customer = pages.CreateChildPermission(AppPermissions.Pages_Customer, L("Customer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Create, L("CreateNewCustomer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit, L("EditCustomer"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_Delete, L("DeleteCustomer"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Invoices, L("CustomerViewInvoices"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
 
             var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));

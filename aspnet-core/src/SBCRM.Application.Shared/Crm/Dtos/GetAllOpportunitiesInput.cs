@@ -1,8 +1,12 @@
 ﻿using Abp.Application.Services.Dto;
 using System;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage filter object to get paged result from opportunities
+    /// </summary>
     public class GetAllOpportunitiesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
@@ -30,5 +34,6 @@ namespace SBCRM.Crm.Dtos
 
         public string OpportunityTypeDescriptionFilter { get; set; }
 
+        public List<int?> OpportunityStageId { get; set; } = new List<int?>();
     }
 }

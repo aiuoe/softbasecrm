@@ -79,7 +79,7 @@ namespace SBCRM.Crm
                            .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
                            .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
 
-            IQueryable<Lead> pagedAndFilteredLeads;
+            IQueryable<Lead> pagedAndFilteredLeads; 
 
             if (input.Sorting != null)
                 pagedAndFilteredLeads = filteredLeads

@@ -52,6 +52,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditCountryDto, Country>().ReverseMap();
+            configuration.CreateMap<CountryDto, Country>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivityStatusDto, ActivityStatus>().ReverseMap();
             configuration.CreateMap<ActivityStatusDto, ActivityStatus>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivityTaskTypeDto, ActivityTaskType>().ReverseMap();
