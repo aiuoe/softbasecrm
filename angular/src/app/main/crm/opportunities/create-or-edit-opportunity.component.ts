@@ -17,6 +17,9 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component to create or edit opportunity
+ */
 @Component({
     templateUrl: './create-or-edit-opportunity.component.html',
     animations: [appModuleAnimation()],
@@ -40,6 +43,14 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
     ];
 
+    /**
+     * Main constructor
+     * @param injector 
+     * @param _activatedRoute 
+     * @param _opportunityServiceProxy 
+     * @param _router 
+     * @param _dateTimeService 
+     */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -50,14 +61,24 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         super(injector);
     }
 
+    /**
+     * Initialize component
+     */
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
     }
 
+    /**
+     * Redirects to opportunities page
+     */
     goToOpportunities() {
         this._router.navigate(['/app/main/crm/opportunities'])
     }
 
+    /**
+     * Shows the form
+     * @param opportunityId the id of the lead to be used, it can be null
+     */
     show(opportunityId?: number): void {
         if (!opportunityId) {
             this.opportunity = new CreateOrEditOpportunityDto();
@@ -90,6 +111,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         });
     }
 
+    /**
+     * Saves the opportunity information to the db
+     * @returns void
+     */
     save(): void {
         this.saving = true;
 
@@ -107,6 +132,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             });
     }
 
+    /**
+     * Saves the opportunity information to the db and stays on create new page
+     * @returns void
+     */
     saveAndNew(): void {
         this.saving = true;
 

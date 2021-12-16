@@ -15,6 +15,13 @@ import { RouterModule } from '@angular/router';
                     },
 
                     {    
+                        path: 'crm/countries',
+                        loadChildren: () => import('./crm/countries/country.module').then(m => m.CountryModule),
+                        data: { permission: 'Pages.Countries' }
+                    },
+                
+                    
+                    {
                         path: 'crm/leadSources',
                         loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
                         data: { permission: 'Pages.LeadSources' }

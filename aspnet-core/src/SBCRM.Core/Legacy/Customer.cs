@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SBCRM.Legacy
 {
     /// <summary>
-    /// Customer(Account) entity
+    /// Customer(Account) entity from legacy schema
     /// </summary>
     [Table("Customer", Schema = "dbo")]
     public class Customer

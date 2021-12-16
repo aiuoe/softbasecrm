@@ -7,433 +7,918 @@
         >
             <div role="actions">
                 <button (click)="goToAccounts()" class="btn btn-secondary float-left" [buttonBusy]="saving">
-                    <span>{{ l('Cancel') }}</span>
-                </button>
-                <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
-                        [busyText]="l('SavingWithThreeDot')">
-                    <i class="fa fa-save"></i>
-                    <span>{{ l('Save') }}</span>
+                    <span>{{ l('Close') }}</span>
                 </button>
             </div>
         </sub-header>
 
-        <div [class]="containerClass">
-
+        <div [class]="containerClass" [busyIf]="this.isPageLoading">
             <tabset>
                 <tab heading="{{ 'Overview' | localize }}">
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-
-                                    <form #customerForm="ngForm" role="form" class="form-validation" novalidate>
-
-                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                            <i class="pi pi-user"></i>
-                                            {{ l('GeneralInformation') }}
-                                        </h3>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_Name">{{ l('CompanyName') }} <span class="color-red">*</span></label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_Name="ngModel"
-                                                        id="Customer_Name"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.name"
-                                                        name="Name"
-                                                        minlength="0"
-                                                        maxlength="255"
-                                                        required
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_Name"></validation-messages>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_Phone">{{ l('CompanyPhone') }} <span class="color-red">*</span></label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_Phone="ngModel"
-                                                        id="Customer_Phone"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.phone"
-                                                        name="Phone"
-                                                        minlength="0"
-                                                        maxlength="255"
-                                                        required
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_Phone"></validation-messages>
-                                                </div>
-                                            </div>
+                                    <div class="row" *ngIf="this.showSaveButton">
+                                        <div class="col-12">
+                                            <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
+                                                    [busyText]="l('SavingWithThreeDot')">
+                                                <i class="fa fa-save"></i>
+                                                <span>{{ l('Save') }}</span>
+                                            </button>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_EMail">{{ l('CompanyEmail') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_EMail="ngModel"
-                                                        id="Customer_EMail"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.eMail"
-                                                        name="EMail"
-                                                        minlength="0"
-                                                        maxlength="1000"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_EMail"></validation-messages>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_WWWAddress">{{ l('WebSite') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_WWWAddress="ngModel"
-                                                        id="Customer_WWWAddress"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.wwwAddress"
-                                                        name="WWWAddress"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_WWWAddress"></validation-messages>
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <div class="row" *ngIf="!this.showSaveButton && this.isReadOnlyMode">
+                                        <div class="col-12">
+                                            <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                <span>{{ l('Edit') }}</span>
+                                            </button>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <form #customerForm="ngForm" role="form" class="form-validation" novalidate>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_Address">{{ l('Address') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_Address="ngModel"
-                                                        id="Customer_Address"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.address"
-                                                        name="Address"
-                                                        minlength="0"
-                                                        maxlength="255"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_Address"></validation-messages>
+                                                <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                                    <i class="pi pi-user"></i>
+                                                    {{ l('GeneralInformation') }}
+                                                </h3>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_Name">{{ l('CompanyName') }} <span class="color-red">*</span></label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_Name="ngModel"
+                                                                id="Customer_Name"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.name"
+                                                                name="Name"
+                                                                minlength="0"
+                                                                maxlength="255"
+                                                                required
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_Name"></validation-messages>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_Phone">{{ l('CompanyPhone') }} <span class="color-red">*</span></label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_Phone="ngModel"
+                                                                id="Customer_Phone"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.phone"
+                                                                name="Phone"
+                                                                minlength="0"
+                                                                maxlength="255"
+                                                                required
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_Phone"></validation-messages>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_POBox">{{ l('POBox') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_POBox="ngModel"
-                                                        id="Customer_POBox"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.poBox"
-                                                        name="POBox"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_POBox"></validation-messages>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_EMail">{{ l('CompanyEmail') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_EMail="ngModel"
+                                                                id="Customer_EMail"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.eMail"
+                                                                name="EMail"
+                                                                minlength="0"
+                                                                maxlength="1000"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_EMail"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_WWWAddress">{{ l('WebSite') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_WWWAddress="ngModel"
+                                                                id="Customer_WWWAddress"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.wwwAddress"
+                                                                name="WWWAddress"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_WWWAddress"></validation-messages>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_Country">{{ l('Country') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_Country="ngModel"
-                                                        id="Customer_Country"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.country"
-                                                        name="Country"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_Country"></validation-messages>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_State">{{ l('State') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_State="ngModel"
-                                                        id="Customer_State"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.state"
-                                                        name="State"
-                                                        minlength="0"
-                                                        maxlength="255"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_State"></validation-messages>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_City">{{ l('City') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_City="ngModel"
-                                                        id="Customer_City"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.city"
-                                                        name="City"
-                                                        minlength="0"
-                                                        maxlength="255"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_City"></validation-messages>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_ZipCode">{{ l('ZipCode') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_ZipCode="ngModel"
-                                                        id="Customer_ZipCode"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.zipCode"
-                                                        name="ZipCode"
-                                                        minlength="0"
-                                                        maxlength="255"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_Address">{{ l('Address') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_Address="ngModel"
+                                                                id="Customer_Address"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.address"
+                                                                name="Address"
+                                                                minlength="0"
+                                                                maxlength="255"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_Address"></validation-messages>
+                                                        </div>
 
-                                        <hr>
-                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                            <i class="fa fa-id-card"></i>
-                                            {{ l('Details') }}
-                                        </h3>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_POBox">{{ l('POBox') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_POBox="ngModel"
+                                                                id="Customer_POBox"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.poBox"
+                                                                name="POBox"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_POBox"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                        <div class="row" *ngIf="!this.isNew">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_Number">{{ l('CustomerNumber') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_Number="ngModel"
-                                                        id="Customer_Number"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.number"
-                                                        name="Number"
-                                                        minlength="0"
-                                                        maxlength="100"
-                                                        readonly
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_Number"></validation-messages>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_Country">{{ l('Country') }}</label>
+                                                            <p-dropdown #Customer_Country="ngModel"
+                                                                        id="Customer_Country"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [options]="countries"
+                                                                        [(ngModel)]="customer.country"
+                                                                        [disabled]="this.isReadOnlyMode"
+                                                                        optionLabel="name"
+                                                                        placeholder="Select Country"
+                                                                        [showClear]="true"
+                                                                        optionValue="code">
+                                                            </p-dropdown>
+                                                            <validation-messages [formCtrl]="Customer_Country"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_State">{{ l('State') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_State="ngModel"
+                                                                id="Customer_State"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.state"
+                                                                name="State"
+                                                                minlength="0"
+                                                                maxlength="255"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_State"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_City">{{ l('City') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_City="ngModel"
+                                                                id="Customer_City"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.city"
+                                                                name="City"
+                                                                minlength="0"
+                                                                maxlength="255"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_City"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_ZipCode">{{ l('ZipCode') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_ZipCode="ngModel"
+                                                                id="Customer_ZipCode"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.zipCode"
+                                                                name="ZipCode"
+                                                                minlength="0"
+                                                                maxlength="255"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                                (keyup)="getZipCode($event)"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="Customer_BillTo">{{ l('BillTo') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_BillTo="ngModel"
-                                                        id="Customer_BillTo"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.billTo"
-                                                        name="BillTo"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_BillTo"></validation-messages>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group m-form__group">
-                                                    <label for="customerAccountTypeId">{{ l('AccountType') }}</label>
-                                                    <select
-                                                        id="customerAccountTypeId"
-                                                        [(ngModel)]="customer.accountTypeId"
-                                                        class="form-control"
-                                                        required
-                                                        disabled
-                                                    >
-                                                        <option value="">{{ l('SelectAAccountType') }}</option>
-                                                        <option *ngFor="let item of allAccountTypes" value="{{ item.id }}">
-                                                            {{ item.displayName }}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group m-form__group">
-                                                    <label for="leadSourceId">{{ l('LeadSource') }}</label>
-                                                    <select
-                                                        id="leadSourceId"
-                                                        [(ngModel)]="customer.leadSourceId"
-                                                        class="form-control"
-                                                        required
-                                                        [disabled]="true"
-                                                    >
-                                                        <option value="">{{ l('SelectALeadSource') }}</option>
-                                                        <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
-                                                            {{ item.displayName }}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_DunsCode">{{ lupper('Duns') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_DunsCode="ngModel"
-                                                        id="Customer_DunsCode"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.dunsCode"
-                                                        name="DunsCode"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_DunsCode"></validation-messages>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                <hr>
+                                                <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                                    <i class="fa fa-id-card"></i>
+                                                    {{ l('Details') }}
+                                                </h3>
 
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_SICCode">{{ lupper('SICCode') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_SICCode="ngModel"
-                                                        id="Customer_SICCode"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.sicCode"
-                                                        name="SICCode"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_SICCode"></validation-messages>
+                                                <div class="row" *ngIf="!this.isNew">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_Number">{{ l('CustomerNumber') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_Number="ngModel"
+                                                                id="Customer_Number"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.number"
+                                                                name="Number"
+                                                                minlength="0"
+                                                                maxlength="100"
+                                                                readonly
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_Number"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Customer_BillTo">{{ l('BillTo') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_BillTo="ngModel"
+                                                                id="Customer_BillTo"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.billTo"
+                                                                name="BillTo"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_BillTo"></validation-messages>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_SICCode2">{{ lupper('SICCode2') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_SICCode2="ngModel"
-                                                        id="Customer_SICCode2"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.sicCode2"
-                                                        name="SICCode2"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_SICCode2"></validation-messages>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_SICCode3">{{ lupper('SICCode3') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_SICCode3="ngModel"
-                                                        id="Customer_SICCode3"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.sicCode3"
-                                                        name="SICCode3"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_SICCode3"></validation-messages>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="Customer_SICCode4">{{ lupper('SICCode4') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        #Customer_SICCode4="ngModel"
-                                                        id="Customer_SICCode4"
-                                                        class="form-control"
-                                                        [(ngModel)]="customer.sicCode4"
-                                                        name="SICCode4"
-                                                        minlength="0"
-                                                        maxlength="50"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                    />
-                                                    <validation-messages [formCtrl]="Customer_SICCode4"></validation-messages>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="Customer_BusinessDescription">{{ l('Description') }}</label>
-                                                    <textarea #Customer_BusinessDescription="ngModel"
-                                                              id="Customer_BusinessDescription"
-                                                              class="form-control"
-                                                              [(ngModel)]="customer.businessDescription"
-                                                              [placeholder]="l('EnterDescription')"
-                                                              name="Description"
-                                                              rows="10"
-                                                              [disabled]="this.isReadOnlyMode"
-                                                    >
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group m-form__group">
+                                                            <label for="customerAccountTypeId">{{ l('AccountType') }}</label>
+                                                            <p-dropdown id="customerAccountTypeId"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        #Customer_AcountType="ngModel"
+                                                                        [options]="allAccountTypes"
+                                                                        [(ngModel)]="customer.accountTypeId"
+                                                                        [disabled]="true"
+                                                                        optionLabel="displayName"
+                                                                        optionValue="id">
+                                                            </p-dropdown>
+                                                            <validation-messages [formCtrl]="Customer_AcountType"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group m-form__group">
+                                                            <label for="leadSourceId">{{ l('LeadSource') }}</label>
+                                                            <p-dropdown id="leadSourceId"
+                                                                        [showClear]="true"
+                                                                        placeholder="Select"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        #Customer_LeadSource="ngModel"
+                                                                        [options]="allLeadSources"
+                                                                        [(ngModel)]="customer.leadSourceId"
+                                                                        [disabled]="this.isReadOnlyMode"
+                                                                        optionLabel="displayName"
+                                                                        optionValue="id">
+                                                            </p-dropdown>
+                                                            <validation-messages [formCtrl]="Customer_LeadSource"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_DunsCode">{{ lupper('Duns') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_DunsCode="ngModel"
+                                                                id="Customer_DunsCode"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.dunsCode"
+                                                                name="DunsCode"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_DunsCode"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_SICCode">{{ lupper('SICCode') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_SICCode="ngModel"
+                                                                id="Customer_SICCode"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.sicCode"
+                                                                name="SICCode"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_SICCode"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_SICCode2">{{ lupper('SICCode2') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_SICCode2="ngModel"
+                                                                id="Customer_SICCode2"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.sicCode2"
+                                                                name="SICCode2"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_SICCode2"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_SICCode3">{{ lupper('SICCode3') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_SICCode3="ngModel"
+                                                                id="Customer_SICCode3"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.sicCode3"
+                                                                name="SICCode3"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_SICCode3"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="Customer_SICCode4">{{ lupper('SICCode4') }}</label>
+                                                            <input
+                                                                type="text"
+                                                                #Customer_SICCode4="ngModel"
+                                                                id="Customer_SICCode4"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.sicCode4"
+                                                                name="SICCode4"
+                                                                minlength="0"
+                                                                maxlength="50"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Customer_SICCode4"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="Customer_BusinessDescription">{{ l('Description') }}</label>
+                                                            <textarea #Customer_BusinessDescription="ngModel"
+                                                                      id="Customer_BusinessDescription"
+                                                                      class="form-control"
+                                                                      [(ngModel)]="customer.businessDescription"
+                                                                      [placeholder]="l('EnterDescription')"
+                                                                      name="Description"
+                                                                      rows="10"
+                                                                      [disabled]="this.isReadOnlyMode"
+                                                            >
                                                     </textarea>
-                                                    <validation-messages [formCtrl]="Customer_BusinessDescription"></validation-messages>
+                                                            <validation-messages [formCtrl]="Customer_BusinessDescription"></validation-messages>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+
+                                            </form>
                                         </div>
-
-                                    </form>
-
-
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Opportunities' | localize }}" *ngIf="!this.isNew">
+                <tab heading="{{ 'Opportunities' | localize }}" [hidden]="this.isNew">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
-                <tab heading="{{ 'Invoices' | localize }}" *ngIf="!this.isNew">
+                <tab heading="{{ 'Invoices' | localize }}">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showInvoiceTab">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input
+                                            class="form-control"
+                                            id="StartEndRange"
+                                            name="StartEndRange"
+                                            #drp="bsDaterangepicker"
+                                            readonly="readonly"
+                                            bsDaterangepicker
+                                            dateRangePickerLuxonModifier
+                                            [(date)]="invoicesDateRange"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button (click)="getCustomerInvoices()" class="btn btn-primary blue float-right">
+                                        <i class="fas fa-sync-alt"></i>
+                                        <span>{{ l('RefreshData') }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                                        <p-table
+                                            id="dataTable"
+                                            #customerInvoicesDataTable
+                                            (onLazyLoad)="getCustomerInvoices($event)"
+                                            [value]="primengTableHelper.records"
+                                            rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                            [paginator]="false"
+                                            [lazy]="true"
+                                            [scrollable]="true"
+                                            ScrollWidth="100%"
+                                            [responsive]="primengTableHelper.isResponsive"
+                                            [resizableColumns]="primengTableHelper.resizableColumns"
+                                        >
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th style="width: 150px" pSortableColumn="poNumber">
+                                                        {{ lupper('PO') }}
+                                                        <p-sortIcon field="poNumber"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="serial">
+                                                        {{ l('Serial') }}
+                                                        <p-sortIcon field="serial"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="unitNo">
+                                                        {{ l('Unit') }}
+                                                        <p-sortIcon field="unitNo"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="associatedWONo">
+                                                        {{ l('AssociatedDoc') }}
+                                                        <p-sortIcon field="associatedWONo"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
+                                                        {{ l('RentalNumber') }}
+                                                        <p-sortIcon field="rentalContractNo"></p-sortIcon>
+                                                    </th>
+                                                    <th style="width: 150px" pSortableColumn="grandTotal">
+                                                        {{ l('Amount') }}
+                                                        <p-sortIcon field="grandTotal"></p-sortIcon>
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                                <tr>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('PO') }}</span>
+                                                        {{ record.poNumber }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Serial') }}</span>
+                                                        {{ record.serial }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Unit') }}</span>
+                                                        {{ record.unitNo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('AssociatedDoc') }}</span>
+                                                        {{ record.associatedWONo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('RentalNumber') }}</span>
+                                                        {{ record.rentalContractNo }}
+                                                    </td>
+
+                                                    <td style="width: 150px" class="text-right">
+                                                        <span class="p-column-title">{{ l('Amount') }}</span>
+                                                        {{ record.grandTotal | number:'1.2-2' }}
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                            {{ l('NoData') }}
+                                        </div>
+                                        <div class="primeng-paging-container">
+                                            <p-paginator
+                                                [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                                #CustomerInvoicesPaginator
+                                                (onPageChange)="getCustomerInvoices($event)"
+                                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                                [showCurrentPageReport]="true"
+                                                [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                                    "
+                                            ></p-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!this.showInvoiceTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
-                <tab heading="{{ 'Equipment' | localize }}" *ngIf="!this.isNew">
+                <tab heading="{{ 'Equipment' | localize }}">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showEquipmentTab">
+                        <div class="card-body">
+
+                            <div class="row pb-5">
+                                <div class="col-md-12">
+                                    <button (click)="getCustomerEquipments()" class="btn btn-primary blue float-right">
+                                        <i class="fas fa-sync-alt"></i>
+                                        <span>{{ l('RefreshData') }}</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelperEquipments.isLoading">
+                                        <p-table
+                                            #customerEquipmentsDataTable
+                                            (onLazyLoad)="getCustomerEquipments($event)"
+                                            [value]="primengTableHelperEquipments.records"
+                                            rows="{{ primengTableHelperEquipments.defaultRecordsCountPerPage }}"
+                                            [paginator]="false"
+                                            [lazy]="true"
+                                            [scrollable]="true"
+                                            ScrollWidth="100%"
+                                            [responsive]="primengTableHelper.isResponsive"
+                                            [resizableColumns]="primengTableHelperEquipments.resizableColumns"
+                                        >
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th style="width: 150px" pSortableColumn="unitNo">
+                                                        {{ l('Unit') }}
+                                                        <p-sortIcon field="unitNo"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="serial">
+                                                        {{ l('Serial') }}
+                                                        <p-sortIcon field="serial"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="modelYear">
+                                                        {{ l('Year') }}
+                                                        <p-sortIcon field="modelYear"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="make">
+                                                        {{ l('Make') }}
+                                                        <p-sortIcon field="make"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="model">
+                                                        {{ l('Model') }}
+                                                        <p-sortIcon field="model"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="meter">
+                                                        {{ l('Meter') }}
+                                                        <p-sortIcon field="meter"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="totalExp">
+                                                        {{ l('TotalExp') }}
+                                                        <p-sortIcon field="totalExp"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="expMeter">
+                                                        {{ l('ExpMeter') }}
+                                                        <p-sortIcon field="expMeter"></p-sortIcon>
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                                <tr>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Unit') }}</span>
+                                                        {{ record.unitNo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Serial') }}</span>
+                                                        {{ record.serial }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Year') }}</span>
+                                                        {{ record.modelYear }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Make') }}</span>
+                                                        {{ record.make }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Model') }}</span>
+                                                        {{ record.model }}
+                                                    </td>
+
+                                                    <td style="width: 150px" class="text-right">
+                                                        <span class="p-column-title">{{ l('Meter') }}</span>
+                                                        {{ record.meter | number:'1.2-2' }}
+                                                    </td>
+
+                                                    <td style="width: 150px" class="text-right">
+                                                        <span class="p-column-title">{{ l('TotalExp') }}</span>
+                                                        {{ record.totalExp | number:'1.2-2' }}
+                                                    </td>
+
+                                                    <td style="width: 150px" class="text-right">
+                                                        <span class="p-column-title">{{ l('ExpMeter') }}</span>
+                                                        {{ record.expMeter | number:'1.2-2' }}
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        <div class="primeng-no-data" *ngIf="primengTableHelperEquipments.totalRecordsCount == 0">
+                                            {{ l('NoData') }}
+                                        </div>
+                                        <div class="primeng-paging-container">
+                                            <p-paginator
+                                                [rows]="primengTableHelperEquipments.defaultRecordsCountPerPage"
+                                                #customerEquipmentsPaginator
+                                                (onPageChange)="getCustomerEquipments($event)"
+                                                [totalRecords]="primengTableHelperEquipments.totalRecordsCount"
+                                                [rowsPerPageOptions]="primengTableHelperEquipments.predefinedRecordsCountPerPage"
+                                                [showCurrentPageReport]="true"
+                                                [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize: primengTableHelperEquipments.totalRecordsCount
+                                    "
+                                            ></p-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!this.showEquipmentTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
-                <tab heading="{{ 'WIP' | localize }}" *ngIf="!this.isNew">
+
+                <tab heading="{{ 'WIP' | localize }}">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showWipTab">
+                        <div class="card-body">
+                            <div class="row pb-5">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <p-checkbox name="groupname" [label]="l('Quotes')" [(ngModel)]="wipQuotes" [binary]="true"></p-checkbox>
+                                        <p-checkbox class="ml-5" name="groupname" [label]="l('Accepted Quotes')" [(ngModel)]="wipAcceptedQuotes" [binary]="true"></p-checkbox>
+                                        <p-checkbox class="ml-5" name="groupname" [label]="l('Canceled Quotes')" [(ngModel)]="wipCanceledQuotes" [binary]="true"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button (click)="getCustomerWip()" class="btn btn-primary blue float-right">
+                                        <i class="fas fa-sync-alt"></i>
+                                        <span>{{ l('RefreshData') }}</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelperWip.isLoading">
+                                        <p-table
+                                            #customerWipDataTable
+                                            (onLazyLoad)="getCustomerWip($event)"
+                                            [value]="primengTableHelperWip.records"
+                                            rows="{{ primengTableHelperWip.defaultRecordsCountPerPage }}"
+                                            [paginator]="false"
+                                            [lazy]="true"
+                                            [scrollable]="true"
+                                            ScrollWidth="100%"
+                                            [responsive]="primengTableHelper.isResponsive"
+                                            [resizableColumns]="primengTableHelperWip.resizableColumns"
+                                        >
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th style="width: 150px" pSortableColumn="documentNumber">
+                                                        {{ l('Document') }}
+                                                        <p-sortIcon field="documentNumber"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="poNumber">
+                                                        {{ l('Po') }}
+                                                        <p-sortIcon field="poNumber"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="serial">
+                                                        {{ l('Serial') }}
+                                                        <p-sortIcon field="serial"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="unitNo">
+                                                        {{ l('Unit') }}
+                                                        <p-sortIcon field="unitNo"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="make">
+                                                        {{ l('Make') }}
+                                                        <p-sortIcon field="make"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="model">
+                                                        {{ l('Model') }}
+                                                        <p-sortIcon field="model"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="salesman">
+                                                        {{ l('Salesman') }}
+                                                        <p-sortIcon field="salesman"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="associatedWONo">
+                                                        {{ l('AssociatedDoc') }}
+                                                        <p-sortIcon field="associatedWONo"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
+                                                        {{ l('RentalNumber') }}
+                                                        <p-sortIcon field="rentalContractNo"></p-sortIcon>
+                                                    </th>
+
+                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
+                                                        {{ l('Opened') }}
+                                                        <p-sortIcon field="rentalContractNo"></p-sortIcon>
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                                <tr>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Document') }}</span>
+                                                        {{ record.documentNumber }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Po') }}</span>
+                                                        {{ record.poNumber }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Serial') }}</span>
+                                                        {{ record.serial }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Unit') }}</span>
+                                                        {{ record.unitNo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Make') }}</span>
+                                                        {{ record.make }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Model') }}</span>
+                                                        {{ record.model }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Salesman') }}</span>
+                                                        {{ record.salesman }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('AssociatedDoc') }}</span>
+                                                        {{ record.associatedWONo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('RentalNumber') }}</span>
+                                                        {{ record.rentalContractNo }}
+                                                    </td>
+
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Opened') }}</span>
+                                                        {{ record.rentalContractNo }}
+                                                    </td>
+
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        <div class="primeng-no-data" *ngIf="primengTableHelperWip.totalRecordsCount == 0">
+                                            {{ l('NoData') }}
+                                        </div>
+                                        <div class="primeng-paging-container">
+                                            <p-paginator
+                                                [rows]="primengTableHelperWip.defaultRecordsCountPerPage"
+                                                #customerWipPaginator
+                                                (onPageChange)="getCustomerWip($event)"
+                                                [totalRecords]="primengTableHelperWip.totalRecordsCount"
+                                                [rowsPerPageOptions]="primengTableHelperWip.predefinedRecordsCountPerPage"
+                                                [showCurrentPageReport]="true"
+                                                [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize: primengTableHelperWip.totalRecordsCount
+                                    "
+                                            ></p-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!this.showWipTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
-                <tab heading="{{ 'Events' | localize }}" *ngIf="!this.isNew">
+                <tab heading="{{ 'Events' | localize }}" [hidden]="this.isNew">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tab>
 
             </tabset>
-
         </div>
     </div>
 </div>
