@@ -80,6 +80,9 @@ namespace SBCRM.Legacy
 
         public virtual bool IsCreatedFromWebCrm { get; set; }
 
+        [StringLength(CustomerConsts.MaxTermsLength, MinimumLength = CustomerConsts.MinTermsLength)]
+        public virtual string Terms { get; set; }
+
 
         public virtual DateTime? Added { get; set; }
 

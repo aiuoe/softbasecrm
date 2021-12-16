@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +14,9 @@ namespace SBCRM.EntityFrameworkCore.Repositories
     /// </summary>
     public class SoftBaseCustomerWipRepository : ISoftBaseCustomerWipRepository
     {
-        private const short OpenDisposition = 1;
-        private const short QuoteDisposition = 11;
+        private const short AcceptedDisposition = 1;
+        private const short OpenQuoteDisposition = 11;
+        private const short CancelledQuoteDisposition = 13;
         private readonly SBCRMDbContext _dbContext;
 
         /// <summary>
@@ -41,9 +41,6 @@ namespace SBCRM.EntityFrameworkCore.Repositories
                     from customer in c.DefaultIfEmpty()
                     join equipments in _dbContext.Set<Equipment>() on wipList.SerialNo equals equipments.SerialNo into e
                     from equipment in e.DefaultIfEmpty()
-                    where wo.BillTo == input.CustomerNumber
-                          && (!input.AcceptedQuotes || input.AcceptedQuotes && OpenDisposition == wipList.Disposition)
-                          && (!input.Quotes || input.Quotes && QuoteDisposition == wipList.Disposition)
                     select new CustomerWipViewDto
                     {
                         DocumentNumber = wo.WONo,
@@ -55,8 +52,17 @@ namespace SBCRM.EntityFrameworkCore.Repositories
                         Salesman = wo.Salesman,
                         AssociatedWONo = wo.AssociatedWONo,
                         RentalContractNo = wo.RentalContractNo,
-                        CustomerFlag = wo.CustomerSale
+                        CustomerFlag = wo.CustomerSale,
+                        Opened = wo.OpenDate,
+                        Disposition = wipList.Disposition,
+                        BillTo = wo.BillTo
                     }
+                ;
+
+            filteredCustomerWip = filteredCustomerWip.Where(x => x.BillTo == input.CustomerNumber)
+                .WhereIf(input.AcceptedQuotes,  x => x.Disposition == AcceptedDisposition)
+                .WhereIf(input.Quotes,  x => x.Disposition == OpenQuoteDisposition)
+                .WhereIf(input.CanceledQuotes,  x => x.Disposition == CancelledQuoteDisposition)
                 ;
 
             var pagedAndFilteredCustomerInvoices = filteredCustomerWip

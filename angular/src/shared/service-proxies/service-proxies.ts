@@ -23584,6 +23584,7 @@ export class CustomerWipViewDto implements ICustomerWipViewDto {
     salesman!: string | undefined;
     associatedWONo!: number | undefined;
     rentalContractNo!: number | undefined;
+    opened!: DateTime | undefined;
     customerFlag!: number | undefined;
 
     constructor(data?: ICustomerWipViewDto) {
@@ -23606,6 +23607,7 @@ export class CustomerWipViewDto implements ICustomerWipViewDto {
             this.salesman = _data["salesman"];
             this.associatedWONo = _data["associatedWONo"];
             this.rentalContractNo = _data["rentalContractNo"];
+            this.opened = _data["opened"] ? DateTime.fromISO(_data["opened"].toString()) : <any>undefined;
             this.customerFlag = _data["customerFlag"];
         }
     }
@@ -23628,6 +23630,7 @@ export class CustomerWipViewDto implements ICustomerWipViewDto {
         data["salesman"] = this.salesman;
         data["associatedWONo"] = this.associatedWONo;
         data["rentalContractNo"] = this.rentalContractNo;
+        data["opened"] = this.opened ? this.opened.toString() : <any>undefined;
         data["customerFlag"] = this.customerFlag;
         return data; 
     }
@@ -23643,6 +23646,7 @@ export interface ICustomerWipViewDto {
     salesman: string | undefined;
     associatedWONo: number | undefined;
     rentalContractNo: number | undefined;
+    opened: DateTime | undefined;
     customerFlag: number | undefined;
 }
 

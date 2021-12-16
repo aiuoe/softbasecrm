@@ -48,6 +48,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         new BreadcrumbItem(this.l('Customer'), this.routerLink)
     ];
 
+    pageMode = '';
     active = false;
     saving = false;
     isNew = true;
@@ -106,7 +107,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.showEquipmentTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
         this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
 
-        this.isReadOnlyMode = this._activatedRoute.snapshot.routeConfig.path === 'view';
+        this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
+        this.isReadOnlyMode = this.pageMode === 'view';
         this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!this.customerNumber;
         this.show(this.customerNumber);
@@ -118,6 +120,10 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param customerId
      */
     show(customerId?: string): void {
+
+        if ((this.pageMode === 'view') && !this.customerNumber) {
+            this.goToAccounts();
+        }
 
         const requests: Observable<any>[] = [
             this._customerServiceProxy.getAllAccountTypeForTableDropdown(),

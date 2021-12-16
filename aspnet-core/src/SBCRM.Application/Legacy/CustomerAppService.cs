@@ -11,6 +11,7 @@ using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
 
@@ -81,7 +82,7 @@ namespace SBCRM.Legacy
                     ;
 
                 var pagedAndFilteredCustomer = filteredCustomer
-                    .OrderBy(input.Sorting ?? $"{nameof(Customer.Number)} asc")
+                    .OrderBy(input.Sorting ?? $"{nameof(Customer.Name)} asc")
                     .PageBy(input);
 
                 var customer = from o in pagedAndFilteredCustomer
@@ -208,6 +209,20 @@ namespace SBCRM.Legacy
         protected virtual async Task Create(CreateOrEditCustomerDto input)
         {
             var customer = ObjectMapper.Map<Customer>(input);
+
+            var customerSameName = await _customerRepository.GetAll()
+                .Where(x => !string.IsNullOrEmpty(x.Name))
+                .Where(x => input.Name.ToLower().Trim() == x.Name.ToLower().Trim())
+                .ToListAsync();
+
+            if (customerSameName.Any())
+            {
+                throw new UserFriendlyException(L("CustomerNameAlreadyExist"));
+            }
+
+            var defaultAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.IsDefault.HasValue && x.IsDefault.Value);
+            customer.Terms = defaultAccountType.Description;
+
             var currentUser = await GetCurrentUserAsync();
 
             customer.IsCreatedFromWebCrm = true;
