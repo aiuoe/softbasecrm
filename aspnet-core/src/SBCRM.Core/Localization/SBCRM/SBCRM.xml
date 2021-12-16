@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="SBCRM.Crm.Country">Country</text>
+    <text name="CountriesHeaderInfo">Countries header info</text>
+    <text name="CreateNewCountry">Create new country</text>
+    <text name="EditCountry">Edit country</text>
+    <text name="DeleteCountry">Delete country</text>
+    <text name="Countries">Countries</text>
     <text name="NotIsDefault">Not is default</text>
     <text name="IsDefault">Is default</text>
     <text name="SelectAOpportunityStage">Select a opportunity stage</text>

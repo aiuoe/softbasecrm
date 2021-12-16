@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
+            countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
+            countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
+            countries.CreateChildPermission(AppPermissions.Pages_Countries_Delete, L("DeleteCountry"));
+
             var activityStatuses = pages.CreateChildPermission(AppPermissions.Pages_ActivityStatuses, L("ActivityStatuses"));
             activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Create, L("CreateNewActivityStatus"));
             activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Edit, L("EditActivityStatus"));

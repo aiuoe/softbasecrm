@@ -18,6 +18,8 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Country> Countries { get; set; }
+
         public virtual DbSet<InvoiceRegList> InvoiceRegList { get; set; }
         public virtual DbSet<WIPList> WIPList { get; set; }
         public virtual DbSet<InvoiceReg> InvoiceReg { get; set; }
