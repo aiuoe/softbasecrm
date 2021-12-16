@@ -1,4 +1,4 @@
-﻿import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+﻿import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import {
     CustomerServiceProxy,
@@ -7,7 +7,11 @@ import {
     CustomerLeadSourceLookupTableDto,
     ZipCodesServiceProxy,
     GetZipCodeForViewDto,
-    GetCustomerForEditOutput, PagedResultDtoOfGetZipCodeForViewDto
+    GetCustomerForEditOutput,
+    PagedResultDtoOfGetZipCodeForViewDto,
+    CountriesServiceProxy,
+    GetCountryForViewDto,
+    CountryDto, ZipCodeDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +26,9 @@ import { Table } from 'primeng/table';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 import { Observable, forkJoin } from 'rxjs';
 
+/***
+ * Component to manage the customers/accounts create/edit mode
+ */
 @Component({
     templateUrl: './create-or-edit-customer.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -36,6 +43,11 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     @ViewChild('customerWipDataTable', { static: true }) customerWipDataTable: Table;
     @ViewChild('customerWipPaginator', { static: true }) customerWipPaginator: Paginator;
 
+    routerLink = '/app/main/business/accounts';
+    breadcrumbs: BreadcrumbItem[] = [
+        new BreadcrumbItem(this.l('Customer'), this.routerLink)
+    ];
+
     active = false;
     saving = false;
     isNew = true;
@@ -44,19 +56,16 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
     accountTypeDescription = '';
     allAccountTypes: CustomerAccountTypeLookupTableDto[] = [];
+    countries: CountryDto[] = [];
     selectedAccountType: CustomerAccountTypeLookupTableDto;
     allLeadSources: CustomerLeadSourceLookupTableDto[] = [];
     usZipCodes: GetZipCodeForViewDto[] = [];
-    routerLink = '/app/main/business/accounts';
-    breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Customer'), this.routerLink)
-    ];
-    dateRange: DateTime[] = [this._dateTimeService.getStartOfDayMinusDays(30), this._dateTimeService.getEndOfDay()];
+
+    invoicesDateRange: DateTime[] = [this._dateTimeService.getStartOfDayMinusDays(30), this._dateTimeService.getEndOfDay()];
     customerNumber: string;
     primengTableHelperEquipments = new PrimengTableHelper();
     primengTableHelperWip = new PrimengTableHelper();
 
-    selectedValues: string[] = [];
     wipQuotes = false;
     wipAcceptedQuotes = false;
     wipCanceledQuotes = false;
@@ -67,17 +76,31 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     showWipTab = true;
     isPageLoading = true;
 
+    /***
+     * Main constructor
+     * @param injector
+     * @param _activatedRoute
+     * @param _customerServiceProxy
+     * @param _zipCodeServiceProxy
+     * @param _countriesServiceProxy
+     * @param _router
+     * @param _dateTimeService
+     */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _customerServiceProxy: CustomerServiceProxy,
         private _zipCodeServiceProxy: ZipCodesServiceProxy,
+        private _countriesServiceProxy: CountriesServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
 
+    /***
+     * Initialize component
+     */
     ngOnInit(): void {
         this.showInvoiceTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
         this.showEquipmentTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
@@ -90,21 +113,27 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.l('EditCustomer')));
     }
 
+    /***
+     * Initialize show visualization
+     * @param customerId
+     */
     show(customerId?: string): void {
 
         const requests: Observable<any>[] = [
             this._customerServiceProxy.getAllAccountTypeForTableDropdown(),
             this._customerServiceProxy.getAllLeadSourceForTableDropdown(),
-            this._zipCodeServiceProxy.getAllZipCodesForTableDropdown()
+            this._zipCodeServiceProxy.getAllZipCodesForTableDropdown(),
+            this._countriesServiceProxy.getAllForTableDropdown()
         ];
 
         if (!customerId) {
 
             forkJoin([...requests])
-                .subscribe(([accountTypes, leadSources, zipCodes]: [
+                .subscribe(([accountTypes, leadSources, zipCodes, countries]: [
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
-                    PagedResultDtoOfGetZipCodeForViewDto]) => {
+                    PagedResultDtoOfGetZipCodeForViewDto,
+                    GetCountryForViewDto[]]) => {
                     this.isPageLoading = false;
                     this.active = true;
 
@@ -114,18 +143,22 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.customer.accountTypeId = this.selectedAccountType?.id;
                     this.allLeadSources = leadSources;
                     this.usZipCodes = zipCodes.items;
+                    this.countries = countries.map(x => x.country);
 
                     this.showSaveButton = true;
+                }, () => {
+                    this.goToAccounts();
                 });
 
         } else {
 
             requests.push(this._customerServiceProxy.getCustomerForEdit(customerId));
             forkJoin([...requests])
-                .subscribe(([accountTypes, leadSources, zipCodes, customerForEdit]: [
+                .subscribe(([accountTypes, leadSources, zipCodes, countries, customerForEdit]: [
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
                     PagedResultDtoOfGetZipCodeForViewDto,
+                    GetCountryForViewDto[],
                     GetCustomerForEditOutput]) => {
                     this.isPageLoading = false;
                     this.active = true;
@@ -136,12 +169,19 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
                     this.allLeadSources = leadSources;
                     this.usZipCodes = zipCodes.items;
+                    this.countries = countries.map(x => x.country);
 
                     this.showSaveButton = true;
+                }, () => {
+                    this.isPageLoading = true;
+                    this.goToAccounts();
                 });
         }
     }
 
+    /***
+     * Save customer/account
+     */
     save(): void {
         if (!this.customerForm.form.valid) {
             this.customerForm.form.markAllAsTouched();
@@ -163,6 +203,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             });
     }
 
+    /***
+     * Go to accounts page
+     */
     goToAccounts() {
         this._router.navigate([this.routerLink]);
     }
@@ -182,8 +225,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
             this._customerServiceProxy.getAllCustomerInvoices(
                 this.customer.number,
-                this.dateRange[0],
-                this.dateRange[1],
+                this.invoicesDateRange[0],
+                this.invoicesDateRange[1],
                 this.primengTableHelper.getSorting(this.customerInvoicesDataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -194,7 +237,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             });
         }
     }
-
 
     /***
      * Get customer equipments
@@ -221,7 +263,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             });
         }
     }
-
 
     /***
      * Get customer WIP
@@ -252,5 +293,16 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         }
     }
 
-
+    getZipCode(event: KeyboardEvent) {
+        const zipCodeHasMoreThan5Characters = this.customer.zipCode?.trim().length >= 5 && this.customer.zipCode;
+        const keyDownIsBackspace = event && event.key === 'Backspace';
+        if (zipCodeHasMoreThan5Characters || keyDownIsBackspace) {
+            const zipCodeFound: ZipCodeDto = this.usZipCodes.map(x => x.zipCode).find(x => x.zipCode === this.customer.zipCode);
+            if (zipCodeFound) {
+                this.customer.city = zipCodeFound.city;
+                this.customer.state = zipCodeFound.state;
+                this.customer.country = 'US';
+            }
+        }
+    }
 }

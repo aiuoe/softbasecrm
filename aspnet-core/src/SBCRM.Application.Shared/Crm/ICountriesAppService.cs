@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
@@ -17,6 +18,12 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<GetCountryForViewDto>> GetAll(GetAllCountriesInput input);
+
+        /// <summary>
+        /// Get all countries
+        /// </summary>
+        /// <returns></returns>
+        Task<List<GetCountryForViewDto>> GetAllForTableDropdown();
 
         /// <summary>
         /// Get country for view mode by id

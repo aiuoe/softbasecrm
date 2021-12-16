@@ -40,6 +40,7 @@ namespace SBCRM.Legacy
         /// <param name="customerCustomerInvoiceRepository"></param>
         /// <param name="customerEquipmentRepository"></param>
         /// <param name="customerWipRepository"></param>
+        /// <param name="unitOfWorkManager"></param>
         public CustomerAppService(
             IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
@@ -207,12 +208,17 @@ namespace SBCRM.Legacy
         protected virtual async Task Create(CreateOrEditCustomerDto input)
         {
             var customer = ObjectMapper.Map<Customer>(input);
-
             var currentUser = await GetCurrentUserAsync();
+
             customer.IsCreatedFromWebCrm = true;
             customer.AddedBy = currentUser.Name;
             customer.Added = DateTime.UtcNow;
-            await _customerRepository.InsertAsync(customer);
+            customer = await _customerRepository.InsertAsync(customer);
+
+            customer.BillTo = customer.Number;
+            customer.ChangedBy = currentUser.Name;
+            customer.Changed = DateTime.UtcNow;
+            await _customerRepository.UpdateAsync(customer);
         }
 
         /// <summary>

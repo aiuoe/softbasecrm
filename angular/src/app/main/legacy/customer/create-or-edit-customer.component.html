@@ -156,17 +156,17 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
-                                                            <input
-                                                                type="text"
-                                                                #Customer_Country="ngModel"
-                                                                id="Customer_Country"
-                                                                class="form-control"
-                                                                [(ngModel)]="customer.country"
-                                                                name="Country"
-                                                                minlength="0"
-                                                                maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
-                                                            />
+                                                            <p-dropdown #Customer_Country="ngModel"
+                                                                        id="Customer_Country"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [options]="countries"
+                                                                        [(ngModel)]="customer.country"
+                                                                        [disabled]="this.isReadOnlyMode"
+                                                                        optionLabel="name"
+                                                                        placeholder="Select Country"
+                                                                        [showClear]="true"
+                                                                        optionValue="code">
+                                                            </p-dropdown>
                                                             <validation-messages [formCtrl]="Customer_Country"></validation-messages>
                                                         </div>
                                                     </div>
@@ -217,6 +217,7 @@
                                                                 minlength="0"
                                                                 maxlength="255"
                                                                 [disabled]="this.isReadOnlyMode"
+                                                                (keyup)="getZipCode($event)"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
                                                         </div>
@@ -273,11 +274,14 @@
                                                             <label for="customerAccountTypeId">{{ l('AccountType') }}</label>
                                                             <p-dropdown id="customerAccountTypeId"
                                                                         [ngModelOptions]="{standalone: true}"
+                                                                        #Customer_AcountType="ngModel"
                                                                         [options]="allAccountTypes"
                                                                         [(ngModel)]="customer.accountTypeId"
                                                                         [disabled]="true"
-                                                                        optionLabel="displayName">
+                                                                        optionLabel="displayName"
+                                                                        optionValue="id">
                                                             </p-dropdown>
+                                                            <validation-messages [formCtrl]="Customer_AcountType"></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -287,11 +291,14 @@
                                                                         [showClear]="true"
                                                                         placeholder="Select"
                                                                         [ngModelOptions]="{standalone: true}"
+                                                                        #Customer_LeadSource="ngModel"
                                                                         [options]="allLeadSources"
                                                                         [(ngModel)]="customer.leadSourceId"
                                                                         [disabled]="this.isReadOnlyMode"
-                                                                        optionLabel="displayName">
+                                                                        optionLabel="displayName"
+                                                                        optionValue="id">
                                                             </p-dropdown>
+                                                            <validation-messages [formCtrl]="Customer_LeadSource"></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -438,7 +445,7 @@
                                             readonly="readonly"
                                             bsDaterangepicker
                                             dateRangePickerLuxonModifier
-                                            [(date)]="dateRange"
+                                            [(date)]="invoicesDateRange"
                                         />
                                     </div>
                                 </div>
@@ -467,33 +474,33 @@
                                         >
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th style="width: 150px" pSortableColumn="name">
+                                                    <th style="width: 150px" pSortableColumn="poNumber">
                                                         {{ lupper('PO') }}
-                                                        <p-sortIcon field="customer.name"></p-sortIcon>
+                                                        <p-sortIcon field="poNumber"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="phone">
+                                                    <th style="width: 150px" pSortableColumn="serial">
                                                         {{ l('Serial') }}
-                                                        <p-sortIcon field="customer.phone"></p-sortIcon>
+                                                        <p-sortIcon field="serial"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="address">
+                                                    <th style="width: 150px" pSortableColumn="unitNo">
                                                         {{ l('Unit') }}
-                                                        <p-sortIcon field="customer.address"></p-sortIcon>
+                                                        <p-sortIcon field="unitNo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="associatedWONo">
                                                         {{ l('AssociatedDoc') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="associatedWONo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
                                                         {{ l('RentalNumber') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="rentalContractNo"></p-sortIcon>
                                                     </th>
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="grandTotal">
                                                         {{ l('Amount') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="grandTotal"></p-sortIcon>
                                                     </th>
                                                 </tr>
                                             </ng-template>
@@ -595,44 +602,44 @@
                                         >
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th style="width: 150px" pSortableColumn="name">
+                                                    <th style="width: 150px" pSortableColumn="unitNo">
                                                         {{ l('Unit') }}
-                                                        <p-sortIcon field="customer.name"></p-sortIcon>
+                                                        <p-sortIcon field="unitNo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="phone">
+                                                    <th style="width: 150px" pSortableColumn="serial">
                                                         {{ l('Serial') }}
-                                                        <p-sortIcon field="customer.phone"></p-sortIcon>
+                                                        <p-sortIcon field="serial"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="address">
+                                                    <th style="width: 150px" pSortableColumn="modelYear">
                                                         {{ l('Year') }}
-                                                        <p-sortIcon field="customer.address"></p-sortIcon>
+                                                        <p-sortIcon field="modelYear"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="make">
                                                         {{ l('Make') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="make"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="model">
                                                         {{ l('Model') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="model"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="meter">
                                                         {{ l('Meter') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="meter"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="totalExp">
                                                         {{ l('TotalExp') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="totalExp"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="expMeter">
                                                         {{ l('ExpMeter') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="expMeter"></p-sortIcon>
                                                     </th>
                                                 </tr>
                                             </ng-template>
@@ -751,106 +758,106 @@
                                         >
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th style="width: 150px" pSortableColumn="name">
+                                                    <th style="width: 150px" pSortableColumn="documentNumber">
                                                         {{ l('Document') }}
-                                                        <p-sortIcon field="customer.name"></p-sortIcon>
+                                                        <p-sortIcon field="documentNumber"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="phone">
+                                                    <th style="width: 150px" pSortableColumn="poNumber">
                                                         {{ l('Po') }}
-                                                        <p-sortIcon field="customer.phone"></p-sortIcon>
+                                                        <p-sortIcon field="poNumber"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="address">
+                                                    <th style="width: 150px" pSortableColumn="serial">
                                                         {{ l('Serial') }}
-                                                        <p-sortIcon field="customer.address"></p-sortIcon>
+                                                        <p-sortIcon field="serial"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="unitNo">
                                                         {{ l('Unit') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="unitNo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="make">
                                                         {{ l('Make') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="make"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="model">
                                                         {{ l('Model') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="model"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="salesman">
                                                         {{ l('Salesman') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="salesman"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="associatedWONo">
                                                         {{ l('AssociatedDoc') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="associatedWONo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
                                                         {{ l('RentalNumber') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="rentalContractNo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="accountTypeFk.description">
+                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
                                                         {{ l('Opened') }}
-                                                        <p-sortIcon field="accountTypeDescription"></p-sortIcon>
+                                                        <p-sortIcon field="rentalContractNo"></p-sortIcon>
                                                     </th>
                                                 </tr>
                                             </ng-template>
                                             <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                                 <tr>
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Unit') }}</span>
+                                                        <span class="p-column-title">{{ l('Document') }}</span>
                                                         {{ record.documentNumber }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Serial') }}</span>
+                                                        <span class="p-column-title">{{ l('Po') }}</span>
                                                         {{ record.poNumber }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Year') }}</span>
+                                                        <span class="p-column-title">{{ l('Serial') }}</span>
                                                         {{ record.serial }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Make') }}</span>
+                                                        <span class="p-column-title">{{ l('Unit') }}</span>
                                                         {{ record.unitNo }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Model') }}</span>
+                                                        <span class="p-column-title">{{ l('Make') }}</span>
                                                         {{ record.make }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Meter') }}</span>
+                                                        <span class="p-column-title">{{ l('Model') }}</span>
                                                         {{ record.model }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('TotalExp') }}</span>
+                                                        <span class="p-column-title">{{ l('Salesman') }}</span>
                                                         {{ record.salesman }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('ExpMeter') }}</span>
+                                                        <span class="p-column-title">{{ l('AssociatedDoc') }}</span>
                                                         {{ record.associatedWONo }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('ExpMeter') }}</span>
+                                                        <span class="p-column-title">{{ l('RentalNumber') }}</span>
                                                         {{ record.rentalContractNo }}
                                                     </td>
 
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('ExpMeter') }}</span>
+                                                        <span class="p-column-title">{{ l('Opened') }}</span>
                                                         {{ record.rentalContractNo }}
                                                     </td>
 

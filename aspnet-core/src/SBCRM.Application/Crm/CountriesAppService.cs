@@ -91,6 +91,21 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get all countries
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetCountryForViewDto>> GetAllForTableDropdown()
+        {
+            var pagedResult = await GetAll(new GetAllCountriesInput()
+            {
+                MaxResultCount = int.MaxValue,
+                SkipCount = 0
+            });
+            return pagedResult.Items?.ToList();
+        }
+
+        /// <summary>
         /// Get country for view mode by id
         /// </summary>
         /// <param name="id"></param>
