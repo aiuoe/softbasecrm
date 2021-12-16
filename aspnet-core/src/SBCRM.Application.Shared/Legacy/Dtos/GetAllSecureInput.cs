@@ -3,6 +3,9 @@ using System;
 
 namespace SBCRM.Legacy.Dtos
 {
+    /// <summary>
+    /// DTO used by the get methods as input to get all secure records
+    /// </summary>
     public class GetAllSecureInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

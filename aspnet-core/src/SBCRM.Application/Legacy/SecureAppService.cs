@@ -17,17 +17,28 @@ using SBCRM.Storage;
 
 namespace SBCRM.Legacy
 {
+    /// <summary>
+    /// Service to interact with the repository for dbo.Secure table
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_Secure)]
     public class SecureAppService : SBCRMAppServiceBase, ISecureAppService
     {
         private readonly IRepository<Secure> _secureRepository;
-
+        /// <summary>
+        /// Main Constructor
+        /// </summary>
+        /// <param name="secureRepository"></param>
         public SecureAppService(IRepository<Secure> secureRepository)
         {
             _secureRepository = secureRepository;
 
         }
 
+        /// <summary>
+        /// Gets all the secure records and applies filters if needed
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetSecureForViewDto>> GetAll(GetAllSecureInput input)
         {
 
@@ -766,6 +777,11 @@ namespace SBCRM.Legacy
 
         }
 
+        /// <summary>
+        /// Getts a record to be edited
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Secure_Edit)]
         public async Task<GetSecureForEditOutput> GetSecureForEdit(EntityDto input)
         {
@@ -776,6 +792,11 @@ namespace SBCRM.Legacy
             return output;
         }
 
+        /// <summary>
+        /// Creates or edits a secure record
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditSecureDto input)
         {
             if (input.Id == null)
@@ -788,6 +809,11 @@ namespace SBCRM.Legacy
             }
         }
 
+        /// <summary>
+        /// Creates a new record
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Secure_Create)]
         protected virtual async Task Create(CreateOrEditSecureDto input)
         {
@@ -802,6 +828,11 @@ namespace SBCRM.Legacy
 
         }
 
+        /// <summary>
+        /// Edits a new record
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Secure_Edit)]
         protected virtual async Task Update(CreateOrEditSecureDto input)
         {
@@ -810,6 +841,11 @@ namespace SBCRM.Legacy
 
         }
 
+        /// <summary>
+        /// Deletes a secure record
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Secure_Delete)]
         public async Task Delete(EntityDto input)
         {

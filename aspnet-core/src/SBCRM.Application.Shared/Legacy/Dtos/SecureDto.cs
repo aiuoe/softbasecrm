@@ -3,6 +3,9 @@ using Abp.Application.Services.Dto;
 
 namespace SBCRM.Legacy.Dtos
 {
+    /// <summary>
+    /// DTO for the Secure entity
+    /// </summary>
     public class SecureDto : EntityDto
     {
         public string Password { get; set; }

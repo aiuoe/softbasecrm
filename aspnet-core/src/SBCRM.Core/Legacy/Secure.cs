@@ -6,6 +6,9 @@ using Abp.Domain.Entities;
 
 namespace SBCRM.Legacy
 {
+    /// <summary>
+    /// dbo.Secure table from legacy database
+    /// </summary>
     [Table("Secure")]
     public class Secure : Entity, IMayHaveTenant
     {

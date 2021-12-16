@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Legacy
 {
+    /// <summary>
+    /// Constans for the secure entity
+    /// </summary>
     public class SecureConsts
     {
 

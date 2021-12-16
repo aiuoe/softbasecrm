@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Legacy.Dtos
 {
+    /// <summary>
+    /// DTO used to create or edit a Secure entity
+    /// </summary>
     public class CreateOrEditSecureDto : EntityDto<int?>
     {
 
