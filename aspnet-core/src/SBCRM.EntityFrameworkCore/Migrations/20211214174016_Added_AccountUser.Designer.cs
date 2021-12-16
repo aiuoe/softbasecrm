@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211214174016_Added_AccountUser")]
+    partial class Added_AccountUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1734,9 +1736,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool?>("IsDefault")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1869,49 +1868,6 @@ namespace SBCRM.Migrations
                     b.ToTable("ActivityTaskTypes");
                 });
 
-            modelBuilder.Entity("SBCRM.Crm.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries");
-                });
-
             modelBuilder.Entity("SBCRM.Crm.Industry", b =>
                 {
                     b.Property<int>("Id")
@@ -1966,7 +1922,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CompanyEmail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
@@ -1974,7 +1931,9 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("CompanyPhone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactCellPhone")
                         .HasMaxLength(50)
@@ -2101,9 +2060,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2149,9 +2105,6 @@ namespace SBCRM.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -2293,11 +2246,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -2396,9 +2344,6 @@ namespace SBCRM.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -2599,10 +2544,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Terms")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.Property<string>("WWWAddress")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -2618,259 +2559,6 @@ namespace SBCRM.Migrations
                     b.HasIndex("LeadSourceId");
 
                     b.ToTable("Customer", "dbo");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.EQCustomFields", b =>
-                {
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Custom01")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom010")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom011")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom012")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom013")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom014")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom015")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom016")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom017")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom018")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom019")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom02")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom020")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom03")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom04")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom05")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom06")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom07")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom08")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Custom09")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SerialNo");
-
-                    b.ToTable("EQCustomFields", "dbo");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.Equipment", b =>
-                {
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AttachedTo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<short?>("Customer")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("CustomerNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("LastHourMeter")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Make")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModelYear")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UnitNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SerialNo");
-
-                    b.ToTable("Equipment", "dbo");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.InvoiceReg", b =>
-                {
-                    b.Property<int?>("InvoiceNo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<short?>("Customer")
-                        .HasColumnType("smallint");
-
-                    b.Property<decimal?>("EquipmentNonTax")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("EquipmentTaxable")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("GrandTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("RentalNonTax")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("RentalTaxable")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("TotalTax")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("InvoiceNo");
-
-                    b.ToTable("InvoiceReg", "dbo");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.InvoiceRegList", b =>
-                {
-                    b.Property<short?>("CustomerFlag")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("Disposition")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("ExpBranch")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("ExpCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<short?>("ExpDept")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("InvoiceDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<short?>("SaleBranch")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("SaleCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<short?>("SaleDept")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("WONo")
-                        .HasColumnType("int");
-
-                    b.HasIndex("SerialNo");
-
-                    b.HasIndex("WONo");
-
-                    b.ToView("InvoiceRegList", "dbo");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.WIPList", b =>
-                {
-                    b.Property<short?>("CustomerFlag")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("Disposition")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("WONo")
-                        .HasColumnType("int");
-
-                    b.ToView("WIPList", "dbo");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.WO", b =>
-                {
-                    b.Property<int?>("WONo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AssociatedWONo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BillTo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<short?>("CustomerSale")
-                        .HasColumnType("smallint");
-
-                    b.Property<short?>("Disposition")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Make")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("NumeroDeFactura")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("OpenDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PoNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RentalContractNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Salesman")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShipTo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UnitNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("WONo");
-
-                    b.ToTable("WO", "dbo");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.ZipCode", b =>
@@ -3501,27 +3189,6 @@ namespace SBCRM.Migrations
                     b.Navigation("AccountTypeFk");
 
                     b.Navigation("LeadSourceDk");
-                });
-
-            modelBuilder.Entity("SBCRM.Legacy.InvoiceRegList", b =>
-                {
-                    b.HasOne("SBCRM.Legacy.Equipment", "EquipmentFk")
-                        .WithMany()
-                        .HasForeignKey("SerialNo");
-
-                    b.HasOne("SBCRM.Legacy.InvoiceReg", "InvoiceRegFk")
-                        .WithMany()
-                        .HasForeignKey("WONo");
-
-                    b.HasOne("SBCRM.Legacy.WO", "WoFk")
-                        .WithMany()
-                        .HasForeignKey("WONo");
-
-                    b.Navigation("EquipmentFk");
-
-                    b.Navigation("InvoiceRegFk");
-
-                    b.Navigation("WoFk");
                 });
 
             modelBuilder.Entity("SBCRM.MultiTenancy.Payments.SubscriptionPayment", b =>
