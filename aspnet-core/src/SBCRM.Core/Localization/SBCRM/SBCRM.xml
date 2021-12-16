@@ -130,7 +130,7 @@
     <text name="SBCRM.Crm.Lead">Lead</text>
     <text name="CompanyName">Company name</text>
     <text name="LeadCompanyName">Company name</text>
-    <text name="LastName">Last name</text>
+    <text name="LastName">Last Name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
 	<text name="WebSite_Invalid">Invalid Web site</text>
@@ -449,10 +449,10 @@
     <text name="DeletingUser">Deleting user</text>
     <text name="UsersHeaderInfo">Manage users and permissions.</text>
     <text name="CreateNewUser">Create new user</text>
-    <text name="UserName">User name</text>
+    <text name="UserName">User Name</text>
     <text name="Name">Name</text>
     <text name="Surname">Surname</text>
-    <text name="EmailAddress">Email address</text>
+    <text name="EmailAddress">Email Address</text>
     <text name="LastLoginTime">Last login time</text>
     <text name="EditUser">Edit user</text>
     <text name="UserInformations">User information</text>
@@ -564,7 +564,7 @@
     <text name="ProfilePicture_Change_Info">You can select a JPG/JPEG/PNG file with a maximum {0}MB size.</text>
     <text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
     <text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
-    <text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG file. Please select another file.</text>
+    <text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
     <text name="Dashboard">Dashboard</text>
     <text name="DashboardHeaderInfo">statistics and reports</text>
     <text name="GoToApplication">Go to application</text>
@@ -1526,6 +1526,7 @@
     <text name="EditValues">Edit Values</text>
     <text name="FullName">Full Name</text>
     <text name="FirstName">First Name</text>
+    <text name="EmployeeId">Employee ID</text>
     <text name="UiCustomization_HoverableAside">Expand menu when hovered</text>
     <text name="SMTPSettingsNotProvidedWarningText">SMTP settings not provided, Please provided SMTP settings.</text>
     <text name="SocialLoginDeactivate_Description">This external login option will be disabled for your tenant.</text>
