@@ -2,7 +2,7 @@
 import { AppSharedModule } from '@app/shared/app-shared.module';
 import { AdminSharedModule } from '@app/admin/shared/admin-shared.module';
 import { CustomerRoutingModule } from './customer-routing.module';
-import { CustomerComponent } from './customer.component';
+import { CustomersComponent } from './customers.component';
 import { CreateOrEditCustomerComponent } from './create-or-edit-customer.component';
 import { ViewCustomerComponent } from './view-customer.component';
 import {
@@ -15,7 +15,7 @@ import { CheckboxModule } from '@node_modules/primeng/checkbox';
 
 @NgModule({
     providers: [AccountTypesServiceProxy, ZipCodesServiceProxy, CountriesServiceProxy],
-    declarations: [CustomerComponent, CreateOrEditCustomerComponent, ViewCustomerComponent],
+    declarations: [CustomersComponent, CreateOrEditCustomerComponent, ViewCustomerComponent],
   imports: [AppSharedModule, CustomerRoutingModule, AdminSharedModule, MultiSelectModule, CheckboxModule]
 })
 export class CustomerModule {}
