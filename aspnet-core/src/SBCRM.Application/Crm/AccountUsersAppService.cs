@@ -196,7 +196,7 @@ namespace SBCRM.Crm
                 .Select(user => new AccountUserUserLookupTableDto
                 {
                     Id = user.Id,
-                    DisplayName = user == null || user.Name == null ? "" : user.Name.ToString()
+                    DisplayName = user == null || user.FullName == null ? string.Empty : user.FullName
                 }).ToListAsync();
         }
 

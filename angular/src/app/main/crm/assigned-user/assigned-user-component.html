@@ -87,7 +87,8 @@
         </div>
         <app-create-or-edit-assined-user-modal #createOrEditAssignedUserModal
                                                (assignedUsers)="savingAssignedUsers($event)"
-                                               [assignedUsersExists]="this.assignedUsersExists">
+                                               [assignedUsersExists]="this.assignedUsersExists"
+                                               [excludeSelectedItemsInMultiSelect]="true">
         </app-create-or-edit-assined-user-modal>
         <app-view-assigned-user-modal #viewAssignedUserModal></app-view-assigned-user-modal>
 

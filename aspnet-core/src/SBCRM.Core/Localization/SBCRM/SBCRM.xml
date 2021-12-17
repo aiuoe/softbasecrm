@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
     <text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
     <text name="AccountUser">Account user</text>
     <text name="SBCRM.Crm.AccountUser">AccountUser</text>

@@ -4,7 +4,12 @@ import {
     CustomerServiceProxy,
     AccountTypesServiceProxy,
     PagedResultDtoOfGetAccountTypeForViewDto,
-    AccountTypeDto, AccountUserDto, UserListDto, GetCustomerForViewDto
+    AccountTypeDto,
+    AccountUserDto,
+    UserListDto,
+    GetCustomerForViewDto,
+    AccountUserUserLookupTableDto,
+    GetAccountUserForViewDto
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -17,6 +22,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { AppConsts } from '@shared/AppConsts';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { CreateOrEditAssignedUserModalComponent } from '@app/main/crm/assigned-user/create-or-edit-assined-user-modal.component';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -29,6 +35,7 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
 export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('createOrEditAssignedUserModal', { static: true }) createOrEditAssignedUserModal: CreateOrEditAssignedUserModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -37,6 +44,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     selectedAccountTypes: AccountTypeDto[];
     accountUsers: AccountUserDto[] = [];
     selectedAccountUsers: AccountUserDto[] = [];
+    assignedUsersExists: AccountUserUserLookupTableDto[] = [];
 
     /***
      * Main constructor
@@ -104,7 +112,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .getAll(
                 this.filterText,
                 this.selectedAccountTypes?.map(x => x.id),
-                [],
+                this.assignedUsersExists?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -162,6 +170,24 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    }
+
+    /**
+     * Handles the creating assigned user modal
+     */
+    createAccountUser(): void {
+        this.createOrEditAssignedUserModal.show();
+    }
+
+    /**
+     * This method manages the methods wich save users to some system
+     * modules (Accounts/Leads/Opportunities)
+     * @param usersList
+     * @returns
+     */
+    savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]) {
+        this.assignedUsersExists = usersList ?? [];
+        this.getCustomer();
     }
 
 }

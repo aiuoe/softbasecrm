@@ -46,7 +46,7 @@ export class AssignedUserComponent extends AppComponentBase {
     filterText = '';
     userNameFilter = '';
     saving = false;
-    assignedUsersExists: GetAccountUserForViewDto[];
+    assignedUsersExists: AccountUserUserLookupTableDto[];
 
 
     constructor(
@@ -84,7 +84,14 @@ export class AssignedUserComponent extends AppComponentBase {
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
-            this.assignedUsersExists = result.items;
+            this.assignedUsersExists = [];
+            result.items.forEach(x => {
+                const assignedUser = new AccountUserUserLookupTableDto();
+                assignedUser.id = x.accountUser.userId;
+                assignedUser.displayName = x.fullName;
+                this.assignedUsersExists.push(assignedUser);
+            });
+            // this.assignedUsersExists = result.items;
             this.primengTableHelper.hideLoadingIndicator();
         });
     }

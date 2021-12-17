@@ -13,11 +13,11 @@ import {ViewAssignedUserModalComponent} from './view-assigned-user-modal.compone
         AssignedUserComponent,
         CreateOrEditAssignedUserModalComponent,
         ViewAssignedUserModalComponent,
-        
+
     ],
     imports: [AppSharedModule, AssignedUserRoutingModule , AdminSharedModule ],
-    exports: [AssignedUserComponent]
-    
+  exports: [AssignedUserComponent, CreateOrEditAssignedUserModalComponent]
+
 })
 export class AssignedUserModule {
 }

@@ -63,9 +63,16 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
+                                <div class="col-md-2">
+                                    <button (click)="createAccountUser()"
+                                        class="btn btn-primary blue"
+                                    >
+                                        {{ l('SelectAssignedUsersFormat', this.assignedUsersExists?.length) }}
+                                    </button>
+                                </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="AccountTypeFilter">{{ l('AccountType') }}</label>
                                         <div>
                                             <p-multiSelect id="AccountTypeFilter"
                                                            name="AccountTypeFilter"
@@ -253,5 +260,11 @@
                 </div>
             </div>
         </div>
+
+        <app-create-or-edit-assined-user-modal #createOrEditAssignedUserModal
+                                               (assignedUsers)="savingAssignedUsers($event)"
+                                               [assignedUsersExists]="this.assignedUsersExists">
+        </app-create-or-edit-assined-user-modal>
+
     </div>
 </div>
