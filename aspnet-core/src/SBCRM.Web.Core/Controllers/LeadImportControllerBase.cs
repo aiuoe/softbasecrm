@@ -36,7 +36,7 @@ namespace SBCRM.Web.Controllers
                 var byteArrayFile = await excelLeads.GetBytes();
 
                 int leadSourceId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
-                int assignedUserId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
+                int assignedUserId = Convert.ToInt32(Request.Form["SelectedUser"]);
 
                 await _leadsAppService.ImportLeadsFromFile(byteArrayFile, leadSourceId, assignedUserId);
 

@@ -32,5 +32,7 @@ namespace SBCRM.Crm
 
         Task ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId);
 
+        Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads);
+
     }
 }

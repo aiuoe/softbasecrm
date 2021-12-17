@@ -31,14 +31,24 @@ namespace SBCRM.Crm
         private readonly IRepository<LeadSource, int> _lookup_leadSourceRepository;
         private readonly IRepository<LeadStatus, int> _lookup_leadStatusRepository;
         private readonly IRepository<Priority, int> _lookup_priorityRepository;
+        private readonly IRepository<LeadUser> _leadUserRepository;
 
-        public LeadsAppService(IRepository<Lead> leadRepository, ILeadsExcelExporter leadsExcelExporter, IRepository<LeadSource, int> lookup_leadSourceRepository, IRepository<LeadStatus, int> lookup_leadStatusRepository, IRepository<Priority, int> lookup_priorityRepository)
+        public LeadsAppService(IRepository<Lead> leadRepository,
+                                ILeadsExcelExporter leadsExcelExporter, 
+                                IRepository<LeadSource, 
+                                int> lookup_leadSourceRepository, 
+                                IRepository<LeadStatus, 
+                                int> lookup_leadStatusRepository, 
+                                IRepository<Priority, 
+                                int> lookup_priorityRepository,
+                                IRepository<LeadUser> leadUserRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
             _lookup_leadSourceRepository = lookup_leadSourceRepository;
             _lookup_leadStatusRepository = lookup_leadStatusRepository;
             _lookup_priorityRepository = lookup_priorityRepository;
+            _leadUserRepository = leadUserRepository;
 
         }
 
@@ -184,6 +194,16 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Method to return an excel file with duplicated leads when Importing Leads 
+        /// </summary>
+        /// <param name="leads"></param>
+        /// <returns></returns>
+        public async Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads)
+        {
+            return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads); 
+        }
+
+        /// <summary>
         /// This method allows to upload imported leads from an excel file
         /// </summary>
         /// <param name="inputFile"></param>
@@ -194,11 +214,12 @@ namespace SBCRM.Crm
         {
             var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
 
+            var duplicatedLeads = new List<LeadImportedInputDto>();
+
             // Defining default status and priority
             var leadStatusId = _lookup_leadStatusRepository.FirstOrDefault(p => p.Description == "New");
             var leadPriorityId = _lookup_priorityRepository.FirstOrDefault(p => p.Description == "Low");
 
-            int duplicatedLeads = 0;
 
             foreach (var item in leadsToImport)
             {
@@ -214,11 +235,19 @@ namespace SBCRM.Crm
                 if (storedLead == null)
                 {
                     var lead = ObjectMapper.Map<Lead>(leadAux);
-                    await _leadRepository.InsertAsync(lead);
+                    int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
+
+                    var leadUser = new LeadUser
+                    {
+                        LeadId = leadId,
+                        UserId = assignedUserId
+                    };
+
+                    await _leadUserRepository.InsertAsync(leadUser);
                 }
                 else
                 {
-                    duplicatedLeads++;
+                    duplicatedLeads.Add(item);
                 }
             }
 

@@ -2,7 +2,7 @@ import { TokenService } from 'abp-ng2-module';
 import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { LeadLeadSourceLookupTableDto, LeadsServiceProxy, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AccountUsersServiceProxy, AccountUserUserLookupTableDto, LeadLeadSourceLookupTableDto, LeadsServiceProxy, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { nextGuid } from '@shared/utils/global.utils';
@@ -27,10 +27,13 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     selectedUserId : number = 0;
     selectedLeadSourceId : number = 0;
     allLeadSources: LeadLeadSourceLookupTableDto[];
+    allUsers: AccountUserUserLookupTableDto[];
+    fileFlag = false;
 
     constructor(injector: Injector, private _profileService: ProfileServiceProxy, 
                 private _tokenService: TokenService,
-                private _leadsServiceProxy: LeadsServiceProxy) {
+                private _leadsServiceProxy: LeadsServiceProxy,
+                private _accountUsersServiceProxy: AccountUsersServiceProxy) {
         super(injector);
     }
 
@@ -38,6 +41,10 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
+
+        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
+            this.allUsers = result;                      
+        });	
     }
 
     initializeModal(): void {
@@ -54,6 +61,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         this.active = false;
         this.selectedLeadSourceId = 0;
         this.selectedUserId = 0;
+        this.fileFlag = false;
         this.uploader.clearQueue();
         this.modal.hide();
     }
@@ -65,6 +73,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
             return;
         }
 
+        this.fileFlag = true;
         this.uploadFileImportInputLabel.nativeElement.innerText = event.target.files[0].name;
         this.uploader.clearQueue();
         this.uploader.addToQueue([event.target.files[0]]);
@@ -84,6 +93,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
             form.append('FileName', 'ExcelFile');
             form.append('FileToken', nextGuid);
             form.append('SelectedLeadSource', this.selectedLeadSourceId);
+            form.append('SelectedUser', this.selectedUserId);
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {
@@ -99,7 +109,15 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
             if (isConfirmed) {                       
                 this.uploader.uploadAll();
                 this.modalUpload.emit(null);
+                this.fileFlag = false;
             }
         });
+    }
+
+    validateUploadButton(): boolean{
+        if(this.selectedLeadSourceId > 0 && this.fileFlag){
+            return false;
+        }
+        return true;
     }
 }

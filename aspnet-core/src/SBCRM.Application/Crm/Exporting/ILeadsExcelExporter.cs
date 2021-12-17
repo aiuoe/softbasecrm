@@ -7,5 +7,7 @@ namespace SBCRM.Crm.Exporting
     public interface ILeadsExcelExporter
     {
         FileDto ExportToFile(List<GetLeadForViewDto> leads);
+
+        FileDto ExportDuplicatedLeadsToExcel(List<LeadDto> leads);
     }
 }
