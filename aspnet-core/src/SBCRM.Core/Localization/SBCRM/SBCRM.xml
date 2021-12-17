@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>    <text name="AccountUser">Account user</text>
+  <texts>
+    <text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
+    <text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
+    <text name="AccountUser">Account user</text>
     <text name="SBCRM.Crm.AccountUser">AccountUser</text>
     <text name="AccountUsersHeaderInfo">Account users header info</text>
     <text name="CreateNewAccountUser">Create new account user</text>
@@ -101,13 +104,14 @@
     <text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
     <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>    
     <text name="AssignedUser">Assigned User</text>
+    <text name="AssignedUsers">Assigned Users</text>
     <text name="DescriptionLabel">Description</text>
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
-    <text name="CompanyPhone">Company phone</text>
+    <text name="CompanyPhone">Company Phone</text>
 	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
 	<text name="LeadCompanyPhone">Phone</text>
-    <text name="CompanyEmail">Company email</text>
+    <text name="CompanyEmail">Company Email</text>
     <text name="PoBox">Po Box</text>
     <text name="ContactPhone">Contact phone</text>
     <text name="ContactPhoneExtension">Contact phone extension</text>
@@ -128,7 +132,7 @@
     <text name="Priorities">Priorities</text>
     <text name="Lead">Lead</text>
     <text name="SBCRM.Crm.Lead">Lead</text>
-    <text name="CompanyName">Company name</text>
+    <text name="CompanyName">Company Name</text>
     <text name="LeadCompanyName">Company name</text>
     <text name="LastName">Last Name</text>
     <text name="Title">Title</text>
@@ -156,7 +160,7 @@
     <text name="EditLeadStatus">Edit lead status</text>
     <text name="DeleteLeadStatus">Delete lead status</text>
     <text name="LeadStatuses">Lead statuses</text>
-    <text name="LeadSource">Lead source</text>
+    <text name="LeadSource">Lead Source</text>
     <text name="SBCRM.Crm.LeadSource">LeadSource</text>
     <text name="Description">Description</text>
     <text name="EnterDescription">Enter Description</text>
@@ -177,9 +181,9 @@
     <text name="BillTo">Bill To #</text>
     <text name="SearchName">Search name</text>
     <text name="SubName">Sub name</text>
-    <text name="POBox">PO box</text>
+    <text name="POBox">PO Box</text>
     <text name="City">City</text>
-    <text name="State">State</text>
+    <text name="State">State/Province</text>
     <text name="Country">Country</text>
     <text name="Salutation">Salutation</text>
     <text name="Phone">Phone</text>
@@ -364,6 +368,7 @@
     <text name="CustomerViewInvoices">View invoices in Account detail</text>
     <text name="CustomerViewEquipments">View equipments in Account detail</text>
     <text name="CustomerViewWip">View WIP in Account detail</text>
+    <text name="CustomerViewAssignUsers">View assign users in Account detail</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="AccountTypeDescription">Account type description</text>
     <text name="PickAccountType">Pick account type</text>
@@ -392,7 +397,7 @@
     <text name="LastAutoSalesmanUpdate5Range">Last auto salesman update 5 range</text>
     <text name="LastAutoSalesmanUpdate6Range">Last auto salesman update 6 range</text>
     <text name="Crm">Crm</text>
-    <text name="AccountType">Account type</text>
+    <text name="AccountType">Account Type</text>
     <text name="CreateNewAccountType">Create new account type</text>
     <text name="EditAccountType">Edit account type</text>
     <text name="DeleteAccountType">Delete account type</text>
@@ -404,7 +409,7 @@
     <text name="Quotes">Quotes</text>
     <text name="AcceptedQuotes">Accepted Quotes</text>
     <text name="CanceledQuotes">Canceled Quotes</text>
-    <text name="ZipCode">Zip code</text>
+    <text name="ZipCode">Zip Code/Postal Code</text>
     <text name="ZipCodeProvince">Zip code/Province</text>
     <text name="CreateNewZipCode">Create new zip code</text>
     <text name="EditZipCode">Edit zip code</text>
@@ -618,7 +623,7 @@
     <text name="HideAdvancedFilters">Hide advanced filters</text>
     <text name="AuditLogDetail">Audit log detail</text>
     <text name="Parameters">Parameters</text>
-    <text name="DateRange">Date range</text>
+    <text name="DateRange">Date Range</text>
     <text name="ActionInformations">Action information</text>
     <text name="Today">Today</text>
     <text name="Yesterday">Yesterday</text>

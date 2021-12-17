@@ -80,6 +80,7 @@
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
+        public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

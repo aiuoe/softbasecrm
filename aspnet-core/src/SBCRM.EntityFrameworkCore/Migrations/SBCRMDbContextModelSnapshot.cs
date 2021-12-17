@@ -2604,6 +2604,10 @@ namespace SBCRM.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("Terms")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("WWWAddress")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -3458,6 +3462,9 @@ namespace SBCRM.Migrations
 
                     b.Property<int?>("NumeroDeFactura")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("OpenDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PoNo")
                         .HasColumnType("nvarchar(max)");

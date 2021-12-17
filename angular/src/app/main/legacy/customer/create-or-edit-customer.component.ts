@@ -25,6 +25,8 @@ import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 import { Observable, forkJoin } from 'rxjs';
+import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
+import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 
 /***
  * Component to manage the customers/accounts create/edit mode
@@ -42,12 +44,14 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     @ViewChild('customerEquipmentsPaginator', { static: true }) customerEquipmentsPaginator: Paginator;
     @ViewChild('customerWipDataTable', { static: true }) customerWipDataTable: Table;
     @ViewChild('customerWipPaginator', { static: true }) customerWipPaginator: Paginator;
+    @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
     routerLink = '/app/main/business/accounts';
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Customer'), this.routerLink)
     ];
 
+    pageMode = '';
     active = false;
     saving = false;
     isNew = true;
@@ -106,7 +110,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.showEquipmentTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
         this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
 
-        this.isReadOnlyMode = this._activatedRoute.snapshot.routeConfig.path === 'view';
+        this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
+        this.isReadOnlyMode = this.pageMode === 'view';
         this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!this.customerNumber;
         this.show(this.customerNumber);
@@ -119,20 +124,22 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      */
     show(customerId?: string): void {
 
+        if ((this.pageMode === 'view') && !this.customerNumber) {
+            this.goToAccounts();
+        }
+
         const requests: Observable<any>[] = [
             this._customerServiceProxy.getAllAccountTypeForTableDropdown(),
             this._customerServiceProxy.getAllLeadSourceForTableDropdown(),
-            this._zipCodeServiceProxy.getAllZipCodesForTableDropdown(),
             this._countriesServiceProxy.getAllForTableDropdown()
         ];
 
         if (!customerId) {
 
             forkJoin([...requests])
-                .subscribe(([accountTypes, leadSources, zipCodes, countries]: [
+                .subscribe(([accountTypes, leadSources, countries]: [
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
-                    PagedResultDtoOfGetZipCodeForViewDto,
                     GetCountryForViewDto[]]) => {
                     this.isPageLoading = false;
                     this.active = true;
@@ -142,7 +149,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
                     this.customer.accountTypeId = this.selectedAccountType?.id;
                     this.allLeadSources = leadSources;
-                    this.usZipCodes = zipCodes.items;
                     this.countries = countries.map(x => x.country);
 
                     this.showSaveButton = !this.isReadOnlyMode;
@@ -151,13 +157,16 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 });
 
         } else {
-
+            this.entityTypeHistory.show({
+                entityId: this.customerNumber,
+                entityTypeFullName: 'SBCRM.Legacy.Customer',
+                entityTypeDescription: '',
+            });
             requests.push(this._customerServiceProxy.getCustomerForEdit(customerId));
             forkJoin([...requests])
-                .subscribe(([accountTypes, leadSources, zipCodes, countries, customerForEdit]: [
+                .subscribe(([accountTypes, leadSources, countries, customerForEdit]: [
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
-                    PagedResultDtoOfGetZipCodeForViewDto,
                     GetCountryForViewDto[],
                     GetCustomerForEditOutput]) => {
                     this.isPageLoading = false;
@@ -168,7 +177,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.allAccountTypes = accountTypes;
                     this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
                     this.allLeadSources = leadSources;
-                    this.usZipCodes = zipCodes.items;
                     this.countries = countries.map(x => x.country);
 
                     this.showSaveButton = !this.isReadOnlyMode;
@@ -176,6 +184,11 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.goToAccounts();
                 });
         }
+
+        this._zipCodeServiceProxy.getAllZipCodesForTableDropdown()
+            .subscribe((zipCodes: PagedResultDtoOfGetZipCodeForViewDto) => {
+                this.usZipCodes = zipCodes.items;
+            });
     }
 
     /***

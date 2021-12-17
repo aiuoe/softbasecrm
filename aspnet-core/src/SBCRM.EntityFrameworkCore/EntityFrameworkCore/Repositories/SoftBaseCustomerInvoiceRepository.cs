@@ -50,7 +50,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
                     UnitNo = wo.UnitNo,
                     AssociatedWONo = wo.AssociatedWONo,
                     RentalContractNo = wo.RentalContractNo,
-                    GrandTotal = invoiceReg.GrandTotal,
+                    GrandTotal = invoiceReg.GrandTotal ?? 0,
                     CustomerFlag = invoiceRegList.CustomerFlag
                 };
 

@@ -1,4 +1,4 @@
-﻿using SBCRM.Crm;
+using SBCRM.Crm;
 using SBCRM.Legacy;
 using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
@@ -109,6 +109,8 @@ namespace SBCRM.EntityFrameworkCore
                     eb.HasNoKey();
                     eb.ToView("WIPList", "dbo");
                 });
+
+            modelBuilder.Entity<Customer>().Ignore(c => c.Id);
 
             modelBuilder.Entity<BinaryObject>(b =>
                                              {
