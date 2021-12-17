@@ -3709,12 +3709,13 @@ export class CustomerServiceProxy {
     /**
      * @param filter (optional) 
      * @param accountTypeId (optional) 
+     * @param userIds (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, accountTypeId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
+    getAll(filter: string | undefined, accountTypeId: number[] | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3724,6 +3725,10 @@ export class CustomerServiceProxy {
             throw new Error("The parameter 'accountTypeId' cannot be null.");
         else if (accountTypeId !== undefined)
             accountTypeId && accountTypeId.forEach(item => { url_ += "AccountTypeId=" + encodeURIComponent("" + item) + "&"; });
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -21072,6 +21077,62 @@ export interface IAccountUserUserLookupTableDto {
     displayName: string | undefined;
 }
 
+export class AccountUserViewDto implements IAccountUserViewDto {
+    userId!: number;
+    name!: string | undefined;
+    surName!: string | undefined;
+    profilePictureUrl!: string | undefined;
+    fullName!: string | undefined;
+    id!: number;
+
+    constructor(data?: IAccountUserViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.surName = _data["surName"];
+            this.profilePictureUrl = _data["profilePictureUrl"];
+            this.fullName = _data["fullName"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): AccountUserViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountUserViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["surName"] = this.surName;
+        data["profilePictureUrl"] = this.profilePictureUrl;
+        data["fullName"] = this.fullName;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAccountUserViewDto {
+    userId: number;
+    name: string | undefined;
+    surName: string | undefined;
+    profilePictureUrl: string | undefined;
+    fullName: string | undefined;
+    id: number;
+}
+
 export class ActivateEmailInput implements IActivateEmailInput {
     userId!: number;
     confirmationCode!: string | undefined;
@@ -23898,6 +23959,7 @@ export class CustomerDto implements ICustomerDto {
     number!: string | undefined;
     billTo!: string | undefined;
     accountTypeId!: number | undefined;
+    users!: AccountUserViewDto[] | undefined;
     added!: DateTime | undefined;
     addedBy!: string | undefined;
     changed!: DateTime | undefined;
@@ -23920,6 +23982,11 @@ export class CustomerDto implements ICustomerDto {
             this.number = _data["number"];
             this.billTo = _data["billTo"];
             this.accountTypeId = _data["accountTypeId"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(AccountUserViewDto.fromJS(item));
+            }
             this.added = _data["added"] ? DateTime.fromISO(_data["added"].toString()) : <any>undefined;
             this.addedBy = _data["addedBy"];
             this.changed = _data["changed"] ? DateTime.fromISO(_data["changed"].toString()) : <any>undefined;
@@ -23942,6 +24009,11 @@ export class CustomerDto implements ICustomerDto {
         data["number"] = this.number;
         data["billTo"] = this.billTo;
         data["accountTypeId"] = this.accountTypeId;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
         data["added"] = this.added ? this.added.toString() : <any>undefined;
         data["addedBy"] = this.addedBy;
         data["changed"] = this.changed ? this.changed.toString() : <any>undefined;
@@ -23957,6 +24029,7 @@ export interface ICustomerDto {
     number: string | undefined;
     billTo: string | undefined;
     accountTypeId: number | undefined;
+    users: AccountUserViewDto[] | undefined;
     added: DateTime | undefined;
     addedBy: string | undefined;
     changed: DateTime | undefined;
@@ -26460,6 +26533,9 @@ export interface IGetAccountUserForEditOutput {
 export class GetAccountUserForViewDto implements IGetAccountUserForViewDto {
     accountUser!: AccountUserDto;
     userName!: string | undefined;
+    firstName!: string | undefined;
+    surName!: string | undefined;
+    fullName!: string | undefined;
 
     constructor(data?: IGetAccountUserForViewDto) {
         if (data) {
@@ -26474,6 +26550,9 @@ export class GetAccountUserForViewDto implements IGetAccountUserForViewDto {
         if (_data) {
             this.accountUser = _data["accountUser"] ? AccountUserDto.fromJS(_data["accountUser"]) : <any>undefined;
             this.userName = _data["userName"];
+            this.firstName = _data["firstName"];
+            this.surName = _data["surName"];
+            this.fullName = _data["fullName"];
         }
     }
 
@@ -26488,6 +26567,9 @@ export class GetAccountUserForViewDto implements IGetAccountUserForViewDto {
         data = typeof data === 'object' ? data : {};
         data["accountUser"] = this.accountUser ? this.accountUser.toJSON() : <any>undefined;
         data["userName"] = this.userName;
+        data["firstName"] = this.firstName;
+        data["surName"] = this.surName;
+        data["fullName"] = this.fullName;
         return data; 
     }
 }
@@ -26495,6 +26577,9 @@ export class GetAccountUserForViewDto implements IGetAccountUserForViewDto {
 export interface IGetAccountUserForViewDto {
     accountUser: AccountUserDto;
     userName: string | undefined;
+    firstName: string | undefined;
+    surName: string | undefined;
+    fullName: string | undefined;
 }
 
 export class GetActivityStatusForEditOutput implements IGetActivityStatusForEditOutput {
@@ -27216,6 +27301,12 @@ export interface IGetCustomerForEditOutput {
 export class GetCustomerForViewDto implements IGetCustomerForViewDto {
     customer!: CustomerDto;
     accountTypeDescription!: string | undefined;
+    firstUserAssignedId!: number | undefined;
+    firstUserAssignedName!: string | undefined;
+    firstUserAssignedSurName!: string | undefined;
+    firstUserAssignedFullName!: string | undefined;
+    firstUserProfilePictureUrl!: string | undefined;
+    assignedUsers!: number;
 
     constructor(data?: IGetCustomerForViewDto) {
         if (data) {
@@ -27230,6 +27321,12 @@ export class GetCustomerForViewDto implements IGetCustomerForViewDto {
         if (_data) {
             this.customer = _data["customer"] ? CustomerDto.fromJS(_data["customer"]) : <any>undefined;
             this.accountTypeDescription = _data["accountTypeDescription"];
+            this.firstUserAssignedId = _data["firstUserAssignedId"];
+            this.firstUserAssignedName = _data["firstUserAssignedName"];
+            this.firstUserAssignedSurName = _data["firstUserAssignedSurName"];
+            this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
+            this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
+            this.assignedUsers = _data["assignedUsers"];
         }
     }
 
@@ -27244,6 +27341,12 @@ export class GetCustomerForViewDto implements IGetCustomerForViewDto {
         data = typeof data === 'object' ? data : {};
         data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
         data["accountTypeDescription"] = this.accountTypeDescription;
+        data["firstUserAssignedId"] = this.firstUserAssignedId;
+        data["firstUserAssignedName"] = this.firstUserAssignedName;
+        data["firstUserAssignedSurName"] = this.firstUserAssignedSurName;
+        data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
+        data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
+        data["assignedUsers"] = this.assignedUsers;
         return data; 
     }
 }
@@ -27251,6 +27354,12 @@ export class GetCustomerForViewDto implements IGetCustomerForViewDto {
 export interface IGetCustomerForViewDto {
     customer: CustomerDto;
     accountTypeDescription: string | undefined;
+    firstUserAssignedId: number | undefined;
+    firstUserAssignedName: string | undefined;
+    firstUserAssignedSurName: string | undefined;
+    firstUserAssignedFullName: string | undefined;
+    firstUserProfilePictureUrl: string | undefined;
+    assignedUsers: number;
 }
 
 export class GetDailySalesOutput implements IGetDailySalesOutput {

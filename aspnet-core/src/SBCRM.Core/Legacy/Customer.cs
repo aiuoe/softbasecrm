@@ -1,7 +1,9 @@
 ﻿using SBCRM.Crm;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SBCRM.Authorization.Users;
 
 namespace SBCRM.Legacy
 {
@@ -93,5 +95,8 @@ namespace SBCRM.Legacy
 
         [StringLength(CustomerConsts.MaxChangedByLength, MinimumLength = CustomerConsts.MinChangedByLength)]
         public virtual string ChangedBy { get; set; }
+
+
+        public List<AccountUser> Users { get; set; }
     }
 }

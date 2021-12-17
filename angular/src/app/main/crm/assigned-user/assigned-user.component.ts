@@ -1,7 +1,12 @@
-﻿import {AppConsts} from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild, Input } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
-import { AccountUsersServiceProxy, AccountUserDto, AccountUserUserLookupTableDto, CreateOrEditAccountUserDto, GetAccountUserForViewDto  } from '@shared/service-proxies/service-proxies';
+﻿import { Component, Injector, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+    AccountUsersServiceProxy,
+    AccountUserDto,
+    AccountUserUserLookupTableDto,
+    CreateOrEditAccountUserDto,
+    GetAccountUserForViewDto
+} from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -13,13 +18,11 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
-import { filter as _filter } from 'lodash-es';
-import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { finalize } from 'rxjs/operators';
 
 /***
- * Component to manage the list of assigned users 
+ * Component to manage the list of assigned users
  */
 @Component({
     templateUrl: './assigned-user-component.html',
@@ -29,15 +32,14 @@ import { finalize } from 'rxjs/operators';
 })
 
 export class AssignedUserComponent extends AppComponentBase {
-    
-    
+
     @ViewChild('createOrEditAssignedUserModal', { static: true }) createOrEditAssignedUserModal: CreateOrEditAssignedUserModalComponent;
-    @ViewChild('viewAssignedUserModal', { static: true }) viewAssignedUserModal: ViewAssignedUserModalComponent;   
-    
+    @ViewChild('viewAssignedUserModal', { static: true }) viewAssignedUserModal: ViewAssignedUserModalComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    @Input() componentType: string = '';
+    @Input() componentType = '';
     @Input() idToStore: any;
 
     advancedFiltersAreShown = false;
@@ -54,15 +56,15 @@ export class AssignedUserComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
 
     /**
-     * 
+     *
      * @param event Gets the list of users assigned to an Account/Lead/Opportunity
-     * @returns 
+     * @returns
      */
     getAccountUsers(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
@@ -97,13 +99,13 @@ export class AssignedUserComponent extends AppComponentBase {
 
 
     /**
-     * Hadles the creating assigned user modal
+     * Handles the creating assigned user modal
      */
     createAccountUser(): void {
-        this.createOrEditAssignedUserModal.show();        
+        this.createOrEditAssignedUserModal.show();
     }
 
-    
+
     /**
      * Handles the deletion of an user
      * @param accountUser Hanl
@@ -123,53 +125,51 @@ export class AssignedUserComponent extends AppComponentBase {
             }
         );
     }
-    
+
 
     /**
-     * This method manages the methods wich save users to some system 
+     * This method manages the methods wich save users to some system
      * modules (Accounts/Leads/Opportunities)
-     * @param usersList 
-     * @returns 
+     * @param usersList
+     * @returns
      */
-    savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]){
-       if (usersList.length > 0) {
-        if ( this.componentType === 'Account' ) {
-            this.saveAccountAssignedUser(usersList);
-           } 
-           else if ( this.componentType === 'Lead') {
-            //TO DO
-           } 
-           else {
-               return;
-           }
-       }
+    savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]) {
+        if (usersList.length > 0) {
+            if (this.componentType === 'Account') {
+                this.saveAccountAssignedUser(usersList);
+            } else if (this.componentType === 'Lead') {
+                //TO DO
+            } else {
+                return;
+            }
+        }
 
     }
 
 
     /**
      * Save a list of users of an especific account
-     * @param usersList 
+     * @param usersList
      */
-    saveAccountAssignedUser( usersList: AccountUserUserLookupTableDto[] ){
-        var accountUserToSave: CreateOrEditAccountUserDto[] = [];
+    saveAccountAssignedUser(usersList: AccountUserUserLookupTableDto[]) {
+        const accountUserToSave: CreateOrEditAccountUserDto[] = [];
         usersList.forEach(element => {
             let accountUser = new CreateOrEditAccountUserDto();
             accountUser.userId = element.id;
-            accountUser.customerNumber = this.idToStore+"";
+            accountUser.customerNumber = this.idToStore + '';
             accountUserToSave.push(accountUser);
         });
 
         this.saving = true;
         this._accountUsersServiceProxy.createMultipleAccountUsers(accountUserToSave)
-         .pipe(finalize(() => { this.saving = false;}))
-         .subscribe(() => {
-            this.notify.info(this.l('SavedSuccessfully'));
-            this.getAccountUsers();
-         });
+            .pipe(finalize(() => {
+                this.saving = false;
+            }))
+            .subscribe(() => {
+                this.notify.info(this.l('SavedSuccessfully'));
+                this.getAccountUsers();
+            });
     }
-    
-    
-    
-    
+
+
 }

@@ -21,23 +21,22 @@ namespace SBCRM.Crm
     public class AccountUsersAppService : SBCRMAppServiceBase, IAccountUsersAppService
     {
         private readonly IRepository<AccountUser> _accountUserRepository;
-        private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         /// <summary>
-        /// Contructor method
+        /// Constructor method
         /// </summary>
         /// <param name="accountUserRepository"></param>
-        /// <param name="lookup_userRepository"></param>
+        /// <param name="lookupUserRepository"></param>
         /// <param name="unitOfWorkManager"></param>
         public AccountUsersAppService(  IRepository<AccountUser> accountUserRepository, 
-                                        IRepository<User, long> lookup_userRepository,
+                                        IRepository<User, long> lookupUserRepository,
                                         IUnitOfWorkManager unitOfWorkManager)
         {
             _accountUserRepository = accountUserRepository;
-            _lookup_userRepository = lookup_userRepository;
+            _lookupUserRepository = lookupUserRepository;
             _unitOfWorkManager = unitOfWorkManager;
-
         }
 
         /// <summary>
@@ -60,21 +59,9 @@ namespace SBCRM.Crm
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-            var accountUsers = from o in pagedAndFilteredAccountUsers
-                               join o1 in _lookup_userRepository.GetAll() on o.UserId equals o1.Id into j1
-                               from s1 in j1.DefaultIfEmpty()
-
-                               select new
-                               {
-
-                                   Id = o.Id,
-                                   UserId = o.UserId,
-                                   UserName = s1 == null || s1.Name == null ? "" : s1.Name.ToString()
-                               };
-
             var totalCount = await filteredAccountUsers.CountAsync();
 
-            var dbList = await accountUsers.ToListAsync();
+            var dbList = await filteredAccountUsers.ToListAsync();
             var results = new List<GetAccountUserForViewDto>();
 
             foreach (var o in dbList)
@@ -83,11 +70,13 @@ namespace SBCRM.Crm
                 {
                     AccountUser = new AccountUserDto
                     {
-
                         Id = o.Id,
                         UserId = o.UserId
                     },
-                    UserName = o.UserName
+                    UserName = o.UserFk.UserName,
+                    SurName = o.UserFk.Surname,
+                    FirstName = o.UserFk.Name,
+                    FullName = o.UserFk.FullName
                 };
 
                 results.Add(res);
@@ -101,7 +90,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Gets an especific AccountUser given its id
+        /// Gets an specific AccountUser given its id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -113,7 +102,7 @@ namespace SBCRM.Crm
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -121,7 +110,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get an especific accout user for edit purposes
+        /// Get an specific account user for edit purposes
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -134,7 +123,7 @@ namespace SBCRM.Crm
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -142,7 +131,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Manages the create/edti of an account user
+        /// Manages the create/edit of an account user
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -195,10 +184,15 @@ namespace SBCRM.Crm
         {
             await _accountUserRepository.DeleteAsync(input.Id);
         }
+
+        /// <summary>
+        /// Get all users for table dropdown
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
         public async Task<List<AccountUserUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            return await _lookup_userRepository.GetAll()
+            return await _lookupUserRepository.GetAll()
                 .Select(user => new AccountUserUserLookupTableDto
                 {
                     Id = user.Id,
@@ -207,7 +201,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// This method save a list of users connected with an especific Account
+        /// This method save a list of users connected with an specific Account
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
