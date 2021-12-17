@@ -170,6 +170,7 @@ namespace SBCRM.Auditing
                         select new EntityChangeAndUser
                         {
                             EntityChange = entityChange,
+                            EntityChangeSet = entityChangeSet,
                             User = user
                         };
 
@@ -210,7 +211,8 @@ namespace SBCRM.Auditing
                 result =>
                 {
                     var entityChangeListDto = ObjectMapper.Map<EntityChangeListDto>(result.EntityChange);
-                    entityChangeListDto.UserName = result.User?.UserName;
+                    entityChangeListDto.UserName = result.User?.FullName;
+                    entityChangeListDto.Reason = result.EntityChangeSet?.Reason;
                     return entityChangeListDto;
                 }).ToList();
         }

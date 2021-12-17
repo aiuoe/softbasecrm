@@ -25171,6 +25171,7 @@ export class EntityChangeListDto implements IEntityChangeListDto {
     changeType!: EntityChangeType;
     readonly changeTypeName!: string | undefined;
     entityChangeSetId!: number;
+    reason!: string | undefined;
     id!: number;
 
     constructor(data?: IEntityChangeListDto) {
@@ -25191,6 +25192,7 @@ export class EntityChangeListDto implements IEntityChangeListDto {
             this.changeType = _data["changeType"];
             (<any>this).changeTypeName = _data["changeTypeName"];
             this.entityChangeSetId = _data["entityChangeSetId"];
+            this.reason = _data["reason"];
             this.id = _data["id"];
         }
     }
@@ -25211,6 +25213,7 @@ export class EntityChangeListDto implements IEntityChangeListDto {
         data["changeType"] = this.changeType;
         data["changeTypeName"] = this.changeTypeName;
         data["entityChangeSetId"] = this.entityChangeSetId;
+        data["reason"] = this.reason;
         data["id"] = this.id;
         return data; 
     }
@@ -25224,6 +25227,7 @@ export interface IEntityChangeListDto {
     changeType: EntityChangeType;
     changeTypeName: string | undefined;
     entityChangeSetId: number;
+    reason: string | undefined;
     id: number;
 }
 

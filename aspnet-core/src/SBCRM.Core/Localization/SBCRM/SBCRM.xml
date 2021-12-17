@@ -100,6 +100,7 @@
     <text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
     <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>    
     <text name="AssignedUser">Assigned User</text>
+    <text name="AssignedUsers">Assigned Users</text>
     <text name="DescriptionLabel">Description</text>
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
@@ -363,6 +364,7 @@
     <text name="CustomerViewInvoices">View invoices in Account detail</text>
     <text name="CustomerViewEquipments">View equipments in Account detail</text>
     <text name="CustomerViewWip">View WIP in Account detail</text>
+    <text name="CustomerViewAssignUsers">View assign users in Account detail</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="AccountTypeDescription">Account type description</text>
     <text name="PickAccountType">Pick account type</text>

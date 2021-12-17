@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Dto;
@@ -40,7 +41,8 @@ namespace SBCRM.Legacy.Exporting
                         L("Name"),
                         L("Address"),
                         L("Phone"),
-                        L("AccountType")
+                        L("AccountType"),
+                        L("AssignedUsers")
                     );
 
                     AddObjects(
@@ -50,7 +52,10 @@ namespace SBCRM.Legacy.Exporting
                         _ => _.Customer.Name,
                         _ => _.Customer.Address,
                         _ => _.Customer.Phone,
-                        _ => _.AccountTypeDescription
+                        _ => _.AccountTypeDescription,
+                        _ => _.Customer.Users != null &&_.Customer.Users.Any()
+                            ? string.Join(", ",_.Customer.Users.Select(x => x.FullName))
+                            : string.Empty
                     );
                     sheet.AutoSizeColumn(159);
                 });

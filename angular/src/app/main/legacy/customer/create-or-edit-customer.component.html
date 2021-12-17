@@ -427,7 +427,7 @@
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Opportunities' | localize }}" [hidden]="this.isNew">
+                <tab heading="{{ 'Opportunities' | localize }}" [disabled]="this.isNew">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
@@ -439,8 +439,8 @@
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Invoices' | localize }}">
-                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showInvoiceTab">
+                <tab heading="{{ 'Invoices' | localize }}" [disabled]="this.isNew">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showInvoiceTab" >
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -579,7 +579,7 @@
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Equipment' | localize }}">
+                <tab heading="{{ 'Equipment' | localize }}" [disabled]="this.isNew">
                     <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showEquipmentTab">
                         <div class="card-body">
 
@@ -729,7 +729,7 @@
                 </tab>
 
 
-                <tab heading="{{ 'WIP' | localize }}">
+                <tab heading="{{ 'WIP' | localize }}" [disabled]="this.isNew">
                     <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showWipTab">
                         <div class="card-body">
                             <div class="row pb-5">
@@ -903,12 +903,12 @@
                     </div>
                 </tab>
 
-                <tab heading="{{ 'Events' | localize }}" [hidden]="this.isNew">
+                <tab heading="{{ 'Events' | localize }}" [disabled]="this.isNew">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-
+                                    <entityTypeHistory #entityTypeHistory></entityTypeHistory>
                                 </div>
                             </div>
                         </div>

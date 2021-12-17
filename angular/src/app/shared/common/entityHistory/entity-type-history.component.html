@@ -1,0 +1,75 @@
+<div class="modal-body">
+    <!--<Primeng-TurboTable-Start>-->
+    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+        <p-table
+            #dataTable
+            (onLazyLoad)="getRecordsIfNeeds($event)"
+            [value]="primengTableHelper.records"
+            rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+            [paginator]="false"
+            [lazy]="true"
+            [responsive]="primengTableHelper.isResponsive"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+<!--                    <th style="width: 15%">-->
+<!--                        {{ 'Select' | localize }}-->
+<!--                    </th>-->
+                    <th style="width: 200px">
+                        {{ 'User' | localize }}
+                    </th>
+                    <th>
+                        {{ 'Action' | localize }}
+                    </th>
+                    <th>
+                        {{ 'Date' | localize }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-record="$implicit">
+                <tr>
+<!--                    <td>-->
+<!--                        <button-->
+<!--                            class="btn btn-outline-primary btn-sm btn-icon"-->
+<!--                            (click)="showEntityChangeDetails(record)"-->
+<!--                            title="{{ 'Select' | localize }}"-->
+<!--                        >-->
+<!--                            <i class="la la-chevron-circle-right" [attr.aria-label]="l('Select')"></i>-->
+<!--                        </button>-->
+<!--                    </td>-->
+                    <td style="width: 100px">
+                        <span class="p-column-title">{{ 'UserName' | localize }}</span>
+                        {{ record.userName }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">{{ 'Action' | localize }}</span>
+                        {{ record.reason }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">{{ 'Date' | localize }}</span>
+                        {{ record.changeTime | date:'fullDate' }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+            {{ 'NoData' | localize }}
+        </div>
+        <div class="primeng-paging-container">
+            <p-paginator
+                [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                #paginator
+                (onPageChange)="getRecordsIfNeeds($event)"
+                [totalRecords]="primengTableHelper.totalRecordsCount"
+                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                [showCurrentPageReport]="true"
+                [currentPageReportTemplate]="
+                                'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                            "
+            ></p-paginator>
+        </div>
+    </div>
+    <!--<Primeng-TurboTable-End>-->
+</div>
+
+<entityChangeDetailModal #entityChangeDetailModal></entityChangeDetailModal>

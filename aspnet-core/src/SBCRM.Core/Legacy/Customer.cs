@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SBCRM.Authorization.Users;
+using Abp.Auditing;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Legacy
 {
@@ -11,7 +12,8 @@ namespace SBCRM.Legacy
     /// Customer(Account) entity from legacy schema
     /// </summary>
     [Table("Customer", Schema = "dbo")]
-    public class Customer
+    [Audited]
+    public class Customer : Entity
     {
         [Key]
         [Required]
@@ -85,14 +87,17 @@ namespace SBCRM.Legacy
         [StringLength(CustomerConsts.MaxTermsLength, MinimumLength = CustomerConsts.MinTermsLength)]
         public virtual string Terms { get; set; }
 
-
+        [DisableAuditing]
         public virtual DateTime? Added { get; set; }
 
+        [DisableAuditing]
         [StringLength(CustomerConsts.MaxAddedByLength, MinimumLength = CustomerConsts.MinAddedByLength)]
         public virtual string AddedBy { get; set; }
 
+        [DisableAuditing]
         public virtual DateTime? Changed { get; set; }
 
+        [DisableAuditing]
         [StringLength(CustomerConsts.MaxChangedByLength, MinimumLength = CustomerConsts.MinChangedByLength)]
         public virtual string ChangedBy { get; set; }
 

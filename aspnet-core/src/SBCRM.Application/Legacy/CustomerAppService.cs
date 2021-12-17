@@ -11,11 +11,14 @@ using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
+using Abp.Domain.Uow;
+using Abp.EntityHistory;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy.Dto;
+using BaseRepo = Abp.Domain.Repositories;
 
 namespace SBCRM.Legacy
 {
@@ -26,13 +29,15 @@ namespace SBCRM.Legacy
     public class CustomerAppService : SBCRMAppServiceBase, ICustomerAppService
     {
         private readonly ICustomerExcelExporter _customerExcelExporter;
-        private readonly IRepository<Customer> _customerRepository;
-        private readonly IRepository<AccountType> _lookupAccountTypeRepository;
-        private readonly IRepository<LeadSource> _lookupLeadSourceRepository;
+        private readonly BaseRepo.IRepository<Customer> _customerRepository;
+        private readonly BaseRepo.IRepository<AccountType> _lookupAccountTypeRepository;
+        private readonly BaseRepo.IRepository<LeadSource> _lookupLeadSourceRepository;
         private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
         private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
         private readonly ISoftBaseCustomerWipRepository _customerWipRepository;
-        private readonly IRepository<AccountUser> _accountUserRepository;
+        private readonly BaseRepo.IRepository<AccountUser> _accountUserRepository;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -48,16 +53,20 @@ namespace SBCRM.Legacy
         /// <param name="customerWipRepository"></param>
         /// <param name="accountUserService"></param>
         /// <param name="accountUserRepository"></param>
+        /// <param name="reasonProvider"></param>
+        /// <param name="unitOfWorkManager"></param>
         public CustomerAppService(
-            IRepository<Customer> customerRepository,
+            BaseRepo.IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
-            IRepository<AccountType> lookupAccountTypeRepository,
-            IRepository<LeadSource> lookupLeadSourceRepository,
+            BaseRepo.IRepository<AccountType> lookupAccountTypeRepository,
+            BaseRepo.IRepository<LeadSource> lookupLeadSourceRepository,
             ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
             ISoftBaseCustomerEquipmentRepository customerEquipmentRepository,
             ISoftBaseCustomerWipRepository customerWipRepository,
             IAccountUsersAppService accountUserService,
-            IRepository<AccountUser> accountUserRepository)
+            BaseRepo.IRepository<AccountUser> accountUserRepository,
+            IEntityChangeSetReasonProvider reasonProvider,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
@@ -67,6 +76,8 @@ namespace SBCRM.Legacy
             _customerEquipmentRepository = customerEquipmentRepository;
             _customerWipRepository = customerWipRepository;
             _accountUserRepository = accountUserRepository;
+            _reasonProvider = reasonProvider;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -208,7 +219,7 @@ namespace SBCRM.Legacy
             }
             catch (Exception e)
             {
-                Logger.Error("", e);
+                Logger.Error("Error in CustomerAppService -> ", e);
                 throw;
             }
 
@@ -296,16 +307,16 @@ namespace SBCRM.Legacy
             customer.Terms = defaultAccountType.Description;
 
             var currentUser = await GetCurrentUserAsync();
+            
+            using (_reasonProvider.Use("Account created"))
+            {
+                customer.IsCreatedFromWebCrm = true;
+                customer.AddedBy = currentUser.Name;
+                customer.Added = DateTime.UtcNow;
+                await _customerRepository.InsertAsync(customer);
 
-            customer.IsCreatedFromWebCrm = true;
-            customer.AddedBy = currentUser.Name;
-            customer.Added = DateTime.UtcNow;
-            customer = await _customerRepository.InsertAsync(customer);
-
-            customer.BillTo = customer.Number;
-            customer.ChangedBy = currentUser.Name;
-            customer.Changed = DateTime.UtcNow;
-            await _customerRepository.UpdateAsync(customer);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
         /// <summary>
@@ -316,13 +327,12 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         protected virtual async Task Update(CreateOrEditCustomerDto input)
         {
-            var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
-            ObjectMapper.Map(input, customer);
-
-            var currentUser = await GetCurrentUserAsync();
-            customer.ChangedBy = currentUser.Name;
-            customer.Changed = DateTime.UtcNow;
-            await _customerRepository.UpdateAsync(customer);
+            using (_reasonProvider.Use("Account updated"))
+            {
+                var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
+                ObjectMapper.Map(input, customer);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
         /// <summary>

@@ -11,6 +11,7 @@ using SBCRM.Authorization;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.Domain.Uow;
+using Abp.EntityHistory;
 
 namespace SBCRM.Crm
 {
@@ -23,6 +24,7 @@ namespace SBCRM.Crm
         private readonly IRepository<AccountUser> _accountUserRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
 
         /// <summary>
         /// Constructor method
@@ -30,13 +32,16 @@ namespace SBCRM.Crm
         /// <param name="accountUserRepository"></param>
         /// <param name="lookupUserRepository"></param>
         /// <param name="unitOfWorkManager"></param>
-        public AccountUsersAppService(  IRepository<AccountUser> accountUserRepository, 
-                                        IRepository<User, long> lookupUserRepository,
-                                        IUnitOfWorkManager unitOfWorkManager)
+        /// <param name="reasonProvider"></param>
+        public AccountUsersAppService(IRepository<AccountUser> accountUserRepository,
+            IRepository<User, long> lookupUserRepository,
+            IUnitOfWorkManager unitOfWorkManager,
+            IEntityChangeSetReasonProvider reasonProvider)
         {
             _accountUserRepository = accountUserRepository;
             _lookupUserRepository = lookupUserRepository;
             _unitOfWorkManager = unitOfWorkManager;
+            _reasonProvider = reasonProvider;
         }
 
         /// <summary>
@@ -46,14 +51,15 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetAccountUserForViewDto>> GetAll(GetAllAccountUsersInput input)
         {
-
             var filteredAccountUsers = _accountUserRepository.GetAll()
-                        .Include(e => e.UserFk)
-                        .Include(e => e.CustomerFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.CustomerNumber), e => e.CustomerFk != null && e.CustomerFk.Number == input.CustomerNumber)
-                        .Where(p => !p.IsDeleted);
+                .Include(e => e.UserFk)
+                .Include(e => e.CustomerFk)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter),
+                    e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.CustomerNumber),
+                    e => e.CustomerFk != null && e.CustomerFk.Number == input.CustomerNumber)
+                .Where(p => !p.IsDeleted);
 
             var pagedAndFilteredAccountUsers = filteredAccountUsers
                 .OrderBy(input.Sorting ?? "id asc")
@@ -86,7 +92,6 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         /// <summary>
@@ -98,11 +103,11 @@ namespace SBCRM.Crm
         {
             var accountUser = await _accountUserRepository.GetAsync(id);
 
-            var output = new GetAccountUserForViewDto { AccountUser = ObjectMapper.Map<AccountUserDto>(accountUser) };
+            var output = new GetAccountUserForViewDto {AccountUser = ObjectMapper.Map<AccountUserDto>(accountUser)};
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -119,11 +124,12 @@ namespace SBCRM.Crm
         {
             var accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetAccountUserForEditOutput { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
+            var output = new GetAccountUserForEditOutput
+                {AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser)};
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -158,7 +164,6 @@ namespace SBCRM.Crm
             var accountUser = ObjectMapper.Map<AccountUser>(input);
 
             await _accountUserRepository.InsertAsync(accountUser);
-
         }
 
         /// <summary>
@@ -169,9 +174,8 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Edit)]
         protected virtual async Task Update(CreateOrEditAccountUserDto input)
         {
-            var accountUser = await _accountUserRepository.FirstOrDefaultAsync((int)input.Id);
+            var accountUser = await _accountUserRepository.FirstOrDefaultAsync((int) input.Id);
             ObjectMapper.Map(input, accountUser);
-
         }
 
         /// <summary>
@@ -208,14 +212,13 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
         public async Task CreateMultipleAccountUsers(List<CreateOrEditAccountUserDto> input)
         {
-            using (var unitOfWork = _unitOfWorkManager.Begin())
+            using (_reasonProvider.Use("User assigned"))
             {
                 foreach (var item in input)
                 {
-                    var accountUserExists = _accountUserRepository.
-                                            FirstOrDefault(p => p.UserId == item.UserId 
-                                            && p.CustomerNumber == item.CustomerNumber
-                                            && p.IsDeleted);
+                    var accountUserExists = _accountUserRepository.FirstOrDefault(p => p.UserId == item.UserId
+                        && p.CustomerNumber == item.CustomerNumber
+                        && p.IsDeleted);
 
                     if (accountUserExists == null)
                     {
@@ -230,9 +233,9 @@ namespace SBCRM.Crm
                         await Update(accountUserInDatabase);
                     }
                 }
-                unitOfWork.Complete();
-            }
 
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
     }
 }

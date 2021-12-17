@@ -67,7 +67,7 @@
                                     <button (click)="createAccountUser()"
                                         class="btn btn-primary blue"
                                     >
-                                        {{ l('SelectAssignedUsersFormat', this.assignedUsersExists?.length) }}
+                                        {{ l('SelectAssignedUsersFormat', this.assignedUsersFilter?.length) }}
                                     </button>
                                 </div>
 
@@ -261,9 +261,9 @@
             </div>
         </div>
 
-        <app-create-or-edit-assined-user-modal #createOrEditAssignedUserModal
-                                               (assignedUsers)="savingAssignedUsers($event)"
-                                               [assignedUsersExists]="this.assignedUsersExists">
+        <app-create-or-edit-assined-user-modal #assignedUsersModal
+                                               (assignedUsers)="selectAssignedUsers($event)"
+                                               [assignedUsersExists]="this.assignedUsersFilter">
         </app-create-or-edit-assined-user-modal>
 
     </div>

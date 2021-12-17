@@ -35,7 +35,7 @@ import { CreateOrEditAssignedUserModalComponent } from '@app/main/crm/assigned-u
 export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
-    @ViewChild('createOrEditAssignedUserModal', { static: true }) createOrEditAssignedUserModal: CreateOrEditAssignedUserModalComponent;
+    @ViewChild('assignedUsersModal', { static: true }) assignedUsersModal: CreateOrEditAssignedUserModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -44,7 +44,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     selectedAccountTypes: AccountTypeDto[];
     accountUsers: AccountUserDto[] = [];
     selectedAccountUsers: AccountUserDto[] = [];
-    assignedUsersExists: AccountUserUserLookupTableDto[] = [];
+    assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
 
     /***
      * Main constructor
@@ -112,7 +112,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .getAll(
                 this.filterText,
                 this.selectedAccountTypes?.map(x => x.id),
-                this.assignedUsersExists?.map(x => x.id),
+                this.assignedUsersFilter?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -125,6 +125,10 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             });
     }
 
+    /***
+     * Set user image profile reference
+     * @param users
+     */
     setUsersProfilePictureUrl(users: GetCustomerForViewDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
@@ -176,17 +180,16 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
      * Handles the creating assigned user modal
      */
     createAccountUser(): void {
-        this.createOrEditAssignedUserModal.show();
+        this.assignedUsersModal.show();
     }
 
     /**
-     * This method manages the methods wich save users to some system
-     * modules (Accounts/Leads/Opportunities)
-     * @param usersList
+     * Method that receives the selected users from the Assigned Users component
+     * @param selectedUsers
      * @returns
      */
-    savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]) {
-        this.assignedUsersExists = usersList ?? [];
+    selectAssignedUsers(selectedUsers: AccountUserUserLookupTableDto[]) {
+        this.assignedUsersFilter = selectedUsers ?? [];
         this.getCustomer();
     }
 
