@@ -1,4 +1,6 @@
-﻿namespace SBCRM.Legacy
+﻿using System;
+
+namespace SBCRM.Legacy
 {
     /// <summary>
     /// DTO to manage the customer wip result
@@ -15,6 +17,9 @@
 
         public int? AssociatedWONo { get; set; }
         public int? RentalContractNo { get; set; }
+        public DateTime? Opened { get; set; }
         public short? CustomerFlag { get; set; }
+        public short? Disposition { get; set; }
+        public string BillTo { get; set; }
     }
 }

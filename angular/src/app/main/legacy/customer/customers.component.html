@@ -63,9 +63,16 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
+                                <div class="col-md-2">
+                                    <button (click)="createAccountUser()"
+                                        class="btn btn-primary blue"
+                                    >
+                                        {{ l('SelectAssignedUsersFormat', this.assignedUsersFilter?.length) }}
+                                    </button>
+                                </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="AccountTypeFilter">{{ l('AccountType') }}</label>
                                         <div>
                                             <p-multiSelect id="AccountTypeFilter"
                                                            name="AccountTypeFilter"
@@ -146,9 +153,9 @@
                                             <p-sortIcon field="accountTypeFk.description"></p-sortIcon>
                                         </th>
 
-                                        <th style="width: 150px">
+                                        <th style="width: 150px" pSortableColumn="users.userFk.name">
                                             {{ l('AssignedUser') }}
-<!--                                            <p-sortIcon field="accountTypeDescription"></p-sortIcon>-->
+                                            <p-sortIcon field="users.userFk.name"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -221,10 +228,10 @@
 
                                         <td style="width: 150px">
                                             <span>
-                                                <a [href]="record.profilePictureUrl" target="_blank" class="float-left">
+                                                <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
                                                     <img class="img-circle" [src]="record.profilePictureUrl" />
                                                 </a>
-<!--                                                {{ record.accountTypeDescription }}-->
+                                                <p [className]="record.assignedUsers > 1 ? 'no-wrap-150' : ''">{{ record.firstUserAssignedFullName }}</p>
                                             </span>
                                         </td>
 
@@ -253,5 +260,11 @@
                 </div>
             </div>
         </div>
+
+        <app-create-or-edit-assined-user-modal #assignedUsersModal
+                                               (assignedUsers)="selectAssignedUsers($event)"
+                                               [assignedUsersExists]="this.assignedUsersFilter">
+        </app-create-or-edit-assined-user-modal>
+
     </div>
 </div>

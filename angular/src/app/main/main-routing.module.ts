@@ -20,6 +20,12 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
                     },
+                    
+                    {
+                        path: 'crm/accountUsers',
+                        loadChildren: () => import('./crm/assigned-user/assigned-user.module').then(m => m.AssignedUserModule),
+                        data: { permission: 'Pages.AccountUsers' }
+                    },
 
                     {    
                         path: 'crm/countries',

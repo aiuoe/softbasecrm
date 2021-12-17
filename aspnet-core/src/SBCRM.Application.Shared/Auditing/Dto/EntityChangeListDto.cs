@@ -19,5 +19,6 @@ namespace SBCRM.Auditing.Dto
         public string ChangeTypeName => ChangeType.ToString();
 
         public long EntityChangeSetId { get; set; }
+        public string Reason { get; set; }
     }
 }

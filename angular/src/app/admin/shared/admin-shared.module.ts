@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { TableModule } from 'primeng/table';
+import { ListboxModule } from 'primeng/listbox';
 import { DragDropModule } from 'primeng/dragdrop';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { PaginatorModule } from 'primeng/paginator';
@@ -66,6 +67,7 @@ import { SubheaderModule } from '@app/shared/common/sub-header/subheader.module'
         FileUploadModule,
         PrimeNgFileUploadModule,
         SubheaderModule,
+        ListboxModule
     ],
     exports: [
         RoleComboComponent,
@@ -100,6 +102,7 @@ import { SubheaderModule } from '@app/shared/common/sub-header/subheader.module'
         FileUploadModule,
         PrimeNgFileUploadModule,
         SubheaderModule,
+        ListboxModule
     ],
 })
 export class AdminSharedModule {}

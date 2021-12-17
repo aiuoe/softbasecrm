@@ -40,6 +40,8 @@ export class AppNavigationService {
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses'),
                     new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),
                     new AppMenuItem('ActivityTaskTypes', 'Pages.ActivityTaskTypes', 'flaticon-more', '/app/main/crm/activityTaskTypes'),
+                    new AppMenuItem('AccountUsers', 'Pages.AccountUsers', 'flaticon-more', '/app/main/crm/accountUsers'),
+                    
                 ]),
             new AppMenuItem(
                 'Administration',
