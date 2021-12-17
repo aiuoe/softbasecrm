@@ -157,23 +157,23 @@ namespace SBCRM.Authorization.Users.Importing
             if (!input.Password.IsNullOrEmpty())
             {
                 await UserManager.InitializeOptionsAsync(tenantId);
-                foreach (var validator in _passwordValidators)
-                {
-                    (await validator.ValidateAsync(UserManager, user, input.Password)).CheckErrors();
-                }
+                //foreach (var validator in _passwordValidators)
+                //{
+                //    (await validator.ValidateAsync(UserManager, user, input.Password)).CheckErrors();
+                //}
 
                 user.Password = _passwordHasher.HashPassword(user, input.Password);
             }
 
-            user.Roles = new List<UserRole>();
-            var roleList = _roleManager.Roles.ToList();
+            //user.Roles = new List<UserRole>();
+            //var roleList = _roleManager.Roles.ToList();
 
-            foreach (var roleName in input.AssignedRoleNames)
-            {
-                var correspondingRoleName = GetRoleNameFromDisplayName(roleName, roleList);
-                var role = await _roleManager.GetRoleByNameAsync(correspondingRoleName);
-                user.Roles.Add(new UserRole(tenantId, user.Id, role.Id));
-            }
+            //foreach (var roleName in input?.AssignedRoleNames)
+            //{
+            //    var correspondingRoleName = GetRoleNameFromDisplayName(roleName, roleList);
+            //    var role = await _roleManager.GetRoleByNameAsync(correspondingRoleName);
+            //    user.Roles.Add(new UserRole(tenantId, user.Id, role.Id));
+            //}
 
             (await UserManager.CreateAsync(user)).CheckErrors();
         }

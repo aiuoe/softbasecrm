@@ -69,13 +69,13 @@ namespace SBCRM.Authorization
                 var user = await userManager.FindByNameAsync(userNameOrEmailAddress);
                 //SI EXISTE Y NO TIENE PASSWORHASH , HACER EL HASH
           
-                if (user is null) 
-                {
-                    int.TryParse(userNameOrEmailAddress, out int employeNumber);
-                    var legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeNumber);
-                    //si el password en secure es nulo or empty unauthorized
-                   var ss = userManager.PasswordHasher.HashPassword(user, legacyUser.Password);
-                }
+                //if (user is null) 
+                //{
+                //    int.TryParse(userNameOrEmailAddress, out int employeNumber);
+                //    var legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeNumber);
+                //    //si el password en secure es nulo or empty unauthorized
+                //   var ss = userManager.PasswordHasher.HashPassword(user, legacyUser.Password);
+                //}
   
                 var result = await CreateLoginResultAsync(user, null);
 
