@@ -48,17 +48,23 @@
                                         <div class="form-group m-form__group">
                                             <label for="OpportunityStageDescription">{{ l('Stage') }}</label>
                                             <select 
-                                                autocomplete="off"
-                                                name="opportunity.opportunityStageId" 
+                                                name="opportunity.opportunityStageId"
                                                 [(ngModel)]="opportunity.opportunityStageId"
-                                                class="form-control" required>                                                 
-                                                <option 
+                                                class="form-control"
+                                                required>                                                 
+                                                <!-- <option 
                                                     *ngFor="let item of allOpportunityStages; 
                                                     let i = index"
-                                                    value="item.id"
+                                                    value="{{ item.id }}"
                                                     [selected]="i == 0"
                                                 >
                                                     {{ item.displayName }}                                                
+                                                </option> -->
+                                                <option *ngFor="let item of allOpportunityStages;
+                                                let i = index" 
+                                                [ngValue]="item.id"
+                                                >                                                
+                                                    {{ item.displayName }}
                                                 </option>
                                             </select>
                                         </div>
