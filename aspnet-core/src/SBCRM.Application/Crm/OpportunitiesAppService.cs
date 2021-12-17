@@ -39,7 +39,7 @@ namespace SBCRM.Crm
         /// <param name="opportunitiesExcelExporter"></param>
         /// <param name="lookup_opportunityStageRepository"></param>
         /// <param name="lookup_leadSourceRepository"></param>
-        /// <param name="lookup_opportunityTypeRepository"></param>        
+        /// <param name="lookup_opportunityTypeRepository"></param>    
         public OpportunitiesAppService(IRepository<Opportunity> opportunityRepository, IOpportunitiesExcelExporter opportunitiesExcelExporter, IRepository<OpportunityStage, int> lookup_opportunityStageRepository, IRepository<LeadSource, int> lookup_leadSourceRepository, IRepository<OpportunityType, int> lookup_opportunityTypeRepository)
         {
             _opportunityRepository = opportunityRepository;
@@ -92,6 +92,10 @@ namespace SBCRM.Crm
                 .ThenBy(o => o.Department)
                 .PageBy(input);
 
+            pagedAndFilteredOpportunities = filteredOpportunities
+                .OrderBy(input.Sorting ?? "id asc")
+                .PageBy(input);
+
             var opportunities = from o in pagedAndFilteredOpportunities
                                 join o1 in _lookup_opportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
                                 from s1 in j1.DefaultIfEmpty()
@@ -141,8 +145,8 @@ namespace SBCRM.Crm
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
-                    LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityStageColor = o.OpportunityStageColor,
+                    LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityTypeDescription = o.OpportunityTypeDescription
                 };
 
@@ -252,7 +256,6 @@ namespace SBCRM.Crm
 
         }
 
-
         /// <summary>
         /// Update opportunity
         /// </summary>
@@ -266,17 +269,17 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get Opportunities for excel export
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _opportunityRepository.DeleteAsync(input.Id);
         }
 
-        /// <summary>
-        /// Get Opportunities for excel export
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
 

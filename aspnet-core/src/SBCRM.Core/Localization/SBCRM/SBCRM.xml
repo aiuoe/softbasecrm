@@ -27,6 +27,7 @@
     <text name="SelectAOpportunityStage">Select a opportunity stage</text>
     <text name="SelectAOpportunityType">Select a opportunity type</text>  
     <text name="PO">Po</text>
+	<text name="OpportunityAmmountFormat">$0.00</text>
     <text name="Unit">Unit</text>
     <text name="Serial">Serial</text>
     <text name="Year">Year</text>
@@ -833,6 +834,7 @@
     <text name="AddFriend">Add friend</text>
     <text name="TypeAMessageHere">Type a message here...</text>
     <text name="Chat">Chat</text>
+	<text name="Account">Account</text>
     <text name="ChatFeature">Chat</text>
     <text name="ChatFeatureIsNotEnabledForSender">Chat is not enabled for you.</text>
     <text name="ChatFeatureIsNotEnabledForReceiver">Chat is not enabled for tenant.</text>
@@ -1532,6 +1534,7 @@
     <text name="FullName">Full Name</text>
     <text name="FirstName">First Name</text>
     <text name="EmployeeId">Employee ID</text>
+    <text name="EmployeeNo">Employee #</text>
     <text name="UiCustomization_HoverableAside">Expand menu when hovered</text>
     <text name="SMTPSettingsNotProvidedWarningText">SMTP settings not provided, Please provided SMTP settings.</text>
     <text name="SocialLoginDeactivate_Description">This external login option will be disabled for your tenant.</text>

@@ -77,6 +77,18 @@ a:hover {
     background-color: $readonlyInputBackgroundColor !important;
 }
 
+.input-field > label {
+    /*10px is for old browsers which don't support the ch unit*/
+    padding-right: 10px;
+    padding-right: 1ch;
+    position: relative;
+  }
+  .input-field.required > label:after {
+    color: red;
+    content: "*";
+    position: absolute;
+    right: 0;
+  } 
 
 .line-height-30 {
     line-height: 30px;

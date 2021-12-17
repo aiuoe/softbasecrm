@@ -10,9 +10,9 @@ namespace SBCRM.Crm.Dtos
     {
         public string Name { get; set; }
 
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
 
-        public decimal Probability { get; set; }
+        public decimal? Probability { get; set; }
 
         public DateTime? CloseDate { get; set; }
 

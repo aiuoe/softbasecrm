@@ -116,7 +116,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      */
     save(): void {
         this.saving = true;
-
         this._opportunitiesServiceProxy
             .createOrEdit(this.opportunity)
             .pipe(
