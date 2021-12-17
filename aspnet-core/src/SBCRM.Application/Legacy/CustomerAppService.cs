@@ -166,51 +166,7 @@ namespace SBCRM.Legacy
                 var totalCount = await filteredCustomer.CountAsync();
 
                 var dbList = await customer.ToListAsync();
-                var results = new List<GetCustomerForViewDto>();
-
-                foreach (var o in dbList)
-                {
-                    var res = new GetCustomerForViewDto
-                    {
-                        Customer = new CustomerDto
-                        {
-                            Number = o.Number,
-                            BillTo = o.BillTo,
-                            Name = o.Name,
-                            Address = o.Address,
-                            Phone = o.Phone,
-                            Added = o.Added,
-                            AddedBy = o.AddedBy,
-                            Changed = o.Changed,
-                            ChangedBy = o.ChangedBy,
-                        },
-                        AccountTypeDescription = o.AccountTypeDescription
-                    };
-
-                    if (o.Users.Any())
-                    {
-                        var accountUsers = o.Users
-                            .Select(x => new AccountUserViewDto
-                            {
-                                Id = x.Id,
-                                UserId = x.UserFk.Id,
-                                Name = x.UserFk.Name,
-                                SurName = x.UserFk.Surname,
-                                FullName = x.UserFk.FullName,
-                                ProfilePictureUrl = x.UserFk.ProfilePictureId
-                            }).ToList();
-                        res.Customer.Users = accountUsers;
-                        var accountUser = accountUsers.OrderBy(x => x.Name).First();
-                        res.FirstUserAssignedName = accountUser.Name;
-                        res.FirstUserAssignedSurName = accountUser.SurName;
-                        res.FirstUserAssignedFullName = accountUser.FullName;
-                        res.FirstUserProfilePictureUrl = accountUser.ProfilePictureUrl;
-                        res.FirstUserAssignedId = accountUser.UserId;
-                        res.AssignedUsers = accountUsers.Count;
-                    }
-
-                    results.Add(res);
-                }
+                var results = GetCustomerForViewDtos(dbList);
 
                 return new PagedResultDto<GetCustomerForViewDto>(
                     totalCount,
@@ -223,6 +179,57 @@ namespace SBCRM.Legacy
                 throw;
             }
 
+        }
+
+        private static List<GetCustomerForViewDto> GetCustomerForViewDtos(List<CustomerQueryDto> dbList)
+        {
+            var results = new List<GetCustomerForViewDto>();
+
+            foreach (var o in dbList)
+            {
+                var res = new GetCustomerForViewDto
+                {
+                    Customer = new CustomerDto
+                    {
+                        Number = o.Number,
+                        BillTo = o.BillTo,
+                        Name = o.Name,
+                        Address = o.Address,
+                        Phone = o.Phone,
+                        Added = o.Added,
+                        AddedBy = o.AddedBy,
+                        Changed = o.Changed,
+                        ChangedBy = o.ChangedBy,
+                    },
+                    AccountTypeDescription = o.AccountTypeDescription
+                };
+
+                if (o.Users.Any())
+                {
+                    var accountUsers = o.Users
+                        .Select(x => new AccountUserViewDto
+                        {
+                            Id = x.Id,
+                            UserId = x.UserFk.Id,
+                            Name = x.UserFk.Name,
+                            SurName = x.UserFk.Surname,
+                            FullName = x.UserFk.FullName,
+                            ProfilePictureUrl = x.UserFk.ProfilePictureId
+                        }).ToList();
+                    res.Customer.Users = accountUsers;
+                    var accountUser = accountUsers.OrderBy(x => x.Name).First();
+                    res.FirstUserAssignedName = accountUser.Name;
+                    res.FirstUserAssignedSurName = accountUser.SurName;
+                    res.FirstUserAssignedFullName = accountUser.FullName;
+                    res.FirstUserProfilePictureUrl = accountUser.ProfilePictureUrl;
+                    res.FirstUserAssignedId = accountUser.UserId;
+                    res.AssignedUsers = accountUsers.Count;
+                }
+
+                results.Add(res);
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -344,6 +351,8 @@ namespace SBCRM.Legacy
         {
             var filteredCustomer = _customerRepository.GetAll()
                 .Include(e => e.AccountTypeFk)
+                .Include(x => x.Users)
+                .ThenInclude(x => x.UserFk)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
                     e => e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
                          e.Number.Equals(input.Filter) ||
@@ -351,26 +360,30 @@ namespace SBCRM.Legacy
                          e.Address.Contains(input.Filter) ||
                          e.City.Contains(input.Filter) ||
                          e.Phone.Contains(input.Filter))
-                .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id));
+                .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id))
+                .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
 
             var query = (from o in filteredCustomer
                          join o1 in _lookupAccountTypeRepository.GetAll() on o.AccountTypeId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
-                         select new GetCustomerForViewDto
+                         select new CustomerQueryDto
                          {
-                             Customer = new CustomerDto
-                             {
-                                 Number = o.Number,
-                                 BillTo = o.BillTo,
-                                 Name = o.Name,
-                                 Address = o.Address,
-                                 Phone = o.Phone
-                             },
+                             Number = o.Number,
+                             BillTo = o.BillTo,
+                             Name = o.Name,
+                             Address = o.Address,
+                             Phone = o.Phone,
+                             AddedBy = o.AddedBy,
+                             Added = o.Added,
+                             ChangedBy = o.ChangedBy,
+                             Changed = o.Changed,
+                             Users = o.Users,
                              AccountTypeDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString()
                          });
 
-            var customers = await query.ToListAsync();
+            var dbList = await query.ToListAsync();
+            var customers = GetCustomerForViewDtos(dbList);
 
             return _customerExcelExporter.ExportToFile(customers);
         }

@@ -3954,9 +3954,10 @@ export class CustomerServiceProxy {
     /**
      * @param filter (optional) 
      * @param accountTypeId (optional) 
+     * @param userIds (optional) 
      * @return Success
      */
-    getCustomerToExcel(filter: string | undefined, accountTypeId: number[] | undefined): Observable<FileDto> {
+    getCustomerToExcel(filter: string | undefined, accountTypeId: number[] | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3966,6 +3967,10 @@ export class CustomerServiceProxy {
             throw new Error("The parameter 'accountTypeId' cannot be null.");
         else if (accountTypeId !== undefined)
             accountTypeId && accountTypeId.forEach(item => { url_ += "AccountTypeId=" + encodeURIComponent("" + item) + "&"; });
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

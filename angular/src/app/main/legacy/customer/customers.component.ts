@@ -169,7 +169,8 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
         this._customerServiceProxy
             .getCustomerToExcel(
                 this.filterText,
-                this.selectedAccountTypes?.map(x => x.id)
+                this.selectedAccountTypes?.map(x => x.id),
+                this.assignedUsersFilter?.map(x => x.id)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
