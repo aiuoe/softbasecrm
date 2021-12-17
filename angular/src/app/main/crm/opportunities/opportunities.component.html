@@ -131,27 +131,45 @@
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
                                             {{ l('Name') }}
-                                            <p-sortIcon field="opportunity.name"></p-sortIcon>
+                                            <p-sortIcon field="name"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
                                             {{ l('Stage')}}
                                             <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
                                         </th>
+                                        <!-- These is just a placeholder -->
+                                        <th 
+                                            style="width: 150px"
+                                            pSortableColumn="name"
+                                        >
+                                            {{ l('Account') }}
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <!-- Above is just a placeholder -->  
+                                        <!-- These is just a placeholder -->
+                                        <th 
+                                            style="width: 150px"
+                                            pSortableColumn="name"
+                                        >
+                                            {{ l('AssignedUser') }}
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <!-- Above is just a placeholder -->                                        
                                         <th style="width: 150px" pSortableColumn="closeDate">
                                             {{ l('CloseDate') }}
-                                            <p-sortIcon field="opportunity.closeDate"></p-sortIcon>
+                                            <p-sortIcon field="closeDate"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="amount">
                                             {{ l('Amount') }}
-                                            <p-sortIcon field="opportunity.amount"></p-sortIcon>
+                                            <p-sortIcon field="amount"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="branch">
                                             {{ l('Branch') }}
-                                            <p-sortIcon field="opportunity.branch"></p-sortIcon>
+                                            <p-sortIcon field="branch"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="department">
                                             {{ l('Department') }}
-                                            <p-sortIcon field="opportunity.department"></p-sortIcon>
+                                            <p-sortIcon field="department"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -213,6 +231,22 @@
                                                 {{ record.opportunityStageDescription }}        
                                             </span>                                        
                                         </td>
+                                        <!-- These is just a placeholder -->
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Account') }}</span>
+                                                {{ l('Placeholder') }}                                           
+                                        </td>
+                                        <!-- Above is just a placeholder -->
+                                        <!-- These is just a placeholder -->
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
+                                            <img 
+                                                width="50" 
+                                                height="50"
+                                                src="\assets\metronic\common\images\users\100_4.jpg">
+                                                {{ l('Placeholder') }}                                           
+                                        </td>
+                                        <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CloseDate') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">

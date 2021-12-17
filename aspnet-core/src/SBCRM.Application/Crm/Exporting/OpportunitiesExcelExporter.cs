@@ -5,6 +5,7 @@ using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
+using System;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -27,7 +28,7 @@ namespace SBCRM.Crm.Exporting
         public FileDto ExportToFile(List<GetOpportunityForViewDto> opportunities)
         {
             return CreateExcelPackage(
-                "Opportunities.xlsx",
+                "Opportunities_" + (DateTime.UtcNow.Date).ToString("MM/dd/yyyy") + ".xlsx",
                 excelPackage =>
                 {
 
