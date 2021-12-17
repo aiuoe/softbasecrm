@@ -35,6 +35,7 @@ export class MySettingsModalComponent extends AppComponentBase implements OnInit
     public newPhoneNumber: string;
     isMultiTenancyEnabled: boolean = this.multiTenancy.isEnabled;
     isTwoFactorLoginEnabledForApplication = false;
+    readonly allowUpdate: boolean = false;
 
     constructor(injector: Injector, private _profileService: ProfileServiceProxy) {
         super(injector);
@@ -96,6 +97,8 @@ export class MySettingsModalComponent extends AppComponentBase implements OnInit
     }
 
     save(): void {
+        if (!this.allowUpdate) return;
+
         this.saving = true;
         this._profileService
             .updateCurrentUserProfile(this.user)

@@ -10,6 +10,7 @@ using Abp.Zero.Configuration;
 using Microsoft.AspNetCore.Identity;
 using SBCRM.Authorization.Roles;
 using SBCRM.Authorization.Users;
+using LegacyRepositories = SBCRM.Base;
 using SBCRM.MultiTenancy;
 
 namespace SBCRM.Authorization
@@ -17,7 +18,7 @@ namespace SBCRM.Authorization
     public class LogInManager : AbpLogInManager<Tenant, Role, User>
     {
         private UserManager userManager;
-
+        private readonly LegacyRepositories.ISoftBaseSecureRepository _secureRepository;
         public LogInManager(
             UserManager userManager,
             IMultiTenancyConfig multiTenancyConfig,
@@ -29,7 +30,8 @@ namespace SBCRM.Authorization
             IIocResolver iocResolver,
             RoleManager roleManager,
             IPasswordHasher<User> passwordHasher,
-            UserClaimsPrincipalFactory claimsPrincipalFactory)
+            UserClaimsPrincipalFactory claimsPrincipalFactory,
+            LegacyRepositories.ISoftBaseSecureRepository secureRepository)
             : base(
                   userManager,
                   multiTenancyConfig,
@@ -44,6 +46,7 @@ namespace SBCRM.Authorization
                   claimsPrincipalFactory)
         {
             this.userManager = userManager;
+            this._secureRepository = secureRepository;
         }
 
         /// <summary>
@@ -62,12 +65,21 @@ namespace SBCRM.Authorization
         {
             return await UnitOfWorkManager.WithUnitOfWorkAsync(async () =>
             {
-
+               
                 var user = await userManager.FindByNameAsync(userNameOrEmailAddress);
+                //SI EXISTE Y NO TIENE PASSWORHASH , HACER EL HASH
+          
+                if (user is null) 
+                {
+                    int.TryParse(userNameOrEmailAddress, out int employeNumber);
+                    var legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeNumber);
+                    //si el password en secure es nulo or empty unauthorized
+                   var ss = userManager.PasswordHasher.HashPassword(user, legacyUser.Password);
+                }
+  
                 var result = await CreateLoginResultAsync(user, null);
 
-                //userManager.PasswordHasher.HashPassword()
-
+                
                 await SaveLoginAttemptAsync(result, tenancyName, userNameOrEmailAddress);
                 return result;
             });

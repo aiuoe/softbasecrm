@@ -12,6 +12,10 @@
     <text name="DeleteAccountUser">Delete account user</text>
     <text name="AccountUsers">Account users</text>
     <text name="PickUser">Pick user</text>
+    <text name="Secure">Secure</text>
+    <text name="CreateNewSecure">Create new secure</text>
+    <text name="EditSecure">Edit secure</text>
+    <text name="DeleteSecure">Delete secure</text>
     <text name="SBCRM.Crm.Country">Country</text>
     <text name="CountriesHeaderInfo">Countries header info</text>
     <text name="CreateNewCountry">Create new country</text>
@@ -52,8 +56,8 @@
     <text name="Order">Order</text>
     <text name="Overview">Overview</text>
     <text name="GeneralInformation">General Information</text>
-	  <text name="ContactDetails">Contact Details</text>
-	  <text name="LeadDetails">Lead Details</text>
+	<text name="ContactDetails">Contact Details</text>
+	<text name="LeadDetails">Lead Details</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -130,10 +134,10 @@
     <text name="SBCRM.Crm.Lead">Lead</text>
     <text name="CompanyName">Company Name</text>
     <text name="LeadCompanyName">Company name</text>
-    <text name="LastName">Last name</text>
+    <text name="LastName">Last Name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
-	  <text name="WebSite_Invalid">Invalid Web site</text>
+	<text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
     <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
@@ -148,8 +152,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-	  <text name="LeadStatus">Lead status</text>
-	  <text name="MakeAccount">Make Account</text>	  
+	<text name="LeadStatus">Lead status</text>
+	<text name="MakeAccount">Make Account</text>	  
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
@@ -450,10 +454,10 @@
     <text name="DeletingUser">Deleting user</text>
     <text name="UsersHeaderInfo">Manage users and permissions.</text>
     <text name="CreateNewUser">Create new user</text>
-    <text name="UserName">User name</text>
+    <text name="UserName">User Name</text>
     <text name="Name">Name</text>
     <text name="Surname">Surname</text>
-    <text name="EmailAddress">Email address</text>
+    <text name="EmailAddress">Email Address</text>
     <text name="LastLoginTime">Last login time</text>
     <text name="EditUser">Edit user</text>
     <text name="UserInformations">User information</text>
@@ -565,7 +569,7 @@
     <text name="ProfilePicture_Change_Info">You can select a JPG/JPEG/PNG file with a maximum {0}MB size.</text>
     <text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
     <text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
-    <text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG file. Please select another file.</text>
+    <text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
     <text name="Dashboard">Dashboard</text>
     <text name="DashboardHeaderInfo">statistics and reports</text>
     <text name="GoToApplication">Go to application</text>
@@ -1527,6 +1531,7 @@
     <text name="EditValues">Edit Values</text>
     <text name="FullName">Full Name</text>
     <text name="FirstName">First Name</text>
+    <text name="EmployeeId">Employee ID</text>
     <text name="UiCustomization_HoverableAside">Expand menu when hovered</text>
     <text name="SMTPSettingsNotProvidedWarningText">SMTP settings not provided, Please provided SMTP settings.</text>
     <text name="SocialLoginDeactivate_Description">This external login option will be disabled for your tenant.</text>

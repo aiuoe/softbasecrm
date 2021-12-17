@@ -54,13 +54,24 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
     }
 
     fileChangeEvent(event: any): void {
-        if (event.target.files[0].size > 5242880) {
+        const validExtensions = ['jpg', 'jpeg', 'png'];
+        const selectedFile = event.target.files[0];
+        const filename: string = selectedFile.name;
+        const fileExtension: string = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
+
+        if (selectedFile.size > 5242880) {
             //5MB
             this.message.warn(this.l('ProfilePicture_Warn_SizeLimit', this.maxProfilPictureBytesUserFriendlyValue));
             return;
         }
 
-        this.uploadProfilePictureInputLabel.nativeElement.innerText = event.target.files[0].name;
+        if (!validExtensions.some((ext) => ext.toLowerCase() === fileExtension.toLowerCase())) {
+            // Invalid file extension
+            this.message.warn(this.l('ProfilePicture_Warn_FileType'));
+            return;
+        }
+
+        this.uploadProfilePictureInputLabel.nativeElement.innerText = filename;
 
         this.imageChangedEvent = event;
     }
