@@ -4,6 +4,9 @@ using SBCRM.Crm;
 
 namespace SBCRM.Legacy.Dto
 {
+    /// <summary>
+    /// DTO to manage the object query customer information
+    /// </summary>
     public class CustomerQueryDto
     {
         public string Name { get; set; }

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App Service that manages the AccountUser transactions
+    /// </summary>
     public interface IAccountUsersAppService : IApplicationService
     {
         /// <summary>

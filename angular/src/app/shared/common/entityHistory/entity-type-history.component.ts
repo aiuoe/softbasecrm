@@ -7,12 +7,18 @@ import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { finalize } from 'rxjs/operators';
 
+/***
+ * Class to map the options for this component
+ */
 export interface IEntityTypeHistoryModalOptions {
     entityTypeFullName: string;
     entityTypeDescription: string;
     entityId: string;
 }
 
+/***
+ * Component to manage the entity history summary grid
+ */
 @Component({
     selector: 'entityTypeHistory',
     templateUrl: './entity-type-history.component.html',
@@ -29,24 +35,43 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
     tenantId?: number;
     entityHistoryEnabled: false;
 
+    /***
+     * Main constructor
+     * @param injector
+     * @param _auditLogService
+     */
     constructor(injector: Injector, private _auditLogService: AuditLogServiceProxy) {
         super(injector);
     }
 
+    /***
+     * Initialize component
+     * @param options
+     */
     show(options: IEntityTypeHistoryModalOptions): void {
         this.options = options;
         this.shown();
     }
 
+    /***
+     * Refresh table
+     */
     refreshTable(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /***
+     * Initialize component
+     */
     shown(): void {
         this.isShown = true;
         this.getRecordsIfNeeds(null);
     }
 
+    /***
+     * Reload grid
+     * @param event
+     */
     getRecordsIfNeeds(event?: LazyLoadEvent): void {
         if (!this.isShown) {
             return;
@@ -56,6 +81,10 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
         this.isInitialized = true;
     }
 
+    /***
+     * Get history
+     * @param event
+     */
     getRecords(event?: LazyLoadEvent): void {
         this.primengTableHelper.showLoadingIndicator();
 
@@ -77,6 +106,10 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
         }
     }
 
+    /***
+     * Show change details
+     * @param record
+     */
     showEntityChangeDetails(record: EntityChangeListDto): void {
         this.entityChangeDetailModal.show(record);
     }
