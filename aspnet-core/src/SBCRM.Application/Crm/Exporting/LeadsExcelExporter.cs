@@ -6,30 +6,41 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
 using NPOI.SS.UserModel;
+using System;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// Lead Excel exporter
+    /// </summary>
     public class LeadsExcelExporter : NpoiExcelExporterBase, ILeadsExcelExporter
     {
 
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="tempFileCacheManager"></param>
         public LeadsExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
             ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
+            base(tempFileCacheManager)
         {
-            _timeZoneConverter = timeZoneConverter;
-            _abpSession = abpSession;
         }
 
+        /// <summary>
+        /// Export customers to file
+        /// </summary>
+        /// <param name="leads"></param>
+        /// <returns></returns>
         public FileDto ExportToFile(List<GetLeadForViewDto> leads)
         {
 
             return CreateExcelPackage(
-                "Leads.xlsx",
+                "Leads_" + (DateTime.UtcNow.Date).ToString("MM/dd/yyyy") + ".xlsx",
                 excelPackage =>
                 {
                     var sheet = excelPackage.CreateSheet(L("Leads"));
@@ -38,9 +49,10 @@ namespace SBCRM.Crm.Exporting
                         sheet,
                         L("CompanyName"),
                         L("ContactName"),
+                        L("Status"),
                         L("CompanyPhone"),
+                        L("AssignedUser"),
                         L("CreationTime"),
-                        (L("LeadStatus")),
                         (L("Priority"))
                         );
 
@@ -48,9 +60,10 @@ namespace SBCRM.Crm.Exporting
                         sheet, leads,
                         _ => _.Lead.CompanyName,
                         _ => _.Lead.ContactName,
-                        _ => _.Lead.CompanyPhone,
-                        _ => _.Lead.CreationTime.Value.ToString("MM/dd/yyyy"),
                         _ => _.LeadStatusDescription,
+                        _ => _.Lead.CompanyPhone,
+                        _ => L("Placeholder"),
+                        _ => _.Lead.CreationTime.Value.ToString("MM/dd/yyyy"),                        
                         _ => _.PriorityDescription
                         );
                         

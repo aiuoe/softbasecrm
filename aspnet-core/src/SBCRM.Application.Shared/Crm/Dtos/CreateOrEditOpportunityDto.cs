@@ -11,12 +11,13 @@ namespace SBCRM.Crm.Dtos
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
         public string Name { get; set; }
 
-        public decimal Amount { get; set; }
+        [Range(OpportunityConsts.MinAmountValue, OpportunityConsts.MaxAmountValue)]
+        public decimal? Amount { get; set; }
 
         [Range(OpportunityConsts.MinProbabilityValue, OpportunityConsts.MaxProbabilityValue)]
-        public decimal Probability { get; set; }
+        public decimal? Probability { get; set; }
 
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
         public string Description { get; set; }
 

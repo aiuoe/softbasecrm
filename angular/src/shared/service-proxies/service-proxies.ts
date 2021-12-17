@@ -23260,9 +23260,9 @@ export interface ICreateOrEditLeadUserDto {
 
 export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
     name!: string;
-    amount!: number;
-    probability!: number;
-    closeDate!: DateTime;
+    amount!: number | undefined;
+    probability!: number | undefined;
+    closeDate!: DateTime | undefined;
     description!: string | undefined;
     branch!: string | undefined;
     department!: string | undefined;
@@ -23322,9 +23322,9 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
 
 export interface ICreateOrEditOpportunityDto {
     name: string;
-    amount: number;
-    probability: number;
-    closeDate: DateTime;
+    amount: number | undefined;
+    probability: number | undefined;
+    closeDate: DateTime | undefined;
     description: string | undefined;
     branch: string | undefined;
     department: string | undefined;
@@ -32628,8 +32628,8 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
 
 export class OpportunityDto implements IOpportunityDto {
     name!: string | undefined;
-    amount!: number;
-    probability!: number;
+    amount!: number | undefined;
+    probability!: number | undefined;
     closeDate!: DateTime | undefined;
     description!: string | undefined;
     branch!: string | undefined;
@@ -32690,8 +32690,8 @@ export class OpportunityDto implements IOpportunityDto {
 
 export interface IOpportunityDto {
     name: string | undefined;
-    amount: number;
-    probability: number;
+    amount: number | undefined;
+    probability: number | undefined;
     closeDate: DateTime | undefined;
     description: string | undefined;
     branch: string | undefined;
