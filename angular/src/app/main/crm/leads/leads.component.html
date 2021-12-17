@@ -124,7 +124,7 @@
                                 (onLazyLoad)="getLeads($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
-                                [paginator]="true"
+                                [paginator]="false"
                                 [lazy]="true"
                                 [scrollable]="true"
                                 ScrollWidth="100%"
@@ -151,42 +151,51 @@
                                             pSortableColumn="companyName"
                                         >
                                             {{ l('LeadCompanyName') }}
-                                            <p-sortIcon field="lead.companyName"></p-sortIcon>
+                                            <p-sortIcon field="companyName"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"                                            
                                             pSortableColumn="contactName"
                                         >
                                             {{ l('LeadContactName') }}
-                                            <p-sortIcon field="lead.contactName"></p-sortIcon>
+                                            <p-sortIcon field="contactName"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="leadStatusFk.description"
                                         >
                                             {{ l('Status') }}
-                                            <p-sortIcon field="leadStatusDescription"></p-sortIcon>
+                                            <p-sortIcon field="leadStatusFk.description"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="companyPhone"
                                         >
                                             {{ l('LeadCompanyPhone') }}
-                                            <p-sortIcon field="lead.companyPhone"></p-sortIcon>
+                                            <p-sortIcon field="companyPhone"></p-sortIcon>
                                         </th>
+                                        <!-- These is just a placeholder -->
+                                        <th 
+                                            style="width: 150px"
+                                            pSortableColumn="contactName"
+                                        >
+                                            {{ l('AssignedUser') }}
+                                            <p-sortIcon field="contactName"></p-sortIcon>
+                                        </th>
+                                        <!-- Above is just a placeholder -->
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="creationTime"
                                         >
                                             {{ l('LeadCreationTime') }}
-                                            <p-sortIcon field="lead.creationTime"></p-sortIcon>
+                                            <p-sortIcon field="creationTime"></p-sortIcon>
                                         </th>
                                         <th 
                                             style="width: 150px"
                                             pSortableColumn="PriorityFk.description"
                                         >
                                             {{ l('LeadPriority') }}
-                                            <p-sortIcon field="PriorityDescription"></p-sortIcon>
+                                            <p-sortIcon field="PriorityFk.description"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -274,6 +283,16 @@
                                             <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
                                                 {{ record.lead.companyPhone }}
                                         </td>
+                                        <!-- These is just a placeholder -->
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
+                                            <img 
+                                                width="50" 
+                                                height="50"
+                                                src="\assets\metronic\common\images\users\100_4.jpg">
+                                                {{ l('Placeholder') }}                                           
+                                        </td>
+                                        <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
                                                 {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}                                           

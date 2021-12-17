@@ -5,6 +5,7 @@ using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
+using System;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -13,25 +14,31 @@ namespace SBCRM.Crm.Exporting
     /// </summary>
     public class OpportunitiesExcelExporter : NpoiExcelExporterBase, IOpportunitiesExcelExporter
     {
+
+        private readonly ITimeZoneConverter _timeZoneConverter;
+        private readonly IAbpSession _abpSession;
+
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="tempFileCacheManager"></param>
         public OpportunitiesExcelExporter(
-            ITempFileCacheManager tempFileCacheManager) : base(tempFileCacheManager)
+            ITimeZoneConverter timeZoneConverter,
+            IAbpSession abpSession,
+            ITempFileCacheManager tempFileCacheManager) :
+            base(tempFileCacheManager)
         {
-
         }
 
         /// <summary>
-        /// Export opportunities to file
+        /// Export customers to file
         /// </summary>
         /// <param name="opportunities"></param>
         /// <returns></returns>
         public FileDto ExportToFile(List<GetOpportunityForViewDto> opportunities)
         {
             return CreateExcelPackage(
-                "Opportunities.xlsx",
+                "Opportunities_" + (DateTime.UtcNow.Date).ToString("MM/dd/yyyy") + ".xlsx",
                 excelPackage =>
                 {
 
@@ -41,27 +48,31 @@ namespace SBCRM.Crm.Exporting
                         sheet,
                         L("Name"),
                         L("Stage"),
+                        L("Account"),
+                        L("AssignedUser"),
+                        L("Probability"),
                         L("CloseDate"),
                         L("Amount"),
-                        L("Probability"),
                         L("Branch"),
-                        L("Department")
+                        L("Department")                   
                         );
 
                     AddObjects(
                         sheet, opportunities,
                         _ => _.Opportunity.Name,
                         _ => _.OpportunityStageDescription,
+                        _ => L("Placeholder"),
+                        _ => L("Placeholder"),
                         _ => _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy"),
                         _ => _.Opportunity.Amount,
-                        _ => _.Opportunity.Probability,
                         _ => _.Opportunity.Branch,
-                        _ => _.Opportunity.Department
+                        _ => _.Opportunity.Department                        
                         );
 
                     int numberOfColumns = sheet.GetRow(0).LastCellNum;
                     for (int column = 0; column < numberOfColumns; column++)
                         sheet.AutoSizeColumn(column);
+
                 });
         }
     }
