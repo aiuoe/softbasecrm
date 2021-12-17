@@ -34,12 +34,15 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     leadSourceDescription = '';
     opportunityTypeDescription = '';
 
+
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
+    selectedOpportunityStageId = 0;
     allLeadSources: OpportunityLeadSourceLookupTableDto[];
     allOpportunityTypes: OpportunityOpportunityTypeLookupTableDto[];
 
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Opportunity'), '/app/main/crm/opportunities'),
+        new BreadcrumbItem(this.l('NewOpportunites'), '/app/main/crm/opportunities')
     ];
 
     /**
@@ -101,6 +104,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         }
         this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown().subscribe((result) => {
             this.allOpportunityStages = result;
+            this.opportunity.opportunityStageId = this.opportunity.opportunityStageId ?? this.allOpportunityStages[0].id;
         });
         this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;

@@ -72,8 +72,11 @@
     <text name="Events">Events</text>
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
+	<text name="Probability%">Probability %</text>
     <text name="CloseDate">Close date</text>
     <text name="Department">Department</text>
+	<text name="NewOpportunites">New Opportunites</text>
+	<text name="DepartmentName">Department Name</text>
     <text name="OpportunitiesHeaderInfo">Opportunities header info</text>
     <text name="CreateNewOpportunity">Opportunity</text>
     <text name="EditOpportunity">Edit opportunity</text>
@@ -274,6 +277,7 @@
     <text name="MFGPermitNo">M f g permit no</text>
     <text name="MFGPermitExpDate">M f g permit exp date</text>
     <text name="Branch">Branch</text>
+	<text name="BranchName">Branch Name</text>
     <text name="ShowLaborHours">Show labor hours</text>
     <text name="VendorNo">Vendor no</text>
     <text name="LocalTaxCode">Local tax code</text>
@@ -867,6 +871,17 @@
     <text name="InvalidSecurityCode">Invalid security code!</text>
     <text name="PhoneNumber">Phone number</text>
     <text name="Unlock">Unlock</text>
+	<text name="Contact">Contact</text>
+	<text name="InputName">Enter a Name</text>
+	<text name="InputAccount">Select Account</text>
+	<text name="InputStage">Select Stage</text>
+    <text name="InputProbability">Enter a Percentage</text>
+	<text name="InputCloseDate">Select a Date</text>
+    <text name="InputContact">Select a Contact</text>
+	<text name="InputLeadSource">Select a Source</text>
+	<text name="InputDescription">Enter a Description</text>
+	<text name="InputBranch">Enter the Branch name</text>
+	<text name="InputDepartment">Enter the Department name</text>	  
     <text name="UnlockedTheUser">Unlocked the user {0}</text>
     <text name="UserLockOut">User Lock Out</text>
     <text name="EnableUserAccountLockingOnFailedLoginAttemts">Enable user account locking on failed login attempts</text>
