@@ -10,22 +10,32 @@ using System;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// Lead Excel exporter
+    /// </summary>
     public class LeadsExcelExporter : NpoiExcelExporterBase, ILeadsExcelExporter
     {
 
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="tempFileCacheManager"></param>
         public LeadsExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
             ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
+            base(tempFileCacheManager)
         {
-            _timeZoneConverter = timeZoneConverter;
-            _abpSession = abpSession;
         }
 
+        /// <summary>
+        /// Export customers to file
+        /// </summary>
+        /// <param name="leads"></param>
+        /// <returns></returns>
         public FileDto ExportToFile(List<GetLeadForViewDto> leads)
         {
 

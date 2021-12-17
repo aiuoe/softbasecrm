@@ -9,22 +9,32 @@ using System;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// Opportunity Excel exporter
+    /// </summary>
     public class OpportunitiesExcelExporter : NpoiExcelExporterBase, IOpportunitiesExcelExporter
     {
 
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="tempFileCacheManager"></param>
         public OpportunitiesExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
             ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
+            base(tempFileCacheManager)
         {
-            _timeZoneConverter = timeZoneConverter;
-            _abpSession = abpSession;
         }
 
+        /// <summary>
+        /// Export customers to file
+        /// </summary>
+        /// <param name="opportunities"></param>
+        /// <returns></returns>
         public FileDto ExportToFile(List<GetOpportunityForViewDto> opportunities)
         {
             return CreateExcelPackage(
@@ -37,36 +47,32 @@ namespace SBCRM.Crm.Exporting
                     AddHeader(
                         sheet,
                         L("Name"),
-                        L("Amount"),
+                        L("Stage"),
+                        L("Account"),
+                        L("AssignedUser"),
                         L("Probability"),
                         L("CloseDate"),
-                        L("Description"),
+                        L("Amount"),
                         L("Branch"),
-                        L("Department"),
-                        (L("OpportunityStage")) + L("Description"),
-                        (L("LeadSource")) + L("Description"),
-                        (L("OpportunityType")) + L("Description")
+                        L("Department")                   
                         );
 
                     AddObjects(
                         sheet, opportunities,
                         _ => _.Opportunity.Name,
-                        _ => _.Opportunity.Amount,
-                        _ => _.Opportunity.Probability,
-                        _ => _timeZoneConverter.Convert(_.Opportunity.CloseDate, _abpSession.TenantId, _abpSession.GetUserId()),
-                        _ => _.Opportunity.Description,
-                        _ => _.Opportunity.Branch,
-                        _ => _.Opportunity.Department,
                         _ => _.OpportunityStageDescription,
-                        _ => _.LeadSourceDescription,
-                        _ => _.OpportunityTypeDescription
+                        _ => L("Placeholder"),
+                        _ => L("Placeholder"),
+                        _ => _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy"),
+                        _ => _.Opportunity.Amount,
+                        _ => _.Opportunity.Branch,
+                        _ => _.Opportunity.Department                        
                         );
 
-                    for (var i = 1; i <= opportunities.Count; i++)
-                    {
-                        SetCellDataFormat(sheet.GetRow(i).Cells[4], "yyyy-mm-dd");
-                    }
-                    sheet.AutoSizeColumn(4);
+                    int numberOfColumns = sheet.GetRow(0).LastCellNum;
+                    for (int column = 0; column < numberOfColumns; column++)
+                        sheet.AutoSizeColumn(column);
+
                 });
         }
     }

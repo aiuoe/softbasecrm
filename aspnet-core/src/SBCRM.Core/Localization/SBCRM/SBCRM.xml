@@ -834,6 +834,7 @@
     <text name="AddFriend">Add friend</text>
     <text name="TypeAMessageHere">Type a message here...</text>
     <text name="Chat">Chat</text>
+	<text name="Account">Account</text>
     <text name="ChatFeature">Chat</text>
     <text name="ChatFeatureIsNotEnabledForSender">Chat is not enabled for you.</text>
     <text name="ChatFeatureIsNotEnabledForReceiver">Chat is not enabled for tenant.</text>
