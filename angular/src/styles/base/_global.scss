@@ -76,3 +76,16 @@ a:hover {
 .form-control[readonly] {
     background-color: $readonlyInputBackgroundColor !important;
 }
+
+
+.line-height-30 {
+    line-height: 30px;
+}
+
+
+.no-wrap-150 {
+    width: 75px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

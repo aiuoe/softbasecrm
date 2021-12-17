@@ -12,10 +12,12 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { MultiSelectModule } from '@node_modules/primeng/multiselect';
 import { CheckboxModule } from '@node_modules/primeng/checkbox';
+import { AssignedUserModule } from '@app/main/crm/assigned-user/assigned-user.module';
 
 @NgModule({
     providers: [AccountTypesServiceProxy, ZipCodesServiceProxy, CountriesServiceProxy],
     declarations: [CustomersComponent, CreateOrEditCustomerComponent, ViewCustomerComponent],
-  imports: [AppSharedModule, CustomerRoutingModule, AdminSharedModule, MultiSelectModule, CheckboxModule]
+  imports: [AppSharedModule, CustomerRoutingModule, AdminSharedModule, MultiSelectModule, CheckboxModule, AssignedUserModule]
 })
+
 export class CustomerModule {}

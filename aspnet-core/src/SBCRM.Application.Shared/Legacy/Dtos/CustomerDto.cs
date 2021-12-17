@@ -1,4 +1,6 @@
-﻿using SBCRM.Dto;
+﻿using System.Collections.Generic;
+using SBCRM.Crm.Dtos;
+using SBCRM.Dto;
 
 namespace SBCRM.Legacy.Dtos
 {
@@ -19,5 +21,6 @@ namespace SBCRM.Legacy.Dtos
 
         public int? AccountTypeId { get; set; }
 
+        public List<AccountUserViewDto> Users { get; set; }
     }
 }

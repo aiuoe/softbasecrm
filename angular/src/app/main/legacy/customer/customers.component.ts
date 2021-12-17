@@ -4,7 +4,12 @@ import {
     CustomerServiceProxy,
     AccountTypesServiceProxy,
     PagedResultDtoOfGetAccountTypeForViewDto,
-    AccountTypeDto
+    AccountTypeDto,
+    AccountUserDto,
+    UserListDto,
+    GetCustomerForViewDto,
+    AccountUserUserLookupTableDto,
+    GetAccountUserForViewDto
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -15,6 +20,9 @@ import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { AppConsts } from '@shared/AppConsts';
+import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { CreateOrEditAssignedUserModalComponent } from '@app/main/crm/assigned-user/create-or-edit-assined-user-modal.component';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -27,12 +35,16 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('assignedUsersModal', { static: true }) assignedUsersModal: CreateOrEditAssignedUserModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
     accountTypes: AccountTypeDto[];
     selectedAccountType: AccountTypeDto;
     selectedAccountTypes: AccountTypeDto[];
+    accountUsers: AccountUserDto[] = [];
+    selectedAccountUsers: AccountUserDto[] = [];
+    assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
 
     /***
      * Main constructor
@@ -45,6 +57,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
      * @param _fileDownloadService
      * @param _router
      * @param _dateTimeService
+     * @param _localStorageService
      */
     constructor(
         injector: Injector,
@@ -55,7 +68,8 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private _localStorageService: LocalStorageService
     ) {
         super(injector);
     }
@@ -98,6 +112,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .getAll(
                 this.filterText,
                 this.selectedAccountTypes?.map(x => x.id),
+                this.assignedUsersFilter?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -105,8 +120,32 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
+                this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
             });
+    }
+
+    /***
+     * Set user image profile reference
+     * @param users
+     */
+    setUsersProfilePictureUrl(users: GetCustomerForViewDto[]): void {
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            if (user.firstUserAssignedId) {
+                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
+                    let profilePictureUrl =
+                        AppConsts.remoteServiceBaseUrl +
+                        '/Profile/GetProfilePictureByUser?userId=' +
+                        user.firstUserAssignedId +
+                        '&' +
+                        AppConsts.authorization.encrptedAuthTokenName +
+                        '=' +
+                        encodeURIComponent(value.token);
+                    (user as any).profilePictureUrl = profilePictureUrl;
+                });
+            }
+        }
     }
 
     /***
@@ -131,10 +170,28 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .getCustomerToExcel(
                 this.filterText,
                 this.selectedAccountTypes?.map(x => x.id),
+                this.assignedUsersFilter?.map(x => x.id)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    }
+
+    /**
+     * Handles the creating assigned user modal
+     */
+    createAccountUser(): void {
+        this.assignedUsersModal.show();
+    }
+
+    /**
+     * Method that receives the selected users from the Assigned Users component
+     * @param selectedUsers
+     * @returns
+     */
+    selectAssignedUsers(selectedUsers: AccountUserUserLookupTableDto[]) {
+        this.assignedUsersFilter = selectedUsers ?? [];
+        this.getCustomer();
     }
 
 }
