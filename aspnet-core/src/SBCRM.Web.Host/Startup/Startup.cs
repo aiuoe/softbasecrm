@@ -206,6 +206,10 @@ namespace SBCRM.Web.Startup
                 options.IocManager.IocContainer.Register(
                    Component.For<ISoftBaseSecureRepository>()
                        .ImplementedBy<SoftBaseSecureRepository>().LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
+                 Component.For<ISoftBasePersonRepository>()
+                     .ImplementedBy<SoftBasePersonRepository>().LifestyleTransient());
             });
         }
 
