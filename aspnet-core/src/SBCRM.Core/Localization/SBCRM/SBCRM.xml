@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="Contact">Contact</text>
+    <text name="CreateNewContact">Create new contact</text>
+    <text name="EditContact">Edit contact</text>
+    <text name="DeleteContact">Delete contact</text>
+
     <text name="LeadConversionSuccessful">The conversion was successful</text>
     <text name="ConvertedLeadRequired">Lead is required to convert</text>
     <text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>
