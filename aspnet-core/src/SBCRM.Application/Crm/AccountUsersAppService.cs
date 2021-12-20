@@ -4,7 +4,6 @@ using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Application.Services;
 using Abp.Domain.Repositories;
 using SBCRM.Crm.Dtos;
 using Abp.Application.Services.Dto;
@@ -138,49 +137,6 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Manages the create/edit of an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        //public async Task CreateOrEdit(CreateOrEditAccountUserDto input)
-        //{
-        //    if (input.Id == null)
-        //    {
-        //        await Create(input);
-        //    }
-        //    else
-        //    {
-        //        await Update(input);
-        //    }
-        //}
-
-        /// <summary>
-        /// Creates an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        //[AbpAuthorize(AppPermissions.Pages_AccountUsers_Create)]
-        //protected virtual async Task Create(CreateOrEditAccountUserDto input)
-        //{
-        //    var accountUser = ObjectMapper.Map<AccountUser>(input);
-
-        //    await _accountUserRepository.InsertAsync(accountUser);
-        //}
-
-        /// <summary>
-        /// Edits an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        //[RemoteService(false)]
-        //[AbpAuthorize(AppPermissions.Pages_AccountUsers_Edit)]
-        //protected virtual async Task Update(CreateOrEditAccountUserDto input)
-        //{
-        //    var accountUser = await _accountUserRepository.FirstOrDefaultAsync((int) input.Id);
-        //    ObjectMapper.Map(input, accountUser);
-        //}
-
-        /// <summary>
         /// Deletes an account user
         /// </summary>
         /// <param name="input"></param>
@@ -239,7 +195,6 @@ namespace SBCRM.Crm
                         var accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
                         var accountUser = await _accountUserRepository.FirstOrDefaultAsync(accountUserInDatabase.Id.Value);
                         ObjectMapper.Map(input, accountUser);
-                        //await Update(accountUserInDatabase);
                     }
                 }
 
