@@ -89,6 +89,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="PriorityFilter"></label>
+                                        <div>
+                                            <p-multiSelect id="PriorityFilter"
+                                                           name="PriorityFilter"
+                                                           [options]="priorities"
+                                                           [(ngModel)]="selectedPriorities"
+                                                           optionLabel="description"     
+                                                           placeholder="Filter by Priorities"                                          
+                                                           (onChange)="getLeads($event)">
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>
                             

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -50,6 +51,11 @@ namespace SBCRM.Crm
 
         [ForeignKey("OpportunityTypeId")]
         public OpportunityType OpportunityTypeFk { get; set; }
+
+        public virtual string CustomerNumber { get; set; }
+
+        [ForeignKey("CustomerNumber")]
+        public Customer CustomerFk { get; set; }
 
     }
 }

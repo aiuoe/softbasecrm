@@ -1,4 +1,5 @@
-﻿import { Injectable } from '@angular/core';
+﻿
+import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
 import { PermissionCheckerService } from 'abp-ng2-module';

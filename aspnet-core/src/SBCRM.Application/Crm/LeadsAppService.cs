@@ -77,7 +77,8 @@ namespace SBCRM.Crm
                            .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
-                           .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
+                           .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id))
+                           .WhereIf(input.PriorityId.Any(), x => input.PriorityId.Contains(x.PriorityFk.Id));
 
             IQueryable<Lead> pagedAndFilteredLeads; 
 
@@ -374,7 +375,8 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
-                        .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
+                        .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id))
+                        .WhereIf(input.PriorityId.Any(), x => input.PriorityId.Contains(x.PriorityFk.Id));
 
             var query = (from o in filteredLeads
                          join o1 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1

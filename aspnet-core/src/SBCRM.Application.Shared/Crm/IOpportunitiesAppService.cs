@@ -30,5 +30,7 @@ namespace SBCRM.Crm
 
         Task<List<OpportunityOpportunityTypeLookupTableDto>> GetAllOpportunityTypeForTableDropdown();
 
+        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown();
+
     }
 }

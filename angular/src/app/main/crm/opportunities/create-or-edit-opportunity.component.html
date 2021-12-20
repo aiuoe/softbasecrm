@@ -79,14 +79,18 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="Opportunity_Account">{{ l('Account') }}</label>
-                                                            <input 
-                                                                disabled                                                
-                                                                type="text" 
-                                                                class="form-control" 
-                                                                [placeholder]="l('InputAccount')" 
-                                                                name="Name"
-                                                                maxlength="64"                                                                
-                                                            />
+                                                            <select
+                                                            name="opportunity.customerNumber"
+                                                            [(ngModel)]="opportunity.customerNumber"
+                                                            class="form-control"
+                                                            [disabled]="this.isReadOnlyMode"
+                                                            >
+                                                                <option 
+                                                                    *ngFor="let item of allCustomers" 
+                                                                    value="{{ item.number }}">
+                                                                    {{ item.name }}
+                                                                </option>
+                                                             </select>
                                                         </div>
                                                     </div>
                                                     <!-- Above is just a placeholder  -->
@@ -195,7 +199,6 @@
                                                                 [placeholder]="l('InputContact')" 
                                                                 name="Name"
                                                                 maxlength="64"
-                                                                [disabled]="this.isReadOnlyMode"
                                                             />                                            
                                                         </div>
                                                     </div>

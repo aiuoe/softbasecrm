@@ -9,6 +9,7 @@ import {
     OpportunityOpportunityTypeLookupTableDto,
     GetCustomerForEditOutput,
     GetOpportunityForEditOutput,
+    OpportunityCustomerLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -47,12 +48,14 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     opportunityStageDescription = '';
     leadSourceDescription = '';
     opportunityTypeDescription = '';
+    customerName = '';
 
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
     selectedOpportunityStageId = 0;
     allLeadSources: OpportunityLeadSourceLookupTableDto[];
     allOpportunityTypes: OpportunityOpportunityTypeLookupTableDto[];
+    allCustomers: OpportunityCustomerLookupTableDto[];
 
     opportunityId : number;
     
@@ -101,16 +104,18 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         const requests: Observable<any>[] = [
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown()
+            this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
+            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()
         ];
             
 
         if (!opportunityId) {
             forkJoin([...requests])
-                .subscribe(([opportunityStages, leadSources,opportunityTypes]: [
+                .subscribe(([opportunityStages, leadSources,opportunityTypes, customers]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
-                    OpportunityOpportunityTypeLookupTableDto[]]) => {
+                    OpportunityOpportunityTypeLookupTableDto[],
+                    OpportunityCustomerLookupTableDto[]]) => {
                         this.isPageLoading = false;
                         this.active = true;
 
@@ -118,7 +123,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allOpportunityStages = opportunityStages;
                     this.opportunity.opportunityStageId = this.allOpportunityStages[0].id;
                     this.allLeadSources = leadSources;
-                    this.allOpportunityTypes = opportunityTypes;        
+                    this.allOpportunityTypes = opportunityTypes;    
+                    this.allCustomers = customers;     
                     
                     this.showSaveButton = !this.isReadOnlyMode;
                     }, (error) => {

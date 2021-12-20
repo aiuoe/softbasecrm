@@ -57,5 +57,7 @@ namespace SBCRM.Crm.Dtos
 
         public List<int?> LeadStatusId { get; set; } = new List<int?>();
 
+        public List<int?> PriorityId { get; set; } = new List<int?>();
+
     }
 }

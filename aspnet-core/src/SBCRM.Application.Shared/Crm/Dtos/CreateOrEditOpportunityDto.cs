@@ -33,5 +33,7 @@ namespace SBCRM.Crm.Dtos
 
         public int? OpportunityTypeId { get; set; }
 
+        public string CustomerNumber { get; set; }
+
     }
 }

@@ -54,7 +54,7 @@ namespace SBCRM.Crm.Exporting
                         L("CloseDate"),
                         L("Amount"),
                         L("Branch"),
-                        L("Department")                   
+                        L("Department")
                         );
 
                     AddObjects(
@@ -66,7 +66,7 @@ namespace SBCRM.Crm.Exporting
                         _ => _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy"),
                         _ => _.Opportunity.Amount,
                         _ => _.Opportunity.Branch,
-                        _ => _.Opportunity.Department                        
+                        _ => _.Opportunity.Department
                         );
 
                     int numberOfColumns = sheet.GetRow(0).LastCellNum;

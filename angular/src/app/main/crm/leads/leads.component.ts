@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy, LeadStatusDto, PagedResultDtoOfGetLeadStatusForViewDto } from '@shared/service-proxies/service-proxies';
+import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy, LeadStatusDto, PagedResultDtoOfGetLeadStatusForViewDto, PriorityDto, PrioritiesServiceProxy, PagedResultDtoOfGetPriorityForViewDto } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -43,6 +43,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     selectedLeadStatus: LeadStatusDto;
     selectedLeadStatuses: LeadStatusDto[];
     readOnlyStatus = [];
+    priorities: PriorityDto[];
+    selectedPriority: PriorityDto;
+    selectedPriorities: PriorityDto[];
     
     advancedFiltersAreShown = false;
     filterText = '';
@@ -99,6 +102,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
         private _leadStatusesServiceProxy : LeadStatusesServiceProxy,
+        private _prioritiesServiceProxy : PrioritiesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -118,7 +122,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
-        this._leadStatusesServiceProxy.getAll(undefined,
+        this._leadStatusesServiceProxy.getAll(
+            undefined,
             undefined,
             undefined,
             undefined,
@@ -131,6 +136,16 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 if (!leadStatus.isLeadConversionValid)
                     this.readOnlyStatus.push(leadStatus.description);
             })
+        });
+        this._prioritiesServiceProxy.getAll(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined)
+        .subscribe((result: PagedResultDtoOfGetPriorityForViewDto) => {
+            this.priorities = result.items.map(x => x.priority);
         });
     }
 
@@ -172,6 +187,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatuses?.map(x => x.id),
+                this.selectedPriorities?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -234,7 +250,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
-                this.selectedLeadStatuses?.map(x => x.id)
+                this.selectedLeadStatuses?.map(x => x.id),
+                this.selectedPriorities?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);                
