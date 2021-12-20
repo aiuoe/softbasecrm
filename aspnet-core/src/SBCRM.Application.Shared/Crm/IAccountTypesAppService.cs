@@ -1,15 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
 
 namespace SBCRM.Crm
 {
     public interface IAccountTypesAppService : IApplicationService
     {
-        //Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll();
+        Task<List<GetAccountTypeForViewDto>> GetAllWithoutPaging();
 
         Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input);
 

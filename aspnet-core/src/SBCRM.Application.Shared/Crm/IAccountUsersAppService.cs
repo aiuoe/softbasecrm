@@ -37,7 +37,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task CreateOrEdit(CreateOrEditAccountUserDto input);
+        //Task CreateOrEdit(CreateOrEditAccountUserDto input);
 
         /// <summary>
         /// Deletes an account user

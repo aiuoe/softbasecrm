@@ -28,15 +28,16 @@ namespace SBCRM.Crm
 
         }
 
-        //public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll()
-        //{
-        //    var defaultInput = new GetAllAccountTypesInput
-        //    {
-        //        SkipCount = 0,
-        //        MaxResultCount = int.MaxValue
-        //    };
-        //    return await GetAll(defaultInput);
-        //}
+        public async Task<List<GetAccountTypeForViewDto>> GetAllWithoutPaging()
+        {
+            var defaultInput = new GetAllAccountTypesInput
+            {
+                SkipCount = 0,
+                MaxResultCount = int.MaxValue
+            };
+            var pagedResultDto = await GetAll(defaultInput);
+            return pagedResultDto.Items.ToList();
+        }
 
         public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input)
         {
