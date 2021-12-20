@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SBCRM.Legacy
@@ -24,5 +25,6 @@ namespace SBCRM.Legacy
         public virtual string Model { get; set; }
         public virtual string Salesman { get; set; }
         public virtual short? CustomerSale { get; set; }
+        public virtual DateTime? OpenDate { get; set; }
     }
 }

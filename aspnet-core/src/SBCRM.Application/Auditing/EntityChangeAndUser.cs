@@ -9,6 +9,7 @@ namespace SBCRM.Auditing
     public class EntityChangeAndUser
     {
         public EntityChange EntityChange { get; set; }
+        public EntityChangeSet EntityChangeSet { get; set; }
 
         public User User { get; set; }
     }

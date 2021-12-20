@@ -6,6 +6,7 @@
     /// </summary>
     public static class AppPermissions
     {
+
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
         public const string Pages_AccountUsers_Edit = "Pages.AccountUsers.Edit";
@@ -56,6 +57,7 @@
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";
         public const string Pages_Leads_Delete = "Pages.Leads.Delete";
+        public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";
@@ -79,6 +81,7 @@
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
+        public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

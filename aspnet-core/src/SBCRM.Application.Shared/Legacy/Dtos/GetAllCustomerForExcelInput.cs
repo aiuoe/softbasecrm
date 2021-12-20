@@ -9,5 +9,6 @@ namespace SBCRM.Legacy.Dtos
     {
         public string Filter { get; set; }
         public List<int?> AccountTypeId { get; set; } = new List<int?>();
+        public List<long?> UserIds { get; set; } = new List<long?>();
     }
 }

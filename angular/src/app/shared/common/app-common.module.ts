@@ -36,6 +36,7 @@ import { MultipleSelectComboboxInputTypeComponent } from './input-types/multiple
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PasswordInputWithShowButtonComponent } from './password-input-with-show-button/password-input-with-show-button.component';
 import { KeyValueListManagerComponent } from './key-value-list-manager/key-value-list-manager.component';
+import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import { KeyValueListManagerComponent } from './key-value-list-manager/key-value
         TimeZoneComboComponent,
         CommonLookupModalComponent,
         EntityTypeHistoryModalComponent,
+        EntityTypeHistoryComponent,
         EntityChangeDetailModalComponent,
         DateRangePickerInitialValueSetterDirective,
         DatePickerInitialValueSetterDirective,
@@ -73,6 +75,7 @@ import { KeyValueListManagerComponent } from './key-value-list-manager/key-value
         TimeZoneComboComponent,
         CommonLookupModalComponent,
         EntityTypeHistoryModalComponent,
+        EntityTypeHistoryComponent,
         EntityChangeDetailModalComponent,
         DateRangePickerInitialValueSetterDirective,
         DatePickerInitialValueSetterDirective,

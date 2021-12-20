@@ -6,6 +6,9 @@
         public const int MinNameLength = 1;
         public const int MaxNameLength = 150;
 
+        public const double MaxAmountValue = 1E+20;
+
+        public const double MinAmountValue = 0;
         public const double MaxProbabilityValue = 100;
 
         public const double MinProbabilityValue = 1;

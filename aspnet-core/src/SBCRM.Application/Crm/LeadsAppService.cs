@@ -1,7 +1,4 @@
-﻿using SBCRM.Crm;
-
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
@@ -12,48 +9,67 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
+using Abp.Domain.Uow;
+using Abp.EntityHistory;
 using Abp.UI;
-using SBCRM.Storage;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Common;
 using SBCRM.Infrastructure.Excel;
 using SBCRM.DataImporting;
 using SBCRM.Legacy;
+using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service to handle Leads information
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_Leads)]
     public class LeadsAppService : SBCRMAppServiceBase, ILeadsAppService
     {
         private readonly IRepository<Lead> _leadRepository;
         private readonly ILeadsExcelExporter _leadsExcelExporter;
-        private readonly IRepository<LeadSource, int> _lookup_leadSourceRepository;
-        private readonly IRepository<LeadStatus, int> _lookup_leadStatusRepository;
-        private readonly IRepository<Priority, int> _lookup_priorityRepository;
-        private readonly IRepository<LeadUser> _leadUserRepository;
+        private readonly IRepository<LeadSource, int> _lookupLeadSourceRepository;
+        private readonly IRepository<LeadStatus, int> _lookupLeadStatusRepository;
+        private readonly IRepository<Priority, int> _lookupPriorityRepository;
+        private readonly ICustomerAppService _customerAppService;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-        public LeadsAppService(IRepository<Lead> leadRepository,
-                                ILeadsExcelExporter leadsExcelExporter, 
-                                IRepository<LeadSource, 
-                                int> lookup_leadSourceRepository, 
-                                IRepository<LeadStatus, 
-                                int> lookup_leadStatusRepository, 
-                                IRepository<Priority, 
-                                int> lookup_priorityRepository,
-                                IRepository<LeadUser> leadUserRepository)
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="leadRepository"></param>
+        /// <param name="leadsExcelExporter"></param>
+        /// <param name="lookupLeadSourceRepository"></param>
+        /// <param name="lookupLeadStatusRepository"></param>
+        /// <param name="lookupPriorityRepository"></param>
+        /// <param name="customerAppService"></param>
+        /// <param name="reasonProvider"></param>
+        /// <param name="unitOfWorkManager"></param>
+        public LeadsAppService(
+            IRepository<Lead> leadRepository,
+            ILeadsExcelExporter leadsExcelExporter,
+            IRepository<LeadSource, int> lookupLeadSourceRepository,
+            IRepository<LeadStatus, int> lookupLeadStatusRepository,
+            IRepository<Priority, int> lookupPriorityRepository,
+            ICustomerAppService customerAppService,
+            IEntityChangeSetReasonProvider reasonProvider,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
-            _lookup_leadSourceRepository = lookup_leadSourceRepository;
-            _lookup_leadStatusRepository = lookup_leadStatusRepository;
-            _lookup_priorityRepository = lookup_priorityRepository;
-            _leadUserRepository = leadUserRepository;
-
+            _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _lookupLeadStatusRepository = lookupLeadStatusRepository;
+            _lookupPriorityRepository = lookupPriorityRepository;
+            _customerAppService = customerAppService;
+            _reasonProvider = reasonProvider;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
-        /// Gets all the leads
+        /// Gets all leads
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -105,13 +121,13 @@ namespace SBCRM.Crm
                 .PageBy(input);
 
             var leads = from o in pagedAndFilteredLeads
-                        join o1 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
+                        join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                         from s1 in j1.DefaultIfEmpty()
 
-                        join o2 in _lookup_leadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
+                        join o2 in _lookupLeadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
                         from s2 in j2.DefaultIfEmpty()
 
-                        join o3 in _lookup_priorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
+                        join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
                         from s3 in j3.DefaultIfEmpty()
 
                         select new
@@ -135,10 +151,11 @@ namespace SBCRM.Crm
                             o.ContactFaxNumber,
                             o.PagerNumber,
                             o.ContactEmail,
-                            Id = o.Id,
-                            LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                            LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color.ToString(),
+                            o.Id,
+                            LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                            LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                            CanBeConvert =  s2 != null && s2.IsLeadConversionValid,
+                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                             PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                             o.CreationTime
                         };
@@ -179,6 +196,7 @@ namespace SBCRM.Crm
                     },
                     LeadSourceDescription = o.LeadSourceDescription,
                     LeadStatusDescription = o.LeadStatusDescription,
+                    LeadCanBeConvert = o.CanBeConvert,
                     LeadStatusColor = o.LeadStatusColor,
                     PriorityDescription = o.PriorityDescription
                 };
@@ -217,8 +235,8 @@ namespace SBCRM.Crm
             var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
             // Defining default status and priority
-            var leadStatusId = _lookup_leadStatusRepository.FirstOrDefault(p => p.Description == "New");
-            var leadPriorityId = _lookup_priorityRepository.FirstOrDefault(p => p.Description == "Low");
+            var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description == "New");
+            var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description == "Low");
 
 
             foreach (var item in leadsToImport)
@@ -288,19 +306,19 @@ namespace SBCRM.Crm
 
             if (output.Lead.LeadSourceId != null)
             {
-                var _lookupLeadSource = await _lookup_leadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
+                var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
                 output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
             }
 
             if (output.Lead.LeadStatusId != null)
             {
-                var _lookupLeadStatus = await _lookup_leadStatusRepository.FirstOrDefaultAsync((int)output.Lead.LeadStatusId);
+                var _lookupLeadStatus = await _lookupLeadStatusRepository.FirstOrDefaultAsync((int)output.Lead.LeadStatusId);
                 output.LeadStatusDescription = _lookupLeadStatus?.Description?.ToString();
             }
 
             if (output.Lead.PriorityId != null)
             {
-                var _lookupPriority = await _lookup_priorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
+                var _lookupPriority = await _lookupPriorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
                 output.PriorityDescription = _lookupPriority?.Description?.ToString();
             }
 
@@ -321,19 +339,19 @@ namespace SBCRM.Crm
 
             if (output.Lead.LeadSourceId != null)
             {
-                var _lookupLeadSource = await _lookup_leadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
+                var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
                 output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
             }
 
             if (output.Lead.LeadStatusId != null)
             {
-                var _lookupLeadStatus = await _lookup_leadStatusRepository.FirstOrDefaultAsync((int)output.Lead.LeadStatusId);
+                var _lookupLeadStatus = await _lookupLeadStatusRepository.FirstOrDefaultAsync((int)output.Lead.LeadStatusId);
                 output.LeadStatusDescription = _lookupLeadStatus?.Description?.ToString();
             }
 
             if (output.Lead.PriorityId != null)
             {
-                var _lookupPriority = await _lookup_priorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
+                var _lookupPriority = await _lookupPriorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
                 output.PriorityDescription = _lookupPriority?.Description?.ToString();
             }
 
@@ -367,6 +385,11 @@ namespace SBCRM.Crm
         {
             var lead = ObjectMapper.Map<Lead>(input);
 
+            if (AbpSession.TenantId != null)
+            {
+                lead.TenantId = AbpSession.TenantId;
+            }
+
             await _leadRepository.InsertAsync(lead);
 
         }
@@ -395,6 +418,11 @@ namespace SBCRM.Crm
             await _leadRepository.DeleteAsync(input.Id);
         }
 
+        /// <summary>
+        /// Get leads to excel
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<FileDto> GetLeadsToExcel(GetAllLeadsForExcelInput input)
         {
 
@@ -428,13 +456,13 @@ namespace SBCRM.Crm
                         .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
 
             var query = (from o in filteredLeads
-                         join o1 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
+                         join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
-                         join o2 in _lookup_leadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
+                         join o2 in _lookupLeadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
                          from s2 in j2.DefaultIfEmpty()
 
-                         join o3 in _lookup_priorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
+                         join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
                          from s3 in j3.DefaultIfEmpty()
 
                          select new GetLeadForViewDto()
@@ -480,7 +508,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
-            return await _lookup_leadSourceRepository.GetAll()
+            return await _lookupLeadSourceRepository.GetAll()
                 .Select(leadSource => new LeadLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
@@ -496,7 +524,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadLeadStatusLookupTableDto>> GetAllLeadStatusForTableDropdown()
         {
-            return await _lookup_leadStatusRepository.GetAll()
+            return await _lookupLeadStatusRepository.GetAll()
                 .Select(leadStatus => new LeadLeadStatusLookupTableDto
                 {
                     Id = leadStatus.Id,
@@ -512,13 +540,57 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadPriorityLookupTableDto>> GetAllPriorityForTableDropdown()
         {
-            return await _lookup_priorityRepository.GetAll()
+            return await _lookupPriorityRepository.GetAll()
                 .Select(priority => new LeadPriorityLookupTableDto
                 {
                     Id = priority.Id,
                     DisplayName = priority == null || priority.Description == null ? "" : priority.Description.ToString(),
                     IsDefault = priority.IsDefault
                 }).ToListAsync();
+        }
+        
+        
+        /// <summary>
+        /// Convert Lead in Account
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads_Convert_Account)]
+        public async Task ConvertToAccount(ConvertLeadToAccountRequestDto input)
+        {
+            var lead = await _leadRepository.GetAll()
+                .Include(e => e.LeadStatusFk)
+                .Where(x => x.Id == input.LeadId)
+                .FirstOrDefaultAsync();
+
+            var convertedStatusCode = "CONVERTED";
+            var convertedStatus = await _lookupLeadStatusRepository.GetAll()
+                .FirstOrDefaultAsync(x => convertedStatusCode == x.Code);
+
+            GuardHelper.ThrowIf(lead is null, new UserFriendlyException(L("LeadNotExist")));
+            GuardHelper.ThrowIf(!lead.LeadStatusFk.IsLeadConversionValid, new UserFriendlyException(L("LeadAlreadyConverted")));
+            GuardHelper.ThrowIf(await _customerAppService.CheckIfExistByName(lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
+            GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", convertedStatusCode)));
+
+            var accountTypes = await _customerAppService.GetAllAccountTypeForTableDropdown();
+            var accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
+
+            GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", convertedStatusCode)));
+            
+            var customerNumber = await _customerAppService.ConvertFromLead(
+                new ConvertLeadToAccountDto(
+                    lead: ObjectMapper.Map<LeadDto>(lead),
+                    conversionAccountTypeId: accountType.Id)
+                );
+
+            lead.CustomerNumber = customerNumber;
+            lead.LeadStatusId = convertedStatus.Id;
+
+            using (_reasonProvider.Use("Lead converted to Account"))
+            {
+                await _leadRepository.UpdateAsync(lead);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
     }

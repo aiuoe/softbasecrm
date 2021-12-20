@@ -1,7 +1,12 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, Input} from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import { AccountUsersServiceProxy, CreateOrEditAccountUserDto ,AccountUserUserLookupTableDto, GetAccountUserForViewDto } from '@shared/service-proxies/service-proxies';
+import {
+    AccountUsersServiceProxy,
+    CreateOrEditAccountUserDto,
+    AccountUserUserLookupTableDto,
+    GetAccountUserForViewDto
+} from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
@@ -15,24 +20,25 @@ import { isNgTemplate } from '@angular/compiler';
  */
 @Component({
     selector: 'app-create-or-edit-assined-user-modal',
-    templateUrl: './create-or-edit-assined-user-modal.component.html',
+    templateUrl: './create-or-edit-assined-user-modal.component.html'
 })
-export class CreateOrEditAssignedUserModalComponent extends AppComponentBase implements OnInit{
-   
+export class CreateOrEditAssignedUserModalComponent extends AppComponentBase implements OnInit {
+
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() assignedUsers: EventEmitter<AccountUserUserLookupTableDto[]> = new EventEmitter<AccountUserUserLookupTableDto[]>();
-    @Input() assignedUsersExists: GetAccountUserForViewDto[] = [];
+    @Input() assignedUsersExists: AccountUserUserLookupTableDto[] = [];
+    @Input() excludeSelectedItemsInMultiSelect = false;
 
     active = false;
     saving = false;
     accountUser: CreateOrEditAccountUserDto = new CreateOrEditAccountUserDto();
     userName = '';
-	allUsers: AccountUserUserLookupTableDto[];
+    allUsers: AccountUserUserLookupTableDto[];
     selectedUsers: AccountUserUserLookupTableDto[];
-					
+
 
     constructor(
         injector: Injector,
@@ -43,13 +49,13 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     }
 
     ngOnInit(): void {
-        
-    }    
+
+    }
 
 
     /**
-     * This method filter ther users to be shown on the list box 
-     * @param accountUserId 
+     * This method filter ther users to be shown on the list box
+     * @param accountUserId
      */
     show(accountUserId?: number): void {
         if (!accountUserId) {
@@ -66,25 +72,30 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
                 this.modal.show();
             });
         }
-        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
-						this.allUsers = result;
-                        // Filtering by users who hasn't been assigned yet
-                        var userIdsArray = [];
-                        for(var i = 0; i< this.assignedUsersExists.length; i++){
-                            userIdsArray.push(this.assignedUsersExists[i].accountUser.userId);
-                        }
+        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+            this.allUsers = result;
 
-                        var arrayResult = [];
-                        this.allUsers.forEach( element =>{
-                            if(!userIdsArray.find( p=> p == element.id )){
-                                arrayResult.push(element);
-                            }
-                        });
-                        this.allUsers = [];
-                        this.allUsers = arrayResult;                        
-					});			
-                    
-                    
+            const userIdsArray = [];
+            for (let i = 0; i < this.assignedUsersExists.length; i++) {
+                userIdsArray.push(this.assignedUsersExists[i].id);
+            }
+
+            if (this.excludeSelectedItemsInMultiSelect) {
+                // Filtering by users who hasn't been assigned yet
+                const arrayResult = [];
+                this.allUsers.forEach(element => {
+                    if (!userIdsArray.find(p => p === element.id)) {
+                        arrayResult.push(element);
+                    }
+                });
+                this.allUsers = [];
+                this.allUsers = arrayResult;
+            } else {
+                this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
+            }
+        });
+
+
     }
 
     /**
@@ -96,12 +107,12 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     }
 
     /**
-     * Method to use to close the modal 
+     * Method to use to close the modal
      */
     close(): void {
         this.active = false;
         this.selectedUsers = [];
         this.modal.hide();
-    }    
+    }
 
 }

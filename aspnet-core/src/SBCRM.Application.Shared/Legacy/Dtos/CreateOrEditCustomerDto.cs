@@ -67,9 +67,14 @@ namespace SBCRM.Legacy.Dtos
 
         public void AddValidationErrors(CustomValidationContext context)
         {
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrWhiteSpace(Name))
             {
-                context.Results.Add(new ValidationResult("Name is required!"));
+                context.Results.Add(new ValidationResult("Company name should be provided"));
+            }
+
+            if (string.IsNullOrWhiteSpace(Phone) && string.IsNullOrWhiteSpace(EMail))
+            {
+                context.Results.Add(new ValidationResult("Email or Phone should be provided"));
             }
         }
     }
