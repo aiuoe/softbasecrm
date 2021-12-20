@@ -344,6 +344,11 @@ namespace SBCRM.Crm
         {
             var lead = ObjectMapper.Map<Lead>(input);
 
+            if (AbpSession.TenantId != null)
+            {
+                lead.TenantId = AbpSession.TenantId;
+            }
+
             await _leadRepository.InsertAsync(lead);
 
         }
