@@ -695,6 +695,64 @@ export class AccountTypesServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllWithoutPaging(): Observable<GetAccountTypeForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountTypes/GetAllWithoutPaging";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWithoutPaging(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWithoutPaging(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAccountTypeForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAccountTypeForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWithoutPaging(response: HttpResponseBase): Observable<GetAccountTypeForViewDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAccountTypeForViewDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAccountTypeForViewDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
@@ -1128,58 +1186,6 @@ export class AccountUsersServiceProxy {
             }));
         }
         return _observableOf<GetAccountUserForEditOutput>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    createOrEdit(body: CreateOrEditAccountUserDto | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/AccountUsers/CreateOrEdit";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateOrEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateOrEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -4369,6 +4375,62 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfCustomerWipViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    checkIfExistByName(input: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/CheckIfExistByName?";
+        if (input === null)
+            throw new Error("The parameter 'input' cannot be null.");
+        else if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCheckIfExistByName(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCheckIfExistByName(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCheckIfExistByName(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
     }
 }
 
@@ -9862,6 +9924,58 @@ export class LeadsServiceProxy {
             }));
         }
         return _observableOf<LeadPriorityLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    convertToAccount(body: ConvertLeadToAccountRequestDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/ConvertToAccount";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConvertToAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConvertToAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processConvertToAccount(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -22434,6 +22548,42 @@ export interface IComboboxItemDto {
     isSelected: boolean;
 }
 
+export class ConvertLeadToAccountRequestDto implements IConvertLeadToAccountRequestDto {
+    leadId!: number;
+
+    constructor(data?: IConvertLeadToAccountRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadId = _data["leadId"];
+        }
+    }
+
+    static fromJS(data: any): ConvertLeadToAccountRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConvertLeadToAccountRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadId"] = this.leadId;
+        return data; 
+    }
+}
+
+export interface IConvertLeadToAccountRequestDto {
+    leadId: number;
+}
+
 export class CountryDto implements ICountryDto {
     name!: string | undefined;
     code!: string | undefined;
@@ -28094,6 +28244,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     leadStatusColor!: string | undefined;
     priorityDescription!: string | undefined;
     city!: any | undefined;
+    leadCanBeConvert!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -28112,6 +28263,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.leadStatusColor = _data["leadStatusColor"];
             this.priorityDescription = _data["priorityDescription"];
             this.city = _data["city"];
+            this.leadCanBeConvert = _data["leadCanBeConvert"];
         }
     }
 
@@ -28130,6 +28282,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["leadStatusColor"] = this.leadStatusColor;
         data["priorityDescription"] = this.priorityDescription;
         data["city"] = this.city;
+        data["leadCanBeConvert"] = this.leadCanBeConvert;
         return data; 
     }
 }
@@ -28141,6 +28294,7 @@ export interface IGetLeadForViewDto {
     leadStatusColor: string | undefined;
     priorityDescription: string | undefined;
     city: any | undefined;
+    leadCanBeConvert: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {

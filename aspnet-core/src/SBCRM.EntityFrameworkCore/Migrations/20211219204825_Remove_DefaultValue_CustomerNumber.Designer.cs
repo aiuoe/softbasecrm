@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211219204825_Remove_DefaultValue_CustomerNumber")]
+    partial class Remove_DefaultValue_CustomerNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2061,9 +2063,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
                     b.Property<string>("WebSite")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -2135,10 +2134,6 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Color")
                         .IsRequired()

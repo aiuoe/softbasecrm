@@ -2,38 +2,38 @@
     <div class="content d-inline-flex flex-column flex-column-fluid">
         <sub-header [title]="'Leads'" >
 
-            <div role="actions" class="d-flex flex-row align-items-center">                
-                   
+            <div role="actions" class="d-flex flex-row align-items-center">
+
                 <div class = padding-left-5>
-                    <button 
-                        (click)="exportToExcel()" 
+                    <button
+                        (click)="exportToExcel()"
                         class="btn btn btn-primary blue"
                     >
                         <i class="fa fa-download fa-lg"></i>
                         {{ l('Export') }}
                     </button>
-                </div>   
+                </div>
 
-                <div class = padding-left-5> 
-                    <button 
-                        *ngIf="isGranted('Pages.Leads.Create')" 
-                        (click)="showModalDialog()" 
+                <div class = padding-left-5>
+                    <button
+                        *ngIf="isGranted('Pages.Leads.Create')"
+                        (click)="showModalDialog()"
                         class="btn btn-primary blue">
                         <i class="fa fa-address-card"></i>
                         {{ l('Import') }}
                     </button>
                 </div>
 
-                <div class = padding-left-5>    
-                    <button 
-                        *ngIf="isGranted('Pages.Leads.Create')" 
-                        (click)="createLead()" 
+                <div class = padding-left-5>
+                    <button
+                        *ngIf="isGranted('Pages.Leads.Create')"
+                        (click)="createLead()"
                         class="btn btn btn-primary blue"
                     >
                         <i class="fa fa-plus fa-lg"></i>
                         {{ l('NewLead') }}
                     </button>
-                </div>   
+                </div>
 
             </div>
         </sub-header>
@@ -82,16 +82,16 @@
                                                            name="LeadStatusFilter"
                                                            [options]="leadStatuses"
                                                            [(ngModel)]="selectedLeadStatuses"
-                                                           optionLabel="description"     
-                                                           placeholder="Filter by Status"                                          
+                                                           optionLabel="description"
+                                                           placeholder="Filter by Status"
                                                            (onChange)="getLeads($event)">
                                             </p-multiSelect>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                            
+
                             <div class="row mb-2">
                                 <div class="col-sm-12">
                                     <span
@@ -111,7 +111,7 @@
                                         {{ l('HideAdvancedFilters') }}
                                     </span>
                                 </div>
-                            </div>    
+                            </div>
 
                         </div>
                     </form>
@@ -134,40 +134,40 @@
                                 (onRowSelect)="onRowSelect($event)"
                                 (onRowUnselect)="onRowUnselect($event)"
                                 selectionMode="multiple"
-                            >   
-                                <ng-template pTemplate="header">                                                                     
+                            >
+                                <ng-template pTemplate="header">
                                     <tr>
                                         <th
                                             style="width: 80px"
                                             [hidden]="!isGrantedAny('Pages.Leads.Edit', 'Pages.Leads.Delete')"
-                                        >    
-                                            {{ l('Actions') }}                                        
+                                        >
+                                            {{ l('Actions') }}
                                         </th>
                                         <th style="width: 38px">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
-                                        <th 
-                                            style="width: 150px"   
+                                        <th
+                                            style="width: 150px"
                                             pSortableColumn="companyName"
                                         >
                                             {{ l('LeadCompanyName') }}
                                             <p-sortIcon field="companyName"></p-sortIcon>
                                         </th>
-                                        <th 
-                                            style="width: 150px"                                            
+                                        <th
+                                            style="width: 150px"
                                             pSortableColumn="contactName"
                                         >
                                             {{ l('LeadContactName') }}
                                             <p-sortIcon field="contactName"></p-sortIcon>
                                         </th>
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="leadStatusFk.description"
                                         >
                                             {{ l('Status') }}
                                             <p-sortIcon field="leadStatusFk.description"></p-sortIcon>
                                         </th>
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="companyPhone"
                                         >
@@ -175,7 +175,7 @@
                                             <p-sortIcon field="companyPhone"></p-sortIcon>
                                         </th>
                                         <!-- These is just a placeholder -->
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="contactName"
                                         >
@@ -183,14 +183,14 @@
                                             <p-sortIcon field="contactName"></p-sortIcon>
                                         </th>
                                         <!-- Above is just a placeholder -->
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="creationTime"
                                         >
                                             {{ l('LeadCreationTime') }}
                                             <p-sortIcon field="creationTime"></p-sortIcon>
                                         </th>
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="PriorityFk.description"
                                         >
@@ -212,11 +212,11 @@
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
-                                                        <a                                                            
+                                                        <a
                                                             class="dropdown-item"
                                                             href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Leads.Delete') 
-                                                                && leadCanBeEdittedOrConverted(record.leadStatusDescription)"
+                                                            (click)="convertToAccount(record.lead.id)"
+                                                            *ngIf="record.leadCanBeConvert && permission.isGranted('Pages.Leads.ConvertToAccount')"
                                                         >
                                                             {{ l('MakeAccount') }}
                                                         </a>
@@ -245,23 +245,23 @@
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td 
+                                        <td
                                             style="width: 38px" >
-                                            <p-tableCheckbox    [value]="record">    
+                                            <p-tableCheckbox    [value]="record">
                                             </p-tableCheckbox>
                                         </td>
                                         <td style="width: 150px">
-                                            <span                                                 
+                                            <span
                                                 class="p-column-title"
                                             >
                                                 {{ l('LeadCompanyName') }}
-                                            </span>    
-                                            <a                                                
+                                            </span>
+                                            <a
                                                 [routerLink]="['/app/main/crm/leads/view']"
                                                 [queryParams]="{ id: record.lead.id }"
                                             >
-                                                {{ record.lead.companyName }}   
-                                            </a>                                            
+                                                {{ record.lead.companyName }}
+                                            </a>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadContactName') }}</span>
@@ -270,14 +270,14 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Status') }}</span>
                                             <span
-                                                class="p-3 mb-2"
+                                                class="cell-span-color"
                                                 [ngStyle]="{
                                                     'color': record.leadStatusColor,
                                                     'background-color': record.leadStatusColor + '33'
                                                 }"
                                             >
                                                 {{ record.leadStatusDescription }}
-                                            </span>                                            
+                                            </span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
@@ -286,21 +286,21 @@
                                         <!-- These is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <img 
-                                                width="50" 
+                                            <img
+                                                width="50"
                                                 height="50"
                                                 src="\assets\metronic\common\images\users\100_4.jpg">
-                                                {{ l('Placeholder') }}                                           
+                                                {{ l('Placeholder') }}
                                         </td>
                                         <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
-                                                {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}                                           
+                                                {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadPriority') }}</span>
-                                                {{ record.priorityDescription }}                                             
-                                        </td>                                       
+                                                {{ record.priorityDescription }}
+                                        </td>
                                     </tr>
                                 </ng-template>
                             </p-table>
@@ -317,7 +317,7 @@
                                     [showCurrentPageReport]="true"
                                     [currentPageReportTemplate]="
                                         'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
-                                    "    
+                                    "
                                 ></p-paginator>
                             </div>
                         </div>
