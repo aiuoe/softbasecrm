@@ -36,8 +36,6 @@ namespace SBCRM.Legacy.Exporting
 
                     AddHeader(
                         sheet,
-                        L("Number"),
-                        L("BillTo"),
                         L("Name"),
                         L("Address"),
                         L("Phone"),
@@ -47,8 +45,6 @@ namespace SBCRM.Legacy.Exporting
 
                     AddObjects(
                         sheet, customer,
-                        _ => _.Customer.Number,
-                        _ => _.Customer.BillTo,
                         _ => _.Customer.Name,
                         _ => _.Customer.Address,
                         _ => _.Customer.Phone,

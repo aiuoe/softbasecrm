@@ -1,7 +1,16 @@
-﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+﻿import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LeadsServiceProxy, LeadDto, LeadStatusesServiceProxy, LeadLeadSourceLookupTableDto, UserServiceProxy, LeadStatusDto, PagedResultDtoOfGetLeadStatusForViewDto, PriorityDto, PrioritiesServiceProxy, PagedResultDtoOfGetPriorityForViewDto } from '@shared/service-proxies/service-proxies';
+import {
+    LeadsServiceProxy,
+    LeadStatusesServiceProxy,
+    LeadLeadSourceLookupTableDto,
+    LeadStatusDto,
+    PagedResultDtoOfGetLeadStatusForViewDto,
+    ConvertLeadToAccountRequestDto,
+    PriorityDto,
+    PrioritiesServiceProxy,
+    PagedResultDtoOfGetPriorityForViewDto
+} from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -11,18 +20,11 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
-import { filter as _filter } from 'lodash-es';
-import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { HttpClient, HttpRequest } from '@angular/common/http';
-import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
-import { finalize } from 'rxjs/operators';
-import { base64ToFile } from '@node_modules/ngx-image-cropper';
-import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
+import { HttpClient } from '@angular/common/http';
+import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
-import { read } from 'fs';
 
 /***
  * Component to manage the leads summary grid
@@ -83,7 +85,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     private _uploaderOptions: FileUploaderOptions = {}
     public saving = false;
 
-    
+
     /***
      * Main constructor
      * @param injector
@@ -113,7 +115,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         private _tokenService: TokenService
     ) {
         super(injector);
-    }    
+    }
 
     /***
     * Initialize component
@@ -170,7 +172,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.webSiteFilter,
                 this.addressFilter,
                 this.countryFilter,
-                this.stateFilter, 
+                this.stateFilter,
                 this.cityFilter,
                 this.descriptionFilter,
                 this.companyPhoneFilter,
@@ -192,7 +194,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
             )
-            .subscribe((result) => {                
+            .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
                 this.primengTableHelper.hideLoadingIndicator();
@@ -206,7 +208,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         return !(this.readOnlyStatus.includes(status));
     }
 
-    
+
     /***
     * Reload page
     */
@@ -235,7 +237,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.addressFilter,
                 this.countryFilter,
                 this.stateFilter,
-                this.cityFilter, 
+                this.cityFilter,
                 this.descriptionFilter,
                 this.companyPhoneFilter,
                 this.companyEmailFilter,
@@ -254,11 +256,11 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.selectedPriorities?.map(x => x.id),
             )
             .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);                
+                this._fileDownloadService.downloadTempFile(result);
             });
-    } 
+    }
 
-    /* 
+    /*
     Below there are methods that act as placeholder for
     rows selections, currently there are not valid actions
     as 13/12/2021 - lead summary story
@@ -272,12 +274,29 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         console.log('Not implemented');
     }
 
-    onRowUnselect(event) {      
-        console.log('Not implemented');  
+    onRowUnselect(event) {
+        console.log('Not implemented');
     }
 
     showModalDialog() {
         this.importLeadsModalComponent.show();
     }
+
+    /***
+     * Convert Lead to Account
+     * @param leadId
+     */
+    convertToAccount(leadId: number) {
+        const convertToAccountData = new ConvertLeadToAccountRequestDto();
+        convertToAccountData.leadId = leadId;
+        this.spinnerService.show();
+        this._leadsServiceProxy.convertToAccount(convertToAccountData)
+            .subscribe(_ => {
+                this.spinnerService.hide();
+                this.getLeads();
+                this.message.success(this.l('LeadConversionSuccessful'));
+            }, _ => {
+                this.spinnerService.hide();
+            });
+    }
 }
- 

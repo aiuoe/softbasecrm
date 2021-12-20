@@ -2061,6 +2061,9 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.Property<string>("WebSite")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -2132,6 +2135,10 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -2517,10 +2524,8 @@ namespace SBCRM.Migrations
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>
                 {
                     b.Property<string>("Number")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("AccountTypeId")
                         .HasColumnType("int");

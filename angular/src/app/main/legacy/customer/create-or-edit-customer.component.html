@@ -77,7 +77,7 @@
                                                                 name="Phone"
                                                                 minlength="0"
                                                                 maxlength="255"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_Phone"></validation-messages>
                                                         </div>
@@ -98,7 +98,7 @@
                                                                 minlength="0"
                                                                 maxlength="50"
                                                                 email
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_EMail"></validation-messages>
                                                         </div>
@@ -115,7 +115,7 @@
                                                                 name="WWWAddress"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_WWWAddress"></validation-messages>
                                                         </div>
@@ -135,7 +135,7 @@
                                                                 name="Address"
                                                                 minlength="0"
                                                                 maxlength="255"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_Address"></validation-messages>
                                                         </div>
@@ -153,7 +153,7 @@
                                                                 name="POBox"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_POBox"></validation-messages>
                                                         </div>
@@ -169,7 +169,7 @@
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         [options]="countries"
                                                                         [(ngModel)]="customer.country"
-                                                                        [disabled]="this.isReadOnlyMode"
+                                                                        [disabled]="this.isReadOnlyMode || !this.isNew"
                                                                         optionLabel="name"
                                                                         placeholder="Select Country"
                                                                         [showClear]="true"
@@ -190,7 +190,7 @@
                                                                 name="State"
                                                                 minlength="0"
                                                                 maxlength="255"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_State"></validation-messages>
                                                         </div>
@@ -207,7 +207,7 @@
                                                                 name="City"
                                                                 minlength="0"
                                                                 maxlength="255"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_City"></validation-messages>
                                                         </div>
@@ -224,7 +224,7 @@
                                                                 name="ZipCode"
                                                                 minlength="0"
                                                                 maxlength="255"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                                 (keyup)="getZipCode($event)"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
@@ -252,7 +252,7 @@
                                                                 minlength="0"
                                                                 maxlength="100"
                                                                 readonly
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_Number"></validation-messages>
                                                         </div>
@@ -269,7 +269,7 @@
                                                                 name="BillTo"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_BillTo"></validation-messages>
                                                         </div>
@@ -321,7 +321,7 @@
                                                                 name="DunsCode"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_DunsCode"></validation-messages>
                                                         </div>
@@ -341,7 +341,7 @@
                                                                 name="SICCode"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_SICCode"></validation-messages>
                                                         </div>
@@ -358,7 +358,7 @@
                                                                 name="SICCode2"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_SICCode2"></validation-messages>
                                                         </div>
@@ -375,7 +375,7 @@
                                                                 name="SICCode3"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_SICCode3"></validation-messages>
                                                         </div>
@@ -392,7 +392,7 @@
                                                                 name="SICCode4"
                                                                 minlength="0"
                                                                 maxlength="50"
-                                                                [disabled]="this.isReadOnlyMode"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
                                                             <validation-messages [formCtrl]="Customer_SICCode4"></validation-messages>
                                                         </div>

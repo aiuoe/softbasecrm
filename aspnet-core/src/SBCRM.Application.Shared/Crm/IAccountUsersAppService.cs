@@ -33,13 +33,6 @@ namespace SBCRM.Crm
         Task<GetAccountUserForEditOutput> GetAccountUserForEdit(EntityDto input);
 
         /// <summary>
-        /// Manages the create/edit of an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task CreateOrEdit(CreateOrEditAccountUserDto input);
-
-        /// <summary>
         /// Deletes an account user
         /// </summary>
         /// <param name="input"></param>

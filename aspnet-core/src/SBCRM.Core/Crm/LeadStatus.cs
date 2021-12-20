@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -17,6 +15,9 @@ namespace SBCRM.Crm
         [Required]
         [StringLength(LeadStatusConsts.MaxColorLength, MinimumLength = LeadStatusConsts.MinColorLength)]
         public virtual string Color { get; set; }
+
+        [StringLength(LeadStatusConsts.MaxCodeLength)]
+        public virtual string Code { get; set; }
 
         public virtual bool IsLeadConversionValid { get; set; }
 

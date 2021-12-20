@@ -6,6 +6,10 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Contacts = "Pages.Contacts";
+        public const string Pages_Contacts_Create = "Pages.Contacts.Create";
+        public const string Pages_Contacts_Edit = "Pages.Contacts.Edit";
+        public const string Pages_Contacts_Delete = "Pages.Contacts.Delete";
 
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
@@ -57,6 +61,7 @@
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";
         public const string Pages_Leads_Delete = "Pages.Leads.Delete";
+        public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";
