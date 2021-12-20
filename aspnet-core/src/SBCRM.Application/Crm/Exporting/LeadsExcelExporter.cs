@@ -9,6 +9,9 @@ using NPOI.SS.UserModel;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// This class manages the export to excel functionalities
+    /// </summary>
     public class LeadsExcelExporter : NpoiExcelExporterBase, ILeadsExcelExporter
     {
 
@@ -91,6 +94,7 @@ namespace SBCRM.Crm.Exporting
                        ("Contact Phone"),
                        ("Contact Extension"),
                        ("Contact Cell Phone"),
+                       ("Contact Fax"),
                        ("Contact Pager"),
                        ("Contact Email")
                        );
@@ -99,10 +103,12 @@ namespace SBCRM.Crm.Exporting
                        sheet, leads,
                        _ => _.CompanyName,
                        _ => _.CompanyPhone,
+                       _ => _.CompanyEmail,
                        _ => _.WebSite,
                        _ => _.Address,
                        _ => _.Country,
                        _ => _.City,
+                       _ => _.State,
                        _ => _.ZipCode,
                        _ => _.PoBox,
                        _ => _.ContactName,
@@ -110,6 +116,7 @@ namespace SBCRM.Crm.Exporting
                        _ => _.ContactPhone,
                        _ => _.ContactPhoneExtension,
                        _ => _.ContactCellPhone,
+                       _ => _.ContactFaxNumber,
                        _ => _.PagerNumber,
                        _ => _.ContactEmail
                        );

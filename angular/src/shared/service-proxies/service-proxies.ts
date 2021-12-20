@@ -1343,87 +1343,6 @@ export class AccountUsersServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param filter (optional) 
-     * @param userNameFilter (optional) 
-     * @param customerNumber (optional) 
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAccountUserByCustomerNumber(filter: string | undefined, userNameFilter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetAccountUserForViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAccountUserByCustomerNumber?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (userNameFilter === null)
-            throw new Error("The parameter 'userNameFilter' cannot be null.");
-        else if (userNameFilter !== undefined)
-            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
-        if (customerNumber === null)
-            throw new Error("The parameter 'customerNumber' cannot be null.");
-        else if (customerNumber !== undefined)
-            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAccountUserByCustomerNumber(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAccountUserByCustomerNumber(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfGetAccountUserForViewDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfGetAccountUserForViewDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAccountUserByCustomerNumber(response: HttpResponseBase): Observable<PagedResultDtoOfGetAccountUserForViewDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfGetAccountUserForViewDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfGetAccountUserForViewDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -3363,7 +3282,7 @@ export class CountriesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCountryForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetCountryForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3438,7 +3357,7 @@ export class CountriesServiceProxy {
     /**
      * @return Success
      */
-    getAllForTableDropdown(): Observable<GetCountryForViewDto[]> {
+    getAllForTableDropdown() : Observable<GetCountryForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetAllForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3497,7 +3416,7 @@ export class CountriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getCountryForView(id: number | undefined): Observable<GetCountryForViewDto> {
+    getCountryForView(id: number | undefined) : Observable<GetCountryForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetCountryForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3553,7 +3472,7 @@ export class CountriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getCountryForEdit(id: number | undefined): Observable<GetCountryForEditOutput> {
+    getCountryForEdit(id: number | undefined) : Observable<GetCountryForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetCountryForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3609,7 +3528,7 @@ export class CountriesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditCountryDto | undefined): Observable<void> {
+    createOrEdit(body: CreateOrEditCountryDto | undefined) : Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Countries/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3661,7 +3580,7 @@ export class CountriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined): Observable<void> {
+    delete(id: number | undefined) : Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Countries/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3715,7 +3634,7 @@ export class CountriesServiceProxy {
      * @param codeFilter (optional) 
      * @return Success
      */
-    getCountriesToExcel(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined): Observable<FileDto> {
+    getCountriesToExcel(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetCountriesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -4213,7 +4132,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllCustomerInvoices(billTo: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerInvoiceViewDto> {
+    getAllCustomerInvoices(billTo: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerInvoiceViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerInvoices?";
         if (billTo === null)
             throw new Error("The parameter 'billTo' cannot be null.");
@@ -4222,11 +4141,11 @@ export class CustomerServiceProxy {
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -4292,7 +4211,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllCustomerEquipments(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
+    getAllCustomerEquipments(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerEquipments?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -4366,7 +4285,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllCustomerWip(customerNumber: string | undefined, quotes: boolean | undefined, acceptedQuotes: boolean | undefined, canceledQuotes: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerWipViewDto> {
+    getAllCustomerWip(customerNumber: string | undefined, quotes: boolean | undefined, acceptedQuotes: boolean | undefined, canceledQuotes: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerWipViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerWip?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -9156,7 +9075,7 @@ export class LeadsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9313,12 +9232,73 @@ export class LeadsServiceProxy {
     }
 
     /**
+     * @param leads (optional) 
+     * @return Success
+     */
+    getDuplicatedLeadsToExcel(leads: LeadDto[] | undefined) : Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetDuplicatedLeadsToExcel?";
+        if (leads === null)
+            throw new Error("The parameter 'leads' cannot be null.");
+        else if (leads !== undefined)
+            leads && leads.forEach((item, index) => {
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "leads[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDuplicatedLeadsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDuplicatedLeadsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDuplicatedLeadsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
      * @param leadSourceId (optional) 
      * @param assignedUserId (optional) 
      * @param body (optional) 
      * @return Success
      */
-    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined) : Observable<void> {
+    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined) : Observable<CreateOrEditLeadDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/ImportLeadsFromFile?";
         if (leadSourceId === null)
             throw new Error("The parameter 'leadSourceId' cannot be null.");
@@ -9338,6 +9318,7 @@ export class LeadsServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
             })
         };
 
@@ -9348,14 +9329,14 @@ export class LeadsServiceProxy {
                 try {
                     return this.processImportLeadsFromFile(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<CreateOrEditLeadDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<CreateOrEditLeadDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processImportLeadsFromFile(response: HttpResponseBase): Observable<void> {
+    protected processImportLeadsFromFile(response: HttpResponseBase): Observable<CreateOrEditLeadDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -9364,14 +9345,24 @@ export class LeadsServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateOrEditLeadDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<CreateOrEditLeadDto[]>(<any>null);
     }
 
     /**
@@ -9617,7 +9608,7 @@ export class LeadsServiceProxy {
      * @param leadStatusId (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9956,7 +9947,7 @@ export class LeadSourcesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10250,7 +10241,7 @@ export class LeadSourcesServiceProxy {
      * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
+    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourcesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10332,7 +10323,7 @@ export class LeadStatusesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11430,7 +11421,7 @@ export class OpportunitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11784,7 +11775,7 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageId (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14460,7 +14451,7 @@ export class PrioritiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPriorityForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14754,7 +14745,7 @@ export class PrioritiesServiceProxy {
      * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
+    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetPrioritiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -20860,7 +20851,7 @@ export class ZipCodesServiceProxy {
     /**
      * @return Success
      */
-    getAllZipCodesForTableDropdown(): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+    getAllZipCodesForTableDropdown() : Observable<PagedResultDtoOfGetZipCodeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAllZipCodesForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 

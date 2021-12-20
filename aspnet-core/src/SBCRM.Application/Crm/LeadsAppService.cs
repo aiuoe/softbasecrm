@@ -210,11 +210,11 @@ namespace SBCRM.Crm
         /// <param name="leadSourceId"></param>
         /// <param name="assignedUserId"></param>
         /// <returns></returns>
-        public async Task ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
+        public async Task<List<CreateOrEditLeadDto>> ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
         {
             var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
 
-            var duplicatedLeads = new List<LeadImportedInputDto>();
+            var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
             // Defining default status and priority
             var leadStatusId = _lookup_leadStatusRepository.FirstOrDefault(p => p.Description == "New");
@@ -226,30 +226,52 @@ namespace SBCRM.Crm
                 CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
                 leadAux.CompanyName = item.CompanyName;
                 leadAux.CompanyPhone = item.Phone;
+                leadAux.CompanyEmail = item.CompanyEmail;
+                leadAux.WebSite = item.Website;
+                leadAux.Address = item.CompanyAdress;
+                leadAux.Country = item.Country;
+                leadAux.City = item.City;
+                leadAux.State = item.StateProvince;
+                leadAux.ZipCode = item.ZipCode;
+                leadAux.PoBox = item.PoBox;
+                leadAux.ContactName = item.ContactName;
+                leadAux.ContactPosition = item.ContactPosition;
+                leadAux.ContactPhone = item.ContactPhone;
+                leadAux.ContactPhoneExtension = item.ContactExtention;
+                leadAux.ContactCellPhone = item.ContactCelphone;
+                leadAux.ContactFaxNumber = item.ContactFax;
+                leadAux.PagerNumber = item.ContactPager;
+                leadAux.ContactEmail = item.ContactEmail;
+                // Default fields
                 leadAux.LeadSourceId = leadSourceId;
                 leadAux.LeadStatusId = leadStatusId.Id;
                 leadAux.PriorityId = leadPriorityId.Id;
 
 
-                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.CompanyPhone == leadAux.CompanyPhone);
+                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
                 if (storedLead == null)
                 {
                     var lead = ObjectMapper.Map<Lead>(leadAux);
                     int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
 
-                    var leadUser = new LeadUser
+                    if (leadId != 0)
                     {
-                        LeadId = leadId,
-                        UserId = assignedUserId
-                    };
+                        var leadUser = new LeadUser
+                        {
+                            LeadId = leadId,
+                            UserId = assignedUserId
+                        };
 
-                    await _leadUserRepository.InsertAsync(leadUser);
+                        await _leadUserRepository.InsertAsync(leadUser);
+                    }
                 }
                 else
                 {
-                    duplicatedLeads.Add(item);
+                    duplicatedLeads.Add(leadAux);
                 }
             }
+
+            return duplicatedLeads;
 
         }
 

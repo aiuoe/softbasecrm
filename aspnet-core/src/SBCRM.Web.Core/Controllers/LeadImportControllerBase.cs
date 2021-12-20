@@ -38,12 +38,13 @@ namespace SBCRM.Web.Controllers
                 int leadSourceId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
                 int assignedUserId = Convert.ToInt32(Request.Form["SelectedUser"]);
 
-                await _leadsAppService.ImportLeadsFromFile(byteArrayFile, leadSourceId, assignedUserId);
+                var duplicatedLeads = await _leadsAppService.ImportLeadsFromFile(byteArrayFile, leadSourceId, assignedUserId);
 
                 var dataReturn = new UploadLeadOutput
                 {
                     FileName = excelLeads.FileName,
-                    FileType = excelLeads.ContentType
+                    FileType = excelLeads.ContentType,
+                    RepeatedLeads = duplicatedLeads
                 };
                 return dataReturn;
             }

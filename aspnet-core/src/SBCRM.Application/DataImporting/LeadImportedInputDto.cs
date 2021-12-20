@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SBCRM.DataImporting
 {
+    /// <summary>
+    /// DTO to manage the import leads functionallity
+    /// </summary>
     class LeadImportedInputDto
     {
         [PositionExcel(1)]
