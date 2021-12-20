@@ -5,24 +5,35 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="opportunityStage.id">{{l("EditOpportunityStage")}}</span>
-                        <span *ngIf="!opportunityStage.id">{{l("CreateNewOpportunityStage")}}</span>
-                    </h4>
-                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <span *ngIf="!opportunityStage.id">{{l("NewOpportunityStage")}}</span>
+                    </h4>                    
+                    
+                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                     <span aria-hidden="true">&times;</span>
+                </button>
+             
+                    
                 </div>
                 <div class="modal-body">
-                 
                     <div class="form-group">
-                        <label for="OpportunityStage_Description">{{l("Description")}} *</label>
-                        <input type="text" #OpportunityStage_Description="ngModel" id="OpportunityStage_Description" class="form-control" [(ngModel)]="opportunityStage.description" name="Description"   minlength="1"  maxlength="100"  required/>
+                        <label for="OpportunityStage_Description">{{l("StageName")}} *</label>
+                        <input type="text" #OpportunityStage_Description="ngModel" 
+                        id="OpportunityStage_Description" 
+                        class="form-control" 
+                        [(ngModel)]="opportunityStage.description" 
+                        name="Description" 
+                        minlength="1"  
+                        maxlength="100" 
+                        placeholder="Enter Name"
+                        required/>
                         <validation-messages [formCtrl]="OpportunityStage_Description"></validation-messages>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!opportunityStageForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!opportunityStageForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <span>{{l("Add")}}</span>
+                    </button>
                 </div>
             </form>
         </div>

@@ -118,7 +118,6 @@ namespace SBCRM.Crm
                                     o.Department,
                                     Id = o.Id,
                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                                    OpportunityStageColor = s1 == null || s1.Color == null ? "" : s1.Color.ToString(),
                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
                                 };
@@ -145,7 +144,6 @@ namespace SBCRM.Crm
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
-                    OpportunityStageColor = o.OpportunityStageColor,
                     LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityTypeDescription = o.OpportunityTypeDescription
                 };

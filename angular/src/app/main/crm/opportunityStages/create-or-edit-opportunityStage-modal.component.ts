@@ -4,7 +4,8 @@ import { finalize } from 'rxjs/operators';
 import { OpportunityStagesServiceProxy, CreateOrEditOpportunityStageDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
-import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+
+             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 
 
@@ -23,9 +24,6 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
 
     opportunityStage: CreateOrEditOpportunityStageDto = new CreateOrEditOpportunityStageDto();
 
-
-
-
     constructor(
         injector: Injector,
         private _opportunityStagesServiceProxy: OpportunityStagesServiceProxy,
@@ -34,22 +32,16 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
         super(injector);
     }
     
-    show(opportunityStageId?: number): void {
-    
+    show(opportunityStageId?: number): void {    
 
         if (!opportunityStageId) {
             this.opportunityStage = new CreateOrEditOpportunityStageDto();
             this.opportunityStage.id = opportunityStageId;
-
-
             this.active = true;
             this.modal.show();
         } else {
             this._opportunityStagesServiceProxy.getOpportunityStageForEdit(opportunityStageId).subscribe(result => {
                 this.opportunityStage = result.opportunityStage;
-
-
-
                 this.active = true;
                 this.modal.show();
             });
@@ -59,10 +51,7 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
     }
 
     save(): void {
-            this.saving = true;
-            
-			
-			
+            this.saving = true;			
             this._opportunityStagesServiceProxy.createOrEdit(this.opportunityStage)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
@@ -71,8 +60,6 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
                 this.modalSave.emit(null);
              });
     }
-
-
     close(): void {
         this.active = false;
         this.modal.hide();

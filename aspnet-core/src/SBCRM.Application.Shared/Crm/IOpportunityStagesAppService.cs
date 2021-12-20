@@ -19,5 +19,7 @@ namespace SBCRM.Crm
 
         Task Delete(EntityDto input);
 
+        Task<FileDto> GetOpportunityStagesToExcel(GetAllOpportunityStagesForExcelInput input);
+
     }
 }

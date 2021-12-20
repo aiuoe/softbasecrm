@@ -5,6 +5,7 @@ using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
+using SBCRM.Crm.Exporting;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using Abp.Application.Services.Dto;
@@ -21,10 +22,12 @@ namespace SBCRM.Crm
     public class OpportunityStagesAppService : SBCRMAppServiceBase, IOpportunityStagesAppService
     {
         private readonly IRepository<OpportunityStage> _opportunityStageRepository;
+        private readonly IOpportunityStagesExcelExporter _opportunityStagesExcelExporter;
 
-        public OpportunityStagesAppService(IRepository<OpportunityStage> opportunityStageRepository)
+        public OpportunityStagesAppService(IRepository<OpportunityStage> opportunityStageRepository, IOpportunityStagesExcelExporter opportunityStagesExcelExporter)
         {
             _opportunityStageRepository = opportunityStageRepository;
+            _opportunityStagesExcelExporter = opportunityStagesExcelExporter;
 
         }
 
@@ -32,7 +35,7 @@ namespace SBCRM.Crm
         {
 
             var filteredOpportunityStages = _opportunityStageRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredOpportunityStages = filteredOpportunityStages
@@ -44,8 +47,6 @@ namespace SBCRM.Crm
                                     {
 
                                         o.Description,
-                                        o.Order,
-                                        o.Color,
                                         Id = o.Id
                                     };
 
@@ -62,8 +63,6 @@ namespace SBCRM.Crm
                     {
 
                         Description = o.Description,
-                        Order = o.Order,
-                        Color = o.Color,
                         Id = o.Id,
                     }
                 };
@@ -130,6 +129,28 @@ namespace SBCRM.Crm
         public async Task Delete(EntityDto input)
         {
             await _opportunityStageRepository.DeleteAsync(input.Id);
+        }
+
+        public async Task<FileDto> GetOpportunityStagesToExcel(GetAllOpportunityStagesForExcelInput input)
+        {
+
+            var filteredOpportunityStages = _opportunityStageRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+
+            var query = (from o in filteredOpportunityStages
+                         select new GetOpportunityStageForViewDto()
+                         {
+                             OpportunityStage = new OpportunityStageDto
+                             {
+                                 Description = o.Description,
+                                 Id = o.Id
+                             }
+                         });
+
+            var opportunityStageListDtos = await query.ToListAsync();
+
+            return _opportunityStagesExcelExporter.ExportToFile(opportunityStageListDtos);
         }
 
     }

@@ -12,8 +12,8 @@
   "UpdateDatabase": false,
   "CreateUserInterface": true,
   "CreateViewOnly": true,
-  "CreateExcelExport": false,
-  "IsNonModalCRUDPage": true,
+  "CreateExcelExport": true,
+  "IsNonModalCRUDPage": false,
   "IsMasterDetailPage": false,
   "PagePermission": {
     "Host": false,

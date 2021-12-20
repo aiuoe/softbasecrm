@@ -106,7 +106,8 @@
 		<text name="DeleteOpportunityType">Delete opportunity type</text>
 		<text name="OpportunityStage">Opportunity stage</text>
 		<text name="Stage">Stage</text>
-		<text name="CreateNewOpportunityStage">Create new opportunity stage</text>
+		<text name="StageName">Stage Name</text>
+		<text name="NewOpportunityStage">New opportunity stage</text>
 		<text name="EditOpportunityStage">Edit opportunity stage</text>
 		<text name="DeleteOpportunityStage">Delete opportunity stage</text>
 		<text name="IsLeadConversionValid">Is lead conversion valid</text>
