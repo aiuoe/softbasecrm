@@ -7,15 +7,18 @@ import {
     OpportunityOpportunityStageLookupTableDto,
     OpportunityLeadSourceLookupTableDto,
     OpportunityOpportunityTypeLookupTableDto,
+    GetCustomerForEditOutput,
+    GetOpportunityForEditOutput,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { Observable } from '@node_modules/rxjs';
+import { forkJoin, Observable } from '@node_modules/rxjs';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 
 /**
  * Component to create or edit opportunity
@@ -24,9 +27,20 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
     templateUrl: './create-or-edit-opportunity.component.html',
     animations: [appModuleAnimation()],
 })
-export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {    
+
+    routerLink = '/app/main/business/opportunities';
+    breadcrumbs: BreadcrumbItem[] = [
+        new BreadcrumbItem(this.l('Opportunity'), '/app/main/crm/opportunities'),
+        new BreadcrumbItem(this.l('NewOpportunites'), '/app/main/crm/opportunities')
+    ];
+
+    pageMode = '';
     active = false;
     saving = false;
+    isNew = true;
+    showSaveButton = false;
+    isReadOnlyMode = false;
 
     opportunity: CreateOrEditOpportunityDto = new CreateOrEditOpportunityDto();
 
@@ -40,10 +54,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allLeadSources: OpportunityLeadSourceLookupTableDto[];
     allOpportunityTypes: OpportunityOpportunityTypeLookupTableDto[];
 
-    breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Opportunity'), '/app/main/crm/opportunities'),
-        new BreadcrumbItem(this.l('NewOpportunites'), '/app/main/crm/opportunities')
-    ];
+    opportunityId : number;
+    
+    // Tab permissions
+    isPageLoading = true;
 
     /**
      * Main constructor
@@ -67,51 +81,74 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * Initialize component
      */
     ngOnInit(): void {
-        this.show(this._activatedRoute.snapshot.queryParams['id']);
-    }
-
-    /**
-     * Redirects to opportunities page
-     */
-    goToOpportunities() {
-        this._router.navigate(['/app/main/crm/opportunities'])
+        this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
+        this.isReadOnlyMode = this.pageMode === 'view';
+        this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
+        this.isNew = !!!this.opportunityId;
+        this.show(this.opportunityId);
+        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewOpportunity') : this.l('EditOpportunity')));
     }
 
     /**
      * Shows the form
-     * @param opportunityId the id of the lead to be used, it can be null
+     * the id of the opportunity to be used, it can be null
+     * @param opportunityId 
      */
     show(opportunityId?: number): void {
+        if ((this.pageMode === 'view') && !this.opportunityId)
+            this.goToOpportunities();
+
+        const requests: Observable<any>[] = [
+            this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
+            this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
+            this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown()
+        ];
+            
+
         if (!opportunityId) {
-            this.opportunity = new CreateOrEditOpportunityDto();
-            this.opportunity.id = opportunityId;
-            this.opportunity.closeDate = this._dateTimeService.getStartOfDay();
-            this.opportunityStageDescription = '';
-            this.leadSourceDescription = '';
-            this.opportunityTypeDescription = '';
+            forkJoin([...requests])
+                .subscribe(([opportunityStages, leadSources,opportunityTypes]: [
+                    OpportunityOpportunityStageLookupTableDto[],
+                    OpportunityLeadSourceLookupTableDto[],
+                    OpportunityOpportunityTypeLookupTableDto[]]) => {
+                        this.isPageLoading = false;
+                        this.active = true;
 
-            this.active = true;
+                    this.opportunity = new CreateOrEditOpportunityDto();
+                    this.allOpportunityStages = opportunityStages;
+                    this.opportunity.opportunityStageId = this.allOpportunityStages[0].id;
+                    this.allLeadSources = leadSources;
+                    this.allOpportunityTypes = opportunityTypes;        
+                    
+                    this.showSaveButton = !this.isReadOnlyMode;
+                    }, (error) => {
+                    this.goToOpportunities();
+                });
+
         } else {
-            this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId).subscribe((result) => {
-                this.opportunity = result.opportunity;
+            requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
+            forkJoin([...requests])
+            .subscribe(([opportunityStages, leadSources,opportunityTypes, opportunityForEdit]: [
+                OpportunityOpportunityStageLookupTableDto[],
+                OpportunityLeadSourceLookupTableDto[],
+                OpportunityOpportunityTypeLookupTableDto[],
+                GetOpportunityForEditOutput]) => {
+                    this.isPageLoading = false;
+                    this.active = true;
 
-                this.opportunityStageDescription = result.opportunityStageDescription;
-                this.leadSourceDescription = result.leadSourceDescription;
-                this.opportunityTypeDescription = result.opportunityTypeDescription;
+                this.opportunity = opportunityForEdit.opportunity;
+                this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription
+                this.leadSourceDescription = opportunityForEdit.leadSourceDescription;
+                this.opportunityTypeDescription = opportunityForEdit.opportunityTypeDescription;
+                this.allOpportunityStages = opportunityStages;
+                this.allLeadSources = leadSources;
+                this.allOpportunityTypes = opportunityTypes;    
 
-                this.active = true;
-            });
+                this.showSaveButton = !this.isReadOnlyMode;
+                }, (error) => {
+                    this.goToOpportunities();
+                });
         }
-        this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown().subscribe((result) => {
-            this.allOpportunityStages = result;
-            this.opportunity.opportunityStageId = this.opportunity.opportunityStageId ?? this.allOpportunityStages[0].id;
-        });
-        this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
-            this.allLeadSources = result;
-        });
-        this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown().subscribe((result) => {
-            this.allOpportunityTypes = result;
-        });
     }
 
     /**
@@ -154,4 +191,20 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 this.opportunity = new CreateOrEditOpportunityDto();
             });
     }
+
+    /***
+     * Open internal edition mode
+     */
+     openEditionMode() {
+        this.isReadOnlyMode = false;
+        this.showSaveButton = true;
+    }
+
+    /**
+     * Redirects to opportunities page
+     */
+     goToOpportunities() {
+        this._router.navigate(['/app/main/crm/opportunities'])
+    }    
+
 }
