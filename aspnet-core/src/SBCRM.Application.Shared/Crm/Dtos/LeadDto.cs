@@ -1,10 +1,10 @@
 ﻿using SBCRM.Dto;
 
-/// <summary>
-/// DTO to manage the object lead
-/// </summary>
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object lead
+    /// </summary>
     public class LeadDto : AuditEntityDto
     {
         public string CompanyName { get; set; }

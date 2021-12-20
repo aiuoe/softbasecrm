@@ -81,6 +81,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
 
             var leadStatuses = pages.CreateChildPermission(AppPermissions.Pages_LeadStatuses, L("LeadStatuses"));
             leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Create, L("CreateNewLeadStatus"));

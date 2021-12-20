@@ -1,43 +1,55 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service to handle Account Types information
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_AccountTypes)]
     public class AccountTypesAppService : SBCRMAppServiceBase, IAccountTypesAppService
     {
         private readonly IRepository<AccountType> _accountTypeRepository;
 
+        /// <summary>
+        /// Main constructor
+        /// </summary>
+        /// <param name="accountTypeRepository"></param>
         public AccountTypesAppService(IRepository<AccountType> accountTypeRepository)
         {
             _accountTypeRepository = accountTypeRepository;
 
         }
 
-        //public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll()
-        //{
-        //    var defaultInput = new GetAllAccountTypesInput
-        //    {
-        //        SkipCount = 0,
-        //        MaxResultCount = int.MaxValue
-        //    };
-        //    return await GetAll(defaultInput);
-        //}
+        /// <summary>
+        /// Get all account types without paging
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<GetAccountTypeForViewDto>> GetAllWithoutPaging()
+        {
+            var defaultInput = new GetAllAccountTypesInput
+            {
+                SkipCount = 0,
+                MaxResultCount = int.MaxValue
+            };
+            var pagedResultDto = await GetAll(defaultInput);
+            return pagedResultDto.Items.ToList();
+        }
 
+        /// <summary>
+        /// Get all account types
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input)
         {
 
@@ -81,6 +93,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get account type for edition mode
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountTypes_Edit)]
         public async Task<GetAccountTypeForEditOutput> GetAccountTypeForEdit(EntityDto input)
         {
@@ -91,6 +108,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Create or Edit account type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditAccountTypeDto input)
         {
             if (input.Id == null)
@@ -103,6 +125,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Create account type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountTypes_Create)]
         protected virtual async Task Create(CreateOrEditAccountTypeDto input)
         {
@@ -112,6 +139,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Update account type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountTypes_Edit)]
         protected virtual async Task Update(CreateOrEditAccountTypeDto input)
         {
@@ -120,6 +152,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Delete account type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountTypes_Delete)]
         public async Task Delete(EntityDto input)
         {

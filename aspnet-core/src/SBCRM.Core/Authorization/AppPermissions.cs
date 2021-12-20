@@ -57,6 +57,7 @@
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";
         public const string Pages_Leads_Delete = "Pages.Leads.Delete";
+        public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";

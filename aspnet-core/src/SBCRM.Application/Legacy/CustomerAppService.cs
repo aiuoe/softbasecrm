@@ -5,6 +5,7 @@ using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Abp.Application.Services;
 using SBCRM.Legacy.Exporting;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Dto;
@@ -12,10 +13,12 @@ using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
 using Abp.Domain.Uow;
+using Abp.EntityFrameworkCore.Repositories;
 using Abp.EntityHistory;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
+using SBCRM.Common;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy.Dto;
 using BaseRepo = Abp.Domain.Repositories;
@@ -38,6 +41,7 @@ namespace SBCRM.Legacy
         private readonly BaseRepo.IRepository<AccountUser> _accountUserRepository;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly ISoftBaseCustomerSequenceRepository _customerSequenceRepository;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -55,6 +59,7 @@ namespace SBCRM.Legacy
         /// <param name="accountUserRepository"></param>
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
+        /// <param name="customerSequenceRepository"></param>
         public CustomerAppService(
             BaseRepo.IRepository<Customer> customerRepository,
             ICustomerExcelExporter customerExcelExporter,
@@ -66,7 +71,8 @@ namespace SBCRM.Legacy
             IAccountUsersAppService accountUserService,
             BaseRepo.IRepository<AccountUser> accountUserRepository,
             IEntityChangeSetReasonProvider reasonProvider,
-            IUnitOfWorkManager unitOfWorkManager)
+            IUnitOfWorkManager unitOfWorkManager,
+            ISoftBaseCustomerSequenceRepository customerSequenceRepository)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
@@ -78,6 +84,7 @@ namespace SBCRM.Legacy
             _accountUserRepository = accountUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _customerSequenceRepository = customerSequenceRepository;
         }
 
         /// <summary>
@@ -317,11 +324,13 @@ namespace SBCRM.Legacy
             
             using (_reasonProvider.Use("Account created"))
             {
+                // Set internal audit fields
+                customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
+                customer.BillTo = customer.Number;
                 customer.IsCreatedFromWebCrm = true;
                 customer.AddedBy = currentUser.Name;
                 customer.Added = DateTime.UtcNow;
                 await _customerRepository.InsertAsync(customer);
-
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
         }
@@ -453,5 +462,65 @@ namespace SBCRM.Legacy
             return await _customerWipRepository.GetPagedCustomerWip(input);
         }
 
+        /// <summary>
+        /// Check if exist customer by name
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckIfExistByName(string input)
+        {
+            return await _customerRepository.GetAll()
+                .Where(x => !string.IsNullOrEmpty(x.Name))
+                .Where(x => x.Name.ToLower().Trim() == input.ToLower().Trim())
+                .AnyAsync();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        [RemoteService(false)]
+        [AbpAuthorize(AppPermissions.Pages_Leads_Convert_Account)]
+        public async Task<string> ConvertFromLead(ConvertLeadToAccountDto input)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            
+            GuardHelper.ThrowIf(input.Lead is null, new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
+            GuardHelper.ThrowIf(await CheckIfExistByName(input.Lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
+
+            var customer = new Customer();
+
+            using (_reasonProvider.Use("Account created from Lead conversion"))
+            {
+                // Mapping Overview data
+                customer.Name = input.Lead.CompanyName;
+                customer.Phone = input.Lead.CompanyPhone;
+                customer.EMail = input.Lead.CompanyEmail;
+                customer.WWWAddress = input.Lead.WebSite;
+                customer.Country = input.Lead.Country;
+                customer.City = input.Lead.City;
+                customer.State = input.Lead.State;
+                customer.ZipCode = input.Lead.ZipCode;
+                customer.POBox = input.Lead.PoBox;
+                customer.LeadSourceId = input.Lead.LeadSourceId;
+                customer.AccountTypeId = input.ConversionAccountTypeId;
+
+                // TODO Mapping Contact data is pending
+
+                // Set internal audit fields
+                customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
+                customer.BillTo = customer.Number;
+                customer.IsCreatedFromWebCrm = true;
+                customer.AddedBy = currentUser.Name;
+                customer.Added = DateTime.UtcNow;
+
+                await _customerRepository.InsertAsync(customer);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
+            
+            return customer.Number;
+        }
+        
     }
 }
