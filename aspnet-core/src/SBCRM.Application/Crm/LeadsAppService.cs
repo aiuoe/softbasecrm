@@ -36,6 +36,7 @@ namespace SBCRM.Crm
         private readonly ICustomerAppService _customerAppService;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IRepository<LeadUser> _leadUserRepository;
 
         /// <summary>
         /// Base constructor
@@ -48,6 +49,7 @@ namespace SBCRM.Crm
         /// <param name="customerAppService"></param>
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
+        /// <param name="leadUserRepository"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,
@@ -56,7 +58,8 @@ namespace SBCRM.Crm
             IRepository<Priority, int> lookupPriorityRepository,
             ICustomerAppService customerAppService,
             IEntityChangeSetReasonProvider reasonProvider,
-            IUnitOfWorkManager unitOfWorkManager)
+            IUnitOfWorkManager unitOfWorkManager,
+            IRepository<LeadUser> leadUserRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
@@ -66,6 +69,7 @@ namespace SBCRM.Crm
             _customerAppService = customerAppService;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _leadUserRepository = leadUserRepository;
         }
 
         /// <summary>
@@ -212,43 +216,84 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Method to return an excel file with duplicated leads when Importing Leads 
+        /// </summary>
+        /// <param name="leads"></param>
+        /// <returns></returns>
+        public async Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads)
+        {
+            return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads); 
+        }
+
+        /// <summary>
         /// This method allows to upload imported leads from an excel file
         /// </summary>
         /// <param name="inputFile"></param>
         /// <param name="leadSourceId"></param>
         /// <param name="assignedUserId"></param>
         /// <returns></returns>
-        public async Task ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
+        public async Task<List<CreateOrEditLeadDto>> ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
         {
             var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
+
+            var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
             // Defining default status and priority
             var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description == "New");
             var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description == "Low");
 
-            int duplicatedLeads = 0;
 
             foreach (var item in leadsToImport)
             {
                 CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
                 leadAux.CompanyName = item.CompanyName;
                 leadAux.CompanyPhone = item.Phone;
+                leadAux.CompanyEmail = item.CompanyEmail;
+                leadAux.WebSite = item.Website;
+                leadAux.Address = item.CompanyAdress;
+                leadAux.Country = item.Country;
+                leadAux.City = item.City;
+                leadAux.State = item.StateProvince;
+                leadAux.ZipCode = item.ZipCode;
+                leadAux.PoBox = item.PoBox;
+                leadAux.ContactName = item.ContactName;
+                leadAux.ContactPosition = item.ContactPosition;
+                leadAux.ContactPhone = item.ContactPhone;
+                leadAux.ContactPhoneExtension = item.ContactExtention;
+                leadAux.ContactCellPhone = item.ContactCelphone;
+                leadAux.ContactFaxNumber = item.ContactFax;
+                leadAux.PagerNumber = item.ContactPager;
+                leadAux.ContactEmail = item.ContactEmail;
+                // Default fields
                 leadAux.LeadSourceId = leadSourceId;
                 leadAux.LeadStatusId = leadStatusId.Id;
                 leadAux.PriorityId = leadPriorityId.Id;
 
 
-                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.CompanyPhone == leadAux.CompanyPhone);
+                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
                 if (storedLead == null)
                 {
                     var lead = ObjectMapper.Map<Lead>(leadAux);
-                    await _leadRepository.InsertAsync(lead);
+                    int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
+
+                    if (leadId != 0)
+                    {
+                        var leadUser = new LeadUser
+                        {
+                            LeadId = leadId,
+                            UserId = assignedUserId
+                        };
+
+                        await _leadUserRepository.InsertAsync(leadUser);
+                    }
                 }
                 else
                 {
-                    duplicatedLeads++;
+                    duplicatedLeads.Add(leadAux);
                 }
             }
+
+            return duplicatedLeads;
 
         }
 

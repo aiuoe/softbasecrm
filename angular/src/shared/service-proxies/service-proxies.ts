@@ -3269,6 +3269,429 @@ export class CommonLookupServiceProxy {
 }
 
 @Injectable()
+export class ContactsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param customerNoFilter (optional) 
+     * @param contactFilter (optional) 
+     * @param parentFilter (optional) 
+     * @param maxIndexPointerFilter (optional) 
+     * @param minIndexPointerFilter (optional) 
+     * @param positionFilter (optional) 
+     * @param phoneFilter (optional) 
+     * @param extentionFilter (optional) 
+     * @param faxFilter (optional) 
+     * @param pagerFilter (optional) 
+     * @param cellularFilter (optional) 
+     * @param eMailFilter (optional) 
+     * @param wwwHomePageFilter (optional) 
+     * @param maxSalesGroup1Filter (optional) 
+     * @param minSalesGroup1Filter (optional) 
+     * @param maxSalesGroup2Filter (optional) 
+     * @param minSalesGroup2Filter (optional) 
+     * @param maxSalesGroup3Filter (optional) 
+     * @param minSalesGroup3Filter (optional) 
+     * @param commentsFilter (optional) 
+     * @param maxDateAddedFilter (optional) 
+     * @param minDateAddedFilter (optional) 
+     * @param maxDateChangedFilter (optional) 
+     * @param minDateChangedFilter (optional) 
+     * @param maxSalesGroup4Filter (optional) 
+     * @param minSalesGroup4Filter (optional) 
+     * @param maxSalesGroup5Filter (optional) 
+     * @param minSalesGroup5Filter (optional) 
+     * @param maxSalesGroup6Filter (optional) 
+     * @param minSalesGroup6Filter (optional) 
+     * @param maxMailingListFilter (optional) 
+     * @param minMailingListFilter (optional) 
+     * @param addedByFilter (optional) 
+     * @param changedByFilter (optional) 
+     * @param maxIDFilter (optional) 
+     * @param minIDFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, customerNoFilter: string | undefined, contactFilter: string | undefined, parentFilter: string | undefined, maxIndexPointerFilter: number | undefined, minIndexPointerFilter: number | undefined, positionFilter: string | undefined, phoneFilter: string | undefined, extentionFilter: string | undefined, faxFilter: string | undefined, pagerFilter: string | undefined, cellularFilter: string | undefined, eMailFilter: string | undefined, wwwHomePageFilter: string | undefined, maxSalesGroup1Filter: number | undefined, minSalesGroup1Filter: number | undefined, maxSalesGroup2Filter: number | undefined, minSalesGroup2Filter: number | undefined, maxSalesGroup3Filter: number | undefined, minSalesGroup3Filter: number | undefined, commentsFilter: string | undefined, maxDateAddedFilter: DateTime | undefined, minDateAddedFilter: DateTime | undefined, maxDateChangedFilter: DateTime | undefined, minDateChangedFilter: DateTime | undefined, maxSalesGroup4Filter: number | undefined, minSalesGroup4Filter: number | undefined, maxSalesGroup5Filter: number | undefined, minSalesGroup5Filter: number | undefined, maxSalesGroup6Filter: number | undefined, minSalesGroup6Filter: number | undefined, maxMailingListFilter: number | undefined, minMailingListFilter: number | undefined, addedByFilter: string | undefined, changedByFilter: string | undefined, maxIDFilter: number | undefined, minIDFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetContactForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Contacts/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (customerNoFilter === null)
+            throw new Error("The parameter 'customerNoFilter' cannot be null.");
+        else if (customerNoFilter !== undefined)
+            url_ += "CustomerNoFilter=" + encodeURIComponent("" + customerNoFilter) + "&";
+        if (contactFilter === null)
+            throw new Error("The parameter 'contactFilter' cannot be null.");
+        else if (contactFilter !== undefined)
+            url_ += "ContactFilter=" + encodeURIComponent("" + contactFilter) + "&";
+        if (parentFilter === null)
+            throw new Error("The parameter 'parentFilter' cannot be null.");
+        else if (parentFilter !== undefined)
+            url_ += "ParentFilter=" + encodeURIComponent("" + parentFilter) + "&";
+        if (maxIndexPointerFilter === null)
+            throw new Error("The parameter 'maxIndexPointerFilter' cannot be null.");
+        else if (maxIndexPointerFilter !== undefined)
+            url_ += "MaxIndexPointerFilter=" + encodeURIComponent("" + maxIndexPointerFilter) + "&";
+        if (minIndexPointerFilter === null)
+            throw new Error("The parameter 'minIndexPointerFilter' cannot be null.");
+        else if (minIndexPointerFilter !== undefined)
+            url_ += "MinIndexPointerFilter=" + encodeURIComponent("" + minIndexPointerFilter) + "&";
+        if (positionFilter === null)
+            throw new Error("The parameter 'positionFilter' cannot be null.");
+        else if (positionFilter !== undefined)
+            url_ += "PositionFilter=" + encodeURIComponent("" + positionFilter) + "&";
+        if (phoneFilter === null)
+            throw new Error("The parameter 'phoneFilter' cannot be null.");
+        else if (phoneFilter !== undefined)
+            url_ += "PhoneFilter=" + encodeURIComponent("" + phoneFilter) + "&";
+        if (extentionFilter === null)
+            throw new Error("The parameter 'extentionFilter' cannot be null.");
+        else if (extentionFilter !== undefined)
+            url_ += "ExtentionFilter=" + encodeURIComponent("" + extentionFilter) + "&";
+        if (faxFilter === null)
+            throw new Error("The parameter 'faxFilter' cannot be null.");
+        else if (faxFilter !== undefined)
+            url_ += "FaxFilter=" + encodeURIComponent("" + faxFilter) + "&";
+        if (pagerFilter === null)
+            throw new Error("The parameter 'pagerFilter' cannot be null.");
+        else if (pagerFilter !== undefined)
+            url_ += "PagerFilter=" + encodeURIComponent("" + pagerFilter) + "&";
+        if (cellularFilter === null)
+            throw new Error("The parameter 'cellularFilter' cannot be null.");
+        else if (cellularFilter !== undefined)
+            url_ += "CellularFilter=" + encodeURIComponent("" + cellularFilter) + "&";
+        if (eMailFilter === null)
+            throw new Error("The parameter 'eMailFilter' cannot be null.");
+        else if (eMailFilter !== undefined)
+            url_ += "EMailFilter=" + encodeURIComponent("" + eMailFilter) + "&";
+        if (wwwHomePageFilter === null)
+            throw new Error("The parameter 'wwwHomePageFilter' cannot be null.");
+        else if (wwwHomePageFilter !== undefined)
+            url_ += "wwwHomePageFilter=" + encodeURIComponent("" + wwwHomePageFilter) + "&";
+        if (maxSalesGroup1Filter === null)
+            throw new Error("The parameter 'maxSalesGroup1Filter' cannot be null.");
+        else if (maxSalesGroup1Filter !== undefined)
+            url_ += "MaxSalesGroup1Filter=" + encodeURIComponent("" + maxSalesGroup1Filter) + "&";
+        if (minSalesGroup1Filter === null)
+            throw new Error("The parameter 'minSalesGroup1Filter' cannot be null.");
+        else if (minSalesGroup1Filter !== undefined)
+            url_ += "MinSalesGroup1Filter=" + encodeURIComponent("" + minSalesGroup1Filter) + "&";
+        if (maxSalesGroup2Filter === null)
+            throw new Error("The parameter 'maxSalesGroup2Filter' cannot be null.");
+        else if (maxSalesGroup2Filter !== undefined)
+            url_ += "MaxSalesGroup2Filter=" + encodeURIComponent("" + maxSalesGroup2Filter) + "&";
+        if (minSalesGroup2Filter === null)
+            throw new Error("The parameter 'minSalesGroup2Filter' cannot be null.");
+        else if (minSalesGroup2Filter !== undefined)
+            url_ += "MinSalesGroup2Filter=" + encodeURIComponent("" + minSalesGroup2Filter) + "&";
+        if (maxSalesGroup3Filter === null)
+            throw new Error("The parameter 'maxSalesGroup3Filter' cannot be null.");
+        else if (maxSalesGroup3Filter !== undefined)
+            url_ += "MaxSalesGroup3Filter=" + encodeURIComponent("" + maxSalesGroup3Filter) + "&";
+        if (minSalesGroup3Filter === null)
+            throw new Error("The parameter 'minSalesGroup3Filter' cannot be null.");
+        else if (minSalesGroup3Filter !== undefined)
+            url_ += "MinSalesGroup3Filter=" + encodeURIComponent("" + minSalesGroup3Filter) + "&";
+        if (commentsFilter === null)
+            throw new Error("The parameter 'commentsFilter' cannot be null.");
+        else if (commentsFilter !== undefined)
+            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&";
+        if (maxDateAddedFilter === null)
+            throw new Error("The parameter 'maxDateAddedFilter' cannot be null.");
+        else if (maxDateAddedFilter !== undefined)
+            url_ += "MaxDateAddedFilter=" + encodeURIComponent(maxDateAddedFilter ? "" + maxDateAddedFilter.toJSON() : "") + "&";
+        if (minDateAddedFilter === null)
+            throw new Error("The parameter 'minDateAddedFilter' cannot be null.");
+        else if (minDateAddedFilter !== undefined)
+            url_ += "MinDateAddedFilter=" + encodeURIComponent(minDateAddedFilter ? "" + minDateAddedFilter.toJSON() : "") + "&";
+        if (maxDateChangedFilter === null)
+            throw new Error("The parameter 'maxDateChangedFilter' cannot be null.");
+        else if (maxDateChangedFilter !== undefined)
+            url_ += "MaxDateChangedFilter=" + encodeURIComponent(maxDateChangedFilter ? "" + maxDateChangedFilter.toJSON() : "") + "&";
+        if (minDateChangedFilter === null)
+            throw new Error("The parameter 'minDateChangedFilter' cannot be null.");
+        else if (minDateChangedFilter !== undefined)
+            url_ += "MinDateChangedFilter=" + encodeURIComponent(minDateChangedFilter ? "" + minDateChangedFilter.toJSON() : "") + "&";
+        if (maxSalesGroup4Filter === null)
+            throw new Error("The parameter 'maxSalesGroup4Filter' cannot be null.");
+        else if (maxSalesGroup4Filter !== undefined)
+            url_ += "MaxSalesGroup4Filter=" + encodeURIComponent("" + maxSalesGroup4Filter) + "&";
+        if (minSalesGroup4Filter === null)
+            throw new Error("The parameter 'minSalesGroup4Filter' cannot be null.");
+        else if (minSalesGroup4Filter !== undefined)
+            url_ += "MinSalesGroup4Filter=" + encodeURIComponent("" + minSalesGroup4Filter) + "&";
+        if (maxSalesGroup5Filter === null)
+            throw new Error("The parameter 'maxSalesGroup5Filter' cannot be null.");
+        else if (maxSalesGroup5Filter !== undefined)
+            url_ += "MaxSalesGroup5Filter=" + encodeURIComponent("" + maxSalesGroup5Filter) + "&";
+        if (minSalesGroup5Filter === null)
+            throw new Error("The parameter 'minSalesGroup5Filter' cannot be null.");
+        else if (minSalesGroup5Filter !== undefined)
+            url_ += "MinSalesGroup5Filter=" + encodeURIComponent("" + minSalesGroup5Filter) + "&";
+        if (maxSalesGroup6Filter === null)
+            throw new Error("The parameter 'maxSalesGroup6Filter' cannot be null.");
+        else if (maxSalesGroup6Filter !== undefined)
+            url_ += "MaxSalesGroup6Filter=" + encodeURIComponent("" + maxSalesGroup6Filter) + "&";
+        if (minSalesGroup6Filter === null)
+            throw new Error("The parameter 'minSalesGroup6Filter' cannot be null.");
+        else if (minSalesGroup6Filter !== undefined)
+            url_ += "MinSalesGroup6Filter=" + encodeURIComponent("" + minSalesGroup6Filter) + "&";
+        if (maxMailingListFilter === null)
+            throw new Error("The parameter 'maxMailingListFilter' cannot be null.");
+        else if (maxMailingListFilter !== undefined)
+            url_ += "MaxMailingListFilter=" + encodeURIComponent("" + maxMailingListFilter) + "&";
+        if (minMailingListFilter === null)
+            throw new Error("The parameter 'minMailingListFilter' cannot be null.");
+        else if (minMailingListFilter !== undefined)
+            url_ += "MinMailingListFilter=" + encodeURIComponent("" + minMailingListFilter) + "&";
+        if (addedByFilter === null)
+            throw new Error("The parameter 'addedByFilter' cannot be null.");
+        else if (addedByFilter !== undefined)
+            url_ += "AddedByFilter=" + encodeURIComponent("" + addedByFilter) + "&";
+        if (changedByFilter === null)
+            throw new Error("The parameter 'changedByFilter' cannot be null.");
+        else if (changedByFilter !== undefined)
+            url_ += "ChangedByFilter=" + encodeURIComponent("" + changedByFilter) + "&";
+        if (maxIDFilter === null)
+            throw new Error("The parameter 'maxIDFilter' cannot be null.");
+        else if (maxIDFilter !== undefined)
+            url_ += "MaxIDFilter=" + encodeURIComponent("" + maxIDFilter) + "&";
+        if (minIDFilter === null)
+            throw new Error("The parameter 'minIDFilter' cannot be null.");
+        else if (minIDFilter !== undefined)
+            url_ += "MinIDFilter=" + encodeURIComponent("" + minIDFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetContactForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetContactForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetContactForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetContactForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetContactForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getContactForEdit(id: number | undefined): Observable<GetContactForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Contacts/GetContactForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetContactForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetContactForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetContactForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetContactForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetContactForEdit(response: HttpResponseBase): Observable<GetContactForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetContactForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetContactForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditContactDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Contacts/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Contacts/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class CountriesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -9304,12 +9727,73 @@ export class LeadsServiceProxy {
     }
 
     /**
+     * @param leads (optional) 
+     * @return Success
+     */
+    getDuplicatedLeadsToExcel(leads: LeadDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetDuplicatedLeadsToExcel?";
+        if (leads === null)
+            throw new Error("The parameter 'leads' cannot be null.");
+        else if (leads !== undefined)
+            leads && leads.forEach((item, index) => {
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "leads[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDuplicatedLeadsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDuplicatedLeadsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDuplicatedLeadsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
      * @param leadSourceId (optional) 
      * @param assignedUserId (optional) 
      * @param body (optional) 
      * @return Success
      */
-    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined): Observable<void> {
+    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined): Observable<CreateOrEditLeadDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/ImportLeadsFromFile?";
         if (leadSourceId === null)
             throw new Error("The parameter 'leadSourceId' cannot be null.");
@@ -9329,6 +9813,7 @@ export class LeadsServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
             })
         };
 
@@ -9339,14 +9824,14 @@ export class LeadsServiceProxy {
                 try {
                     return this.processImportLeadsFromFile(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<CreateOrEditLeadDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<CreateOrEditLeadDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processImportLeadsFromFile(response: HttpResponseBase): Observable<void> {
+    protected processImportLeadsFromFile(response: HttpResponseBase): Observable<CreateOrEditLeadDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -9355,14 +9840,24 @@ export class LeadsServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateOrEditLeadDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<CreateOrEditLeadDto[]>(<any>null);
     }
 
     /**
@@ -22548,6 +23043,138 @@ export interface IComboboxItemDto {
     isSelected: boolean;
 }
 
+export class ContactDto implements IContactDto {
+    customerNo!: string | undefined;
+    contact!: string | undefined;
+    parent!: string | undefined;
+    indexPointer!: number | undefined;
+    position!: string | undefined;
+    phone!: string | undefined;
+    extention!: string | undefined;
+    fax!: string | undefined;
+    pager!: string | undefined;
+    cellular!: string | undefined;
+    eMail!: string | undefined;
+    wwwHomePage!: string | undefined;
+    salesGroup1!: number | undefined;
+    salesGroup2!: number | undefined;
+    salesGroup3!: number | undefined;
+    comments!: string | undefined;
+    dateAdded!: DateTime | undefined;
+    dateChanged!: DateTime | undefined;
+    salesGroup4!: number | undefined;
+    salesGroup5!: number | undefined;
+    salesGroup6!: number | undefined;
+    mailingList!: number | undefined;
+    addedBy!: string | undefined;
+    changedBy!: string | undefined;
+    id!: number;
+
+    constructor(data?: IContactDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.customerNo = _data["customerNo"];
+            this.contact = _data["contact"];
+            this.parent = _data["parent"];
+            this.indexPointer = _data["indexPointer"];
+            this.position = _data["position"];
+            this.phone = _data["phone"];
+            this.extention = _data["extention"];
+            this.fax = _data["fax"];
+            this.pager = _data["pager"];
+            this.cellular = _data["cellular"];
+            this.eMail = _data["eMail"];
+            this.wwwHomePage = _data["wwwHomePage"];
+            this.salesGroup1 = _data["salesGroup1"];
+            this.salesGroup2 = _data["salesGroup2"];
+            this.salesGroup3 = _data["salesGroup3"];
+            this.comments = _data["comments"];
+            this.dateAdded = _data["dateAdded"] ? DateTime.fromISO(_data["dateAdded"].toString()) : <any>undefined;
+            this.dateChanged = _data["dateChanged"] ? DateTime.fromISO(_data["dateChanged"].toString()) : <any>undefined;
+            this.salesGroup4 = _data["salesGroup4"];
+            this.salesGroup5 = _data["salesGroup5"];
+            this.salesGroup6 = _data["salesGroup6"];
+            this.mailingList = _data["mailingList"];
+            this.addedBy = _data["addedBy"];
+            this.changedBy = _data["changedBy"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ContactDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContactDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerNo"] = this.customerNo;
+        data["contact"] = this.contact;
+        data["parent"] = this.parent;
+        data["indexPointer"] = this.indexPointer;
+        data["position"] = this.position;
+        data["phone"] = this.phone;
+        data["extention"] = this.extention;
+        data["fax"] = this.fax;
+        data["pager"] = this.pager;
+        data["cellular"] = this.cellular;
+        data["eMail"] = this.eMail;
+        data["wwwHomePage"] = this.wwwHomePage;
+        data["salesGroup1"] = this.salesGroup1;
+        data["salesGroup2"] = this.salesGroup2;
+        data["salesGroup3"] = this.salesGroup3;
+        data["comments"] = this.comments;
+        data["dateAdded"] = this.dateAdded ? this.dateAdded.toString() : <any>undefined;
+        data["dateChanged"] = this.dateChanged ? this.dateChanged.toString() : <any>undefined;
+        data["salesGroup4"] = this.salesGroup4;
+        data["salesGroup5"] = this.salesGroup5;
+        data["salesGroup6"] = this.salesGroup6;
+        data["mailingList"] = this.mailingList;
+        data["addedBy"] = this.addedBy;
+        data["changedBy"] = this.changedBy;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IContactDto {
+    customerNo: string | undefined;
+    contact: string | undefined;
+    parent: string | undefined;
+    indexPointer: number | undefined;
+    position: string | undefined;
+    phone: string | undefined;
+    extention: string | undefined;
+    fax: string | undefined;
+    pager: string | undefined;
+    cellular: string | undefined;
+    eMail: string | undefined;
+    wwwHomePage: string | undefined;
+    salesGroup1: number | undefined;
+    salesGroup2: number | undefined;
+    salesGroup3: number | undefined;
+    comments: string | undefined;
+    dateAdded: DateTime | undefined;
+    dateChanged: DateTime | undefined;
+    salesGroup4: number | undefined;
+    salesGroup5: number | undefined;
+    salesGroup6: number | undefined;
+    mailingList: number | undefined;
+    addedBy: string | undefined;
+    changedBy: string | undefined;
+    id: number;
+}
+
 export class ConvertLeadToAccountRequestDto implements IConvertLeadToAccountRequestDto {
     leadId!: number;
 
@@ -22954,6 +23581,138 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
 export interface ICreateOrEditActivityTaskTypeDto {
     description: string | undefined;
     id: number | undefined;
+}
+
+export class CreateOrEditContactDto implements ICreateOrEditContactDto {
+    customerNo!: string | undefined;
+    contact!: string | undefined;
+    parent!: string | undefined;
+    indexPointer!: number | undefined;
+    position!: string | undefined;
+    phone!: string | undefined;
+    extention!: string | undefined;
+    fax!: string | undefined;
+    pager!: string | undefined;
+    cellular!: string | undefined;
+    eMail!: string | undefined;
+    wwwHomePage!: string | undefined;
+    salesGroup1!: number | undefined;
+    salesGroup2!: number | undefined;
+    salesGroup3!: number | undefined;
+    comments!: string | undefined;
+    dateAdded!: DateTime | undefined;
+    dateChanged!: DateTime | undefined;
+    salesGroup4!: number | undefined;
+    salesGroup5!: number | undefined;
+    salesGroup6!: number | undefined;
+    mailingList!: number | undefined;
+    addedBy!: string | undefined;
+    changedBy!: string | undefined;
+    id!: number;
+
+    constructor(data?: ICreateOrEditContactDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.customerNo = _data["customerNo"];
+            this.contact = _data["contact"];
+            this.parent = _data["parent"];
+            this.indexPointer = _data["indexPointer"];
+            this.position = _data["position"];
+            this.phone = _data["phone"];
+            this.extention = _data["extention"];
+            this.fax = _data["fax"];
+            this.pager = _data["pager"];
+            this.cellular = _data["cellular"];
+            this.eMail = _data["eMail"];
+            this.wwwHomePage = _data["wwwHomePage"];
+            this.salesGroup1 = _data["salesGroup1"];
+            this.salesGroup2 = _data["salesGroup2"];
+            this.salesGroup3 = _data["salesGroup3"];
+            this.comments = _data["comments"];
+            this.dateAdded = _data["dateAdded"] ? DateTime.fromISO(_data["dateAdded"].toString()) : <any>undefined;
+            this.dateChanged = _data["dateChanged"] ? DateTime.fromISO(_data["dateChanged"].toString()) : <any>undefined;
+            this.salesGroup4 = _data["salesGroup4"];
+            this.salesGroup5 = _data["salesGroup5"];
+            this.salesGroup6 = _data["salesGroup6"];
+            this.mailingList = _data["mailingList"];
+            this.addedBy = _data["addedBy"];
+            this.changedBy = _data["changedBy"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditContactDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditContactDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerNo"] = this.customerNo;
+        data["contact"] = this.contact;
+        data["parent"] = this.parent;
+        data["indexPointer"] = this.indexPointer;
+        data["position"] = this.position;
+        data["phone"] = this.phone;
+        data["extention"] = this.extention;
+        data["fax"] = this.fax;
+        data["pager"] = this.pager;
+        data["cellular"] = this.cellular;
+        data["eMail"] = this.eMail;
+        data["wwwHomePage"] = this.wwwHomePage;
+        data["salesGroup1"] = this.salesGroup1;
+        data["salesGroup2"] = this.salesGroup2;
+        data["salesGroup3"] = this.salesGroup3;
+        data["comments"] = this.comments;
+        data["dateAdded"] = this.dateAdded ? this.dateAdded.toString() : <any>undefined;
+        data["dateChanged"] = this.dateChanged ? this.dateChanged.toString() : <any>undefined;
+        data["salesGroup4"] = this.salesGroup4;
+        data["salesGroup5"] = this.salesGroup5;
+        data["salesGroup6"] = this.salesGroup6;
+        data["mailingList"] = this.mailingList;
+        data["addedBy"] = this.addedBy;
+        data["changedBy"] = this.changedBy;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditContactDto {
+    customerNo: string | undefined;
+    contact: string | undefined;
+    parent: string | undefined;
+    indexPointer: number | undefined;
+    position: string | undefined;
+    phone: string | undefined;
+    extention: string | undefined;
+    fax: string | undefined;
+    pager: string | undefined;
+    cellular: string | undefined;
+    eMail: string | undefined;
+    wwwHomePage: string | undefined;
+    salesGroup1: number | undefined;
+    salesGroup2: number | undefined;
+    salesGroup3: number | undefined;
+    comments: string | undefined;
+    dateAdded: DateTime | undefined;
+    dateChanged: DateTime | undefined;
+    salesGroup4: number | undefined;
+    salesGroup5: number | undefined;
+    salesGroup6: number | undefined;
+    mailingList: number | undefined;
+    addedBy: string | undefined;
+    changedBy: string | undefined;
+    id: number;
 }
 
 export class CreateOrEditCountryDto implements ICreateOrEditCountryDto {
@@ -27287,6 +28046,78 @@ export class GetARTermsForViewDto implements IGetARTermsForViewDto {
 
 export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
+}
+
+export class GetContactForEditOutput implements IGetContactForEditOutput {
+    contact!: CreateOrEditContactDto;
+
+    constructor(data?: IGetContactForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.contact = _data["contact"] ? CreateOrEditContactDto.fromJS(_data["contact"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetContactForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetContactForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetContactForEditOutput {
+    contact: CreateOrEditContactDto;
+}
+
+export class GetContactForViewDto implements IGetContactForViewDto {
+    contact!: ContactDto;
+
+    constructor(data?: IGetContactForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.contact = _data["contact"] ? ContactDto.fromJS(_data["contact"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetContactForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetContactForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetContactForViewDto {
+    contact: ContactDto;
 }
 
 export class GetCountryForEditOutput implements IGetCountryForEditOutput {
@@ -33862,6 +34693,54 @@ export class PagedResultDtoOfGetARTermsForViewDto implements IPagedResultDtoOfGe
 export interface IPagedResultDtoOfGetARTermsForViewDto {
     totalCount: number;
     items: GetARTermsForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetContactForViewDto implements IPagedResultDtoOfGetContactForViewDto {
+    totalCount!: number;
+    items!: GetContactForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetContactForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetContactForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetContactForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetContactForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetContactForViewDto {
+    totalCount: number;
+    items: GetContactForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetCountryForViewDto implements IPagedResultDtoOfGetCountryForViewDto {
