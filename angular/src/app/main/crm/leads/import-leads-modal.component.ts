@@ -1,12 +1,19 @@
-import { TokenService } from 'abp-ng2-module';
-import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AppConsts } from '@shared/AppConsts';
-import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountUsersServiceProxy, AccountUserUserLookupTableDto, CreateOrEditLeadDto, LeadDto, LeadLeadSourceLookupTableDto, LeadsServiceProxy, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
-import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { nextGuid } from '@shared/utils/global.utils';
-import { FileDownloadService } from '@shared/utils/file-download.service';
+import {TokenService} from 'abp-ng2-module';
+import {Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild} from '@angular/core';
+import {AppConsts} from '@shared/AppConsts';
+import {AppComponentBase} from '@shared/common/app-component-base';
+import {
+    AccountUsersServiceProxy,
+    AccountUserUserLookupTableDto,
+    LeadDto,
+    LeadLeadSourceLookupTableDto,
+    LeadsServiceProxy,
+    ProfileServiceProxy
+} from '@shared/service-proxies/service-proxies';
+import {FileUploader, FileUploaderOptions, FileItem} from 'ng2-file-upload';
+import {ModalDirective} from 'ngx-bootstrap/modal';
+import {nextGuid} from '@shared/utils/global.utils';
+import {FileDownloadService} from '@shared/utils/file-download.service';
 
 /***
  * Component to manage the import leads functionallity
@@ -16,7 +23,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
     templateUrl: './import-leads-modal.component.html',
 })
 export class ImportLeadsModalComponent extends AppComponentBase implements OnInit {
-    @ViewChild('importLeadsModal', { static: true }) modal: ModalDirective;
+    @ViewChild('importLeadsModal', {static: true}) modal: ModalDirective;
     @ViewChild('uploadFileImportInputLabel') uploadFileImportInputLabel: ElementRef;
 
     @Output() modalUpload: EventEmitter<any> = new EventEmitter<any>();
@@ -29,8 +36,8 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     private _uploaderOptions: FileUploaderOptions = {};
     duplicatedLeads: LeadDto[];
 
-    selectedUserId : number = 0;
-    selectedLeadSourceId : number = 0;
+    selectedUserId = 0;
+    selectedLeadSourceId = 0;
     allLeadSources: LeadLeadSourceLookupTableDto[];
 
     // List of users to show in dropdown
@@ -40,14 +47,14 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
 
     /**
      * Constructor
-     * @param injector 
-     * @param _profileService 
-     * @param _tokenService 
-     * @param _leadsServiceProxy 
-     * @param _accountUsersServiceProxy 
-     * @param _fileDownloadService 
+     * @param injector
+     * @param _profileService
+     * @param _tokenService
+     * @param _leadsServiceProxy
+     * @param _accountUsersServiceProxy
+     * @param _fileDownloadService
      */
-    constructor(injector: Injector, private _profileService: ProfileServiceProxy, 
+    constructor(injector: Injector, private _profileService: ProfileServiceProxy,
                 private _tokenService: TokenService,
                 private _leadsServiceProxy: LeadsServiceProxy,
                 private _accountUsersServiceProxy: AccountUsersServiceProxy,
@@ -55,7 +62,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         super(injector);
     }
 
-    ngOnInit(){
+    ngOnInit() {
 
         // Get all the lead source to list on the dropdown
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
@@ -63,9 +70,9 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         });
 
         // Gets all users to show on the User dropdown
-        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
-            this.allUsers = result;                      
-        });	
+        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+            this.allUsers = result;
+        });
     }
 
     initializeModal(): void {
@@ -81,7 +88,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         this.modal.show();
     }
 
-    
+
     /**
      * Close the pop up
      */
@@ -115,7 +122,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
      * This method manages the upload of the excel file
      */
     initFileUploader(): void {
-        this.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/LeadImport/UploadLeads' });
+        this.uploader = new FileUploader({url: AppConsts.remoteServiceBaseUrl + '/LeadImport/UploadLeads'});
         this._uploaderOptions.autoUpload = false;
         this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
         this._uploaderOptions.removeAfterUpload = true;
@@ -132,9 +139,9 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {
-            var jsonResponde = JSON.parse(response);
+            const jsonResponde = JSON.parse(response);
             this.duplicatedLeads = jsonResponde.result.repeatedLeads;
-            this.duplicatedLeads.forEach( item =>{
+            this.duplicatedLeads.forEach(item => {
                 item.id = 0;
             });
 
@@ -144,19 +151,17 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
                     this.l('DuplicatedLeads'),
                     (isConfirmed) => {
                         if (isConfirmed) {
-                        this._leadsServiceProxy.getDuplicatedLeadsToExcel(this.duplicatedLeads)
-                            .subscribe( response =>{
-                                this._fileDownloadService.downloadTempFile(response);
-                                this.close();
-                            });
-                        }
-                        else{
+                            this._leadsServiceProxy.getDuplicatedLeadsToExcel(this.duplicatedLeads)
+                                .subscribe(response => {
+                                    this._fileDownloadService.downloadTempFile(response);
+                                    this.close();
+                                });
+                        } else {
                             this.close();
                         }
                     }
                 );
-            }
-            else{
+            } else {
                 this.message.success(this.l('LeadsImportedSuccesfuly'));
                 this.close();
             }
@@ -164,9 +169,13 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
 
         this.uploader.onErrorItem = () => {
             //TO DO: Manage errors an exceptions
-        }
+        };
 
         this.uploader.setOptions(this._uploaderOptions);
+
+        this.uploader.response.subscribe(res => {
+            this.modalUpload.emit(null);
+        });
     }
 
     /**
@@ -174,9 +183,8 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
      */
     save(): void {
         this.message.confirm('', this.l('AreYouSureToUpload'), (isConfirmed) => {
-            if (isConfirmed) {                       
+            if (isConfirmed) {
                 this.uploader.uploadAll();
-                this.modalUpload.emit(null);
                 this.fileFlag = false;
             }
         });
@@ -185,10 +193,10 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
 
     /**
      * This method verify if the "Upload" button is available or not
-     * @returns 
+     * @returns
      */
-    validateUploadButton(): boolean{
-        if(this.selectedLeadSourceId > 0 && this.fileFlag){
+    validateUploadButton(): boolean {
+        if (this.selectedLeadSourceId > 0 && this.fileFlag) {
             return false;
         }
         return true;
