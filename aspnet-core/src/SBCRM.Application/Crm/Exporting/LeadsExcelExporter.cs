@@ -82,7 +82,7 @@ namespace SBCRM.Crm.Exporting
         public FileDto ExportDuplicatedLeadsToExcel(List<LeadDto> leads)
         {
             return CreateExcelPackage(
-               "DuplicatedLeas.xlsx",
+               "DuplicatedLeads.xlsx",
                excelPackage =>
                {
                    var sheet = excelPackage.CreateSheet(L("Leads"));

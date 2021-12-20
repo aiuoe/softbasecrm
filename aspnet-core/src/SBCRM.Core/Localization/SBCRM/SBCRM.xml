@@ -2,6 +2,10 @@
 
 <localizationDictionary culture="en">
   <texts>
+	<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
+	<text name="DuplicatedLeads">Duplicated leads encountered</text>
+	<text name="AreYouSureToUpload">Are you sure you want to upload this file?</text>
+	<text name="LeadsNotImportedDuplicated">lead(s) was(were) not imported because of an existing lead with the same Company Name and Contact Name.  Download file to see details</text>
     <text name="LeadConversionSuccessful">The conversion was successful</text>
     <text name="ConvertedLeadRequired">Lead is required to convert</text>
     <text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>

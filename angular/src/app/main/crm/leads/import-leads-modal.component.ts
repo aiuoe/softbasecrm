@@ -32,9 +32,21 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     selectedUserId : number = 0;
     selectedLeadSourceId : number = 0;
     allLeadSources: LeadLeadSourceLookupTableDto[];
+
+    // List of users to show in dropdown
     allUsers: AccountUserUserLookupTableDto[];
+    // Flag used to know if there's a change on the inout file
     fileFlag = false;
 
+    /**
+     * Constructor
+     * @param injector 
+     * @param _profileService 
+     * @param _tokenService 
+     * @param _leadsServiceProxy 
+     * @param _accountUsersServiceProxy 
+     * @param _fileDownloadService 
+     */
     constructor(injector: Injector, private _profileService: ProfileServiceProxy, 
                 private _tokenService: TokenService,
                 private _leadsServiceProxy: LeadsServiceProxy,
@@ -44,10 +56,13 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     }
 
     ngOnInit(){
+
+        // Get all the lead source to list on the dropdown
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
 
+        // Gets all users to show on the User dropdown
         this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {						
             this.allUsers = result;                      
         });	
@@ -125,8 +140,8 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
 
             if (this.duplicatedLeads.length > 0) {
                 this.message.confirm(
-                    this.duplicatedLeads.length + ' lead(s) was(were) not imported because of an existing lead with the same Company Name and Contact Name.  Download file to see details',
-                    'Duplicated leads encountered',
+                    this.duplicatedLeads.length + ' ' + this.l('LeadsNotImportedDuplicated'),
+                    this.l('DuplicatedLeads'),
                     (isConfirmed) => {
                         if (isConfirmed) {
                         this._leadsServiceProxy.getDuplicatedLeadsToExcel(this.duplicatedLeads)
@@ -142,7 +157,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
                 );
             }
             else{
-                this.message.success('Leads imported successfully');
+                this.message.success(this.l('LeadsImportedSuccesfuly'));
                 this.close();
             }
         };
@@ -158,7 +173,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
      * This method upload the file with a list of leads
      */
     save(): void {
-        this.message.confirm('', 'Are you sure you want to upload this file?', (isConfirmed) => {
+        this.message.confirm('', this.l('AreYouSureToUpload'), (isConfirmed) => {
             if (isConfirmed) {                       
                 this.uploader.uploadAll();
                 this.modalUpload.emit(null);

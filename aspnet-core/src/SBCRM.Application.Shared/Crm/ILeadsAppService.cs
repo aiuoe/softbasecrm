@@ -82,6 +82,12 @@ namespace SBCRM.Crm
         /// <returns></returns>
         Task<List<CreateOrEditLeadDto>> ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId);
 
+
+        /// <summary>
+        /// Returns an excel file wich contains repeated leads when importing new leads 
+        /// </summary>
+        /// <param name="leads"></param>
+        /// <returns></returns>
         Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads);
 
 
