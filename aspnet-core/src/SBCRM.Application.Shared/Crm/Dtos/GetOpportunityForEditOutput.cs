@@ -14,5 +14,6 @@ namespace SBCRM.Crm.Dtos
 
         public string OpportunityTypeDescription { get; set; }
 
+        public string CustomerName { get; set; }
     }
 }

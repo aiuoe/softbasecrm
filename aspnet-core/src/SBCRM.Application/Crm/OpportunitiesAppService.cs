@@ -243,6 +243,12 @@ namespace SBCRM.Crm
                 output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
             }
 
+            if (output.Opportunity.CustomerNumber != null)
+            {
+                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(int.Parse(output.Opportunity.CustomerNumber));
+                output.CustomerName = _lookupCustomer?.Name?.ToString();
+            }
+
             return output;
         }
 
@@ -271,6 +277,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityDto input)
         {
+            input.ContactId = 3434432;
             var opportunity = ObjectMapper.Map<Opportunity>(input);
 
             await _opportunityRepository.InsertAsync(opportunity);
