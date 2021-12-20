@@ -36,6 +36,7 @@ namespace SBCRM.Crm
         private readonly ICustomerAppService _customerAppService;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IRepository<LeadUser> _leadUserRepository;
 
         /// <summary>
         /// Base constructor
@@ -48,6 +49,7 @@ namespace SBCRM.Crm
         /// <param name="customerAppService"></param>
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
+        /// <param name="leadUserRepository"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,
@@ -56,7 +58,8 @@ namespace SBCRM.Crm
             IRepository<Priority, int> lookupPriorityRepository,
             ICustomerAppService customerAppService,
             IEntityChangeSetReasonProvider reasonProvider,
-            IUnitOfWorkManager unitOfWorkManager)
+            IUnitOfWorkManager unitOfWorkManager,
+            IRepository<LeadUser> leadUserRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
@@ -66,6 +69,7 @@ namespace SBCRM.Crm
             _customerAppService = customerAppService;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _leadUserRepository = leadUserRepository;
         }
 
         /// <summary>
