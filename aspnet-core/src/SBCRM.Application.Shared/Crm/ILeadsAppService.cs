@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using System.Collections.Generic;
-using System.Collections.Generic;
-using System.Collections.Generic;
+using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
 {
@@ -31,6 +29,8 @@ namespace SBCRM.Crm
         Task<List<LeadPriorityLookupTableDto>> GetAllPriorityForTableDropdown();
 
         Task ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId);
+        
+        Task ConvertToAccount(ConvertLeadToAccountRequestDto input);
 
     }
 }

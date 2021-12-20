@@ -1,7 +1,4 @@
-﻿using SBCRM.Crm;
-
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
@@ -12,17 +9,22 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
+using Abp.Domain.Uow;
+using Abp.EntityHistory;
 using Abp.UI;
-using SBCRM.Storage;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Common;
 using SBCRM.Infrastructure.Excel;
 using SBCRM.DataImporting;
 using SBCRM.Legacy;
+using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service to handle Leads information
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_Leads)]
     public class LeadsAppService : SBCRMAppServiceBase, ILeadsAppService
     {
@@ -31,15 +33,39 @@ namespace SBCRM.Crm
         private readonly IRepository<LeadSource, int> _lookup_leadSourceRepository;
         private readonly IRepository<LeadStatus, int> _lookup_leadStatusRepository;
         private readonly IRepository<Priority, int> _lookup_priorityRepository;
+        private readonly ICustomerAppService _customerAppService;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-        public LeadsAppService(IRepository<Lead> leadRepository, ILeadsExcelExporter leadsExcelExporter, IRepository<LeadSource, int> lookup_leadSourceRepository, IRepository<LeadStatus, int> lookup_leadStatusRepository, IRepository<Priority, int> lookup_priorityRepository)
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="leadRepository"></param>
+        /// <param name="leadsExcelExporter"></param>
+        /// <param name="lookup_leadSourceRepository"></param>
+        /// <param name="lookup_leadStatusRepository"></param>
+        /// <param name="lookup_priorityRepository"></param>
+        /// <param name="customerAppService"></param>
+        /// <param name="reasonProvider"></param>
+        /// <param name="unitOfWorkManager"></param>
+        public LeadsAppService(
+            IRepository<Lead> leadRepository,
+            ILeadsExcelExporter leadsExcelExporter,
+            IRepository<LeadSource, int> lookup_leadSourceRepository,
+            IRepository<LeadStatus, int> lookup_leadStatusRepository,
+            IRepository<Priority, int> lookup_priorityRepository,
+            ICustomerAppService customerAppService,
+            IEntityChangeSetReasonProvider reasonProvider,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
             _lookup_leadSourceRepository = lookup_leadSourceRepository;
             _lookup_leadStatusRepository = lookup_leadStatusRepository;
             _lookup_priorityRepository = lookup_priorityRepository;
-
+            _customerAppService = customerAppService;
+            _reasonProvider = reasonProvider;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -125,10 +151,11 @@ namespace SBCRM.Crm
                             o.ContactFaxNumber,
                             o.PagerNumber,
                             o.ContactEmail,
-                            Id = o.Id,
-                            LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                            LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color.ToString(),
+                            o.Id,
+                            LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                            LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                            CanBeConvert =  s2 != null && s2.IsLeadConversionValid,
+                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                             PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                             o.CreationTime
                         };
@@ -169,6 +196,7 @@ namespace SBCRM.Crm
                     },
                     LeadSourceDescription = o.LeadSourceDescription,
                     LeadStatusDescription = o.LeadStatusDescription,
+                    LeadCanBeConvert = o.CanBeConvert,
                     LeadStatusColor = o.LeadStatusColor,
                     PriorityDescription = o.PriorityDescription
                 };
@@ -468,6 +496,50 @@ namespace SBCRM.Crm
                     DisplayName = priority == null || priority.Description == null ? "" : priority.Description.ToString(),
                     IsDefault = priority.IsDefault
                 }).ToListAsync();
+        }
+        
+        
+        /// <summary>
+        /// Convert Lead in Account
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads_Convert_Account)]
+        public async Task ConvertToAccount(ConvertLeadToAccountRequestDto input)
+        {
+            var lead = await _leadRepository.GetAll()
+                .Include(e => e.LeadStatusFk)
+                .Where(x => x.Id == input.LeadId)
+                .FirstOrDefaultAsync();
+
+            var convertedStatusCode = "CONVERTED";
+            var convertedStatus = await _lookup_leadStatusRepository.GetAll()
+                .FirstOrDefaultAsync(x => convertedStatusCode == x.Code);
+
+            GuardHelper.ThrowIf(lead is null, new UserFriendlyException(L("LeadNotExist")));
+            GuardHelper.ThrowIf(!lead.LeadStatusFk.IsLeadConversionValid, new UserFriendlyException(L("LeadAlreadyConverted")));
+            GuardHelper.ThrowIf(await _customerAppService.CheckIfExistByName(lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
+            GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", convertedStatusCode)));
+
+            var accountTypes = await _customerAppService.GetAllAccountTypeForTableDropdown();
+            var accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
+
+            GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", convertedStatusCode)));
+            
+            var customerNumber = await _customerAppService.ConvertFromLead(
+                new ConvertLeadToAccountDto(
+                    lead: ObjectMapper.Map<LeadDto>(lead),
+                    conversionAccountTypeId: accountType.Id)
+                );
+
+            lead.CustomerNumber = customerNumber;
+            lead.LeadStatusId = convertedStatus.Id;
+
+            using (_reasonProvider.Use("Lead converted to Account"))
+            {
+                await _leadRepository.UpdateAsync(lead);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
     }

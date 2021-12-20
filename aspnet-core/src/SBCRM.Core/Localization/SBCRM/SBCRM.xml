@@ -2,6 +2,15 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="LeadConversionSuccessful">The conversion was successful</text>
+    <text name="ConvertedLeadRequired">Lead is required to convert</text>
+    <text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>
+    <text name="AccountTypeNotExist">Account type {0} does not exist</text>
+    <text name="LeadStatusNotExist">Lead status {0} does not exist</text>
+    <text name="LeadNotExist">Lead does not exist</text>
+    <text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
+    <text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
+    <text name="LeadConvertToAccount">Convert Lead to Account</text>
     <text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
     <text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
     <text name="AccountUser">Account user</text>

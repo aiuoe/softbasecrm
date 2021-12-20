@@ -11,6 +11,9 @@
         public string LeadStatusColor { get; set; }
 
         public string PriorityDescription { get; set; }
+        
         public object City { get; set; }
+        
+        public bool LeadCanBeConvert { get; set; }
     }
 }

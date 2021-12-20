@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Dto;
 using System.Collections.Generic;
+using SBCRM.Crm.Dtos;
 
 namespace SBCRM.Legacy
 {
@@ -80,5 +81,18 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         Task<PagedResultDto<CustomerWipViewDto>> GetAllCustomerWip(GetAllCustomerWipInput input);
 
+        /// <summary>
+        /// Check if exist customer by name
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<bool> CheckIfExistByName(string input);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<string> ConvertFromLead(ConvertLeadToAccountDto input);
     }
 }
