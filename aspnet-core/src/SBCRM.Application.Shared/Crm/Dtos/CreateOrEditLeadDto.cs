@@ -15,6 +15,7 @@ namespace SBCRM.Crm.Dtos
         [StringLength(LeadConsts.MaxCompanyNameLength)]
         public string CompanyName { get; set; }
 
+        [Required]
         [StringLength(LeadConsts.MaxContactNameLength)]
         public string ContactName { get; set; }
 

@@ -31,16 +31,8 @@ export class ViewLeadComponent extends AppComponentBase implements OnInit {
         this.item.lead = new LeadDto();
     }
 
-    countries: any[];
-    selectedCountry: any = { countryCode: '+1', code: 'US', flag: "famfamfam-flags us" };
-
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
-        this.countries = [
-            { countryCode: '+1', code: 'US', name: "United States", flag: "famfamfam-flags us" },
-            { countryCode: '+1', code: 'CA', name: "Canada", flag: "famfamfam-flags ca" },
-            { countryCode: '+52', code: 'MX', name: "Mexico", flag: "famfamfam-flags mx" },
-        ];
     }
 
     show(leadId: number): void {

@@ -13,7 +13,7 @@
         </sub-header>
         <div [class]="containerClass">
             <div class="row">
-                <div class="col-sm-8 col-md-9">
+                <div class="col-sm-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
                             <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
@@ -25,8 +25,8 @@
                                             <label for="Lead_CompanyName">{{ l('CompanyName') }} *</label>
                                             <input type="text" #Lead_CompanyName="ngModel" id="Lead_CompanyName"
                                                 class="form-control" [(ngModel)]="lead.companyName"
-                                                [placeholder]="l('CompanyName')" name="CompanyName"
-                                                maxlength="250" required />
+                                                [placeholder]="l('CompanyName')" name="CompanyName" maxlength="250"
+                                                required />
                                             <validation-messages [formCtrl]="Lead_CompanyName"></validation-messages>
                                         </div>
                                     </div>
@@ -34,14 +34,15 @@
                                         <div class="form-group">
                                             <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
                                             <input class="form-control" type="tel" #Lead_CompanyPhone="ngModel"
-                                                [placeholder]="l('CompanyPhone')"
-                                                [(ngModel)]="lead.companyPhone" id="Lead_CompanyPhone"
-                                                name="CompanyPhone" pattern="\+?\d{1,14}$" 
-                                                [required]="!lead.companyEmail"  /> 
-                                                <div *ngIf="!Lead_CompanyPhone.valid && (Lead_CompanyPhone.dirty || Lead_CompanyPhone.touched)">
-                                                    <span class="form-text text-danger text-left">{{ 'CompanyPhone_Invalid' |
-                                                        localize }}</span>
-                                                </div>
+                                                [placeholder]="l('CompanyPhone')" [(ngModel)]="lead.companyPhone"
+                                                id="Lead_CompanyPhone" name="CompanyPhone" pattern="\+?\d{1,14}$"
+                                                [required]="!lead.companyEmail" />
+                                            <div
+                                                *ngIf="!Lead_CompanyPhone.valid && (Lead_CompanyPhone.dirty || Lead_CompanyPhone.touched)">
+                                                <span class="form-text text-danger text-left">{{ 'CompanyPhone_Invalid'
+                                                    |
+                                                    localize }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -53,7 +54,8 @@
                                             <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
                                             <input type="email" #Lead_CompanyEmail="ngModel" id="Lead_CompanyEmail"
                                                 class="form-control" [(ngModel)]="lead.companyEmail"
-                                                [placeholder]="l('CompanyEmail')" name="CompanyEmail" email [required]="!lead.companyPhone"/>
+                                                [placeholder]="l('CompanyEmail')" name="CompanyEmail" email
+                                                [required]="!lead.companyPhone" />
                                             <validation-messages [formCtrl]="Lead_CompanyEmail"></validation-messages>
                                         </div>
                                     </div>
@@ -64,8 +66,10 @@
                                                 class="form-control" [(ngModel)]="lead.webSite"
                                                 [placeholder]="l('WebSite')" name="WebSite"
                                                 pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" />
-                                            <div *ngIf="!Lead_WebSite.valid && (Lead_WebSite.dirty || Lead_WebSite.touched)">
-                                                <span *ngIf="Lead_WebSite.errors?.['pattern']" class="form-text text-danger text-left">{{ 'WebSite_Invalid' |
+                                            <div
+                                                *ngIf="!Lead_WebSite.valid && (Lead_WebSite.dirty || Lead_WebSite.touched)">
+                                                <span *ngIf="Lead_WebSite.errors?.['pattern']"
+                                                    class="form-text text-danger text-left">{{ 'WebSite_Invalid' |
                                                     localize }}</span>
                                             </div>
                                         </div>
@@ -77,14 +81,14 @@
                                         <label for="Lead_Address">{{ l('Address') }}</label>
                                         <input type="text" #Lead_Address="ngModel" id="Lead_Address"
                                             class="form-control" [(ngModel)]="lead.address" [placeholder]="l('Address')"
-                                            name="Address"  maxlength="100" />
+                                            name="Address" maxlength="100" />
                                         <validation-messages [formCtrl]="Lead_Address"></validation-messages>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="Lead_PoBox">{{ l('PoBox') }}</label>
                                         <input type="text" #Lead_PoBox="ngModel" id="Lead_PoBox" class="form-control"
                                             [(ngModel)]="lead.poBox" [placeholder]="l('PoBox')" name="PoBox"
-                                             maxlength="100" />
+                                            maxlength="100" />
                                         <validation-messages [formCtrl]="Lead_PoBox"></validation-messages>
                                     </div>
                                 </div>
@@ -93,10 +97,11 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Lead_Country">{{ l('Country') }}</label>
-                                            <input type="text" #Lead_Country="ngModel" id="Lead_Country"
-                                                class="form-control" [(ngModel)]="lead.country"
-                                                [placeholder]="l('Country')" name="Country" 
-                                                maxlength="100" />
+                                            <p-dropdown #Lead_Country="ngModel" id="Lead_Country"
+                                                [ngModelOptions]="{standalone: true}" [options]="countries"
+                                                [(ngModel)]="lead.country" optionLabel="name"
+                                                placeholder="{{l('Country')}}" [showClear]="true" optionValue="name">
+                                            </p-dropdown>
                                             <validation-messages [formCtrl]="Lead_Country"></validation-messages>
                                         </div>
                                     </div>
@@ -105,7 +110,7 @@
                                             <label for="Lead_City">{{ l('City') }}</label>
                                             <input type="text" #Lead_City="ngModel" id="Lead_City" class="form-control"
                                                 [(ngModel)]="lead.city" [placeholder]="l('City')" name="City"
-                                                 maxlength="100" />
+                                                maxlength="100" />
                                             <validation-messages [formCtrl]="Lead_City"></validation-messages>
                                         </div>
                                     </div>
@@ -114,7 +119,7 @@
                                             <label for="Lead_State">{{ l('State') }}</label>
                                             <input type="text" #Lead_State="ngModel" id="Lead_State"
                                                 class="form-control" [(ngModel)]="lead.state" [placeholder]="l('State')"
-                                                name="State"  maxlength="100" />
+                                                name="State" maxlength="100" />
                                             <validation-messages [formCtrl]="Lead_State"></validation-messages>
                                         </div>
                                     </div>
@@ -123,8 +128,7 @@
                                             <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
                                             <input type="text" #Lead_ZipCode="ngModel" id="Lead_ZipCode"
                                                 class="form-control" [(ngModel)]="lead.zipCode"
-                                                [placeholder]="l('ZipCodeProvince')" name="ZipCode" 
-                                                maxlength="50" />
+                                                [placeholder]="l('ZipCodeProvince')" name="ZipCode" maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_ZipCode"></validation-messages>
                                         </div>
                                     </div>
@@ -139,7 +143,7 @@
                                             <label for="Lead_ContactName">{{ l('ContactName') }}</label>
                                             <input type="text" #Lead_ContactName="ngModel" id="Lead_ContactName"
                                                 class="form-control" [(ngModel)]="lead.contactName"
-                                                [placeholder]="l('ContactName')" name="ContactName" 
+                                                [placeholder]="l('ContactName')" name="ContactName" required
                                                 maxlength="100" />
                                             <validation-messages [formCtrl]="Lead_ContactName"></validation-messages>
                                         </div>
@@ -150,7 +154,7 @@
                                             <input type="text" #Lead_ContactPosition="ngModel" id="Lead_ContactPosition"
                                                 class="form-control" [(ngModel)]="lead.contactPosition"
                                                 [placeholder]="l('ContactPosition')" name="ContactPosition"
-                                                 maxlength="100" />
+                                                maxlength="100" />
                                             <validation-messages [formCtrl]="Lead_ContactPosition">
                                             </validation-messages>
                                         </div>
@@ -163,8 +167,7 @@
                                             <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
                                             <input type="text" #Lead_ContactPhone="ngModel" id="Lead_ContactPhone"
                                                 class="form-control" [(ngModel)]="lead.contactPhone"
-                                                [placeholder]="l('ContactPhone')" name="ContactPhone" 
-                                                maxlength="50" />
+                                                [placeholder]="l('ContactPhone')" name="ContactPhone" maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_ContactPhone"></validation-messages>
                                         </div>
                                     </div>
@@ -176,7 +179,7 @@
                                                 id="Lead_ContactPhoneExtension" class="form-control"
                                                 [(ngModel)]="lead.contactPhoneExtension"
                                                 [placeholder]="l('ContactPhoneExtension')" name="ContactPhoneExtension"
-                                                 maxlength="50" />
+                                                maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_ContactPhoneExtension">
                                             </validation-messages>
                                         </div>
@@ -191,7 +194,7 @@
                                                 id="Lead_ContactCellPhone" class="form-control"
                                                 [(ngModel)]="lead.contactCellPhone"
                                                 [placeholder]="l('ContactCellPhone')" name="ContactCellPhone"
-                                                 maxlength="50" />
+                                                maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_ContactCellPhone">
                                             </validation-messages>
                                         </div>
@@ -203,7 +206,7 @@
                                                 id="Lead_ContactFaxNumber" class="form-control"
                                                 [(ngModel)]="lead.contactFaxNumber"
                                                 [placeholder]="l('ContactFaxNumber')" name="ContactFaxNumber"
-                                                 maxlength="50" />
+                                                maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_ContactFaxNumber">
                                             </validation-messages>
                                         </div>
@@ -216,8 +219,7 @@
                                             <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
                                             <input type="text" #Lead_PagerNumber="ngModel" id="Lead_PagerNumber"
                                                 class="form-control" [(ngModel)]="lead.pagerNumber"
-                                                [placeholder]="l('PagerNumber')" name="PagerNumber" 
-                                                maxlength="50" />
+                                                [placeholder]="l('PagerNumber')" name="PagerNumber" maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_PagerNumber"></validation-messages>
                                         </div>
                                     </div>
@@ -240,13 +242,14 @@
                                     <div class="col-md-4">
                                         <div class="form-group m-form__group">
                                             <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
-                                            <select name="lead.leadStatusId" [(ngModel)]="lead.leadStatusId"
-                                                class="form-control" required>
+                                            <select #Lead_Status name="lead.leadStatusId"
+                                                [(ngModel)]="lead.leadStatusId" class="form-control">
                                                 <option value="">{{ l('SelectALeadStatus') }}</option>
                                                 <option *ngFor="let item of allLeadStatuss" value="{{ item.id }}">
                                                     {{ item.displayName }}
                                                 </option>
                                             </select>
+                                            <validation-messages [formCtrl]="Lead_Status"></validation-messages>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -290,8 +293,11 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <div class="row">
                 <!-- TODO:THIS SHOULD BE A WIDGETS COMPONENT -->
-                <div class="col-sm-4 col-md-3">
+                <div class="col-sm-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
                             <div class="card card-custom gutter-b">
@@ -311,7 +317,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
