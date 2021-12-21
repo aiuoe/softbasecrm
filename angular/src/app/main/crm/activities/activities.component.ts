@@ -1,0 +1,193 @@
+﻿import { AppConsts } from '@shared/AppConsts';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+    AccountUsersServiceProxy,
+    AccountUserUserLookupTableDto,
+    ActivitiesServiceProxy,
+    ActivityActivitySourceTypeLookupTableDto,
+    ActivityActivityStatusLookupTableDto,
+    ActivityActivityTaskTypeLookupTableDto,
+    ActivityDto,
+    ActivitySourceTypeDto,
+    ActivitySourceTypesServiceProxy,
+    ActivityStatusDto,
+    ActivityStatusesServiceProxy,
+    ActivityTaskTypeDto,
+    ActivityTaskTypesServiceProxy,
+} from '@shared/service-proxies/service-proxies';
+import { NotifyService } from 'abp-ng2-module';
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditActivityModalComponent } from './create-or-edit-activity-modal.component';
+
+import { ViewActivityModalComponent } from './view-activity-modal.component';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { Table } from 'primeng/table';
+import { Paginator } from 'primeng/paginator';
+import { LazyLoadEvent } from 'primeng/api';
+import { FileDownloadService } from '@shared/utils/file-download.service';
+import { filter as _filter } from 'lodash-es';
+import { DateTime } from 'luxon';
+
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+
+@Component({
+    templateUrl: './activities.component.html',
+    encapsulation: ViewEncapsulation.None,
+    animations: [appModuleAnimation()],
+})
+export class ActivitiesComponent extends AppComponentBase implements OnInit {
+    @ViewChild('createOrEditActivityModal', { static: true })
+    createOrEditActivityModal: CreateOrEditActivityModalComponent;
+    @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
+
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
+
+    advancedFiltersAreShown = false;
+    filterText = '';
+    opportunityNameFilter = '';
+    leadCompanyNameFilter = '';
+    userNameFilter = '';
+    activitySourceTypeDescriptionFilter = '';
+    activityTaskTypeDescriptionFilter = '';
+    activityStatusDescriptionFilter = '';
+    activityPriorityDescriptionFilter = '';
+
+    selectedAssignedUsersFilter: AccountUserUserLookupTableDto[] = [];
+    selectedActivitySourceTypesFilter: ActivityActivitySourceTypeLookupTableDto;
+    selectedActivityTaskTypesFilter: ActivityActivityTaskTypeLookupTableDto;
+    selectedActivityStatusesFilter: ActivityActivityStatusLookupTableDto;
+    excludeCompletedFilter: boolean = false;
+
+    // Filter data sources
+    allUsers: AccountUserUserLookupTableDto[];
+    activitySourceTypes: ActivityActivitySourceTypeLookupTableDto[];
+    activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
+    activityStatuses: ActivityActivityStatusLookupTableDto[];
+
+    constructor(
+        injector: Injector,
+        private _activitiesServiceProxy: ActivitiesServiceProxy,
+        private _accountUsersServiceProxy: AccountUsersServiceProxy,
+        private _activitySourceTypesServiceProxy: ActivitySourceTypesServiceProxy,
+        private _activityTaskTypesServiceProxy: ActivityTaskTypesServiceProxy,
+        private _activityStatusesServiceProxy: ActivityStatusesServiceProxy,
+        private _notifyService: NotifyService,
+        private _tokenAuth: TokenAuthServiceProxy,
+        private _activatedRoute: ActivatedRoute,
+        private _fileDownloadService: FileDownloadService,
+        private _dateTimeService: DateTimeService
+    ) {
+        super(injector);
+    }
+
+    ngOnInit(): void {
+        this.loadUsers();
+        this.loadActivitySourceTypes();
+        this.loadActivityTaskTypes();
+        this.loadActivityStatuses();
+    }
+
+    getActivities(event?: LazyLoadEvent) {
+        if (this.primengTableHelper.shouldResetPaging(event)) {
+            this.paginator.changePage(0);
+            return;
+        }
+
+        this.primengTableHelper.showLoadingIndicator();
+
+        this._activitiesServiceProxy
+            .getAll(
+                this.filterText,
+                this.opportunityNameFilter,
+                this.leadCompanyNameFilter,
+                this.userNameFilter,
+                this.selectedActivitySourceTypesFilter?.displayName || '',
+                this.selectedActivityTaskTypesFilter?.displayName || '',
+                this.selectedActivityStatusesFilter?.displayName || '',
+                this.activityPriorityDescriptionFilter,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
+    }
+
+    reloadPage(): void {
+        this.paginator.changePage(this.paginator.getPage());
+    }
+
+    createActivity(): void {
+        this.createOrEditActivityModal.show();
+    }
+
+    deleteActivity(activity: ActivityDto): void {
+        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
+            if (isConfirmed) {
+                this._activitiesServiceProxy.delete(activity.id).subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('SuccessfullyDeleted'));
+                });
+            }
+        });
+    }
+
+    exportToExcel(): void {
+        this._activitiesServiceProxy
+            .getActivitiesToExcel(
+                this.filterText,
+                this.opportunityNameFilter,
+                this.leadCompanyNameFilter,
+                this.userNameFilter,
+                this.activitySourceTypeDescriptionFilter,
+                this.activityTaskTypeDescriptionFilter,
+                this.activityStatusDescriptionFilter,
+                this.activityPriorityDescriptionFilter
+            )
+            .subscribe((result) => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+    }
+
+    /**
+     * Load the list of users
+     */
+    loadUsers(): void {
+        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+            this.allUsers = result;
+        });
+    }
+
+    /**
+     * Load the list of activity source types
+     */
+    loadActivitySourceTypes(): void {
+        this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((res) => {
+            this.activitySourceTypes = res;
+        });
+    }
+
+    /**
+     * Load the list of activity task types
+     */
+    loadActivityTaskTypes(): void {
+        this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
+            this.activityTaskTypes = res;
+        });
+    }
+
+    /**
+     * Load the list of activity status
+     */
+    loadActivityStatuses(): void {
+        this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((res) => {
+            this.activityStatuses = res;
+        });
+    }
+}

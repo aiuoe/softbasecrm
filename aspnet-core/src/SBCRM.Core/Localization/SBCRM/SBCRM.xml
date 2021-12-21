@@ -2,6 +2,53 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="Activity">Activity</text>
+    <text name="SBCRM.Crm.Activity">Activity</text>
+    <text name="TaskName">Task name</text>
+    <text name="DueDate">Due date</text>
+    <text name="StartsAt">Starts at</text>
+    <text name="DurationMinutes">Duration minutes</text>
+    <text name="ActivitiesHeaderInfo">Activities header info</text>
+    <text name="CreateNewActivity">Create new activity</text>
+    <text name="EditActivity">Edit activity</text>
+    <text name="DeleteActivity">Delete activity</text>
+    <text name="Activities">Activities</text>
+    <text name="OpportunityName">Opportunity name</text>
+    <text name="PickOpportunity">Pick opportunity</text>
+    <text name="SelectAOpportunity">Select a opportunity</text>
+    <text name="PickLead">Pick lead</text>
+    <text name="SelectALead">Select a lead</text>
+    <text name="ActivitySourceTypeDescription">Activity source type description</text>
+    <text name="PickActivitySourceType">Pick activity source type</text>
+    <text name="SelectAActivitySourceType">Select a activity source type</text>
+    <text name="ActivityTaskTypeDescription">Activity task type description</text>
+    <text name="PickActivityTaskType">Pick activity task type</text>
+    <text name="SelectAActivityTaskType">Select a activity task type</text>
+    <text name="ActivityStatusDescription">Activity status description</text>
+    <text name="PickActivityStatus">Pick activity status</text>
+    <text name="SelectAActivityStatus">Select a activity status</text>
+    <text name="ActivityPriorityDescription">Activity priority description</text>
+    <text name="PickActivityPriority">Pick activity priority</text>
+    <text name="SelectAActivityPriority">Select a activity priority</text>
+    <text name="DueDateRange">Due date range</text>
+    <text name="StartsAtRange">Starts at range</text>
+
+    <text name="ActivitySourceType">Activity source type</text>
+    <text name="SBCRM.Crm.ActivitySourceType">ActivitySourceType</text>
+    <text name="ActivitySourceTypesHeaderInfo">Activity source types header info</text>
+    <text name="CreateNewActivitySourceType">Create new activity source type</text>
+    <text name="EditActivitySourceType">Edit activity source type</text>
+    <text name="DeleteActivitySourceType">Delete activity source type</text>
+    <text name="ActivitySourceTypes">Activity source types</text>
+
+    <text name="ActivityPriority">Activity priority</text>
+    <text name="SBCRM.Crm.ActivityPriority">ActivityPriority</text>
+    <text name="ActivityPrioritiesHeaderInfo">Activity priorities header info</text>
+    <text name="CreateNewActivityPriority">Create new activity priority</text>
+    <text name="EditActivityPriority">Edit activity priority</text>
+    <text name="DeleteActivityPriority">Delete activity priority</text>
+    <text name="ActivityPriorities">Activity priorities</text>
+
     <text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
     <text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
     <text name="AccountUser">Account user</text>
@@ -25,7 +72,7 @@
     <text name="NotIsDefault">Not is default</text>
     <text name="IsDefault">Is default</text>
     <text name="SelectAOpportunityStage">Select a opportunity stage</text>
-    <text name="SelectAOpportunityType">Select a opportunity type</text>  
+    <text name="SelectAOpportunityType">Select a opportunity type</text>
     <text name="PO">Po</text>
     <text name="Unit">Unit</text>
     <text name="Serial">Serial</text>
@@ -56,8 +103,8 @@
     <text name="Order">Order</text>
     <text name="Overview">Overview</text>
     <text name="GeneralInformation">General Information</text>
-	<text name="ContactDetails">Contact Details</text>
-	<text name="LeadDetails">Lead Details</text>
+    <text name="ContactDetails">Contact Details</text>
+    <text name="LeadDetails">Lead Details</text>
     <text name="SBCRM.Crm.OpportunityType">OpportunityType</text>
     <text name="OpportunityTypesHeaderInfo">Opportunity types header info</text>
     <text name="OpportunityTypes">Opportunity types</text>
@@ -88,7 +135,7 @@
     <text name="EditOpportunityType">Edit opportunity type</text>
     <text name="DeleteOpportunityType">Delete opportunity type</text>
     <text name="OpportunityStage">Opportunity stage</text>
-	<text name="Stage">Stage</text>
+    <text name="Stage">Stage</text>
     <text name="CreateNewOpportunityStage">Create new opportunity stage</text>
     <text name="EditOpportunityStage">Edit opportunity stage</text>
     <text name="DeleteOpportunityStage">Delete opportunity stage</text>
@@ -102,15 +149,15 @@
     <text name="DeleteLeadUser">Delete lead user</text>
     <text name="Import">Import</text>
     <text name="ImportExcelFile_Warn_SizeLimit">File size must be smaller than {0}MB. Please select another file.</text>
-    <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>    
+    <text name="ImportExcel_Change_Info">You can select a XLS/XLSX file with a maximum {0}MB size.</text>
     <text name="AssignedUser">Assigned User</text>
     <text name="AssignedUsers">Assigned Users</text>
     <text name="DescriptionLabel">Description</text>
     <text name="ContactName">Contact name</text>
     <text name="ContactPosition">Contact position</text>
     <text name="CompanyPhone">Company Phone</text>
-	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
-	<text name="LeadCompanyPhone">Phone</text>
+    <text name="CompanyPhone_Invalid">Invalid Company phone</text>
+    <text name="LeadCompanyPhone">Phone</text>
     <text name="CompanyEmail">Company Email</text>
     <text name="PoBox">Po Box</text>
     <text name="ContactPhone">Contact phone</text>
@@ -121,8 +168,8 @@
     <text name="ContactEmail">Contact email</text>
     <text name="PriorityDescription">Priority description</text>
     <text name="PickPriority">Pick priority</text>
-	<text name="LeadPriority">Priority</text>
-	<text name="SelectAPriority">Select a priority</text>
+    <text name="LeadPriority">Priority</text>
+    <text name="SelectAPriority">Select a priority</text>
     <text name="Priority">Priority</text>
     <text name="SBCRM.Crm.Priority">Priority</text>
     <text name="PrioritiesHeaderInfo">Priorities header info</text>
@@ -137,7 +184,7 @@
     <text name="LastName">Last Name</text>
     <text name="Title">Title</text>
     <text name="WebSite">Web site</text>
-	<text name="WebSite_Invalid">Invalid Web site</text>
+    <text name="WebSite_Invalid">Invalid Web site</text>
     <text name="LeadsHeaderInfo">Leads header info</text>
     <text name="CreateNewLead">New lead</text>
     <text name="EditLead">Edit lead</text>
@@ -152,8 +199,8 @@
     <text name="LeadStatusDescription">Lead status description</text>
     <text name="PickLeadStatus">Pick lead status</text>
     <text name="SelectALeadStatus">Select a lead status</text>
-	<text name="LeadStatus">Lead status</text>
-	<text name="MakeAccount">Make Account</text>	  
+    <text name="LeadStatus">Lead status</text>
+    <text name="MakeAccount">Make Account</text>
     <text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
     <text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
     <text name="CreateNewLeadStatus">Create new lead status</text>
@@ -180,6 +227,7 @@
     <text name="CustomerNumber">Customer Number #</text>
     <text name="BillTo">Bill To #</text>
     <text name="SearchName">Search name</text>
+    <text name="SearchCompanyName">Search Company Name</text>
     <text name="SubName">Sub name</text>
     <text name="POBox">PO Box</text>
     <text name="City">City</text>
@@ -497,7 +545,7 @@
     <text name="CreationTime">Creation time</text>
     <text name="LeadCreationTime">Created at</text>
     <text name="SearchWithThreeDot">Search...</text>
-	<text name="LeadSearchWithThreeDot">Search Lead</text>  
+    <text name="LeadSearchWithThreeDot">Search Lead</text>
     <text name="AccountSearchWithThreeDot">Search Account</text>
     <text name="ResetSpecialPermissions">Reset special permissions</text>
     <text name="SavingWithThreeDot">Saving...</text>
@@ -619,8 +667,8 @@
     <text name="ErrorState">Error state</text>
     <text name="All">All</text>
     <text name="HasError">Has error</text>
-    <text name="ShowAdvancedFilters">Show advanced filters</text>
-    <text name="HideAdvancedFilters">Hide advanced filters</text>
+    <text name="ShowAdvancedFilters">Show Advanced Filters</text>
+    <text name="HideAdvancedFilters">Hide Advanced Filters</text>
     <text name="AuditLogDetail">Audit log detail</text>
     <text name="Parameters">Parameters</text>
     <text name="DateRange">Date Range</text>
@@ -845,8 +893,12 @@
     <text name="TenantToHostChatFeatureIsNotEnabledForReceiver">Chat with host is not enabled for tenant.</text>
     <text name="TenantToTenantChatFeature">Chat with other tenants</text>
     <text name="TenantToHostChatFeature">Chat with host</text>
+    <text name="FilterByAssignee">Filter by Assignee</text>
     <text name="FilterByPermission">Filter by permission</text>
     <text name="FilterByRole">Filter by role</text>
+    <text name="FilterBySourceType">Filter by Source Type</text>
+    <text name="FilterByActivity">Filter by Activity</text>
+    <text name="FilterByStatus">Filter by Status</text>
     <text name="FilterOrAddUser">Filter/Add user</text>
     <text name="HangfireDashboard">Hangfire dashboard</text>
     <text name="CouldNotCompleteLoginOperation">Could not complete the login operation.</text>
@@ -1561,5 +1613,10 @@
     <text name="YouAreNotLoggedInAsAHostUser">You are not logged in as a host user!</text>
     <text name="WhatsIncludedInYourPlan">What's included in your plan</text>
     <text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
+    <text name="SourceType">Source Type</text>
+    <text name="Schedule">Schedule</text>
+    <text name="ScheduleAndDueDate">Schedule / Due Date</text>
+    <text name="ExcludeCompleted">Exclude Completed</text>
+    <text name="NoRecordsFound">No records found.</text>
   </texts>
 </localizationDictionary>

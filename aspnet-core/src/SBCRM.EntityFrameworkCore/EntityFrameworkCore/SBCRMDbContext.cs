@@ -1,4 +1,4 @@
-using SBCRM.Crm;
+﻿using SBCRM.Crm;
 using SBCRM.Legacy;
 using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
@@ -18,6 +18,12 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<Activity> Activities { get; set; }
+
+        public virtual DbSet<ActivitySourceType> ActivitySourceTypes { get; set; }
+
+        public virtual DbSet<ActivityPriority> ActivityPriorities { get; set; }
+
         public virtual DbSet<Secure> Secure { get; set; }
 
         public virtual DbSet<AccountUser> AccountUsers { get; set; }

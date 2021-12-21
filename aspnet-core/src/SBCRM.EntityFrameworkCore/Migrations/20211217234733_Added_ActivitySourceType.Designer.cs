@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211217234733_Added_ActivitySourceType")]
+    partial class Added_ActivitySourceType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1792,91 +1794,6 @@ namespace SBCRM.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AccountUsers");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.Activity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ActivityPriorityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivitySourceTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivityStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivityTaskTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DurationMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("LeadId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OpportunityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartsAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TaskName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActivityPriorityId");
-
-                    b.HasIndex("ActivitySourceTypeId");
-
-                    b.HasIndex("ActivityStatusId");
-
-                    b.HasIndex("ActivityTaskTypeId");
-
-                    b.HasIndex("LeadId");
-
-                    b.HasIndex("OpportunityId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.ActivityPriority", b =>
@@ -4209,61 +4126,6 @@ namespace SBCRM.Migrations
                         .IsRequired();
 
                     b.Navigation("CustomerFk");
-
-                    b.Navigation("UserFk");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.Activity", b =>
-                {
-                    b.HasOne("SBCRM.Crm.ActivityPriority", "ActivityPriorityFk")
-                        .WithMany()
-                        .HasForeignKey("ActivityPriorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SBCRM.Crm.ActivitySourceType", "ActivitySourceTypeFk")
-                        .WithMany()
-                        .HasForeignKey("ActivitySourceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SBCRM.Crm.ActivityStatus", "ActivityStatusFk")
-                        .WithMany()
-                        .HasForeignKey("ActivityStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SBCRM.Crm.ActivityTaskType", "ActivityTaskTypeFk")
-                        .WithMany()
-                        .HasForeignKey("ActivityTaskTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SBCRM.Crm.Lead", "LeadFk")
-                        .WithMany()
-                        .HasForeignKey("LeadId");
-
-                    b.HasOne("SBCRM.Crm.Opportunity", "OpportunityFk")
-                        .WithMany()
-                        .HasForeignKey("OpportunityId");
-
-                    b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ActivityPriorityFk");
-
-                    b.Navigation("ActivitySourceTypeFk");
-
-                    b.Navigation("ActivityStatusFk");
-
-                    b.Navigation("ActivityTaskTypeFk");
-
-                    b.Navigation("LeadFk");
-
-                    b.Navigation("OpportunityFk");
 
                     b.Navigation("UserFk");
                 });

@@ -9,6 +9,27 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'crm/activities',
+                        loadChildren: () => import('./crm/activities/activity.module').then(m => m.ActivityModule),
+                        data: { permission: 'Pages.Activities' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/activitySourceTypes',
+                        loadChildren: () => import('./crm/activitySourceTypes/activitySourceType.module').then(m => m.ActivitySourceTypeModule),
+                        data: { permission: 'Pages.ActivitySourceTypes' }
+                    },
+                
+                    
+                    {
+                        path: 'crm/activityPriorities',
+                        loadChildren: () => import('./crm/activityPriorities/activityPriority.module').then(m => m.ActivityPriorityModule),
+                        data: { permission: 'Pages.ActivityPriorities' }
+                    },
+                
+                    
+                    {
                         path: 'crm/opportunityStages',
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
