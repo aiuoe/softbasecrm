@@ -169,6 +169,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
 
         this.uploader.onErrorItem = () => {
             //TO DO: Manage errors an exceptions
+            this.close();
         };
 
         this.uploader.setOptions(this._uploaderOptions);

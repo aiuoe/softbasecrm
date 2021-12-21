@@ -19,6 +19,8 @@ using SBCRM.Infrastructure.Excel;
 using SBCRM.DataImporting;
 using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm
 {
@@ -234,67 +236,124 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<CreateOrEditLeadDto>> ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
         {
-            var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
-
-            var duplicatedLeads = new List<CreateOrEditLeadDto>();
-
-            // Defining default status and priority
-            var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description == "New");
-            var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description == "Low");
-
-
-            foreach (var item in leadsToImport)
+            try
             {
-                CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
-                leadAux.CompanyName = item.CompanyName;
-                leadAux.CompanyPhone = item.Phone;
-                leadAux.CompanyEmail = item.CompanyEmail;
-                leadAux.WebSite = item.Website;
-                leadAux.Address = item.CompanyAdress;
-                leadAux.Country = item.Country;
-                leadAux.City = item.City;
-                leadAux.State = item.StateProvince;
-                leadAux.ZipCode = item.ZipCode;
-                leadAux.PoBox = item.PoBox;
-                leadAux.ContactName = item.ContactName;
-                leadAux.ContactPosition = item.ContactPosition;
-                leadAux.ContactPhone = item.ContactPhone;
-                leadAux.ContactPhoneExtension = item.ContactExtention;
-                leadAux.ContactCellPhone = item.ContactCelphone;
-                leadAux.ContactFaxNumber = item.ContactFax;
-                leadAux.PagerNumber = item.ContactPager;
-                leadAux.ContactEmail = item.ContactEmail;
-                // Default fields
-                leadAux.LeadSourceId = leadSourceId;
-                leadAux.LeadStatusId = leadStatusId.Id;
-                leadAux.PriorityId = leadPriorityId.Id;
+                var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
 
+                var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
-                if (storedLead == null)
+                if (true)
                 {
-                    var lead = ObjectMapper.Map<Lead>(leadAux);
-                    int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
+                    throw new UserFriendlyException(L("ErrorUploadingMessage"));
+                }
 
-                    if (leadId != 0)
+                // Default status and priority
+                var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description == "New");
+                var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description == "Low");
+
+
+                foreach (var item in leadsToImport)
+                {
+                    CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
+                    leadAux.CompanyName = item.CompanyName;
+                    leadAux.CompanyPhone = item.Phone;
+                    leadAux.CompanyEmail = item.CompanyEmail;
+                    leadAux.WebSite = item.Website;
+                    leadAux.Address = item.CompanyAdress;
+                    leadAux.Country = item.Country;
+                    leadAux.City = item.City;
+                    leadAux.State = item.StateProvince;
+                    leadAux.ZipCode = item.ZipCode;
+                    leadAux.PoBox = item.PoBox;
+                    leadAux.ContactName = item.ContactName;
+                    leadAux.ContactPosition = item.ContactPosition;
+                    leadAux.ContactPhone = item.ContactPhone;
+                    leadAux.ContactPhoneExtension = item.ContactExtention;
+                    leadAux.ContactCellPhone = item.ContactCelphone;
+                    leadAux.ContactFaxNumber = item.ContactFax;
+                    leadAux.PagerNumber = item.ContactPager;
+                    leadAux.ContactEmail = item.ContactEmail;
+                    // Default fields
+                    leadAux.LeadSourceId = leadSourceId;
+                    leadAux.LeadStatusId = leadStatusId.Id;
+                    leadAux.PriorityId = leadPriorityId.Id;
+
+
+                    var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
+                    if (storedLead == null)
                     {
-                        var leadUser = new LeadUser
-                        {
-                            LeadId = leadId,
-                            UserId = assignedUserId
-                        };
+                        var lead = ObjectMapper.Map<Lead>(leadAux);
+                        int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
 
-                        await _leadUserRepository.InsertAsync(leadUser);
+                        if (leadId != 0)
+                        {
+                            var leadUser = new LeadUser
+                            {
+                                LeadId = leadId,
+                                UserId = assignedUserId
+                            };
+
+                            await _leadUserRepository.InsertAsync(leadUser);
+                        }
+                    }
+                    else
+                    {
+                        duplicatedLeads.Add(leadAux);
                     }
                 }
-                else
-                {
-                    duplicatedLeads.Add(leadAux);
-                }
+
+                return duplicatedLeads;
+            }
+            catch (Exception)
+            {
+                throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
 
-            return duplicatedLeads;
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
+        {
+            foreach (var item in importedLeads)
+            {
+                if (item.CompanyName == null || item.CompanyName == string.Empty)
+                {
+                    return false;
+                }
+
+                if (item.Phone == null || item.CompanyEmail == null)
+                {
+                    return false;
+
+                }
+
+                if (item.Country.ToUpper() != "MEXICO" && item.Country.ToUpper() != "CANADA" && item.Country.ToUpper() != "UNITED STATES")
+                {
+                    return false;
+                }
+
+                var emailValidator = new EmailAddressAttribute();
+                if (!emailValidator.IsValid(item.CompanyEmail) || !emailValidator.IsValid(item.ContactEmail) || !Uri.IsWellFormedUriString(item.Website.ToString(), UriKind.Absolute))
+                {
+                    return false;
+                }
+
+                if (item.CompanyName.ToString().Length > 250 || item.Phone.ToString().Length > 50
+                    || item.CompanyEmail.ToString().Length > 100 || item.Website.ToString().Length > 100
+                    || item.CompanyAdress.ToString().Length > 100 || item.Country.ToString().Length > 100
+                    || item.City.ToString().Length > 100 || item.StateProvince.ToString().Length > 100
+                    || item.PoBox.ToString().Length > 100 || item.ContactName.ToString().Length > 100
+                    || item.ContactPosition.ToString().Length > 100 || item.ContactPhone.ToString().Length > 50
+                    || item.ContactFax.ToString().Length > 50 || item.ContactPager.ToString().Length > 50
+                    || item.ContactEmail.ToString().Length > 100)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>

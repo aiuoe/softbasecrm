@@ -51,7 +51,7 @@ namespace SBCRM.Web.Controllers
             catch (UserFriendlyException ex)
             {
                 Console.Write(ex.Message);
-                throw;
+                throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
         }
     }

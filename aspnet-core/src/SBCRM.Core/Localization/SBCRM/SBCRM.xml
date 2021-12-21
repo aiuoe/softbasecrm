@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
 		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
 		<text name="DuplicatedLeads">Duplicated leads encountered</text>
 		<text name="AreYouSureToUpload">Are you sure you want to upload this file?</text>
