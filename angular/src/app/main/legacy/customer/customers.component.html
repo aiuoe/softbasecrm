@@ -192,6 +192,16 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
+                                                            [queryParams]="{ customerNumber: record.customer.number }"  
+                                                        >
+                                                            {{ l('AddOpportunity') }}
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>

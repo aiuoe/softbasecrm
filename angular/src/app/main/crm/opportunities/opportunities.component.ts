@@ -52,6 +52,7 @@ export class OpportunitiesComponent extends AppComponentBase {
     leadSourceDescriptionFilter = '';
     opportunityTypeDescriptionFilter = '';
     customerName = '';
+    contactName = '';
 
     /***
      * Main constructor
@@ -128,6 +129,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.leadSourceDescriptionFilter,
                 this.opportunityTypeDescriptionFilter,
                 this.customerName,
+                this.contactName,
                 this.selectedOpportunityStages?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
@@ -179,6 +181,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.leadSourceDescriptionFilter,
                 this.opportunityTypeDescriptionFilter,
                 this.customerName,
+                this.contactName,
                 this.selectedOpportunityStages?.map(x => x.id)
             )
             .subscribe((result) => {

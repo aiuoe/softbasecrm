@@ -9571,7 +9571,7 @@ export class LeadsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, priorityId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9668,11 +9668,11 @@ export class LeadsServiceProxy {
         if (leadStatusId === null)
             throw new Error("The parameter 'leadStatusId' cannot be null.");
         else if (leadStatusId !== undefined)
-            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "LeadStatusId=" + encodeURIComponent("" + leadStatusId) + "&";
         if (priorityId === null)
             throw new Error("The parameter 'priorityId' cannot be null.");
         else if (priorityId !== undefined)
-            priorityId && priorityId.forEach(item => { url_ += "PriorityId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "PriorityId=" + encodeURIComponent("" + priorityId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -10109,7 +10109,7 @@ export class LeadsServiceProxy {
      * @param priorityId (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, priorityId: number[] | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10206,11 +10206,11 @@ export class LeadsServiceProxy {
         if (leadStatusId === null)
             throw new Error("The parameter 'leadStatusId' cannot be null.");
         else if (leadStatusId !== undefined)
-            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "LeadStatusId=" + encodeURIComponent("" + leadStatusId) + "&";
         if (priorityId === null)
             throw new Error("The parameter 'priorityId' cannot be null.");
         else if (priorityId !== undefined)
-            priorityId && priorityId.forEach(item => { url_ += "PriorityId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "PriorityId=" + encodeURIComponent("" + priorityId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11973,13 +11973,14 @@ export class OpportunitiesServiceProxy {
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
      * @param customerName (optional) 
+     * @param contactName (optional) 
      * @param opportunityStageId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12041,6 +12042,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'customerName' cannot be null.");
         else if (customerName !== undefined)
             url_ += "CustomerName=" + encodeURIComponent("" + customerName) + "&";
+        if (contactName === null)
+            throw new Error("The parameter 'contactName' cannot be null.");
+        else if (contactName !== undefined)
+            url_ += "ContactName=" + encodeURIComponent("" + contactName) + "&";
         if (opportunityStageId === null)
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
@@ -12335,10 +12340,11 @@ export class OpportunitiesServiceProxy {
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
      * @param customerName (optional) 
+     * @param contactName (optional) 
      * @param opportunityStageId (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12400,6 +12406,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'customerName' cannot be null.");
         else if (customerName !== undefined)
             url_ += "CustomerName=" + encodeURIComponent("" + customerName) + "&";
+        if (contactName === null)
+            throw new Error("The parameter 'contactName' cannot be null.");
+        else if (contactName !== undefined)
+            url_ += "ContactName=" + encodeURIComponent("" + contactName) + "&";
         if (opportunityStageId === null)
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
@@ -12680,6 +12690,127 @@ export class OpportunitiesServiceProxy {
             }));
         }
         return _observableOf<OpportunityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllContactsForTableDropdown(): Observable<OpportunityContactsLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllContactsForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllContactsForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllContactsForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllContactsForTableDropdown(response: HttpResponseBase): Observable<OpportunityContactsLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityContactsLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityContactsLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getAllContactsForTableDropdownCustomerSpecific(customerNumber: string | undefined): Observable<OpportunityContactsLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllContactsForTableDropdownCustomerSpecific?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllContactsForTableDropdownCustomerSpecific(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllContactsForTableDropdownCustomerSpecific(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllContactsForTableDropdownCustomerSpecific(response: HttpResponseBase): Observable<OpportunityContactsLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityContactsLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityContactsLookupTableDto[]>(<any>null);
     }
 }
 
@@ -24257,6 +24388,7 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
     customerNumber!: string | undefined;
+    contactId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityDto) {
@@ -24281,6 +24413,7 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
             this.leadSourceId = _data["leadSourceId"];
             this.opportunityTypeId = _data["opportunityTypeId"];
             this.customerNumber = _data["customerNumber"];
+            this.contactId = _data["contactId"];
             this.id = _data["id"];
         }
     }
@@ -24305,6 +24438,7 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
         data["leadSourceId"] = this.leadSourceId;
         data["opportunityTypeId"] = this.opportunityTypeId;
         data["customerNumber"] = this.customerNumber;
+        data["contactId"] = this.contactId;
         data["id"] = this.id;
         return data; 
     }
@@ -24322,6 +24456,7 @@ export interface ICreateOrEditOpportunityDto {
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
     customerNumber: string | undefined;
+    contactId: number | undefined;
     id: number | undefined;
 }
 
@@ -29591,6 +29726,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
     opportunityStageDescription!: string | undefined;
     leadSourceDescription!: string | undefined;
     opportunityTypeDescription!: string | undefined;
+    customerName!: string | undefined;
+    customerNumber!: string | undefined;
+    contactName!: string | undefined;
 
     constructor(data?: IGetOpportunityForEditOutput) {
         if (data) {
@@ -29607,6 +29745,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
             this.opportunityStageDescription = _data["opportunityStageDescription"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.opportunityTypeDescription = _data["opportunityTypeDescription"];
+            this.customerName = _data["customerName"];
+            this.customerNumber = _data["customerNumber"];
+            this.contactName = _data["contactName"];
         }
     }
 
@@ -29623,6 +29764,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
         data["opportunityStageDescription"] = this.opportunityStageDescription;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["opportunityTypeDescription"] = this.opportunityTypeDescription;
+        data["customerName"] = this.customerName;
+        data["customerNumber"] = this.customerNumber;
+        data["contactName"] = this.contactName;
         return data; 
     }
 }
@@ -29632,6 +29776,9 @@ export interface IGetOpportunityForEditOutput {
     opportunityStageDescription: string | undefined;
     leadSourceDescription: string | undefined;
     opportunityTypeDescription: string | undefined;
+    customerName: string | undefined;
+    customerNumber: string | undefined;
+    contactName: string | undefined;
 }
 
 export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
@@ -29641,6 +29788,8 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     leadSourceDescription!: string | undefined;
     opportunityTypeDescription!: string | undefined;
     customerName!: string | undefined;
+    customerNumber!: string | undefined;
+    contactName!: string | undefined;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -29659,6 +29808,8 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.opportunityTypeDescription = _data["opportunityTypeDescription"];
             this.customerName = _data["customerName"];
+            this.customerNumber = _data["customerNumber"];
+            this.contactName = _data["contactName"];
         }
     }
 
@@ -29677,6 +29828,8 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["opportunityTypeDescription"] = this.opportunityTypeDescription;
         data["customerName"] = this.customerName;
+        data["customerNumber"] = this.customerNumber;
+        data["contactName"] = this.contactName;
         return data; 
     }
 }
@@ -29688,6 +29841,8 @@ export interface IGetOpportunityForViewDto {
     leadSourceDescription: string | undefined;
     opportunityTypeDescription: string | undefined;
     customerName: string | undefined;
+    customerNumber: string | undefined;
+    contactName: string | undefined;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
@@ -33697,6 +33852,46 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
     validateIssuer: boolean;
 }
 
+export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {
+    id!: number;
+    contactName!: string | undefined;
+
+    constructor(data?: IOpportunityContactsLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactName = _data["contactName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityContactsLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityContactsLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactName"] = this.contactName;
+        return data; 
+    }
+}
+
+export interface IOpportunityContactsLookupTableDto {
+    id: number;
+    contactName: string | undefined;
+}
+
 export class OpportunityCustomerLookupTableDto implements IOpportunityCustomerLookupTableDto {
     number!: string | undefined;
     name!: string | undefined;
@@ -33749,6 +33944,7 @@ export class OpportunityDto implements IOpportunityDto {
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
     customerNumber!: string | undefined;
+    contactId!: number | undefined;
     id!: number;
 
     constructor(data?: IOpportunityDto) {
@@ -33773,6 +33969,7 @@ export class OpportunityDto implements IOpportunityDto {
             this.leadSourceId = _data["leadSourceId"];
             this.opportunityTypeId = _data["opportunityTypeId"];
             this.customerNumber = _data["customerNumber"];
+            this.contactId = _data["contactId"];
             this.id = _data["id"];
         }
     }
@@ -33797,6 +33994,7 @@ export class OpportunityDto implements IOpportunityDto {
         data["leadSourceId"] = this.leadSourceId;
         data["opportunityTypeId"] = this.opportunityTypeId;
         data["customerNumber"] = this.customerNumber;
+        data["contactId"] = this.contactId;
         data["id"] = this.id;
         return data; 
     }
@@ -33814,6 +34012,7 @@ export interface IOpportunityDto {
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
     customerNumber: string | undefined;
+    contactId: number | undefined;
     id: number;
 }
 

@@ -30,5 +30,7 @@ namespace SBCRM.Crm.Dtos
 
         public string CustomerNumber { get; set; }
 
+        public int? ContactId { get; set; }
+
     }
 }

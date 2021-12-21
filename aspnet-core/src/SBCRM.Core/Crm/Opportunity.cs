@@ -52,6 +52,11 @@ namespace SBCRM.Crm
         [ForeignKey("OpportunityTypeId")]
         public OpportunityType OpportunityTypeFk { get; set; }
 
+        public virtual int? ContactId { get; set; }
+
+        [ForeignKey("ContactId")]
+        public Contact ContactFk { get; set; }
+
         public virtual string CustomerNumber { get; set; }
 
         [ForeignKey("CustomerNumber")]

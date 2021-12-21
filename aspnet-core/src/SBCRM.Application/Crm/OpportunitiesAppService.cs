@@ -33,6 +33,7 @@ namespace SBCRM.Crm
         private readonly IRepository<LeadSource, int> _lookup_leadSourceRepository;
         private readonly IRepository<OpportunityType, int> _lookup_opportunityTypeRepository;
         private readonly IRepository<Customer, int> _lookup_customerRepository;
+        private readonly IRepository<Contact, int> _lookup_contactsRepository;
 
         /// <summary>
         /// Base constructor
@@ -42,14 +43,16 @@ namespace SBCRM.Crm
         /// <param name="lookup_opportunityStageRepository"></param>
         /// <param name="lookup_leadSourceRepository"></param>
         /// <param name="lookup_opportunityTypeRepository"></param>
-        /// <param name="lookup_customerRepository"></param>    
+        /// <param name="lookup_customerRepository"></param>
+        /// <param name="lookup_contactsRepository"></param>    
         public OpportunitiesAppService(
             IRepository<Opportunity> opportunityRepository,
             IOpportunitiesExcelExporter opportunitiesExcelExporter, 
             IRepository<OpportunityStage, int> lookup_opportunityStageRepository, 
             IRepository<LeadSource, int> lookup_leadSourceRepository, 
             IRepository<OpportunityType, int> lookup_opportunityTypeRepository,
-            IRepository<Customer, int> lookup_customerRepository)
+            IRepository<Customer, int> lookup_customerRepository,
+            IRepository<Contact, int> lookup_contactsRepository)
         {
             _opportunityRepository = opportunityRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
@@ -57,6 +60,7 @@ namespace SBCRM.Crm
             _lookup_leadSourceRepository = lookup_leadSourceRepository;
             _lookup_opportunityTypeRepository = lookup_opportunityTypeRepository;
             _lookup_customerRepository = lookup_customerRepository;
+            _lookup_contactsRepository = lookup_contactsRepository;
 
         }
 
@@ -119,6 +123,9 @@ namespace SBCRM.Crm
                                 join o4 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
                                 from s4 in j4.DefaultIfEmpty()
 
+                                join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.Id into j5
+                                from s5 in j5.DefaultIfEmpty()
+
                                 select new
                                 {
 
@@ -134,7 +141,9 @@ namespace SBCRM.Crm
                                     OpportunityStageColor = s1 == null || s1.Color == null ? "" : s1.Color.ToString(),
                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                                    CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString()
+                                    CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                                    CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                                    ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
                                 };
 
             var totalCount = await filteredOpportunities.CountAsync();
@@ -162,7 +171,10 @@ namespace SBCRM.Crm
                     OpportunityStageColor = o.OpportunityStageColor,
                     LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityTypeDescription = o.OpportunityTypeDescription,
-                    CustomerName = o.CustomerName
+                    CustomerName = o.CustomerName,
+                    CustomerNumber = o.CustomerNumber,
+                    ContactName = o.ContactName
+
                 };
 
                 results.Add(res);
@@ -206,8 +218,20 @@ namespace SBCRM.Crm
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(int.Parse(output.Opportunity.CustomerNumber));
-                output.OpportunityTypeDescription = _lookupCustomer?.Name?.ToString();
+                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                output.CustomerName = _lookupCustomer?.Name?.ToString();
+            }
+
+            if (output.Opportunity.CustomerNumber != null)
+            {
+                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                output.CustomerNumber = _lookupCustomer?.Number?.ToString();
+            }
+
+            if (output.Opportunity.ContactId != null)
+            {
+                var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
+                output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
             return output;
@@ -245,8 +269,21 @@ namespace SBCRM.Crm
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(int.Parse(output.Opportunity.CustomerNumber));
+                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
+            }
+
+
+            if (output.Opportunity.CustomerNumber != null)
+            {
+                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                output.CustomerNumber = _lookupCustomer?.Number?.ToString();
+            }
+
+            if (output.Opportunity.ContactId != null)
+            {
+                var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
+                output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
             return output;
@@ -277,7 +314,6 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityDto input)
         {
-            input.ContactId = 3434432;
             var opportunity = ObjectMapper.Map<Opportunity>(input);
 
             await _opportunityRepository.InsertAsync(opportunity);
@@ -344,6 +380,9 @@ namespace SBCRM.Crm
                          join o4 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
                          from s4 in j4.DefaultIfEmpty()
 
+                         join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.Id into j5
+                         from s5 in j5.DefaultIfEmpty()
+
                          select new GetOpportunityForViewDto()
                          {
                              Opportunity = new OpportunityDto
@@ -360,7 +399,9 @@ namespace SBCRM.Crm
                              OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                              OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                             CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString()
+                             CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                             CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                             ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
                          });
 
             var opportunityListDtos = await query.ToListAsync();
@@ -425,6 +466,35 @@ namespace SBCRM.Crm
                 {
                     Number = customer.Number,
                     Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Contacts lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdown()
+        {
+            return await _lookup_contactsRepository.GetAll()
+                .Select(contact => new OpportunityContactsLookupTableDto
+                {                    
+                    Id = contact.Id,
+                    ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Contacts specific to costumer lookup
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdownCustomerSpecific(string customerNumber)
+        {
+            return await _lookup_contactsRepository.GetAll().WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
+                .Select(contact => new OpportunityContactsLookupTableDto
+                {
+                    Id = contact.Id,
+                    ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
         }
 

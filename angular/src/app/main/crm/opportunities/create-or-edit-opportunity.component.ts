@@ -10,6 +10,7 @@ import {
     GetCustomerForEditOutput,
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
+    OpportunityContactsLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -19,6 +20,7 @@ import { forkJoin, Observable } from '@node_modules/rxjs';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 
 /**
@@ -29,6 +31,7 @@ import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/ent
     animations: [appModuleAnimation()],
 })
 export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {    
+    @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
     routerLink = '/app/main/business/opportunities';
     breadcrumbs: BreadcrumbItem[] = [
@@ -42,6 +45,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     isNew = true;
     showSaveButton = false;
     isReadOnlyMode = false;
+    isExternalCreation = false;
 
     opportunity: CreateOrEditOpportunityDto = new CreateOrEditOpportunityDto();
 
@@ -49,6 +53,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     leadSourceDescription = '';
     opportunityTypeDescription = '';
     customerName = '';
+    contactName = '';
+    customerNumber = '';
 
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
@@ -56,6 +62,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allLeadSources: OpportunityLeadSourceLookupTableDto[];
     allOpportunityTypes: OpportunityOpportunityTypeLookupTableDto[];
     allCustomers: OpportunityCustomerLookupTableDto[];
+    allContacts: OpportunityContactsLookupTableDto[];
 
     opportunityId : number;
     
@@ -87,6 +94,9 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
+        this.customerNumber = this._activatedRoute.snapshot.queryParams['customerNumber'];
+        if (this.customerNumber)
+            this.isExternalCreation = true;
         this.isNew = !!!this.opportunityId;
         this.show(this.opportunityId);
         this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewOpportunity') : this.l('EditOpportunity')));
@@ -105,7 +115,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()
+            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()            
         ];
             
 
@@ -123,8 +133,14 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allOpportunityStages = opportunityStages;
                     this.opportunity.opportunityStageId = this.allOpportunityStages[0].id;
                     this.allLeadSources = leadSources;
-                    this.allOpportunityTypes = opportunityTypes;    
-                    this.allCustomers = customers;     
+                    this.allOpportunityTypes = opportunityTypes;  
+                    this.allCustomers = customers;
+
+                    if (this.customerNumber) {
+                        this.opportunity.customerNumber = this.customerNumber
+                        this.getContactsAccordingToCostumer(this.customerNumber);
+                        console.log(this.opportunity.customerNumber);
+                    }                                                            
                     
                     this.showSaveButton = !this.isReadOnlyMode;
                     }, (error) => {
@@ -134,10 +150,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         } else {
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests])
-            .subscribe(([opportunityStages, leadSources,opportunityTypes, opportunityForEdit]: [
+            .subscribe(([opportunityStages, leadSources,opportunityTypes, customers, opportunityForEdit]: [
                 OpportunityOpportunityStageLookupTableDto[],
                 OpportunityLeadSourceLookupTableDto[],
                 OpportunityOpportunityTypeLookupTableDto[],
+                OpportunityCustomerLookupTableDto[],
                 GetOpportunityForEditOutput]) => {
                     this.isPageLoading = false;
                     this.active = true;
@@ -148,7 +165,16 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 this.opportunityTypeDescription = opportunityForEdit.opportunityTypeDescription;
                 this.allOpportunityStages = opportunityStages;
                 this.allLeadSources = leadSources;
-                this.allOpportunityTypes = opportunityTypes;    
+                this.allOpportunityTypes = opportunityTypes;  
+                this.allCustomers = customers;   
+
+                this.getContactsAccordingToCostumer(opportunityForEdit.customerNumber);
+
+                this.entityTypeHistory.show({
+                    entityId: opportunityForEdit.customerNumber,
+                    entityTypeFullName: 'SBCRM.Legacy.Customer',
+                    entityTypeDescription: '',
+                });
 
                 this.showSaveButton = !this.isReadOnlyMode;
                 }, (error) => {
@@ -158,11 +184,22 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     }
 
     /**
+     * Get the contacts for the selected customer
+     * @returns void
+     */
+    getContactsAccordingToCostumer(customerNumber : string) : void {
+        this._opportunitiesServiceProxy.getAllContactsForTableDropdownCustomerSpecific(customerNumber).subscribe((result) => {
+            this.allContacts = result;
+        });         
+    }
+
+    /**
      * Saves the opportunity information to the db
      * @returns void
      */
     save(): void {
         this.saving = true;
+        console.log(this.opportunity.contactId)
         this._opportunitiesServiceProxy
             .createOrEdit(this.opportunity)
             .pipe(
@@ -174,30 +211,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/crm/opportunities']);
-            });
-    }
-
-    /**
-     * Saves the opportunity information to the db and stays on create new page
-     * @returns void
-     */
-    saveAndNew(): void {
-        this.saving = true;
-
-        this._opportunitiesServiceProxy
-            .createOrEdit(this.opportunity)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe((x) => {
-                this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.opportunity = new CreateOrEditOpportunityDto();
-            });
-    }
-
+            });            
+    }       
+    
+    
     /***
      * Open internal edition mode
      */

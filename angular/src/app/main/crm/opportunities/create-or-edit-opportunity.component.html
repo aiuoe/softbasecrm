@@ -75,26 +75,23 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- This is just a placeholder  -->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
+                                                    <div class="col-md-6">                 
                                                             <label for="Opportunity_Account">{{ l('Account') }}</label>
-                                                            <select
-                                                            name="opportunity.customerNumber"
-                                                            [(ngModel)]="opportunity.customerNumber"
-                                                            class="form-control"
-                                                            [disabled]="this.isReadOnlyMode"
-                                                            >
-                                                                <option 
-                                                                    *ngFor="let item of allCustomers" 
-                                                                    value="{{ item.number }}">
-                                                                    {{ item.name }}
-                                                                </option>
-                                                             </select>
-                                                        </div>
+                                                            <p-dropdown
+                                                                id="Opportunity_Account"
+                                                                name="Opportunity_Account"
+                                                                [options]="allCustomers"
+                                                                [(ngModel)]="opportunity.customerNumber"
+                                                                optionValue="number"
+                                                                optionLabel="name"
+                                                                placeholder="{{ l('InputAccount') }}"
+                                                                [virtualScroll]="true" 
+                                                                itemSize="15"      
+                                                                (onChange)="getContactsAccordingToCostumer($event.value)" 
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew || this.isExternalCreation"                                                        
+                                                            >                                                
+                                                            </p-dropdown>
                                                     </div>
-                                                    <!-- Above is just a placeholder  -->
-
                                                 </div>
                                                 <div class="row">
                                                     
@@ -188,38 +185,37 @@
 
                                                 <div class="row">
 
-                                                    <!-- This is just a placeholder  -->
                                                     <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="Opportunity_Contact">{{ l('Contact') }}</label>
-                                                            <input 
-                                                                disabled                                                
-                                                                type="text" 
-                                                                class="form-control" 
-                                                                [placeholder]="l('InputContact')" 
-                                                                name="Name"
-                                                                maxlength="64"
-                                                            />                                            
-                                                        </div>
+                                                        <label for="Opportunity_Contact">{{ l('Contact') }}</label>
+                                                        <p-dropdown
+                                                            id="Opportunity_Contact"
+                                                            name="Opportunity_Contact"
+                                                            [options]="allContacts"
+                                                            [(ngModel)]="opportunity.contactId"
+                                                            optionValue="id"
+                                                            optionLabel="contactName"
+                                                            placeholder="{{ l('InputContact') }}"
+                                                            [virtualScroll]="true"                                                              
+                                                            itemSize="15"                                                       
+                                                            [disabled]="this.isReadOnlyMode"
+                                                        > 
+                                                        </p-dropdown>                                        
                                                     </div>
-                                                    <!-- Above is just a placeholder  -->
 
-                                                    <div class="col-md-6">
-                                                        <div class="form-group m-form__group">
-                                                            <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
-                                                            <select
-                                                                name="opportunity.leadSourceId"
-                                                                [(ngModel)]="opportunity.leadSourceId"
-                                                                class="form-control"
-                                                                [disabled]="this.isReadOnlyMode"
-                                                            >
-                                                                <option 
-                                                                    *ngFor="let item of allLeadSources" 
-                                                                    value="{{ item.id }}">
-                                                                    {{ item.displayName }}
-                                                                </option>
-                                                            </select>
-                                                        </div>
+                                                    <div class="col-md-6">                                                        
+                                                        <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
+                                                        <p-dropdown                                                              
+                                                            id="LeadSourceDescription"
+                                                            name="LeadSourceDescription"
+                                                            [options]="allLeadSources"
+                                                            [(ngModel)]="opportunity.leadSourceId"
+                                                            optionLabel="displayName"
+                                                            placeholder="{{ l('InputSource') }}"
+                                                            [virtualScroll]="true" 
+                                                            itemSize="15"                                                            
+                                                            [disabled]="this.isReadOnlyMode" 
+                                                        >      
+                                                        </p-dropdown>         
                                                     </div>
 
                                                 </div>
@@ -297,6 +293,7 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
+                                    <entityTypeHistory #entityTypeHistory></entityTypeHistory>
                                 </div>
                             </div>
                         </div>

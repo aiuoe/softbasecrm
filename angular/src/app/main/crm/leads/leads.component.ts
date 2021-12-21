@@ -45,9 +45,12 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     selectedLeadStatus: LeadStatusDto;
     selectedLeadStatuses: LeadStatusDto[];
     readOnlyStatus = [];
+    allStatusesFilter : LeadStatusDto = new LeadStatusDto;     
+
     priorities: PriorityDto[];
     selectedPriority: PriorityDto;
     selectedPriorities: PriorityDto[];
+    allPrioritiesFilter : PriorityDto = new PriorityDto;
     
     advancedFiltersAreShown = false;
     filterText = '';
@@ -136,8 +139,10 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             this.leadStatuses = result.items.map(x => x.leadStatus);
             this.leadStatuses.forEach( (leadStatus) => {
                 if (!leadStatus.isLeadConversionValid)
-                    this.readOnlyStatus.push(leadStatus.description);
+                    this.readOnlyStatus.push(leadStatus.description);                        
             })
+            this.allStatusesFilter.description = "All";
+            this.leadStatuses.unshift(this.allStatusesFilter);  
         });
         this._prioritiesServiceProxy.getAll(
             undefined,
@@ -148,6 +153,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             undefined)
         .subscribe((result: PagedResultDtoOfGetPriorityForViewDto) => {
             this.priorities = result.items.map(x => x.priority);
+            this.allPrioritiesFilter.description = "All";
+            this.priorities.unshift(this.allPrioritiesFilter);  
         });
     }
 
@@ -188,8 +195,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
-                this.selectedLeadStatuses?.map(x => x.id),
-                this.selectedPriorities?.map(x => x.id),
+                this.selectedLeadStatus?.id,
+                this.selectedPriority?.id,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -252,8 +259,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
-                this.selectedLeadStatuses?.map(x => x.id),
-                this.selectedPriorities?.map(x => x.id),
+                this.selectedLeadStatus.id,
+                this.selectedPriority?.id,
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
