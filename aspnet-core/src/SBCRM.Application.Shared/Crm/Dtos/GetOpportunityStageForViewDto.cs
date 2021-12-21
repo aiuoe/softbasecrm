@@ -3,6 +3,5 @@
     public class GetOpportunityStageForViewDto
     {
         public OpportunityStageDto OpportunityStage { get; set; }
-
     }
 }

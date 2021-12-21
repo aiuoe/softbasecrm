@@ -1,51 +1,59 @@
-﻿using System.Collections.Generic;
-using Abp.Runtime.Session;
+﻿using Abp.Runtime.Session;
 using Abp.Timing.Timezone;
-using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
+using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Dto;
 using SBCRM.Storage;
+using System.Collections.Generic;
 
-namespace SBCRM.Crm.Exporting
+namespace SBCRM.Crm.Exporting;
+
+/// <summary>
+/// Class that hanldes Opportunity stage export to excel
+/// </summary>
+public class OpportunityStagesExcelExporter : NpoiExcelExporterBase, IOpportunityStagesExcelExporter
 {
-    public class OpportunityStagesExcelExporter : NpoiExcelExporterBase, IOpportunityStagesExcelExporter
+    private readonly IAbpSession _abpSession;
+    private readonly ITimeZoneConverter _timeZoneConverter;
+
+    /// <summary>
+    /// Class constructor
+    /// </summary>
+    /// <param name="timeZoneConverter"></param>
+    /// <param name="abpSession"></param>
+    /// <param name="tempFileCacheManager"></param>
+    public OpportunityStagesExcelExporter(
+        ITimeZoneConverter timeZoneConverter,
+        IAbpSession abpSession,
+        ITempFileCacheManager tempFileCacheManager) :
+        base(tempFileCacheManager)
     {
+        _timeZoneConverter = timeZoneConverter;
+        _abpSession = abpSession;
+    }
 
-        private readonly ITimeZoneConverter _timeZoneConverter;
-        private readonly IAbpSession _abpSession;
+    /// <summary>
+    /// Method that export file to excel
+    /// </summary>
+    /// <param name="opportunityStages"></param>
+    /// <returns></returns>
+    public FileDto ExportToFile(List<GetOpportunityStageForViewDto> opportunityStages)
+    {
+        return CreateExcelPackage(
+            "OpportunityStages.xlsx",
+            excelPackage =>
+            {
+                var sheet = excelPackage.CreateSheet(L("OpportunityStages"));
 
-        public OpportunityStagesExcelExporter(
-            ITimeZoneConverter timeZoneConverter,
-            IAbpSession abpSession,
-            ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
-        {
-            _timeZoneConverter = timeZoneConverter;
-            _abpSession = abpSession;
-        }
+                AddHeader(
+                    sheet,
+                    L("Description")
+                );
 
-        public FileDto ExportToFile(List<GetOpportunityStageForViewDto> opportunityStages)
-        {
-            return CreateExcelPackage(
-                "OpportunityStages.xlsx",
-                excelPackage =>
-                {
-
-                    var sheet = excelPackage.CreateSheet(L("OpportunityStages"));
-
-                    AddHeader(
-                        sheet,
-                        L("Description"),
-                        L("Order"),
-                        L("Color")
-                        );
-
-                    AddObjects(
-                        sheet, opportunityStages,
-                        _ => _.OpportunityStage.Description
-                        );
-
-                });
-        }
+                AddObjects(
+                    sheet, opportunityStages,
+                    _ => _.OpportunityStage.Description
+                );
+            });
     }
 }
