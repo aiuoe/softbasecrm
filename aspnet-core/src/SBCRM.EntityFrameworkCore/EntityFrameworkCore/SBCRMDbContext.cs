@@ -1,7 +1,10 @@
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using SBCRM.Crm;
 using SBCRM.Legacy;
 using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Authorization.Delegation;
 using SBCRM.Authorization.Roles;
@@ -19,6 +22,10 @@ namespace SBCRM.EntityFrameworkCore
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
        
+        public virtual DbSet<Contact> Contacts { get; set; }
+
+        
+
         public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
 
@@ -94,10 +101,6 @@ namespace SBCRM.EntityFrameworkCore
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
 
             modelBuilder.HasSequence<int>("CustomerNumberSequence");
-
-            modelBuilder.Entity<Customer>()
-                           .Property(o => o.Number)
-                           .HasDefaultValueSql("NEXT VALUE FOR Web.CustomerNumberSequence");
 
             modelBuilder
                 .Entity<InvoiceRegList>(eb =>

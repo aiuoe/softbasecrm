@@ -1,4 +1,6 @@
 using Abp.Web.Models;
+using SBCRM.Crm.Dtos;
+using System.Collections.Generic;
 
 namespace SBCRM.Authorization.Users.Profile.Dto
 {
@@ -10,6 +12,8 @@ namespace SBCRM.Authorization.Users.Profile.Dto
         public string FileName { get; set; }
 
         public string FileType { get; set; }
+
+        public List<CreateOrEditLeadDto> RepeatedLeads { get; set; }
 
         public UploadLeadOutput()
         {

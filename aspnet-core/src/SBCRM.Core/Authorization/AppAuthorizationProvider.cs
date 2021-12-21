@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
+            var contacts = pages.CreateChildPermission(AppPermissions.Pages_Contacts, L("Contacts"));
+            contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
+            contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
+            contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
+
             var basePermissions = pages.CreateChildPermission(AppPermissions.Base_Permission, L("BasePermission"));
 
             var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
@@ -81,6 +86,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
 
             var leadStatuses = pages.CreateChildPermission(AppPermissions.Pages_LeadStatuses, L("LeadStatuses"));
             leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Create, L("CreateNewLeadStatus"));
