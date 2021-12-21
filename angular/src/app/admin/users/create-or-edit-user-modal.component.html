@@ -31,14 +31,14 @@
                     <tabset>
                         <tab class="pt-5" heading="{{ 'UserInformations' | localize }}">
                             <div class="row">
-                                <div class="col-sm-3 text-center mb-5 mt-5">
+                                <!--<div class="col-sm-3 text-center mb-5 mt-5">
                                     <img
-                                        src="{{ profilePicture }}"
+                                        src="{/{ profilePicture }}"
                                         width="128"
                                         height="128"
                                         class="img-thumbnail img-rounded"
                                     />
-                                </div>
+                                </div>-->
                                 <div class="col-sm-9">
                                     <div class="form-group">
                                         <label for="Name">{{ 'FirstName' | localize }} *</label>
@@ -87,8 +87,8 @@
                                 <validation-messages [formCtrl]="emailAddressInput"></validation-messages>
                             </div>
 
-                            <div class="form-group">
-                                <label for="PhoneNumber">{{ 'PhoneNumber' | localize }}</label>
+                            <!--<div class="form-group">
+                                <label for="PhoneNumber">{/{ 'PhoneNumber' | localize }}</label>
                                 <input
                                     id="PhoneNumber"
                                     type="text"
@@ -97,7 +97,7 @@
                                     [(ngModel)]="user.phoneNumber"
                                     maxlength="32"
                                 />
-                            </div>
+                            </div>-->
 
                             <div class="form-group">
                                 <label for="UserName">{{ 'UserName' | localize }} *</label>
@@ -118,7 +118,7 @@
                                 <validation-messages [formCtrl]="userNameInput"></validation-messages>
                             </div>
 
-                            <div class="checkbox-inline">
+                            <!--<div class="checkbox-inline">
                                 <label for="EditUser_SetRandomPassword" class="checkbox">
                                     <input
                                         id="EditUser_SetRandomPassword"
@@ -127,10 +127,10 @@
                                         [(ngModel)]="setRandomPassword"
                                     />
                                     <span></span>
-                                    {{ 'SetRandomPassword' | localize }}
+                                    {/{ 'SetRandomPassword' | localize }}
                                 </label>
-                            </div>
-                            <div class="form-group" *ngIf="!setRandomPassword">
+                            </div>-->
+                            <!--<div class="form-group" *ngIf="!setRandomPassword">
                                 <div class="right">
                                     <label for="Password">{{ 'Password' | localize }}</label>
                                     <input
@@ -160,19 +160,19 @@
                                     *ngIf="userForm.controls['Password'] && userForm.controls['Password'].errors"
                                 >
                                     <li [hidden]="!userForm.controls['Password'].errors.requireDigit">
-                                        {{ 'PasswordComplexity_RequireDigit_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireDigit_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['Password'].errors.requireLowercase">
-                                        {{ 'PasswordComplexity_RequireLowercase_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireLowercase_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['Password'].errors.requireUppercase">
-                                        {{ 'PasswordComplexity_RequireUppercase_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireUppercase_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['Password'].errors.requireNonAlphanumeric">
-                                        {{ 'PasswordComplexity_RequireNonAlphanumeric_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireNonAlphanumeric_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['Password'].errors.requiredLength">
-                                        {{
+                                        {/{
                                             'PasswordComplexity_RequiredLength_Hint'
                                                 | localize: passwordComplexitySetting.requiredLength
                                         }}
@@ -181,7 +181,7 @@
                             </div>
                             <div class="form-group" *ngIf="!setRandomPassword">
                                 <div class="right">
-                                    <label for="PasswordRepeat">{{ 'PasswordRepeat' | localize }}</label>
+                                    <label for="PasswordRepeat">{/{ 'PasswordRepeat' | localize }}</label>
                                     <input
                                         id="PasswordRepeat"
                                         type="password"
@@ -200,8 +200,8 @@
                                         reverse="false"
                                         autocomplete="new-password"
                                     />
-                                </div>
-                            </div>
+                                </div>-->
+                            <!--</div>
                             <div [hidden]="setRandomPassword || userForm.form.valid || userForm.form.pristine">
                                 <ul
                                     class="help-block text-danger"
@@ -211,25 +211,25 @@
                                     "
                                 >
                                     <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireDigit">
-                                        {{ 'PasswordComplexity_RequireDigit_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireDigit_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireLowercase">
-                                        {{ 'PasswordComplexity_RequireLowercase_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireLowercase_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireUppercase">
-                                        {{ 'PasswordComplexity_RequireUppercase_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireUppercase_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireNonAlphanumeric">
-                                        {{ 'PasswordComplexity_RequireNonAlphanumeric_Hint' | localize }}
+                                        {/{ 'PasswordComplexity_RequireNonAlphanumeric_Hint' | localize }}
                                     </li>
                                     <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requiredLength">
-                                        {{
+                                        {/{
                                             'PasswordComplexity_RequiredLength_Hint'
                                                 | localize: passwordComplexitySetting.requiredLength
                                         }}
                                     </li>
                                     <li [hidden]="userForm.controls['PasswordRepeat'].valid">
-                                        {{ 'PasswordsDontMatch' | localize }}
+                                        {/{ 'PasswordsDontMatch' | localize }}
                                     </li>
                                 </ul>
                             </div>
@@ -242,11 +242,11 @@
                                         [(ngModel)]="user.shouldChangePasswordOnNextLogin"
                                     />
                                     <span></span>
-                                    {{ 'ShouldChangePasswordOnNextLogin' | localize }}
+                                    {/{ 'ShouldChangePasswordOnNextLogin' | localize }}
                                 </label>
 
                                 <span class="form-text text-muted" *ngIf="!isSMTPSettingsProvided()">
-                                    {{ 'SMTPSettingsNotProvidedWarningText' | localize }}
+                                    {/{ 'SMTPSettingsNotProvidedWarningText' | localize }}
                                 </span>
                                 <label
                                     for="EditUser_SendActivationEmail"
@@ -261,7 +261,7 @@
                                         [(ngModel)]="sendActivationEmail"
                                     />
                                     <span></span>
-                                    {{ 'SendActivationEmail' | localize }}
+                                    {/{ 'SendActivationEmail' | localize }}
                                 </label>
 
                                 <label for="EditUser_IsActive" class="checkbox">
@@ -272,7 +272,7 @@
                                         [(ngModel)]="user.isActive"
                                     />
                                     <span></span>
-                                    {{ 'Active' | localize }}
+                                    {/{ 'Active' | localize }}
                                 </label>
 
                                 <label *ngIf="isTwoFactorEnabled" for="EditUser_IsTwoFactorEnabled" class="checkbox">
@@ -283,7 +283,7 @@
                                         [(ngModel)]="user.isTwoFactorEnabled"
                                     />
                                     <span></span>
-                                    {{ 'IsTwoFactorEnabled' | localize }}
+                                    {/{ 'IsTwoFactorEnabled' | localize }}
                                 </label>
 
                                 <label *ngIf="isLockoutEnabled" for="EditUser_IsLockoutEnabled" class="checkbox">
@@ -294,9 +294,9 @@
                                         [(ngModel)]="user.isLockoutEnabled"
                                     />
                                     <span></span>
-                                    {{ 'IsLockoutEnabled' | localize }}
+                                    {/{ 'IsLockoutEnabled' | localize }}
                                 </label>
-                            </div>
+                            </div>-->
                         </tab>
                         <tab class="pt-5" heading="{{ 'Roles' | localize }}">
                             <ng-template tabHeading>
@@ -325,12 +325,12 @@
                                 </label>
                             </div>
                         </tab>
-                        <tab class="pt-5" heading="{{ 'OrganizationUnits' | localize }}">
+                        <!--<tab class="pt-5" heading="{/{ 'OrganizationUnits' | localize }}">
                             <organization-unit-tree
                                 [cascadeSelectEnabled]="false"
                                 #organizationUnitTree
                             ></organization-unit-tree>
-                        </tab>
+                        </tab>-->
                     </tabset>
                 </div>
                 <div class="modal-footer">

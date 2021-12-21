@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
 import { PermissionCheckerService } from 'abp-ng2-module';
@@ -56,8 +56,8 @@ export class AppNavigationService {
                         'flaticon-map',
                         '/app/admin/organization-units'
                     ),
-                    new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
-                    new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                    //new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
+                    //new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
                     new AppMenuItem(
                         'Languages',
                         'Pages.Administration.Languages',
@@ -115,6 +115,20 @@ export class AppNavigationService {
                     ),
                 ]
             ),
+
+            new AppMenuItem(
+                'User Management',
+                '',
+                'flaticon-interface-4',
+                '',
+                [],
+                [
+                    new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
+                    new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                ]
+            ),
+
+
             new AppMenuItem(
                 'DemoUiComponents',
                 'Pages.DemoUiComponents',
