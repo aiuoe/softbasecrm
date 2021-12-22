@@ -19,7 +19,7 @@
                         <div class="primeng-datatable-container col-12"
                              [busyIf]="primengTableHelper.isLoading">
                             <p-table #dataTable
-                                     (onLazyLoad)="getAccountUsers($event)"
+                                     (onLazyLoad)="loadDataTable($event)"
                                      [value]="primengTableHelper.records"
                                      rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
                                      [paginator]="false"
@@ -50,15 +50,23 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
-                                                           *ngIf="permission.isGranted('Pages.AccountUsers.Delete')"
+                                                           *ngIf="permission.isGranted('Pages.AccountUsers.Delete') && this.componentType == 'Account'"
                                                            (click)="deleteAccountUser(record.accountUser)">{{l('Delete')}}</a>
+
+                                                        <a class="dropdown-item" href="javascript:;"
+                                                           *ngIf="permission.isGranted('Pages.LeadUsers.Delete') && this.componentType == 'Lead'"
+                                                           (click)="deleteLeadUser(record.leadUser)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td style="width:150px">
+                                        <td style="width:150px" *ngIf="'Account' === this.componentType">
                                             <span class="p-column-title"> {{l('Name')}}</span>
                                             {{record.fullName}}
+                                        </td>
+                                        <td style="width:150px" *ngIf="'Lead' === this.componentType">
+                                            <span class="p-column-title"> {{l('Name')}}</span>
+                                            {{record.userName}}
                                         </td>
 
                                     </tr>
@@ -71,7 +79,7 @@
                             <div class="primeng-paging-container">
                                 <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
                                              #paginator
-                                             (onPageChange)="getAccountUsers($event)"
+                                             (onPageChange)="loadDataTable($event)"
                                              [totalRecords]="primengTableHelper.totalRecordsCount"
                                              [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                              [showCurrentPageReport]="true"

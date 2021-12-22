@@ -17,24 +17,49 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using Abp.EntityHistory;
+using Abp.Domain.Uow;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App Service that manages the LeadUser transactions
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
     public class LeadUsersAppService : SBCRMAppServiceBase, ILeadUsersAppService
     {
         private readonly IRepository<LeadUser> _leadUserRepository;
         private readonly IRepository<Lead, int> _lookup_leadRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-        public LeadUsersAppService(IRepository<LeadUser> leadUserRepository, IRepository<Lead, int> lookup_leadRepository, IRepository<User, long> lookup_userRepository)
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="leadUserRepository"></param>
+        /// <param name="lookup_leadRepository"></param>
+        /// <param name="lookup_userRepository"></param>
+        /// <param name="reasonProvider"></param>
+        /// <param name="unitOfWorkManager"></param>
+        public LeadUsersAppService(IRepository<LeadUser> leadUserRepository, 
+                                    IRepository<Lead, int> lookup_leadRepository, 
+                                    IRepository<User, long> lookup_userRepository,
+                                    IEntityChangeSetReasonProvider reasonProvider,
+                                    IUnitOfWorkManager unitOfWorkManager)
         {
             _leadUserRepository = leadUserRepository;
             _lookup_leadRepository = lookup_leadRepository;
             _lookup_userRepository = lookup_userRepository;
+            _reasonProvider = reasonProvider;
+            _unitOfWorkManager = unitOfWorkManager;
 
         }
-
+        /// <summary>
+        /// Gets all the lead users given a Leadi Id
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetLeadUserForViewDto>> GetAll(GetAllLeadUsersInput input)
         {
 
@@ -43,7 +68,9 @@ namespace SBCRM.Crm
                         .Include(e => e.UserFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
+                        .Where(e => e.LeadFk != null && e.LeadFk.Id == input.LeadId)
+                        .Where(p => !p.IsDeleted);
 
             var pagedAndFilteredLeadUsers = filteredLeadUsers
                 .OrderBy(input.Sorting ?? "id asc")
@@ -61,7 +88,8 @@ namespace SBCRM.Crm
 
                                 Id = o.Id,
                                 LeadCompanyName = s1 == null || s1.CompanyName == null ? "" : s1.CompanyName.ToString(),
-                                UserName = s2 == null || s2.Name == null ? "" : s2.Name.ToString()
+                                UserName = s2 == null || s2.Name == null ? "" : s2.FullName.ToString(),
+                                UserId = o.UserId
                             };
 
             var totalCount = await filteredLeadUsers.CountAsync();
@@ -77,6 +105,7 @@ namespace SBCRM.Crm
                     {
 
                         Id = o.Id,
+                        UserId = o.UserId
                     },
                     LeadCompanyName = o.LeadCompanyName,
                     UserName = o.UserName
@@ -168,6 +197,41 @@ namespace SBCRM.Crm
                     Id = user.Id,
                     DisplayName = user == null || user.Name == null ? "" : user.Name.ToString()
                 }).ToListAsync();
+        }
+
+        /// <summary>
+        /// This method save a list of users connected with an specific Lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_LeadUsers_Create)]
+        public async Task CreateMultipleLeadUsers(List<CreateOrEditLeadUserDto> input)
+        {
+            using (_reasonProvider.Use("User wa assigned to Lead"))
+            {
+                foreach (var item in input)
+                {
+                    var leadUserExists = _leadUserRepository.FirstOrDefault(p => p.UserId == item.UserId
+                        && p.LeadId == item.LeadId
+                        && p.IsDeleted);
+
+                    if (leadUserExists == null)
+                    {
+                        var leadUser = ObjectMapper.Map<LeadUser>(item);
+
+                        await _leadUserRepository.InsertAsync(leadUser);
+                    }
+                    else
+                    {
+                        leadUserExists.IsDeleted = false;
+                        var leadUserInDatabase = ObjectMapper.Map<CreateOrEditLeadUserDto>(leadUserExists);
+                        var accountUser = await _leadUserRepository.FirstOrDefaultAsync(leadUserInDatabase.Id.Value);
+                        ObjectMapper.Map(input, accountUser);
+                    }
+                }
+
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
     }

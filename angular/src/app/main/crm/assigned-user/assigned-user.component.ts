@@ -5,6 +5,10 @@ import {
     AccountUserDto,
     AccountUserUserLookupTableDto,
     CreateOrEditAccountUserDto,
+    LeadUsersServiceProxy,
+    LeadUserUserLookupTableDto,
+    CreateOrEditLeadUserDto,
+    LeadUserDto,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -48,6 +52,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     assignedUsersExists: AccountUserUserLookupTableDto[];
     canAssignUser = false;
 
+    leadCompanyNameFilter = '';
     constructor(
         injector: Injector,
         private _accountUsersServiceProxy: AccountUsersServiceProxy,
@@ -55,7 +60,8 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private _leadUserServiceProxy: LeadUsersServiceProxy
     ) {
         super(injector);
     }
@@ -82,6 +88,20 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 });
         } else {
             this.canAssignUser = true;
+        }
+    }
+    
+
+    /**
+     * Method to call data 
+     * @param event 
+     */
+    loadDataTable(event?: LazyLoadEvent){
+        if ('Account' === this.componentType){
+            this.getAccountUsers(event);
+        } 
+        else if('Lead' === this.componentType){
+            this.getLeadUsers(event);
         }
     }
 
@@ -116,6 +136,40 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.assignedUsersExists.push(assignedUser);
             });
             // this.assignedUsersExists = result.items;
+            this.primengTableHelper.hideLoadingIndicator();
+        });
+    }
+
+    /**
+     * Gets the list of users assigned to an Account/Lead/Opportunity
+     * @param event 
+     */
+    getLeadUsers(event?: LazyLoadEvent){
+        if (this.primengTableHelper.shouldResetPaging(event)) {
+            this.paginator.changePage(0);
+            return;
+        }
+
+        this.primengTableHelper.showLoadingIndicator();
+
+        this._leadUserServiceProxy.getAll(
+            this.filterText,
+            this.leadCompanyNameFilter,
+            this.userNameFilter,
+            this.idToStore,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getSkipCount(this.paginator, event),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event)
+        ).subscribe(result => {
+            this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.primengTableHelper.records = result.items;
+            this.assignedUsersExists = [];
+            result.items.forEach(x => {
+                const assignedUser = new AccountUserUserLookupTableDto();
+                assignedUser.id = x.leadUser.userId;
+                assignedUser.displayName = x.userName;
+                this.assignedUsersExists.push(assignedUser);
+            });
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -157,6 +211,26 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         );
     }
 
+    /**
+     * Handles the deletion of an lead user
+     * @param accountUser Hanl
+     */
+    deleteLeadUser(leadUser: LeadUserDto): void{
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._leadUserServiceProxy.delete(leadUser.id)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        )
+    }
+
 
     /**
      * This method manages the methods wich save users to some system
@@ -169,7 +243,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             if (this.componentType === 'Account') {
                 this.saveAccountAssignedUser(usersList);
             } else if (this.componentType === 'Lead') {
-                //TO DO
+                this.saveLeadAssignedUsers(usersList);
             } else {
                 return;
             }
@@ -200,6 +274,32 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.getAccountUsers();
             });
+    }
+
+
+    /**
+     * Save a list of users of an especific lead
+     * @param usersList 
+     */
+    saveLeadAssignedUsers(usersList: LeadUserUserLookupTableDto[]){
+        const leadUserToSave: CreateOrEditLeadUserDto[] = [];
+        usersList.forEach(element => {
+            let leadUser = new CreateOrEditLeadUserDto();
+            leadUser.userId = element.id;
+            leadUser.leadId = this.idToStore;
+            leadUserToSave.push(leadUser);
+        });
+
+        this.saving = true;
+
+        this._leadUserServiceProxy.createMultipleLeadUsers(leadUserToSave)
+        .pipe(finalize(() => {
+            this.saving = false;
+        }))
+        .subscribe(() => {
+            this.notify.info(this.l('SavedSuccessfully'));
+            this.getLeadUsers();
+        });
     }
 
 
