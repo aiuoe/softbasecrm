@@ -30,18 +30,18 @@
                 <div class="modal-body">
                     <tabset>
                         <tab class="pt-5" heading="{{ 'UserInformations' | localize }}">
-                            <div class="row">
-                                <!--<div class="col-sm-3 text-center mb-5 mt-5">
+                            <!--<div class="row">
+                                <div class="col-sm-3 text-center mb-5 mt-5">
                                     <img
                                         src="{/{ profilePicture }}"
                                         width="128"
                                         height="128"
                                         class="img-thumbnail img-rounded"
                                     />
-                                </div>-->
-                                <div class="col-sm-9">
+                                </div>
+                                <div class="col-sm-9">-->
                                     <div class="form-group">
-                                        <label for="Name">{{ 'Name' | localize }} *</label>
+                                        <label for="Name">{{ 'Name' | localize }}</label>
                                         <input
                                             readonly
                                             id="Name"
@@ -57,7 +57,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="Surname">{{ 'Surname' | localize }} *</label>
+                                        <label for="Surname">{{ 'Surname' | localize }}</label>
                                         <input
                                             readonly
                                             id="Surname"
@@ -71,10 +71,10 @@
                                         />
                                         <validation-messages [formCtrl]="surnameInput"></validation-messages>
                                     </div>
-                                </div>
-                            </div>
+                                <!--</div>
+                            </div>-->
                             <div class="form-group">
-                                <label for="EmailAddress">{{ 'EmailAddress' | localize }} *</label>
+                                <label for="EmailAddress">{{ 'EmailAddress' | localize }}</label>
                                 <input
                                     readonly
                                     id="EmailAddress"
@@ -103,7 +103,7 @@
                             </div>-->
 
                             <div class="form-group">
-                                <label for="UserName">{{ 'UserName' | localize }} *</label>
+                                <label for="UserName">{{ 'UserName' | localize }}</label>
                                 <input
                                     readonly
                                     id="UserName"
@@ -116,10 +116,10 @@
                                     required
                                     maxlength="256"
                                 />
-                                <span class="help-block" *ngIf="!canChangeUserName">
-                                    {{ 'CanNotChangeAdminUserName' | localize }}
+                                <!--<span class="help-block" *ngIf="!canChangeUserName">
+                                    {/{ 'CanNotChangeAdminUserName' | localize }}
                                 </span>
-                                <validation-messages [formCtrl]="userNameInput"></validation-messages>
+                                <validation-messages [formCtrl]="userNameInput"></validation-messages>-->
                             </div>
 
                             <!--<div class="checkbox-inline">
