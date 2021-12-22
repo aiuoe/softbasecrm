@@ -123,7 +123,7 @@ namespace SBCRM.Crm
                                 join o4 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
                                 from s4 in j4.DefaultIfEmpty()
 
-                                join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.Id into j5
+                                join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                                 from s5 in j5.DefaultIfEmpty()
 
                                 select new
@@ -281,8 +281,8 @@ namespace SBCRM.Crm
             }
 
             if (output.Opportunity.ContactId != null)
-            {
-                var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
+            {        
+                var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
@@ -380,7 +380,7 @@ namespace SBCRM.Crm
                          join o4 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
                          from s4 in j4.DefaultIfEmpty()
 
-                         join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.Id into j5
+                         join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                          from s5 in j5.DefaultIfEmpty()
 
                          select new GetOpportunityForViewDto()
@@ -479,7 +479,7 @@ namespace SBCRM.Crm
             return await _lookup_contactsRepository.GetAll()
                 .Select(contact => new OpportunityContactsLookupTableDto
                 {                    
-                    Id = contact.Id,
+                    Id = contact.ContactId,
                     ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
         }
@@ -493,7 +493,7 @@ namespace SBCRM.Crm
             return await _lookup_contactsRepository.GetAll().WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
                 .Select(contact => new OpportunityContactsLookupTableDto
                 {
-                    Id = contact.Id,
+                    Id = contact.ContactId,
                     ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
         }

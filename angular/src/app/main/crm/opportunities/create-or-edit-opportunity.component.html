@@ -208,7 +208,7 @@
                                                             placeholder="{{ l('InputContact') }}"                                                   
                                                             [disabled]="this.isReadOnlyMode"
                                                             [showClear]="true"
-                                                            [filter]="true"
+                                                            [filter]="true"                                                            
                                                         > 
                                                         </p-dropdown>  
                                                         <validation-messages [formCtrl]="Opportunity_Contact"></validation-messages>                                      
@@ -222,7 +222,7 @@
                                                             [options]="allLeadSources"
                                                             [(ngModel)]="opportunity.leadSourceId"
                                                             optionLabel="displayName"
-                                                            placeholder="{{ l('InputSource') }}"                                                                   
+                                                            placeholder="{{ l('InputLeadSource') }}"                                                                   
                                                             [disabled]="this.isReadOnlyMode"     
                                                             [showClear]="true"   
                                                             [filter]="true"                                                                                                                

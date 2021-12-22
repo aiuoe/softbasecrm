@@ -169,12 +169,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                 this.getContactsAccordingToCostumer(opportunityForEdit.customerNumber);
 
-                this.entityTypeHistory.show({
-                    entityId: opportunityForEdit.customerNumber,
-                    entityTypeFullName: 'SBCRM.Legacy.Customer',
-                    entityTypeDescription: '',
-                });
-
                 this.showSaveButton = !this.isReadOnlyMode;
                 }, (error) => {
                     this.goToOpportunities();
