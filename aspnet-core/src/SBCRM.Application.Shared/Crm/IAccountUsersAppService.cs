@@ -12,6 +12,13 @@ namespace SBCRM.Crm
     public interface IAccountUsersAppService : IApplicationService
     {
         /// <summary>
+        /// Get the dynamic permission based on the current user and customer.
+        /// If the user has a restricted creation permission and is assigned to the customer then they don't have permission.
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> CanAssignUsers(string customerNumber);
+
+        /// <summary>
         /// Gets all the account users give a Customer number
         /// </summary>
         /// <param name="input"></param>

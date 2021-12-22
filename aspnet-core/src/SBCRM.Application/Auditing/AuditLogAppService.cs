@@ -33,6 +33,7 @@ namespace SBCRM.Auditing
         private readonly IAuditLogListExcelExporter _auditLogListExcelExporter;
         private readonly INamespaceStripper _namespaceStripper;
         private readonly IAbpStartupConfiguration _abpStartupConfiguration;
+        private readonly IAuditEventsService _auditEventsService;
 
         public AuditLogAppService(
             IRepository<AuditLog, long> auditLogRepository,
@@ -42,7 +43,8 @@ namespace SBCRM.Auditing
             IRepository<EntityChange, long> entityChangeRepository,
             IRepository<EntityChangeSet, long> entityChangeSetRepository,
             IRepository<EntityPropertyChange, long> entityPropertyChangeRepository,
-            IAbpStartupConfiguration abpStartupConfiguration)
+            IAbpStartupConfiguration abpStartupConfiguration,
+            IAuditEventsService auditEventsService)
         {
             _auditLogRepository = auditLogRepository;
             _userRepository = userRepository;
@@ -52,6 +54,7 @@ namespace SBCRM.Auditing
             _entityChangeSetRepository = entityChangeSetRepository;
             _entityPropertyChangeRepository = entityPropertyChangeRepository;
             _abpStartupConfiguration = abpStartupConfiguration;
+            _auditEventsService = auditEventsService;
         }
 
         #region audit logs
@@ -159,30 +162,7 @@ namespace SBCRM.Auditing
 
         public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
         {
-            // Fix for: https://github.com/aspnetzero/aspnet-zero-core/issues/2101
-            var entityId = "\"" + input.EntityId + "\"";
-
-            var query = from entityChangeSet in _entityChangeSetRepository.GetAll()
-                        join entityChange in _entityChangeRepository.GetAll() on entityChangeSet.Id equals entityChange.EntityChangeSetId
-                        join user in _userRepository.GetAll() on entityChangeSet.UserId equals user.Id
-                        where entityChange.EntityTypeFullName == input.EntityTypeFullName &&
-                              (entityChange.EntityId == input.EntityId || entityChange.EntityId == entityId)
-                        select new EntityChangeAndUser
-                        {
-                            EntityChange = entityChange,
-                            EntityChangeSet = entityChangeSet,
-                            User = user
-                        };
-
-            var resultCount = await query.CountAsync();
-            var results = await query
-                .OrderBy(input.Sorting)
-                .PageBy(input)
-                .ToListAsync();
-
-            var entityChangeListDtos = ConvertToEntityChangeListDtos(results);
-
-            return new PagedResultDto<EntityChangeListDto>(resultCount, entityChangeListDtos);
+            return await _auditEventsService.GetEntityTypeChanges(input);
         }
 
         public async Task<FileDto> GetEntityChangesToExcel(GetEntityChangeInput input)

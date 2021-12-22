@@ -30,10 +30,10 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
-            var contacts = pages.CreateChildPermission(AppPermissions.Pages_Contacts, L("Contacts"));
-            contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
-            contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
-            contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
+            //var contacts = pages.CreateChildPermission(AppPermissions.Pages_Contacts, L("Contacts"));
+            //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
+            //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
+            //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
 
             var basePermissions = pages.CreateChildPermission(AppPermissions.Base_Permission, L("BasePermission"));
 
@@ -109,11 +109,19 @@ namespace SBCRM.Authorization
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Invoices, L("CustomerViewInvoices"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events, L("CustomerViewEvents"));
 
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Edit, L("EditAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
+            accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create_Restricted, L("CreateNewAccountUserRestricted"));
+
+            var accountContact = customer.CreateChildPermission(AppPermissions.Pages_Contacts, L("CustomerViewAssignContacts"));
+            accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewAccountContact"));
+            accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditAccountContact"));
+            accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteAccountContact"));
+
 
             var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));
@@ -133,13 +141,14 @@ namespace SBCRM.Authorization
             pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));
+            var usersManagement = pages.CreateChildPermission(AppPermissions.Pages_UsersManagement, L("UsersManagement"));
 
-            var roles = administration.CreateChildPermission(AppPermissions.Pages_Administration_Roles, L("Roles"));
+            var roles = usersManagement.CreateChildPermission(AppPermissions.Pages_Administration_Roles, L("Roles"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Create, L("CreatingNewRole"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Edit, L("EditingRole"));
             roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Delete, L("DeletingRole"));
 
-            var users = administration.CreateChildPermission(AppPermissions.Pages_Administration_Users, L("Users"));
+            var users = usersManagement.CreateChildPermission(AppPermissions.Pages_Administration_Users, L("Users"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Create, L("CreatingNewUser"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Edit, L("EditingUser"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Delete, L("DeletingUser"));
@@ -195,7 +204,7 @@ namespace SBCRM.Authorization
 
             pages.CreateChildPermission(AppPermissions.Pages_Tenant_Dashboard, L("Dashboard"), multiTenancySides: MultiTenancySides.Tenant);
 
-            administration.CreateChildPermission(AppPermissions.Pages_Administration_Tenant_Settings, L("Settings"), multiTenancySides: MultiTenancySides.Tenant);
+            administration.CreateChildPermission(AppPermissions.Pages_Administration_Tenant_Settings, L("SettingsAppearance"), multiTenancySides: MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Tenant_SubscriptionManagement, L("Subscription"), multiTenancySides: MultiTenancySides.Tenant);
 
             //HOST-SPECIFIC PERMISSIONS

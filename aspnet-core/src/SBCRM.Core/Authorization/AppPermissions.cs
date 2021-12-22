@@ -13,8 +13,10 @@
 
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
+        public const string Pages_AccountUsers_Create_Restricted = "Pages.AccountUsers.Create_Restricted";
         public const string Pages_AccountUsers_Edit = "Pages.AccountUsers.Edit";
         public const string Pages_AccountUsers_Delete = "Pages.AccountUsers.Delete";
+
         public const string Base_Permission = "Pages.BasePermissions";
 
         public const string Pages_Countries = "Pages.Countries";
@@ -84,6 +86,7 @@
         public const string Pages_Customer_Delete = "Pages.Customer.Delete";
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
+        public const string Pages_Customer_View_Events = "Pages.Customer.ViewEvents";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
 
@@ -108,6 +111,7 @@
 
         public const string Pages_DemoUiComponents = "Pages.DemoUiComponents";
         public const string Pages_Administration = "Pages.Administration";
+        public const string Pages_UsersManagement = "Pages.UsersManagement";
 
         public const string Pages_Administration_Roles = "Pages.Administration.Roles";
         public const string Pages_Administration_Roles_Create = "Pages.Administration.Roles.Create";

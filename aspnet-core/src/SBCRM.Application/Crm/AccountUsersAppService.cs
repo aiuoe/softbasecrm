@@ -45,6 +45,27 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get the dynamic permission based on the current user and customer.
+        /// If the user has a restricted creation permission and is assigned to the customer then they don't have permission.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> CanAssignUsers(string customerNumber)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var hasRestrictedPermission = await UserManager.IsGrantedAsync(
+                currentUser.Id, AppPermissions.Pages_AccountUsers_Create_Restricted);
+
+            var currentUserIsAssignedInCustomer = _accountUserRepository
+                .GetAll()
+                .Include(e => e.UserFk)
+                .Any(x => x.UserId == currentUser.Id);
+
+
+            var canAssignUsers = hasRestrictedPermission && currentUserIsAssignedInCustomer;
+            return canAssignUsers;
+        }
+
+        /// <summary>
         /// Gets all the account users give a Customer number
         /// </summary>
         /// <param name="input"></param>
