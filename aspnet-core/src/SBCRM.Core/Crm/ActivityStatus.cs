@@ -23,5 +23,7 @@ namespace SBCRM.Crm
         [StringLength(ActivityStatusConsts.MaxColorLength, MinimumLength = ActivityStatusConsts.MinColorLength)]
         public virtual string Color { get; set; }
 
+        public virtual bool IsCompletedStatus { get; set; }
+
     }
 }

@@ -25,5 +25,7 @@ namespace SBCRM.Crm.Dtos
         public string CustomerNameFilter { get; set; }
 
         public List<long> UserIds { get; set; } = new List<long>();
+
+        public bool ExcludeCompleted { get; set; }
     }
 }

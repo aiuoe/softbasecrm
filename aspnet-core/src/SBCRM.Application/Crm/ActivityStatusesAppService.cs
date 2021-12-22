@@ -46,6 +46,7 @@ namespace SBCRM.Crm
                                        o.Description,
                                        o.Order,
                                        o.Color,
+                                       o.IsCompletedStatus,
                                        Id = o.Id
                                    };
 
@@ -64,6 +65,7 @@ namespace SBCRM.Crm
                         Description = o.Description,
                         Order = o.Order,
                         Color = o.Color,
+                        IsCompletedStatus = o.IsCompletedStatus,
                         Id = o.Id,
                     }
                 };

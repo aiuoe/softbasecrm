@@ -115,6 +115,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.activityPriorityDescriptionFilter,
                 this.customerNameFilter,
                 selectedUserIds,
+                this.excludeCompletedFilter,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)

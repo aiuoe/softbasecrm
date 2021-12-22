@@ -65,6 +65,22 @@
                         />
                         <validation-messages [formCtrl]="ActivityStatus_Color"></validation-messages>
                     </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="ActivityStatus_IsCompletedStatus" class="kt-checkbox">
+                            <input
+                                id="ActivityStatus_IsCompletedStatus"
+                                #ActivityStatus_IsCompletedStatus="ngModel"
+                                type="checkbox"
+                                name="IsCompletedStatus"
+                                [(ngModel)]="activityStatus.isCompletedStatus"
+                            />
+                            {{ l('IsCompletedStatus') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="ActivityStatus_IsCompletedStatus"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

@@ -66,6 +66,7 @@ namespace SBCRM.Crm
                         .Include(e => e.ActivityPriorityFk)
                         .Include(e => e.CustomerFk)
                         .WhereIf(input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(input.ExcludeCompleted, x => x.ActivityStatusFk.IsCompletedStatus)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)

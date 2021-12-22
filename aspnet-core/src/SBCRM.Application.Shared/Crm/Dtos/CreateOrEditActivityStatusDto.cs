@@ -17,5 +17,7 @@ namespace SBCRM.Crm.Dtos
         [StringLength(ActivityStatusConsts.MaxColorLength, MinimumLength = ActivityStatusConsts.MinColorLength)]
         public string Color { get; set; }
 
+        public bool IsCompletedStatus { get; set; }
+
     }
 }

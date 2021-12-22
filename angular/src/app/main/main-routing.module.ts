@@ -9,6 +9,13 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'crm/activityStatuses',
+                        loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
+                        data: { permission: 'Pages.ActivityStatuses' }
+                    },
+                
+                    
+                    {
                         path: 'crm/activities',
                         loadChildren: () => import('./crm/activities/activity.module').then(m => m.ActivityModule),
                         data: { permission: 'Pages.Activities' }

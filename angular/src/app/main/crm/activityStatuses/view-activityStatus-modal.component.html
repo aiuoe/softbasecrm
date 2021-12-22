@@ -32,6 +32,15 @@
                         <h6>{{ l('Color') }} :</h6>
                         {{ item.activityStatus.color }}
                     </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{ l('IsCompletedStatus') }} :</h6>
+                        <div *ngIf="item.activityStatus.isCompletedStatus" class="text-left">
+                            <i class="fa fa-check-circle text-success" title="True"></i>
+                        </div>
+                        <div *ngIf="!item.activityStatus.isCompletedStatus" class="text-left">
+                            <i class="fa fa-times-circle" title="False"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

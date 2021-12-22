@@ -2,6 +2,9 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="IsCompletedStatus">Is completed status</text>
+    <text name="NotIsCompletedStatus">Not is completed status</text>
+
     <text name="FilterByAssignee">Filter by Assignee</text>
     <text name="FilterBySourceType">Filter by Source Type</text>
     <text name="FilterByActivity">Filter by Activity</text>

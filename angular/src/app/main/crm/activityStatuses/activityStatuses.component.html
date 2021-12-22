@@ -124,6 +124,10 @@
                                             {{ l('Color') }}
                                             <p-sortIcon field="activityStatus.color"></p-sortIcon>
                                         </th>
+                                        <th style="width: 150px" pSortableColumn="isCompletedStatus">
+                                            {{ l('IsCompletedStatus') }}
+                                            <p-sortIcon field="activityStatus.isCompletedStatus"></p-sortIcon>
+                                        </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
@@ -193,6 +197,15 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Color') }}</span>
                                             {{ record.activityStatus.color }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('IsCompletedStatus') }}</span>
+                                            <div *ngIf="record.activityStatus.isCompletedStatus" class="text-center">
+                                                <i class="fa fa-check-circle text-success" title="True"></i>
+                                            </div>
+                                            <div *ngIf="!record.activityStatus.isCompletedStatus" class="text-center">
+                                                <i class="fa fa-times-circle" title="False"></i>
+                                            </div>
                                         </td>
                                     </tr>
                                 </ng-template>
