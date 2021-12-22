@@ -16,6 +16,7 @@ import {
     ActivityTaskTypeDto,
     ActivityTaskTypesServiceProxy,
     CustomerServiceProxy,
+    ProfileServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -32,6 +33,7 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { LocalStorageService } from '@shared/utils/local-storage.service';
 
 @Component({
     templateUrl: './activities.component.html',
@@ -81,6 +83,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
+        private _localStorageService: LocalStorageService,
+        private _profileService: ProfileServiceProxy,
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
@@ -101,7 +105,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        const selectedUserIds = this.selectedAssignedUsersFilter.map(x=>x.id);
+        const selectedUserIds = this.selectedAssignedUsersFilter.map((x) => x.id);
+        const dateNow = this._dateTimeService.getDate();
 
         this._activitiesServiceProxy
             .getAll(
@@ -122,7 +127,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             )
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
-                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.records = result.items.map(x=>({
+                    ...x,
+                    isPastDue: dateNow > x.activity.startsAt
+                }));
+                this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -157,7 +166,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.activityTaskTypeDescriptionFilter,
                 this.activityStatusDescriptionFilter,
                 this.activityPriorityDescriptionFilter,
-                this.customerNameFilter,
+                this.customerNameFilter
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
@@ -198,5 +207,22 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((res) => {
             this.activityStatuses = res;
         });
+    }
+
+    setUsersProfilePictureUrl(records: any[]): void {
+        for (let i = 0; i < records.length; i++) {
+            let record = records[i];
+            this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
+                let profilePictureUrl =
+                    AppConsts.remoteServiceBaseUrl +
+                    '/Profile/GetProfilePictureByUser?userId=' +
+                    record.activity.userId +
+                    '&' +
+                    AppConsts.authorization.encrptedAuthTokenName +
+                    '=' +
+                    encodeURIComponent(value.token);
+                (record as any).profilePictureUrl = profilePictureUrl;
+            });
+        }
     }
 }

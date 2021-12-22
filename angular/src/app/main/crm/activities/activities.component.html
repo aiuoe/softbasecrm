@@ -2,9 +2,9 @@
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Activities' | localize">
             <div role="actions">
-                <button (click)="exportToExcel()" class="btn btn-outline-success">
-                    <i class="fa fa-file-excel"></i>
-                    {{ l('ExportToExcel') }}
+                <button (click)="exportToExcel()" class="btn btn-primary blue">
+                    <i class="fa fa-download fa-lg"></i>
+                    {{ l('Export') }}
                 </button>
 
                 <button
@@ -286,7 +286,7 @@
                                             <span
                                                 *ngIf="record.activity.startsAt"
                                                 [ngClass]="{
-                                                    'text-danger': false
+                                                    'text-danger': record.isPastDue
                                                 }"
                                             >
                                                 {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
@@ -295,7 +295,11 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            {{ record.userName }}
+                                            <span class="d-flex align-items-center">
+                                                <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+
+                                                {{ record.userName }}
+                                            </span>
                                         </td>
                                     </tr>
                                 </ng-template>
