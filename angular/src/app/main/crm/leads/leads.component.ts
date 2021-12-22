@@ -9,7 +9,9 @@ import {
     ConvertLeadToAccountRequestDto,
     PriorityDto,
     PrioritiesServiceProxy,
-    PagedResultDtoOfGetPriorityForViewDto
+    PagedResultDtoOfGetPriorityForViewDto,
+    LeadLeadStatusLookupTableDto,
+    LeadPriorityLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -41,16 +43,16 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('importLeadsModalComponent', { static: true })
 
     importLeadsModalComponent: ImportLeadsModalComponent;
-    leadStatuses: LeadStatusDto[];
+    leadStatuses: LeadLeadStatusLookupTableDto[];
     selectedLeadStatus: LeadStatusDto;
     selectedLeadStatuses: LeadStatusDto[];
     readOnlyStatus = [];
-    allStatusesFilter : LeadStatusDto = new LeadStatusDto;     
+    allStatusesFilter : LeadLeadStatusLookupTableDto = new LeadLeadStatusLookupTableDto;     
 
-    priorities: PriorityDto[];
-    selectedPriority: PriorityDto;
-    selectedPriorities: PriorityDto[];
-    allPrioritiesFilter : PriorityDto = new PriorityDto;
+    priorities: LeadPriorityLookupTableDto[];
+    selectedPriority: LeadPriorityLookupTableDto;
+    selectedPriorities: LeadPriorityLookupTableDto[];
+    allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
     
     advancedFiltersAreShown = false;
     filterText = '';
@@ -127,33 +129,18 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
-        this._leadStatusesServiceProxy.getAll(
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined)
-        .subscribe((result: PagedResultDtoOfGetLeadStatusForViewDto) => {
-            this.leadStatuses = result.items.map(x => x.leadStatus);
+        this._leadsServiceProxy.getAllLeadStatusForTableDropdown().subscribe((result) => {
+            this.leadStatuses = result;
             this.leadStatuses.forEach( (leadStatus) => {
                 if (!leadStatus.isLeadConversionValid)
-                    this.readOnlyStatus.push(leadStatus.description);                        
+                    this.readOnlyStatus.push(leadStatus.displayName);                        
             })
-            this.allStatusesFilter.description = "All";
+            this.allStatusesFilter.displayName = "All";
             this.leadStatuses.unshift(this.allStatusesFilter);  
         });
-        this._prioritiesServiceProxy.getAll(
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined)
-        .subscribe((result: PagedResultDtoOfGetPriorityForViewDto) => {
-            this.priorities = result.items.map(x => x.priority);
-            this.allPrioritiesFilter.description = "All";
+        this._leadsServiceProxy.getAllPriorityForTableDropdown().subscribe((result) => {
+            this.priorities = result;
+            this.allPrioritiesFilter.displayName = "All";
             this.priorities.unshift(this.allPrioritiesFilter);  
         });
     }

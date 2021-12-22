@@ -83,7 +83,7 @@
                                                 name="LeadStatusFilter"
                                                 [options]="leadStatuses"
                                                 [(ngModel)]="selectedLeadStatus"
-                                                optionLabel="description"
+                                                optionLabel="displayName"
                                                 placeholder="Filter by Status"
                                                 (onChange)="getLeads($event)"
                                             >                                                
@@ -101,7 +101,7 @@
                                                 name="PriorityFilter"
                                                 [options]="priorities"
                                                 [(ngModel)]="selectedPriority"
-                                                optionLabel="description"     
+                                                optionLabel="displayName"     
                                                 placeholder="Filter by Priorities"                                          
                                                 (onChange)="getLeads($event)"
                                             >
@@ -337,7 +337,7 @@
                                     #paginator
                                     (onPageChange)="getLeads($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"
-                                    [rowsPerPageOptions]="[5,10,15,20,25,30]"
+                                    [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                     [showCurrentPageReport]="true"
                                     [currentPageReportTemplate]="
                                         'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount

@@ -32423,6 +32423,7 @@ export interface ILeadLeadSourceLookupTableDto {
 }
 
 export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableDto {
+    isLeadConversionValid!: boolean;
     id!: number;
     displayName!: string | undefined;
     isDefault!: boolean;
@@ -32438,6 +32439,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 
     init(_data?: any) {
         if (_data) {
+            this.isLeadConversionValid = _data["isLeadConversionValid"];
             this.id = _data["id"];
             this.displayName = _data["displayName"];
             this.isDefault = _data["isDefault"];
@@ -32453,6 +32455,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["isLeadConversionValid"] = this.isLeadConversionValid;
         data["id"] = this.id;
         data["displayName"] = this.displayName;
         data["isDefault"] = this.isDefault;
@@ -32461,6 +32464,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 }
 
 export interface ILeadLeadStatusLookupTableDto {
+    isLeadConversionValid: boolean;
     id: number;
     displayName: string | undefined;
     isDefault: boolean;

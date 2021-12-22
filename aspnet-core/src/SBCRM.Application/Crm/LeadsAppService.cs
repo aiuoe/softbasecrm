@@ -615,7 +615,8 @@ namespace SBCRM.Crm
                 {
                     Id = leadStatus.Id,
                     DisplayName = leadStatus == null || leadStatus.Description == null ? "" : leadStatus.Description.ToString(),
-                    IsDefault = leadStatus.IsDefault
+                    IsDefault = leadStatus.IsDefault,
+                    isLeadConversionValid = leadStatus.IsLeadConversionValid
                 }).ToListAsync();
         }
 

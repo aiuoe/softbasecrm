@@ -385,6 +385,7 @@
     <text name="CustomerViewEquipments">View equipments in Account detail</text>
     <text name="CustomerViewWip">View WIP in Account detail</text>
     <text name="CustomerViewAssignUsers">View assign users in Account detail</text>
+	<text name="CustomerAddOpportunity">Add an Opportuny to an Account</text>
     <text name="{0}IsRequired">{0} is required.</text>
     <text name="AccountTypeDescription">Account type description</text>
     <text name="PickAccountType">Pick account type</text>
@@ -655,6 +656,7 @@
     <text name="Apply">Apply</text>
     <text name="CustomRange">Custom range</text>
     <text name="DashboardNoteForMpaVersion">
+		
       <![CDATA[
 	<texts>
 		<text name="CustomerViewAssignContacts">View assign contacts in Account detail</text>
@@ -1054,6 +1056,7 @@
 		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
 		<text name="CustomerViewEvents">View Events in Account detail</text>
+		<text name="CustomerAddOpportunity">Add an Opportuny to an Account</text>
 		<text name="CustomerViewAssignUsers">View assign users in Account detail</text>
 		<text name="{0}IsRequired">{0} is required.</text>
 		<text name="AccountTypeDescription">Account type description</text>

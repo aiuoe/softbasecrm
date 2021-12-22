@@ -138,7 +138,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                     if (this.customerNumber) {
                         this.opportunity.customerNumber = this.customerNumber
-                        this.getContactsAccordingToCostumer(this.customerNumber);
+                        this.getContactsAccordingToCustomer(this.customerNumber);
                     }                                                            
                     
                     this.showSaveButton = !this.isReadOnlyMode;
@@ -167,7 +167,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 this.allOpportunityTypes = opportunityTypes;  
                 this.allCustomers = customers;   
 
-                this.getContactsAccordingToCostumer(opportunityForEdit.customerNumber);
+                this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
 
                 this.showSaveButton = !this.isReadOnlyMode;
                 }, (error) => {
@@ -180,7 +180,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * Get the contacts for the selected customer
      * @returns void
      */
-    getContactsAccordingToCostumer(customerNumber : string) : void {
+    getContactsAccordingToCustomer(customerNumber : string) : void {
         this._opportunitiesServiceProxy.getAllContactsForTableDropdownCustomerSpecific(customerNumber).subscribe((result) => {
             this.allContacts = result;
         });         
@@ -192,7 +192,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      */
     save(): void {
         this.saving = true;
-        console.log(this.opportunity.contactId)
+
         this._opportunitiesServiceProxy
             .createOrEdit(this.opportunity)
             .pipe(
