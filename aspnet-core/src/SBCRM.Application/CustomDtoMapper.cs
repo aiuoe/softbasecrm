@@ -58,6 +58,8 @@ namespace SBCRM
             configuration.CreateMap<ActivitySourceTypeDto, ActivitySourceType>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivityPriorityDto, ActivityPriority>().ReverseMap();
             configuration.CreateMap<ActivityPriorityDto, ActivityPriority>().ReverseMap();
+            configuration.CreateMap<CreateOrEditContactDto, Contact>().ReverseMap();
+            configuration.CreateMap<ContactDto, Contact>().ReverseMap();
             configuration.CreateMap<CreateOrEditAccountUserDto, AccountUser>().ReverseMap();
             configuration.CreateMap<AccountUserDto, AccountUser>().ReverseMap();
             configuration.CreateMap<CreateOrEditCountryDto, Country>().ReverseMap();
@@ -212,6 +214,18 @@ namespace SBCRM
                 .ForMember(dto => dto.SurName, options => options.MapFrom(e => e.Surname))
                 .ForMember(dto => dto.SurName, options => options.MapFrom(e => e.Surname))
                 ;
+
+            configuration.CreateMap<CreateOrEditContactDto, Contact>()
+                .ForMember(dto => dto.ContactField, options => options.MapFrom(e => e.Contact))
+                .ReverseMap();
+
+            configuration.CreateMap<Contact, CreateOrEditContactDto>()
+                .ForMember(dto => dto.Id, options => options.MapFrom(e => e.ContactId))
+                .ForMember(dto => dto.Contact, options => options.MapFrom(e => e.ContactField))
+                .ReverseMap();
+
+            configuration.CreateMap<GetCustomerForEditOutput, GetCustomerForViewOutput>()
+                .ReverseMap();
         }
     }
 }

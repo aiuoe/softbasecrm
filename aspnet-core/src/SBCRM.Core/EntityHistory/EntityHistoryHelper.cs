@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SBCRM.Legacy;
+using System;
 using System.Linq;
 using Abp.Organizations;
 using SBCRM.Authorization.Roles;
@@ -12,11 +13,13 @@ namespace SBCRM.EntityHistory
 
         public static readonly Type[] HostSideTrackedTypes =
         {
+            typeof(Contact),
             typeof(OrganizationUnit), typeof(Role), typeof(Tenant)
         };
 
         public static readonly Type[] TenantSideTrackedTypes =
         {
+            typeof(Contact),
             typeof(OrganizationUnit), typeof(Role)
         };
 

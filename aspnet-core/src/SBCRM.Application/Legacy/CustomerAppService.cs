@@ -5,6 +5,7 @@ using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Abp.Application.Services;
 using SBCRM.Legacy.Exporting;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Dto;
@@ -15,7 +16,10 @@ using Abp.Domain.Uow;
 using Abp.EntityHistory;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Auditing;
+using SBCRM.Auditing.Dto;
 using SBCRM.Base;
+using SBCRM.Common;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy.Dto;
 using BaseRepo = Abp.Domain.Repositories;
@@ -28,16 +32,20 @@ namespace SBCRM.Legacy
     [AbpAuthorize(AppPermissions.Pages_Customer)]
     public class CustomerAppService : SBCRMAppServiceBase, ICustomerAppService
     {
-        private readonly ICustomerExcelExporter _customerExcelExporter;
         private readonly BaseRepo.IRepository<Customer> _customerRepository;
         private readonly BaseRepo.IRepository<AccountType> _lookupAccountTypeRepository;
         private readonly BaseRepo.IRepository<LeadSource> _lookupLeadSourceRepository;
+        private readonly BaseRepo.IRepository<Country> _lookupCountryRepository;
+        private readonly BaseRepo.IRepository<AccountUser> _accountUserRepository;
+        private readonly ICustomerExcelExporter _customerExcelExporter;
         private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
         private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
         private readonly ISoftBaseCustomerWipRepository _customerWipRepository;
-        private readonly BaseRepo.IRepository<AccountUser> _accountUserRepository;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly ISoftBaseCustomerSequenceRepository _customerSequenceRepository;
+        private readonly IContactsAppService _contactsAppService;
+        private readonly IAuditEventsService _auditEventsService;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -51,25 +59,32 @@ namespace SBCRM.Legacy
         /// <param name="customerCustomerInvoiceRepository"></param>
         /// <param name="customerEquipmentRepository"></param>
         /// <param name="customerWipRepository"></param>
-        /// <param name="accountUserService"></param>
         /// <param name="accountUserRepository"></param>
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
+        /// <param name="customerSequenceRepository"></param>
+        /// <param name="contactsAppService"></param>
+        /// <param name="lookupCountryRepository"></param>
+        /// <param name="auditEventsService"></param>
         public CustomerAppService(
             BaseRepo.IRepository<Customer> customerRepository,
-            ICustomerExcelExporter customerExcelExporter,
+            BaseRepo.IRepository<Country> lookupCountryRepository,
             BaseRepo.IRepository<AccountType> lookupAccountTypeRepository,
             BaseRepo.IRepository<LeadSource> lookupLeadSourceRepository,
+            BaseRepo.IRepository<AccountUser> accountUserRepository,
             ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
             ISoftBaseCustomerEquipmentRepository customerEquipmentRepository,
             ISoftBaseCustomerWipRepository customerWipRepository,
-            IAccountUsersAppService accountUserService,
-            BaseRepo.IRepository<AccountUser> accountUserRepository,
             IEntityChangeSetReasonProvider reasonProvider,
-            IUnitOfWorkManager unitOfWorkManager)
+            IUnitOfWorkManager unitOfWorkManager,
+            ISoftBaseCustomerSequenceRepository customerSequenceRepository,
+            IContactsAppService contactsAppService,
+            ICustomerExcelExporter customerExcelExporter,
+            IAuditEventsService auditEventsService)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
+            _auditEventsService = auditEventsService;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
             _customerCustomerInvoiceRepository = customerCustomerInvoiceRepository;
@@ -78,6 +93,9 @@ namespace SBCRM.Legacy
             _accountUserRepository = accountUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _customerSequenceRepository = customerSequenceRepository;
+            _contactsAppService = contactsAppService;
+            _lookupCountryRepository = lookupCountryRepository;
         }
 
         /// <summary>
@@ -237,15 +255,15 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
-        public async Task<GetCustomerForViewDto> GetCustomerForView(string customerNumber)
+        public async Task<GetCustomerForViewOutput> GetCustomerForView(string customerNumber)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(customerNumber));
 
-            var output = new GetCustomerForViewDto { Customer = ObjectMapper.Map<CustomerDto>(customer) };
+            var output = new GetCustomerForViewOutput { Customer = ObjectMapper.Map<CreateOrEditCustomerDto>(customer) };
 
             if (output.Customer.AccountTypeId != null)
             {
-                var lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync((x => x.Id == output.Customer.AccountTypeId));
+                var lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.Id == output.Customer.AccountTypeId);
                 output.AccountTypeDescription = lookupAccountType?.Description;
             }
 
@@ -260,17 +278,7 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
         {
-            var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.CustomerNumber));
-
-            var output = new GetCustomerForEditOutput { Customer = ObjectMapper.Map<CreateOrEditCustomerDto>(customer) };
-
-            if (output.Customer.AccountTypeId != null)
-            {
-                var lookupAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.Id == output.Customer.AccountTypeId);
-                output.AccountTypeDescription = lookupAccountType?.Description;
-            }
-
-            return output;
+            return ObjectMapper.Map<GetCustomerForEditOutput>(await GetCustomerForView(input.CustomerNumber));
         }
 
         /// <summary>
@@ -317,11 +325,13 @@ namespace SBCRM.Legacy
             
             using (_reasonProvider.Use("Account created"))
             {
+                // Set internal audit fields
+                customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
+                customer.BillTo = customer.Number;
                 customer.IsCreatedFromWebCrm = true;
                 customer.AddedBy = currentUser.Name;
                 customer.Added = DateTime.UtcNow;
                 await _customerRepository.InsertAsync(customer);
-
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
         }
@@ -334,9 +344,15 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         protected virtual async Task Update(CreateOrEditCustomerDto input)
         {
+            var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
+            var currentUser = await GetCurrentUserAsync();
+
             using (_reasonProvider.Use("Account updated"))
             {
-                var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
+                // Set internal audit fields
+                customer.ChangedBy = currentUser.Name;
+                customer.Changed = DateTime.UtcNow;
+
                 ObjectMapper.Map(input, customer);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -413,11 +429,28 @@ namespace SBCRM.Legacy
         public async Task<List<CustomerLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
             return await _lookupLeadSourceRepository.GetAll()
-                .Select(accountType => new CustomerLeadSourceLookupTableDto
+                .Select(source => new CustomerLeadSourceLookupTableDto
                 {
-                    Id = accountType.Id,
-                    DisplayName = accountType == null || accountType.Description == null ? "" : accountType.Description.ToString()
+                    Id = source.Id,
+                    DisplayName = source == null || source.Description == null ? "" : source.Description.ToString()
                 }).ToListAsync();
+        }
+
+
+        /// <summary>
+        /// Get Countries lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<List<CustomerCountryLookupTableDto>> GetAllCountriesForTableDropdown()
+        {
+            return await _lookupCountryRepository.GetAll()
+                .Select(country => new CustomerCountryLookupTableDto
+                {
+                    Id = country.Id,
+                    Code = country.Code,
+                    DisplayName = country == null || country.Name == null ? "" : country.Name.ToString()
+                }).ToListAsync(); ;
         }
 
         /// <summary>
@@ -453,5 +486,90 @@ namespace SBCRM.Legacy
             return await _customerWipRepository.GetPagedCustomerWip(input);
         }
 
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer_View_Events)]
+        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
+        {
+            input.EntityTypeFullName = typeof(Customer).FullName;
+            return await _auditEventsService.GetEntityTypeChanges(input);
+        }
+
+        /// <summary>
+        /// Check if exist customer by name
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckIfExistByName(string input)
+        {
+            return await _customerRepository.GetAll()
+                .Where(x => !string.IsNullOrEmpty(x.Name))
+                .Where(x => x.Name.ToLower().Trim() == input.ToLower().Trim())
+                .AnyAsync();
+        }
+
+        /// <summary>
+        /// Create Account from Lead conversion
+        /// </summary>
+        /// <param name="input"></param>
+        [RemoteService(false)]
+        [AbpAuthorize(AppPermissions.Pages_Leads_Convert_Account)]
+        public async Task<string> ConvertFromLead(ConvertLeadToAccountDto input)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            
+            GuardHelper.ThrowIf(input.Lead is null, new UserFriendlyException(L("CustomerNotExist")));
+            GuardHelper.ThrowIf(await CheckIfExistByName(input.Lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
+
+            var customer = new Customer();
+
+            using (_reasonProvider.Use("Account created from Lead conversion"))
+            {
+                // Mapping Overview data
+                customer.Name = input.Lead.CompanyName;
+                customer.Phone = input.Lead.CompanyPhone;
+                customer.EMail = input.Lead.CompanyEmail;
+                customer.WWWAddress = input.Lead.WebSite;
+                customer.Country = input.Lead.Country;
+                customer.City = input.Lead.City;
+                customer.State = input.Lead.State;
+                customer.ZipCode = input.Lead.ZipCode;
+                customer.POBox = input.Lead.PoBox;
+                customer.LeadSourceId = input.Lead.LeadSourceId;
+                customer.AccountTypeId = input.ConversionAccountTypeId;
+
+                // Set internal audit fields
+                customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
+                customer.BillTo = customer.Number;
+                customer.IsCreatedFromWebCrm = true;
+                customer.AddedBy = currentUser.Name;
+                customer.Added = DateTime.UtcNow;
+
+                customer = await _customerRepository.InsertAsync(customer);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
+
+            if (!string.IsNullOrEmpty(input.Lead.ContactName))
+            {
+                // Mapping contact
+                var contact = new CreateOrEditContactDto();
+                contact.CustomerNo = customer.Number;
+                contact.Contact = input.Lead.ContactName;
+                contact.Position = input.Lead.ContactPosition;
+                contact.Phone = input.Lead.ContactPhone;
+                contact.Extention = input.Lead.ContactPhoneExtension;
+                contact.Cellular = input.Lead.ContactCellPhone;
+                contact.Fax = input.Lead.ContactFaxNumber;
+                contact.Pager = input.Lead.PagerNumber;
+                contact.EMail = input.Lead.ContactEmail;
+                await _contactsAppService.CreateOrEdit(contact);
+            }
+
+            return customer.Number;
+        }
+        
     }
 }

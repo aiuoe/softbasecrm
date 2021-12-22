@@ -27,6 +27,13 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./crm/activityPriorities/activityPriority.module').then(m => m.ActivityPriorityModule),
                         data: { permission: 'Pages.ActivityPriorities' }
                     },
+
+                    
+                    {
+                        path: 'crm/opportunities',
+                        loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
+                        data: { permission: 'Pages.Opportunities' }
+                    },
                 
                     
                     {

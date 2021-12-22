@@ -45,6 +45,27 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get the dynamic permission based on the current user and customer.
+        /// If the user has a restricted creation permission and is assigned to the customer then they don't have permission.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> CanAssignUsers(string customerNumber)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var hasRestrictedPermission = await UserManager.IsGrantedAsync(
+                currentUser.Id, AppPermissions.Pages_AccountUsers_Create_Restricted);
+
+            var currentUserIsAssignedInCustomer = _accountUserRepository
+                .GetAll()
+                .Include(e => e.UserFk)
+                .Any(x => x.UserId == currentUser.Id);
+
+
+            var canAssignUsers = hasRestrictedPermission && currentUserIsAssignedInCustomer;
+            return canAssignUsers;
+        }
+
+        /// <summary>
         /// Gets all the account users give a Customer number
         /// </summary>
         /// <param name="input"></param>
@@ -125,57 +146,15 @@ namespace SBCRM.Crm
             var accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetAccountUserForEditOutput
-                {AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser)};
+            { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
             return output;
-        }
-
-        /// <summary>
-        /// Manages the create/edit of an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task CreateOrEdit(CreateOrEditAccountUserDto input)
-        {
-            if (input.Id == null)
-            {
-                await Create(input);
-            }
-            else
-            {
-                await Update(input);
-            }
-        }
-
-        /// <summary>
-        /// Creates an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_AccountUsers_Create)]
-        protected virtual async Task Create(CreateOrEditAccountUserDto input)
-        {
-            var accountUser = ObjectMapper.Map<AccountUser>(input);
-
-            await _accountUserRepository.InsertAsync(accountUser);
-        }
-
-        /// <summary>
-        /// Edits an account user
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_AccountUsers_Edit)]
-        protected virtual async Task Update(CreateOrEditAccountUserDto input)
-        {
-            var accountUser = await _accountUserRepository.FirstOrDefaultAsync((int) input.Id);
-            ObjectMapper.Map(input, accountUser);
         }
 
         /// <summary>
@@ -186,7 +165,12 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Delete)]
         public async Task Delete(EntityDto input)
         {
-            await _accountUserRepository.DeleteAsync(input.Id);
+            using (_reasonProvider.Use("User was removed from Account"))
+            {
+                await _accountUserRepository.DeleteAsync(input.Id);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
+
         }
 
         /// <summary>
@@ -209,10 +193,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
+        [AbpAuthorize(AppPermissions.Pages_AccountUsers_Create)]
         public async Task CreateMultipleAccountUsers(List<CreateOrEditAccountUserDto> input)
         {
-            using (_reasonProvider.Use("User assigned"))
+            using (_reasonProvider.Use("User wa assigned to Account"))
             {
                 foreach (var item in input)
                 {
@@ -230,7 +214,8 @@ namespace SBCRM.Crm
                     {
                         accountUserExists.IsDeleted = false;
                         var accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
-                        await Update(accountUserInDatabase);
+                        var accountUser = await _accountUserRepository.FirstOrDefaultAsync(accountUserInDatabase.Id.Value);
+                        ObjectMapper.Map(input, accountUser);
                     }
                 }
 

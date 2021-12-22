@@ -56,7 +56,7 @@ a:hover {
     font-size: 1.25rem;
 }
 
-.breadcrumb-item+.breadcrumb-item {
+.breadcrumb-item + .breadcrumb-item {
     font-size: 1.25rem;
 }
 
@@ -77,6 +77,19 @@ a:hover {
     background-color: $readonlyInputBackgroundColor !important;
 }
 
+.input-field > label {
+    /*10px is for old browsers which don't support the ch unit*/
+    padding-right: 10px;
+    padding-right: 1ch;
+    position: relative;
+}
+
+.input-field.required > label:after {
+    color: red;
+    content: "*";
+    position: absolute;
+    right: 0;
+}
 
 .line-height-30 {
     line-height: 30px;
@@ -88,4 +101,14 @@ a:hover {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.swal2-popup .swal2-icon {
+    margin: 1.25em auto 1.875em !important;
+}
+
+.cell-span-color {
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
 }

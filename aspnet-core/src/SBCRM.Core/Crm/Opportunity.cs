@@ -9,6 +9,9 @@ using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Opportunity entity from schema
+    /// </summary>
     [Table("Opportunities")]
     public class Opportunity : FullAuditedEntity
     {
@@ -17,12 +20,13 @@ namespace SBCRM.Crm
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
         public virtual string Name { get; set; }
 
-        public virtual decimal Amount { get; set; }
+        [Range(OpportunityConsts.MinAmountValue, OpportunityConsts.MaxAmountValue)]
+        public virtual decimal? Amount { get; set; }
 
         [Range(OpportunityConsts.MinProbabilityValue, OpportunityConsts.MaxProbabilityValue)]
-        public virtual decimal Probability { get; set; }
+        public virtual decimal? Probability { get; set; }
 
-        public virtual DateTime CloseDate { get; set; }
+        public virtual DateTime? CloseDate { get; set; }
 
         public virtual string Description { get; set; }
 
