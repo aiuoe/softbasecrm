@@ -75,6 +75,9 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         });
     }
 
+    /**
+     * Call the file uploader and intialize the data
+     */
     initializeModal(): void {
         this.active = true;
         this.initFileUploader();
