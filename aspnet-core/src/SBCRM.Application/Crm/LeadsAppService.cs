@@ -39,6 +39,7 @@ namespace SBCRM.Crm
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<LeadUser> _leadUserRepository;
+        private readonly IRepository<Country> _countryRepository;
 
         /// <summary>
         /// Base constructor
@@ -52,6 +53,7 @@ namespace SBCRM.Crm
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
         /// <param name="leadUserRepository"></param>
+        /// <param name="countryRepository"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,
@@ -61,7 +63,8 @@ namespace SBCRM.Crm
             ICustomerAppService customerAppService,
             IEntityChangeSetReasonProvider reasonProvider,
             IUnitOfWorkManager unitOfWorkManager,
-            IRepository<LeadUser> leadUserRepository)
+            IRepository<LeadUser> leadUserRepository,
+            IRepository<Country> countryRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
@@ -72,6 +75,7 @@ namespace SBCRM.Crm
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
             _leadUserRepository = leadUserRepository;
+            _countryRepository = countryRepository;
         }
 
         /// <summary>
@@ -321,7 +325,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="importedLeads"></param>
         /// <returns></returns>
-        private static bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
+        private bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
         {
             foreach (var item in importedLeads)
             {
@@ -332,8 +336,8 @@ namespace SBCRM.Crm
                 }
 
                 // Validations for country field
-                if (item.Country != null && item.Country != string.Empty && 
-                    item.Country.ToUpper() != "MEXICO" && item.Country.ToUpper() != "CANADA" && item.Country.ToUpper() != "UNITED STATES")
+                var existingCountries = _countryRepository.GetAll();
+                if (item.Country != null && existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
                 {
                     return false;
                 }
@@ -348,14 +352,24 @@ namespace SBCRM.Crm
                 }
 
                 // Validation for limit size in every field (See the SRS to further information about the field limit size)
-                if ((item.CompanyName != null && item.CompanyName.ToString().Length > 250) || (item.Phone!= null && item.Phone.ToString().Length > 50)
-                    || (item.CompanyEmail!= null && item.CompanyEmail.ToString().Length > 100) || (item.Website != null && item.Website.ToString().Length > 100)
-                    || (item.CompanyAdress != null && item.CompanyAdress.ToString().Length > 100) || ( item.Country != null && item.Country.ToString().Length > 100)
-                    || (item.City != null && item.City.ToString().Length > 100) || (item.StateProvince != null && item.StateProvince.ToString().Length > 100)
-                    || (item.PoBox != null && item.PoBox.ToString().Length > 100) || (item.ContactName != null && item.ContactName.ToString().Length > 100)
-                    || (item.ContactPosition != null && item.ContactPosition.ToString().Length > 100) || (item.ContactPhone != null && item.ContactPhone.ToString().Length > 50)
-                    || (item.ContactFax != null && item.ContactFax.ToString().Length > 50) || (item.ContactPager != null && item.ContactPager.ToString().Length > 50)
-                    || (item.ContactEmail != null && item.ContactEmail.ToString().Length > 100))
+                var validations = new BulkValidations();
+                var isNotValidLength = validations.AppendCondition(item.CompanyName.ExceedLength(250))
+                                                 .AppendCondition(item.Phone.ExceedLength(50))
+                                                 .AppendCondition(item.CompanyEmail.ExceedLength(100))
+                                                 .AppendCondition(item.Website.ExceedLength(100))
+                                                 .AppendCondition(item.CompanyAdress.ExceedLength(100))
+                                                 .AppendCondition(item.Country.ExceedLength(100))
+                                                 .AppendCondition(item.City.ExceedLength(100))
+                                                 .AppendCondition(item.StateProvince.ExceedLength(100))
+                                                 .AppendCondition(item.PoBox.ExceedLength(100))
+                                                 .AppendCondition(item.ContactPosition.ExceedLength(100))
+                                                 .AppendCondition(item.ContactPhone.ExceedLength(50))
+                                                 .AppendCondition(item.ContactFax.ExceedLength(50))
+                                                 .AppendCondition(item.ContactPager.ExceedLength(50))
+                                                 .AppendCondition(item.ContactEmail.ExceedLength(100))
+                                                 .GetAnyTrue();
+
+                if (isNotValidLength)
                 {
                     return false;
                 }
