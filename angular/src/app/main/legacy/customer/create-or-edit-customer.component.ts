@@ -9,9 +9,7 @@ import {
     GetZipCodeForViewDto,
     GetCustomerForEditOutput,
     PagedResultDtoOfGetZipCodeForViewDto,
-    CountriesServiceProxy,
-    GetCountryForViewDto,
-    CountryDto, ZipCodeDto, AccountUsersServiceProxy
+    ZipCodeDto, AccountUsersServiceProxy, CustomerCountryLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,7 +57,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
     accountTypeDescription = '';
     allAccountTypes: CustomerAccountTypeLookupTableDto[] = [];
-    countries: CountryDto[] = [];
+    countries: CustomerCountryLookupTableDto[] = [];
     selectedAccountType: CustomerAccountTypeLookupTableDto;
     allLeadSources: CustomerLeadSourceLookupTableDto[] = [];
     usZipCodes: GetZipCodeForViewDto[] = [];
@@ -77,6 +75,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     showInvoiceTab = true;
     showEquipmentTab = true;
     showWipTab = true;
+    showEventsTab = true;
     isPageLoading = true;
 
     /***
@@ -86,7 +85,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param _customerServiceProxy
      * @param _accountUserServiceProxy
      * @param _zipCodeServiceProxy
-     * @param _countriesServiceProxy
      * @param _router
      * @param _dateTimeService
      */
@@ -96,7 +94,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         private _customerServiceProxy: CustomerServiceProxy,
         private _accountUserServiceProxy: AccountUsersServiceProxy,
         private _zipCodeServiceProxy: ZipCodesServiceProxy,
-        private _countriesServiceProxy: CountriesServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService
     ) {
@@ -110,6 +107,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.showInvoiceTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
         this.showEquipmentTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
         this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
+        this.showEventsTab = this.isGrantedAny('Pages.Customer.ViewEvents');
 
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
@@ -132,7 +130,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         const requests: Observable<any>[] = [
             this._customerServiceProxy.getAllAccountTypeForTableDropdown(),
             this._customerServiceProxy.getAllLeadSourceForTableDropdown(),
-            this._countriesServiceProxy.getAllForTableDropdown()
+            this._customerServiceProxy.getAllCountriesForTableDropdown()
         ];
 
         if (!customerId) {
@@ -140,7 +138,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 .subscribe(([accountTypes, leadSources, countries]: [
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
-                    GetCountryForViewDto[]]) => {
+                    CustomerCountryLookupTableDto[]]) => {
                     this.isPageLoading = false;
                     this.active = true;
 
@@ -149,7 +147,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
                     this.customer.accountTypeId = this.selectedAccountType?.id;
                     this.allLeadSources = leadSources;
-                    this.countries = countries.map(x => x.country);
+                    this.countries = countries;
 
                     this.showSaveButton = !this.isReadOnlyMode;
                 }, (_) => {
@@ -159,15 +157,18 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         } else {
             this.entityTypeHistory.show({
                 entityId: this.customerNumber,
-                entityTypeFullName: 'SBCRM.Legacy.Customer',
-                entityTypeDescription: '',
+                entityName: 'Account'
             });
-            requests.push(this._customerServiceProxy.getCustomerForEdit(customerId));
+            if (this.isReadOnlyMode) {
+                requests.push(this._customerServiceProxy.getCustomerForView(customerId));
+            } else {
+                requests.push(this._customerServiceProxy.getCustomerForEdit(customerId));
+            }
             forkJoin([...requests])
                 .subscribe(([accountTypes, leadSources, countries, customerForEdit]: [
                     CustomerAccountTypeLookupTableDto[],
                     CustomerLeadSourceLookupTableDto[],
-                    GetCountryForViewDto[],
+                    CustomerCountryLookupTableDto[],
                     GetCustomerForEditOutput]) => {
                     this.isPageLoading = false;
                     this.active = true;
@@ -177,7 +178,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.allAccountTypes = accountTypes;
                     this.selectedAccountType = this.allAccountTypes.find(x => x.isDefault);
                     this.allLeadSources = leadSources;
-                    this.countries = countries.map(x => x.country);
+                    this.countries = countries;
 
                     this.showSaveButton = !this.isReadOnlyMode;
                 }, (_) => {

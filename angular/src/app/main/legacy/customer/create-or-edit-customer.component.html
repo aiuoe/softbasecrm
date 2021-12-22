@@ -28,7 +28,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="!this.showSaveButton && this.isReadOnlyMode">
+                                    <div class="row" *ngIf="(!this.showSaveButton && this.isReadOnlyMode) && isGranted('Pages.Customer.Edit')">
                                         <div class="col-12">
                                             <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
                                                 <i class="fas fa-pencil-alt"></i>
@@ -173,7 +173,7 @@
                                                                         [options]="countries"
                                                                         [(ngModel)]="customer.country"
                                                                         [disabled]="this.isReadOnlyMode || !this.isNew"
-                                                                        optionLabel="name"
+                                                                        optionLabel="displayName"
                                                                         placeholder="Select Country"
                                                                         [showClear]="true"
                                                                         optionValue="code">
@@ -911,7 +911,10 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <entityTypeHistory #entityTypeHistory></entityTypeHistory>
+                                    <entityTypeHistory [requiredPermission]="'Pages.Customer.ViewEvents'" #entityTypeHistory></entityTypeHistory>
+                                    <div *ngIf="!this.showEventsTab">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

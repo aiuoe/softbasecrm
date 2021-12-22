@@ -217,6 +217,9 @@ namespace SBCRM
                 .ForMember(dto => dto.Id, options => options.MapFrom(e => e.ContactId))
                 .ForMember(dto => dto.Contact, options => options.MapFrom(e => e.ContactField))
                 .ReverseMap();
+
+            configuration.CreateMap<GetCustomerForEditOutput, GetCustomerForViewOutput>()
+                .ReverseMap();
         }
     }
 }

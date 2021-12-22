@@ -21,6 +21,7 @@
 		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
 		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
 		<text name="LeadNotExist">Lead does not exist</text>
+		<text name="CustomerNotExist">Customer does not exist</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
@@ -393,9 +394,10 @@
 		<text name="CreateNewCustomer">New Account</text>
 		<text name="EditCustomer">Edit Account</text>
 		<text name="DeleteCustomer">Delete Account</text>
-		<text name="CustomerViewInvoices">View invoices in Account detail</text>
-		<text name="CustomerViewEquipments">View equipments in Account detail</text>
+		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
+		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
+		<text name="CustomerViewEvents">View Events in Account detail</text>
 		<text name="CustomerViewAssignUsers">View assign users in Account detail</text>
 		<text name="{0}IsRequired">{0} is required.</text>
 		<text name="AccountTypeDescription">Account type description</text>
