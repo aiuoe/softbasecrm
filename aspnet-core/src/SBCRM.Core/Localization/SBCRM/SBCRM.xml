@@ -1174,6 +1174,7 @@
 		<text name="AdminPasswordRepeat">admin password (repeat)</text>
 		<text name="EditTenant">Edit tenant</text>
 		<text name="ChangingPermissions">Changing permissions</text>
+		<text name="UsersManagement">Users Management</text>
 		<text name="EditingUser">Editing user</text>
 		<text name="CreatingNewUser">Creating new user</text>
 		<text name="Edit">Edit</text>
@@ -1191,6 +1192,7 @@
 		<text name="ResetSpecialPermissions">Reset special permissions</text>
 		<text name="SavingWithThreeDot">Saving...</text>
 		<text name="Settings">Settings</text>
+		<text name="SettingsAppearance">Appearance settings</text>
 		<text name="SaveAll">Save all</text>
 		<text name="SettingsHeaderInfo">Show and change application settings.</text>
 		<text name="EmailSmtp">Email (SMTP)</text>
