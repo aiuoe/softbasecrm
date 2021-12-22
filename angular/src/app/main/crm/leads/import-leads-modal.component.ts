@@ -75,6 +75,9 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         });
     }
 
+    /**
+     * Call the file uploader and intialize the data
+     */
     initializeModal(): void {
         this.active = true;
         this.initFileUploader();
@@ -168,7 +171,8 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         };
 
         this.uploader.onErrorItem = () => {
-            //TO DO: Manage errors an exceptions
+            this.message.error(this.l('ErrorUploadingMessage'));
+            this.close();
         };
 
         this.uploader.setOptions(this._uploaderOptions);
