@@ -1765,9 +1765,14 @@ export class ActivitiesServiceProxy {
      * @param activityStatusDescriptionFilter (optional) 
      * @param activityPriorityDescriptionFilter (optional) 
      * @param customerNameFilter (optional) 
+     * @param userIds (optional) 
+     * @param excludeCompleted (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined): Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1805,6 +1810,26 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'customerNameFilter' cannot be null.");
         else if (customerNameFilter !== undefined)
             url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
+        if (excludeCompleted === null)
+            throw new Error("The parameter 'excludeCompleted' cannot be null.");
+        else if (excludeCompleted !== undefined)
+            url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

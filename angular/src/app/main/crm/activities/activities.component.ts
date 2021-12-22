@@ -127,9 +127,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             )
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
-                this.primengTableHelper.records = result.items.map(x=>({
+                this.primengTableHelper.records = result.items.map((x) => ({
                     ...x,
-                    isPastDue: dateNow > x.activity.startsAt
+                    isPastDue: dateNow > x.activity.startsAt,
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
@@ -162,11 +162,16 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.opportunityNameFilter,
                 this.leadCompanyNameFilter,
                 this.userNameFilter,
-                this.activitySourceTypeDescriptionFilter,
-                this.activityTaskTypeDescriptionFilter,
-                this.activityStatusDescriptionFilter,
+                this.selectedActivitySourceTypesFilter?.displayName || '',
+                this.selectedActivityTaskTypesFilter?.displayName || '',
+                this.selectedActivityStatusesFilter?.displayName || '',
                 this.activityPriorityDescriptionFilter,
-                this.customerNameFilter
+                this.customerNameFilter,
+                this.selectedAssignedUsersFilter.map((x) => x.id),
+                this.excludeCompletedFilter,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, null),
+                this.primengTableHelper.getMaxResultCount(this.paginator, null)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

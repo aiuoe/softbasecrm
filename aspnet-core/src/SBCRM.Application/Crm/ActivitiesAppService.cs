@@ -324,7 +324,10 @@ namespace SBCRM.Crm
                         .Include(e => e.ActivityTaskTypeFk)
                         .Include(e => e.ActivityStatusFk)
                         .Include(e => e.ActivityPriorityFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.TaskName.Contains(input.Filter) || e.Description.Contains(input.Filter))
+                        .Include(e => e.CustomerFk)
+                        .WhereIf(input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
@@ -333,7 +336,11 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
 
-            var query = (from o in filteredActivities
+            var pagedAndFilteredActivities = filteredActivities
+                .OrderBy(input.Sorting ?? "ActivityStatusFk.Order ASC")
+                .PageBy(input);
+
+            var query = (from o in pagedAndFilteredActivities
                          join o1 in _lookup_opportunityRepository.GetAll() on o.OpportunityId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
@@ -366,14 +373,14 @@ namespace SBCRM.Crm
                                  DueDate = o.DueDate,
                                  StartsAt = o.StartsAt,
                              },
-                             OpportunityName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
-                             LeadCompanyName = s2 == null || s2.CompanyName == null ? "" : s2.CompanyName.ToString(),
+                             OpportunityName = s1 == null ? null : s1.Name,
+                             LeadCompanyName = s2 == null ? null : s2.CompanyName,
                              UserName = s3 == null || s3.Name == null && s3.Surname == null ? "" : $"{s3.Name} {s3.Surname}",
                              ActivitySourceTypeDescription = s4 == null || s4.Description == null ? "" : s4.Description.ToString(),
                              ActivityTaskTypeDescription = s5 == null || s5.Description == null ? "" : s5.Description.ToString(),
                              ActivityStatusDescription = s6 == null || s6.Description == null ? "" : s6.Description.ToString(),
                              ActivityPriorityDescription = s7 == null || s7.Description == null ? "" : s7.Description.ToString(),
-                             CustomerName = s8 == null || s8.Name == null ? "" : s8.Name,
+                             CustomerName = s8 == null ? null : s8.Name,
                          });
 
             var activityListDtos = await query.ToListAsync();

@@ -5,6 +5,7 @@ using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
+using System;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -26,8 +27,10 @@ namespace SBCRM.Crm.Exporting
 
         public FileDto ExportToFile(List<GetActivityForViewDto> activities)
         {
+            var fileName = $"Activities_{DateTime.UtcNow:MM_dd_yyyy}.xlsx";
+
             return CreateExcelPackage(
-                "Activities.xlsx",
+                fileName,
                 excelPackage =>
                 {
 
@@ -35,33 +38,29 @@ namespace SBCRM.Crm.Exporting
 
                     AddHeader(
                         sheet,
-                        L("DueDate"),
-                        (L("Opportunity")) + L("Name"),
-                        (L("Lead")) + L("CompanyName"),
-                        (L("User")) + L("Name"),
-                        (L("ActivitySourceType")) + L("Description"),
-                        (L("ActivityTaskType")) + L("Description"),
-                        (L("ActivityStatus")) + L("Description"),
-                        (L("ActivityPriority")) + L("Description"),
-                        L("CompanyName")
+                        L("Status"),
+                        L("SourceType"),
+                        L("CompanyName"),
+                        L("Activity"),
+                        L("Priority"),
+                        L("StartsAt"),
+                        L("AssignedUser")
                         );
 
                     AddObjects(
                         sheet, activities,
-                        _ => _timeZoneConverter.Convert(_.Activity.DueDate, _abpSession.TenantId, _abpSession.GetUserId()),
-                        _ => _.OpportunityName,
-                        _ => _.LeadCompanyName,
-                        _ => _.UserName,
-                        _ => _.ActivitySourceTypeDescription,
-                        _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityStatusDescription,
+                        _ => _.ActivitySourceTypeDescription,
+                        _ => _.CustomerName ?? _.LeadCompanyName ?? _.OpportunityName,
+                        _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityPriorityDescription,
-                        _ => _.CustomerName
+                        _ => _timeZoneConverter.Convert(_.Activity.StartsAt, _abpSession.TenantId, _abpSession.GetUserId()),
+                        _ => _.UserName
                         );
 
                     for (var i = 1; i <= activities.Count; i++)
                     {
-                        SetCellDataFormat(sheet.GetRow(i).Cells[1], "yyyy-mm-dd");
+                        SetCellDataFormat(sheet.GetRow(i).Cells[1], "mm/dd/yyyy");
                     }
                     sheet.AutoSizeColumn(1);
                 });

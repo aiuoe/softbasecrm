@@ -1,9 +1,10 @@
 ﻿using Abp.Application.Services.Dto;
 using System;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
-    public class GetAllActivitiesForExcelInput
+    public class GetAllActivitiesForExcelInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
 
@@ -22,5 +23,9 @@ namespace SBCRM.Crm.Dtos
         public string ActivityPriorityDescriptionFilter { get; set; }
 
         public string CustomerNameFilter { get; set; }
+
+        public List<long> UserIds { get; set; } = new List<long>();
+
+        public bool ExcludeCompleted { get; set; }
     }
 }
