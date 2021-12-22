@@ -352,21 +352,21 @@ namespace SBCRM.Crm
                 }
 
                 // Validation for limit size in every field (See the SRS to further information about the field limit size)
-                var validations = new BulkValidations();
-                var isNotValidLength = validations.AppendCondition(item.CompanyName.ExceedLength(250))
+                var isNotValidLength = new BulkValidations().AppendCondition(item.CompanyName.ExceedLength(250))
                                                  .AppendCondition(item.Phone.ExceedLength(50))
                                                  .AppendCondition(item.CompanyEmail.ExceedLength(100))
                                                  .AppendCondition(item.Website.ExceedLength(100))
                                                  .AppendCondition(item.CompanyAdress.ExceedLength(100))
                                                  .AppendCondition(item.Country.ExceedLength(100))
                                                  .AppendCondition(item.City.ExceedLength(100))
+                                                 .AppendCondition(item.ContactName.ExceedLength(50))
                                                  .AppendCondition(item.StateProvince.ExceedLength(100))
                                                  .AppendCondition(item.PoBox.ExceedLength(100))
-                                                 .AppendCondition(item.ContactPosition.ExceedLength(100))
+                                                 .AppendCondition(item.ContactPosition.ExceedLength(50))
                                                  .AppendCondition(item.ContactPhone.ExceedLength(50))
                                                  .AppendCondition(item.ContactFax.ExceedLength(50))
                                                  .AppendCondition(item.ContactPager.ExceedLength(50))
-                                                 .AppendCondition(item.ContactEmail.ExceedLength(100))
+                                                 .AppendCondition(item.ContactEmail.ExceedLength(50))
                                                  .GetAnyTrue();
 
                 if (isNotValidLength)
