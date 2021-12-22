@@ -168,6 +168,7 @@
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
                                                             <p-dropdown #Customer_Country="ngModel"
+                                                                        [required]="true"
                                                                         id="Customer_Country"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         [options]="countries"
