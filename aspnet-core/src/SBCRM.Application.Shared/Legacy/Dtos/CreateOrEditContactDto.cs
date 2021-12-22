@@ -1,15 +1,15 @@
-﻿using System;
-using Abp.Application.Services.Dto;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Legacy.Dtos
 {
     /// <summary>
     /// DTO to manage the object for creation/edition contact
     /// </summary>
-    public class CreateOrEditContactDto : EntityDto<int?>
+    public class CreateOrEditContactDto
     {
+        public int? Id { get; set; }
 
+        [Required]
         [StringLength(ContactConsts.MaxCustomerNoLength, MinimumLength = ContactConsts.MinCustomerNoLength)]
         public string CustomerNo { get; set; }
 
@@ -52,11 +52,6 @@ namespace SBCRM.Legacy.Dtos
         public short? SalesGroup3 { get; set; }
 
         public string Comments { get; set; }
-
-        public DateTime? DateAdded { get; set; }
-
-        public DateTime? DateChanged { get; set; }
-
         public short? SalesGroup4 { get; set; }
 
         public short? SalesGroup5 { get; set; }
@@ -64,15 +59,6 @@ namespace SBCRM.Legacy.Dtos
         public short? SalesGroup6 { get; set; }
 
         public short? MailingList { get; set; }
-
-        [StringLength(ContactConsts.MaxAddedByLength, MinimumLength = ContactConsts.MinAddedByLength)]
-        public string AddedBy { get; set; }
-
-        [StringLength(ContactConsts.MaxChangedByLength, MinimumLength = ContactConsts.MinChangedByLength)]
-        public string ChangedBy { get; set; }
-
-        [Required]
-        public int ID { get; set; }
 
     }
 }

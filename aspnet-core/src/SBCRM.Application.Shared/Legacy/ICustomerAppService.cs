@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Dto;
 using System.Collections.Generic;
+using SBCRM.Auditing.Dto;
 using SBCRM.Crm.Dtos;
 
 namespace SBCRM.Legacy
@@ -25,7 +26,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
-        Task<GetCustomerForViewDto> GetCustomerForView(string customerNumber);
+        Task<GetCustomerForViewOutput> GetCustomerForView(string customerNumber);
 
         /// <summary>
         /// Get customer for edition mode
@@ -61,6 +62,12 @@ namespace SBCRM.Legacy
         Task<List<CustomerLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown();
 
         /// <summary>
+        /// Get Countries lookup
+        /// </summary>
+        /// <returns></returns>
+        Task<List<CustomerCountryLookupTableDto>> GetAllCountriesForTableDropdown();
+
+        /// <summary>
         /// Get all Customer invoices
         /// </summary>
         /// <param name="input"></param>
@@ -82,6 +89,13 @@ namespace SBCRM.Legacy
         Task<PagedResultDto<CustomerWipViewDto>> GetAllCustomerWip(GetAllCustomerWipInput input);
 
         /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input);
+
+        /// <summary>
         /// Check if exist customer by name
         /// </summary>
         /// <param name="input"></param>
@@ -89,10 +103,9 @@ namespace SBCRM.Legacy
         Task<bool> CheckIfExistByName(string input);
 
         /// <summary>
-        /// 
+        /// Create Account from Lead conversion
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         Task<string> ConvertFromLead(ConvertLeadToAccountDto input);
     }
 }

@@ -1,0 +1,222 @@
+﻿<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form *ngIf="active" #leadSourceForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="customerContact.id">{{ l('EditContact') }}</span>
+                        <span *ngIf="!customerContact.id">{{ l('AddNewContact') }}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_Name">{{ l('ContactName') }} <span class="color-red">*</span></label>
+                                <input
+                                    type="text"
+                                    #Contact_Name="ngModel"
+                                    id="Contact_Name"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.contact"
+                                    name="Contact_Name"
+                                    minlength="1"
+                                    maxlength="50"
+                                    required
+                                    [disabled]="customerContact.id"
+                                />
+                                <validation-messages [formCtrl]="Contact_Name"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_SubordinateTo">{{ l('SubordinateTo') }}</label>
+                                <p-dropdown #Contact_SubordinateTo="ngModel"
+                                            id="Contact_SubordinateTo"
+                                            [ngModelOptions]="{standalone: true}"
+                                            [options]="parentContacts"
+                                            [(ngModel)]="customerContact.parent"
+                                            [disabled]="parentContacts.length == 1"
+                                            [showClear]="true">
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Contact_SubordinateTo"></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_Position">{{ l('ContactPosition') }}</label>
+                                <input
+                                    type="text"
+                                    #Contact_Position="ngModel"
+                                    id="Contact_Position"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.position"
+                                    name="Contact_Position"
+                                    minlength="1"
+                                    maxlength="50"
+                                />
+                                <validation-messages [formCtrl]="Contact_Position"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="Contact_Phone">{{ l('ContactPhone') }} <span class="color-red">*</span></label>
+                                <input
+                                    type="text"
+                                    #Contact_Phone="ngModel"
+                                    id="Contact_Phone"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.phone"
+                                    name="Contact_Phone"
+                                    minlength="1"
+                                    maxlength="12"
+                                    pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
+                                    required
+                                />
+                                <div *ngIf="!Contact_Phone.valid && (Contact_Phone.dirty || Contact_Phone.touched)">
+                                    <span class="form-text text-danger text-left">{{ 'ContactPhoneInvalid' | localize }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label for="Contact_Phone_Extension">{{ l('ContactPhoneExtension') }}</label>
+                                <input
+                                    type="text"
+                                    #Contact_Phone_Extension="ngModel"
+                                    id="Contact_Phone_Extension"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.extention"
+                                    name="Contact_Phone_Extension"
+                                    minlength="1"
+                                    maxlength="5"
+                                />
+                                <validation-messages [formCtrl]="Contact_Phone_Extension"></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_Cell_Phone">{{ l('ContactCellPhone') }}</label>
+                                <input
+                                    type="text"
+                                    #Contact_Cell_Phone="ngModel"
+                                    id="Contact_Cell_Phone"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.cellular"
+                                    name="Contact_Cell_Phone"
+                                    minlength="1"
+                                    maxlength="12"
+                                />
+                                <validation-messages [formCtrl]="Contact_Cell_Phone"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_Fax">{{ l('ContactFaxNumber') }}</label>
+                                <input
+                                    type="text"
+                                    #Contact_Fax="ngModel"
+                                    id="Contact_Fax"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.fax"
+                                    name="Contact_Fax"
+                                    minlength="1"
+                                    maxlength="12"
+                                />
+                                <validation-messages [formCtrl]="Contact_Fax"></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_Pager">{{ l('PagerNumber') }}</label>
+                                <input
+                                    type="text"
+                                    #Contact_Pager="ngModel"
+                                    id="Contact_Pager"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.pager"
+                                    name="Contact_Pager"
+                                    minlength="1"
+                                    maxlength="12"
+                                />
+                                <validation-messages [formCtrl]="Contact_Pager"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Contact_Email">{{ l('ContactEmail') }}</label>
+                                <input
+                                    type="text"
+                                    #Contact_Email="ngModel"
+                                    id="Contact_Email"
+                                    class="form-control"
+                                    [(ngModel)]="customerContact.eMail"
+                                    name="Contact_Email"
+                                    minlength="1"
+                                    maxlength="50"
+                                />
+                                <validation-messages [formCtrl]="Contact_Email"></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Contact_Notes">{{ l('ContactNotes') }}</label>
+                                <textarea #Contact_Notes="ngModel"
+                                          id="Contact_Notes"
+                                          class="form-control"
+                                          [(ngModel)]="customerContact.comments"
+                                          name="Contact_Notes"
+                                          rows="5"
+                                >
+                                </textarea>
+                                <validation-messages [formCtrl]="Contact_Notes"></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
+                        {{l("Cancel")}}
+                    </button>
+                    <button type="submit" class="btn btn-primary blue"
+                            [disabled]="!leadSourceForm.form.valid"
+                            [buttonBusy]="saving"
+                            [busyText]="l('AddNewContact')">
+                        <span *ngIf="customerContact.id">{{ l('EditContact') }}</span>
+                        <span *ngIf="!customerContact.id">{{ l('AddNewContact') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
