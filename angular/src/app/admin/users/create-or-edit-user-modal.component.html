@@ -41,8 +41,9 @@
                                 </div>-->
                                 <div class="col-sm-9">
                                     <div class="form-group">
-                                        <label for="Name">{{ 'FirstName' | localize }} *</label>
+                                        <label for="Name">{{ 'Name' | localize }} *</label>
                                         <input
+                                            readonly
                                             id="Name"
                                             #nameInput="ngModel"
                                             class="form-control"
@@ -58,6 +59,7 @@
                                     <div class="form-group">
                                         <label for="Surname">{{ 'Surname' | localize }} *</label>
                                         <input
+                                            readonly
                                             id="Surname"
                                             #surnameInput="ngModel"
                                             type="text"
@@ -74,6 +76,7 @@
                             <div class="form-group">
                                 <label for="EmailAddress">{{ 'EmailAddress' | localize }} *</label>
                                 <input
+                                    readonly
                                     id="EmailAddress"
                                     #emailAddressInput="ngModel"
                                     type="email"
@@ -102,6 +105,7 @@
                             <div class="form-group">
                                 <label for="UserName">{{ 'UserName' | localize }} *</label>
                                 <input
+                                    readonly
                                     id="UserName"
                                     #userNameInput="ngModel"
                                     type="text"
