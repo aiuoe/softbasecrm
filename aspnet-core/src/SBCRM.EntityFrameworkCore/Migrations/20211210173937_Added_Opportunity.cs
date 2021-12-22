@@ -22,7 +22,7 @@ namespace SBCRM.Migrations
                     Branch = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Department = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     OpportunityStageId = table.Column<int>(type: "int", nullable: true),
-                    LeadSourceId = table.Column<int>(type: "int", nullable: true),
+                    LeadSourceId = table.Column<int>(type: "int", nullable: false),
                     OpportunityTypeId = table.Column<int>(type: "int", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
