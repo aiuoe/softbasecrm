@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
   <texts>
+	<text name="AddOpportunity">Add Opportunity</text>
 	<text name="InputName">Enter a Name</text>
 	<text name="InputAccount">Select Account</text>
 	<text name="InputStage">Select Stage</text>
