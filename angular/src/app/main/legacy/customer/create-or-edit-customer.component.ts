@@ -11,7 +11,7 @@ import {
     PagedResultDtoOfGetZipCodeForViewDto,
     CountriesServiceProxy,
     GetCountryForViewDto,
-    CountryDto, ZipCodeDto
+    CountryDto, ZipCodeDto, AccountUsersServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +25,6 @@ import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 import { Observable, forkJoin } from 'rxjs';
-import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 
 /***
@@ -85,6 +84,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param injector
      * @param _activatedRoute
      * @param _customerServiceProxy
+     * @param _accountUserServiceProxy
      * @param _zipCodeServiceProxy
      * @param _countriesServiceProxy
      * @param _router
@@ -94,6 +94,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _customerServiceProxy: CustomerServiceProxy,
+        private _accountUserServiceProxy: AccountUsersServiceProxy,
         private _zipCodeServiceProxy: ZipCodesServiceProxy,
         private _countriesServiceProxy: CountriesServiceProxy,
         private _router: Router,
@@ -135,7 +136,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         ];
 
         if (!customerId) {
-
             forkJoin([...requests])
                 .subscribe(([accountTypes, leadSources, countries]: [
                     CustomerAccountTypeLookupTableDto[],
@@ -152,7 +152,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.countries = countries.map(x => x.country);
 
                     this.showSaveButton = !this.isReadOnlyMode;
-                }, (error) => {
+                }, (_) => {
                     this.goToAccounts();
                 });
 
@@ -180,7 +180,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.countries = countries.map(x => x.country);
 
                     this.showSaveButton = !this.isReadOnlyMode;
-                }, (error) => {
+                }, (_) => {
                     this.goToAccounts();
                 });
         }
@@ -189,6 +189,10 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             .subscribe((zipCodes: PagedResultDtoOfGetZipCodeForViewDto) => {
                 this.usZipCodes = zipCodes.items;
             });
+    }
+
+    reloadEvents() {
+        this.entityTypeHistory.refreshTable();
     }
 
     /***
@@ -208,10 +212,10 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.saving = false;
                 })
             )
-            .subscribe((x) => {
+            .subscribe((_) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
-                this._router.navigate([this.routerLink]);
+                this.goToAccounts();
             });
     }
 

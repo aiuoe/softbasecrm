@@ -89,10 +89,9 @@ namespace SBCRM.Legacy
         Task<bool> CheckIfExistByName(string input);
 
         /// <summary>
-        /// 
+        /// Create Account from Lead conversion
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
         Task<string> ConvertFromLead(ConvertLeadToAccountDto input);
     }
 }

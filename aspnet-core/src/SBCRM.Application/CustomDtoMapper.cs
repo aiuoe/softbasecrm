@@ -208,6 +208,15 @@ namespace SBCRM
                 .ForMember(dto => dto.SurName, options => options.MapFrom(e => e.Surname))
                 .ForMember(dto => dto.SurName, options => options.MapFrom(e => e.Surname))
                 ;
+
+            configuration.CreateMap<CreateOrEditContactDto, Contact>()
+                .ForMember(dto => dto.ContactField, options => options.MapFrom(e => e.Contact))
+                .ReverseMap();
+
+            configuration.CreateMap<Contact, CreateOrEditContactDto>()
+                .ForMember(dto => dto.Id, options => options.MapFrom(e => e.ContactId))
+                .ForMember(dto => dto.Contact, options => options.MapFrom(e => e.ContactField))
+                .ReverseMap();
         }
     }
 }

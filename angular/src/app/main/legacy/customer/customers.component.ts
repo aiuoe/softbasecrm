@@ -43,7 +43,6 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     selectedAccountType: AccountTypeDto;
     selectedAccountTypes: AccountTypeDto[];
     accountUsers: AccountUserDto[] = [];
-    selectedAccountUsers: AccountUserDto[] = [];
     assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
 
     /***
