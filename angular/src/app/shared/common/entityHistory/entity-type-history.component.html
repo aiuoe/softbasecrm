@@ -1,4 +1,4 @@
-<div class="modal-body">
+<div class="modal-body" [hidden]="!isGranted(requiredPermission)">
     <!--<Primeng-TurboTable-Start>-->
     <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
         <p-table
@@ -7,7 +7,7 @@
             [value]="primengTableHelper.records"
             rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
             [paginator]="false"
-            [lazy]="true"
+            [lazy]="isGranted(requiredPermission)"
             [responsive]="primengTableHelper.isResponsive"
         >
             <ng-template pTemplate="header">

@@ -112,6 +112,7 @@ namespace SBCRM.EntityFrameworkCore
                 });
 
             modelBuilder.Entity<Customer>().Ignore(c => c.Id);
+            modelBuilder.Entity<Contact>().Ignore(c => c.Id);
 
             modelBuilder.Entity<BinaryObject>(b =>
                                              {

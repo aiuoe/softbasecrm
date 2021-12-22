@@ -36,13 +36,13 @@ export class AppNavigationService {
                     new AppMenuItem('Countries', 'Pages.Countries', 'flaticon-more', '/app/main/crm/countries'),
                     new AppMenuItem('OpportunityStages', 'Pages.OpportunityStages', 'flaticon-more', '/app/main/crm/opportunityStages'),
                     new AppMenuItem('OpportunityTypes', 'Pages.OpportunityTypes', 'flaticon-more', '/app/main/crm/opportunityTypes'),
-                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),                    
+                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),
                     new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses'),
                     new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),
                     new AppMenuItem('ActivityTaskTypes', 'Pages.ActivityTaskTypes', 'flaticon-more', '/app/main/crm/activityTaskTypes'),
-                    new AppMenuItem('AccountUsers', 'Pages.AccountUsers', 'flaticon-more', '/app/main/crm/accountUsers'),
-                    
+                    // new AppMenuItem('AccountUsers', 'Pages.AccountUsers', 'flaticon-more', '/app/main/crm/accountUsers'),
+
                 ]),
             new AppMenuItem(
                 'Administration',
@@ -66,12 +66,12 @@ export class AppNavigationService {
                         '/app/admin/languages',
                         ['/app/admin/languages/{name}/texts']
                     ),
-                    new AppMenuItem(
-                        'AuditLogs',
-                        'Pages.Administration.AuditLogs',
-                        'flaticon-folder-1',
-                        '/app/admin/auditLogs'
-                    ),
+                    // new AppMenuItem(
+                    //     'AuditLogs',
+                    //     'Pages.Administration.AuditLogs',
+                    //     'flaticon-folder-1',
+                    //     '/app/admin/auditLogs'
+                    // ),
                     new AppMenuItem(
                         'Maintenance',
                         'Pages.Administration.Host.Maintenance',

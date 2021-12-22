@@ -78,7 +78,7 @@
                                                            name="AccountTypeFilter"
                                                            [options]="accountTypes"
                                                            [(ngModel)]="selectedAccountTypes"
-                                                           optionLabel="description"
+                                                           optionLabel="displayName"
                                                            placeholder="Filter by Type"
                                                            (onChange)="getCustomer()">
                                             </p-multiSelect>
@@ -128,7 +128,7 @@
                                     <tr>
                                         <th
                                             style="width: 80px"
-                                            [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
+                                            [hidden]="!isGrantedAny('Pages.Customer')"
                                         >
                                             {{ l('Actions') }}
                                         </th>
@@ -164,7 +164,7 @@
 
                                         <td
                                             style="width: 80px"
-                                            [hidden]="!isGrantedAny('Pages.Customer.Edit', 'Pages.Customer.Delete')"
+                                            [hidden]="!isGrantedAny('Pages.Customer')"
                                         >
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
@@ -174,7 +174,7 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
                                                         <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
+                                                            *ngIf="permission.isGranted('Pages.Customer')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/business/accounts/view']"
                                                             [queryParams]="{ number: record.customer.number }"

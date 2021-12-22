@@ -6,7 +6,7 @@ namespace SBCRM.Legacy.Dtos
     /// <summary>
     /// DTO to manage the object contact
     /// </summary>
-    public class ContactDto : EntityDto
+    public class ContactDto
     {
         public string CustomerNo { get; set; }
 
@@ -56,7 +56,7 @@ namespace SBCRM.Legacy.Dtos
 
         public string ChangedBy { get; set; }
 
-        public int ID { get; set; }
+        public int Id { get; set; }
 
     }
 }
