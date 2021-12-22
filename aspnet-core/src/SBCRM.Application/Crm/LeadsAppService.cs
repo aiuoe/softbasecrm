@@ -242,14 +242,14 @@ namespace SBCRM.Crm
 
                 var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                if (true)
+                if (!ValidateLeadsImported(leadsToImport))
                 {
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
 
                 // Default status and priority
-                var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description == "New");
-                var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description == "Low");
+                var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description.ToUpper() == "NEW");
+                var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description.ToUpper() == "LOW");
 
 
                 foreach (var item in leadsToImport)
@@ -278,8 +278,13 @@ namespace SBCRM.Crm
                     leadAux.LeadStatusId = leadStatusId.Id;
                     leadAux.PriorityId = leadPriorityId.Id;
 
+                    Lead storedLead = new();
 
-                    var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
+                    if (item.ContactName != null)
+                    {
+                        storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
+                    }
+                  
                     if (storedLead == null)
                     {
                         var lead = ObjectMapper.Map<Lead>(leadAux);
@@ -312,43 +317,45 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// 
+        /// Validate every field of a list of imported leads
         /// </summary>
+        /// <param name="importedLeads"></param>
         /// <returns></returns>
-        private bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
+        private static bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
         {
             foreach (var item in importedLeads)
             {
-                if (item.CompanyName == null || item.CompanyName == string.Empty)
+                // Validations for mandarory fields
+                if (item.CompanyName == null || (item.Phone == null && item.CompanyEmail == null))
                 {
                     return false;
                 }
 
-                if (item.Phone == null || item.CompanyEmail == null)
-                {
-                    return false;
-
-                }
-
-                if (item.Country.ToUpper() != "MEXICO" && item.Country.ToUpper() != "CANADA" && item.Country.ToUpper() != "UNITED STATES")
+                // Validations for country field
+                if (item.Country != null && item.Country != string.Empty && 
+                    item.Country.ToUpper() != "MEXICO" && item.Country.ToUpper() != "CANADA" && item.Country.ToUpper() != "UNITED STATES")
                 {
                     return false;
                 }
 
+                // Validations for specific format fields 
                 var emailValidator = new EmailAddressAttribute();
-                if (!emailValidator.IsValid(item.CompanyEmail) || !emailValidator.IsValid(item.ContactEmail) || !Uri.IsWellFormedUriString(item.Website.ToString(), UriKind.Absolute))
+                if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail)) 
+                    || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail)) 
+                    || (item.Website != null && !Uri.IsWellFormedUriString(item.Website.ToString(), UriKind.RelativeOrAbsolute)))
                 {
                     return false;
                 }
 
-                if (item.CompanyName.ToString().Length > 250 || item.Phone.ToString().Length > 50
-                    || item.CompanyEmail.ToString().Length > 100 || item.Website.ToString().Length > 100
-                    || item.CompanyAdress.ToString().Length > 100 || item.Country.ToString().Length > 100
-                    || item.City.ToString().Length > 100 || item.StateProvince.ToString().Length > 100
-                    || item.PoBox.ToString().Length > 100 || item.ContactName.ToString().Length > 100
-                    || item.ContactPosition.ToString().Length > 100 || item.ContactPhone.ToString().Length > 50
-                    || item.ContactFax.ToString().Length > 50 || item.ContactPager.ToString().Length > 50
-                    || item.ContactEmail.ToString().Length > 100)
+                // Validation for limit size in every field (See the SRS to further information about the field limit size)
+                if ((item.CompanyName != null && item.CompanyName.ToString().Length > 250) || (item.Phone!= null && item.Phone.ToString().Length > 50)
+                    || (item.CompanyEmail!= null && item.CompanyEmail.ToString().Length > 100) || (item.Website != null && item.Website.ToString().Length > 100)
+                    || (item.CompanyAdress != null && item.CompanyAdress.ToString().Length > 100) || ( item.Country != null && item.Country.ToString().Length > 100)
+                    || (item.City != null && item.City.ToString().Length > 100) || (item.StateProvince != null && item.StateProvince.ToString().Length > 100)
+                    || (item.PoBox != null && item.PoBox.ToString().Length > 100) || (item.ContactName != null && item.ContactName.ToString().Length > 100)
+                    || (item.ContactPosition != null && item.ContactPosition.ToString().Length > 100) || (item.ContactPhone != null && item.ContactPhone.ToString().Length > 50)
+                    || (item.ContactFax != null && item.ContactFax.ToString().Length > 50) || (item.ContactPager != null && item.ContactPager.ToString().Length > 50)
+                    || (item.ContactEmail != null && item.ContactEmail.ToString().Length > 100))
                 {
                     return false;
                 }

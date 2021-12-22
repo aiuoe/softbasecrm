@@ -8,7 +8,7 @@
     aria-hidden="true"
     [config]="{ backdrop: 'static' }"
 >
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form *ngIf="active" #importLeadsModalForm="ngForm" (ngSubmit)="save()">
                 <div class="modal-header">
@@ -41,17 +41,16 @@
                             <span class="form-text text-muted col-lg-12">
                                 {{ 'ImportExcel_Change_Info' | localize: maxExcelImportBytesUserFriendlyValue }}
                             </span>
-                        </div><br>
-                        <div class="input-group">
+                        </div>
+                        <div class="form-group">
                             <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
                             <select name="selectedLeadSourceId" [(ngModel)]="selectedLeadSourceId" class="form-control" required>
-                                <option value="">{{ l('SelectALeadSource') }}</option>
                                 <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
                                     {{ item.displayName }}
                                 </option>
                             </select>
-                        </div><br>
-                        <div class="input-group">
+                        </div>
+                        <div class="form-group">
                             <label for="AssignedUserDescription">Assigned User</label>
                             <select name="selectedUserId" [(ngModel)]="selectedUserId" class="form-control">                                                            
                                 <option *ngFor="let item of allUsers" value="{{ item.id }}">
