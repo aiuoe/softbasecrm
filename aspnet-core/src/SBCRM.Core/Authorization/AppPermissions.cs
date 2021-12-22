@@ -89,6 +89,7 @@
         public const string Pages_Customer_View_Events = "Pages.Customer.ViewEvents";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
+        public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";
@@ -111,6 +112,7 @@
 
         public const string Pages_DemoUiComponents = "Pages.DemoUiComponents";
         public const string Pages_Administration = "Pages.Administration";
+        public const string Pages_UsersManagement = "Pages.UsersManagement";
 
         public const string Pages_Administration_Roles = "Pages.Administration.Roles";
         public const string Pages_Administration_Roles_Create = "Pages.Administration.Roles.Create";

@@ -15,5 +15,11 @@
 
         public string OpportunityTypeDescription { get; set; }
 
+        public string CustomerName { get; set; }
+
+        public string CustomerNumber { get; set; }
+
+        public string ContactName { get; set; }
+
     }
 }

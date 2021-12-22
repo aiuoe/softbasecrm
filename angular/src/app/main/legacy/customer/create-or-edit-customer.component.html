@@ -167,7 +167,7 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
-                                                            <p-dropdown #Customer_Country="ngModel"
+                                                            <p-dropdown #Customer_Country="ngModel"                                                                        
                                                                         id="Customer_Country"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         [options]="countries"
@@ -177,7 +177,7 @@
                                                                         placeholder="Select Country"
                                                                         [showClear]="true"
                                                                         optionValue="code">
-                                                            </p-dropdown>
+                                                            </p-dropdown>                                                            
                                                             <validation-messages [formCtrl]="Customer_Country"></validation-messages>
                                                         </div>
                                                     </div>

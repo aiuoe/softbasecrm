@@ -137,15 +137,13 @@
                                             {{ l('Stage')}}
                                             <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
                                         </th>
-                                        <!-- These is just a placeholder -->
                                         <th 
                                             style="width: 150px"
-                                            pSortableColumn="name"
+                                            pSortableColumn="customerFk.name"
                                         >
                                             {{ l('Account') }}
-                                            <p-sortIcon field="name"></p-sortIcon>
-                                        </th>
-                                        <!-- Above is just a placeholder -->  
+                                            <p-sortIcon field="customerFk.name"></p-sortIcon>
+                                        </th> 
                                         <!-- These is just a placeholder -->
                                         <th 
                                             style="width: 150px"
@@ -231,12 +229,10 @@
                                                 {{ record.opportunityStageDescription }}        
                                             </span>                                        
                                         </td>
-                                        <!-- These is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Account') }}</span>
-                                                {{ l('Placeholder') }}                                           
+                                            {{ record.customerName }}                                           
                                         </td>
-                                        <!-- Above is just a placeholder -->
                                         <!-- These is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('AssignedUser') }}</span>
