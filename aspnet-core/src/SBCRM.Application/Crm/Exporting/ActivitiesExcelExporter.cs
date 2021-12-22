@@ -42,7 +42,8 @@ namespace SBCRM.Crm.Exporting
                         (L("ActivitySourceType")) + L("Description"),
                         (L("ActivityTaskType")) + L("Description"),
                         (L("ActivityStatus")) + L("Description"),
-                        (L("ActivityPriority")) + L("Description")
+                        (L("ActivityPriority")) + L("Description"),
+                        L("CompanyName")
                         );
 
                     AddObjects(
@@ -54,7 +55,8 @@ namespace SBCRM.Crm.Exporting
                         _ => _.ActivitySourceTypeDescription,
                         _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityStatusDescription,
-                        _ => _.ActivityPriorityDescription
+                        _ => _.ActivityPriorityDescription,
+                        _ => _.CustomerName
                         );
 
                     for (var i = 1; i <= activities.Count; i++)

@@ -182,13 +182,9 @@
                                             {{ l('SourceType') }}
                                             <p-sortIcon field="activitySourceTypeDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="opportunityFk.name">
-                                            {{ l('Name') }}
-                                            <p-sortIcon field="opportunityName"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="leadFk.companyName">
+                                        <th style="width: 150px" pSortableColumn="customerFk.name">
                                             {{ l('CompanyName') }}
-                                            <p-sortIcon field="leadCompanyName"></p-sortIcon>
+                                            <p-sortIcon field="customerName"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="activityTaskTypeFk.description">
                                             {{ l('Activity') }}
@@ -198,9 +194,9 @@
                                             {{ l('Priority') }}
                                             <p-sortIcon field="activityPriorityDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="dueDate">
+                                        <th style="width: 150px" pSortableColumn="startsAt">
                                             {{ l('ScheduleAndDueDate') }}
-                                            <p-sortIcon field="activity.dueDate"></p-sortIcon>
+                                            <p-sortIcon field="activity.startsAt"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="userFk.name">
                                             {{ l('AssignedUser') }}
@@ -244,20 +240,28 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Status') }}</span>
-                                            {{ record.activityStatusDescription }}
+                                            <span
+                                                class="badge"
+                                                [ngStyle]="{
+                                                    color: record.activityStatusColor,
+                                                    'background-color': record.activityStatusColor + '33'
+                                                }"
+                                            >
+                                                {{ record.activityStatusDescription }}
+                                            </span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('SourceType') }}</span>
                                             {{ record.activitySourceTypeDescription }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Name') }}</span>
-                                            {{ record.opportunityName }}
-                                        </td>
-                                        <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CompanyName') }}</span>
-                                            <div class="text-primary">
-                                                {{ record.leadCompanyName }}
+                                            <div class="color-blue">
+                                                {{
+                                                    record.customerName ||
+                                                        record.leadCompanyName ||
+                                                        record.opportunityName
+                                                }}
                                             </div>
                                         </td>
                                         <td style="width: 150px">
@@ -266,21 +270,28 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Priority') }}</span>
-                                            <!-- <p-chip
-                                                class="warning"
-                                                [label]="record.activityPriorityDescription"
-                                            ></p-chip> -->
 
-                                            <span class="badge badge-primary">
+                                            <span
+                                                class="badge"
+                                                [ngStyle]="{
+                                                    color: record.activityPriorityColor,
+                                                    'background-color': record.activityPriorityColor + '33'
+                                                }"
+                                            >
                                                 {{ record.activityPriorityDescription }}
                                             </span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('ScheduleAndDueDate') }}</span>
-                                            <span *ngIf="record.activity.dueDate">
-                                                {{ record.activity.dueDate | luxonFormat: 'F' }}
+                                            <span
+                                                *ngIf="record.activity.startsAt"
+                                                [ngClass]="{
+                                                    'text-danger': false
+                                                }"
+                                            >
+                                                {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
                                             </span>
-                                            <span *ngIf="!record.activity.dueDate">-</span>
+                                            <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('AssignedUser') }}</span>

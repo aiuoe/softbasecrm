@@ -1365,12 +1365,13 @@ export class ActivitiesServiceProxy {
      * @param activityTaskTypeDescriptionFilter (optional) 
      * @param activityStatusDescriptionFilter (optional) 
      * @param activityPriorityDescriptionFilter (optional) 
+     * @param customerNameFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1404,6 +1405,10 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
         else if (activityPriorityDescriptionFilter !== undefined)
             url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
+        if (customerNameFilter === null)
+            throw new Error("The parameter 'customerNameFilter' cannot be null.");
+        else if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -1687,9 +1692,10 @@ export class ActivitiesServiceProxy {
      * @param activityTaskTypeDescriptionFilter (optional) 
      * @param activityStatusDescriptionFilter (optional) 
      * @param activityPriorityDescriptionFilter (optional) 
+     * @param customerNameFilter (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined): Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1723,6 +1729,10 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
         else if (activityPriorityDescriptionFilter !== undefined)
             url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
+        if (customerNameFilter === null)
+            throw new Error("The parameter 'customerNameFilter' cannot be null.");
+        else if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2173,6 +2183,64 @@ export class ActivitiesServiceProxy {
             }));
         }
         return _observableOf<ActivityActivityPriorityLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityCustomerForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityCustomerForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityCustomerForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityCustomerForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityCustomerForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
     }
 }
 
@@ -22882,8 +22950,49 @@ export interface IActivityActivityTaskTypeLookupTableDto {
     displayName: string | undefined;
 }
 
+export class ActivityCustomerLookupTableDto implements IActivityCustomerLookupTableDto {
+    number!: string | undefined;
+    name!: string | undefined;
+
+    constructor(data?: IActivityCustomerLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): ActivityCustomerLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityCustomerLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IActivityCustomerLookupTableDto {
+    number: string | undefined;
+    name: string | undefined;
+}
+
 export class ActivityDto implements IActivityDto {
     dueDate!: DateTime;
+    startsAt!: DateTime;
     opportunityId!: number | undefined;
     leadId!: number | undefined;
     userId!: number;
@@ -22891,6 +23000,7 @@ export class ActivityDto implements IActivityDto {
     activityTaskTypeId!: number;
     activityStatusId!: number;
     activityPriorityId!: number;
+    customerNumber!: string | undefined;
     id!: number;
 
     constructor(data?: IActivityDto) {
@@ -22905,6 +23015,7 @@ export class ActivityDto implements IActivityDto {
     init(_data?: any) {
         if (_data) {
             this.dueDate = _data["dueDate"] ? DateTime.fromISO(_data["dueDate"].toString()) : <any>undefined;
+            this.startsAt = _data["startsAt"] ? DateTime.fromISO(_data["startsAt"].toString()) : <any>undefined;
             this.opportunityId = _data["opportunityId"];
             this.leadId = _data["leadId"];
             this.userId = _data["userId"];
@@ -22912,6 +23023,7 @@ export class ActivityDto implements IActivityDto {
             this.activityTaskTypeId = _data["activityTaskTypeId"];
             this.activityStatusId = _data["activityStatusId"];
             this.activityPriorityId = _data["activityPriorityId"];
+            this.customerNumber = _data["customerNumber"];
             this.id = _data["id"];
         }
     }
@@ -22926,6 +23038,7 @@ export class ActivityDto implements IActivityDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["dueDate"] = this.dueDate ? this.dueDate.toString() : <any>undefined;
+        data["startsAt"] = this.startsAt ? this.startsAt.toString() : <any>undefined;
         data["opportunityId"] = this.opportunityId;
         data["leadId"] = this.leadId;
         data["userId"] = this.userId;
@@ -22933,6 +23046,7 @@ export class ActivityDto implements IActivityDto {
         data["activityTaskTypeId"] = this.activityTaskTypeId;
         data["activityStatusId"] = this.activityStatusId;
         data["activityPriorityId"] = this.activityPriorityId;
+        data["customerNumber"] = this.customerNumber;
         data["id"] = this.id;
         return data; 
     }
@@ -22940,6 +23054,7 @@ export class ActivityDto implements IActivityDto {
 
 export interface IActivityDto {
     dueDate: DateTime;
+    startsAt: DateTime;
     opportunityId: number | undefined;
     leadId: number | undefined;
     userId: number;
@@ -22947,6 +23062,7 @@ export interface IActivityDto {
     activityTaskTypeId: number;
     activityStatusId: number;
     activityPriorityId: number;
+    customerNumber: string | undefined;
     id: number;
 }
 
@@ -23117,6 +23233,7 @@ export interface IActivitySourceTypeDto {
 export class ActivityStatusDto implements IActivityStatusDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: IActivityStatusDto) {
@@ -23132,6 +23249,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -23147,6 +23265,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -23155,6 +23274,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
 export interface IActivityStatusDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
     id: number;
 }
 
@@ -24671,6 +24791,7 @@ export class CreateOrEditActivityDto implements ICreateOrEditActivityDto {
     activityTaskTypeId!: number;
     activityStatusId!: number;
     activityPriorityId!: number;
+    customerNumber!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityDto) {
@@ -24696,6 +24817,7 @@ export class CreateOrEditActivityDto implements ICreateOrEditActivityDto {
             this.activityTaskTypeId = _data["activityTaskTypeId"];
             this.activityStatusId = _data["activityStatusId"];
             this.activityPriorityId = _data["activityPriorityId"];
+            this.customerNumber = _data["customerNumber"];
             this.id = _data["id"];
         }
     }
@@ -24721,6 +24843,7 @@ export class CreateOrEditActivityDto implements ICreateOrEditActivityDto {
         data["activityTaskTypeId"] = this.activityTaskTypeId;
         data["activityStatusId"] = this.activityStatusId;
         data["activityPriorityId"] = this.activityPriorityId;
+        data["customerNumber"] = this.customerNumber;
         data["id"] = this.id;
         return data; 
     }
@@ -24739,6 +24862,7 @@ export interface ICreateOrEditActivityDto {
     activityTaskTypeId: number;
     activityStatusId: number;
     activityPriorityId: number;
+    customerNumber: string | undefined;
     id: number | undefined;
 }
 
@@ -24827,7 +24951,9 @@ export interface ICreateOrEditActivitySourceTypeDto {
 }
 
 export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatusDto {
-    description!: string | undefined;
+    description!: string;
+    order!: number;
+    color!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityStatusDto) {
@@ -24842,6 +24968,8 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -24856,13 +24984,17 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditActivityStatusDto {
-    description: string | undefined;
+    description: string;
+    order: number;
+    color: string;
     id: number | undefined;
 }
 
@@ -28700,6 +28832,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
     activityTaskTypeDescription!: string | undefined;
     activityStatusDescription!: string | undefined;
     activityPriorityDescription!: string | undefined;
+    customerName!: string | undefined;
 
     constructor(data?: IGetActivityForEditOutput) {
         if (data) {
@@ -28720,6 +28853,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
             this.activityTaskTypeDescription = _data["activityTaskTypeDescription"];
             this.activityStatusDescription = _data["activityStatusDescription"];
             this.activityPriorityDescription = _data["activityPriorityDescription"];
+            this.customerName = _data["customerName"];
         }
     }
 
@@ -28740,6 +28874,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
         data["activityTaskTypeDescription"] = this.activityTaskTypeDescription;
         data["activityStatusDescription"] = this.activityStatusDescription;
         data["activityPriorityDescription"] = this.activityPriorityDescription;
+        data["customerName"] = this.customerName;
         return data; 
     }
 }
@@ -28753,6 +28888,7 @@ export interface IGetActivityForEditOutput {
     activityTaskTypeDescription: string | undefined;
     activityStatusDescription: string | undefined;
     activityPriorityDescription: string | undefined;
+    customerName: string | undefined;
 }
 
 export class GetActivityForViewDto implements IGetActivityForViewDto {
@@ -28763,7 +28899,10 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
     activitySourceTypeDescription!: string | undefined;
     activityTaskTypeDescription!: string | undefined;
     activityStatusDescription!: string | undefined;
+    activityStatusColor!: string | undefined;
     activityPriorityDescription!: string | undefined;
+    activityPriorityColor!: string | undefined;
+    customerName!: string | undefined;
 
     constructor(data?: IGetActivityForViewDto) {
         if (data) {
@@ -28783,7 +28922,10 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
             this.activitySourceTypeDescription = _data["activitySourceTypeDescription"];
             this.activityTaskTypeDescription = _data["activityTaskTypeDescription"];
             this.activityStatusDescription = _data["activityStatusDescription"];
+            this.activityStatusColor = _data["activityStatusColor"];
             this.activityPriorityDescription = _data["activityPriorityDescription"];
+            this.activityPriorityColor = _data["activityPriorityColor"];
+            this.customerName = _data["customerName"];
         }
     }
 
@@ -28803,7 +28945,10 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
         data["activitySourceTypeDescription"] = this.activitySourceTypeDescription;
         data["activityTaskTypeDescription"] = this.activityTaskTypeDescription;
         data["activityStatusDescription"] = this.activityStatusDescription;
+        data["activityStatusColor"] = this.activityStatusColor;
         data["activityPriorityDescription"] = this.activityPriorityDescription;
+        data["activityPriorityColor"] = this.activityPriorityColor;
+        data["customerName"] = this.customerName;
         return data; 
     }
 }
@@ -28816,7 +28961,10 @@ export interface IGetActivityForViewDto {
     activitySourceTypeDescription: string | undefined;
     activityTaskTypeDescription: string | undefined;
     activityStatusDescription: string | undefined;
+    activityStatusColor: string | undefined;
     activityPriorityDescription: string | undefined;
+    activityPriorityColor: string | undefined;
+    customerName: string | undefined;
 }
 
 export class GetActivityPriorityForEditOutput implements IGetActivityPriorityForEditOutput {

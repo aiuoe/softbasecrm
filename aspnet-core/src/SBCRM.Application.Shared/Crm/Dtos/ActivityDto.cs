@@ -6,6 +6,8 @@ namespace SBCRM.Crm.Dtos
     public class ActivityDto : EntityDto<long>
     {
         public DateTime DueDate { get; set; }
+        
+        public DateTime StartsAt { get; set; }
 
         public int? OpportunityId { get; set; }
 
@@ -21,5 +23,6 @@ namespace SBCRM.Crm.Dtos
 
         public int ActivityPriorityId { get; set; }
 
+        public string CustomerNumber { get; set; }
     }
 }

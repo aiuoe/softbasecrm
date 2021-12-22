@@ -9,5 +9,7 @@ namespace SBCRM.Crm.Dtos
 
         public int Order { get; set; }
 
+        public string Color { get; set; }
+
     }
 }

@@ -33,5 +33,6 @@ namespace SBCRM.Crm.Dtos
 
         public int ActivityPriorityId { get; set; }
 
+        public string CustomerNumber { get; set; }
     }
 }

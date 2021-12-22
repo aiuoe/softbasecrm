@@ -13,10 +13,15 @@ namespace SBCRM.Crm
     public class ActivityStatus : FullAuditedEntity
     {
 
+        [Required]
         [StringLength(ActivityStatusConsts.MaxDescriptionLength, MinimumLength = ActivityStatusConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
         public virtual int Order { get; set; }
+
+        [Required]
+        [StringLength(ActivityStatusConsts.MaxColorLength, MinimumLength = ActivityStatusConsts.MinColorLength)]
+        public virtual string Color { get; set; }
 
     }
 }

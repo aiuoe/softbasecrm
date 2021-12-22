@@ -22,5 +22,6 @@ namespace SBCRM.Crm.Dtos
 
         public string ActivityPriorityDescription { get; set; }
 
+        public string CustomerName { get; set; }
     }
 }

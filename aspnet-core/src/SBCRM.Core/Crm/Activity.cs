@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -66,8 +67,8 @@ namespace SBCRM.Crm
 
         public virtual string CustomerNumber { get; set; }
 
-        //[ForeignKey("CustomerNumber")]
-        //public Customer CustomerFk { get; set; }
+        [ForeignKey("CustomerNumber")]
+        public Customer CustomerFk { get; set; }
 
     }
 }

@@ -15,6 +15,7 @@ import {
     ActivityStatusesServiceProxy,
     ActivityTaskTypeDto,
     ActivityTaskTypesServiceProxy,
+    CustomerServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -54,6 +55,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityTaskTypeDescriptionFilter = '';
     activityStatusDescriptionFilter = '';
     activityPriorityDescriptionFilter = '';
+    customerNameFilter: string = '';
 
     selectedAssignedUsersFilter: AccountUserUserLookupTableDto[] = [];
     selectedActivitySourceTypesFilter: ActivityActivitySourceTypeLookupTableDto;
@@ -74,6 +76,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         private _activitySourceTypesServiceProxy: ActivitySourceTypesServiceProxy,
         private _activityTaskTypesServiceProxy: ActivityTaskTypesServiceProxy,
         private _activityStatusesServiceProxy: ActivityStatusesServiceProxy,
+        private _customerServiceProxy: CustomerServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -108,6 +111,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.selectedActivityTaskTypesFilter?.displayName || '',
                 this.selectedActivityStatusesFilter?.displayName || '',
                 this.activityPriorityDescriptionFilter,
+                this.customerNameFilter,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -148,7 +152,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.activitySourceTypeDescriptionFilter,
                 this.activityTaskTypeDescriptionFilter,
                 this.activityStatusDescriptionFilter,
-                this.activityPriorityDescriptionFilter
+                this.activityPriorityDescriptionFilter,
+                this.customerNameFilter,
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

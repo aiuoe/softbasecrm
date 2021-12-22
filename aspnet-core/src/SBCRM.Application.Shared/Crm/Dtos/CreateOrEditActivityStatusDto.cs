@@ -7,8 +7,15 @@ namespace SBCRM.Crm.Dtos
     public class CreateOrEditActivityStatusDto : EntityDto<int?>
     {
 
+        [Required]
         [StringLength(ActivityStatusConsts.MaxDescriptionLength, MinimumLength = ActivityStatusConsts.MinDescriptionLength)]
         public string Description { get; set; }
+
+        public int Order { get; set; }
+
+        [Required]
+        [StringLength(ActivityStatusConsts.MaxColorLength, MinimumLength = ActivityStatusConsts.MinColorLength)]
+        public string Color { get; set; }
 
     }
 }

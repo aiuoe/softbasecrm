@@ -42,5 +42,7 @@ namespace SBCRM.Crm
 
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
 
+        Task<List<ActivityCustomerLookupTableDto>> GetAllActivityCustomerForTableDropdown();
+
     }
 }

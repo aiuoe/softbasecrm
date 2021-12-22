@@ -18,6 +18,7 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -33,8 +34,9 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityTaskType, int> _lookup_activityTaskTypeRepository;
         private readonly IRepository<ActivityStatus, int> _lookup_activityStatusRepository;
         private readonly IRepository<ActivityPriority, int> _lookup_activityPriorityRepository;
+        private readonly IRepository<Customer, int> _lookup_customerRepository;
 
-        public ActivitiesAppService(IRepository<Activity, long> activityRepository, IActivitiesExcelExporter activitiesExcelExporter, IRepository<Opportunity, int> lookup_opportunityRepository, IRepository<Lead, int> lookup_leadRepository, IRepository<User, long> lookup_userRepository, IRepository<ActivitySourceType, int> lookup_activitySourceTypeRepository, IRepository<ActivityTaskType, int> lookup_activityTaskTypeRepository, IRepository<ActivityStatus, int> lookup_activityStatusRepository, IRepository<ActivityPriority, int> lookup_activityPriorityRepository)
+        public ActivitiesAppService(IRepository<Activity, long> activityRepository, IActivitiesExcelExporter activitiesExcelExporter, IRepository<Opportunity, int> lookup_opportunityRepository, IRepository<Lead, int> lookup_leadRepository, IRepository<User, long> lookup_userRepository, IRepository<ActivitySourceType, int> lookup_activitySourceTypeRepository, IRepository<ActivityTaskType, int> lookup_activityTaskTypeRepository, IRepository<ActivityStatus, int> lookup_activityStatusRepository, IRepository<ActivityPriority, int> lookup_activityPriorityRepository, IRepository<Customer, int> lookup_customerRepository)
         {
             _activityRepository = activityRepository;
             _activitiesExcelExporter = activitiesExcelExporter;
@@ -45,7 +47,7 @@ namespace SBCRM.Crm
             _lookup_activityTaskTypeRepository = lookup_activityTaskTypeRepository;
             _lookup_activityStatusRepository = lookup_activityStatusRepository;
             _lookup_activityPriorityRepository = lookup_activityPriorityRepository;
-
+            _lookup_customerRepository = lookup_customerRepository;
         }
 
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesInput input)
@@ -69,7 +71,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
 
             var pagedAndFilteredActivities = filteredActivities
-                .OrderBy(input.Sorting ?? "id asc")
+                .OrderBy(input.Sorting ?? "ActivityStatusFk.Order ASC")
                 .PageBy(input);
 
             var activities = from o in pagedAndFilteredActivities
@@ -94,18 +96,25 @@ namespace SBCRM.Crm
                              join o7 in _lookup_activityPriorityRepository.GetAll() on o.ActivityPriorityId equals o7.Id into j7
                              from s7 in j7.DefaultIfEmpty()
 
+                             join o8 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o8.Number into j8
+                             from s8 in j8.DefaultIfEmpty()
+
                              select new
                              {
 
+                                 o.Id,
                                  o.DueDate,
-                                 Id = o.Id,
+                                 o.StartsAt,
                                  OpportunityName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
                                  LeadCompanyName = s2 == null || s2.CompanyName == null ? "" : s2.CompanyName.ToString(),
-                                 UserName = s3 == null || s3.Name == null ? "" : s3.Name.ToString(),
+                                 UserName = s3 == null || s3.Name == null && s3.Surname == null ? "" : $"{s3.Name} {s3.Surname}",
                                  ActivitySourceTypeDescription = s4 == null || s4.Description == null ? "" : s4.Description.ToString(),
                                  ActivityTaskTypeDescription = s5 == null || s5.Description == null ? "" : s5.Description.ToString(),
                                  ActivityStatusDescription = s6 == null || s6.Description == null ? "" : s6.Description.ToString(),
-                                 ActivityPriorityDescription = s7 == null || s7.Description == null ? "" : s7.Description.ToString()
+                                 ActivityStatusColor = s6 == null || s6.Color == null ? "" : s6.Color,
+                                 ActivityPriorityDescription = s7 == null || s7.Description == null ? "" : s7.Description.ToString(),
+                                 ActivityPriorityColor = s7 == null || s7.Color == null ? "" : s7.Color,
+                                 CustomerName = s8 == null || s8.Name == null ? "" : s8.Name,
                              };
 
             var totalCount = await filteredActivities.CountAsync();
@@ -120,8 +129,9 @@ namespace SBCRM.Crm
                     Activity = new ActivityDto
                     {
 
-                        DueDate = o.DueDate,
                         Id = o.Id,
+                        DueDate = o.DueDate,
+                        StartsAt = o.StartsAt,
                     },
                     OpportunityName = o.OpportunityName,
                     LeadCompanyName = o.LeadCompanyName,
@@ -129,7 +139,10 @@ namespace SBCRM.Crm
                     ActivitySourceTypeDescription = o.ActivitySourceTypeDescription,
                     ActivityTaskTypeDescription = o.ActivityTaskTypeDescription,
                     ActivityStatusDescription = o.ActivityStatusDescription,
-                    ActivityPriorityDescription = o.ActivityPriorityDescription
+                    ActivityStatusColor = o.ActivityStatusColor,
+                    ActivityPriorityDescription = o.ActivityPriorityDescription,
+                    ActivityPriorityColor = o.ActivityPriorityColor,
+                    CustomerName = o.CustomerName
                 };
 
                 results.Add(res);
@@ -190,6 +203,12 @@ namespace SBCRM.Crm
                 output.ActivityPriorityDescription = _lookupActivityPriority?.Description?.ToString();
             }
 
+            if (output.Activity.CustomerNumber != null)
+            {
+                var _lookupActivityPriority = await _lookup_customerRepository.FirstOrDefaultAsync(x => x.Number == output.Activity.CustomerNumber);
+                output.CustomerName = _lookupActivityPriority?.Name?.ToString();
+            }
+
             return output;
         }
 
@@ -240,6 +259,12 @@ namespace SBCRM.Crm
             {
                 var _lookupActivityPriority = await _lookup_activityPriorityRepository.FirstOrDefaultAsync((int)output.Activity.ActivityPriorityId);
                 output.ActivityPriorityDescription = _lookupActivityPriority?.Description?.ToString();
+            }
+
+            if (output.Activity.CustomerNumber != null)
+            {
+                var _lookupActivityPriority = await _lookup_customerRepository.FirstOrDefaultAsync(x => x.Number == output.Activity.CustomerNumber);
+                output.CustomerName = _lookupActivityPriority?.Name?.ToString();
             }
 
             return output;
@@ -322,20 +347,25 @@ namespace SBCRM.Crm
                          join o7 in _lookup_activityPriorityRepository.GetAll() on o.ActivityPriorityId equals o7.Id into j7
                          from s7 in j7.DefaultIfEmpty()
 
+                         join o8 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o8.Number into j8
+                         from s8 in j8.DefaultIfEmpty()
+
                          select new GetActivityForViewDto()
                          {
                              Activity = new ActivityDto
                              {
+                                 Id = o.Id,
                                  DueDate = o.DueDate,
-                                 Id = o.Id
+                                 StartsAt = o.StartsAt,
                              },
                              OpportunityName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
                              LeadCompanyName = s2 == null || s2.CompanyName == null ? "" : s2.CompanyName.ToString(),
-                             UserName = s3 == null || s3.Name == null ? "" : s3.Name.ToString(),
+                             UserName = s3 == null || s3.Name == null && s3.Surname == null ? "" : $"{s3.Name} {s3.Surname}",
                              ActivitySourceTypeDescription = s4 == null || s4.Description == null ? "" : s4.Description.ToString(),
                              ActivityTaskTypeDescription = s5 == null || s5.Description == null ? "" : s5.Description.ToString(),
                              ActivityStatusDescription = s6 == null || s6.Description == null ? "" : s6.Description.ToString(),
-                             ActivityPriorityDescription = s7 == null || s7.Description == null ? "" : s7.Description.ToString()
+                             ActivityPriorityDescription = s7 == null || s7.Description == null ? "" : s7.Description.ToString(),
+                             CustomerName = s8 == null || s8.Name == null ? "" : s8.Name,
                          });
 
             var activityListDtos = await query.ToListAsync();
@@ -417,6 +447,17 @@ namespace SBCRM.Crm
                 {
                     Id = activityPriority.Id,
                     DisplayName = activityPriority == null || activityPriority.Description == null ? "" : activityPriority.Description.ToString()
+                }).ToListAsync();
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_Activities)]
+        public async Task<List<ActivityCustomerLookupTableDto>> GetAllActivityCustomerForTableDropdown()
+        {
+            return await _lookup_customerRepository.GetAll()
+                .Select(customer => new ActivityCustomerLookupTableDto
+                {
+                    Number = customer.Number,
+                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
                 }).ToListAsync();
         }
 
