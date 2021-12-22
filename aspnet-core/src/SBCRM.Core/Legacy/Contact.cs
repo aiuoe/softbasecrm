@@ -13,9 +13,9 @@ namespace SBCRM.Legacy
     [Audited]
     public class Contact : Entity
     {
-        //[Column("ID")]
-        //[Required]
-        //public new virtual int Id { get; set; }
+        [Key]
+        [Column("ID")]
+        public virtual int ContactId { get; set; }
 
         [StringLength(ContactConsts.MaxCustomerNoLength, MinimumLength = ContactConsts.MinCustomerNoLength)]
         public virtual string CustomerNo { get; set; }

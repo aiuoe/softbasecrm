@@ -2,14 +2,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     CustomerServiceProxy,
-    AccountTypesServiceProxy,
-    PagedResultDtoOfGetAccountTypeForViewDto,
-    AccountTypeDto,
     AccountUserDto,
-    UserListDto,
     GetCustomerForViewDto,
     AccountUserUserLookupTableDto,
-    GetAccountUserForViewDto
+    CustomerAccountTypeLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -39,18 +35,16 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
 
     advancedFiltersAreShown = false;
     filterText = '';
-    accountTypes: AccountTypeDto[];
-    selectedAccountType: AccountTypeDto;
-    selectedAccountTypes: AccountTypeDto[];
+    accountTypes: CustomerAccountTypeLookupTableDto[];
+    selectedAccountType: CustomerAccountTypeLookupTableDto;
+    selectedAccountTypes: CustomerAccountTypeLookupTableDto[];
     accountUsers: AccountUserDto[] = [];
-    selectedAccountUsers: AccountUserDto[] = [];
     assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
 
     /***
      * Main constructor
      * @param injector
      * @param _customerServiceProxy
-     * @param _accountTypeServiceProxy
      * @param _notifyService
      * @param _tokenAuth
      * @param _activatedRoute
@@ -62,7 +56,6 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _customerServiceProxy: CustomerServiceProxy,
-        private _accountTypeServiceProxy: AccountTypesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -78,9 +71,9 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
      * Initialize component
      */
     ngOnInit(): void {
-        this._accountTypeServiceProxy.getAll('', '', 0, 100)
-            .subscribe((result: PagedResultDtoOfGetAccountTypeForViewDto) => {
-                this.accountTypes = result.items.map(x => x.accountType);
+        this._customerServiceProxy.getAllAccountTypeForTableDropdown()
+            .subscribe((result: CustomerAccountTypeLookupTableDto[]) => {
+                this.accountTypes = result;
             });
     }
 

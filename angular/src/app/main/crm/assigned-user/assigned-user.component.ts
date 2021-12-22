@@ -1,17 +1,15 @@
-﻿import { Component, Injector, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+﻿import { Component, Injector, ViewEncapsulation, ViewChild, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     AccountUsersServiceProxy,
     AccountUserDto,
     AccountUserUserLookupTableDto,
     CreateOrEditAccountUserDto,
-    GetAccountUserForViewDto
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditAssignedUserModalComponent } from './create-or-edit-assined-user-modal.component';
-
 import { ViewAssignedUserModalComponent } from './view-assigned-user-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
@@ -20,6 +18,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { finalize } from 'rxjs/operators';
+import { forkJoin, Observable } from '@node_modules/rxjs';
 
 /***
  * Component to manage the list of assigned users
@@ -31,7 +30,7 @@ import { finalize } from 'rxjs/operators';
     animations: [appModuleAnimation()]
 })
 
-export class AssignedUserComponent extends AppComponentBase {
+export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('createOrEditAssignedUserModal', { static: true }) createOrEditAssignedUserModal: CreateOrEditAssignedUserModalComponent;
     @ViewChild('viewAssignedUserModal', { static: true }) viewAssignedUserModal: ViewAssignedUserModalComponent;
@@ -47,7 +46,7 @@ export class AssignedUserComponent extends AppComponentBase {
     userNameFilter = '';
     saving = false;
     assignedUsersExists: AccountUserUserLookupTableDto[];
-
+    canAssignUser = false;
 
     constructor(
         injector: Injector,
@@ -59,6 +58,31 @@ export class AssignedUserComponent extends AppComponentBase {
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
+    }
+
+
+    /***
+     * Initialize component
+     */
+    ngOnInit() {
+        this.loadPermissions();
+    }
+
+    /***
+     * Load permissions
+     */
+    loadPermissions() {
+        if ('Account' === this.componentType) {
+            const requests: Observable<any>[] = [
+                this._accountUsersServiceProxy.canAssignUsers(this.idToStore?.toString())
+            ];
+            forkJoin([...requests])
+                .subscribe(([canAssignUsersResponse]: [boolean]) => {
+                    this.canAssignUser = canAssignUsersResponse || this.isGranted('Pages.AccountUsers.Create');
+                });
+        } else {
+            this.canAssignUser = true;
+        }
     }
 
     /**
