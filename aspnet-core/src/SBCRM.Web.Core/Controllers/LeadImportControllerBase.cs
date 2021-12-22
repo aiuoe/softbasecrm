@@ -11,10 +11,19 @@ using System;
 
 namespace SBCRM.Web.Controllers
 {
+    /// <summary>
+    /// Leads Controller to manage specific methods as endpoints
+    /// </summary>
     public abstract class LeadImportControllerBase : SBCRMControllerBase
     {
         public ILeadsAppService _leadsAppService { get; set; }
 
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="leadsAppService"></param>
+        /// <param name="tempFileCacheManager"></param>
+        /// <param name="profileAppService"></param>
         public LeadImportControllerBase(
             ILeadsAppService leadsAppService,
             ITempFileCacheManager tempFileCacheManager,
@@ -33,6 +42,11 @@ namespace SBCRM.Web.Controllers
             try
             {
                 var excelLeads = Request.Form.Files.First();
+
+                if (!excelLeads.FileName.EndsWith(".xlsx") && !excelLeads.FileName.EndsWith(".xls"))
+                {
+                    throw new UserFriendlyException(L("ErrorUploadingMessage"));
+                }
                 var byteArrayFile = await excelLeads.GetBytes();
 
                 int leadSourceId = Convert.ToInt32(Request.Form["SelectedLeadSource"]);
@@ -51,7 +65,7 @@ namespace SBCRM.Web.Controllers
             catch (UserFriendlyException ex)
             {
                 Console.Write(ex.Message);
-                throw;
+                throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
         }
     }
