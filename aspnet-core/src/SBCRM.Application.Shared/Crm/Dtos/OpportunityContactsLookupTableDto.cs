@@ -2,6 +2,9 @@
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the customer - contacts source lookup object
+    /// </summary>
     public class OpportunityContactsLookupTableDto
     {
         public int Id { get; set; }

@@ -58,7 +58,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
-    selectedOpportunityStageId = 0;
+    selectedOpportunityStageId;
     allLeadSources: OpportunityLeadSourceLookupTableDto[];
     allOpportunityTypes: OpportunityOpportunityTypeLookupTableDto[];
     allCustomers: OpportunityCustomerLookupTableDto[];
@@ -139,7 +139,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     if (this.customerNumber) {
                         this.opportunity.customerNumber = this.customerNumber
                         this.getContactsAccordingToCostumer(this.customerNumber);
-                        console.log(this.opportunity.customerNumber);
                     }                                                            
                     
                     this.showSaveButton = !this.isReadOnlyMode;

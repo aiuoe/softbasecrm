@@ -24384,11 +24384,11 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
     description!: string | undefined;
     branch!: string | undefined;
     department!: string | undefined;
-    opportunityStageId!: number | undefined;
+    opportunityStageId!: number;
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
-    customerNumber!: string | undefined;
-    contactId!: number | undefined;
+    customerNumber!: string;
+    contactId!: number;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityDto) {
@@ -24452,11 +24452,11 @@ export interface ICreateOrEditOpportunityDto {
     description: string | undefined;
     branch: string | undefined;
     department: string | undefined;
-    opportunityStageId: number | undefined;
+    opportunityStageId: number;
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
-    customerNumber: string | undefined;
-    contactId: number | undefined;
+    customerNumber: string;
+    contactId: number;
     id: number | undefined;
 }
 
