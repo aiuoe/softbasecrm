@@ -22,6 +22,9 @@ using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service for handling CRUD operations of Activities
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_Activities)]
     public class ActivitiesAppService : SBCRMAppServiceBase, IActivitiesAppService
     {
@@ -61,7 +64,9 @@ namespace SBCRM.Crm
                         .Include(e => e.ActivityTaskTypeFk)
                         .Include(e => e.ActivityStatusFk)
                         .Include(e => e.ActivityPriorityFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.TaskName.Contains(input.Filter) || e.Description.Contains(input.Filter))
+                        .Include(e => e.CustomerFk)
+                        .WhereIf(input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)

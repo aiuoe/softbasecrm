@@ -101,6 +101,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
 
         this.primengTableHelper.showLoadingIndicator();
 
+        const selectedUserIds = this.selectedAssignedUsersFilter.map(x=>x.id);
+
         this._activitiesServiceProxy
             .getAll(
                 this.filterText,
@@ -112,6 +114,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.selectedActivityStatusesFilter?.displayName || '',
                 this.activityPriorityDescriptionFilter,
                 this.customerNameFilter,
+                selectedUserIds,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)

@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using System;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -22,5 +23,7 @@ namespace SBCRM.Crm.Dtos
         public string ActivityPriorityDescriptionFilter { get; set; }
 
         public string CustomerNameFilter { get; set; }
+
+        public List<long> UserIds { get; set; } = new List<long>();
     }
 }

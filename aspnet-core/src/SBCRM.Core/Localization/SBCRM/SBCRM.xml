@@ -2,6 +2,64 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="FilterByAssignee">Filter by Assignee</text>
+    <text name="FilterBySourceType">Filter by Source Type</text>
+    <text name="FilterByActivity">Filter by Activity</text>
+    <text name="FilterByStatus">Filter by Status</text>
+    <text name="SourceType">Source Type</text>
+    <text name="Schedule">Schedule</text>
+    <text name="ScheduleAndDueDate">Schedule / Due Date</text>
+    <text name="ExcludeCompleted">Exclude Completed</text>
+    <text name="NoRecordsFound">No records found.</text>
+    <text name="SearchCompanyName">Search Company Name</text>
+
+    <text name="Activity">Activity</text>
+    <text name="SBCRM.Crm.Activity">Activity</text>
+    <text name="TaskName">Task name</text>
+    <text name="DueDate">Due date</text>
+    <text name="StartsAt">Starts at</text>
+    <text name="DurationMinutes">Duration minutes</text>
+    <text name="ActivitiesHeaderInfo">Activities header info</text>
+    <text name="CreateNewActivity">Create new activity</text>
+    <text name="EditActivity">Edit activity</text>
+    <text name="DeleteActivity">Delete activity</text>
+    <text name="Activities">Activities</text>
+    <text name="OpportunityName">Opportunity name</text>
+    <text name="PickOpportunity">Pick opportunity</text>
+    <text name="SelectAOpportunity">Select a opportunity</text>
+    <text name="PickLead">Pick lead</text>
+    <text name="SelectALead">Select a lead</text>
+    <text name="ActivitySourceTypeDescription">Activity source type description</text>
+    <text name="PickActivitySourceType">Pick activity source type</text>
+    <text name="SelectAActivitySourceType">Select a activity source type</text>
+    <text name="ActivityTaskTypeDescription">Activity task type description</text>
+    <text name="PickActivityTaskType">Pick activity task type</text>
+    <text name="SelectAActivityTaskType">Select a activity task type</text>
+    <text name="ActivityStatusDescription">Activity status description</text>
+    <text name="PickActivityStatus">Pick activity status</text>
+    <text name="SelectAActivityStatus">Select a activity status</text>
+    <text name="ActivityPriorityDescription">Activity priority description</text>
+    <text name="PickActivityPriority">Pick activity priority</text>
+    <text name="SelectAActivityPriority">Select a activity priority</text>
+    <text name="DueDateRange">Due date range</text>
+    <text name="StartsAtRange">Starts at range</text>
+
+    <text name="ActivitySourceType">Activity source type</text>
+    <text name="SBCRM.Crm.ActivitySourceType">ActivitySourceType</text>
+    <text name="ActivitySourceTypesHeaderInfo">Activity source types header info</text>
+    <text name="CreateNewActivitySourceType">Create new activity source type</text>
+    <text name="EditActivitySourceType">Edit activity source type</text>
+    <text name="DeleteActivitySourceType">Delete activity source type</text>
+    <text name="ActivitySourceTypes">Activity source types</text>
+
+    <text name="ActivityPriority">Activity priority</text>
+    <text name="SBCRM.Crm.ActivityPriority">ActivityPriority</text>
+    <text name="ActivityPrioritiesHeaderInfo">Activity priorities header info</text>
+    <text name="CreateNewActivityPriority">Create new activity priority</text>
+    <text name="EditActivityPriority">Edit activity priority</text>
+    <text name="DeleteActivityPriority">Delete activity priority</text>
+    <text name="ActivityPriorities">Activity priorities</text>
+
     <text name="CustomerViewAssignContacts">View assign contacts in Account detail</text>
     <text name="CreateNewAccountContact">Create new account contact</text>
     <text name="EditAccountContact">Edit account contact</text>
@@ -649,8 +707,8 @@
     <text name="ErrorState">Error state</text>
     <text name="All">All</text>
     <text name="HasError">Has error</text>
-    <text name="ShowAdvancedFilters">Show advanced filters</text>
-    <text name="HideAdvancedFilters">Hide advanced filters</text>
+    <text name="ShowAdvancedFilters">Show Advanced Filters</text>
+    <text name="HideAdvancedFilters">Hide Advanced Filters</text>
     <text name="AuditLogDetail">Audit log detail</text>
     <text name="Parameters">Parameters</text>
     <text name="DateRange">Date Range</text>
