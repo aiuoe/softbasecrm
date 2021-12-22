@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object opportunity for create or edit purposes
+    /// </summary>
     public class CreateOrEditOpportunityDto : EntityDto<int?>
     {
 
-        [Required]
+        [Required(ErrorMessage = "A Name is required")]
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
         public string Name { get; set; }
 
@@ -27,11 +30,19 @@ namespace SBCRM.Crm.Dtos
         [StringLength(OpportunityConsts.MaxDepartmentLength, MinimumLength = OpportunityConsts.MinDepartmentLength)]
         public string Department { get; set; }
 
-        public int? OpportunityStageId { get; set; }
+        [Required(ErrorMessage = "A Stage is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "A Stage is required")]
+        public int OpportunityStageId { get; set; }
 
         public int? LeadSourceId { get; set; }
 
         public int? OpportunityTypeId { get; set; }
 
+        [Required(ErrorMessage = "An Account is required")]
+        public string CustomerNumber { get; set; }
+
+        [Required(ErrorMessage = "A Contact is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "A Contact is required")]
+        public int ContactId { get; set; }
     }
 }
