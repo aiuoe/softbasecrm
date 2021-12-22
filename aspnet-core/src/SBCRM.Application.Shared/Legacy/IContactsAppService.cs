@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
@@ -8,10 +9,16 @@ using SBCRM.Dto;
 namespace SBCRM.Legacy
 {
     /// <summary>
-    /// App service to handle Contacts information
+    /// App service to handle Customer-Contacts information
     /// </summary>
     public interface IContactsAppService : IApplicationService
     {
+        /// <summary>
+        /// Get all contacts types without paging
+        /// </summary>
+        /// <returns></returns>
+        Task<List<GetContactForViewDto>> GetAllWithoutPaging(GetAllNoPagedContactsInput input);
+
         /// <summary>
         /// Get all contacts
         /// </summary>

@@ -1,12 +1,11 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AssignedUserComponent } from './assigned-user.component';
-
+import { CustomerContactsComponent } from '@app/main/legacy/customerContacts/customer-contacts.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: AssignedUserComponent,
+        component: CustomerContactsComponent,
         pathMatch: 'full'
     }
 ];
@@ -15,5 +14,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class AssignedUserRoutingModule {
+export class CustomerContactsRoutingModule {
 }
