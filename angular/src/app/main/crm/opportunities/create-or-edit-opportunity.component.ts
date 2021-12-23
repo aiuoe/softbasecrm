@@ -131,7 +131,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                     this.opportunity = new CreateOrEditOpportunityDto();
                     this.allOpportunityStages = opportunityStages;
-                    this.opportunity.opportunityStageId = this.allOpportunityStages[0].id;
+                    this.opportunity.opportunityStageId =  this.allOpportunityStages[0] ? this.allOpportunityStages[0].id : null;
                     this.allLeadSources = leadSources;
                     this.allOpportunityTypes = opportunityTypes;  
                     this.allCustomers = customers;
