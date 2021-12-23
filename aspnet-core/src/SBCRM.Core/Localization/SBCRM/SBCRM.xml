@@ -2,28 +2,23 @@
 
 <localizationDictionary culture="en">
 	<texts>
-		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
-		<text name="DuplicatedLeads">Duplicated leads encountered</text>
-		<text name="AreYouSureToUpload">Are you sure you want to upload this file?</text>
-		<text name="LeadsNotImportedDuplicated">lead(s) was(were) not imported because of an existing lead with the same Company Name and Contact Name.  Download file to see details</text>
-		<text name="LeadConversionSuccessful">The conversion was successful</text>
-		<text name="CreateNewContact">Create new contact</text>
-		<text name="EditContact">Edit contact</text>
-		<text name="DeleteContact">Delete contact</text>
-		<text name="ConvertedLeadRequired">Lead is required to convert</text>
-		<text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>
-		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
-		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
-		<text name="LeadNotExist">Lead does not exist</text>
-		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
-		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
-		<text name="LeadConvertToAccount">Convert Lead to Account</text>
+		<text name="AddOpportunity">Add Opportunity</text>
+		<text name="InputName">Enter a Name</text>
+		<text name="InputAccount">Select Account</text>
+		<text name="InputStage">Select Stage</text>
+		<text name="InputProbability">Enter a Percentage</text>
+		<text name="InputCloseDate">Select a Date</text>
+		<text name="InputContact">Select a Contact</text>
+		<text name="InputLeadSource">Select a Source</text>
+		<text name="InputDescription">Enter a Description</text>
+		<text name="InputBranch">Enter the Branch name</text>
+		<text name="InputDepartment">Enter the Department name</text>
 		<text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
 		<text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
 		<text name="AccountUser">Account user</text>
 		<text name="SBCRM.Crm.AccountUser">AccountUser</text>
 		<text name="AccountUsersHeaderInfo">Account users header info</text>
-		<text name="CreateNewAccountUser">Create new account user</text>
+		<text name="CreateNewAccountUser">Create account user</text>
 		<text name="EditAccountUser">Edit account user</text>
 		<text name="DeleteAccountUser">Delete account user</text>
 		<text name="AccountUsers">Account users</text>
@@ -88,8 +83,11 @@
 		<text name="Events">Events</text>
 		<text name="SBCRM.Crm.Opportunity">Opportunity</text>
 		<text name="Probability">Probability</text>
+		<text name="Probability%">Probability %</text>
 		<text name="CloseDate">Close date</text>
 		<text name="Department">Department</text>
+		<text name="NewOpportunites">New Opportunites</text>
+		<text name="DepartmentName">Department Name</text>
 		<text name="OpportunitiesHeaderInfo">Opportunities header info</text>
 		<text name="CreateNewOpportunity">Opportunity</text>
 		<text name="EditOpportunity">Edit opportunity</text>
@@ -124,19 +122,11 @@
 		<text name="AssignedUser">Assigned User</text>
 		<text name="AssignedUsers">Assigned Users</text>
 		<text name="DescriptionLabel">Description</text>
-		<text name="ContactName">Contact name</text>
-		<text name="ContactPosition">Contact position</text>
 		<text name="CompanyPhone">Company Phone</text>
 		<text name="CompanyPhone_Invalid">Invalid Company phone</text>
 		<text name="LeadCompanyPhone">Phone</text>
 		<text name="CompanyEmail">Company Email</text>
 		<text name="PoBox">Po Box</text>
-		<text name="ContactPhone">Contact phone</text>
-		<text name="ContactPhoneExtension">Contact phone extension</text>
-		<text name="ContactCellPhone">Contact cell phone</text>
-		<text name="ContactFaxNumber">Contact fax number</text>
-		<text name="PagerNumber">Pager number</text>
-		<text name="ContactEmail">Contact email</text>
 		<text name="PriorityDescription">Priority description</text>
 		<text name="PickPriority">Pick priority</text>
 		<text name="LeadPriority">Priority</text>
@@ -291,6 +281,7 @@
 		<text name="MFGPermitNo">M f g permit no</text>
 		<text name="MFGPermitExpDate">M f g permit exp date</text>
 		<text name="Branch">Branch</text>
+		<text name="BranchName">Branch Name</text>
 		<text name="ShowLaborHours">Show labor hours</text>
 		<text name="VendorNo">Vendor no</text>
 		<text name="LocalTaxCode">Local tax code</text>
@@ -383,10 +374,9 @@
 		<text name="CreateNewCustomer">New Account</text>
 		<text name="EditCustomer">Edit Account</text>
 		<text name="DeleteCustomer">Delete Account</text>
-		<text name="CustomerViewInvoices">View invoices in Account detail</text>
-		<text name="CustomerViewEquipments">View equipments in Account detail</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
 		<text name="CustomerViewAssignUsers">View assign users in Account detail</text>
+		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
 		<text name="{0}IsRequired">{0} is required.</text>
 		<text name="AccountTypeDescription">Account type description</text>
 		<text name="PickAccountType">Pick account type</text>
@@ -656,16 +646,48 @@
 		<text name="ClickHere">click here</text>
 		<text name="Apply">Apply</text>
 		<text name="CustomRange">Custom range</text>
-		<text name="DashboardNoteForMpaVersion">
-			<![CDATA[
-      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.
-      ]]>
-		</text>
-		<text name="DashboardNoteForSpaVersion">
-			<![CDATA[
-      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.
-      ]]>
-		</text>
+		<text name="CustomerViewAssignContacts">View assign contacts in Account detail</text>
+		<text name="CreateNewAccountContact">Create new account contact</text>
+		<text name="EditAccountContact">Edit account contact</text>
+		<text name="DeleteAccountContact">Delete account contact</text>
+		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
+		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
+		<text name="DuplicatedLeads">Duplicated leads encountered</text>
+		<text name="AreYouSureToUpload">Are you sure you want to upload this file?</text>
+		<text name="LeadsNotImportedDuplicated">lead(s) was(were) not imported because of an existing lead with the same Company Name and Contact Name.  Download file to see details</text>
+		<text name="LeadConversionSuccessful">The conversion was successful</text>
+		<text name="CreateNewContact">Create new contact</text>
+		<text name="AddNewContact">Add Contact</text>
+		<text name="EditContact">Edit Contact</text>
+		<text name="Contacts">Contacts</text>
+		<text name="DeleteContact">Delete contact</text>
+		<text name="ConvertedLeadRequired">Lead is required to convert</text>
+		<text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>
+		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
+		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
+		<text name="LeadNotExist">Lead does not exist</text>
+		<text name="CustomerNotExist">Customer does not exist</text>
+		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
+		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
+		<text name="LeadConvertToAccount">Convert Lead to Account</text>
+		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
+		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
+		<text name="ContactName">Contact Name</text>
+		<text name="ContactPosition">Position</text>
+		<text name="SubordinateTo">Subordinate To</text>
+		<text name="ContactPhone">Phone Number</text>
+		<text name="ContactPhoneInvalid">Invalid Contact phone</text>
+		<text name="ContactPhoneExtension">Ext</text>
+		<text name="ContactCellPhone">Cell Phone Number</text>
+		<text name="ContactFaxNumber">Fax Number</text>
+		<text name="PagerNumber">Pager Number</text>
+		<text name="ContactNotes">Notes</text>
+		<text name="ContactEmail">Email Address</text>
+		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
+		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
+		<text name="CustomerViewEvents">View Events in Account detail</text>
+		<text name="UsersManagement">Users Management</text>
+		<text name="SettingsAppearance">Appearance settings</text>
 		<text name="SeeDemo">See demo</text>
 		<text name="Edition">Edition</text>
 		<text name="Editions">Editions</text>
@@ -838,16 +860,6 @@
 		<text name="BlockedUsers">Blocked Users</text>
 		<text name="YouDontHaveAnyFriend">You don't have any friends. Write a username to above input box and click "Add Friend" button.</text>
 		<text name="YouDontHaveAnyBlockedFriend">You don't have any blocked users. In order to block a friend, select a friend and select block from actions dropdown.</text>
-		<text name="ChatUserSearch_Hint">
-			<![CDATA[
-      Write only username for same tenant users, <br>
-      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
-      for example: <br>
-      .\admin -> for host admin <br>
-      Test\admin -> for test tenant's admin <br>
-      admin -> for your tenant's admin
-      ]]>
-		</text>
 		<text name="AddFriend">Add friend</text>
 		<text name="TypeAMessageHere">Type a message here...</text>
 		<text name="Chat">Chat</text>
@@ -1111,10 +1123,6 @@
 		<text name="PostedData">Posted data</text>
 		<text name="Remove">Remove</text>
 		<text name="OrganizationUnitNotFoundForThisUser">There is no Organization Unit For this user.</text>
-		<text name="DemoUiComponents_Info">
-			This page shows a few useful UI components those can be used in your application.
-			Components in this page are implemented as full stack (includes the server side).
-		</text>
 		<text name="DemoUiComponents_Info_Metronic_Link_Text">Check Metronic theme for more UI components</text>
 		<text name="Image">Image</text>
 		<text name="File">File</text>
@@ -1580,5 +1588,32 @@
 		<text name="YouAreNotLoggedInAsAHostUser">You are not logged in as a host user!</text>
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
+		<text name="DashboardNoteForMpaVersion">
+			<![CDATA[
+	<texts>
+		<text name="DashboardNoteForMpaVersion">
+			<![CDATA[
+      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.
+      ]]>
+		</text>
+		<text name="DashboardNoteForSpaVersion">
+			<![CDATA[
+      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.
+      ]]>
+		</text>
+		<text name="ChatUserSearch_Hint">
+			<![CDATA[
+      Write only username for same tenant users, <br>
+      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
+      for example: <br>
+      .\admin -> for host admin <br>
+      Test\admin -> for test tenant's admin <br>
+      admin -> for your tenant's admin
+      ]]>
+		</text>
+		<text name="DemoUiComponents_Info">
+			This page shows a few useful UI components those can be used in your application.
+			Components in this page are implemented as full stack (includes the server side).
+		</text>
 	</texts>
 </localizationDictionary>

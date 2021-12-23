@@ -35,92 +35,94 @@ export class AppNavigationService {
                     new AppMenuItem('Countries', 'Pages.Countries', 'flaticon-more', '/app/main/crm/countries'),
                     new AppMenuItem('OpportunityStages', 'Pages.OpportunityStages', 'flaticon-more', '/app/main/crm/opportunityStages'),
                     new AppMenuItem('OpportunityTypes', 'Pages.OpportunityTypes', 'flaticon-more', '/app/main/crm/opportunityTypes'),
-                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),                    
+                    new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/crm/leadStatuses'),
                     new AppMenuItem('LeadSources', 'Pages.LeadSources', 'flaticon-more', '/app/main/business/leadSources'),
                     new AppMenuItem('LeadStatuses', 'Pages.LeadStatuses', 'flaticon-more', '/app/main/business/leadStatuses'),
                     new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),
                     new AppMenuItem('ActivityTaskTypes', 'Pages.ActivityTaskTypes', 'flaticon-more', '/app/main/crm/activityTaskTypes'),
-                    new AppMenuItem('AccountUsers', 'Pages.AccountUsers', 'flaticon-more', '/app/main/crm/accountUsers'),
-                    
+                    // new AppMenuItem('AccountUsers', 'Pages.AccountUsers', 'flaticon-more', '/app/main/crm/accountUsers'),
+
                 ]),
+            new AppMenuItem(
+                'User Management',
+                '',
+                'fas fa-male',
+                '',
+                [],
+                [
+                    new AppMenuItem('Roles', 'Pages.Administration.Roles', '', '/app/admin/roles'),
+                    new AppMenuItem('Users', 'Pages.Administration.Users', '', '/app/admin/users')
+                ]
+            ),
             new AppMenuItem(
                 'Administration',
                 '',
-                'flaticon-interface-8',
+                'fas fa-cog',
                 '',
                 [],
                 [
                     new AppMenuItem(
+                        'Appearance',
+                        'Pages.Administration.Tenant.Settings',
+                        '',
+                        '/app/admin/tenantSettings'
+                    ),
+                    new AppMenuItem(
                         'OrganizationUnits',
                         'Pages.Administration.OrganizationUnits',
-                        'flaticon-map',
+                        '',
                         '/app/admin/organization-units'
-                    ),
-                    new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
-                    new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
-                    new AppMenuItem(
-                        'Languages',
-                        'Pages.Administration.Languages',
-                        'flaticon-tabs',
-                        '/app/admin/languages',
-                        ['/app/admin/languages/{name}/texts']
                     ),
                     new AppMenuItem(
                         'AuditLogs',
                         'Pages.Administration.AuditLogs',
-                        'flaticon-folder-1',
+                        '',
                         '/app/admin/auditLogs'
                     ),
                     new AppMenuItem(
                         'Maintenance',
                         'Pages.Administration.Host.Maintenance',
-                        'flaticon-lock',
+                        '',
                         '/app/admin/maintenance'
                     ),
                     new AppMenuItem(
                         'Subscription',
                         'Pages.Administration.Tenant.SubscriptionManagement',
-                        'flaticon-refresh',
+                        '',
                         '/app/admin/subscription-management'
                     ),
                     new AppMenuItem(
                         'VisualSettings',
                         'Pages.Administration.UiCustomization',
-                        'flaticon-medical',
+                        '',
                         '/app/admin/ui-customization'
                     ),
                     new AppMenuItem(
                         'WebhookSubscriptions',
                         'Pages.Administration.WebhookSubscription',
-                        'flaticon2-world',
+                        '',
                         '/app/admin/webhook-subscriptions'
                     ),
                     new AppMenuItem(
                         'DynamicProperties',
                         'Pages.Administration.DynamicProperties',
-                        'flaticon-interface-8',
+                        '',
                         '/app/admin/dynamic-property'
                     ),
                     new AppMenuItem(
                         'Settings',
                         'Pages.Administration.Host.Settings',
-                        'flaticon-settings',
+                        '',
                         '/app/admin/hostSettings'
                     ),
                     new AppMenuItem(
-                        'Settings',
-                        'Pages.Administration.Tenant.Settings',
-                        'flaticon-settings',
-                        '/app/admin/tenantSettings'
-                    ),
-                ]
-            ),
-            new AppMenuItem(
-                'DemoUiComponents',
-                'Pages.DemoUiComponents',
-                'flaticon-shapes',
-                '/app/admin/demo-ui-components'
-            ),
+                        'Languages',
+                        'Pages.Administration.Languages',
+                        '',
+                        '/app/admin/languages',
+                        ['/app/admin/languages/{name}/texts']
+                    )
+                ])
         ]);
     }
 

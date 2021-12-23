@@ -26,7 +26,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class CreateOrEditUserModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    @ViewChild('organizationUnitTree') organizationUnitTree: OrganizationUnitsTreeComponent;
+    //@ViewChild('organizationUnitTree') organizationUnitTree: OrganizationUnitsTreeComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -136,10 +136,10 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
     }
 
     onShown(): void {
-        this.organizationUnitTree.data = <IOrganizationUnitsTreeComponentData>{
-            allOrganizationUnits: this.allOrganizationUnits,
-            selectedOrganizationUnits: this.memberedOrganizationUnits,
-        };
+        //this.organizationUnitTree.data = <IOrganizationUnitsTreeComponentData>{
+        //    allOrganizationUnits: this.allOrganizationUnits,
+        //    selectedOrganizationUnits: this.memberedOrganizationUnits,
+        //};
 
         document.getElementById('Name').focus();
     }
@@ -155,7 +155,7 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
             (role) => role.roleName
         );
 
-        input.organizationUnits = this.organizationUnitTree.getSelectedOrganizations();
+      /*  input.organizationUnits = this.organizationUnitTree.getSelectedOrganizations();*/
 
         this.saving = true;
         this._userService

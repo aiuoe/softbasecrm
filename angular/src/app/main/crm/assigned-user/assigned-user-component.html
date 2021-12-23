@@ -6,10 +6,10 @@
                 <div class="card-body">
                     <div role="actions" class="d-flex justify-content-between">
                         <div>
-                            <strong>Assigned Users</strong>
+                            <strong>{{ 'AssignedUsers' | localize }}</strong>
                         </div>
                         <div>
-                            <button *ngIf="isGranted('Pages.AccountUsers.Create')" (click)="createAccountUser()"
+                            <button *ngIf="canAssignUser" (click)="createAccountUser()"
                                     class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("User")}}</button>
                         </div>
                     </div>

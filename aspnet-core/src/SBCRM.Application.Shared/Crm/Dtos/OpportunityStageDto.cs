@@ -3,7 +3,7 @@
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// Class Dto for OpportunityStage entity
+    /// DTO to manage the oportunity stage object
     /// </summary>
     public class OpportunityStageDto : EntityDto
     {

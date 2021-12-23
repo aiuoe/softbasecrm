@@ -19,6 +19,8 @@ using SBCRM.Infrastructure.Excel;
 using SBCRM.DataImporting;
 using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm
 {
@@ -37,6 +39,7 @@ namespace SBCRM.Crm
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<LeadUser> _leadUserRepository;
+        private readonly IRepository<Country> _countryRepository;
 
         /// <summary>
         /// Base constructor
@@ -50,6 +53,7 @@ namespace SBCRM.Crm
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
         /// <param name="leadUserRepository"></param>
+        /// <param name="countryRepository"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,
@@ -59,7 +63,8 @@ namespace SBCRM.Crm
             ICustomerAppService customerAppService,
             IEntityChangeSetReasonProvider reasonProvider,
             IUnitOfWorkManager unitOfWorkManager,
-            IRepository<LeadUser> leadUserRepository)
+            IRepository<LeadUser> leadUserRepository,
+            IRepository<Country> countryRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
@@ -70,6 +75,7 @@ namespace SBCRM.Crm
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
             _leadUserRepository = leadUserRepository;
+            _countryRepository = countryRepository;
         }
 
         /// <summary>
@@ -107,7 +113,8 @@ namespace SBCRM.Crm
                            .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
-                           .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
+                           .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
+                           .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id);
 
             IQueryable<Lead> pagedAndFilteredLeads; 
 
@@ -234,67 +241,141 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<CreateOrEditLeadDto>> ImportLeadsFromFile(byte[] inputFile, int leadSourceId, int assignedUserId)
         {
-            var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
-
-            var duplicatedLeads = new List<CreateOrEditLeadDto>();
-
-            // Defining default status and priority
-            var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description == "New");
-            var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description == "Low");
-
-
-            foreach (var item in leadsToImport)
+            try
             {
-                CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
-                leadAux.CompanyName = item.CompanyName;
-                leadAux.CompanyPhone = item.Phone;
-                leadAux.CompanyEmail = item.CompanyEmail;
-                leadAux.WebSite = item.Website;
-                leadAux.Address = item.CompanyAdress;
-                leadAux.Country = item.Country;
-                leadAux.City = item.City;
-                leadAux.State = item.StateProvince;
-                leadAux.ZipCode = item.ZipCode;
-                leadAux.PoBox = item.PoBox;
-                leadAux.ContactName = item.ContactName;
-                leadAux.ContactPosition = item.ContactPosition;
-                leadAux.ContactPhone = item.ContactPhone;
-                leadAux.ContactPhoneExtension = item.ContactExtention;
-                leadAux.ContactCellPhone = item.ContactCelphone;
-                leadAux.ContactFaxNumber = item.ContactFax;
-                leadAux.PagerNumber = item.ContactPager;
-                leadAux.ContactEmail = item.ContactEmail;
-                // Default fields
-                leadAux.LeadSourceId = leadSourceId;
-                leadAux.LeadStatusId = leadStatusId.Id;
-                leadAux.PriorityId = leadPriorityId.Id;
+                var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
 
+                var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                var storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
-                if (storedLead == null)
+                if (!ValidateLeadsImported(leadsToImport))
                 {
-                    var lead = ObjectMapper.Map<Lead>(leadAux);
-                    int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
+                    throw new UserFriendlyException(L("ErrorUploadingMessage"));
+                }
 
-                    if (leadId != 0)
+                // Default status and priority
+                var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description.ToUpper() == "NEW");
+                var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description.ToUpper() == "LOW");
+
+
+                foreach (var item in leadsToImport)
+                {
+                    CreateOrEditLeadDto leadAux = new CreateOrEditLeadDto();
+                    leadAux.CompanyName = item.CompanyName;
+                    leadAux.CompanyPhone = item.Phone;
+                    leadAux.CompanyEmail = item.CompanyEmail;
+                    leadAux.WebSite = item.Website;
+                    leadAux.Address = item.CompanyAdress;
+                    leadAux.Country = item.Country;
+                    leadAux.City = item.City;
+                    leadAux.State = item.StateProvince;
+                    leadAux.ZipCode = item.ZipCode;
+                    leadAux.PoBox = item.PoBox;
+                    leadAux.ContactName = item.ContactName;
+                    leadAux.ContactPosition = item.ContactPosition;
+                    leadAux.ContactPhone = item.ContactPhone;
+                    leadAux.ContactPhoneExtension = item.ContactExtention;
+                    leadAux.ContactCellPhone = item.ContactCelphone;
+                    leadAux.ContactFaxNumber = item.ContactFax;
+                    leadAux.PagerNumber = item.ContactPager;
+                    leadAux.ContactEmail = item.ContactEmail;
+                    // Default fields
+                    leadAux.LeadSourceId = leadSourceId;
+                    leadAux.LeadStatusId = leadStatusId.Id;
+                    leadAux.PriorityId = leadPriorityId.Id;
+
+                    Lead storedLead = new();
+
+                    if (item.ContactName != null)
                     {
-                        var leadUser = new LeadUser
-                        {
-                            LeadId = leadId,
-                            UserId = assignedUserId
-                        };
+                        storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
+                    }
+                  
+                    if (storedLead == null)
+                    {
+                        var lead = ObjectMapper.Map<Lead>(leadAux);
+                        int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
 
-                        await _leadUserRepository.InsertAsync(leadUser);
+                        if (leadId != 0)
+                        {
+                            var leadUser = new LeadUser
+                            {
+                                LeadId = leadId,
+                                UserId = assignedUserId
+                            };
+
+                            await _leadUserRepository.InsertAsync(leadUser);
+                        }
+                    }
+                    else
+                    {
+                        duplicatedLeads.Add(leadAux);
                     }
                 }
-                else
-                {
-                    duplicatedLeads.Add(leadAux);
-                }
+
+                return duplicatedLeads;
+            }
+            catch (Exception)
+            {
+                throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
 
-            return duplicatedLeads;
+        }
 
+        /// <summary>
+        /// Validate every field of a list of imported leads
+        /// </summary>
+        /// <param name="importedLeads"></param>
+        /// <returns></returns>
+        private bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
+        {
+            foreach (var item in importedLeads)
+            {
+                // Validations for mandarory fields
+                if (item.CompanyName == null || (item.Phone == null && item.CompanyEmail == null))
+                {
+                    return false;
+                }
+
+                // Validations for country field
+                var existingCountries = _countryRepository.GetAll();
+                if (item.Country != null && existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
+                {
+                    return false;
+                }
+
+                // Validations for specific format fields 
+                var emailValidator = new EmailAddressAttribute();
+                if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail)) 
+                    || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail)) 
+                    || (item.Website != null && !Uri.IsWellFormedUriString(item.Website.ToString(), UriKind.RelativeOrAbsolute)))
+                {
+                    return false;
+                }
+
+                // Validation for limit size in every field (See the SRS to further information about the field limit size)
+                var isNotValidLength = new BulkValidations().AppendCondition(item.CompanyName.ExceedLength(250))
+                                                 .AppendCondition(item.Phone.ExceedLength(50))
+                                                 .AppendCondition(item.CompanyEmail.ExceedLength(100))
+                                                 .AppendCondition(item.Website.ExceedLength(100))
+                                                 .AppendCondition(item.CompanyAdress.ExceedLength(100))
+                                                 .AppendCondition(item.Country.ExceedLength(100))
+                                                 .AppendCondition(item.City.ExceedLength(100))
+                                                 .AppendCondition(item.ContactName.ExceedLength(50))
+                                                 .AppendCondition(item.StateProvince.ExceedLength(100))
+                                                 .AppendCondition(item.PoBox.ExceedLength(100))
+                                                 .AppendCondition(item.ContactPosition.ExceedLength(50))
+                                                 .AppendCondition(item.ContactPhone.ExceedLength(50))
+                                                 .AppendCondition(item.ContactFax.ExceedLength(50))
+                                                 .AppendCondition(item.ContactPager.ExceedLength(50))
+                                                 .AppendCondition(item.ContactEmail.ExceedLength(50))
+                                                 .GetAnyTrue();
+
+                if (isNotValidLength)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -457,7 +538,8 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
-                        .WhereIf(input.LeadStatusId.Any(), x => input.LeadStatusId.Contains(x.LeadStatusFk.Id));
+                        .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
+                        .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id);
 
             var query = (from o in filteredLeads
                          join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
@@ -533,7 +615,8 @@ namespace SBCRM.Crm
                 {
                     Id = leadStatus.Id,
                     DisplayName = leadStatus == null || leadStatus.Description == null ? "" : leadStatus.Description.ToString(),
-                    IsDefault = leadStatus.IsDefault
+                    IsDefault = leadStatus.IsDefault,
+                    isLeadConversionValid = leadStatus.IsLeadConversionValid
                 }).ToListAsync();
         }
 

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.Domain.Entities;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -16,7 +17,7 @@ namespace SBCRM.Crm
     public class Opportunity : FullAuditedEntity
     {
 
-        [Required]
+        [Required(ErrorMessage = "A Name is required")]
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
         public virtual string Name { get; set; }
 
@@ -36,11 +37,12 @@ namespace SBCRM.Crm
         [StringLength(OpportunityConsts.MaxDepartmentLength, MinimumLength = OpportunityConsts.MinDepartmentLength)]
         public virtual string Department { get; set; }
 
+        [Required(ErrorMessage = "An Stage is required")]
         public virtual int? OpportunityStageId { get; set; }
 
         [ForeignKey("OpportunityStageId")]
         public OpportunityStage OpportunityStageFk { get; set; }
-
+        
         public virtual int? LeadSourceId { get; set; }
 
         [ForeignKey("LeadSourceId")]
@@ -50,6 +52,18 @@ namespace SBCRM.Crm
 
         [ForeignKey("OpportunityTypeId")]
         public OpportunityType OpportunityTypeFk { get; set; }
+
+        [Required(ErrorMessage = "A Contact is required")]
+        public virtual int? ContactId { get; set; }
+
+        [ForeignKey("ContactId")]
+        public Contact ContactFk { get; set; }
+
+        [Required(ErrorMessage = "An Account is required")]
+        public virtual string CustomerNumber { get; set; }
+
+        [ForeignKey("CustomerNumber")]
+        public Customer CustomerFk { get; set; }
 
     }
 }

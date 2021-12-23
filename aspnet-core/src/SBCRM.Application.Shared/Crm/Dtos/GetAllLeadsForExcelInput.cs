@@ -55,7 +55,9 @@ namespace SBCRM.Crm.Dtos
 
         public string PriorityDescriptionFilter { get; set; }
 
-        public List<int?> LeadStatusId { get; set; } = new List<int?>();
+        public int? LeadStatusId { get; set; }
+
+        public int? PriorityId { get; set; }
 
     }
 }

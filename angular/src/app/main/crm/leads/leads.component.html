@@ -74,22 +74,60 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
+                                <!-- <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="UserAssignedFilter"></label>
+                                        <div>
+                                            <p-dropdown
+                                                id="LeadStatusFilter"
+                                                name="LeadStatusFilter"
+                                                [options]="leadStatuses"
+                                                [(ngModel)]="selectedLeadStatus"
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Status"
+                                                (onChange)="getLeads($event)"
+                                            >                                                
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                                </div> -->
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
                                         <div>
-                                            <p-multiSelect id="LeadStatusFilter"
-                                                           name="LeadStatusFilter"
-                                                           [options]="leadStatuses"
-                                                           [(ngModel)]="selectedLeadStatuses"
-                                                           optionLabel="description"
-                                                           placeholder="Filter by Status"
-                                                           (onChange)="getLeads($event)">
-                                            </p-multiSelect>
+                                            <p-dropdown
+                                                id="LeadStatusFilter"
+                                                name="LeadStatusFilter"
+                                                [options]="leadStatuses"
+                                                [(ngModel)]="selectedLeadStatus"
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Status"
+                                                (onChange)="getLeads($event)"
+                                            >                                                
+                                            </p-dropdown>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="PriorityFilter"></label>
+                                        <div>
+                                            <p-dropdown                                           
+                                                id="PriorityFilter"
+                                                name="PriorityFilter"
+                                                [options]="priorities"
+                                                [(ngModel)]="selectedPriority"
+                                                optionLabel="displayName"     
+                                                placeholder="Filter by Priorities"                                          
+                                                (onChange)="getLeads($event)"
+                                            >
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
 
                             <div class="row mb-2">
@@ -143,7 +181,7 @@
                                         >
                                             {{ l('Actions') }}
                                         </th>
-                                        <th style="width: 38px">
+                                        <th style="width: 30px">
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
                                         <th
@@ -246,7 +284,7 @@
                                             </div>
                                         </td>
                                         <td
-                                            style="width: 38px" >
+                                            style="width: 30px" >
                                             <p-tableCheckbox    [value]="record">
                                             </p-tableCheckbox>
                                         </td>
@@ -299,7 +337,11 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadPriority') }}</span>
+                                            <span
+                                                class="cell-span-color"
+                                            >
                                                 {{ record.priorityDescription }}
+                                            </span>
                                         </td>
                                     </tr>
                                 </ng-template>
