@@ -41,6 +41,7 @@
         public const string Pages_OpportunityTypes_Edit = "Pages.OpportunityTypes.Edit";
         public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";
 
+        public const string Pages_Configuration = "Pages.Configuration";
         public const string Pages_OpportunityStages = "Pages.OpportunityStages";
         public const string Pages_OpportunityStages_Create = "Pages.OpportunityStages.Create";
         public const string Pages_OpportunityStages_Edit = "Pages.OpportunityStages.Edit";
@@ -195,6 +196,5 @@
         public const string Pages_Administration_Host_Maintenance = "Pages.Administration.Host.Maintenance";
         public const string Pages_Administration_Host_Settings = "Pages.Administration.Host.Settings";
         public const string Pages_Administration_Host_Dashboard = "Pages.Administration.Host.Dashboard";
-
     }
 }

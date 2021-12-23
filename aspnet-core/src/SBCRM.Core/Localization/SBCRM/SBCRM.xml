@@ -41,6 +41,7 @@
 		<text name="OpportunityAmmountFormat">$0.00</text>
 		<text name="Unit">Unit</text>
 		<text name="Serial">Serial</text>
+		<text name="Configuration">Configuration</text>
 		<text name="Year">Year</text>
 		<text name="Make">Make</text>
 		<text name="Meter">Meter</text>
@@ -105,6 +106,7 @@
 		<text name="OpportunityStage">Opportunity stage</text>
 		<text name="Stage">Stage</text>
 		<text name="StageName">Stage Name</text>
+		<text name="CreateNewOpportunityStage">Create new opportunity stage</text>
 		<text name="NewOpportunityStage">New opportunity stage</text>
 		<text name="EditOpportunityStage">Edit opportunity stage</text>
 		<text name="DeleteOpportunityStage">Delete opportunity stage</text>
@@ -155,6 +157,7 @@
 		<text name="PickIndustry">Pick industry</text>
 		<text name="SelectAIndustry">Select a industry</text>
 		<text name="LeadSourceDescription">Lead source description</text>
+		<text name="LeadSourceName">Source Name</text>
 		<text name="PickLeadSource">Pick lead source</text>
 		<text name="SelectALeadSource">Select a lead source</text>
 		<text name="LeadStatusDescription">Lead status description</text>
@@ -173,6 +176,7 @@
 		<text name="Description">Description</text>
 		<text name="EnterDescription">Enter Description</text>
 		<text name="LeadSourcesHeaderInfo">Lead sources header info</text>
+		<text name="NewLeadSource">New lead source</text>
 		<text name="CreateNewLeadSource">Create new lead source</text>
 		<text name="EditLeadSource">Edit lead source</text>
 		<text name="DeleteLeadSource">Delete lead source</text>
