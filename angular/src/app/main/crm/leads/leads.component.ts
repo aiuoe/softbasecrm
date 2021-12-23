@@ -11,7 +11,9 @@ import {
     PrioritiesServiceProxy,
     PagedResultDtoOfGetPriorityForViewDto,
     LeadLeadStatusLookupTableDto,
-    LeadPriorityLookupTableDto
+    LeadPriorityLookupTableDto,
+    GetCustomerForViewDto,
+    AccountUserUserLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -27,6 +29,8 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { HttpClient } from '@angular/common/http';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
+import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { AppConsts } from '@shared/AppConsts';
 
 /***
  * Component to manage the leads summary grid
@@ -53,6 +57,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     selectedPriority: LeadPriorityLookupTableDto;
     selectedPriorities: LeadPriorityLookupTableDto[];
     allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
+    
+    assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
     
     advancedFiltersAreShown = false;
     filterText = '';
@@ -104,6 +110,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * @param _dateTimeService
      * @param http
      * @param _tokenService
+     * @param _localStorageService
      */
     constructor(
         injector: Injector,
@@ -117,7 +124,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         private _router: Router,
         private _dateTimeService: DateTimeService,
         private http: HttpClient,
-        private _tokenService: TokenService
+        private _tokenService: TokenService,
+        private _localStorageService: LocalStorageService
     ) {
         super(injector);
     }
@@ -184,6 +192,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
+                this.assignedUsersFilter?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -274,6 +283,29 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     showModalDialog() {
         this.importLeadsModalComponent.show();
+    }
+
+    /***
+     * Set user image profile reference
+     * @param users
+     */
+     setUsersProfilePictureUrl(users: GetCustomerForViewDto[]): void {
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            if (user.firstUserAssignedId) {
+                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
+                    let profilePictureUrl =
+                        AppConsts.remoteServiceBaseUrl +
+                        '/Profile/GetProfilePictureByUser?userId=' +
+                        user.firstUserAssignedId +
+                        '&' +
+                        AppConsts.authorization.encrptedAuthTokenName +
+                        '=' +
+                        encodeURIComponent(value.token);
+                    (user as any).profilePictureUrl = profilePictureUrl;
+                });
+            }
+        }
     }
 
     /***

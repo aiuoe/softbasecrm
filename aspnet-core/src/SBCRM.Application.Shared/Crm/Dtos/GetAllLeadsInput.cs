@@ -56,5 +56,6 @@ namespace SBCRM.Crm.Dtos
 
         public int? PriorityId { get; set; }
 
+        public List<long?> UserIds { get; set; } = new List<long?>();
     }
 }

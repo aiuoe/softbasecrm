@@ -77,18 +77,14 @@
                                 <!-- <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
-                                        <div>
-                                            <p-dropdown
-                                                id="LeadStatusFilter"
-                                                name="LeadStatusFilter"
-                                                [options]="leadStatuses"
-                                                [(ngModel)]="selectedLeadStatus"
-                                                optionLabel="displayName"
-                                                placeholder="Filter by Status"
-                                                (onChange)="getLeads($event)"
-                                            >                                                
-                                            </p-dropdown>
-                                        </div>
+                                        <p-multiSelect id="AccountTypeFilter"
+                                            name="AccountTypeFilter"
+                                            [options]="accountTypes"
+                                            [(ngModel)]="selectedAccountTypes"
+                                            optionLabel="displayName"
+                                            placeholder="Filter by Type"
+                                            (onChange)="getCustomer()">
+                                        </p-multiSelect>
                                     </div>
                                 </div> -->
 

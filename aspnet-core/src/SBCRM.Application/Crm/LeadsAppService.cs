@@ -114,7 +114,9 @@ namespace SBCRM.Crm
                            .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
                            .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
-                           .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id);
+                           .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
+                           .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
+
 
             IQueryable<Lead> pagedAndFilteredLeads; 
 
@@ -515,6 +517,7 @@ namespace SBCRM.Crm
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
                         .Include(e => e.PriorityFk)
+                        .Include(x => x.Users)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
@@ -539,7 +542,8 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
                         .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
-                        .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id);
+                        .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
+                        .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
 
             var query = (from o in filteredLeads
                          join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
