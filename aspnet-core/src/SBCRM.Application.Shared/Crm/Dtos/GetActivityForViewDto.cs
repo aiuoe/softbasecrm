@@ -4,6 +4,7 @@
     {
         public ActivityDto Activity { get; set; }
 
+        public string CompanyName { get; set; }
         public string OpportunityName { get; set; }
 
         public string LeadCompanyName { get; set; }

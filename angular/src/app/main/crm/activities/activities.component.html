@@ -174,31 +174,31 @@
                                         >
                                             {{ l('Actions') }}
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="activityStatusFk.description">
+                                        <th style="width: 150px" pSortableColumn="activityStatusDescription">
                                             {{ l('Status') }}
                                             <p-sortIcon field="activityStatusDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="activitySourceTypeFk.description">
+                                        <th style="width: 150px" pSortableColumn="activitySourceTypeDescription">
                                             {{ l('SourceType') }}
                                             <p-sortIcon field="activitySourceTypeDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="customerFk.name">
+                                        <th style="width: 150px" pSortableColumn="companyName">
                                             {{ l('CompanyName') }}
-                                            <p-sortIcon field="customerName"></p-sortIcon>
+                                            <p-sortIcon field="companyName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="activityTaskTypeFk.description">
+                                        <th style="width: 150px" pSortableColumn="activityTaskTypeDescription">
                                             {{ l('Activity') }}
                                             <p-sortIcon field="activityTaskTypeDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="activityPriorityFk.description">
+                                        <th style="width: 150px" pSortableColumn="activityPriorityDescription">
                                             {{ l('Priority') }}
                                             <p-sortIcon field="activityPriorityDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="startsAt">
+                                        <th style="width: 150px" pSortableColumn="dueDate">
                                             {{ l('ScheduleAndDueDate') }}
-                                            <p-sortIcon field="activity.startsAt"></p-sortIcon>
+                                            <p-sortIcon field="dueDate"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="userFk.name">
+                                        <th style="width: 150px" pSortableColumn="userName">
                                             {{ l('AssignedUser') }}
                                             <p-sortIcon field="userName"></p-sortIcon>
                                         </th>
@@ -262,9 +262,7 @@
                                             <span class="p-column-title">{{ l('CompanyName') }}</span>
                                             <div class="color-blue">
                                                 {{
-                                                    record.customerName ||
-                                                        record.leadCompanyName ||
-                                                        record.opportunityName
+                                                    record.companyName
                                                 }}
                                             </div>
                                         </td>
