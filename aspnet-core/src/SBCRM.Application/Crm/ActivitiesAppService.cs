@@ -60,6 +60,7 @@ namespace SBCRM.Crm
 
             var filteredActivities = _activityRepository.GetAll()
                         .Include(e => e.OpportunityFk)
+                            .ThenInclude(e => e.CustomerFk)
                         .Include(e => e.LeadFk)
                         .Include(e => e.UserFk)
                         .Include(e => e.ActivitySourceTypeFk)
@@ -70,7 +71,7 @@ namespace SBCRM.Crm
                         .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
                         .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                         .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
@@ -115,7 +116,7 @@ namespace SBCRM.Crm
                                  o.UserId,
                                  o.DueDate,
                                  o.StartsAt,
-                                 OpportunityName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
+                                 OpportunityName = s1 == null || s1.CustomerFk == null || s1.CustomerFk.Name == null ? "" : s1.CustomerFk.Name,
                                  LeadCompanyName = s2 == null || s2.CompanyName == null ? "" : s2.CompanyName.ToString(),
                                  UserName = s3 == null || s3.Name == null && s3.Surname == null ? "" : $"{s3.Name} {s3.Surname}",
                                  ActivitySourceTypeDescription = s4 == null || s4.Description == null ? "" : s4.Description.ToString(),
@@ -323,6 +324,7 @@ namespace SBCRM.Crm
 
             var filteredActivities = _activityRepository.GetAll()
                         .Include(e => e.OpportunityFk)
+                            .ThenInclude(e => e.CustomerFk)
                         .Include(e => e.LeadFk)
                         .Include(e => e.UserFk)
                         .Include(e => e.ActivitySourceTypeFk)
@@ -333,7 +335,7 @@ namespace SBCRM.Crm
                         .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
                         .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                         .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
@@ -379,7 +381,7 @@ namespace SBCRM.Crm
                                  DueDate = o.DueDate,
                                  StartsAt = o.StartsAt,
                              },
-                             OpportunityName = s1 == null ? null : s1.Name,
+                             OpportunityName = s1 == null || s1.CustomerFk == null ? null : s1.CustomerFk.Name,
                              LeadCompanyName = s2 == null ? null : s2.CompanyName,
                              UserName = s3 == null || s3.Name == null && s3.Surname == null ? "" : $"{s3.Name} {s3.Surname}",
                              ActivitySourceTypeDescription = s4 == null || s4.Description == null ? "" : s4.Description.ToString(),
