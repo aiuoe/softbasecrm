@@ -56,7 +56,7 @@ namespace SBCRM.Crm
 
         }
         /// <summary>
-        /// Gets all the lead users given a Leadi Id
+        /// Gets all the lead users given a Lead Id
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -121,6 +121,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get a Lead user object for edit purposes
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadUsers_Edit)]
         public async Task<GetLeadUserForEditOutput> GetLeadUserForEdit(EntityDto input)
         {
@@ -143,6 +148,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Creates or edites a new user assigned to a lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditLeadUserDto input)
         {
             if (input.Id == null)
@@ -155,6 +165,12 @@ namespace SBCRM.Crm
             }
         }
 
+
+        /// <summary>
+        /// Creates a new user assigned to a lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadUsers_Create)]
         protected virtual async Task Create(CreateOrEditLeadUserDto input)
         {
@@ -164,6 +180,12 @@ namespace SBCRM.Crm
 
         }
 
+
+        /// <summary>
+        /// Edits a new user assigned to a lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadUsers_Edit)]
         protected virtual async Task Update(CreateOrEditLeadUserDto input)
         {
@@ -172,11 +194,21 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Deletes a new user assigned to a lead
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadUsers_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _leadUserRepository.DeleteAsync(input.Id);
         }
+
+        /// <summary>
+        /// Gets a list of al the leads
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
         public async Task<List<LeadUserLeadLookupTableDto>> GetAllLeadForTableDropdown()
         {
@@ -188,6 +220,11 @@ namespace SBCRM.Crm
                 }).ToListAsync();
         }
 
+
+        /// <summary>
+        /// Gets a list of users
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUserForTableDropdown()
         {
