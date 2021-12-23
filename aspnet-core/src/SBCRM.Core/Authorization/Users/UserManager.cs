@@ -50,7 +50,7 @@ namespace SBCRM.Authorization.Users
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
             IOrganizationUnitSettings organizationUnitSettings,
-            ISettingManager settingManager, 
+            ISettingManager settingManager,
             ILocalizationManager localizationManager)
             : base(
                   roleManager,
@@ -75,7 +75,7 @@ namespace SBCRM.Authorization.Users
             _settingManager = settingManager;
             _localizationManager = localizationManager;
         }
-        
+
         public virtual async Task<User> GetUserOrNullAsync(UserIdentifier userIdentifier)
         {
             return await _unitOfWorkManager.WithUnitOfWorkAsync(async () =>
@@ -114,7 +114,7 @@ namespace SBCRM.Authorization.Users
             {
                 return base.SetRolesAsync(user, roleNames);
             }
-            
+
             // Always keep admin role for admin user
             var roles = roleNames.ToList();
             roles.Add(StaticRoleNames.Host.Admin);
@@ -208,6 +208,37 @@ namespace SBCRM.Authorization.Users
         private new string L(string name)
         {
             return _localizationManager.GetString(SBCRMConsts.LocalizationSourceName, name);
+        }
+
+        public async override Task<IdentityResult> UpdateAsync(User user)
+        {
+            var result = await CheckDuplicateUsernameOrEmailAddressAsync(user.Id, user.UserName, user.EmailAddress);
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            //Admin user's username can not be changed!
+            if (user.UserName != AbpUser<User>.AdminUserName)
+            {
+                if ((await GetOldUserNameAsync(user.Id)) == AbpUser<User>.AdminUserName)
+                {
+                    return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = string.Format(L("Identity.CanNotRenameAdminUser"), AbpUser<User>.AdminUserName), Code = "CanNotRenameAdminUser" } });
+                }
+            }
+
+            return await base.UpdateAsync(user);
+        }
+
+        public override async Task<IdentityResult> CheckDuplicateUsernameOrEmailAddressAsync(long? expectedUserId, string userName, string emailAddress)
+        {
+            var user = (await FindByNameAsync(userName));
+            if (user != null && user.Id != expectedUserId)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError { Description = string.Format(L("Identity.DuplicateUserName"), userName), Code = "DuplicateUserName" } });
+            }
+
+            return IdentityResult.Success;
         }
     }
 }

@@ -13,6 +13,7 @@ using SBCRM.Authorization.Users;
 using LegacyRepositories = SBCRM.Base;
 using SBCRM.MultiTenancy;
 using Abp.IdentityFramework;
+using System;
 
 namespace SBCRM.Authorization
 {
@@ -56,6 +57,7 @@ namespace SBCRM.Authorization
             this._personRepository = personRepository;
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -75,49 +77,52 @@ namespace SBCRM.Authorization
 
                 var user = await userManager.FindByNameAsync(userNameOrEmailAddress);
                 var isEmployeeNumer = int.TryParse(userNameOrEmailAddress, out int employeeNumber);
+
+                Legacy.Secure legacyUser = null;
+
+                if (isEmployeeNumer)
+                    legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeeNumber);
+
+                var isLegacyUser = legacyUser is not null && legacyUser.Password == plainPassword;
                 //IF USER IS NOT IN AbpUsers but it does on dbo.secure 
-                if (user is null && isEmployeeNumer)
+                if (user is null && isLegacyUser)
                 {
-                    var legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeeNumber);
-                    if (legacyUser is not null && legacyUser.Password == plainPassword) //and it has the same password
+                    //we get the person object, this has all the contact information
+                    //TODO: We could try to create a view of something instead of getting to separate entities
+                    var person = await _personRepository.GetPersonByEmployeeNumberAsync(employeeNumber);
+
+                    if (person is null)
+                        throw new ArgumentException($"Employee Number : {employeeNumber}, does not have a record on Person table");
+
+                    //it is the first time, so we need to create him a crm user
+                    //TODO: THIS SHOULD BE A MAPPER
+                    var createUser = new User
                     {
-                        //we get the person object, this has all the contact information
-                        //TODO: We could try to create a view of something instead of getting to separate entities
-                        var person = await _personRepository.GetPersonByEmployeeNumberAsync(employeeNumber);
-                        //it is the first time, so we need to create him a crm user
-                        //TODO: THIS SHOULD BE A MAPPER
-                        var createUser = new User
-                        {
-                            UserName = employeeNumber.ToString(),
-                            Name = person?.FirstName ?? string.Empty,
-                            Surname = person?.LastName ?? string.Empty,
-                            EmailAddress = person?.EMailAddress ?? string.Empty,
-                            PhoneNumber = person?.Phone ?? string.Empty
-                        };
-                        createUser.Password = _passwordHasher.HashPassword(user, plainPassword);
-                        (await UserManager.CreateAsync(createUser)).CheckErrors();
-                        //get the user again
-                        user = await userManager.FindByNameAsync(userNameOrEmailAddress);
-                    }
+                        UserName = employeeNumber.ToString(),
+                        Name = person?.FirstName ?? string.Empty,
+                        Surname = person?.LastName ?? string.Empty,
+                        EmailAddress = person?.EMailAddress ?? string.Empty,
+                        PhoneNumber = person?.Phone ?? string.Empty
+                    };
+                    createUser.Password = _passwordHasher.HashPassword(user, plainPassword);
+                    (await UserManager.CreateAsync(createUser)).CheckErrors();
                 }
-                else if (isEmployeeNumer)
+                else if (isLegacyUser && !await userManager.CheckPasswordAsync(user, plainPassword))//password does not match from secure to the one we have on AbpUsers
                 {
-                    //THE IDEA IS TO GET THE USER, UPDATE THE PASSWORD WITH THE HASHED VERSION
-                    var legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeeNumber);
-                    if (legacyUser is not null && legacyUser.Password == plainPassword)
-                    {
-                        ///CHANGE PASSWORD IS NOT WORKING BECAUSE IS DOING PASSWORD STREGNTH VALIDATIONS
-                        var changePasswordResult = await userManager.ChangePasswordAsync(user, legacyUser.Password);
-                        if (changePasswordResult.Succeeded)
-                        {
-                            //get the user again
-                            user = await userManager.FindByNameAsync(userNameOrEmailAddress);
-                        }
-                    }
+                    await userManager.UpdateSecurityStampAsync(user);//security stamp is required to hash the password
+                    user.Password = _passwordHasher.HashPassword(user, plainPassword);
+                    await userManager.UpdateAsync(user);
+                }
+
+                //get the user again
+                user ??= await userManager.FindByNameAsync(userNameOrEmailAddress);
+
+                if (!await userManager.CheckPasswordAsync(user, plainPassword))
+                {
+                    return new AbpLoginResult<Tenant, User>(AbpLoginResultType.InvalidPassword, null, user);
                 }
 
                 var result = await CreateLoginResultAsync(user, null);
-
 
                 await SaveLoginAttemptAsync(result, tenancyName, userNameOrEmailAddress);
                 return result;

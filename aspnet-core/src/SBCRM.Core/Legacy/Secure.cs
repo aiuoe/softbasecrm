@@ -11,10 +11,9 @@ namespace SBCRM.Legacy
     /// dbo.Secure table from legacy database
     /// </summary>
     [Table("Secure", Schema = "dbo")]
-    [Keyless]
     public class Secure
     {
-
+        [Key]
         public virtual string Password { get; set; }
 
         public virtual int? EmployeeNo { get; set; }
@@ -189,142 +188,142 @@ namespace SBCRM.Legacy
 
         public virtual short? EquipmentUnitNo { get; set; }
 
-        public virtual bool WebAccess { get; set; }
+        public virtual bool? WebAccess { get; set; }
 
-        public virtual bool WebCustomer { get; set; }
+        public virtual bool? WebCustomer { get; set; }
 
         public virtual string WebCustomerNo { get; set; }
 
-        public virtual bool WebWIP { get; set; }
+        public virtual bool? WebWIP { get; set; }
 
-        public virtual bool WebCustWIP { get; set; }
+        public virtual bool? WebCustWIP { get; set; }
 
-        public virtual bool WebCustFleet { get; set; }
+        public virtual bool? WebCustFleet { get; set; }
 
-        public virtual bool WebContacts { get; set; }
+        public virtual bool? WebContacts { get; set; }
 
-        public virtual bool WebCallReports { get; set; }
+        public virtual bool? WebCallReports { get; set; }
 
-        public virtual bool WebEquipmentSummary { get; set; }
+        public virtual bool? WebEquipmentSummary { get; set; }
 
-        public virtual bool WebCustAR { get; set; }
+        public virtual bool? WebCustAR { get; set; }
 
-        public virtual bool InvoiceGPParts { get; set; }
+        public virtual bool? InvoiceGPParts { get; set; }
 
-        public virtual bool InvoiceGPLabor { get; set; }
+        public virtual bool? InvoiceGPLabor { get; set; }
 
-        public virtual bool InvoiceGPMisc { get; set; }
+        public virtual bool? InvoiceGPMisc { get; set; }
 
-        public virtual bool InvoiceGPRental { get; set; }
+        public virtual bool? InvoiceGPRental { get; set; }
 
-        public virtual bool InvoiceGPEquipment { get; set; }
+        public virtual bool? InvoiceGPEquipment { get; set; }
 
-        public virtual bool InvoiceGPTotal { get; set; }
+        public virtual bool? InvoiceGPTotal { get; set; }
 
-        public virtual bool InvoiceAccountingFormat { get; set; }
+        public virtual bool? InvoiceAccountingFormat { get; set; }
 
-        public virtual bool EquipmentControlNo { get; set; }
+        public virtual bool? EquipmentControlNo { get; set; }
 
-        public virtual bool ARComments { get; set; }
+        public virtual bool? ARComments { get; set; }
 
-        public virtual bool CustomerCommission { get; set; }
+        public virtual bool? CustomerCommission { get; set; }
 
-        public virtual bool InvoiceNewEquipment { get; set; }
+        public virtual bool? InvoiceNewEquipment { get; set; }
 
-        public virtual bool InvoiceRates { get; set; }
+        public virtual bool? InvoiceRates { get; set; }
 
-        public virtual bool InvoiceFlatRateLabor { get; set; }
+        public virtual bool? InvoiceFlatRateLabor { get; set; }
 
-        public virtual bool InvoiceFlatRateParts { get; set; }
+        public virtual bool? InvoiceFlatRateParts { get; set; }
 
-        public virtual bool InvoiceFlatRateMisc { get; set; }
+        public virtual bool? InvoiceFlatRateMisc { get; set; }
 
-        public virtual bool InvoiceFlatRateRental { get; set; }
+        public virtual bool? InvoiceFlatRateRental { get; set; }
 
-        public virtual bool InvoiceFlatRateEquipment { get; set; }
+        public virtual bool? InvoiceFlatRateEquipment { get; set; }
 
-        public virtual bool EquipmentInventory { get; set; }
+        public virtual bool? EquipmentInventory { get; set; }
 
-        public virtual bool CustomerRates { get; set; }
+        public virtual bool? CustomerRates { get; set; }
 
-        public virtual bool ProfileARComments { get; set; }
+        public virtual bool? ProfileARComments { get; set; }
 
         public virtual string WebUserID { get; set; }
 
-        public virtual bool ManagementInformation { get; set; }
+        public virtual bool? ManagementInformation { get; set; }
 
-        public virtual bool EquipmentRentalRates { get; set; }
+        public virtual bool? EquipmentRentalRates { get; set; }
 
-        public virtual bool EquipmentGLInfo { get; set; }
+        public virtual bool? EquipmentGLInfo { get; set; }
 
-        public virtual bool PartsApproveOrders { get; set; }
+        public virtual bool? PartsApproveOrders { get; set; }
 
-        public virtual bool PartsLostSale { get; set; }
+        public virtual bool? PartsLostSale { get; set; }
 
-        public virtual bool PartsGroupBinChange { get; set; }
+        public virtual bool? PartsGroupBinChange { get; set; }
 
-        public virtual bool InvoiceAddShipTo { get; set; }
+        public virtual bool? InvoiceAddShipTo { get; set; }
 
-        public virtual bool PartsToyotaNoAutoDash { get; set; }
+        public virtual bool? PartsToyotaNoAutoDash { get; set; }
 
-        public virtual bool PartsWarehouseLimit { get; set; }
+        public virtual bool? PartsWarehouseLimit { get; set; }
 
-        public virtual bool InvoiceOverRideCurrencyRate { get; set; }
+        public virtual bool? InvoiceOverRideCurrencyRate { get; set; }
 
-        public virtual bool InvoicePartsBelowCost { get; set; }
+        public virtual bool? InvoicePartsBelowCost { get; set; }
         public virtual string WebWarehouse { get; set; }
 
-        public virtual bool WebPartsInquiry { get; set; }
+        public virtual bool? WebPartsInquiry { get; set; }
 
-        public virtual bool WebPartsOrder { get; set; }
+        public virtual bool? WebPartsOrder { get; set; }
 
-        public virtual bool InvoiceSalesman { get; set; }
+        public virtual bool? InvoiceSalesman { get; set; }
 
-        public virtual bool EquipmentLocation { get; set; }
+        public virtual bool? EquipmentLocation { get; set; }
 
-        public virtual bool CustomerTerms { get; set; }
+        public virtual bool? CustomerTerms { get; set; }
 
-        public virtual bool InvoiceAutoOpenPMs { get; set; }
+        public virtual bool? InvoiceAutoOpenPMs { get; set; }
 
-        public virtual bool EquipmentTab0 { get; set; }
+        public virtual bool? EquipmentTab0 { get; set; }
 
-        public virtual bool EquipmentTab1 { get; set; }
+        public virtual bool? EquipmentTab1 { get; set; }
 
-        public virtual bool EquipmentTab2 { get; set; }
+        public virtual bool? EquipmentTab2 { get; set; }
 
-        public virtual bool EquipmentTab3 { get; set; }
+        public virtual bool? EquipmentTab3 { get; set; }
 
-        public virtual bool EquipmentTab4 { get; set; }
+        public virtual bool? EquipmentTab4 { get; set; }
 
-        public virtual bool EquipmentTab5 { get; set; }
+        public virtual bool? EquipmentTab5 { get; set; }
 
-        public virtual bool EquipmentTab6 { get; set; }
+        public virtual bool? EquipmentTab6 { get; set; }
 
-        public virtual bool EquipmentTab7 { get; set; }
+        public virtual bool? EquipmentTab7 { get; set; }
 
-        public virtual bool EquipmentTab8 { get; set; }
+        public virtual bool? EquipmentTab8 { get; set; }
 
-        public virtual bool EquipmentTab9 { get; set; }
+        public virtual bool? EquipmentTab9 { get; set; }
 
-        public virtual bool CustomerCreditInfo { get; set; }
+        public virtual bool? CustomerCreditInfo { get; set; }
 
-        public virtual bool InvoiceFixPONo { get; set; }
+        public virtual bool? InvoiceFixPONo { get; set; }
 
-        public virtual bool InvoiceFixSalesman { get; set; }
+        public virtual bool? InvoiceFixSalesman { get; set; }
 
-        public virtual bool InvoiceFixWriter { get; set; }
+        public virtual bool? InvoiceFixWriter { get; set; }
 
-        public virtual bool InvoiceFixShipVia { get; set; }
+        public virtual bool? InvoiceFixShipVia { get; set; }
 
-        public virtual bool InvoiceFixFOB { get; set; }
+        public virtual bool? InvoiceFixFOB { get; set; }
 
-        public virtual bool EquipmentChangeSerialNo { get; set; }
+        public virtual bool? EquipmentChangeSerialNo { get; set; }
 
         public virtual bool? CustomerCC { get; set; }
 
-        public virtual bool EquipmentTab10 { get; set; }
+        public virtual bool? EquipmentTab10 { get; set; }
 
-        public virtual bool InvoiceMechLimitFlag { get; set; }
+        public virtual bool? InvoiceMechLimitFlag { get; set; }
 
         public virtual int? InvoiceMechNo { get; set; }
 
@@ -336,87 +335,87 @@ namespace SBCRM.Legacy
 
         public virtual DateTime? DateChanged { get; set; }
 
-        public virtual bool InvoiceFix { get; set; }
+        public virtual bool? InvoiceFix { get; set; }
 
-        public virtual bool InvoiceFixHourMeter { get; set; }
+        public virtual bool? InvoiceFixHourMeter { get; set; }
 
-        public virtual bool Transportation { get; set; }
+        public virtual bool? Transportation { get; set; }
 
-        public virtual bool TransportationHeader { get; set; }
+        public virtual bool? TransportationHeader { get; set; }
 
-        public virtual bool TransportationDetail { get; set; }
+        public virtual bool? TransportationDetail { get; set; }
 
-        public virtual bool DocumentCenter { get; set; }
+        public virtual bool? DocumentCenter { get; set; }
 
-        public virtual bool DocumentCenterWOAdd { get; set; }
+        public virtual bool? DocumentCenterWOAdd { get; set; }
 
-        public virtual bool DocumentCenterWODelete { get; set; }
+        public virtual bool? DocumentCenterWODelete { get; set; }
 
-        public virtual bool DocumentCenterRentalAdd { get; set; }
+        public virtual bool? DocumentCenterRentalAdd { get; set; }
 
-        public virtual bool DocumentCenterRentalDelete { get; set; }
+        public virtual bool? DocumentCenterRentalDelete { get; set; }
 
-        public virtual bool DocumentCenterMechanicAdd { get; set; }
+        public virtual bool? DocumentCenterMechanicAdd { get; set; }
 
-        public virtual bool DocumentCenterMechanicDelete { get; set; }
+        public virtual bool? DocumentCenterMechanicDelete { get; set; }
 
-        public virtual bool DocumentCenterCustomerAdd { get; set; }
+        public virtual bool? DocumentCenterCustomerAdd { get; set; }
 
-        public virtual bool DocumentCenterCustomerDelete { get; set; }
+        public virtual bool? DocumentCenterCustomerDelete { get; set; }
 
-        public virtual bool DocumentCenterEQAdd { get; set; }
+        public virtual bool? DocumentCenterEQAdd { get; set; }
 
-        public virtual bool DocumentCenterEQDelete { get; set; }
+        public virtual bool? DocumentCenterEQDelete { get; set; }
 
-        public virtual bool DocumentCenterVendorAdd { get; set; }
+        public virtual bool? DocumentCenterVendorAdd { get; set; }
 
-        public virtual bool DocumentCenterVendorDelete { get; set; }
+        public virtual bool? DocumentCenterVendorDelete { get; set; }
 
-        public virtual bool DocumentCenterAPInvoiceAdd { get; set; }
+        public virtual bool? DocumentCenterAPInvoiceAdd { get; set; }
 
-        public virtual bool DocumentCenterAPInvoiceDelete { get; set; }
+        public virtual bool? DocumentCenterAPInvoiceDelete { get; set; }
 
-        public virtual bool DocumentCenterPOAdd { get; set; }
+        public virtual bool? DocumentCenterPOAdd { get; set; }
 
-        public virtual bool DocumentCenterPODelete { get; set; }
+        public virtual bool? DocumentCenterPODelete { get; set; }
 
-        public virtual bool InvoiceFixComments { get; set; }
+        public virtual bool? InvoiceFixComments { get; set; }
 
         public virtual string DispatchName { get; set; }
 
         public virtual bool? SDI { get; set; }
 
-        public virtual bool AdminInspectionSetup { get; set; }
+        public virtual bool? AdminInspectionSetup { get; set; }
 
-        public virtual bool AdminDisableSSN { get; set; }
+        public virtual bool? AdminDisableSSN { get; set; }
 
-        public virtual bool AdminDisableDLN { get; set; }
+        public virtual bool? AdminDisableDLN { get; set; }
 
-        public virtual bool WebServiceDispatch { get; set; }
+        public virtual bool? WebServiceDispatch { get; set; }
 
-        public virtual bool WebTransportationDispatch { get; set; }
+        public virtual bool? WebTransportationDispatch { get; set; }
 
-        public virtual bool WebMobileAdmin { get; set; }
+        public virtual bool? WebMobileAdmin { get; set; }
 
-        public virtual bool WebMobileSalesman { get; set; }
+        public virtual bool? WebMobileSalesman { get; set; }
 
-        public virtual bool WebMobileNoSelfPMDispatch { get; set; }
+        public virtual bool? WebMobileNoSelfPMDispatch { get; set; }
 
-        public virtual bool InvoiceDesignOptions { get; set; }
+        public virtual bool? InvoiceDesignOptions { get; set; }
 
-        public virtual bool PartsUserCrossSetup { get; set; }
+        public virtual bool? PartsUserCrossSetup { get; set; }
 
-        public virtual bool InvoiceFixRentalDates { get; set; }
+        public virtual bool? InvoiceFixRentalDates { get; set; }
 
-        public virtual bool PartsReceiving { get; set; }
+        public virtual bool? PartsReceiving { get; set; }
 
-        public virtual bool AdminDisableHourlyRate { get; set; }
+        public virtual bool? AdminDisableHourlyRate { get; set; }
 
-        public virtual bool WebMobileNoLaborEdit { get; set; }
+        public virtual bool? WebMobileNoLaborEdit { get; set; }
 
-        public virtual bool MechanicClockIn { get; set; }
+        public virtual bool? MechanicClockIn { get; set; }
 
-        public virtual bool PartsDisallowBOCostChange { get; set; }
+        public virtual bool? PartsDisallowBOCostChange { get; set; }
 
     }
 }
