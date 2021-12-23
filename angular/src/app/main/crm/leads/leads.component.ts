@@ -246,7 +246,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
-                this.selectedLeadStatus.id,
+                this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
             )
             .subscribe((result) => {
