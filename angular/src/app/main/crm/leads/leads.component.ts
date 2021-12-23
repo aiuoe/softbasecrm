@@ -13,7 +13,8 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     GetCustomerForViewDto,
-    AccountUserUserLookupTableDto
+    AccountUserUserLookupTableDto,
+    LeadUserUserLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -58,7 +59,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     selectedPriorities: LeadPriorityLookupTableDto[];
     allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
     
-    assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
+    allUsers: LeadUserUserLookupTableDto[];
+    selectedUsers: LeadUserUserLookupTableDto[];
     
     advancedFiltersAreShown = false;
     filterText = '';
@@ -151,6 +153,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             this.allPrioritiesFilter.displayName = "All";
             this.priorities.unshift(this.allPrioritiesFilter);  
         });
+        this._leadsServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
+            this.allUsers = result;           
+        });
     }
 
     /***
@@ -192,7 +197,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
-                this.assignedUsersFilter?.map(x => x.id),
+                this.selectedUsers?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -257,7 +262,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
-                this.assignedUsersFilter?.map(x => x.id),
+                this.selectedUsers?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

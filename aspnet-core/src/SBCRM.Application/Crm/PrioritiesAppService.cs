@@ -18,39 +18,24 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
-    /// <summary>
-    /// PrioritiesAppService
-    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_Priorities)]
     public class PrioritiesAppService : SBCRMAppServiceBase, IPrioritiesAppService
     {
         private readonly IRepository<Priority> _priorityRepository;
         private readonly IPrioritiesExcelExporter _prioritiesExcelExporter;
 
-        /// <summary>
-        /// PrioritiesAppService constructor
-        /// </summary>
-        /// <param name="priorityRepository"></param>
-        /// <param name="prioritiesExcelExporter"></param>
-        public PrioritiesAppService(
-            IRepository<Priority> priorityRepository,
-            IPrioritiesExcelExporter prioritiesExcelExporter)
+        public PrioritiesAppService(IRepository<Priority> priorityRepository, IPrioritiesExcelExporter prioritiesExcelExporter)
         {
             _priorityRepository = priorityRepository;
             _prioritiesExcelExporter = prioritiesExcelExporter;
 
         }
 
-        /// <summary>
-        /// Gets all the priorities
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public async Task<PagedResultDto<GetPriorityForViewDto>> GetAll(GetAllPrioritiesInput input)
         {
 
             var filteredPriorities = _priorityRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
@@ -64,6 +49,7 @@ namespace SBCRM.Crm
 
                                  o.Description,
                                  o.IsDefault,
+                                 o.Color,
                                  Id = o.Id
                              };
 
@@ -81,6 +67,7 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         IsDefault = o.IsDefault,
+                        Color = o.Color,
                         Id = o.Id,
                     }
                 };
@@ -95,11 +82,6 @@ namespace SBCRM.Crm
 
         }
 
-        /// <summary>
-        /// Geta a priority for view by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public async Task<GetPriorityForViewDto> GetPriorityForView(int id)
         {
             var priority = await _priorityRepository.GetAsync(id);
@@ -109,11 +91,6 @@ namespace SBCRM.Crm
             return output;
         }
 
-        /// <summary>
-        /// Gets a priority to be edited
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Priorities_Edit)]
         public async Task<GetPriorityForEditOutput> GetPriorityForEdit(EntityDto input)
         {
@@ -124,11 +101,6 @@ namespace SBCRM.Crm
             return output;
         }
 
-        /// <summary>
-        /// Creates or edits a priority
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditPriorityDto input)
         {
             if (input.Id == null)
@@ -141,11 +113,6 @@ namespace SBCRM.Crm
             }
         }
 
-        /// <summary>
-        /// Creates a new priority
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Priorities_Create)]
         protected virtual async Task Create(CreateOrEditPriorityDto input)
         {
@@ -155,11 +122,6 @@ namespace SBCRM.Crm
 
         }
 
-        /// <summary>
-        /// Updates a priority
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Priorities_Edit)]
         protected virtual async Task Update(CreateOrEditPriorityDto input)
         {
@@ -168,27 +130,17 @@ namespace SBCRM.Crm
 
         }
 
-        /// <summary>
-        /// Deletes a priority
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Priorities_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _priorityRepository.DeleteAsync(input.Id);
         }
 
-        /// <summary>
-        /// Gets an excel file with a list of priorities
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns><see cref="FileDto"/></returns>
         public async Task<FileDto> GetPrioritiesToExcel(GetAllPrioritiesForExcelInput input)
         {
 
             var filteredPriorities = _priorityRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
@@ -199,6 +151,7 @@ namespace SBCRM.Crm
                              {
                                  Description = o.Description,
                                  IsDefault = o.IsDefault,
+                                 Color = o.Color,
                                  Id = o.Id
                              }
                          });

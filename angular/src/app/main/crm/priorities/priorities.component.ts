@@ -18,9 +18,6 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
-/**
- * Component that shows all priorities
- */
 @Component({
     templateUrl: './priorities.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -39,16 +36,6 @@ export class PrioritiesComponent extends AppComponentBase {
     descriptionFilter = '';
     isDefaultFilter = -1;
 
-    /**
-     * Main Constructor
-     * @param injector 
-     * @param _prioritiesServiceProxy 
-     * @param _notifyService 
-     * @param _tokenAuth 
-     * @param _activatedRoute 
-     * @param _fileDownloadService 
-     * @param _dateTimeService 
-     */
     constructor(
         injector: Injector,
         private _prioritiesServiceProxy: PrioritiesServiceProxy,
@@ -61,11 +48,6 @@ export class PrioritiesComponent extends AppComponentBase {
         super(injector);
     }
 
-    /**
-     * Gets all the priorities
-     * @param event 
-     * @returns 
-     */
     getPriorities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -90,24 +72,14 @@ export class PrioritiesComponent extends AppComponentBase {
             });
     }
 
-    /**
-     * Reload the page
-     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    /**
-     * Opens the modal to create a new priority
-     */
     createPriority(): void {
         this.createOrEditPriorityModal.show();
     }
 
-    /**
-     * Deletes a priority
-     * @param priority the priority to be deleted
-     */
     deletePriority(priority: PriorityDto): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {

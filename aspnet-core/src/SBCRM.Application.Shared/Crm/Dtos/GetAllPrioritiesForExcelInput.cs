@@ -3,9 +3,6 @@ using System;
 
 namespace SBCRM.Crm.Dtos
 {
-    /// <summary>
-    /// DTO to manage the object priorities for excel input purposes
-    /// </summary>
     public class GetAllPrioritiesForExcelInput
     {
         public string Filter { get; set; }

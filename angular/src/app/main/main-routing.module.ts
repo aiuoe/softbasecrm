@@ -9,6 +9,13 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'crm/priorities',
+                        loadChildren: () => import('./crm/priorities/priority.module').then(m => m.PriorityModule),
+                        data: { permission: 'Pages.Priorities' }
+                    },
+                
+                    
+                    {
                         path: 'crm/opportunities',
                         loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
                         data: { permission: 'Pages.Opportunities' }

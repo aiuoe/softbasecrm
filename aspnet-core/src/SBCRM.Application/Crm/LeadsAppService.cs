@@ -43,6 +43,8 @@ namespace SBCRM.Crm
         private readonly IRepository<Country> _countryRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
 
+        private readonly string _assignedUserSortKey = "users.userFk.name";
+
         /// <summary>
         /// Base constructor
         /// </summary>
@@ -90,142 +92,170 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
         {
+            try
+            { 
+                var filteredLeads = _leadRepository.GetAll()
+                               .Include(e => e.LeadSourceFk)
+                               .Include(e => e.LeadStatusFk)
+                               .Include(e => e.PriorityFk)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPositionFilter), e => e.ContactPosition == input.ContactPositionFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.WebSiteFilter), e => e.WebSite == input.WebSiteFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.AddressFilter), e => e.Address == input.AddressFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ZipCodeFilter), e => e.ZipCode == input.ZipCodeFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneFilter), e => e.ContactPhone == input.ContactPhoneFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneExtensionFilter), e => e.ContactPhoneExtension == input.ContactPhoneExtensionFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactCellPhoneFilter), e => e.ContactCellPhone == input.ContactCellPhoneFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactFaxNumberFilter), e => e.ContactFaxNumber == input.ContactFaxNumberFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.PagerNumberFilter), e => e.PagerNumber == input.PagerNumberFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.ContactEmailFilter), e => e.ContactEmail == input.ContactEmailFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
+                               .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
+                               .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
+                               .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
 
-            var filteredLeads = _leadRepository.GetAll()
-                           .Include(e => e.LeadSourceFk)
-                           .Include(e => e.LeadStatusFk)
-                           .Include(e => e.PriorityFk)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPositionFilter), e => e.ContactPosition == input.ContactPositionFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.WebSiteFilter), e => e.WebSite == input.WebSiteFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.AddressFilter), e => e.Address == input.AddressFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ZipCodeFilter), e => e.ZipCode == input.ZipCodeFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneFilter), e => e.ContactPhone == input.ContactPhoneFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactPhoneExtensionFilter), e => e.ContactPhoneExtension == input.ContactPhoneExtensionFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactCellPhoneFilter), e => e.ContactCellPhone == input.ContactCellPhoneFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactFaxNumberFilter), e => e.ContactFaxNumber == input.ContactFaxNumberFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.PagerNumberFilter), e => e.PagerNumber == input.PagerNumberFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.ContactEmailFilter), e => e.ContactEmail == input.ContactEmailFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.LeadStatusDescriptionFilter), e => e.LeadStatusFk != null && e.LeadStatusFk.Description == input.LeadStatusDescriptionFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
-                           .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
-                           .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
-                           .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
+                var isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
 
+                IQueryable<LeadQueryDto> leads;
 
-            IQueryable<Lead> pagedAndFilteredLeads; 
-
-            if (input.Sorting != null)
-                pagedAndFilteredLeads = filteredLeads
-                .OrderBy(input.Sorting)
-                .PageBy(input);
-            else
-                pagedAndFilteredLeads = filteredLeads
-                .OrderByDescending(o => o.CreationTime)
-                .ThenByDescending(s1 => s1.Description)
-                .ThenBy(s2 => s2.Description)
-                .ThenBy(o => o.CompanyName)
-                .ThenBy(o => o.ContactName)
-                .PageBy(input);
-
-            var leads = from o in pagedAndFilteredLeads
-                        join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
-                        from s1 in j1.DefaultIfEmpty()
-
-                        join o2 in _lookupLeadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
-                        from s2 in j2.DefaultIfEmpty()
-
-                        join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
-                        from s3 in j3.DefaultIfEmpty()
-
-                        select new
-                        {
-                            o.CompanyName,
-                            o.ContactName,
-                            o.ContactPosition,
-                            o.WebSite,
-                            o.Address,
-                            o.Country,
-                            o.State,
-                            o.City,
-                            o.Description,
-                            o.CompanyPhone,
-                            o.CompanyEmail,
-                            o.PoBox,
-                            o.ZipCode,
-                            o.ContactPhone,
-                            o.ContactPhoneExtension,
-                            o.ContactCellPhone,
-                            o.ContactFaxNumber,
-                            o.PagerNumber,
-                            o.ContactEmail,
-                            o.Id,
-                            LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
-                            LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
-                            CanBeConvert =  s2 != null && s2.IsLeadConversionValid,
-                            LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
-                            PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                            o.CreationTime
-                        };
-
-            var totalCount = await filteredLeads.CountAsync();
-
-            var dbList = await leads.ToListAsync();
-            var results = new List<GetLeadForViewDto>();
-
-            foreach (var o in dbList)
-            {
-                var res = new GetLeadForViewDto()
+                if (isAssignedUserSorting)
                 {
-                    Lead = new LeadDto
-                    {
+                    input.Sorting = input.Sorting.Replace(_assignedUserSortKey, $"{nameof(LeadQueryDto.FirstUserAssignedName)}");
+                    leads = from o in filteredLeads
+                            join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
+                            from s1 in j1.DefaultIfEmpty()
 
-                        CompanyName = o.CompanyName,
-                        ContactName = o.ContactName,
-                        ContactPosition = o.ContactPosition,
-                        WebSite = o.WebSite,
-                        Address = o.Address,
-                        Country = o.Country,
-                        State = o.State,
-                        City = o.City,
-                        Description = o.Description,
-                        CompanyPhone = o.CompanyPhone,
-                        CompanyEmail = o.CompanyEmail,
-                        PoBox = o.PoBox,
-                        ZipCode = o.ZipCode,
-                        ContactPhone = o.ContactPhone,
-                        ContactPhoneExtension = o.ContactPhoneExtension,
-                        ContactCellPhone = o.ContactCellPhone,
-                        ContactFaxNumber = o.ContactFaxNumber,
-                        PagerNumber = o.PagerNumber,
-                        ContactEmail = o.ContactEmail,
-                        Id = o.Id,
-                        CreationTime = o.CreationTime
-                    },
-                    LeadSourceDescription = o.LeadSourceDescription,
-                    LeadStatusDescription = o.LeadStatusDescription,
-                    LeadCanBeConvert = o.CanBeConvert,
-                    LeadStatusColor = o.LeadStatusColor,
-                    PriorityDescription = o.PriorityDescription
-                };
+                            join o2 in _lookupLeadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
+                            from s2 in j2.DefaultIfEmpty()
 
-                results.Add(res);
+                            join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
+                            from s3 in j3.DefaultIfEmpty()
+
+                            select new LeadQueryDto
+                            {
+                                CompanyName = o.CompanyName,
+                                ContactName = o.ContactName,
+                                ContactPosition = o.ContactPosition,
+                                WebSite = o.WebSite,
+                                Address = o.Address,
+                                Country = o.Country,
+                                State = o.State,
+                                City = o.City,
+                                Description = o.Description,
+                                CompanyPhone = o.CompanyPhone,
+                                CompanyEmail = o.CompanyEmail,
+                                PoBox = o.PoBox,
+                                ZipCode = o.ZipCode,
+                                ContactPhone = o.ContactPhone,
+                                ContactPhoneExtension = o.ContactPhoneExtension,
+                                ContactCellPhone = o.ContactCellPhone,
+                                ContactFaxNumber = o.ContactFaxNumber,
+                                PagerNumber = o.PagerNumber,
+                                ContactEmail = o.ContactEmail,
+                                Id = o.Id,
+                                CreationTime = o.CreationTime,
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
+                                LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
+                                PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                PriorityColor = s3 == null || s3.Color == null ? "" : s3.Color,
+                                FirstUserAssignedName = (from s in _leadUserRepository.GetAll()
+                                            .Include(x => x.UserFk)
+                                                         where s.Id == o.Id
+                                                         select s.UserFk.Name
+                                    ).OrderBy(x => x).FirstOrDefault()
+                            };
+
+                    leads = leads
+                            .OrderBy(input.Sorting)
+                            .PageBy(input);
+                }
+                else
+                {
+                    IQueryable<Lead> pagedAndFilteredOpportunities;
+
+                    if (input.Sorting != null)
+                        pagedAndFilteredOpportunities = filteredLeads
+                            .OrderBy(input.Sorting)
+                            .PageBy(input);
+                    else
+                        pagedAndFilteredOpportunities = filteredLeads
+                            .OrderByDescending(o => o.CreationTime)
+                            .ThenByDescending(s1 => s1.Description)
+                            .ThenBy(s2 => s2.Description)
+                            .ThenBy(o => o.CompanyName)
+                            .ThenBy(o => o.ContactName)
+                            .PageBy(input);
+
+                    leads = from o in pagedAndFilteredOpportunities
+                            join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
+                            from s1 in j1.DefaultIfEmpty()
+
+                            join o2 in _lookupLeadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
+                            from s2 in j2.DefaultIfEmpty()
+
+                            join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
+                            from s3 in j3.DefaultIfEmpty()
+
+                            select new LeadQueryDto
+                            {
+                                CompanyName = o.CompanyName,
+                                ContactName = o.ContactName,
+                                ContactPosition = o.ContactPosition,
+                                WebSite = o.WebSite,
+                                Address = o.Address,
+                                Country = o.Country,
+                                State = o.State,
+                                City = o.City,
+                                Description = o.Description,
+                                CompanyPhone = o.CompanyPhone,
+                                CompanyEmail = o.CompanyEmail,
+                                PoBox = o.PoBox,
+                                ZipCode = o.ZipCode,
+                                ContactPhone = o.ContactPhone,
+                                ContactPhoneExtension = o.ContactPhoneExtension,
+                                ContactCellPhone = o.ContactCellPhone,
+                                ContactFaxNumber = o.ContactFaxNumber,
+                                PagerNumber = o.PagerNumber,
+                                ContactEmail = o.ContactEmail,
+                                Id = o.Id,
+                                CreationTime = o.CreationTime,
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
+                                LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
+                                PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                PriorityColor = s3 == null || s3.Color == null ? "" : s3.Color
+                            };
+                }
+
+                var totalCount = await filteredLeads.CountAsync();
+
+                var dbList = await leads.ToListAsync();
+                var results = GetLeadForViewDtos(dbList);
+
+                return new PagedResultDto<GetLeadForViewDto>(
+                    totalCount,
+                    results
+                );
             }
-
-            return new PagedResultDto<GetLeadForViewDto>(
-                totalCount,
-                results
-            );
+            catch (Exception e)
+            {
+                Logger.Error("Error in LeadsAppService -> ", e);
+                throw;
+            }
 
         }
 
@@ -560,40 +590,111 @@ namespace SBCRM.Crm
                          join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
                          from s3 in j3.DefaultIfEmpty()
 
-                         select new GetLeadForViewDto()
+                         select new LeadQueryDto
                          {
-                             Lead = new LeadDto
-                             {
-                                 CompanyName = o.CompanyName,
-                                 ContactName = o.ContactName,
-                                 ContactPosition = o.ContactPosition,
-                                 WebSite = o.WebSite,
-                                 Address = o.Address,
-                                 Country = o.Country,
-                                 State = o.State,
-                                 City = o.City,
-                                 Description = o.Description,
-                                 CompanyPhone = o.CompanyPhone,
-                                 CompanyEmail = o.CompanyEmail,
-                                 PoBox = o.PoBox,
-                                 ZipCode = o.ZipCode,
-                                 ContactPhone = o.ContactPhone,
-                                 ContactPhoneExtension = o.ContactPhoneExtension,
-                                 ContactCellPhone = o.ContactCellPhone,
-                                 ContactFaxNumber = o.ContactFaxNumber,
-                                 PagerNumber = o.PagerNumber,
-                                 ContactEmail = o.ContactEmail,
-                                 Id = o.Id,
-                                 CreationTime = o.CreationTime
-                             },
+                             CompanyName = o.CompanyName,
+                             ContactName = o.ContactName,
+                             ContactPosition = o.ContactPosition,
+                             WebSite = o.WebSite,
+                             Address = o.Address,
+                             Country = o.Country,
+                             State = o.State,
+                             City = o.City,
+                             Description = o.Description,
+                             CompanyPhone = o.CompanyPhone,
+                             CompanyEmail = o.CompanyEmail,
+                             PoBox = o.PoBox,
+                             ZipCode = o.ZipCode,
+                             ContactPhone = o.ContactPhone,
+                             ContactPhoneExtension = o.ContactPhoneExtension,
+                             ContactCellPhone = o.ContactCellPhone,
+                             ContactFaxNumber = o.ContactFaxNumber,
+                             PagerNumber = o.PagerNumber,
+                             ContactEmail = o.ContactEmail,
+                             Id = o.Id,
+                             CreationTime = o.CreationTime,                             
                              LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                              PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
                          });
 
-            var leadListDtos = await query.ToListAsync();
+            var dbList = await query.ToListAsync();
+            var leads = GetLeadForViewDtos(dbList);
 
-            return _leadsExcelExporter.ExportToFile(leadListDtos);
+            return _leadsExcelExporter.ExportToFile(leads);
+        }
+
+        /// <summary>
+        /// Get list of Lead Query Dtos for view
+        /// </summary>
+        /// <param name="dbList"></param>
+        /// <returns></returns>
+        private static List<GetLeadForViewDto> GetLeadForViewDtos(List<LeadQueryDto> dbList)
+        {
+            var results = new List<GetLeadForViewDto>();
+
+            foreach (var o in dbList)
+            {
+                var res = new GetLeadForViewDto
+                {
+                    Lead = new LeadDto
+                    {
+
+                        CompanyName = o.CompanyName,
+                        ContactName = o.ContactName,
+                        ContactPosition = o.ContactPosition,
+                        WebSite = o.WebSite,
+                        Address = o.Address,
+                        Country = o.Country,
+                        State = o.State,
+                        City = o.City,
+                        Description = o.Description,
+                        CompanyPhone = o.CompanyPhone,
+                        CompanyEmail = o.CompanyEmail,
+                        PoBox = o.PoBox,
+                        ZipCode = o.ZipCode,
+                        ContactPhone = o.ContactPhone,
+                        ContactPhoneExtension = o.ContactPhoneExtension,
+                        ContactCellPhone = o.ContactCellPhone,
+                        ContactFaxNumber = o.ContactFaxNumber,
+                        PagerNumber = o.PagerNumber,
+                        ContactEmail = o.ContactEmail,
+                        Id = o.Id,
+                        CreationTime = o.CreationTime
+                    },
+                    LeadSourceDescription = o.LeadSourceDescription,
+                    LeadStatusDescription = o.LeadStatusDescription,
+                    LeadCanBeConvert = o.LeadCanBeConvert,
+                    LeadStatusColor = o.LeadStatusColor,
+                    PriorityDescription = o.PriorityDescription
+                };
+
+                if (!(o.Users == null))
+                {
+                    var leadUsers = o.Users
+                        .Select(x => new LeadUserViewDto
+                        {
+                            LeadId = x.Id,
+                            UserId = x.UserFk.Id,
+                            Name = x.UserFk.Name,
+                            SurName = x.UserFk.Surname,
+                            FullName = x.UserFk.FullName,
+                            ProfilePictureUrl = x.UserFk.ProfilePictureId
+                        }).ToList();
+                    res.Lead.Users = leadUsers;
+                    var leadUser = leadUsers.OrderBy(x => x.Name).First();
+                    res.FirstUserAssignedName = leadUser.Name;
+                    res.FirstUserAssignedSurName = leadUser.SurName;
+                    res.FirstUserAssignedFullName = leadUser.FullName;
+                    res.FirstUserProfilePictureUrl = leadUser.ProfilePictureUrl;
+                    res.FirstUserAssignedId = leadUser.UserId;
+                    res.AssignedUsers = leadUsers.Count;
+                }
+
+                results.Add(res);
+            }
+
+            return results;
         }
 
         /// <summary>

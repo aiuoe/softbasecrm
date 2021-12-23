@@ -3,9 +3,6 @@ using System;
 
 namespace SBCRM.Crm.Dtos
 {
-    /// <summary>
-    /// DTO used as input for the get all priorities method that includes filters
-    /// </summary>
     public class GetAllPrioritiesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

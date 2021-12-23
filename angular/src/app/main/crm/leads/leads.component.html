@@ -74,19 +74,21 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <!-- <div class="col-md-3">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
-                                        <p-multiSelect id="AccountTypeFilter"
-                                            name="AccountTypeFilter"
-                                            [options]="accountTypes"
-                                            [(ngModel)]="selectedAccountTypes"
+                                        <p-multiSelect 
+                                            id="UserAssignedFilter"
+                                            name="UserAssignedFilter"
+                                            [options]="allUsers"
+                                            [(ngModel)]="selectedUsers"
                                             optionLabel="displayName"
-                                            placeholder="Filter by Type"
-                                            (onChange)="getCustomer()">
+                                            placeholder="Filter by Users"
+                                            (onChange)="getLeads($event)"
+                                        >
                                         </p-multiSelect>
                                     </div>
-                                </div> -->
+                                </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -318,12 +320,14 @@
                                         </td>
                                         <!-- These is just a placeholder -->
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <img
-                                                width="50"
-                                                height="50"
-                                                src="\assets\metronic\common\images\users\100_4.jpg">
-                                                {{ l('Placeholder') }}
+                                            <span>
+                                                <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
+                                                    <img class="img-circle" [src]="record.profilePictureUrl" />
+                                                </a>
+                                                <p [className]="record.assignedUsers > 1 ? 'no-wrap-150' : ''">
+                                                    {{ record.firstUserAssignedFullName }}
+                                                </p>
+                                            </span>
                                         </td>
                                         <!-- Above is just a placeholder -->
                                         <td style="width: 150px">

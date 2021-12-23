@@ -1,12 +1,16 @@
-﻿using SBCRM.Dto;
+﻿using Abp.Domain.Entities.Auditing;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SBCRM.Crm.Dtos
+namespace SBCRM.Crm
 {
     /// <summary>
-    /// DTO to manage the object lead
+    /// DTO to manage the object query lead information
     /// </summary>
-    public class LeadDto : AuditEntityDto
+    public class LeadQueryDto : FullAuditedEntity
     {
         public string CompanyName { get; set; }
 
@@ -52,6 +56,22 @@ namespace SBCRM.Crm.Dtos
 
         public int? PriorityId { get; set; }
 
-        public List<LeadUserViewDto> Users { get; set; }
+        public string LeadSourceDescription { get; set; }
+
+        public string LeadStatusDescription { get; set; }
+
+        public string LeadStatusColor { get; set; }
+
+        public string PriorityDescription { get; set; }
+
+        public bool LeadCanBeConvert { get; set; }
+
+        public string PriorityColor { get; set; }
+
+        public string FirstUserAssignedName { get; set; }
+
+        public List<LeadUser> Users { get; set; }
+
     }
 }
+

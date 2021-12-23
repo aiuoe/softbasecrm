@@ -34,7 +34,7 @@ namespace SBCRM.Authorization
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
-            
+
             var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
@@ -119,7 +119,6 @@ namespace SBCRM.Authorization
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteAccountContact"));
-
 
             var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));
