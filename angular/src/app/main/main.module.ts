@@ -18,6 +18,7 @@ import { SubheaderModule } from '@app/shared/common/sub-header/subheader.module'
 
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { GlobalSearchComponent } from './global-search/global-search.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -39,7 +40,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         DropdownModule,
         MultiSelectModule
     ],
-    declarations: [],
+    declarations: [
+        GlobalSearchComponent
+    ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },

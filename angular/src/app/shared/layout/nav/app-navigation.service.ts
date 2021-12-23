@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
 import { PermissionCheckerService } from 'abp-ng2-module';
@@ -122,7 +122,8 @@ export class AppNavigationService {
                         '/app/admin/languages',
                         ['/app/admin/languages/{name}/texts']
                     )
-                ])
+                ]),
+            new AppMenuItem("Search", "Pages.GlobalSearch", "flaticon-book", "/app/main/global-search")
         ]);
     }
 

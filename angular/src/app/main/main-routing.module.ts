@@ -1,5 +1,6 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { GlobalSearchComponent } from './global-search/global-search.component';
 
 @NgModule({
     imports: [
@@ -7,136 +8,136 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
-                    
+
                     {
                         path: 'crm/opportunities',
                         loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
                         data: { permission: 'Pages.Opportunities' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunities',
                         loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
                         data: { permission: 'Pages.Opportunities' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunityStages',
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
                     },
-                    
+
                     {
                         path: 'crm/accountUsers',
                         loadChildren: () => import('./crm/assigned-user/assigned-user.module').then(m => m.AssignedUserModule),
                         data: { permission: 'Pages.AccountUsers' }
                     },
 
-                    {    
+                    {
                         path: 'crm/countries',
                         loadChildren: () => import('./crm/countries/country.module').then(m => m.CountryModule),
                         data: { permission: 'Pages.Countries' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/leadSources',
                         loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
                         data: { permission: 'Pages.LeadSources' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/leadStatuses',
                         loadChildren: () => import('./crm/leadStatuses/leadStatus.module').then(m => m.LeadStatusModule),
                         data: { permission: 'Pages.LeadStatuses' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/priorities',
                         loadChildren: () => import('./crm/priorities/priority.module').then(m => m.PriorityModule),
                         data: { permission: 'Pages.Priorities' }
                     },
-                
+
 
                     {
                         path: 'crm/opportunityStages',
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunities',
                         loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
                         data: { permission: 'Pages.Opportunities' }
                     },
-                
-                    {    
+
+                    {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
                         data: { permission: 'Pages.ActivityStatuses' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/activityTaskTypes',
                         loadChildren: () => import('./crm/activityTaskTypes/activityTaskType.module').then(m => m.ActivityTaskTypeModule),
                         data: { permission: 'Pages.ActivityTaskTypes' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/leadSources',
                         loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
                         data: { permission: 'Pages.LeadSources' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunityTypes',
                         loadChildren: () => import('./crm/opportunityTypes/opportunityType.module').then(m => m.OpportunityTypeModule),
                         data: { permission: 'Pages.OpportunityTypes' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunityStages',
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
                     },
-                
+
                     {
                         path: 'crm/opportunityTypes',
                         loadChildren: () => import('./crm/opportunityTypes/opportunityType.module').then(m => m.OpportunityTypeModule),
                         data: { permission: 'Pages.OpportunityTypes' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunityStages',
                         loadChildren: () => import('./crm/opportunityStages/opportunityStage.module').then(m => m.OpportunityStageModule),
                         data: { permission: 'Pages.OpportunityStages' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/opportunities',
                         loadChildren: () => import('./crm/opportunities/opportunity.module').then(m => m.OpportunityModule),
                         data: { permission: 'Pages.Opportunities' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/leadStatuses',
                         loadChildren: () => import('./crm/leadStatuses/leadStatus.module').then(m => m.LeadStatusModule),
                         data: { permission: 'Pages.LeadStatuses' }
                     },
-                
-                    
+
+
                     {
                         path: 'crm/leads',
                         loadChildren: () => import('./crm/leads/lead.module').then(m => m.LeadModule),
@@ -175,6 +176,13 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
                         data: { permission: 'Pages.Tenant.Dashboard' },
                     },
+
+                    {
+                        path: 'global-search',
+                        loadChildren: () => import('./global-search/global-search.component').then((m) => m.GlobalSearchComponent),
+                        data: { permission: 'Pages.GlobalSearch' },
+                    },
+
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                     { path: '**', redirectTo: 'dashboard' },
                 ],
