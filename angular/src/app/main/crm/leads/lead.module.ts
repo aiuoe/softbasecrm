@@ -11,10 +11,13 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
+import { AssignedUserModule } from '../assigned-user/assigned-user.module';
+import { LeadUsersServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @NgModule({
     declarations: [LeadsComponent, CreateOrEditLeadComponent, ViewLeadComponent, ImportLeadsModalComponent],
-    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, InputTextareaModule, DialogModule, DropdownModule,MultiSelectModule],
+    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, InputTextareaModule, DialogModule, DropdownModule,MultiSelectModule, AssignedUserModule],
+    providers: [LeadUsersServiceProxy]
 })
 export class LeadModule { }
 

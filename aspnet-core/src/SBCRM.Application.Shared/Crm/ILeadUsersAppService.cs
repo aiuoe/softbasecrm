@@ -54,5 +54,12 @@ namespace SBCRM.Crm
         /// <returns></returns>
         Task<List<LeadUserUserLookupTableDto>> GetAllUserForTableDropdown();
 
+        /// <summary>
+        /// This method save a list of users connected with an specific Account
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task CreateMultipleLeadUsers(List<CreateOrEditLeadUserDto> input);
+
     }
 }
