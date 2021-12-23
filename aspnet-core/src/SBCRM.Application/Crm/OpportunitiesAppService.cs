@@ -90,7 +90,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
-                        .WhereIf(input.OpportunityStageId.Any(), x => input.OpportunityStageId.Contains(x.OpportunityStageFk.Id));
+                        .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
 
             IQueryable<Opportunity> pagedAndFilteredOpportunities;
 
@@ -365,7 +365,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
-                        .WhereIf(input.OpportunityStageId.Any(), x => input.OpportunityStageId.Contains(x.OpportunityStageFk.Id));
+                        .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
 
             var query = (from o in filteredOpportunities
                          join o1 in _lookup_opportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1

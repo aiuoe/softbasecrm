@@ -13801,7 +13801,7 @@ export class OpportunitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13870,7 +13870,7 @@ export class OpportunitiesServiceProxy {
         if (opportunityStageId === null)
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
-            opportunityStageId && opportunityStageId.forEach(item => { url_ += "OpportunityStageId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "OpportunityStageId=" + encodeURIComponent("" + opportunityStageId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -14165,7 +14165,7 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageId (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14234,7 +14234,7 @@ export class OpportunitiesServiceProxy {
         if (opportunityStageId === null)
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
-            opportunityStageId && opportunityStageId.forEach(item => { url_ += "OpportunityStageId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "OpportunityStageId=" + encodeURIComponent("" + opportunityStageId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

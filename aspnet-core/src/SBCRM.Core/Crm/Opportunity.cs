@@ -37,8 +37,8 @@ namespace SBCRM.Crm
         [StringLength(OpportunityConsts.MaxDepartmentLength, MinimumLength = OpportunityConsts.MinDepartmentLength)]
         public virtual string Department { get; set; }
 
-        [Required(ErrorMessage = "A Source is required")]
-        public virtual int OpportunityStageId { get; set; }
+        [Required(ErrorMessage = "An Stage is required")]
+        public virtual int? OpportunityStageId { get; set; }
 
         [ForeignKey("OpportunityStageId")]
         public OpportunityStage OpportunityStageFk { get; set; }
@@ -54,7 +54,7 @@ namespace SBCRM.Crm
         public OpportunityType OpportunityTypeFk { get; set; }
 
         [Required(ErrorMessage = "A Contact is required")]
-        public virtual int ContactId { get; set; }
+        public virtual int? ContactId { get; set; }
 
         [ForeignKey("ContactId")]
         public Contact ContactFk { get; set; }
