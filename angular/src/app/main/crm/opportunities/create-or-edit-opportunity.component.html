@@ -1,305 +1,319 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
 
-        <sub-header [title]="('Opportunities' | localize)" [breadcrumbs]="breadcrumbs">
+        <sub-header 
+            [title]="('Opportunities' | localize)" 
+            [breadcrumbs]="breadcrumbs"
+            [hideSeparator]="true"
+        >    
             <div role="actions">
-                <button (click)="goToOpportunities()" class="btn btn-secondary float-left" [buttonBusy]="saving">
-                    <span>{{ l('Cancel') }}</span>
-                </button>
-                <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
-                    [busyText]="l('SavingWithThreeDot')">
-                    <span>{{ l('Save') }}</span>
+                <button 
+                    (click)="goToOpportunities()"
+                    class="btn btn-secondary float-left" 
+                    [buttonBusy]="saving">
+                        <span>{{ l('Close') }}</span>
                 </button>
             </div>
         </sub-header>
 
-        <div [class]="containerClass">
-            <div class="row">
-                <div class="col-sm-8 col-md-9">
-                    <div class="card card-custom gutter-b">
-                        <div class="card-body">
-                            <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
-                                <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                    <i class="pi pi-user"></i>
-                                    {{ l('GeneralInformation') }}
-                                </h3>
-                                <div class="row">
-
-                                    <div class="col-md-6">
-                                        <div class="form-group input-field required">
-                                            <label for="Opportunity_Name">{{ l('Name') }}</label>
-                                            <input 
-                                                type="text" 
-                                                #Opportunity_Name="ngModel" 
-                                                id="Opportunity_Name"
-                                                class="form-control" 
-                                                [(ngModel)]="opportunity.name"
-                                                [placeholder]="l('Name')" 
-                                                name="Name"
-                                                maxlength="64" required />
-                                            <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
+        <div [class]="containerClass" [busyIf]="this.isPageLoading">
+            <tabset>
+                <tab heading="{{ 'Overview' | localize }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <div class="row" *ngIf="this.showSaveButton">
+                                        <div class="col-12">
+                                            <button 
+                                                (click)="save()" 
+                                                class="btn btn-primary blue float-right" 
+                                                [buttonBusy]="saving"
+                                            >    
+                                                <i class="fa fa-save"></i>                               
+                                                <span>{{ l('Save') }}</span>
+                                            </button>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-md-4">
-                                        <div class="form-group m-form__group">
-                                            <label for="OpportunityStageDescription">{{ l('Stage') }}</label>
-                                            <select 
-                                                name="opportunity.opportunityStageId"
-                                                [(ngModel)]="opportunity.opportunityStageId"
-                                                class="form-control"
-                                                required>                                                 
-                                                <!-- <option 
-                                                    *ngFor="let item of allOpportunityStages; 
-                                                    let i = index"
-                                                    value="{{ item.id }}"
-                                                    [selected]="i == 0"
+                                    <div class="row" *ngIf="!this.showSaveButton && this.isReadOnlyMode">
+                                        <div class="col-12">
+                                            <button 
+                                                (click)="openEditionMode()" 
+                                                class="btn btn-primary blue float-right"
+                                            >
+                                                <i class="fas fa-pencil-alt"></i>
+                                                <span>{{ l('Edit') }}</span>
+                                            </button>
+                                        </div>
+                                    </div>      
+                                    <div class="row">
+                                        <div class="col-12">                    
+                                            <form #OpportunityForm="ngForm" role="form" class="form-validation" novalidate>
+                                                <h3 
+                                                    class="font-size-lg text-dark font-weight-bold mb-6"
                                                 >
-                                                    {{ item.displayName }}                                                
-                                                </option> -->
-                                                <option *ngFor="let item of allOpportunityStages;
-                                                let i = index" 
-                                                [ngValue]="item.id"
-                                                >                                                
-                                                    {{ item.displayName }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                                    <i class="pi pi-user"></i>
+                                                    {{ l('GeneralInformation') }}
+                                                </h3>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group input-field required">
+                                                            <label for="Opportunity_Name">{{ l('Name') }}</label>
+                                                            <input                                                 
+                                                                type="text" 
+                                                                #Opportunity_Name="ngModel" 
+                                                                id="Opportunity_Name"
+                                                                class="form-control" 
+                                                                [(ngModel)]="opportunity.name"
+                                                                [placeholder]="l('InputName')" 
+                                                                name="Name"
+                                                                maxlength="64" 
+                                                                required
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />   
+                                                            <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
+                                                        </div>
+                                                    </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Opportunity_Amount">{{ l('Amount') }}</label>
-                                            <input 
-                                                type="number" 
-                                                #Opportunity_Amount="ngModel" 
-                                                id="Opportunity_Amount"
-                                                class="form-control" 
-                                                [(ngModel)]="opportunity.amount"
-                                                [placeholder]="l('OpportunityAmmountFormat')" 
-                                                min="1"
-                                                name="Amount"
-                                            />
-                                            <validation-messages [formCtrl]="Opportunity_Amount"></validation-messages>
-                                        </div>
-                                    </div>
+                                                    <div class="col-md-6 input-field required">   
+                                                                  
+                                                        <label for="Opportunity_Account">{{ l('Account') }}</label>
+                                                        <p-dropdown
+                                                            [required]="true"                                                     
+                                                            id="Opportunity_Account"
+                                                            #Opportunity_Account="ngModel" 
+                                                            #name="ngModel"  
+                                                            [ngModelOptions]="{standalone: true}"                                                          
+                                                            [options]="allCustomers"
+                                                            [(ngModel)]="opportunity.customerNumber"
+                                                            optionValue="number"
+                                                            optionLabel="name"
+                                                            placeholder="{{ l('InputAccount') }}"
+                                                            [virtualScroll]="true" 
+                                                            itemSize="40"      
+                                                            [showClear]="true"
+                                                            [filter]="true"
+                                                            (onChange)="getContactsAccordingToCustomer($event.value)" 
+                                                            [disabled]="this.isReadOnlyMode || !this.isNew || this.isExternalCreation"                                                        
+                                                        >                                                                                                                                                                    
+                                                        </p-dropdown> 
+                                                        <validation-messages [formCtrl]="Opportunity_Account"></validation-messages>                                                                                                                                        
+                                                    </div>                                                    
 
+                                                </div>
+                                                <div class="row">
+                                                    
+                                                    <div class="col-md-6 input-field required">
+                                                        <label for="OpportunityStageId">{{ l('Stage') }}</label>
+                                                        <p-dropdown
+                                                            [required]="true"                                                     
+                                                            id="OpportunityStageId"
+                                                            #OpportunityStageId="ngModel" 
+                                                            #name="ngModel"  
+                                                            [ngModelOptions]="{standalone: true}"   
+                                                            [options]="allOpportunityStages"
+                                                            [(ngModel)]="opportunity.opportunityStageId"
+                                                            optionValue="id"
+                                                            optionLabel="displayName"
+                                                            placeholder="{{ l('InputStage') }}"                                                   
+                                                            [disabled]="this.isReadOnlyMode"
+                                                            [showClear]="true"
+                                                            [filter]="true"
+                                                        > 
+                                                        </p-dropdown>  
+                                                        <validation-messages [formCtrl]="OpportunityStageId"></validation-messages>  
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Opportunity_Amount">{{ l('Amount') }}</label>
+                                                            <p-inputNumber
+                                                                [style]="{'width':'100%'}" 
+                                                                [inputStyle]="{'width':'100%'}"
+                                                                mode="currency" 
+                                                                currency="USD"
+                                                                locale="en-US"
+                                                                #Opportunity_Amount="ngModel" 
+                                                                id="Opportunity_Amount"
+                                                                [(ngModel)]="opportunity.amount"
+                                                                [placeholder]="l('OpportunityAmmountFormat')" 
+                                                                name="Amount"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            >
+                                                            </p-inputNumber>
+                                                            <validation-messages [formCtrl]="Opportunity_Amount"></validation-messages>
+                                                        </div>                                            
+                                                    </div>           
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Opportunity_Probability">{{ l('Probability%') }}</label>
+                                                            <p-inputNumber  
+                                                                [style]="{'width':'100%'}" 
+                                                                [inputStyle]="{'width':'100%'}"                                       
+                                                                prefix="%"
+                                                                #Opportunity_Probability="ngModel"
+                                                                id="Opportunity_Probability"
+                                                                [(ngModel)]="opportunity.probability"
+                                                                [placeholder]= "l('InputProbability')"  
+                                                                name="Probability"
+                                                                min = 1
+                                                                max = 100
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            >
+                                                            </p-inputNumber>
+                                                            <validation-messages [formCtrl]="Opportunity_Probability"></validation-messages>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
+                                                            <input
+                                                                class="form-control m-input form-xlg"
+                                                                #Opportunity_CloseDate="ngModel"
+                                                                type="datetime"
+                                                                bsDatepicker 
+                                                                dateFormat="MM-dd-yyyy"     
+                                                                [placeholder]= "l('InputCloseDate')"                                        
+                                                                [(ngModel)]="opportunity.closeDate?  '' : opportunity.closeDate"                                                
+                                                                id="Opportunity_CloseDate"
+                                                                name="Opportunity_CloseDate"
+                                                                [disabled]="this.isReadOnlyMode"                                                
+                                                            />
+                                                            <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
+                                                        </div>
+                                                    </div> 
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 input-field required">
+                                                        <label for="Opportunity_Contact">{{ l('Contact') }}</label>
+                                                        <p-dropdown
+                                                            [required]="true"                                                     
+                                                            id="Opportunity_Contact"
+                                                            #Opportunity_Contact="ngModel" 
+                                                            #name="ngModel"  
+                                                            [ngModelOptions]="{standalone: true}" 
+                                                            [options]="allContacts"
+                                                            [(ngModel)]="opportunity.contactId"
+                                                            optionValue="id"
+                                                            optionLabel="contactName"
+                                                            placeholder="{{ l('InputContact') }}"                                                   
+                                                            [disabled]="this.isReadOnlyMode"
+                                                            [showClear]="true"
+                                                            [filter]="true"                                                            
+                                                        > 
+                                                        </p-dropdown>  
+                                                        <validation-messages [formCtrl]="Opportunity_Contact"></validation-messages>                                      
+                                                    </div>
+
+                                                    <div class="col-md-6">                                                        
+                                                        <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
+                                                        <p-dropdown                                                                                                                                                                                  
+                                                            id="LeadSourceDescription"
+                                                            name="LeadSourceDescription"
+                                                            [options]="allLeadSources"
+                                                            [(ngModel)]="opportunity.leadSourceId"
+                                                            optionLabel="displayName"
+                                                            placeholder="{{ l('InputLeadSource') }}"                                                                   
+                                                            [disabled]="this.isReadOnlyMode"     
+                                                            [showClear]="true"   
+                                                            [filter]="true"                                                                                                                
+                                                        >                                                   
+                                                        </p-dropdown>         
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="Opportunity_Description">{{ l('Description') }}</label>
+                                                            <textarea
+                                                                #Opportunity_Description="ngModel" 
+                                                                id="Opportunity_Description"
+                                                                class="form-control" 
+                                                                [(ngModel)]="opportunity.description"
+                                                                [placeholder]="l('InputDescription')" 
+                                                                name="Description"
+                                                                rows="5"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            >
+                                                            </textarea>
+                                                            <validation-messages [formCtrl]="Opportunity_Description"></validation-messages>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Opportunity_Branch">{{ l('BranchName') }}</label>
+                                                            <input 
+                                                                type="text" 
+                                                                #Opportunity_Branch="ngModel" 
+                                                                id="Opportunity_Branch"
+                                                                class="form-control" 
+                                                                [(ngModel)]="opportunity.branch"
+                                                                [placeholder]="l('InputBranch')" 
+                                                                name="Branch"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Opportunity_Branch"></validation-messages>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="Opportunity_Department">{{ l('DepartmentName') }}</label>
+                                                            <input 
+                                                                type="text" 
+                                                                #Opportunity_Department="ngModel" 
+                                                                id="Opportunity_Department"
+                                                                class="form-control" 
+                                                                [(ngModel)]="opportunity.department"
+                                                                [placeholder]="l('InputDepartment')" 
+                                                                name="Department"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            />
+                                                            <validation-messages [formCtrl]="Opportunity_Department"></validation-messages>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+
+                                            </form>
+                                        </div>     
+                                    </div>     
                                 </div>
+                            </div>
+                        </div>        
+                    </div>
+                </tab>  
 
-                                <div class="row">
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="Opportunity_Probability">{{ l('Probability') }}</label>
-                                            <input
-                                                type="number"
-                                                #Opportunity_Probability="ngModel"
-                                                id="Opportunity_Probability"
-                                                class="form-control"
-                                                [(ngModel)]="opportunity.probability"
-                                                name="Probability"
-                                                min="1"
-                                                max="100"
-                                            />
-                                            <validation-messages [formCtrl]="Opportunity_Probability"></validation-messages>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
-                                            <input
-                                                class="form-control m-input"
-                                                #Opportunity_CloseDate="ngModel"
-                                                type="datetime"
-                                                bsDatepicker 
-                                                dateFormat="MM-dd-yyyy"     
-                                                [placeholder]= "l('CloseDate')"                                        
-                                                [(ngModel)]="opportunity.closeDate?  '' : opportunity.closeDate"                                                
-                                                id="Opportunity_CloseDate"
-                                                name="Opportunity_CloseDate"                                                
-                                            />
-                                            <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
-                                        </div>
-                                    </div>
-                                   
-
+                <tab heading="{{ 'Events' | localize }}" [disabled]="this.isNew">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <entityTypeHistory #entityTypeHistory></entityTypeHistory>
                                 </div>
-                            <!-- <div class="form-group m-form__group">
-                                <label for="OpportunityStageDescription">{{ l('OpportunityStage') }}</label>
-                                <select
-                                    name="opportunity.opportunityStageId"
-                                    [(ngModel)]="opportunity.opportunityStageId"
-                                    class="form-control"
-                                >
-                                    <option value="">{{ l('SelectAOpportunityStage') }}</option>
-                                    <option *ngFor="let item of allOpportunityStages" value="{{ item.id }}">
-                                        {{ item.displayName }}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group m-form__group">
-                                <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
-                                <select
-                                    name="opportunity.leadSourceId"
-                                    [(ngModel)]="opportunity.leadSourceId"
-                                    class="form-control"
-                                >
-                                    <option value="">{{ l('SelectALeadSource') }}</option>
-                                    <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
-                                        {{ item.displayName }}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group m-form__group">
-                                <label for="OpportunityTypeDescription">{{ l('OpportunityType') }}</label>
-                                <select
-                                    name="opportunity.opportunityTypeId"
-                                    [(ngModel)]="opportunity.opportunityTypeId"
-                                    class="form-control"
-                                >
-                                    <option value="">{{ l('SelectAOpportunityType') }}</option>
-                                    <option *ngFor="let item of allOpportunityTypes" value="{{ item.id }}">
-                                        {{ item.displayName }}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_Name">{{ l('Name') }} *</label>
-                                <input
-                                    type="text"
-                                    #Opportunity_Name="ngModel"
-                                    id="Opportunity_Name"
-                                    class="form-control"
-                                    [(ngModel)]="opportunity.name"
-                                    name="Name"
-                                    minlength="1"
-                                    maxlength="150"
-                                    required
-                                />
-                                <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_Amount">{{ l('Amount') }}</label>
-                                <input
-                                    type="number"
-                                    #Opportunity_Amount="ngModel"
-                                    id="Opportunity_Amount"
-                                    class="form-control"
-                                    [(ngModel)]="opportunity.amount"
-                                    name="Amount"
-                                />
-                                <validation-messages [formCtrl]="Opportunity_Amount"></validation-messages>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_Probability">{{ l('Probability') }}</label>
-                                <input
-                                    type="number"
-                                    #Opportunity_Probability="ngModel"
-                                    id="Opportunity_Probability"
-                                    class="form-control"
-                                    [(ngModel)]="opportunity.probability"
-                                    name="Probability"
-                                    min="1"
-                                    max="100"
-                                />
-                                <validation-messages [formCtrl]="Opportunity_Probability"></validation-messages>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
-                                <input
-                                    required
-                                    class="form-control m-input"
-                                    #Opportunity_CloseDate
-                                    type="datetime"
-                                    bsDatepicker
-                                    datePickerLuxonModifier
-                                    [(date)]="opportunity.closeDate"
-                                    id="Opportunity_CloseDate"
-                                    name="Opportunity_CloseDate"
-                                />
-                                <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_Description">{{ l('Description') }}</label>
-                                <input
-                                    type="text"
-                                    #Opportunity_Description="ngModel"
-                                    id="Opportunity_Description"
-                                    class="form-control"
-                                    [(ngModel)]="opportunity.description"
-                                    name="Description"
-                                />
-                                <validation-messages [formCtrl]="Opportunity_Description"></validation-messages>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_Branch">{{ l('Branch') }}</label>
-                                <input
-                                    type="text"
-                                    #Opportunity_Branch="ngModel"
-                                    id="Opportunity_Branch"
-                                    class="form-control"
-                                    [(ngModel)]="opportunity.branch"
-                                    name="Branch"
-                                    minlength="1"
-                                    maxlength="100"
-                                />
-                                <validation-messages [formCtrl]="Opportunity_Branch"></validation-messages>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Opportunity_Department">{{ l('Department') }}</label>
-                                <input
-                                    type="text"
-                                    #Opportunity_Department="ngModel"
-                                    id="Opportunity_Department"
-                                    class="form-control"
-                                    [(ngModel)]="opportunity.department"
-                                    name="Department"
-                                    minlength="1"
-                                    maxlength="100"
-                                />
-                                <validation-messages [formCtrl]="Opportunity_Department"></validation-messages>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <div class="col-lg-12">
-                                <button
-                                    (click)="save()"
-                                    class="btn btn-primary blue float-right"
-                                    [buttonBusy]="saving"
-                                    [busyText]="l('SavingWithThreeDot')"
-                                >
-                                    <i class="fa fa-save"></i>
-                                    <span>{{ l('Save') }}</span>
-                                </button>
-                                <button
-                                    *ngIf="!this.opportunity.id"
-                                    (click)="saveAndNew()"
-                                    class="btn btn-primary blue float-right"
-                                    [buttonBusy]="saving"
-                                    [busyText]="l('SavingWithThreeDot')"
-                                >
-                                    <i class="fa fa-save"></i>
-                                    <span>{{ l('SaveAndNew') }}</span>
-                                </button>
-                            </div>
-                        </div> -->
-                        </form>
                     </div>
-                </div>
-            </div>        
+                </tab>  
+            </tabset>    
         </div>
-    </div>
+    </div>    
 </div>
+
+      
