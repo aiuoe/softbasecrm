@@ -140,13 +140,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_AccountUsers_Edit)]
         public async Task<GetAccountUserForEditOutput> GetAccountUserForEdit(EntityDto input)
         {
             var accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetAccountUserForEditOutput
-            { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
+                { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
 
             if (output.AccountUser.UserId != null)
             {
@@ -156,6 +155,7 @@ namespace SBCRM.Crm
 
             return output;
         }
+
 
         /// <summary>
         /// Deletes an account user
