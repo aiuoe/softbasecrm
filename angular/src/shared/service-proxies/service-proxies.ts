@@ -996,6 +996,62 @@ export class AccountUsersServiceProxy {
     }
 
     /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    canAssignUsers(customerNumber: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/AccountUsers/CanAssignUsers?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCanAssignUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCanAssignUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCanAssignUsers(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param userNameFilter (optional) 
      * @param customerNumber (optional) 
@@ -2148,6 +2204,146 @@ export class ARTermsServiceProxy {
 }
 
 @Injectable()
+export class AuditEventsServiceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    addEvent(body: AuditEventDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AuditEventsService/AddEvent";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddEvent(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddEvent(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAddEvent(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param entityTypeFullName (optional) 
+     * @param entityId (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/AuditEventsService/GetEntityTypeChanges?";
+        if (entityTypeFullName === null)
+            throw new Error("The parameter 'entityTypeFullName' cannot be null.");
+        else if (entityTypeFullName !== undefined)
+            url_ += "EntityTypeFullName=" + encodeURIComponent("" + entityTypeFullName) + "&";
+        if (entityId === null)
+            throw new Error("The parameter 'entityId' cannot be null.");
+        else if (entityId !== undefined)
+            url_ += "EntityId=" + encodeURIComponent("" + entityId) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEntityTypeChanges(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEntityTypeChanges(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEntityTypeChanges(response: HttpResponseBase): Observable<PagedResultDtoOfEntityChangeListDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfEntityChangeListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class AuditLogServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3280,198 +3476,86 @@ export class ContactsServiceProxy {
     }
 
     /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getAllWithoutPaging(customerNumber: string | undefined): Observable<GetContactForViewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Contacts/GetAllWithoutPaging?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWithoutPaging(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWithoutPaging(<any>response_);
+                } catch (e) {
+                    return <Observable<GetContactForViewDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetContactForViewDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWithoutPaging(response: HttpResponseBase): Observable<GetContactForViewDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetContactForViewDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetContactForViewDto[]>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
-     * @param customerNoFilter (optional) 
-     * @param contactFilter (optional) 
-     * @param parentFilter (optional) 
-     * @param maxIndexPointerFilter (optional) 
-     * @param minIndexPointerFilter (optional) 
-     * @param positionFilter (optional) 
-     * @param phoneFilter (optional) 
-     * @param extentionFilter (optional) 
-     * @param faxFilter (optional) 
-     * @param pagerFilter (optional) 
-     * @param cellularFilter (optional) 
-     * @param eMailFilter (optional) 
-     * @param wwwHomePageFilter (optional) 
-     * @param maxSalesGroup1Filter (optional) 
-     * @param minSalesGroup1Filter (optional) 
-     * @param maxSalesGroup2Filter (optional) 
-     * @param minSalesGroup2Filter (optional) 
-     * @param maxSalesGroup3Filter (optional) 
-     * @param minSalesGroup3Filter (optional) 
-     * @param commentsFilter (optional) 
-     * @param maxDateAddedFilter (optional) 
-     * @param minDateAddedFilter (optional) 
-     * @param maxDateChangedFilter (optional) 
-     * @param minDateChangedFilter (optional) 
-     * @param maxSalesGroup4Filter (optional) 
-     * @param minSalesGroup4Filter (optional) 
-     * @param maxSalesGroup5Filter (optional) 
-     * @param minSalesGroup5Filter (optional) 
-     * @param maxSalesGroup6Filter (optional) 
-     * @param minSalesGroup6Filter (optional) 
-     * @param maxMailingListFilter (optional) 
-     * @param minMailingListFilter (optional) 
-     * @param addedByFilter (optional) 
-     * @param changedByFilter (optional) 
-     * @param maxIDFilter (optional) 
-     * @param minIDFilter (optional) 
+     * @param customerNumber (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, customerNoFilter: string | undefined, contactFilter: string | undefined, parentFilter: string | undefined, maxIndexPointerFilter: number | undefined, minIndexPointerFilter: number | undefined, positionFilter: string | undefined, phoneFilter: string | undefined, extentionFilter: string | undefined, faxFilter: string | undefined, pagerFilter: string | undefined, cellularFilter: string | undefined, eMailFilter: string | undefined, wwwHomePageFilter: string | undefined, maxSalesGroup1Filter: number | undefined, minSalesGroup1Filter: number | undefined, maxSalesGroup2Filter: number | undefined, minSalesGroup2Filter: number | undefined, maxSalesGroup3Filter: number | undefined, minSalesGroup3Filter: number | undefined, commentsFilter: string | undefined, maxDateAddedFilter: DateTime | undefined, minDateAddedFilter: DateTime | undefined, maxDateChangedFilter: DateTime | undefined, minDateChangedFilter: DateTime | undefined, maxSalesGroup4Filter: number | undefined, minSalesGroup4Filter: number | undefined, maxSalesGroup5Filter: number | undefined, minSalesGroup5Filter: number | undefined, maxSalesGroup6Filter: number | undefined, minSalesGroup6Filter: number | undefined, maxMailingListFilter: number | undefined, minMailingListFilter: number | undefined, addedByFilter: string | undefined, changedByFilter: string | undefined, maxIDFilter: number | undefined, minIDFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetContactForViewDto> {
+    getAll(filter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetContactForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (customerNoFilter === null)
-            throw new Error("The parameter 'customerNoFilter' cannot be null.");
-        else if (customerNoFilter !== undefined)
-            url_ += "CustomerNoFilter=" + encodeURIComponent("" + customerNoFilter) + "&";
-        if (contactFilter === null)
-            throw new Error("The parameter 'contactFilter' cannot be null.");
-        else if (contactFilter !== undefined)
-            url_ += "ContactFilter=" + encodeURIComponent("" + contactFilter) + "&";
-        if (parentFilter === null)
-            throw new Error("The parameter 'parentFilter' cannot be null.");
-        else if (parentFilter !== undefined)
-            url_ += "ParentFilter=" + encodeURIComponent("" + parentFilter) + "&";
-        if (maxIndexPointerFilter === null)
-            throw new Error("The parameter 'maxIndexPointerFilter' cannot be null.");
-        else if (maxIndexPointerFilter !== undefined)
-            url_ += "MaxIndexPointerFilter=" + encodeURIComponent("" + maxIndexPointerFilter) + "&";
-        if (minIndexPointerFilter === null)
-            throw new Error("The parameter 'minIndexPointerFilter' cannot be null.");
-        else if (minIndexPointerFilter !== undefined)
-            url_ += "MinIndexPointerFilter=" + encodeURIComponent("" + minIndexPointerFilter) + "&";
-        if (positionFilter === null)
-            throw new Error("The parameter 'positionFilter' cannot be null.");
-        else if (positionFilter !== undefined)
-            url_ += "PositionFilter=" + encodeURIComponent("" + positionFilter) + "&";
-        if (phoneFilter === null)
-            throw new Error("The parameter 'phoneFilter' cannot be null.");
-        else if (phoneFilter !== undefined)
-            url_ += "PhoneFilter=" + encodeURIComponent("" + phoneFilter) + "&";
-        if (extentionFilter === null)
-            throw new Error("The parameter 'extentionFilter' cannot be null.");
-        else if (extentionFilter !== undefined)
-            url_ += "ExtentionFilter=" + encodeURIComponent("" + extentionFilter) + "&";
-        if (faxFilter === null)
-            throw new Error("The parameter 'faxFilter' cannot be null.");
-        else if (faxFilter !== undefined)
-            url_ += "FaxFilter=" + encodeURIComponent("" + faxFilter) + "&";
-        if (pagerFilter === null)
-            throw new Error("The parameter 'pagerFilter' cannot be null.");
-        else if (pagerFilter !== undefined)
-            url_ += "PagerFilter=" + encodeURIComponent("" + pagerFilter) + "&";
-        if (cellularFilter === null)
-            throw new Error("The parameter 'cellularFilter' cannot be null.");
-        else if (cellularFilter !== undefined)
-            url_ += "CellularFilter=" + encodeURIComponent("" + cellularFilter) + "&";
-        if (eMailFilter === null)
-            throw new Error("The parameter 'eMailFilter' cannot be null.");
-        else if (eMailFilter !== undefined)
-            url_ += "EMailFilter=" + encodeURIComponent("" + eMailFilter) + "&";
-        if (wwwHomePageFilter === null)
-            throw new Error("The parameter 'wwwHomePageFilter' cannot be null.");
-        else if (wwwHomePageFilter !== undefined)
-            url_ += "wwwHomePageFilter=" + encodeURIComponent("" + wwwHomePageFilter) + "&";
-        if (maxSalesGroup1Filter === null)
-            throw new Error("The parameter 'maxSalesGroup1Filter' cannot be null.");
-        else if (maxSalesGroup1Filter !== undefined)
-            url_ += "MaxSalesGroup1Filter=" + encodeURIComponent("" + maxSalesGroup1Filter) + "&";
-        if (minSalesGroup1Filter === null)
-            throw new Error("The parameter 'minSalesGroup1Filter' cannot be null.");
-        else if (minSalesGroup1Filter !== undefined)
-            url_ += "MinSalesGroup1Filter=" + encodeURIComponent("" + minSalesGroup1Filter) + "&";
-        if (maxSalesGroup2Filter === null)
-            throw new Error("The parameter 'maxSalesGroup2Filter' cannot be null.");
-        else if (maxSalesGroup2Filter !== undefined)
-            url_ += "MaxSalesGroup2Filter=" + encodeURIComponent("" + maxSalesGroup2Filter) + "&";
-        if (minSalesGroup2Filter === null)
-            throw new Error("The parameter 'minSalesGroup2Filter' cannot be null.");
-        else if (minSalesGroup2Filter !== undefined)
-            url_ += "MinSalesGroup2Filter=" + encodeURIComponent("" + minSalesGroup2Filter) + "&";
-        if (maxSalesGroup3Filter === null)
-            throw new Error("The parameter 'maxSalesGroup3Filter' cannot be null.");
-        else if (maxSalesGroup3Filter !== undefined)
-            url_ += "MaxSalesGroup3Filter=" + encodeURIComponent("" + maxSalesGroup3Filter) + "&";
-        if (minSalesGroup3Filter === null)
-            throw new Error("The parameter 'minSalesGroup3Filter' cannot be null.");
-        else if (minSalesGroup3Filter !== undefined)
-            url_ += "MinSalesGroup3Filter=" + encodeURIComponent("" + minSalesGroup3Filter) + "&";
-        if (commentsFilter === null)
-            throw new Error("The parameter 'commentsFilter' cannot be null.");
-        else if (commentsFilter !== undefined)
-            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&";
-        if (maxDateAddedFilter === null)
-            throw new Error("The parameter 'maxDateAddedFilter' cannot be null.");
-        else if (maxDateAddedFilter !== undefined)
-            url_ += "MaxDateAddedFilter=" + encodeURIComponent(maxDateAddedFilter ? "" + maxDateAddedFilter.toJSON() : "") + "&";
-        if (minDateAddedFilter === null)
-            throw new Error("The parameter 'minDateAddedFilter' cannot be null.");
-        else if (minDateAddedFilter !== undefined)
-            url_ += "MinDateAddedFilter=" + encodeURIComponent(minDateAddedFilter ? "" + minDateAddedFilter.toJSON() : "") + "&";
-        if (maxDateChangedFilter === null)
-            throw new Error("The parameter 'maxDateChangedFilter' cannot be null.");
-        else if (maxDateChangedFilter !== undefined)
-            url_ += "MaxDateChangedFilter=" + encodeURIComponent(maxDateChangedFilter ? "" + maxDateChangedFilter.toJSON() : "") + "&";
-        if (minDateChangedFilter === null)
-            throw new Error("The parameter 'minDateChangedFilter' cannot be null.");
-        else if (minDateChangedFilter !== undefined)
-            url_ += "MinDateChangedFilter=" + encodeURIComponent(minDateChangedFilter ? "" + minDateChangedFilter.toJSON() : "") + "&";
-        if (maxSalesGroup4Filter === null)
-            throw new Error("The parameter 'maxSalesGroup4Filter' cannot be null.");
-        else if (maxSalesGroup4Filter !== undefined)
-            url_ += "MaxSalesGroup4Filter=" + encodeURIComponent("" + maxSalesGroup4Filter) + "&";
-        if (minSalesGroup4Filter === null)
-            throw new Error("The parameter 'minSalesGroup4Filter' cannot be null.");
-        else if (minSalesGroup4Filter !== undefined)
-            url_ += "MinSalesGroup4Filter=" + encodeURIComponent("" + minSalesGroup4Filter) + "&";
-        if (maxSalesGroup5Filter === null)
-            throw new Error("The parameter 'maxSalesGroup5Filter' cannot be null.");
-        else if (maxSalesGroup5Filter !== undefined)
-            url_ += "MaxSalesGroup5Filter=" + encodeURIComponent("" + maxSalesGroup5Filter) + "&";
-        if (minSalesGroup5Filter === null)
-            throw new Error("The parameter 'minSalesGroup5Filter' cannot be null.");
-        else if (minSalesGroup5Filter !== undefined)
-            url_ += "MinSalesGroup5Filter=" + encodeURIComponent("" + minSalesGroup5Filter) + "&";
-        if (maxSalesGroup6Filter === null)
-            throw new Error("The parameter 'maxSalesGroup6Filter' cannot be null.");
-        else if (maxSalesGroup6Filter !== undefined)
-            url_ += "MaxSalesGroup6Filter=" + encodeURIComponent("" + maxSalesGroup6Filter) + "&";
-        if (minSalesGroup6Filter === null)
-            throw new Error("The parameter 'minSalesGroup6Filter' cannot be null.");
-        else if (minSalesGroup6Filter !== undefined)
-            url_ += "MinSalesGroup6Filter=" + encodeURIComponent("" + minSalesGroup6Filter) + "&";
-        if (maxMailingListFilter === null)
-            throw new Error("The parameter 'maxMailingListFilter' cannot be null.");
-        else if (maxMailingListFilter !== undefined)
-            url_ += "MaxMailingListFilter=" + encodeURIComponent("" + maxMailingListFilter) + "&";
-        if (minMailingListFilter === null)
-            throw new Error("The parameter 'minMailingListFilter' cannot be null.");
-        else if (minMailingListFilter !== undefined)
-            url_ += "MinMailingListFilter=" + encodeURIComponent("" + minMailingListFilter) + "&";
-        if (addedByFilter === null)
-            throw new Error("The parameter 'addedByFilter' cannot be null.");
-        else if (addedByFilter !== undefined)
-            url_ += "AddedByFilter=" + encodeURIComponent("" + addedByFilter) + "&";
-        if (changedByFilter === null)
-            throw new Error("The parameter 'changedByFilter' cannot be null.");
-        else if (changedByFilter !== undefined)
-            url_ += "ChangedByFilter=" + encodeURIComponent("" + changedByFilter) + "&";
-        if (maxIDFilter === null)
-            throw new Error("The parameter 'maxIDFilter' cannot be null.");
-        else if (maxIDFilter !== undefined)
-            url_ += "MaxIDFilter=" + encodeURIComponent("" + maxIDFilter) + "&";
-        if (minIDFilter === null)
-            throw new Error("The parameter 'minIDFilter' cannot be null.");
-        else if (minIDFilter !== undefined)
-            url_ += "MinIDFilter=" + encodeURIComponent("" + minIDFilter) + "&";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -4220,7 +4304,7 @@ export class CustomerServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCustomerForView(customerNumber: string | undefined): Observable<GetCustomerForViewDto> {
+    getCustomerForView(customerNumber: string | undefined): Observable<GetCustomerForViewOutput> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerForView?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -4243,14 +4327,14 @@ export class CustomerServiceProxy {
                 try {
                     return this.processGetCustomerForView(<any>response_);
                 } catch (e) {
-                    return <Observable<GetCustomerForViewDto>><any>_observableThrow(e);
+                    return <Observable<GetCustomerForViewOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetCustomerForViewDto>><any>_observableThrow(response_);
+                return <Observable<GetCustomerForViewOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetCustomerForView(response: HttpResponseBase): Observable<GetCustomerForViewDto> {
+    protected processGetCustomerForView(response: HttpResponseBase): Observable<GetCustomerForViewOutput> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -4261,7 +4345,7 @@ export class CustomerServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetCustomerForViewDto.fromJS(resultData200);
+            result200 = GetCustomerForViewOutput.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -4269,7 +4353,7 @@ export class CustomerServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetCustomerForViewDto>(<any>null);
+        return _observableOf<GetCustomerForViewOutput>(<any>null);
     }
 
     /**
@@ -4563,6 +4647,64 @@ export class CustomerServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllCountriesForTableDropdown(): Observable<CustomerCountryLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCountriesForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCountriesForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCountriesForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerCountryLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerCountryLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCountriesForTableDropdown(response: HttpResponseBase): Observable<CustomerCountryLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CustomerCountryLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerCountryLookupTableDto[]>(<any>null);
+    }
+
+    /**
      * @param billTo (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
@@ -4798,6 +4940,82 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfCustomerWipViewDto>(<any>null);
+    }
+
+    /**
+     * @param entityTypeFullName (optional) 
+     * @param entityId (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetEntityTypeChanges?";
+        if (entityTypeFullName === null)
+            throw new Error("The parameter 'entityTypeFullName' cannot be null.");
+        else if (entityTypeFullName !== undefined)
+            url_ += "EntityTypeFullName=" + encodeURIComponent("" + entityTypeFullName) + "&";
+        if (entityId === null)
+            throw new Error("The parameter 'entityId' cannot be null.");
+        else if (entityId !== undefined)
+            url_ += "EntityId=" + encodeURIComponent("" + entityId) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEntityTypeChanges(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEntityTypeChanges(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEntityTypeChanges(response: HttpResponseBase): Observable<PagedResultDtoOfEntityChangeListDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfEntityChangeListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
     }
 
     /**
@@ -9565,12 +9783,13 @@ export class LeadsServiceProxy {
      * @param leadStatusDescriptionFilter (optional) 
      * @param priorityDescriptionFilter (optional) 
      * @param leadStatusId (optional) 
+     * @param priorityId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9667,7 +9886,11 @@ export class LeadsServiceProxy {
         if (leadStatusId === null)
             throw new Error("The parameter 'leadStatusId' cannot be null.");
         else if (leadStatusId !== undefined)
-            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "LeadStatusId=" + encodeURIComponent("" + leadStatusId) + "&";
+        if (priorityId === null)
+            throw new Error("The parameter 'priorityId' cannot be null.");
+        else if (priorityId !== undefined)
+            url_ += "PriorityId=" + encodeURIComponent("" + priorityId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -10101,9 +10324,10 @@ export class LeadsServiceProxy {
      * @param leadStatusDescriptionFilter (optional) 
      * @param priorityDescriptionFilter (optional) 
      * @param leadStatusId (optional) 
+     * @param priorityId (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number[] | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -10200,7 +10424,11 @@ export class LeadsServiceProxy {
         if (leadStatusId === null)
             throw new Error("The parameter 'leadStatusId' cannot be null.");
         else if (leadStatusId !== undefined)
-            leadStatusId && leadStatusId.forEach(item => { url_ += "LeadStatusId=" + encodeURIComponent("" + item) + "&"; });
+            url_ += "LeadStatusId=" + encodeURIComponent("" + leadStatusId) + "&";
+        if (priorityId === null)
+            throw new Error("The parameter 'priorityId' cannot be null.");
+        else if (priorityId !== undefined)
+            url_ += "PriorityId=" + encodeURIComponent("" + priorityId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11962,13 +12190,15 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageDescriptionFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
+     * @param customerName (optional) 
+     * @param contactName (optional) 
      * @param opportunityStageId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12026,6 +12256,14 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
         else if (opportunityTypeDescriptionFilter !== undefined)
             url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (customerName === null)
+            throw new Error("The parameter 'customerName' cannot be null.");
+        else if (customerName !== undefined)
+            url_ += "CustomerName=" + encodeURIComponent("" + customerName) + "&";
+        if (contactName === null)
+            throw new Error("The parameter 'contactName' cannot be null.");
+        else if (contactName !== undefined)
+            url_ += "ContactName=" + encodeURIComponent("" + contactName) + "&";
         if (opportunityStageId === null)
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
@@ -12319,10 +12557,12 @@ export class OpportunitiesServiceProxy {
      * @param opportunityStageDescriptionFilter (optional) 
      * @param leadSourceDescriptionFilter (optional) 
      * @param opportunityTypeDescriptionFilter (optional) 
+     * @param customerName (optional) 
+     * @param contactName (optional) 
      * @param opportunityStageId (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12380,6 +12620,14 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityTypeDescriptionFilter' cannot be null.");
         else if (opportunityTypeDescriptionFilter !== undefined)
             url_ += "OpportunityTypeDescriptionFilter=" + encodeURIComponent("" + opportunityTypeDescriptionFilter) + "&";
+        if (customerName === null)
+            throw new Error("The parameter 'customerName' cannot be null.");
+        else if (customerName !== undefined)
+            url_ += "CustomerName=" + encodeURIComponent("" + customerName) + "&";
+        if (contactName === null)
+            throw new Error("The parameter 'contactName' cannot be null.");
+        else if (contactName !== undefined)
+            url_ += "ContactName=" + encodeURIComponent("" + contactName) + "&";
         if (opportunityStageId === null)
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
@@ -12602,6 +12850,185 @@ export class OpportunitiesServiceProxy {
             }));
         }
         return _observableOf<OpportunityOpportunityTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllCustomerForTableDropdown(): Observable<OpportunityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllCustomerForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerForTableDropdown(response: HttpResponseBase): Observable<OpportunityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllContactsForTableDropdown(): Observable<OpportunityContactsLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllContactsForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllContactsForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllContactsForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllContactsForTableDropdown(response: HttpResponseBase): Observable<OpportunityContactsLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityContactsLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityContactsLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getAllContactsForTableDropdownCustomerSpecific(customerNumber: string | undefined): Observable<OpportunityContactsLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllContactsForTableDropdownCustomerSpecific?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllContactsForTableDropdownCustomerSpecific(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllContactsForTableDropdownCustomerSpecific(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityContactsLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllContactsForTableDropdownCustomerSpecific(response: HttpResponseBase): Observable<OpportunityContactsLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityContactsLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityContactsLookupTableDto[]>(<any>null);
     }
 }
 
@@ -22395,6 +22822,54 @@ export interface IARTermsDto {
     creditCard: number | undefined;
 }
 
+export class AuditEventDto implements IAuditEventDto {
+    entityType!: string | undefined;
+    entityId!: string | undefined;
+    message!: string | undefined;
+    changeType!: EntityChangeType;
+
+    constructor(data?: IAuditEventDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.entityType = _data["entityType"];
+            this.entityId = _data["entityId"];
+            this.message = _data["message"];
+            this.changeType = _data["changeType"];
+        }
+    }
+
+    static fromJS(data: any): AuditEventDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuditEventDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["entityType"] = this.entityType;
+        data["entityId"] = this.entityId;
+        data["message"] = this.message;
+        data["changeType"] = this.changeType;
+        return data; 
+    }
+}
+
+export interface IAuditEventDto {
+    entityType: string | undefined;
+    entityId: string | undefined;
+    message: string | undefined;
+    changeType: EntityChangeType;
+}
+
 export class AuditLogListDto implements IAuditLogListDto {
     userId!: number | undefined;
     userName!: string | undefined;
@@ -23584,7 +24059,8 @@ export interface ICreateOrEditActivityTaskTypeDto {
 }
 
 export class CreateOrEditContactDto implements ICreateOrEditContactDto {
-    customerNo!: string | undefined;
+    id!: number | undefined;
+    customerNo!: string;
     contact!: string | undefined;
     parent!: string | undefined;
     indexPointer!: number | undefined;
@@ -23600,15 +24076,10 @@ export class CreateOrEditContactDto implements ICreateOrEditContactDto {
     salesGroup2!: number | undefined;
     salesGroup3!: number | undefined;
     comments!: string | undefined;
-    dateAdded!: DateTime | undefined;
-    dateChanged!: DateTime | undefined;
     salesGroup4!: number | undefined;
     salesGroup5!: number | undefined;
     salesGroup6!: number | undefined;
     mailingList!: number | undefined;
-    addedBy!: string | undefined;
-    changedBy!: string | undefined;
-    id!: number;
 
     constructor(data?: ICreateOrEditContactDto) {
         if (data) {
@@ -23621,6 +24092,7 @@ export class CreateOrEditContactDto implements ICreateOrEditContactDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.customerNo = _data["customerNo"];
             this.contact = _data["contact"];
             this.parent = _data["parent"];
@@ -23637,15 +24109,10 @@ export class CreateOrEditContactDto implements ICreateOrEditContactDto {
             this.salesGroup2 = _data["salesGroup2"];
             this.salesGroup3 = _data["salesGroup3"];
             this.comments = _data["comments"];
-            this.dateAdded = _data["dateAdded"] ? DateTime.fromISO(_data["dateAdded"].toString()) : <any>undefined;
-            this.dateChanged = _data["dateChanged"] ? DateTime.fromISO(_data["dateChanged"].toString()) : <any>undefined;
             this.salesGroup4 = _data["salesGroup4"];
             this.salesGroup5 = _data["salesGroup5"];
             this.salesGroup6 = _data["salesGroup6"];
             this.mailingList = _data["mailingList"];
-            this.addedBy = _data["addedBy"];
-            this.changedBy = _data["changedBy"];
-            this.id = _data["id"];
         }
     }
 
@@ -23658,6 +24125,7 @@ export class CreateOrEditContactDto implements ICreateOrEditContactDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["customerNo"] = this.customerNo;
         data["contact"] = this.contact;
         data["parent"] = this.parent;
@@ -23674,21 +24142,17 @@ export class CreateOrEditContactDto implements ICreateOrEditContactDto {
         data["salesGroup2"] = this.salesGroup2;
         data["salesGroup3"] = this.salesGroup3;
         data["comments"] = this.comments;
-        data["dateAdded"] = this.dateAdded ? this.dateAdded.toString() : <any>undefined;
-        data["dateChanged"] = this.dateChanged ? this.dateChanged.toString() : <any>undefined;
         data["salesGroup4"] = this.salesGroup4;
         data["salesGroup5"] = this.salesGroup5;
         data["salesGroup6"] = this.salesGroup6;
         data["mailingList"] = this.mailingList;
-        data["addedBy"] = this.addedBy;
-        data["changedBy"] = this.changedBy;
-        data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditContactDto {
-    customerNo: string | undefined;
+    id: number | undefined;
+    customerNo: string;
     contact: string | undefined;
     parent: string | undefined;
     indexPointer: number | undefined;
@@ -23704,15 +24168,10 @@ export interface ICreateOrEditContactDto {
     salesGroup2: number | undefined;
     salesGroup3: number | undefined;
     comments: string | undefined;
-    dateAdded: DateTime | undefined;
-    dateChanged: DateTime | undefined;
     salesGroup4: number | undefined;
     salesGroup5: number | undefined;
     salesGroup6: number | undefined;
     mailingList: number | undefined;
-    addedBy: string | undefined;
-    changedBy: string | undefined;
-    id: number;
 }
 
 export class CreateOrEditCountryDto implements ICreateOrEditCountryDto {
@@ -24175,9 +24634,11 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
     description!: string | undefined;
     branch!: string | undefined;
     department!: string | undefined;
-    opportunityStageId!: number | undefined;
+    opportunityStageId!: number;
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
+    customerNumber!: string;
+    contactId!: number;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityDto) {
@@ -24201,6 +24662,8 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
             this.opportunityStageId = _data["opportunityStageId"];
             this.leadSourceId = _data["leadSourceId"];
             this.opportunityTypeId = _data["opportunityTypeId"];
+            this.customerNumber = _data["customerNumber"];
+            this.contactId = _data["contactId"];
             this.id = _data["id"];
         }
     }
@@ -24224,6 +24687,8 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
         data["opportunityStageId"] = this.opportunityStageId;
         data["leadSourceId"] = this.leadSourceId;
         data["opportunityTypeId"] = this.opportunityTypeId;
+        data["customerNumber"] = this.customerNumber;
+        data["contactId"] = this.contactId;
         data["id"] = this.id;
         return data; 
     }
@@ -24237,9 +24702,11 @@ export interface ICreateOrEditOpportunityDto {
     description: string | undefined;
     branch: string | undefined;
     department: string | undefined;
-    opportunityStageId: number | undefined;
+    opportunityStageId: number;
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
+    customerNumber: string;
+    contactId: number;
     id: number | undefined;
 }
 
@@ -24864,6 +25331,50 @@ export interface ICustomerAccountTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
     isDefault: boolean;
+}
+
+export class CustomerCountryLookupTableDto implements ICustomerCountryLookupTableDto {
+    id!: number;
+    code!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: ICustomerCountryLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.code = _data["code"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): CustomerCountryLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerCountryLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["code"] = this.code;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ICustomerCountryLookupTableDto {
+    id: number;
+    code: string | undefined;
+    displayName: string | undefined;
 }
 
 export class CustomerDto implements ICustomerDto {
@@ -28352,6 +28863,46 @@ export interface IGetCustomerForViewDto {
     assignedUsers: number;
 }
 
+export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
+    customer!: CreateOrEditCustomerDto;
+    accountTypeDescription!: string | undefined;
+
+    constructor(data?: IGetCustomerForViewOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.customer = _data["customer"] ? CreateOrEditCustomerDto.fromJS(_data["customer"]) : <any>undefined;
+            this.accountTypeDescription = _data["accountTypeDescription"];
+        }
+    }
+
+    static fromJS(data: any): GetCustomerForViewOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCustomerForViewOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
+        data["accountTypeDescription"] = this.accountTypeDescription;
+        return data; 
+    }
+}
+
+export interface IGetCustomerForViewOutput {
+    customer: CreateOrEditCustomerDto;
+    accountTypeDescription: string | undefined;
+}
+
 export class GetDailySalesOutput implements IGetDailySalesOutput {
     dailySales!: number[] | undefined;
 
@@ -29509,6 +30060,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
     opportunityStageDescription!: string | undefined;
     leadSourceDescription!: string | undefined;
     opportunityTypeDescription!: string | undefined;
+    customerName!: string | undefined;
+    customerNumber!: string | undefined;
+    contactName!: string | undefined;
 
     constructor(data?: IGetOpportunityForEditOutput) {
         if (data) {
@@ -29525,6 +30079,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
             this.opportunityStageDescription = _data["opportunityStageDescription"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.opportunityTypeDescription = _data["opportunityTypeDescription"];
+            this.customerName = _data["customerName"];
+            this.customerNumber = _data["customerNumber"];
+            this.contactName = _data["contactName"];
         }
     }
 
@@ -29541,6 +30098,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
         data["opportunityStageDescription"] = this.opportunityStageDescription;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["opportunityTypeDescription"] = this.opportunityTypeDescription;
+        data["customerName"] = this.customerName;
+        data["customerNumber"] = this.customerNumber;
+        data["contactName"] = this.contactName;
         return data; 
     }
 }
@@ -29550,6 +30110,9 @@ export interface IGetOpportunityForEditOutput {
     opportunityStageDescription: string | undefined;
     leadSourceDescription: string | undefined;
     opportunityTypeDescription: string | undefined;
+    customerName: string | undefined;
+    customerNumber: string | undefined;
+    contactName: string | undefined;
 }
 
 export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
@@ -29558,6 +30121,9 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     opportunityStageColor!: string | undefined;
     leadSourceDescription!: string | undefined;
     opportunityTypeDescription!: string | undefined;
+    customerName!: string | undefined;
+    customerNumber!: string | undefined;
+    contactName!: string | undefined;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -29575,6 +30141,9 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.opportunityStageColor = _data["opportunityStageColor"];
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.opportunityTypeDescription = _data["opportunityTypeDescription"];
+            this.customerName = _data["customerName"];
+            this.customerNumber = _data["customerNumber"];
+            this.contactName = _data["contactName"];
         }
     }
 
@@ -29592,6 +30161,9 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["opportunityStageColor"] = this.opportunityStageColor;
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["opportunityTypeDescription"] = this.opportunityTypeDescription;
+        data["customerName"] = this.customerName;
+        data["customerNumber"] = this.customerNumber;
+        data["contactName"] = this.contactName;
         return data; 
     }
 }
@@ -29602,6 +30174,9 @@ export interface IGetOpportunityForViewDto {
     opportunityStageColor: string | undefined;
     leadSourceDescription: string | undefined;
     opportunityTypeDescription: string | undefined;
+    customerName: string | undefined;
+    customerNumber: string | undefined;
+    contactName: string | undefined;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
@@ -31848,6 +32423,7 @@ export interface ILeadLeadSourceLookupTableDto {
 }
 
 export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableDto {
+    isLeadConversionValid!: boolean;
     id!: number;
     displayName!: string | undefined;
     isDefault!: boolean;
@@ -31863,6 +32439,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 
     init(_data?: any) {
         if (_data) {
+            this.isLeadConversionValid = _data["isLeadConversionValid"];
             this.id = _data["id"];
             this.displayName = _data["displayName"];
             this.isDefault = _data["isDefault"];
@@ -31878,6 +32455,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["isLeadConversionValid"] = this.isLeadConversionValid;
         data["id"] = this.id;
         data["displayName"] = this.displayName;
         data["isDefault"] = this.isDefault;
@@ -31886,6 +32464,7 @@ export class LeadLeadStatusLookupTableDto implements ILeadLeadStatusLookupTableD
 }
 
 export interface ILeadLeadStatusLookupTableDto {
+    isLeadConversionValid: boolean;
     id: number;
     displayName: string | undefined;
     isDefault: boolean;
@@ -33611,6 +34190,86 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
     validateIssuer: boolean;
 }
 
+export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {
+    id!: number;
+    contactName!: string | undefined;
+
+    constructor(data?: IOpportunityContactsLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactName = _data["contactName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityContactsLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityContactsLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactName"] = this.contactName;
+        return data; 
+    }
+}
+
+export interface IOpportunityContactsLookupTableDto {
+    id: number;
+    contactName: string | undefined;
+}
+
+export class OpportunityCustomerLookupTableDto implements IOpportunityCustomerLookupTableDto {
+    number!: string | undefined;
+    name!: string | undefined;
+
+    constructor(data?: IOpportunityCustomerLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityCustomerLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityCustomerLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IOpportunityCustomerLookupTableDto {
+    number: string | undefined;
+    name: string | undefined;
+}
+
 export class OpportunityDto implements IOpportunityDto {
     name!: string | undefined;
     amount!: number | undefined;
@@ -33622,6 +34281,8 @@ export class OpportunityDto implements IOpportunityDto {
     opportunityStageId!: number | undefined;
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
+    customerNumber!: string | undefined;
+    contactId!: number | undefined;
     id!: number;
 
     constructor(data?: IOpportunityDto) {
@@ -33645,6 +34306,8 @@ export class OpportunityDto implements IOpportunityDto {
             this.opportunityStageId = _data["opportunityStageId"];
             this.leadSourceId = _data["leadSourceId"];
             this.opportunityTypeId = _data["opportunityTypeId"];
+            this.customerNumber = _data["customerNumber"];
+            this.contactId = _data["contactId"];
             this.id = _data["id"];
         }
     }
@@ -33668,6 +34331,8 @@ export class OpportunityDto implements IOpportunityDto {
         data["opportunityStageId"] = this.opportunityStageId;
         data["leadSourceId"] = this.leadSourceId;
         data["opportunityTypeId"] = this.opportunityTypeId;
+        data["customerNumber"] = this.customerNumber;
+        data["contactId"] = this.contactId;
         data["id"] = this.id;
         return data; 
     }
@@ -33684,6 +34349,8 @@ export interface IOpportunityDto {
     opportunityStageId: number | undefined;
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
+    customerNumber: string | undefined;
+    contactId: number | undefined;
     id: number;
 }
 

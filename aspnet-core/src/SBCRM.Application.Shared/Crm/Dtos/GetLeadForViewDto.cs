@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object lead for view purposes
+    /// </summary>
     public class GetLeadForViewDto
     {
         public LeadDto Lead { get; set; }
