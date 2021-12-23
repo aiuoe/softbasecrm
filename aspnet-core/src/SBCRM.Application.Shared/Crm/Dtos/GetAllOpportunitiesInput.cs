@@ -38,7 +38,7 @@ namespace SBCRM.Crm.Dtos
 
         public string ContactName { get; set; }
 
-        public List<int?> OpportunityStageId { get; set; } = new List<int?>();
+        public int? OpportunityStageId { get; set; }
 
     }
 }
