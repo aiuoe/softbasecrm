@@ -51,7 +51,7 @@ namespace SBCRM.Crm.Exporting
                         sheet, activities,
                         _ => _.ActivityStatusDescription,
                         _ => _.ActivitySourceTypeDescription,
-                        _ => _.CustomerName ?? _.LeadCompanyName ?? _.OpportunityName,
+                        _ => _.CompanyName,
                         _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityPriorityDescription,
                         _ => _timeZoneConverter.Convert(_.Activity.StartsAt, _abpSession.TenantId, _abpSession.GetUserId()),
