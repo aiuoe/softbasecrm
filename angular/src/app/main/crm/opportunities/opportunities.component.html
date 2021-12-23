@@ -66,14 +66,16 @@
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
                                         <div>
-                                            <p-multiSelect id="OpportunityStageFilter"
-                                                           name="OpportunityStagesFilter"
-                                                           [options]="opportunityStages"
-                                                           [(ngModel)]="selectedOpportunityStages"
-                                                           optionLabel="description"     
-                                                           placeholder="Filter by Stage"                                          
-                                                           (onChange)="getOpportunities($event)">
-                                            </p-multiSelect>
+                                            <p-dropdown
+                                                id="OpportunityStageFilter"
+                                                name="OpportunityStagesFilter"
+                                                [options]="opportunityStages"
+                                                [(ngModel)]="selectedOpportunityStage"
+                                                optionLabel="displayName"     
+                                                placeholder="Filter by Stage"                                          
+                                                (onChange)="getOpportunities($event)"
+                                            >
+                                            </p-dropdown>
                                         </div>
                                     </div>
                                 </div>
@@ -137,15 +139,13 @@
                                             {{ l('Stage')}}
                                             <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
                                         </th>
-                                        <!-- These is just a placeholder -->
                                         <th 
                                             style="width: 150px"
-                                            pSortableColumn="name"
+                                            pSortableColumn="customerFk.name"
                                         >
                                             {{ l('Account') }}
-                                            <p-sortIcon field="name"></p-sortIcon>
-                                        </th>
-                                        <!-- Above is just a placeholder -->  
+                                            <p-sortIcon field="customerFk.name"></p-sortIcon>
+                                        </th> 
                                         <!-- These is just a placeholder -->
                                         <th 
                                             style="width: 150px"
@@ -231,12 +231,10 @@
                                                 {{ record.opportunityStageDescription }}        
                                             </span>                                        
                                         </td>
-                                        <!-- These is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Account') }}</span>
-                                                {{ l('Placeholder') }}                                           
+                                            {{ record.customerName }}                                           
                                         </td>
-                                        <!-- Above is just a placeholder -->
                                         <!-- These is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('AssignedUser') }}</span>
@@ -256,7 +254,7 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Amount') }}</span>
-                                                {{ record.opportunity.amount }}
+                                                {{ record.opportunity.amount | currency: 'USD' : true }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Branch') }}}</span>

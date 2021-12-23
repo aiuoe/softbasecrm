@@ -7,6 +7,8 @@ namespace SBCRM.Crm.Dtos
     /// </summary>
     public class LeadLeadStatusLookupTableDto
     {
+        public bool isLeadConversionValid;
+
         public int Id { get; set; }
 
         public string DisplayName { get; set; }

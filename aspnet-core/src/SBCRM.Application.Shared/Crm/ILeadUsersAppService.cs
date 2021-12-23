@@ -9,18 +9,49 @@ using System.Collections.Generic;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service to handle lead user information
+    /// </summary>
     public interface ILeadUsersAppService : IApplicationService
     {
+        /// <summary>
+        /// Get all lead users
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         Task<PagedResultDto<GetLeadUserForViewDto>> GetAll(GetAllLeadUsersInput input);
 
+        /// <summary>
+        /// Get lead source user for edit mode
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<GetLeadUserForEditOutput> GetLeadUserForEdit(EntityDto input);
 
+        /// <summary>
+        /// Create or edit lead user
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         Task CreateOrEdit(CreateOrEditLeadUserDto input);
 
+        /// <summary>
+        /// Delete lead user
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         Task Delete(EntityDto input);
 
+        /// <summary>
+        /// Get Lead User Lead type dropdown
+        /// </summary>
+        /// <returns></returns>
         Task<List<LeadUserLeadLookupTableDto>> GetAllLeadForTableDropdown();
 
+        /// <summary>
+        /// Get Lead User User type dropdown
+        /// </summary>
+        /// <returns></returns>
         Task<List<LeadUserUserLookupTableDto>> GetAllUserForTableDropdown();
 
     }

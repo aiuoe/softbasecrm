@@ -34,7 +34,11 @@ namespace SBCRM.Crm.Dtos
 
         public string OpportunityTypeDescriptionFilter { get; set; }
 
-        public List<int?> OpportunityStageId { get; set; } = new List<int?>();
+        public string CustomerName { get; set; }
+
+        public string ContactName { get; set; }
+
+        public int? OpportunityStageId { get; set; }
 
     }
 }

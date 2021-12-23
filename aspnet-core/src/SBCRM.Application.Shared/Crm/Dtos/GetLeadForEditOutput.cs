@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object lead for edit purposes
+    /// </summary>
     public class GetLeadForEditOutput
     {
         public CreateOrEditLeadDto Lead { get; set; }

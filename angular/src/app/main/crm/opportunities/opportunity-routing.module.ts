@@ -19,7 +19,7 @@ const routes: Routes = [
 
     {
         path: 'view',
-        component: ViewOpportunityComponent,
+        component: CreateOrEditOpportunityComponent,
         pathMatch: 'full',
     },
 ];

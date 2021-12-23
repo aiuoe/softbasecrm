@@ -17,7 +17,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// App service to handle Countries information
     /// </summary>
-    [AbpAuthorize(AppPermissions.Base_Permission)]
+    [AbpAuthorize(AppPermissions.Pages_Countries)]
     public class CountriesAppService : SBCRMAppServiceBase, ICountriesAppService
     {
         private readonly IRepository<Country> _countryRepository;

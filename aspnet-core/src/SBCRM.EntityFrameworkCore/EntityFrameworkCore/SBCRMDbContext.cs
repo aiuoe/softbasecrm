@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using SBCRM.Crm;
 using SBCRM.Legacy;
@@ -112,6 +112,7 @@ namespace SBCRM.EntityFrameworkCore
                 });
 
             modelBuilder.Entity<Customer>().Ignore(c => c.Id);
+            modelBuilder.Entity<Contact>().Ignore(c => c.Id);
 
             modelBuilder.Entity<BinaryObject>(b =>
                                              {

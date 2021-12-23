@@ -1,7 +1,7 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Users' | localize" [description]="'UsersHeaderInfo' | localize">
-            <div role="actions">
+            <!--<div role="actions">
                 <div class="btn-group" dropdown placement="button right">
                     <button
                         id="dropdownButtonExcelOperations"
@@ -14,7 +14,7 @@
                         aria-controls="dropdownMenuExcelOperations"
                     >
                         <i class="far fa-file-excel"></i>
-                        {{ 'ExcelOperations' | localize }}
+                        {/{ 'ExcelOperations' | localize }}
                     </button>
                     <ul
                         id="dropdownMenuExcelOperations"
@@ -31,7 +31,7 @@
                                 href="javascript:;"
                             >
                                 <i class="fa fa-download mr-2 mt-1 text-dark" style="font-size: 1rem"></i>
-                                {{ 'ExportToExcel' | localize }}
+                                {/{ 'ExportToExcel' | localize }}
                             </a>
                         </li>
                         <li *ngIf="'Pages.Administration.Users.Create' | permission" role="menuitem">
@@ -46,7 +46,7 @@
                                         accept=".csv,.xls,.xlsx"
                                         (uploadHandler)="uploadExcel($event)"
                                         (onError)="onUploadExcelError()"
-                                        chooseLabel="{{ 'ImportFromExcel' | localize }}"
+                                        chooseLabel="{/{ 'ImportFromExcel' | localize }}"
                                     ></p-fileUpload>
                                 </span>
                             </a>
@@ -75,9 +75,9 @@
                     class="btn btn-primary"
                 >
                     <i class="fa fa-plus"></i>
-                    {{ 'CreateNewUser' | localize }}
+                    {/{ 'CreateNewUser' | localize }}
                 </button>
-            </div>
+            </div>-->
         </sub-header>
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
@@ -218,21 +218,21 @@
                                             {{ 'Surname' | localize }}
                                             <p-sortIcon field="surname"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px">
-                                            {{ 'Roles' | localize }}
-                                        </th>
+                                        <!--<th style="width: 150px">
+                                            {/{ 'Roles' | localize }}
+                                        </th>-->
                                         <th style="width: 250px" pSortableColumn="emailAddress">
                                             {{ 'EmailAddress' | localize }}
                                             <p-sortIcon field="emailAddress"></p-sortIcon>
                                         </th>
-                                        <th style="width: 200px" pSortableColumn="isEmailConfirmed">
-                                            {{ 'EmailConfirm' | localize }}
+                                        <!--<th style="width: 200px" pSortableColumn="isEmailConfirmed">
+                                            {/{ 'EmailConfirm' | localize }}
                                             <p-sortIcon field="isEmailConfirmed"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 100px" pSortableColumn="isActive">
-                                            {{ 'Active' | localize }}
+                                        </th>-->
+                                        <!--<th style="width: 100px" pSortableColumn="isActive">
+                                            {/{ 'Active' | localize }}
                                             <p-sortIcon field="isActive"></p-sortIcon>
-                                        </th>
+                                        </th>-->
                                         <th style="width: 200px" pSortableColumn="creationTime">
                                             {{ 'CreationTime' | localize }}
                                             <p-sortIcon field="creationTime"></p-sortIcon>
@@ -264,7 +264,7 @@
                                                 >
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
-                                                    {{ 'Actions' | localize }}
+                                                    <!--{/{ 'Actions' | localize }}-->
                                                 </button>
                                                 <ul
                                                     id="dropdownMenu"
@@ -273,7 +273,7 @@
                                                     *dropdownMenu
                                                     aria-labelledby="dropdownButton"
                                                 >
-                                                    <li
+                                                    <!--<li
                                                         *ngIf="
                                                             ('Pages.Administration.Users.Impersonation' | permission) &&
                                                             record.id !== appSession.userId
@@ -290,9 +290,9 @@
                                                                 )
                                                             "
                                                         >
-                                                            {{ 'LoginAsThisUser' | localize }}
+                                                            {/{ 'LoginAsThisUser' | localize }}
                                                         </a>
-                                                    </li>
+                                                    </li>-->
                                                     <li
                                                         *ngIf="'Pages.Administration.Users.Edit' | permission"
                                                         role="menuitem"
@@ -305,7 +305,7 @@
                                                             {{ 'Edit' | localize }}
                                                         </a>
                                                     </li>
-                                                    <li
+                                                    <!--<li
                                                         *ngIf="
                                                             'Pages.Administration.Users.ChangePermissions' | permission
                                                         "
@@ -321,7 +321,7 @@
                                                                 )
                                                             "
                                                         >
-                                                            {{ 'Permissions' | localize }}
+                                                            {/{ 'Permissions' | localize }}
                                                         </a>
                                                     </li>
                                                     <li
@@ -333,7 +333,7 @@
                                                             class="dropdown-item"
                                                             (click)="unlockUser(record)"
                                                         >
-                                                            {{ 'Unlock' | localize }}
+                                                            {/{ 'Unlock' | localize }}
                                                         </a>
                                                     </li>
                                                     <li
@@ -349,7 +349,7 @@
                                                             class="dropdown-item"
                                                             (click)="showDynamicProperties(record)"
                                                         >
-                                                            {{ 'DynamicProperties' | localize }}
+                                                            {/{ 'DynamicProperties' | localize }}
                                                         </a>
                                                     </li>
                                                     <li
@@ -361,9 +361,9 @@
                                                             class="dropdown-item"
                                                             (click)="deleteUser(record)"
                                                         >
-                                                            {{ 'Delete' | localize }}
+                                                            {/{ 'Delete' | localize }}
                                                         </a>
-                                                    </li>
+                                                    </li>-->
                                                 </ul>
                                             </div>
                                         </td>
@@ -384,38 +384,38 @@
                                             <span class="p-column-title">{{ 'Surname' | localize }}</span>
                                             {{ record.surname }}
                                         </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ 'Roles' | localize }}</span>
-                                            {{ getRolesAsString(record.roles) }}
-                                        </td>
+                                        <!--<td style="width: 150px">
+                                            <span class="p-column-title">{/{ 'Roles' | localize }}</span>
+                                            {/{ getRolesAsString(record.roles) }}
+                                        </td>-->
                                         <td style="width: 250px">
                                             <span class="p-column-title">{{ 'EmailAddress' | localize }}</span>
                                             {{ record.emailAddress }}
                                         </td>
-                                        <td style="width: 200px">
-                                            <span class="p-column-title">{{ 'EmailConfirm' | localize }}</span>
+                                        <!--<td style="width: 200px">
+                                            <span class="p-column-title">{/{ 'EmailConfirm' | localize }}</span>
                                             <span
                                                 class="label label-success label-inline"
                                                 *ngIf="record.isEmailConfirmed"
                                             >
-                                                {{ 'Yes' | localize }}
+                                                {/{ 'Yes' | localize }}
                                             </span>
                                             <span
                                                 class="label label-dark label-inline"
                                                 *ngIf="!record.isEmailConfirmed"
                                             >
-                                                {{ 'No' | localize }}
+                                                {/{ 'No' | localize }}
                                             </span>
-                                        </td>
-                                        <td style="width: 100px">
-                                            <span class="p-column-title">{{ 'Active' | localize }}</span>
+                                        </td>-->
+                                        <!--<td style="width: 100px">
+                                            <span class="p-column-title">{/{ 'Active' | localize }}</span>
                                             <span class="label label-success label-inline" *ngIf="record.isActive">
-                                                {{ 'Yes' | localize }}
+                                                {/{ 'Yes' | localize }}
                                             </span>
                                             <span class="label label-dark label-inline" *ngIf="!record.isActive">
-                                                {{ 'No' | localize }}
+                                                {/{ 'No' | localize }}
                                             </span>
-                                        </td>
+                                        </td>-->
                                         <td style="width: 200px">
                                             <span class="p-column-title">{{ 'CreationTime' | localize }}</span>
                                             {{ record.creationTime | luxonFormat: 'F' }}

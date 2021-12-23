@@ -6,7 +6,12 @@ import {
     LeadLeadSourceLookupTableDto,
     LeadStatusDto,
     PagedResultDtoOfGetLeadStatusForViewDto,
-    ConvertLeadToAccountRequestDto
+    ConvertLeadToAccountRequestDto,
+    PriorityDto,
+    PrioritiesServiceProxy,
+    PagedResultDtoOfGetPriorityForViewDto,
+    LeadLeadStatusLookupTableDto,
+    LeadPriorityLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -38,11 +43,17 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('importLeadsModalComponent', { static: true })
 
     importLeadsModalComponent: ImportLeadsModalComponent;
-    leadStatuses: LeadStatusDto[];
+    leadStatuses: LeadLeadStatusLookupTableDto[];
     selectedLeadStatus: LeadStatusDto;
     selectedLeadStatuses: LeadStatusDto[];
     readOnlyStatus = [];
+    allStatusesFilter : LeadLeadStatusLookupTableDto = new LeadLeadStatusLookupTableDto;     
 
+    priorities: LeadPriorityLookupTableDto[];
+    selectedPriority: LeadPriorityLookupTableDto;
+    selectedPriorities: LeadPriorityLookupTableDto[];
+    allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
+    
     advancedFiltersAreShown = false;
     filterText = '';
     companyOrContactNameFilter = '';
@@ -98,6 +109,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
         private _leadStatusesServiceProxy : LeadStatusesServiceProxy,
+        private _prioritiesServiceProxy : PrioritiesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -117,19 +129,19 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
-        this._leadStatusesServiceProxy.getAll(undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined)
-        .subscribe((result: PagedResultDtoOfGetLeadStatusForViewDto) => {
-            this.leadStatuses = result.items.map(x => x.leadStatus);
+        this._leadsServiceProxy.getAllLeadStatusForTableDropdown().subscribe((result) => {
+            this.leadStatuses = result;
             this.leadStatuses.forEach( (leadStatus) => {
                 if (!leadStatus.isLeadConversionValid)
-                    this.readOnlyStatus.push(leadStatus.description);
+                    this.readOnlyStatus.push(leadStatus.displayName);                        
             })
+            this.allStatusesFilter.displayName = "All";
+            this.leadStatuses.unshift(this.allStatusesFilter);  
+        });
+        this._leadsServiceProxy.getAllPriorityForTableDropdown().subscribe((result) => {
+            this.priorities = result;
+            this.allPrioritiesFilter.displayName = "All";
+            this.priorities.unshift(this.allPrioritiesFilter);  
         });
     }
 
@@ -170,7 +182,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
-                this.selectedLeadStatuses?.map(x => x.id),
+                this.selectedLeadStatus?.id,
+                this.selectedPriority?.id,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -233,7 +246,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.leadSourceDescriptionFilter,
                 this.leadStatusDescriptionFilter,
                 this.priorityDescriptionFilter,
-                this.selectedLeadStatuses?.map(x => x.id)
+                this.selectedLeadStatus?.id,
+                this.selectedPriority?.id,
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

@@ -28,7 +28,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="!this.showSaveButton && this.isReadOnlyMode">
+                                    <div class="row" *ngIf="(!this.showSaveButton && this.isReadOnlyMode) && isGranted('Pages.Customer.Edit')">
                                         <div class="col-12">
                                             <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
                                                 <i class="fas fa-pencil-alt"></i>
@@ -76,10 +76,13 @@
                                                                 [(ngModel)]="customer.phone"
                                                                 name="Phone"
                                                                 minlength="0"
-                                                                maxlength="255"
+                                                                maxlength="15"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
+                                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_Phone"></validation-messages>
+                                                            <div *ngIf="!Customer_Phone.valid && (Customer_Phone.dirty || Customer_Phone.touched)">
+                                                                <span class="form-text text-danger text-left">{{ 'CompanyPhone_Invalid' | localize }}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -164,17 +167,17 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
-                                                            <p-dropdown #Customer_Country="ngModel"
+                                                            <p-dropdown #Customer_Country="ngModel"                                                                        
                                                                         id="Customer_Country"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         [options]="countries"
                                                                         [(ngModel)]="customer.country"
                                                                         [disabled]="this.isReadOnlyMode || !this.isNew"
-                                                                        optionLabel="name"
+                                                                        optionLabel="displayName"
                                                                         placeholder="Select Country"
                                                                         [showClear]="true"
                                                                         optionValue="code">
-                                                            </p-dropdown>
+                                                            </p-dropdown>                                                            
                                                             <validation-messages [formCtrl]="Customer_Country"></validation-messages>
                                                         </div>
                                                     </div>
@@ -908,7 +911,10 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <entityTypeHistory #entityTypeHistory></entityTypeHistory>
+                                    <entityTypeHistory [requiredPermission]="'Pages.Customer.ViewEvents'" #entityTypeHistory></entityTypeHistory>
+                                    <div *ngIf="!this.showEventsTab">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -918,12 +924,20 @@
             </tabset>
         </div>
 
-        <div class="row" *ngIf="this.customer.number !== undefined && this.customer.number !== ''">
-            <div class="col-md-6">
+        <div class="row" *ngIf="this.customer.number">
+            <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.AccountUsers')">
                 <app-assigned-user
                     [componentType]="'Account'"
                     [idToStore]="this.customer.number">
                 </app-assigned-user>
+            </div>
+
+            <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.Contacts')">
+                <app-customer-contacts
+                    [customerNumber]="this.customer.number"
+                    (onSaveContact)="reloadEvents()"
+                >
+                </app-customer-contacts>
             </div>
         </div>
 

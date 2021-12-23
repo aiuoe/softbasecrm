@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OpportunitiesServiceProxy, OpportunityDto, OpportunityStageDto, OpportunityStagesServiceProxy, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
+import { OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -28,9 +28,10 @@ export class OpportunitiesComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    opportunityStages: OpportunityStageDto[];
-    selectedOpportunityStage: OpportunityStageDto;
-    selectedOpportunityStages: OpportunityStageDto[];
+    opportunityStages: OpportunityOpportunityStageLookupTableDto[];
+    selectedOpportunityStage: OpportunityOpportunityStageLookupTableDto;
+    selectedOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
+    allStagesFilter : OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -51,12 +52,13 @@ export class OpportunitiesComponent extends AppComponentBase {
     opportunityStageDescriptionFilter = '';
     leadSourceDescriptionFilter = '';
     opportunityTypeDescriptionFilter = '';
+    customerName = '';
+    contactName = '';
 
     /***
      * Main constructor
      * @param injector
      * @param _opportunityServiceProxy
-     * @param _opportunityStageServiceProxy
      * @param _notifyService
      * @param _tokenAuth
      * @param _activatedRoute
@@ -67,7 +69,6 @@ export class OpportunitiesComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _opportunitiesServiceProxy: OpportunitiesServiceProxy,
-        private _opportunityStagesServiceProxy: OpportunityStagesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -83,14 +84,11 @@ export class OpportunitiesComponent extends AppComponentBase {
     * Initialize component
     */
      ngOnInit(){
-        this._opportunityStagesServiceProxy.getAll(
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined)
-        .subscribe((result: PagedResultDtoOfGetOpportunityStageForViewDto) => {
-            this.opportunityStages = result.items.map(x => x.opportunityStage);
+        this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown()
+        .subscribe((result) => {
+            this.opportunityStages = result;
+            this.allStagesFilter.displayName = 'All';
+            this.opportunityStages.unshift(this.allStagesFilter);
         });
     }
 
@@ -126,7 +124,9 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.opportunityStageDescriptionFilter,
                 this.leadSourceDescriptionFilter,
                 this.opportunityTypeDescriptionFilter,
-                this.selectedOpportunityStages?.map(x => x.id),
+                this.customerName,
+                this.contactName,
+                this.selectedOpportunityStage?.id,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -176,7 +176,9 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.opportunityStageDescriptionFilter,
                 this.leadSourceDescriptionFilter,
                 this.opportunityTypeDescriptionFilter,
-                this.selectedOpportunityStages?.map(x => x.id)
+                this.customerName,
+                this.contactName,
+                this.selectedOpportunityStage?.id
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

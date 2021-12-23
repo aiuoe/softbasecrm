@@ -13,11 +13,29 @@ import {
 import { MultiSelectModule } from '@node_modules/primeng/multiselect';
 import { CheckboxModule } from '@node_modules/primeng/checkbox';
 import { AssignedUserModule } from '@app/main/crm/assigned-user/assigned-user.module';
+import { CustomerContactsModule } from '@app/main/legacy/customerContacts/customer-contacts.module';
 
 @NgModule({
-    providers: [AccountTypesServiceProxy, ZipCodesServiceProxy, CountriesServiceProxy],
-    declarations: [CustomersComponent, CreateOrEditCustomerComponent, ViewCustomerComponent],
-  imports: [AppSharedModule, CustomerRoutingModule, AdminSharedModule, MultiSelectModule, CheckboxModule, AssignedUserModule]
+    providers: [
+        AccountTypesServiceProxy,
+        ZipCodesServiceProxy,
+        CountriesServiceProxy
+    ],
+    declarations: [
+        CustomersComponent,
+        CreateOrEditCustomerComponent,
+        ViewCustomerComponent
+    ],
+    imports: [
+        AppSharedModule,
+        CustomerRoutingModule,
+        AdminSharedModule,
+        MultiSelectModule,
+        CheckboxModule,
+        AssignedUserModule,
+        CustomerContactsModule
+    ]
 })
 
-export class CustomerModule {}
+export class CustomerModule {
+}
