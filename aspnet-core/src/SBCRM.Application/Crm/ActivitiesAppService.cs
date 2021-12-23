@@ -59,84 +59,75 @@ namespace SBCRM.Crm
             var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
             var filteredActivities = _activityRepository.GetAll()
-                        .Include(e => e.OpportunityFk)
-                            .ThenInclude(e => e.CustomerFk)
-                        .Include(e => e.LeadFk)
-                        .Include(e => e.UserFk)
-                        .Include(e => e.ActivitySourceTypeFk)
-                        .Include(e => e.ActivityTaskTypeFk)
-                        .Include(e => e.ActivityStatusFk)
-                        .Include(e => e.ActivityPriorityFk)
-                        .Include(e => e.CustomerFk)
-                        .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
-                        .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
-                        .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
+                .Include(e => e.OpportunityFk)
+                .ThenInclude(e => e.CustomerFk)
+                .Include(e => e.LeadFk)
+                .Include(e => e.UserFk)
+                .Include(e => e.ActivitySourceTypeFk)
+                .Include(e => e.ActivityTaskTypeFk)
+                .Include(e => e.ActivityStatusFk)
+                .Include(e => e.ActivityPriorityFk)
+                .Include(e => e.CustomerFk)
+                .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
+                .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
 
-            IQueryable<Activity> pagedAndFilteredActivities;
 
-            if (input.Sorting is null)
-                pagedAndFilteredActivities = filteredActivities
-                    .OrderByDescending(e => e.DueDate)
-                    .ThenBy(e => e.ActivityPriorityId)
-                    .ThenBy(e => e.ActivitySourceTypeId)
-                    .ThenBy(e => e.ActivityStatusFk.Order)
-                    .PageBy(input);
-            else
-                pagedAndFilteredActivities = filteredActivities
-                    .OrderBy(input.Sorting)
-                    .PageBy(input);
-
-            var activities = from o in pagedAndFilteredActivities
-                             join o1 in _lookup_opportunityRepository.GetAll() on o.OpportunityId equals o1.Id into j1
-                             from s1 in j1.DefaultIfEmpty()
-
-                             join o2 in _lookup_leadRepository.GetAll() on o.LeadId equals o2.Id into j2
-                             from s2 in j2.DefaultIfEmpty()
-
-                             join o3 in _lookup_userRepository.GetAll() on o.UserId equals o3.Id into j3
-                             from s3 in j3.DefaultIfEmpty()
-
-                             join o4 in _lookup_activitySourceTypeRepository.GetAll() on o.ActivitySourceTypeId equals o4.Id into j4
-                             from s4 in j4.DefaultIfEmpty()
-
-                             join o5 in _lookup_activityTaskTypeRepository.GetAll() on o.ActivityTaskTypeId equals o5.Id into j5
-                             from s5 in j5.DefaultIfEmpty()
-
-                             join o6 in _lookup_activityStatusRepository.GetAll() on o.ActivityStatusId equals o6.Id into j6
-                             from s6 in j6.DefaultIfEmpty()
-
-                             join o7 in _lookup_activityPriorityRepository.GetAll() on o.ActivityPriorityId equals o7.Id into j7
-                             from s7 in j7.DefaultIfEmpty()
-
-                             join o8 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o8.Number into j8
-                             from s8 in j8.DefaultIfEmpty()
-
+            var activities = from activity in filteredActivities
+                             join o1 in _lookup_opportunityRepository.GetAll() on activity.OpportunityId equals o1.Id into j1
+                             from opportunity in j1.DefaultIfEmpty()
+                             join o2 in _lookup_leadRepository.GetAll() on activity.LeadId equals o2.Id into j2
+                             from lead in j2.DefaultIfEmpty()
+                             join o3 in _lookup_userRepository.GetAll() on activity.UserId equals o3.Id into j3
+                             from user in j3.DefaultIfEmpty()
+                             join o4 in _lookup_activitySourceTypeRepository.GetAll() on activity.ActivitySourceTypeId equals o4.Id into j4
+                             from sourceType in j4.DefaultIfEmpty()
+                             join o5 in _lookup_activityTaskTypeRepository.GetAll() on activity.ActivityTaskTypeId equals o5.Id into j5
+                             from type in j5.DefaultIfEmpty()
+                             join o6 in _lookup_activityStatusRepository.GetAll() on activity.ActivityStatusId equals o6.Id into j6
+                             from status in j6.DefaultIfEmpty()
+                             join o7 in _lookup_activityPriorityRepository.GetAll() on activity.ActivityPriorityId equals o7.Id into j7
+                             from priority in j7.DefaultIfEmpty()
+                             join o8 in _lookup_customerRepository.GetAll() on activity.CustomerNumber equals o8.Number into j8
+                             from customer in j8.DefaultIfEmpty()
                              select new
                              {
-
-                                 o.Id,
-                                 o.UserId,
-                                 o.DueDate,
-                                 o.StartsAt,
-                                 OpportunityName = s1 == null || s1.CustomerFk == null || s1.CustomerFk.Name == null ? "" : s1.CustomerFk.Name,
-                                 LeadCompanyName = s2 == null || s2.CompanyName == null ? "" : s2.CompanyName.ToString(),
-                                 UserName = s3 == null || s3.Name == null && s3.Surname == null ? "" : $"{s3.Name} {s3.Surname}",
-                                 ActivitySourceTypeDescription = s4 == null || s4.Description == null ? "" : s4.Description.ToString(),
-                                 ActivityTaskTypeDescription = s5 == null || s5.Description == null ? "" : s5.Description.ToString(),
-                                 ActivityStatusDescription = s6 == null || s6.Description == null ? "" : s6.Description.ToString(),
-                                 ActivityStatusColor = s6 == null || s6.Color == null ? "" : s6.Color,
-                                 ActivityPriorityDescription = s7 == null || s7.Description == null ? "" : s7.Description.ToString(),
-                                 ActivityPriorityColor = s7 == null || s7.Color == null ? "" : s7.Color,
-                                 CustomerName = s8 == null || s8.Name == null ? "" : s8.Name,
+                                 activity.Id,
+                                 activity.UserId,
+                                 activity.DueDate,
+                                 activity.StartsAt,
+                                 UserName = user != null ? user.FullName : string.Empty,
+                                 ActivitySourceTypeDescription = sourceType != null ? sourceType.Description : string.Empty,
+                                 ActivityTaskTypeDescription = type != null ? type.Description : string.Empty,
+                                 ActivityStatusDescription = status != null ? status.Description : string.Empty,
+                                 ActivityStatusColor = status != null ? status.Color : string.Empty,
+                                 ActivityPriorityDescription = priority != null ? priority.Description : string.Empty,
+                                 ActivityPriorityColor = priority != null ? priority.Color : string.Empty,
+                                 CompanyName = lead != null
+                                     ? lead.CompanyName
+                                     : customer != null
+                                         ? customer.Name
+                                         : opportunity != null && opportunity.CustomerFk != null
+                                             ? opportunity.CustomerFk.Name
+                                             : string.Empty
                              };
+
+            if (input.Sorting is null)
+                activities = activities
+                    .OrderByDescending(e => e.DueDate)
+                    .PageBy(input);
+            else
+                activities = activities
+                    .OrderBy(input.Sorting)
+                    .PageBy(input);
 
             var totalCount = await filteredActivities.CountAsync();
 
@@ -145,7 +136,7 @@ namespace SBCRM.Crm
 
             foreach (var o in dbList)
             {
-                var res = new GetActivityForViewDto()
+                var res = new GetActivityForViewDto
                 {
                     Activity = new ActivityDto
                     {
@@ -155,8 +146,6 @@ namespace SBCRM.Crm
                         DueDate = o.DueDate,
                         StartsAt = o.StartsAt,
                     },
-                    OpportunityName = o.OpportunityName,
-                    LeadCompanyName = o.LeadCompanyName,
                     UserName = o.UserName,
                     ActivitySourceTypeDescription = o.ActivitySourceTypeDescription,
                     ActivityTaskTypeDescription = o.ActivityTaskTypeDescription,
@@ -164,7 +153,7 @@ namespace SBCRM.Crm
                     ActivityStatusColor = o.ActivityStatusColor,
                     ActivityPriorityDescription = o.ActivityPriorityDescription,
                     ActivityPriorityColor = o.ActivityPriorityColor,
-                    CustomerName = o.CustomerName
+                    CompanyName = o.CompanyName
                 };
 
                 results.Add(res);
@@ -174,7 +163,6 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         public async Task<GetActivityForViewDto> GetActivityForView(long id)
