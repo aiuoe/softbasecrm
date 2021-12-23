@@ -49,9 +49,7 @@ namespace SBCRM.Authorization
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
-
-            var basePermissions = pages.CreateChildPermission(AppPermissions.Base_Permission, L("BasePermission"));
-
+            
             var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
@@ -125,10 +123,10 @@ namespace SBCRM.Authorization
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events, L("CustomerViewEvents"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity, L("CustomerAddOpportunity"));
 
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
-            accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Edit, L("EditAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create_Restricted, L("CreateNewAccountUserRestricted"));
 

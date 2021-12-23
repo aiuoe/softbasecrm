@@ -38,7 +38,7 @@ namespace SBCRM.Crm.Exporting
         public FileDto ExportToFile(List<GetOpportunityForViewDto> opportunities)
         {
             return CreateExcelPackage(
-                "Opportunities_" + (DateTime.UtcNow.Date).ToString("MM/dd/yyyy") + ".xlsx",
+                "Opportunities_" + (DateTime.UtcNow.Date).ToString("MM_dd_yyyy") + ".xlsx",
                 excelPackage =>
                 {
 
@@ -54,19 +54,19 @@ namespace SBCRM.Crm.Exporting
                         L("CloseDate"),
                         L("Amount"),
                         L("Branch"),
-                        L("Department")                   
+                        L("Department")
                         );
 
                     AddObjects(
                         sheet, opportunities,
                         _ => _.Opportunity.Name,
                         _ => _.OpportunityStageDescription,
+                        _ => _.ContactName,
                         _ => L("Placeholder"),
-                        _ => L("Placeholder"),
-                        _ => _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy"),
+                        _ => _.Opportunity.CloseDate.HasValue ? _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy") : null,
                         _ => _.Opportunity.Amount,
                         _ => _.Opportunity.Branch,
-                        _ => _.Opportunity.Department                        
+                        _ => _.Opportunity.Department
                         );
 
                     int numberOfColumns = sheet.GetRow(0).LastCellNum;

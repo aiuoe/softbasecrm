@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object opportunity type for create or edit purposes
+    /// </summary>
     public class CreateOrEditOpportunityTypeDto : EntityDto<int?>
     {
 

@@ -167,8 +167,7 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
-                                                            <p-dropdown #Customer_Country="ngModel"
-                                                                        [required]="true"
+                                                            <p-dropdown #Customer_Country="ngModel"                                                                        
                                                                         id="Customer_Country"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         [options]="countries"
@@ -178,7 +177,7 @@
                                                                         placeholder="Select Country"
                                                                         [showClear]="true"
                                                                         optionValue="code">
-                                                            </p-dropdown>
+                                                            </p-dropdown>                                                            
                                                             <validation-messages [formCtrl]="Customer_Country"></validation-messages>
                                                         </div>
                                                     </div>
@@ -926,14 +925,14 @@
         </div>
 
         <div class="row" *ngIf="this.customer.number">
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.AccountUsers')">
                 <app-assigned-user
                     [componentType]="'Account'"
                     [idToStore]="this.customer.number">
                 </app-assigned-user>
             </div>
 
-            <div class="col-sm-12 col-lg-6" *ngIf="this.customer.number && isGranted('Pages.Contacts')">
+            <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.Contacts')">
                 <app-customer-contacts
                     [customerNumber]="this.customer.number"
                     (onSaveContact)="reloadEvents()"

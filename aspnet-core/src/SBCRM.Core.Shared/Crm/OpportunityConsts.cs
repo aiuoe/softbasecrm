@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Opportunity constants
+    /// </summary>
     public class OpportunityConsts
     {
 

@@ -29,10 +29,7 @@
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
         public const string Pages_AccountUsers_Create_Restricted = "Pages.AccountUsers.Create_Restricted";
-        public const string Pages_AccountUsers_Edit = "Pages.AccountUsers.Edit";
         public const string Pages_AccountUsers_Delete = "Pages.AccountUsers.Delete";
-
-        public const string Base_Permission = "Pages.BasePermissions";
 
         public const string Pages_Countries = "Pages.Countries";
         public const string Pages_Countries_Create = "Pages.Countries.Create";
@@ -104,6 +101,7 @@
         public const string Pages_Customer_View_Events = "Pages.Customer.ViewEvents";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
+        public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";
