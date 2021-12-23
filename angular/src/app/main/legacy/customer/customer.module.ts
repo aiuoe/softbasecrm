@@ -8,6 +8,7 @@ import { ViewCustomerComponent } from './view-customer.component';
 import {
     AccountTypesServiceProxy,
     CountriesServiceProxy,
+    LeadUsersServiceProxy,
     ZipCodesServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { MultiSelectModule } from '@node_modules/primeng/multiselect';
@@ -19,7 +20,8 @@ import { CustomerContactsModule } from '@app/main/legacy/customerContacts/custom
     providers: [
         AccountTypesServiceProxy,
         ZipCodesServiceProxy,
-        CountriesServiceProxy
+        CountriesServiceProxy,
+        LeadUsersServiceProxy 
     ],
     declarations: [
         CustomersComponent,

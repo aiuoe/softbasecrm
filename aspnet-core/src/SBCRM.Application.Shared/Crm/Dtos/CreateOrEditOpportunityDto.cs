@@ -32,7 +32,7 @@ namespace SBCRM.Crm.Dtos
 
         [Required(ErrorMessage = "A Stage is required")]
         [Range(1, int.MaxValue, ErrorMessage = "A Stage is required")]
-        public int OpportunityStageId { get; set; }
+        public int? OpportunityStageId { get; set; }
 
         public int? LeadSourceId { get; set; }
 
@@ -43,6 +43,6 @@ namespace SBCRM.Crm.Dtos
 
         [Required(ErrorMessage = "A Contact is required")]
         [Range(1, int.MaxValue, ErrorMessage = "A Contact is required")]
-        public int ContactId { get; set; }
+        public int? ContactId { get; set; }
     }
 }
