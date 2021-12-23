@@ -10,10 +10,10 @@
         public const int MaxCompanyNameLength = 250;
 
         public const int MinContactNameLength = 1;
-        public const int MaxContactNameLength = 100;
+        public const int MaxContactNameLength = 50;
 
         public const int MinContactPositionLength = 1;
-        public const int MaxContactPositionLength = 100;
+        public const int MaxContactPositionLength = 50;
 
         public const int MinWebSiteLength = 1;
         public const int MaxWebSiteLength = 100;
@@ -34,7 +34,7 @@
         public const int MaxCompanyPhoneLength = 50;
 
         public const int MinCompanyEmailLength = 1;
-        public const int MaxCompanyEmailLength = 100;
+        public const int MaxCompanyEmailLength = 50;
 
         public const int MinPoBoxLength = 1;
         public const int MaxPoBoxLength = 100;
@@ -58,9 +58,9 @@
         public const int MaxPagerNumberLength = 50;
 
         public const int MinContactEmailLength = 1;
-        public const int MaxContactEmailLength = 100;
+        public const int MaxContactEmailLength = 50;
 
-        public const int MaxDescriptionLength = 250;
+        public const int MaxNotesLength = 250;
 
     }
 }
