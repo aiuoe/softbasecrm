@@ -52,7 +52,7 @@
                                                 name="companyOrContactNameFilter"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('LeadSearchWithThreeDot')"
+                                                [placeholder]="l('Search') + '' + l('CompanyName')"
                                                 type="text"
                                             />
                                             <span class="input-group-btn">
@@ -211,10 +211,10 @@
                                         <!-- These is just a placeholder -->
                                         <th
                                             style="width: 150px"
-                                            pSortableColumn="contactName"
+                                            pSortableColumn="users.userFk.name"
                                         >
                                             {{ l('AssignedUser') }}
-                                            <p-sortIcon field="contactName"></p-sortIcon>
+                                            <p-sortIcon field="users.userFk.name"></p-sortIcon>
                                         </th>
                                         <!-- Above is just a placeholder -->
                                         <th
@@ -305,9 +305,8 @@
                                             <span class="p-column-title">{{ l('Status') }}</span>
                                             <span
                                                 class="cell-span-color"
-                                                [ngStyle]="{
-                                                    'color': record.leadStatusColor,
-                                                    'background-color': record.leadStatusColor + '33'
+                                                [ngStyle]="{                                                                                                
+                                                    'background-color': record.leadStatusColor
                                                 }"
                                             >
                                                 {{ record.leadStatusDescription }}
@@ -335,6 +334,9 @@
                                             <span class="p-column-title">{{ l('LeadPriority') }}</span>
                                             <span
                                                 class="cell-span-color"
+                                                [ngStyle]="{                                                                                                
+                                                    'background-color': record.priorityColor
+                                                }"
                                             >
                                                 {{ record.priorityDescription }}
                                             </span>
