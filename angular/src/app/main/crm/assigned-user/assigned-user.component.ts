@@ -97,11 +97,18 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
      * @param event 
      */
     loadDataTable(event?: LazyLoadEvent){
-        if ('Account' === this.componentType){
-            this.getAccountUsers(event);
-        } 
-        else if('Lead' === this.componentType){
-            this.getLeadUsers(event);
+        switch(this.componentType){
+            case 'Account':
+                this.getAccountUsers(event);
+                break;
+
+            case 'Lead':
+                this.getLeadUsers(event);
+                break;
+
+            default:
+                this.getLeadUsers(event);
+                break;           
         }
     }
 
@@ -240,15 +247,20 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
      */
     savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]) {
         if (usersList.length > 0) {
-            if (this.componentType === 'Account') {
-                this.saveAccountAssignedUser(usersList);
-            } else if (this.componentType === 'Lead') {
-                this.saveLeadAssignedUsers(usersList);
-            } else {
-                return;
+            switch (this.componentType){
+                case 'Account':
+                    this.saveAccountAssignedUser(usersList);
+                    break;
+
+                case 'Lead':
+                    this.saveLeadAssignedUsers(usersList);
+                    break;
+                
+                default:
+                    this.saveLeadAssignedUsers(usersList);
+                    break;
             }
         }
-
     }
 
 

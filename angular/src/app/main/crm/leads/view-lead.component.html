@@ -10,7 +10,7 @@
 
         <div [class]="containerClass">
             <div class="row">
-                <div class="col-sm-8 col-md-9">
+                <div class="col-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
                             <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i> General
@@ -224,26 +224,15 @@
                         </div>
                     </div>
                 </div>
-                <!-- TODO:THIS SHOULD BE A WIDGETS COMPONENT -->
-                <div class="col-sm-4 col-md-3">
-                    <div class="card card-custom gutter-b">
-                        <div class="card-body">
-                            <div class="card card-custom gutter-b">
-                                <div class="card-body">Widget 1</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card card-custom gutter-b">
-                                <div class="card-body">Widget 2</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card card-custom gutter-b">
-                                <div class="card-body">Widget 3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="this.item.lead.id">
+            <div class="col-sm-12 col-lg-6">
+                <app-assigned-user
+                    [componentType]="'Lead'"
+                    [idToStore]="this.item.lead.id">
+                </app-assigned-user>
             </div>
         </div>
     </div>
