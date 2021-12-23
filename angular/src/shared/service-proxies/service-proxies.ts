@@ -999,7 +999,7 @@ export class AccountUsersServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    canAssignUsers(customerNumber: string | undefined): Observable<boolean> {
+    canAssignUsers(customerNumber: string | undefined) : Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/CanAssignUsers?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -2218,7 +2218,7 @@ export class AuditEventsServiceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addEvent(body: AuditEventDto | undefined): Observable<void> {
+    addEvent(body: AuditEventDto | undefined) : Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AuditEventsService/AddEvent";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2274,7 +2274,7 @@ export class AuditEventsServiceServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditEventsService/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -3479,7 +3479,7 @@ export class ContactsServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getAllWithoutPaging(customerNumber: string | undefined): Observable<GetContactForViewDto[]> {
+    getAllWithoutPaging(customerNumber: string | undefined) : Observable<GetContactForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetAllWithoutPaging?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -3546,7 +3546,7 @@ export class ContactsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetContactForViewDto> {
+    getAll(filter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetContactForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -4304,7 +4304,7 @@ export class CustomerServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCustomerForView(customerNumber: string | undefined): Observable<GetCustomerForViewOutput> {
+    getCustomerForView(customerNumber: string | undefined) : Observable<GetCustomerForViewOutput> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerForView?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -4649,7 +4649,7 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
-    getAllCountriesForTableDropdown(): Observable<CustomerCountryLookupTableDto[]> {
+    getAllCountriesForTableDropdown() : Observable<CustomerCountryLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCountriesForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4950,7 +4950,7 @@ export class CustomerServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -11406,12 +11406,13 @@ export class LeadUsersServiceProxy {
      * @param filter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
+     * @param leadId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, leadId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11425,6 +11426,10 @@ export class LeadUsersServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (leadId === null)
+            throw new Error("The parameter 'leadId' cannot be null.");
+        else if (leadId !== undefined)
+            url_ += "LeadId=" + encodeURIComponent("" + leadId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -11757,6 +11762,58 @@ export class LeadUsersServiceProxy {
             }));
         }
         return _observableOf<LeadUserUserLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createMultipleLeadUsers(body: CreateOrEditLeadUserDto[] | undefined) : Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/CreateMultipleLeadUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateMultipleLeadUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMultipleLeadUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMultipleLeadUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 

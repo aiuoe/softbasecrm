@@ -5,7 +5,8 @@ import {
     AccountUsersServiceProxy,
     CreateOrEditAccountUserDto,
     AccountUserUserLookupTableDto,
-    GetAccountUserForViewDto
+    GetAccountUserForViewDto,
+    LeadUsersServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -31,6 +32,7 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     @Output() assignedUsers: EventEmitter<AccountUserUserLookupTableDto[]> = new EventEmitter<AccountUserUserLookupTableDto[]>();
     @Input() assignedUsersExists: AccountUserUserLookupTableDto[] = [];
     @Input() excludeSelectedItemsInMultiSelect = false;
+    @Input() componentType = '';
 
     active = false;
     saving = false;
@@ -43,7 +45,8 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     constructor(
         injector: Injector,
         private _accountUsersServiceProxy: AccountUsersServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private _leadUserServiceProxy: LeadUsersServiceProxy
     ) {
         super(injector);
     }
@@ -64,14 +67,28 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
             this.userName = '';
             this.active = true;
             this.modal.show();
-        } else {
-            this._accountUsersServiceProxy.getAccountUserForEdit(accountUserId).subscribe(result => {
-                this.accountUser = result.accountUser;
-                this.userName = result.userName;
-                this.active = true;
-                this.modal.show();
-            });
+        } 
+        
+        switch(this.componentType){
+            case 'Account':
+                this.getAllUsersForAccountModule();
+                break;
+            
+            case 'Lead':
+                this.getAllUserForLeadsModule();
+                break;
+
+            default:
+                this.getAllUserForLeadsModule();
+                break;
         }
+    }
+
+
+    /***
+    * Gets all the users  to list on the popup onlt for Account module
+    */
+    getAllUsersForAccountModule(){
         this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {
             this.allUsers = result;
 
@@ -94,8 +111,35 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
                 this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
             }
         });
+    }
 
 
+    /**
+     * Gets all the users  to list on the popup onlt for Account module
+     */
+    getAllUserForLeadsModule(){
+        this._leadUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+            this.allUsers = result;
+
+            const userIdsArray = [];
+            for (let i = 0; i < this.assignedUsersExists.length; i++) {
+                userIdsArray.push(this.assignedUsersExists[i].id);
+            }
+
+            if (this.excludeSelectedItemsInMultiSelect) {
+                // Filtering by users who hasn't been assigned yet
+                const arrayResult = [];
+                this.allUsers.forEach(element => {
+                    if (!userIdsArray.find(p => p === element.id)) {
+                        arrayResult.push(element);
+                    }
+                });
+                this.allUsers = [];
+                this.allUsers = arrayResult;
+            } else {
+                this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
+            }
+        });
     }
 
     /**
