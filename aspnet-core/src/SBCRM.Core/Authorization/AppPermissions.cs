@@ -10,6 +10,7 @@
         public const string Pages_Activities_Create = "Pages.Activities.Create";
         public const string Pages_Activities_Edit = "Pages.Activities.Edit";
         public const string Pages_Activities_Delete = "Pages.Activities.Delete";
+        public const string Pages_Activities_View_AssignedUserFilter = "Pages.Activities.View_AssignedUserFilter";
 
         public const string Pages_ActivitySourceTypes = "Pages.ActivitySourceTypes";
         public const string Pages_ActivitySourceTypes_Create = "Pages.ActivitySourceTypes.Create";

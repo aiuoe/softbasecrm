@@ -55,6 +55,8 @@ namespace SBCRM.Crm
 
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesInput input)
         {
+            var currentUser = await GetCurrentUserAsync();
+            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
             var filteredActivities = _activityRepository.GetAll()
                         .Include(e => e.OpportunityFk)
@@ -65,7 +67,8 @@ namespace SBCRM.Crm
                         .Include(e => e.ActivityStatusFk)
                         .Include(e => e.ActivityPriorityFk)
                         .Include(e => e.CustomerFk)
-                        .WhereIf(input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                         .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
@@ -315,6 +318,8 @@ namespace SBCRM.Crm
 
         public async Task<FileDto> GetActivitiesToExcel(GetAllActivitiesForExcelInput input)
         {
+            var currentUser = await GetCurrentUserAsync();
+            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
             var filteredActivities = _activityRepository.GetAll()
                         .Include(e => e.OpportunityFk)
@@ -325,7 +330,8 @@ namespace SBCRM.Crm
                         .Include(e => e.ActivityStatusFk)
                         .Include(e => e.ActivityPriorityFk)
                         .Include(e => e.CustomerFk)
-                        .WhereIf(input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                        .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                         .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.Name.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)

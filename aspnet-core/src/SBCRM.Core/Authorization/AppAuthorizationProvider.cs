@@ -33,7 +33,8 @@ namespace SBCRM.Authorization
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
-            activities.CreateChildPermission(AppPermissions.Pages_Activities_Delete, L("DeleteActivity"));
+            //activities.CreateChildPermission(AppPermissions.Pages_Activities_Delete, L("DeleteActivity"));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter, L("FilterByAssignee"));
 
             var activitySourceTypes = pages.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes, L("ActivitySourceTypes"));
             activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Create, L("CreateNewActivitySourceType"));

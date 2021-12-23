@@ -74,11 +74,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _activitiesServiceProxy: ActivitiesServiceProxy,
-        private _accountUsersServiceProxy: AccountUsersServiceProxy,
-        private _activitySourceTypesServiceProxy: ActivitySourceTypesServiceProxy,
-        private _activityTaskTypesServiceProxy: ActivityTaskTypesServiceProxy,
-        private _activityStatusesServiceProxy: ActivityStatusesServiceProxy,
-        private _customerServiceProxy: CustomerServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -182,7 +177,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      * Load the list of users
      */
     loadUsers(): void {
-        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+        this._activitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
             this.allUsers = result;
         });
     }
