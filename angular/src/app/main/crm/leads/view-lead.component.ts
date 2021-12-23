@@ -6,6 +6,9 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
+/**
+ * Leads views only component
+ */
 @Component({
     templateUrl: './view-lead.component.html',
     animations: [appModuleAnimation()]
@@ -18,8 +21,14 @@ export class ViewLeadComponent extends AppComponentBase implements OnInit {
 
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Leads'), '/app/main/crm/leads'),
-        new BreadcrumbItem(`${this.l('Lead')} ${this.l('Details')}`),
     ];
+    /**
+     * Main Constructor
+     * @param injector 
+     * @param _activatedRoute 
+     * @param _leadsServiceProxy 
+     * @param _router 
+     */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -31,17 +40,28 @@ export class ViewLeadComponent extends AppComponentBase implements OnInit {
         this.item.lead = new LeadDto();
     }
 
+    /**
+     * Component Initializer
+     */
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
     }
 
+    /**
+     * Shows the form
+     * @param leadId the id of the current lead 
+     */
     show(leadId: number): void {
         this._leadsServiceProxy.getLeadForView(leadId).subscribe((result) => {
             this.item = result;
+            this.breadcrumbs.push(new BreadcrumbItem(result.lead.companyName ||  this.l('Details')));
             this.active = true;
         });
     }
 
+    /**
+     * Navigates back to leads main page
+     */
     goToLeads() {
         this._router.navigate(['/app/main/crm/leads'])
     }

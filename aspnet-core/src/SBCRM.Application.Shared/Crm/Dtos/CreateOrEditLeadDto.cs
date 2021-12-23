@@ -37,8 +37,8 @@ namespace SBCRM.Crm.Dtos
         [StringLength(LeadConsts.MaxCityLength)]
         public string City { get; set; }
 
-        [StringLength(LeadConsts.MaxDescriptionLength)]
-        public string Description { get; set; }
+        [StringLength(LeadConsts.MaxNotesLength)]
+        public string Notes { get; set; }
 
 
         [StringLength(LeadConsts.MaxCompanyPhoneLength)]
@@ -77,6 +77,10 @@ namespace SBCRM.Crm.Dtos
 
         public int? PriorityId { get; set; }
 
+        /// <summary>
+        /// Custom validator to check the lead either has  CompanyPhone or a CompanyEmail
+        /// </summary>
+        /// <param name="context"></param>
         public void AddValidationErrors(CustomValidationContext context)
         {
             if (string.IsNullOrWhiteSpace(CompanyPhone) && string.IsNullOrWhiteSpace(CompanyEmail))
