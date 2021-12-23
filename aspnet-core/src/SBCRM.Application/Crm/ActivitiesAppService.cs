@@ -80,9 +80,19 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
 
-            var pagedAndFilteredActivities = filteredActivities
-                .OrderBy(input.Sorting ?? "ActivityStatusFk.Order ASC")
-                .PageBy(input);
+            IQueryable<Activity> pagedAndFilteredActivities;
+
+            if (input.Sorting is null)
+                pagedAndFilteredActivities = filteredActivities
+                    .OrderByDescending(e => e.DueDate)
+                    .ThenBy(e => e.ActivityPriorityId)
+                    .ThenBy(e => e.ActivitySourceTypeId)
+                    .ThenBy(e => e.ActivityStatusFk.Order)
+                    .PageBy(input);
+            else
+                pagedAndFilteredActivities = filteredActivities
+                    .OrderBy(input.Sorting)
+                    .PageBy(input);
 
             var activities = from o in pagedAndFilteredActivities
                              join o1 in _lookup_opportunityRepository.GetAll() on o.OpportunityId equals o1.Id into j1
@@ -344,9 +354,20 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
 
-            var pagedAndFilteredActivities = filteredActivities
-                .OrderBy(input.Sorting ?? "ActivityStatusFk.Order ASC")
-                .PageBy(input);
+            IQueryable<Activity> pagedAndFilteredActivities;
+
+            if (input.Sorting is null)
+                pagedAndFilteredActivities = filteredActivities
+                    .OrderByDescending(e => e.DueDate)
+                    .ThenBy(e => e.ActivityPriorityId)
+                    .ThenBy(e => e.ActivitySourceTypeId)
+                    .ThenBy(e => e.ActivityStatusFk.Order)
+                    .PageBy(input);
+            else
+                pagedAndFilteredActivities = filteredActivities
+                    .OrderBy(input.Sorting)
+                    .PageBy(input);
+
 
             var query = (from o in pagedAndFilteredActivities
                          join o1 in _lookup_opportunityRepository.GetAll() on o.OpportunityId equals o1.Id into j1
