@@ -66,14 +66,16 @@
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
                                         <div>
-                                            <p-multiSelect id="OpportunityStageFilter"
-                                                           name="OpportunityStagesFilter"
-                                                           [options]="opportunityStages"
-                                                           [(ngModel)]="selectedOpportunityStages"
-                                                           optionLabel="description"     
-                                                           placeholder="Filter by Stage"                                          
-                                                           (onChange)="getOpportunities($event)">
-                                            </p-multiSelect>
+                                            <p-dropdown
+                                                id="OpportunityStageFilter"
+                                                name="OpportunityStagesFilter"
+                                                [options]="opportunityStages"
+                                                [(ngModel)]="selectedOpportunityStage"
+                                                optionLabel="displayName"     
+                                                placeholder="Filter by Stage"                                          
+                                                (onChange)="getOpportunities($event)"
+                                            >
+                                            </p-dropdown>
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +254,7 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Amount') }}</span>
-                                                {{ record.opportunity.amount }}
+                                                {{ record.opportunity.amount | currency: 'USD' : true }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Branch') }}}</span>
