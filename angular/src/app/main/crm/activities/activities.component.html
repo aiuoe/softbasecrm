@@ -242,9 +242,13 @@
                                             <span class="p-column-title">{{ l('Status') }}</span>
                                             <span
                                                 class="badge"
+                                                [ngClass]="{
+                                                    'text-light':
+                                                        record.activityStatusColor.length > 1 &&
+                                                        record.activityStatusColor.startsWith('#')
+                                                }"
                                                 [ngStyle]="{
-                                                    color: record.activityStatusColor,
-                                                    'background-color': record.activityStatusColor + '33'
+                                                    'background-color': record.activityStatusColor
                                                 }"
                                             >
                                                 {{ record.activityStatusDescription }}
@@ -273,9 +277,13 @@
 
                                             <span
                                                 class="badge"
+                                                [ngClass]="{
+                                                    'text-light':
+                                                        record.activityPriorityColor.length > 1 &&
+                                                        record.activityPriorityColor.startsWith('#')
+                                                }"
                                                 [ngStyle]="{
-                                                    color: record.activityPriorityColor,
-                                                    'background-color': record.activityPriorityColor + '33'
+                                                    'background-color': record.activityPriorityColor
                                                 }"
                                             >
                                                 {{ record.activityPriorityDescription }}
