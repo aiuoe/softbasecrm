@@ -2242,7 +2242,8 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("CloseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ContactId")
+                    b.Property<int?>("ContactId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -2285,7 +2286,8 @@ namespace SBCRM.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("OpportunityStageId")
+                    b.Property<int?>("OpportunityStageId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("OpportunityTypeId")
@@ -4192,7 +4194,7 @@ namespace SBCRM.Migrations
             modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
                 {
                     b.HasOne("SBCRM.Crm.Lead", "LeadFk")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("LeadId");
 
                     b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
@@ -4388,6 +4390,11 @@ namespace SBCRM.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.Lead", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>

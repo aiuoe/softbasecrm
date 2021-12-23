@@ -257,6 +257,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
+                this.assignedUsersFilter?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

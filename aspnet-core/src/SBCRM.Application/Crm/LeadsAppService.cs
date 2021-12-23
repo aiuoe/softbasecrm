@@ -21,6 +21,7 @@ using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
 using System;
 using System.ComponentModel.DataAnnotations;
+using SBCRM.Authorization.Users;
 
 namespace SBCRM.Crm
 {
@@ -40,6 +41,7 @@ namespace SBCRM.Crm
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<LeadUser> _leadUserRepository;
         private readonly IRepository<Country> _countryRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
 
         /// <summary>
         /// Base constructor
@@ -54,6 +56,7 @@ namespace SBCRM.Crm
         /// <param name="unitOfWorkManager"></param>
         /// <param name="leadUserRepository"></param>
         /// <param name="countryRepository"></param>
+        /// <param name="lookupUserRepository"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,
@@ -64,7 +67,8 @@ namespace SBCRM.Crm
             IEntityChangeSetReasonProvider reasonProvider,
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<LeadUser> leadUserRepository,
-            IRepository<Country> countryRepository)
+            IRepository<Country> countryRepository,
+            IRepository<User, long> lookupUserRepository)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
@@ -76,6 +80,7 @@ namespace SBCRM.Crm
             _unitOfWorkManager = unitOfWorkManager;
             _leadUserRepository = leadUserRepository;
             _countryRepository = countryRepository;
+            _lookup_userRepository = lookupUserRepository;
         }
 
         /// <summary>
@@ -604,6 +609,21 @@ namespace SBCRM.Crm
                     Id = leadSource.Id,
                     DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString(),
                     IsDefault = leadSource.IsDefault
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Lead Source type dropdown
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
+        public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
+        {
+            return await _lookup_userRepository.GetAll()
+                .Select(user => new LeadUserUserLookupTableDto
+                {
+                    Id = user.Id,
+                    DisplayName = user == null || user.FullName == null ? string.Empty : user.FullName
                 }).ToListAsync();
         }
 
