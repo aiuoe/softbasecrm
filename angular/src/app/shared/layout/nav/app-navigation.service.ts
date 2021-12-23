@@ -50,56 +50,8 @@ export class AppNavigationService {
                 '',
                 [],
                 [
-                    // new AppMenuItem(
-                    //     'OrganizationUnits',
-                    //     'Pages.Administration.OrganizationUnits',
-                    //     'flaticon-map',
-                    //     '/app/admin/organization-units'
-                    // ),
                     new AppMenuItem('Roles', 'Pages.Administration.Roles', '', '/app/admin/roles'),
                     new AppMenuItem('Users', 'Pages.Administration.Users', '', '/app/admin/users')
-                    // new AppMenuItem(
-                    //     'AuditLogs',
-                    //     'Pages.Administration.AuditLogs',
-                    //     'flaticon-folder-1',
-                    //     '/app/admin/auditLogs'
-                    // ),
-                    // new AppMenuItem(
-                    //     'Maintenance',
-                    //     'Pages.Administration.Host.Maintenance',
-                    //     'flaticon-lock',
-                    //     '/app/admin/maintenance'
-                    // ),
-                    // new AppMenuItem(
-                    //     'Subscription',
-                    //     'Pages.Administration.Tenant.SubscriptionManagement',
-                    //     'flaticon-refresh',
-                    //     '/app/admin/subscription-management'
-                    // ),
-                    // new AppMenuItem(
-                    //     'VisualSettings',
-                    //     'Pages.Administration.UiCustomization',
-                    //     'flaticon-medical',
-                    //     '/app/admin/ui-customization'
-                    // ),
-                    // new AppMenuItem(
-                    //     'WebhookSubscriptions',
-                    //     'Pages.Administration.WebhookSubscription',
-                    //     'flaticon2-world',
-                    //     '/app/admin/webhook-subscriptions'
-                    // ),
-                    // new AppMenuItem(
-                    //     'DynamicProperties',
-                    //     'Pages.Administration.DynamicProperties',
-                    //     'flaticon-interface-8',
-                    //     '/app/admin/dynamic-property'
-                    // ),
-                    // new AppMenuItem(
-                    //     'Settings',
-                    //     'Pages.Administration.Host.Settings',
-                    //     'flaticon-settings',
-                    //     '/app/admin/hostSettings'
-                    // ),
                 ]
             ),
             new AppMenuItem(
@@ -114,14 +66,63 @@ export class AppNavigationService {
                         'Pages.Administration.Tenant.Settings',
                         '',
                         '/app/admin/tenantSettings'
+                    ),
+                    new AppMenuItem(
+                        'OrganizationUnits',
+                        'Pages.Administration.OrganizationUnits',
+                        '',
+                        '/app/admin/organization-units'
+                    ),
+                    new AppMenuItem(
+                        'AuditLogs',
+                        'Pages.Administration.AuditLogs',
+                        '',
+                        '/app/admin/auditLogs'
+                    ),
+                    new AppMenuItem(
+                        'Maintenance',
+                        'Pages.Administration.Host.Maintenance',
+                        '',
+                        '/app/admin/maintenance'
+                    ),
+                    new AppMenuItem(
+                        'Subscription',
+                        'Pages.Administration.Tenant.SubscriptionManagement',
+                        '',
+                        '/app/admin/subscription-management'
+                    ),
+                    new AppMenuItem(
+                        'VisualSettings',
+                        'Pages.Administration.UiCustomization',
+                        '',
+                        '/app/admin/ui-customization'
+                    ),
+                    new AppMenuItem(
+                        'WebhookSubscriptions',
+                        'Pages.Administration.WebhookSubscription',
+                        '',
+                        '/app/admin/webhook-subscriptions'
+                    ),
+                    new AppMenuItem(
+                        'DynamicProperties',
+                        'Pages.Administration.DynamicProperties',
+                        '',
+                        '/app/admin/dynamic-property'
+                    ),
+                    new AppMenuItem(
+                        'Settings',
+                        'Pages.Administration.Host.Settings',
+                        '',
+                        '/app/admin/hostSettings'
+                    ),
+                    new AppMenuItem(
+                        'Languages',
+                        'Pages.Administration.Languages',
+                        '',
+                        '/app/admin/languages',
+                        ['/app/admin/languages/{name}/texts']
                     )
                 ])
-            // new AppMenuItem(
-            //     'DemoUiComponents',
-            //     'Pages.DemoUiComponents',
-            //     'flaticon-shapes',
-            //     '/app/admin/demo-ui-components'
-            // ),
         ]);
     }
 
