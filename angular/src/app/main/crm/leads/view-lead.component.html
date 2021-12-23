@@ -13,7 +13,7 @@
                 <div class="col-sm-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
-                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i> l('GeneralInformation')</h3>
+                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i> {{ l('GeneralInformation') }}</h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -94,7 +94,7 @@
                             </div>
 
                             <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-id-card"></i>
-                                Contact User
+                                {{ l('ContactDetails') }}
                             </h3>
                             <div class="row">
                                 <div class="col-md-6">
@@ -114,14 +114,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
                                         <input type="text" id="Lead_ContactPhone" class="form-control"
                                             [value]="item.lead.contactPhone" name="ContactPhone" disabled />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension') }}</label>
                                         <input type="text" id="Lead_ContactPhoneExtension" class="form-control"
@@ -129,9 +129,6 @@
                                             disabled />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
@@ -139,6 +136,9 @@
                                             [value]="item.lead.contactCellPhone" name="ContactCellPhone" disabled />
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
@@ -146,9 +146,6 @@
                                             [value]="item.lead.contactFaxNumber" name="ContactFaxNumber" disabled />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
@@ -156,6 +153,9 @@
                                             [value]="item.lead.pagerNumber" name="PagerNumber" disabled />
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
@@ -166,7 +166,7 @@
                             </div>
 
                             <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-clipboard"></i>
-                                Lead details
+                                {{ l('LeadDetails') }}
                             </h3>
 
                             <div class="row">

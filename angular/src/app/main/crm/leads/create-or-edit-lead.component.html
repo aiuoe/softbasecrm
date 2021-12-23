@@ -5,10 +5,6 @@
                 <button (click)="goToLeads()" class="btn btn-secondary float-left" [buttonBusy]="saving">
                     <span>{{ l('Cancel') }}</span>
                 </button>
-                <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
-                    [busyText]="l('SavingWithThreeDot')">
-                    <span>{{ l('Save') }}</span>
-                </button>
             </div>
         </sub-header>
         <div [class]="containerClass">
@@ -16,6 +12,15 @@
                 <div class="col-sm-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button (click)="save()" class="btn btn-primary blue float-right"
+                                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                                        <i class="fa fa-save"></i>
+                                        <span>{{ l('Save') }}</span>
+                                    </button>
+                                </div>
+                            </div>
                             <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
                                 <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i>
                                     {{ l('GeneralInformation') }}</h3>
@@ -33,16 +38,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
-                                            <input  id="Lead_CompanyPhone" 
-                                                    #Lead_CompanyPhone="ngModel"
-                                                    [placeholder]="l('CompanyPhone')" 
-                                                    [(ngModel)]="lead.companyPhone"
-                                                    [required]="!lead.companyEmail" 
-                                                    name="CompanyPhone" 
-                                                    class="form-control"
-                                                    type="tel" 
-                                                    maxlength="15"
-                                                    pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                            <input id="Lead_CompanyPhone" #Lead_CompanyPhone="ngModel"
+                                                [placeholder]="l('CompanyPhone')" [(ngModel)]="lead.companyPhone"
+                                                [required]="!lead.companyEmail" name="CompanyPhone" class="form-control"
+                                                type="tel" maxlength="15"
+                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                             <div
                                                 *ngIf="!Lead_CompanyPhone.valid && (Lead_CompanyPhone.dirty || Lead_CompanyPhone.touched)">
                                                 <span class="form-text text-danger text-left">{{ 'CompanyPhone_Invalid'
@@ -166,18 +166,13 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
-                                            <input  id="Lead_ContactPhone" 
-                                                    #Lead_ContactPhone="ngModel"
-                                                    [(ngModel)]="lead.contactPhone" 
-                                                    [placeholder]="l('ContactPhone')"
-                                                    class="form-control" 
-                                                    name="ContactPhone" 
-                                                    type="tel" 
-                                                    maxlength="15"
-                                                    pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                            <input id="Lead_ContactPhone" #Lead_ContactPhone="ngModel"
+                                                [(ngModel)]="lead.contactPhone" [placeholder]="l('ContactPhone')"
+                                                class="form-control" name="ContactPhone" type="tel" maxlength="15"
+                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                             <div
                                                 *ngIf="!Lead_ContactPhone.valid && (Lead_ContactPhone.dirty || Lead_ContactPhone.touched)">
                                                 <span class="form-text text-danger text-left">{{
@@ -185,39 +180,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension')
                                                 }}</label>
-                                            <input id="Lead_ContactPhoneExtension" 
-                                                #Lead_ContactPhoneExtension="ngModel"
+                                            <input id="Lead_ContactPhoneExtension" #Lead_ContactPhoneExtension="ngModel"
                                                 [(ngModel)]="lead.contactPhoneExtension"
                                                 [placeholder]="l('ContactPhoneExtension')" 
                                                 name="ContactPhoneExtension"
-                                                type="tel" 
-                                                class="form-control" 
+                                                type="tel" class="form-control" 
+                                                maxlength="5" 
                                                 pattern="\+?\d{1,5}$" />
-                                                <div *ngIf="!Lead_ContactPhoneExtension.valid && (Lead_ContactPhoneExtension.dirty || Lead_ContactPhoneExtension.touched)">
+                                            <div
+                                                *ngIf="!Lead_ContactPhoneExtension.valid && (Lead_ContactPhoneExtension.dirty || Lead_ContactPhoneExtension.touched)">
                                                 <span class="form-text text-danger text-left">{{
                                                     'ContactPhoneExtension_Invalid' | localize }}</span>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
                                             <input type="text" #Lead_ContactCellPhone="ngModel"
-                                                id="Lead_ContactCellPhone" 
-                                                class="form-control"
+                                                id="Lead_ContactCellPhone" class="form-control"
                                                 [(ngModel)]="lead.contactCellPhone"
-                                                [placeholder]="l('ContactCellPhone')" 
-                                                name="ContactCellPhone" 
-                                                type="tel"
-                                                maxlength="15" 
-                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                                [placeholder]="l('ContactCellPhone')" name="ContactCellPhone" type="tel"
+                                                maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                             <div
                                                 *ngIf="!Lead_ContactCellPhone.valid && (Lead_ContactCellPhone.dirty || Lead_ContactCellPhone.touched)">
                                                 <span class="form-text text-danger text-left">{{
@@ -225,6 +213,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
@@ -240,9 +231,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
@@ -257,16 +245,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
-                                            <input type="email" 
-                                                #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
-                                                class="form-control" 
-                                                [(ngModel)]="lead.contactEmail"
-                                                [placeholder]="l('ContactEmai l')" 
-                                                name="ContactEmail" 
-                                                email
+                                            <input type="email" #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
+                                                class="form-control" [(ngModel)]="lead.contactEmail"
+                                                [placeholder]="l('ContactEmai l')" name="ContactEmail" email
                                                 maxlength="50" />
                                             <validation-messages [formCtrl]="Lead_ContactEmail"></validation-messages>
                                         </div>
@@ -320,9 +306,9 @@
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                         <label for="Lead_Notes">{{ l('EnterNotes') }}</label>
-                                        <textarea class="form-control" #Lead_Notes="ngModel"
-                                            [(ngModel)]="lead.notes" [placeholder]="l('EnterNotes')"
-                                            name="Notes" id="Lead_Notes" rows="10"></textarea>
+                                        <textarea class="form-control" #Lead_Notes="ngModel" [(ngModel)]="lead.notes"
+                                            [placeholder]="l('EnterNotes')" name="Notes" id="Lead_Notes"
+                                            rows="10"></textarea>
                                         <validation-messages [formCtrl]="Lead_Notes"></validation-messages>
                                     </div>
                                 </div>
@@ -330,7 +316,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="row">
                 <!-- TODO:THIS SHOULD BE A WIDGETS COMPONENT -->
