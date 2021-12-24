@@ -525,9 +525,13 @@
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
                                                         <a
+                                                            *ngIf="permission.isGranted('Pages.Customer.EditOpportunity')"
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
                                                             [queryParams]="{ id: record.id }"
                                                         >
+                                                            {{ record.name }}
+                                                        </a>
+                                                        <a *ngIf="!permission.isGranted('Pages.Customer.EditOpportunity')">
                                                             {{ record.name }}
                                                         </a>
                                                     </td>
@@ -544,7 +548,7 @@
                                                         </span>
                                                         <span *ngIf="!record.closeDate">-</span>
                                                     </td>
-                                                    <td style="width: 150px">
+                                                    <td style="width: 150px"  class="text-right">
                                                         <span class="p-column-title">{{ l('Amount') }}</span>
                                                         {{ record.amount | currency: 'USD' : true }}
                                                     </td>

@@ -1,7 +1,4 @@
 ﻿import {
-    AfterContentInit,
-    AfterViewInit,
-    ChangeDetectorRef,
     Component,
     Injector,
     OnInit,
@@ -18,7 +15,8 @@ import {
     GetZipCodeForViewDto,
     GetCustomerForEditOutput,
     PagedResultDtoOfGetZipCodeForViewDto,
-    ZipCodeDto, AccountUsersServiceProxy, CustomerCountryLookupTableDto
+    ZipCodeDto,
+    CustomerCountryLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,7 +40,7 @@ import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/ent
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class CreateOrEditCustomerComponent extends AppComponentBase implements OnInit, AfterViewInit, AfterContentInit {
+export class CreateOrEditCustomerComponent extends AppComponentBase implements OnInit {
     @ViewChild('customerForm', { static: true }) customerForm: NgForm;
     @ViewChild('opportunitiesDataTable', { static: true }) opportunitiesDataTable: Table;
     @ViewChild('opportunitiesPaginator', { static: true }) opportunitiesPaginator: Paginator;
@@ -109,14 +107,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     ) {
         super(injector);
     }
-
-    ngAfterContentInit(): void {
-    }
-
-    ngAfterViewInit(): void {
-    }
-
-
 
     /***
      * Initialize component
@@ -264,7 +254,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * Add opportunity
      */
     addOpportunity() {
-        this._router.navigate([this.opportunitiesRouterLink], { queryParams: { customerNumber: this.customerNumber }});
+        this._router.navigate([this.opportunitiesRouterLink], { queryParams: { customerNumber: this.customerNumber } });
     }
 
     /***

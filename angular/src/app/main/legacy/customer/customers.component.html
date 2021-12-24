@@ -45,15 +45,13 @@
                                                 type="text"
                                                 (keyup)="getCustomerByTextFilter($event)"
                                             />
-                                            <span class="input-group-btn">
-                                                <button
-                                                    (click)="getCustomer()"
-                                                    class="btn btn-primary"
-                                                    type="submit"
-                                                >
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary"
+                                                        (click)="getCustomer()"
+                                                        type="submit">
                                                     <i class="flaticon-search-1"></i>
                                                 </button>
-                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
