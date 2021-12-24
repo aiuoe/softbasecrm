@@ -13,5 +13,7 @@ namespace SBCRM.Crm.Dtos
         public string Description { get; set; }
 
         public virtual int Order { get; set; }
+
+        public virtual string Color { get; set; }
     }
 }

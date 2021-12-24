@@ -105,6 +105,7 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditOpportunityStageDto input)
         {
             input.Order = _opportunityStageRepository.GetAll().Count() + 1;
+            input.Color = string.Empty;
 
             OpportunityStage opportunityStage = ObjectMapper.Map<OpportunityStage>(input);
 
