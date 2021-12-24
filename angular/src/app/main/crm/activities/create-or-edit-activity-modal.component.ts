@@ -19,7 +19,7 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     selector: 'createOrEditActivityModal',
-    templateUrl: './create-or-edit-activity-modal.component.html',
+    templateUrl: './create-or-edit-activity-modal.component.html'
 })
 export class CreateOrEditActivityModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
@@ -55,6 +55,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         super(injector);
     }
 
+    /**
+     * Show the form dialog
+     */
     show(activityId?: number): void {
         if (!activityId) {
             this.activity = new CreateOrEditActivityDto();
@@ -110,6 +113,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         });
     }
 
+    /**
+     * Save changes
+     */
     save(): void {
         this.saving = true;
 
@@ -127,6 +133,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             });
     }
 
+    /**
+     * Close the form dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

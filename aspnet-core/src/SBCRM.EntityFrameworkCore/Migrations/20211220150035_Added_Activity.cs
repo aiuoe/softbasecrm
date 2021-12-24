@@ -43,35 +43,35 @@ namespace SBCRM.Migrations
                         principalSchema: "web",
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_ActivityPriorities_ActivityPriorityId",
                         column: x => x.ActivityPriorityId,
                         principalSchema: "web",
                         principalTable: "ActivityPriorities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_ActivitySourceTypes_ActivitySourceTypeId",
                         column: x => x.ActivitySourceTypeId,
                         principalSchema: "web",
                         principalTable: "ActivitySourceTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_ActivityStatuses_ActivityStatusId",
                         column: x => x.ActivityStatusId,
                         principalSchema: "web",
                         principalTable: "ActivityStatuses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_ActivityTaskTypes_ActivityTaskTypeId",
                         column: x => x.ActivityTaskTypeId,
                         principalSchema: "web",
                         principalTable: "ActivityTaskTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_Leads_LeadId",
                         column: x => x.LeadId,

@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Dto for Creating or Editing
+    /// </summary>
     public class CreateOrEditActivityDto : EntityDto<long?>
     {
 

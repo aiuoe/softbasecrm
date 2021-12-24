@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Dto for Viewing Input
+    /// </summary>
     public class GetAllActivitiesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

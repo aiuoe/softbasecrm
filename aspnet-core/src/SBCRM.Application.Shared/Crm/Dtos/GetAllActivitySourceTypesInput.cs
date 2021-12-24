@@ -3,6 +3,9 @@ using System;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Source Type Dto for Viewing Input
+    /// </summary>
     public class GetAllActivitySourceTypesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

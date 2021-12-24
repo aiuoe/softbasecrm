@@ -32,6 +32,9 @@ export class CreateOrEditActivityPriorityModalComponent extends AppComponentBase
         super(injector);
     }
 
+    /**
+     * Show the form dialog
+     */
     show(activityPriorityId?: number): void {
         if (!activityPriorityId) {
             this.activityPriority = new CreateOrEditActivityPriorityDto();
@@ -49,6 +52,9 @@ export class CreateOrEditActivityPriorityModalComponent extends AppComponentBase
         }
     }
 
+    /**
+     * Save the activity priority
+     */
     save(): void {
         this.saving = true;
 
@@ -66,6 +72,9 @@ export class CreateOrEditActivityPriorityModalComponent extends AppComponentBase
             });
     }
 
+    /**
+     * Close the form dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

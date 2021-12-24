@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Dto for edit output
+    /// </summary>
     public class GetActivityForEditOutput
     {
         public CreateOrEditActivityDto Activity { get; set; }

@@ -17,17 +17,29 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App Service for handling CRUD operations of Activity Source Types
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_ActivitySourceTypes)]
     public class ActivitySourceTypesAppService : SBCRMAppServiceBase, IActivitySourceTypesAppService
     {
         private readonly IRepository<ActivitySourceType> _activitySourceTypeRepository;
 
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="activitySourceTypeRepository"></param>
         public ActivitySourceTypesAppService(IRepository<ActivitySourceType> activitySourceTypeRepository)
         {
             _activitySourceTypeRepository = activitySourceTypeRepository;
 
         }
 
+        /// <summary>
+        /// Get all activity source types
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetActivitySourceTypeForViewDto>> GetAll(GetAllActivitySourceTypesInput input)
         {
 
@@ -74,6 +86,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get an activity source type for viewing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetActivitySourceTypeForViewDto> GetActivitySourceTypeForView(int id)
         {
             var activitySourceType = await _activitySourceTypeRepository.GetAsync(id);
@@ -83,6 +100,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get activity source type for editing
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivitySourceTypes_Edit)]
         public async Task<GetActivitySourceTypeForEditOutput> GetActivitySourceTypeForEdit(EntityDto input)
         {
@@ -92,7 +114,12 @@ namespace SBCRM.Crm
 
             return output;
         }
-
+        
+        /// <summary>
+        /// Create or edit an activity source type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivitySourceTypeDto input)
         {
             if (input.Id == null)
@@ -105,6 +132,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Create an activity source type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivitySourceTypes_Create)]
         protected virtual async Task Create(CreateOrEditActivitySourceTypeDto input)
         {
@@ -114,6 +146,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Update an activity source type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivitySourceTypes_Edit)]
         protected virtual async Task Update(CreateOrEditActivitySourceTypeDto input)
         {
@@ -122,6 +159,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Delete an activity source type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivitySourceTypes_Delete)]
         public async Task Delete(EntityDto input)
         {

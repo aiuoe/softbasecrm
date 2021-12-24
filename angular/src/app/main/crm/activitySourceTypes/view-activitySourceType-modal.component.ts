@@ -23,12 +23,18 @@ export class ViewActivitySourceTypeModalComponent extends AppComponentBase {
         this.item.activitySourceType = new ActivitySourceTypeDto();
     }
 
+    /**
+     * Show dialog
+     */
     show(item: GetActivitySourceTypeForViewDto): void {
         this.item = item;
         this.active = true;
         this.modal.show();
     }
 
+    /**
+     * Close dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

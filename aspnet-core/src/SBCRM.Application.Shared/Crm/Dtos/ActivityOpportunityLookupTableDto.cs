@@ -2,6 +2,9 @@
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Dto for the Opportunity lookup table of the Activity
+    /// </summary>
     public class ActivityOpportunityLookupTableDto
     {
         public int Id { get; set; }

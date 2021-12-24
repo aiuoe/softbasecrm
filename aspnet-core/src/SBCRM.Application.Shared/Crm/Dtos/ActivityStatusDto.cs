@@ -3,6 +3,9 @@ using Abp.Application.Services.Dto;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Dto for the Activity Status entity
+    /// </summary>
     public class ActivityStatusDto : EntityDto
     {
         public string Description { get; set; }

@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Dto for Viewing
+    /// </summary>
     public class GetActivityForViewDto
     {
         public ActivityDto Activity { get; set; }

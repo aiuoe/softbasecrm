@@ -23,12 +23,18 @@ export class ViewActivityPriorityModalComponent extends AppComponentBase {
         this.item.activityPriority = new ActivityPriorityDto();
     }
 
+    /**
+     * Show the modal dialog
+     */
     show(item: GetActivityPriorityForViewDto): void {
         this.item = item;
         this.active = true;
         this.modal.show();
     }
 
+    /**
+     * Close the modal dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

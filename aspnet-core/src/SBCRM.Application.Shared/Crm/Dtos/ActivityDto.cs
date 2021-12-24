@@ -3,6 +3,9 @@ using Abp.Application.Services.Dto;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Dto for the Activity entity
+    /// </summary>
     public class ActivityDto : EntityDto<long>
     {
         public DateTime DueDate { get; set; }

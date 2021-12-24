@@ -9,12 +9,21 @@ using System;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// Handles all Excel exportation of Activites
+    /// </summary>
     public class ActivitiesExcelExporter : NpoiExcelExporterBase, IActivitiesExcelExporter
     {
 
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="timeZoneConverter"></param>
+        /// <param name="abpSession"></param>
+        /// <param name="tempFileCacheManager"></param>
         public ActivitiesExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
@@ -25,6 +34,11 @@ namespace SBCRM.Crm.Exporting
             _abpSession = abpSession;
         }
 
+        /// <summary>
+        /// Creates an Excel file for the list of Activites
+        /// </summary>
+        /// <param name="activities">The list of Activities</param>
+        /// <returns></returns>
         public FileDto ExportToFile(List<GetActivityForViewExportDto> activities)
         {
             var fileName = $"Activities_{DateTime.UtcNow:MM_dd_yyyy}.xlsx";

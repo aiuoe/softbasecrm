@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Dto for Exporting
+    /// </summary>
     public class GetActivityForViewExportDto : GetActivityForViewDto
     {
         /// <summary>

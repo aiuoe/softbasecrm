@@ -2,7 +2,6 @@
 
 <localizationDictionary culture="en">
   <texts>
-    <!-- Added by Kevin C. -->
     <text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
@@ -63,7 +62,6 @@
     <text name="EditActivityPriority">Edit activity priority</text>
     <text name="DeleteActivityPriority">Delete activity priority</text>
     <text name="ActivityPriorities">Activity priorities</text>
-    <!-- End - Kevin C. - End -->
 
     <text name="AddOpportunity">Add Opportunity</text>
     <text name="InputName">Enter a Name</text>

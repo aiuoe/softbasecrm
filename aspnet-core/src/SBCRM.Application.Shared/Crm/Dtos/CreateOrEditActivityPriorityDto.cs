@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Priority Dto for Creating or Editing
+    /// </summary>
     public class CreateOrEditActivityPriorityDto : EntityDto<int?>
     {
 

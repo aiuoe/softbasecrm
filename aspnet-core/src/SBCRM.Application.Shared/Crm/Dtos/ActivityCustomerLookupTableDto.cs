@@ -2,6 +2,9 @@
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Dto for the customer lookup table of the Activity
+    /// </summary>
     public class ActivityCustomerLookupTableDto
     {
         public string Number { get; set; }

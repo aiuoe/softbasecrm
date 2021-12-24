@@ -48,6 +48,9 @@ export class ActivitySourceTypesComponent extends AppComponentBase {
         super(injector);
     }
 
+    /**
+     * Get the list of activity source types from the back-end
+     */
     getActivitySourceTypes(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -71,14 +74,23 @@ export class ActivitySourceTypesComponent extends AppComponentBase {
             });
     }
 
+    /**
+     * Reload the page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Shows the form dialog for creating a new activity source type
+     */
     createActivitySourceType(): void {
         this.createOrEditActivitySourceTypeModal.show();
     }
 
+    /**
+     * Delete the activity source type
+     */
     deleteActivitySourceType(activitySourceType: ActivitySourceTypeDto): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {

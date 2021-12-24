@@ -1,7 +1,7 @@
-﻿import {AppConsts} from '@shared/AppConsts';
+﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
-import { ActivityTaskTypesServiceProxy, ActivityTaskTypeDto  } from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActivityTaskTypesServiceProxy, ActivityTaskTypeDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -20,25 +20,20 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 @Component({
     templateUrl: './activityTaskTypes.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()]
+    animations: [appModuleAnimation()],
 })
 export class ActivityTaskTypesComponent extends AppComponentBase {
-    
-    
-    @ViewChild('createOrEditActivityTaskTypeModal', { static: true }) createOrEditActivityTaskTypeModal: CreateOrEditActivityTaskTypeModalComponent;
-    @ViewChild('viewActivityTaskTypeModalComponent', { static: true }) viewActivityTaskTypeModal: ViewActivityTaskTypeModalComponent;   
-    
+    @ViewChild('createOrEditActivityTaskTypeModal', { static: true })
+    createOrEditActivityTaskTypeModal: CreateOrEditActivityTaskTypeModalComponent;
+    @ViewChild('viewActivityTaskTypeModalComponent', { static: true })
+    viewActivityTaskTypeModal: ViewActivityTaskTypeModalComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
-
-
-
-
-
 
     constructor(
         injector: Injector,
@@ -47,11 +42,14 @@ export class ActivityTaskTypesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
 
+    /**
+     * Get all activity task type
+     */
     getActivityTaskTypes(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -60,46 +58,46 @@ export class ActivityTaskTypesComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._activityTaskTypesServiceProxy.getAll(
-            this.filterText,
-            this.descriptionFilter,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        this._activityTaskTypesServiceProxy
+            .getAll(
+                this.filterText,
+                this.descriptionFilter,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
     }
 
+    /**
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Show the form dialog for creating new activity task type
+     */
     createActivityTaskType(): void {
-        this.createOrEditActivityTaskTypeModal.show();        
+        this.createOrEditActivityTaskTypeModal.show();
     }
 
-
+    /**
+     * Delete an activity task type
+     */
     deleteActivityTaskType(activityTaskType: ActivityTaskTypeDto): void {
-        this.message.confirm(
-            '',
-            this.l('AreYouSure'),
-            (isConfirmed) => {
-                if (isConfirmed) {
-                    this._activityTaskTypesServiceProxy.delete(activityTaskType.id)
-                        .subscribe(() => {
-                            this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
-                        });
-                }
+        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
+            if (isConfirmed) {
+                this._activityTaskTypesServiceProxy.delete(activityTaskType.id).subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('SuccessfullyDeleted'));
+                });
             }
-        );
+        });
     }
-    
-    
-    
-    
-    
 }

@@ -32,6 +32,9 @@ export class CreateOrEditActivitySourceTypeModalComponent extends AppComponentBa
         super(injector);
     }
 
+    /**
+     * Show form dialog
+     */
     show(activitySourceTypeId?: number): void {
         if (!activitySourceTypeId) {
             this.activitySourceType = new CreateOrEditActivitySourceTypeDto();
@@ -51,6 +54,9 @@ export class CreateOrEditActivitySourceTypeModalComponent extends AppComponentBa
         }
     }
 
+    /**
+     * Save the activity source type
+     */
     save(): void {
         this.saving = true;
 
@@ -68,6 +74,9 @@ export class CreateOrEditActivitySourceTypeModalComponent extends AppComponentBa
             });
     }
 
+    /**
+     * Close the form dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

@@ -48,6 +48,9 @@ export class ActivityPrioritiesComponent extends AppComponentBase {
         super(injector);
     }
 
+    /**
+     * Get all activity priorities
+     */
     getActivityPriorities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -71,14 +74,23 @@ export class ActivityPrioritiesComponent extends AppComponentBase {
             });
     }
 
+    /**
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Shows the form dialog for creating a new activity prioriy
+     */
     createActivityPriority(): void {
         this.createOrEditActivityPriorityModal.show();
     }
 
+    /**
+     * Delete an activity priority
+     */
     deleteActivityPriority(activityPriority: ActivityPriorityDto): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
@@ -90,6 +102,9 @@ export class ActivityPrioritiesComponent extends AppComponentBase {
         });
     }
 
+    /**
+     * Export activity priorities to excel
+     */
     exportToExcel(): void {
         this._activityPrioritiesServiceProxy
             .getActivityPrioritiesToExcel(this.filterText, this.descriptionFilter)

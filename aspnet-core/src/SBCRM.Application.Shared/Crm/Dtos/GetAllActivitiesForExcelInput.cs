@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Activity Dto for Excel Input
+    /// </summary>
     public class GetAllActivitiesForExcelInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

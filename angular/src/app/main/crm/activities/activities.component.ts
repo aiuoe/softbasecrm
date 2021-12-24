@@ -71,6 +71,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
     activityStatuses: ActivityActivityStatusLookupTableDto[];
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activitiesServiceProxy: ActivitiesServiceProxy,
@@ -92,6 +95,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivityStatuses();
     }
 
+    /**
+     * Load the activities from the back-end
+     */
     getActivities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -131,14 +137,23 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             });
     }
 
+    /**
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Shows the form dialog for creating a new Activity
+     */
     createActivity(): void {
         this.createOrEditActivityModal.show();
     }
 
+    /**
+     * (Currently Unused) Delete activity.
+     */
     deleteActivity(activity: ActivityDto): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
@@ -150,6 +165,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    /**
+     * Export the activities to excel file
+     */
     exportToExcel(): void {
         this._activitiesServiceProxy
             .getActivitiesToExcel(
@@ -209,6 +227,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    /**
+     * Load the profile picture of the assinged users
+     */
     setUsersProfilePictureUrl(records: any[]): void {
         for (let i = 0; i < records.length; i++) {
             let record = records[i];

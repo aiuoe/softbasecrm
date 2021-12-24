@@ -23,12 +23,18 @@ export class ViewActivityStatusModalComponent extends AppComponentBase {
         this.item.activityStatus = new ActivityStatusDto();
     }
 
+    /**
+     * Show the dialog
+     */
     show(item: GetActivityStatusForViewDto): void {
         this.item = item;
         this.active = true;
         this.modal.show();
     }
 
+    /**
+     * Close the dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

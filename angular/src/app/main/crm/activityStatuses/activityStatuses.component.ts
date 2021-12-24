@@ -48,6 +48,9 @@ export class ActivityStatusesComponent extends AppComponentBase {
         super(injector);
     }
 
+    /**
+     * Get the list of activity status from the back-end
+     */
     getActivityStatuses(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -71,14 +74,23 @@ export class ActivityStatusesComponent extends AppComponentBase {
             });
     }
 
+    /**
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Shows the form dialog for creating an activity status
+     */
     createActivityStatus(): void {
         this.createOrEditActivityStatusModal.show();
     }
 
+    /**
+     * Delete an activity status
+     */
     deleteActivityStatus(activityStatus: ActivityStatusDto): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {

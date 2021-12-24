@@ -18,12 +18,20 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service for handling CRUD operations of Activity Priorities
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_ActivityPriorities)]
     public class ActivityPrioritiesAppService : SBCRMAppServiceBase, IActivityPrioritiesAppService
     {
         private readonly IRepository<ActivityPriority> _activityPriorityRepository;
         private readonly IActivityPrioritiesExcelExporter _activityPrioritiesExcelExporter;
 
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="activityPriorityRepository"></param>
+        /// <param name="activityPrioritiesExcelExporter"></param>
         public ActivityPrioritiesAppService(IRepository<ActivityPriority> activityPriorityRepository, IActivityPrioritiesExcelExporter activityPrioritiesExcelExporter)
         {
             _activityPriorityRepository = activityPriorityRepository;
@@ -31,6 +39,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get all activity priorities
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetActivityPriorityForViewDto>> GetAll(GetAllActivityPrioritiesInput input)
         {
 
@@ -79,6 +92,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get activity priority for viewing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetActivityPriorityForViewDto> GetActivityPriorityForView(int id)
         {
             var activityPriority = await _activityPriorityRepository.GetAsync(id);
@@ -88,6 +106,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get activity priority for edit
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityPriorities_Edit)]
         public async Task<GetActivityPriorityForEditOutput> GetActivityPriorityForEdit(EntityDto input)
         {
@@ -98,6 +121,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get activity priority for create or edit
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityPriorityDto input)
         {
             if (input.Id == null)
@@ -110,6 +138,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Create Activity Priority
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityPriorities_Create)]
         protected virtual async Task Create(CreateOrEditActivityPriorityDto input)
         {
@@ -119,6 +152,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Update the Activity Priority
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityPriorities_Edit)]
         protected virtual async Task Update(CreateOrEditActivityPriorityDto input)
         {
@@ -127,12 +165,22 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Delete the Activity Priority
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityPriorities_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _activityPriorityRepository.DeleteAsync(input.Id);
         }
 
+        /// <summary>
+        /// Generate an excel file containing the Activity Priorities
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<FileDto> GetActivityPrioritiesToExcel(GetAllActivityPrioritiesForExcelInput input)
         {
 

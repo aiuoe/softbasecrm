@@ -3,13 +3,12 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { ActivityStatusesServiceProxy, CreateOrEditActivityStatusDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     selector: 'createOrEditActivityStatusModal',
-    templateUrl: './create-or-edit-activityStatus-modal.component.html',
+    templateUrl: './create-or-edit-activityStatus-modal.component.html'
 })
 export class CreateOrEditActivityStatusModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
@@ -29,6 +28,9 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
         super(injector);
     }
 
+    /**
+     * Show the form dialog
+     */
     show(activityStatusId?: number): void {
         if (!activityStatusId) {
             this.activityStatus = new CreateOrEditActivityStatusDto();
@@ -46,6 +48,9 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
         }
     }
 
+    /**
+     * Save the activity status
+     */
     save(): void {
         this.saving = true;
 
@@ -63,6 +68,9 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
             });
     }
 
+    /**
+     * Close the form dialog
+     */
     close(): void {
         this.active = false;
         this.modal.hide();
