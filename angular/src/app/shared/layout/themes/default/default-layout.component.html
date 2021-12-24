@@ -86,24 +86,29 @@
                     <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
                         <div class="mt-4">
                             <div class="col-xl-12">
-                                <div class="form-group m-form__group align-items-center">
-                                    <div class="input-group">
-                                        <input name="filterText"
-                                               autoFocus
-                                               class="form-control m-input"
-                                               type="text" />
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">
-                                                <i class="flaticon-search-1"></i>
-                                            </button>
+                                <form class="form" autocomplete="off">
+                                    <div class="form-group m-form__group align-items-center">
+                                        <div class="input-group">
+                                            <input name="filterText"
+                                                   [(ngModel)]="globalSearchFilter"
+                                                   autoFocus
+                                                   class="form-control m-input"
+                                                   type="text" />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary"
+                                                        (click)="globalSearch()"
+                                                        type="submit">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="topbar">
-                     
+
                         <div class="topbar-item subscription-warning d-print-none"
                              *ngIf="!isMobileDevice() && subscriptionStatusBarVisible()">
                             <subscription-notification-bar></subscription-notification-bar>

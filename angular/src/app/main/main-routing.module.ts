@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GlobalSearchComponent } from './global-search/global-search.component';
 
 @NgModule({
     imports: [
@@ -179,8 +178,8 @@ import { GlobalSearchComponent } from './global-search/global-search.component';
 
                     {
                         path: 'global-search',
-                        loadChildren: () => import('./global-search/global-search.component').then((m) => m.GlobalSearchComponent),
-                        data: { permission: 'Pages.GlobalSearch' },
+                        loadChildren: () => import('./crm/globalSearch/global-search.module').then((m) => m.GlobalSearchModule),
+                        data: { permission: 'Pages.Customer' },
                     },
 
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -191,4 +190,5 @@ import { GlobalSearchComponent } from './global-search/global-search.component';
     ],
     exports: [RouterModule],
 })
-export class MainRoutingModule {}
+export class MainRoutingModule {
+}
