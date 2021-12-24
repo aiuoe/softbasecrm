@@ -399,9 +399,7 @@ namespace SBCRM.Crm
                              },
                              DueDate = activity.DueDate,
                              StartsAt = activity.StartsAt,
-                             UserFirstName = user != null ? user.Name : string.Empty,
-                             UserLastName = user != null ? user.Surname : string.Empty,
-                             UserName = user != null ? user.FullName : string.Empty,
+                             UserName = user != null ? user.Name + " " + user.Surname : string.Empty,
                              ActivitySourceTypeDescription = sourceType != null ? sourceType.Description : string.Empty,
                              ActivityTaskTypeDescription = type != null ? type.Description : string.Empty,
                              ActivityStatusDescription = status != null ? status.Description : string.Empty,
@@ -419,23 +417,6 @@ namespace SBCRM.Crm
                 query = query
                     .OrderByDescending(e => e.DueDate)
                     .PageBy(input);
-            else if (input.Sorting.StartsWith("userName "))
-            {
-                // This is a temporary fix.
-                // We cannot sort the full name of the user because it is not mapped to the database.
-                // So we need to use the actual columns which is the Name and Surname.
-
-                if (input.Sorting.EndsWith(" ASC", StringComparison.OrdinalIgnoreCase))
-                    query = query
-                        .OrderBy(x => x.UserFirstName)
-                        .ThenBy(x => x.UserLastName)
-                        .PageBy(input);
-                else
-                    query = query
-                        .OrderByDescending(x => x.UserFirstName)
-                        .ThenByDescending(x => x.UserLastName)
-                        .PageBy(input);
-            }
             else
                 query = query
                     .OrderBy(input.Sorting)
