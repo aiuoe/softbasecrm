@@ -10,6 +10,9 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for creating or updating an activity source type
+ */
 @Component({
     selector: 'createOrEditActivitySourceTypeModal',
     templateUrl: './create-or-edit-activitySourceType-modal.component.html',
@@ -24,6 +27,9 @@ export class CreateOrEditActivitySourceTypeModalComponent extends AppComponentBa
 
     activitySourceType: CreateOrEditActivitySourceTypeDto = new CreateOrEditActivitySourceTypeDto();
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activitySourceTypesServiceProxy: ActivitySourceTypesServiceProxy,

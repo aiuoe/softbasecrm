@@ -17,6 +17,9 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for managing the activity task types
+ */
 @Component({
     templateUrl: './activityTaskTypes.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -35,6 +38,9 @@ export class ActivityTaskTypesComponent extends AppComponentBase {
     filterText = '';
     descriptionFilter = '';
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activityTaskTypesServiceProxy: ActivityTaskTypesServiceProxy,

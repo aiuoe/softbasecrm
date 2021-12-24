@@ -6,6 +6,9 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for creating or updating an activity statuses
+ */
 @Component({
     selector: 'createOrEditActivityStatusModal',
     templateUrl: './create-or-edit-activityStatus-modal.component.html'
@@ -20,6 +23,9 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
 
     activityStatus: CreateOrEditActivityStatusDto = new CreateOrEditActivityStatusDto();
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activityStatusesServiceProxy: ActivityStatusesServiceProxy,

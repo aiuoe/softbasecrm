@@ -4,6 +4,9 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { GetActivityTaskTypeForViewDto, ActivityTaskTypeDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
+/**
+ * Component for viewing an activity task type
+ */
 @Component({
     selector: 'viewActivityTaskTypeModal',
     templateUrl: './view-activityTaskType-modal.component.html',
@@ -17,6 +20,9 @@ export class ViewActivityTaskTypeModalComponent extends AppComponentBase {
 
     item: GetActivityTaskTypeForViewDto;
 
+    /**
+     * Constructor method
+     */
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetActivityTaskTypeForViewDto();

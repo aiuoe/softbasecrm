@@ -18,6 +18,9 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for managing the activity statuses
+ */
 @Component({
     templateUrl: './activityStatuses.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -36,6 +39,9 @@ export class ActivityStatusesComponent extends AppComponentBase {
     filterText = '';
     descriptionFilter = '';
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activityStatusesServiceProxy: ActivityStatusesServiceProxy,

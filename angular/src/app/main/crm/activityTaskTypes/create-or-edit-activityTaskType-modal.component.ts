@@ -9,6 +9,9 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for creating or updating an activity task types
+ */
 @Component({
     selector: 'createOrEditActivityTaskTypeModal',
     templateUrl: './create-or-edit-activityTaskType-modal.component.html',
@@ -23,6 +26,9 @@ export class CreateOrEditActivityTaskTypeModalComponent extends AppComponentBase
 
     activityTaskType: CreateOrEditActivityTaskTypeDto = new CreateOrEditActivityTaskTypeDto();
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activityTaskTypesServiceProxy: ActivityTaskTypesServiceProxy,

@@ -14,6 +14,9 @@ using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Activity table entity
+    /// </summary>
     [Table("Activities")]
     public class Activity : FullAuditedEntity<long>
     {

@@ -10,6 +10,9 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for creating or updating an activity priority
+ */
 @Component({
     selector: 'createOrEditActivityPriorityModal',
     templateUrl: './create-or-edit-activityPriority-modal.component.html',
@@ -24,6 +27,9 @@ export class CreateOrEditActivityPriorityModalComponent extends AppComponentBase
 
     activityPriority: CreateOrEditActivityPriorityDto = new CreateOrEditActivityPriorityDto();
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activityPrioritiesServiceProxy: ActivityPrioritiesServiceProxy,

@@ -4,6 +4,9 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { GetActivityPriorityForViewDto, ActivityPriorityDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
+/**
+ * Component for viewing an activity priority
+ */
 @Component({
     selector: 'viewActivityPriorityModal',
     templateUrl: './view-activityPriority-modal.component.html',
@@ -17,6 +20,9 @@ export class ViewActivityPriorityModalComponent extends AppComponentBase {
 
     item: GetActivityPriorityForViewDto;
 
+    /**
+     * Constructor method
+     */
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetActivityPriorityForViewDto();

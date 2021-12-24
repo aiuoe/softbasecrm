@@ -6,6 +6,9 @@ using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Activity Source Type table entity
+    /// </summary>
     [Table("ActivitySourceTypes")]
     public class ActivitySourceType : FullAuditedEntity
     {

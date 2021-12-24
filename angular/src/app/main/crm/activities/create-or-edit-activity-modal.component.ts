@@ -17,6 +17,9 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for creating or updating an activity
+ */
 @Component({
     selector: 'createOrEditActivityModal',
     templateUrl: './create-or-edit-activity-modal.component.html'
@@ -47,6 +50,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     allActivityStatuss: ActivityActivityStatusLookupTableDto[];
     allActivityPrioritys: ActivityActivityPriorityLookupTableDto[];
 
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activitiesServiceProxy: ActivitiesServiceProxy,

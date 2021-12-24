@@ -6,6 +6,9 @@ using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Activity Priority table entity
+    /// </summary>
     [Table("ActivityPriorities")]
     public class ActivityPriority : FullAuditedEntity
     {

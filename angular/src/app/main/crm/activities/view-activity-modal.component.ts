@@ -4,6 +4,9 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { GetActivityForViewDto, ActivityDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
+/**
+ * Component for viewing an activity
+ */
 @Component({
     selector: 'viewActivityModal',
     templateUrl: './view-activity-modal.component.html'
@@ -17,6 +20,9 @@ export class ViewActivityModalComponent extends AppComponentBase {
 
     item: GetActivityForViewDto;
 
+    /**
+     * Constructor method
+     */
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetActivityForViewDto();
