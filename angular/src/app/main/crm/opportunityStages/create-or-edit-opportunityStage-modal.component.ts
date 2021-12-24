@@ -6,10 +6,11 @@ import {
     CreateOrEditOpportunityStageDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
-
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/***
+ * Component to create or edit opportunity stages
+ */
 @Component({
     selector: 'createOrEditOpportunityStageModal',
     templateUrl: './create-or-edit-opportunityStage-modal.component.html',
@@ -32,7 +33,10 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
         super(injector);
     }
 
-    /** Method that gets the rows to display in the grid */
+    /***
+     * Method that gets the rows to display in the grid
+     * @param opportunityStageId
+     */
     show(opportunityStageId?: number): void {
         if (!opportunityStageId) {
             this.opportunityStage = new CreateOrEditOpportunityStageDto();
@@ -50,7 +54,9 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
         }
     }
 
-    /** Method that saves an opportunity in the database */
+    /***
+     * Method that saves an opportunity in the database
+     */
     save(): void {
         this.saving = true;
 
@@ -68,7 +74,9 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
             });
     }
 
-    /** method that close modal */
+    /***
+     * Method that close modal
+     */
     close(): void {
         this.active = false;
         this.modal.hide();
