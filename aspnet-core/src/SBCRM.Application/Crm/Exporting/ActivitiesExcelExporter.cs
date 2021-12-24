@@ -43,7 +43,7 @@ namespace SBCRM.Crm.Exporting
                         L("CompanyName"),
                         L("Activity"),
                         L("Priority"),
-                        L("StartsAt"),
+                        L("ScheduleAndDueDate"),
                         L("AssignedUser")
                         );
 
@@ -54,7 +54,7 @@ namespace SBCRM.Crm.Exporting
                         _ => _.CompanyName,
                         _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityPriorityDescription,
-                        _ => _timeZoneConverter.Convert(_.Activity.StartsAt, _abpSession.TenantId, _abpSession.GetUserId()),
+                        _ => _timeZoneConverter.Convert(_.DueDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _.UserName
                         );
 

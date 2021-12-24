@@ -390,9 +390,10 @@ namespace SBCRM.Crm
                              Activity = new ActivityDto
                              {
                                  Id = activity.Id,
-                                 DueDate = activity.DueDate,
-                                 StartsAt = activity.StartsAt,
+                                 // Due date needs to be a direct child of the model in order to make custom sorting work.
                              },
+                             DueDate = activity.DueDate,
+                             StartsAt = activity.StartsAt,
                              UserFirstName = user != null ? user.Name : string.Empty,
                              UserLastName = user != null ? user.Surname : string.Empty,
                              UserName = user != null ? user.FullName : string.Empty,
@@ -411,7 +412,7 @@ namespace SBCRM.Crm
 
             if (input.Sorting is null)
                 query = query
-                    .OrderByDescending(e => e.Activity.DueDate)
+                    .OrderByDescending(e => e.DueDate)
                     .PageBy(input);
             else if (input.Sorting.StartsWith("userName "))
             {
@@ -469,7 +470,7 @@ namespace SBCRM.Crm
                 .Select(user => new ActivityUserLookupTableDto
                 {
                     Id = user.Id,
-                    DisplayName = user == null || user.Name == null ? "" : user.Name.ToString()
+                    DisplayName = user != null ? user.FullName : string.Empty
                 }).ToListAsync();
         }
 

@@ -15,5 +15,9 @@ namespace SBCRM.Crm.Dtos
         /// Used for sorting the last name of the user
         /// </summary>
         public string UserLastName { get; set; }
+
+        public DateTime DueDate { get; set; }
+
+        public DateTime StartsAt { get; set; }
     }
 }
