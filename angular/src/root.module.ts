@@ -167,11 +167,7 @@ function initializeTenantResources(injector: Injector) {
             metaImage.setAttribute(
                 'content',
                 window.location.origin +
-                    '/assets/common/images/app-logo-on-' +
-                    abp.setting.get(
-                        appSessionService.theme.baseSettings.theme + '.' + 'App.UiManagement.Left.AsideSkin'
-                    ) +
-                    '.svg'
+                    '/assets/common/images/logo.svg'
             );
         } else {
             metaImage.setAttribute(

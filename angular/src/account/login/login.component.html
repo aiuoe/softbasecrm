@@ -7,57 +7,41 @@
     <!--begin::Form-->
     <form #loginForm="ngForm" class="login-form form" method="post" method="post" (ngSubmit)="login()">
         <div class="form-group">
-            <input
-                #userNameOrEmailAddressInput="ngModel"
-                [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress"
-                autoFocus
-                class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                type="text"
-                autocomplete="new-password"
-                placeholder="{{ 'UserNameOrEmail' | localize }} *"
-                name="userNameOrEmailAddress"
-                required
-            />
-            <validation-messages
-                [formCtrl]="userNameOrEmailAddressInput"
-                *ngIf="!userNameOrEmailAddressInput.touched"
-            ></validation-messages>
+            <input #userNameOrEmailAddressInput="ngModel"
+                [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" autoFocus
+                class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="text"
+                autocomplete="new-password" placeholder="{{ 'EmployeeNumber' | localize }}"
+                name="userNameOrEmailAddress" required />
+            <validation-messages [formCtrl]="userNameOrEmailAddressInput" *ngIf="!userNameOrEmailAddressInput.touched">
+            </validation-messages>
         </div>
 
         <div class="form-group">
-            <input
-                #passwordInput="ngModel"
-                [(ngModel)]="loginService.authenticateModel.password"
-                class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                type="password"
-                autocomplete="new-password"
-                placeholder="{{ 'Password' | localize }} *"
-                name="password"
-                required
-                maxlength="32"
-            />
+            <input #passwordInput="ngModel" [(ngModel)]="loginService.authenticateModel.password"
+                class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="password"
+                autocomplete="new-password" placeholder="{{ 'Password' | localize }}" name="password" required
+                maxlength="32" />
             <validation-messages [formCtrl]="passwordInput" *ngIf="!passwordInput.touched"></validation-messages>
         </div>
 
-        <div class="form-group d-flex justify-content-between mt-4">
+        <!-- <div class="form-group d-flex justify-content-between mt-4">
             <label class="checkbox checkbox-outline">
                 <input [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />
                 <span class="ml-2"></span>
                 {{ 'RememberMe' | localize }}
             </label>
-        </div>
+        </div> -->
 
         <div class="pb-lg-0 pb-5">
-            <button
-                type="submit"
-                class="btn btn-block btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3"
-                [disabled]="!loginForm.form.valid"
-            >
+            <button type="submit" class="btn btn-block btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3"
+                [disabled]="!loginForm.form.valid">
                 {{ 'LogIn' | localize }}
             </button>
         </div>
+        <div class="form-group d-flex justify-content-between mt-4">
+            <span (click)="showModal()">terms and coditions</span>
+            <terms-and-conditions-modal #termsModal></terms-and-conditions-modal>
+        </div>
     </form>
-
     <!--end::Form-->
 </div>
-

@@ -5,8 +5,10 @@ import { AppUiCustomizationService } from './ui/app-ui-customization.service';
 import { AppSessionService } from './session/app-session.service';
 import { CookieConsentService } from './session/cookie-consent.service';
 
+
 @NgModule({
     imports: [CommonModule],
+    declarations: [],
 })
 export class SBCRMCommonModule {
     static forRoot(): ModuleWithProviders<CommonModule> {

@@ -13,7 +13,7 @@ import { InvoiceDto, InvoiceServiceProxy } from '@shared/service-proxies/service
 export class InvoiceComponent extends AppComponentBase implements OnInit {
     paymentId = 0;
     invoiceInfo: InvoiceDto = new InvoiceDto();
-    companyLogo = AppConsts.appBaseUrl + '/assets/common/images/app-logo-on-light.svg';
+    companyLogo = AppConsts.appBaseUrl + '/assets/common/images/logo.svg';
 
     constructor(
         injector: Injector,
