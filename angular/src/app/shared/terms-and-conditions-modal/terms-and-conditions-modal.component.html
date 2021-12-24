@@ -1,4 +1,4 @@
-<div appBsModal #termsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="termsModal"
+<div appBsModal id="termsModal" #termsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="termsModal"
     aria-hidden="true" [config]="{ backdrop: 'static' }">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" (click)="close()" class="btn btn-light-primary font-weight-bold">
-                        {{ 'Cancel' | localize }}
+                        {{ 'Ok' | localize }}
                     </button>
                 </div>
             </form>

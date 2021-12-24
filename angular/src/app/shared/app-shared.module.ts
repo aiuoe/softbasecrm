@@ -22,8 +22,9 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
 import { AppCommonModule } from './common/app-common.module';
-import { ThemesLayoutBaseComponent } from './layout/themes/themes-layout-base.component';;
-import { TermsAndConditionsModalComponent } from './terms-and-conditions-modal/terms-and-conditions-modal.component'
+import { ThemesLayoutBaseComponent } from './layout/themes/themes-layout-base.component';
+// import { TermsAndConditionsModalComponent } from './terms-and-conditions-modal/terms-and-conditions-modal.component';;
+
 
 const imports = [
     CommonModule,
@@ -54,7 +55,7 @@ const imports = [
 
 @NgModule({
     imports: [...imports],
-    exports: [...imports, TermsAndConditionsModalComponent],
-    declarations: [ThemesLayoutBaseComponent, TermsAndConditionsModalComponent],
+    exports: [...imports],
+    declarations: [ThemesLayoutBaseComponent],
 })
 export class AppSharedModule { }

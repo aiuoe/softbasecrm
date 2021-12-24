@@ -38,10 +38,13 @@
                 {{ 'LogIn' | localize }}
             </button>
         </div>
-        <div class="form-group d-flex justify-content-between mt-4">
-            <span (click)="showModal()">terms and coditions</span>
-            <terms-and-conditions-modal #termsModal></terms-and-conditions-modal>
+        <div class="d-flex pb-5 mt-6 text-wrap">
+            <p id="terms-paragraph">
+                {{ 'TermsAndConditionsLogging' | localize }} <a (click)="showModal()">{{ 'TermsAndConditionsLink' |
+                    localize }}</a>.
+            </p>
         </div>
     </form>
     <!--end::Form-->
 </div>
+<terms-and-conditions-modal #termsModal></terms-and-conditions-modal>
