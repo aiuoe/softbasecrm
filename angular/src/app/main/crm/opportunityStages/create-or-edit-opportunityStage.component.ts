@@ -43,6 +43,7 @@ export class CreateOrEditOpportunityStageComponent extends AppComponentBase impl
         this.show(this._activatedRoute.snapshot.queryParams['id']);
     }
 
+    /** Method that gets the rows to display in the grid */
     show(opportunityStageId?: number): void {
         if (!opportunityStageId) {
             this.opportunityStage = new CreateOrEditOpportunityStageDto();
@@ -58,6 +59,7 @@ export class CreateOrEditOpportunityStageComponent extends AppComponentBase impl
         }
     }
 
+    /** Method that saves an opportunity in the database */
     save(): void {
         this.saving = true;
 
@@ -75,6 +77,7 @@ export class CreateOrEditOpportunityStageComponent extends AppComponentBase impl
             });
     }
 
+    /** Method that saves an opportunity in the database and reload the modal */
     saveAndNew(): void {
         this.saving = true;
 
