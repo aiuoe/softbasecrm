@@ -10,28 +10,23 @@
 
         <div [class]="containerClass">
             <div class="row">
-                <div class="col-12">
+                <div class="col-sm-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-body">
-                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i> l('GeneralInformation')</h3>
+                            <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i> {{ l('GeneralInformation') }}</h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_CompanyName">{{ l('CompanyName') }} *</label>
-                                        <input type="text" id="Lead_CompanyName"
-                                            class="form-control" [value]="item.lead.companyName" name="CompanyName"
-                                            disabled />
+                                        <input type="text" id="Lead_CompanyName" class="form-control"
+                                            [value]="item.lead.companyName" name="CompanyName" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
-                                        <div class="input-group">
-                                            <input class="form-control" type="tel"
-                                                [placeholder]="selectedCountry.countryCode"
-                                                [value]="item.lead.companyPhone" id="Lead_CompanyPhone"
-                                                name="CompanyPhone" disabled />
-                                        </div>
+                                        <input class="form-control" type="tel" [value]="item.lead.companyPhone"
+                                            id="Lead_CompanyPhone" name="CompanyPhone" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -41,16 +36,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
-                                        <input type="text" id="Lead_CompanyEmail"
-                                            class="form-control" [value]="item.lead.companyEmail" name="CompanyEmail"
-                                            disabled />
+                                        <input type="text" id="Lead_CompanyEmail" class="form-control"
+                                            [value]="item.lead.companyEmail" name="CompanyEmail" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_WebSite">{{ l('WebSite') }}</label>
-                                        <input type="text"  id="Lead_WebSite"
-                                            class="form-control" [value]="item.lead.webSite" name="WebSite" disabled />
+                                        <input type="text" id="Lead_WebSite" class="form-control"
+                                            [value]="item.lead.webSite" name="WebSite" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -59,13 +53,12 @@
                                 <div class="col-lg-6">
                                     <label for="Lead_Address">{{ l('Address') }}</label>
                                     <input type="text" id="Lead_Address" class="form-control"
-                                        [value]="item.lead.address"  name="Address"
-                                        disabled />
+                                        [value]="item.lead.address" name="Address" disabled />
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="Lead_PoBox">{{ l('PoBox') }}</label>
-                                    <input type="text"  id="Lead_PoBox" class="form-control"
-                                        [value]="item.lead.poBox" name="PoBox" disabled />
+                                    <input type="text" id="Lead_PoBox" class="form-control" [value]="item.lead.poBox"
+                                        name="PoBox" disabled />
                                 </div>
                             </div>
 
@@ -73,88 +66,79 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Lead_Country">{{ l('Country') }}</label>
-                                        <input type="text" id="Lead_Country"
-                                            class="form-control" [value]="item.lead.country"
-                                            name="Country" disabled />
+                                        <input type="text" id="Lead_Country" class="form-control"
+                                            [value]="item.lead.country" name="Country" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Lead_City">{{ l('City') }}</label>
-                                        <input type="text"  id="Lead_City" class="form-control"
-                                            [value]="item.lead.city"  name="City" disabled />
+                                        <input type="text" id="Lead_City" class="form-control" [value]="item.lead.city"
+                                            name="City" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Lead_State">{{ l('State') }}</label>
                                         <input type="text" id="Lead_State" class="form-control"
-                                            [value]="item.lead.state" name="State"
-                                            disabled />
+                                            [value]="item.lead.state" name="State" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
-                                        <input type="text" id="Lead_ZipCode"
-                                            class="form-control" [value]="item.lead.zipCode"
-                                            name="ZipCode" disabled />
+                                        <input type="text" id="Lead_ZipCode" class="form-control"
+                                            [value]="item.lead.zipCode" name="ZipCode" disabled />
                                     </div>
                                 </div>
                             </div>
 
                             <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-id-card"></i>
-                                Contact User
+                                {{ l('ContactDetails') }}
                             </h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactName">{{ l('ContactName') }}</label>
-                                        <input type="text"id="Lead_ContactName"
-                                            class="form-control" [value]="item.lead.contactName"
-                                             name="ContactName" disabled />
+                                        <input type="text" id="Lead_ContactName" class="form-control"
+                                            [value]="item.lead.contactName" name="ContactName" disabled />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactPosition">{{ l('ContactPosition') }}</label>
-                                        <input type="text" id="Lead_ContactPosition"
-                                            class="form-control" [value]="item.lead.contactPosition"
-                                             name="ContactPosition" disabled />
+                                        <input type="text" id="Lead_ContactPosition" class="form-control"
+                                            [value]="item.lead.contactPosition" name="ContactPosition" disabled />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
-                                        <input type="text"id="Lead_ContactPhone"
-                                            class="form-control" [value]="item.lead.contactPhone"
-                                            name="ContactPhone" disabled />
+                                        <input type="text" id="Lead_ContactPhone" class="form-control"
+                                            [value]="item.lead.contactPhone" name="ContactPhone" disabled />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension') }}</label>
-                                        <input type="text"
-                                            id="Lead_ContactPhoneExtension" class="form-control"
-                                            [value]="item.lead.contactPhoneExtension"
-                                            name="ContactPhoneExtension"
+                                        <input type="text" id="Lead_ContactPhoneExtension" class="form-control"
+                                            [value]="item.lead.contactPhoneExtension" name="ContactPhoneExtension"
                                             disabled />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
-                                        <input type="text" id="Lead_ContactCellPhone"
-                                            class="form-control" [value]="item.lead.contactCellPhone"
-                                             name="ContactCellPhone" disabled />
+                                        <input type="text" id="Lead_ContactCellPhone" class="form-control"
+                                            [value]="item.lead.contactCellPhone" name="ContactCellPhone" disabled />
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
@@ -162,29 +146,27 @@
                                             [value]="item.lead.contactFaxNumber" name="ContactFaxNumber" disabled />
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
+                                        <input type="text" id="Lead_PagerNumber" class="form-control"
+                                            [value]="item.lead.pagerNumber" name="PagerNumber" disabled />
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
-                                        <input type="text"  id="Lead_PagerNumber"
-                                            class="form-control" [value]="item.lead.pagerNumber"
-                                             name="PagerNumber" disabled />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
-                                        <input type="text" id="Lead_ContactEmail"
-                                            class="form-control" [value]="item.lead.contactEmail"
-                                            name="ContactEmail" disabled />
+                                        <input type="text" id="Lead_ContactEmail" class="form-control"
+                                            [value]="item.lead.contactEmail" name="ContactEmail" disabled />
                                     </div>
                                 </div>
                             </div>
 
                             <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-clipboard"></i>
-                                Lead details
+                                {{ l('LeadDetails') }}
                             </h3>
 
                             <div class="row">
@@ -213,10 +195,9 @@
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label for="Lead_Description">{{ l('EnterDescription') }}</label>
-                                    <textarea disabled class="form-control"
-                                        [value]="item.lead.description" 
-                                        name="Description" id="Lead_Description" rows="10"></textarea>
+                                    <label for="Lead_Notes">{{ l('EnterNotes') }}</label>
+                                    <textarea disabled class="form-control" [value]="item.lead.notes"
+                                        name="Notes" id="Lead_Notes" rows="10"></textarea>
                                 </div>
                             </div>
 
@@ -224,14 +205,27 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row" *ngIf="this.item.lead.id">
-            <div class="col-sm-12 col-lg-6">
-                <app-assigned-user
-                    [componentType]="'Lead'"
-                    [idToStore]="this.item.lead.id">
-                </app-assigned-user>
+            <div class="row">
+                <!-- TODO:THIS SHOULD BE A WIDGETS COMPONENT -->
+                <div class="col-sm-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">Widget 1</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">Widget 2</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">Widget 3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
