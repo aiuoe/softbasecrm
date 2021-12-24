@@ -1,4 +1,5 @@
-﻿using SBCRM.Crm.Dtos;
+﻿using System.Collections.Generic;
+using SBCRM.Crm.Dtos;
 using SBCRM.Crm;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Legacy;
@@ -67,8 +68,12 @@ namespace SBCRM
             configuration.CreateMap<OpportunityDto, Opportunity>().ReverseMap();
             configuration.CreateMap<CreateOrEditOpportunityTypeDto, OpportunityType>().ReverseMap();
             configuration.CreateMap<OpportunityTypeDto, OpportunityType>().ReverseMap();
+
+            //OpportunityStages
             configuration.CreateMap<CreateOrEditOpportunityStageDto, OpportunityStage>().ReverseMap();
-            configuration.CreateMap<OpportunityStageDto, OpportunityStage>().ReverseMap();
+            configuration.CreateMap<CreateOrEditOpportunityStageDto, OpportunityStage>().ReverseMap();
+            configuration.CreateMap<List<UpdateOrderOpportunityStageDto>, List<OpportunityStage>>().ReverseMap();
+
             configuration.CreateMap<CreateOrEditLeadUserDto, LeadUser>().ReverseMap();
             configuration.CreateMap<LeadUserDto, LeadUser>().ReverseMap();
             configuration.CreateMap<CreateOrEditPriorityDto, Priority>().ReverseMap();

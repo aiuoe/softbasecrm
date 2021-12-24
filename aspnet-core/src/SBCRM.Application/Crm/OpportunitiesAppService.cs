@@ -44,12 +44,12 @@ namespace SBCRM.Crm
         /// <param name="lookup_leadSourceRepository"></param>
         /// <param name="lookup_opportunityTypeRepository"></param>
         /// <param name="lookup_customerRepository"></param>
-        /// <param name="lookup_contactsRepository"></param>    
+        /// <param name="lookup_contactsRepository"></param>
         public OpportunitiesAppService(
             IRepository<Opportunity> opportunityRepository,
-            IOpportunitiesExcelExporter opportunitiesExcelExporter, 
-            IRepository<OpportunityStage, int> lookup_opportunityStageRepository, 
-            IRepository<LeadSource, int> lookup_leadSourceRepository, 
+            IOpportunitiesExcelExporter opportunitiesExcelExporter,
+            IRepository<OpportunityStage, int> lookup_opportunityStageRepository,
+            IRepository<LeadSource, int> lookup_leadSourceRepository,
             IRepository<OpportunityType, int> lookup_opportunityTypeRepository,
             IRepository<Customer, int> lookup_customerRepository,
             IRepository<Contact, int> lookup_contactsRepository)
@@ -61,7 +61,6 @@ namespace SBCRM.Crm
             _lookup_opportunityTypeRepository = lookup_opportunityTypeRepository;
             _lookup_customerRepository = lookup_customerRepository;
             _lookup_contactsRepository = lookup_contactsRepository;
-
         }
 
         /// <summary>
@@ -71,7 +70,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetOpportunityForViewDto>> GetAll(GetAllOpportunitiesInput input)
         {
-
             var filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
@@ -128,7 +126,6 @@ namespace SBCRM.Crm
 
                                 select new
                                 {
-
                                     o.Name,
                                     o.Amount,
                                     o.Probability,
@@ -138,7 +135,6 @@ namespace SBCRM.Crm
                                     o.Department,
                                     Id = o.Id,
                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                                    OpportunityStageColor = s1 == null || s1.Color == null ? "" : s1.Color.ToString(),
                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                                     CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
@@ -157,7 +153,6 @@ namespace SBCRM.Crm
                 {
                     Opportunity = new OpportunityDto
                     {
-
                         Name = o.Name,
                         Amount = o.Amount,
                         Probability = o.Probability,
@@ -168,13 +163,11 @@ namespace SBCRM.Crm
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
-                    OpportunityStageColor = o.OpportunityStageColor,
                     LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityTypeDescription = o.OpportunityTypeDescription,
                     CustomerName = o.CustomerName,
                     CustomerNumber = o.CustomerNumber,
                     ContactName = o.ContactName
-
                 };
 
                 results.Add(res);
@@ -184,7 +177,6 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         /// <summary>
@@ -273,7 +265,6 @@ namespace SBCRM.Crm
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
             }
 
-
             if (output.Opportunity.CustomerNumber != null)
             {
                 var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
@@ -281,7 +272,7 @@ namespace SBCRM.Crm
             }
 
             if (output.Opportunity.ContactId != null)
-            {        
+            {
                 var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
@@ -317,7 +308,6 @@ namespace SBCRM.Crm
             var opportunity = ObjectMapper.Map<Opportunity>(input);
 
             await _opportunityRepository.InsertAsync(opportunity);
-
         }
 
         /// <summary>
@@ -330,7 +320,6 @@ namespace SBCRM.Crm
         {
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, opportunity);
-
         }
 
         /// <summary>
@@ -346,7 +335,6 @@ namespace SBCRM.Crm
 
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
-
             var filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
@@ -478,7 +466,7 @@ namespace SBCRM.Crm
         {
             return await _lookup_contactsRepository.GetAll()
                 .Select(contact => new OpportunityContactsLookupTableDto
-                {                    
+                {
                     Id = contact.ContactId,
                     ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
@@ -497,6 +485,5 @@ namespace SBCRM.Crm
                     ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
         }
-
     }
 }
