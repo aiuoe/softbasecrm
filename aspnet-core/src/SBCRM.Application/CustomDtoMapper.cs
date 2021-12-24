@@ -53,6 +53,12 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditActivityDto, Activity>().ReverseMap();
+            configuration.CreateMap<ActivityDto, Activity>().ReverseMap();
+            configuration.CreateMap<CreateOrEditActivitySourceTypeDto, ActivitySourceType>().ReverseMap();
+            configuration.CreateMap<ActivitySourceTypeDto, ActivitySourceType>().ReverseMap();
+            configuration.CreateMap<CreateOrEditActivityPriorityDto, ActivityPriority>().ReverseMap();
+            configuration.CreateMap<ActivityPriorityDto, ActivityPriority>().ReverseMap();
             configuration.CreateMap<CreateOrEditContactDto, Contact>().ReverseMap();
             configuration.CreateMap<ContactDto, Contact>().ReverseMap();
             configuration.CreateMap<CreateOrEditAccountUserDto, AccountUser>().ReverseMap();

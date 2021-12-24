@@ -1,0 +1,326 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Activities' | localize">
+            <div role="actions">
+                <button (click)="exportToExcel()" class="btn btn-primary blue">
+                    <i class="fa fa-download fa-lg"></i>
+                    {{ l('Export') }}
+                </button>
+
+                <button
+                    *ngIf="isGranted('Pages.Activities.Create')"
+                    (click)="createActivity()"
+                    class="btn btn-primary blue"
+                >
+                    <i class="fa fa-plus"></i>
+                    {{ l('Activity') }}
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" autocomplete="off">
+                        <div>
+                            <div class="row align-items-center">
+                                <div class="col-xl-12">
+                                    <div class="form-group m-form__group align-items-center">
+                                        <div class="input-group">
+                                            <input
+                                                [(ngModel)]="filterText"
+                                                name="filterText"
+                                                autoFocus
+                                                class="form-control m-input"
+                                                [placeholder]="l('SearchCompanyName')"
+                                                type="text"
+                                            />
+                                            <span class="input-group-btn">
+                                                <button (click)="getActivities()" class="btn btn-primary" type="submit">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="!advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-down"></i>
+                                        {{ l('ShowAdvancedFilters') }}
+                                    </span>
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-up"></i>
+                                        {{ l('HideAdvancedFilters') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row pt-3" [hidden]="!advancedFiltersAreShown">
+                                <div *ngIf="isGranted('Pages.Activities.View_AssignedUserFilter')" class="col-md-2">
+                                    <div class="form-group">
+                                        <p-multiSelect
+                                            id="assignedUsersFilter"
+                                            name="assignedUsersFilter"
+                                            [options]="allUsers"
+                                            [(ngModel)]="selectedAssignedUsersFilter"
+                                            optionLabel="displayName"
+                                            display="chip"
+                                            [placeholder]="l('FilterByAssignee')"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="getActivities()"
+                                        ></p-multiSelect>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <p-dropdown
+                                            id="AccountTypeFilter"
+                                            name="AccountTypeFilter"
+                                            [options]="activitySourceTypes"
+                                            [(ngModel)]="selectedActivitySourceTypesFilter"
+                                            optionLabel="displayName"
+                                            [placeholder]="l('FilterBySourceType')"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            [showClear]="true"
+                                            (onChange)="getActivities()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <p-dropdown
+                                            id="ActivityTaskTypeFilter"
+                                            name="ActivityTaskTypeFilter"
+                                            [options]="activityTaskTypes"
+                                            [(ngModel)]="selectedActivityTaskTypesFilter"
+                                            optionLabel="displayName"
+                                            [placeholder]="l('FilterByActivity')"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            [showClear]="true"
+                                            (onChange)="getActivities()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <p-dropdown
+                                            id="ActivityStatusFilter"
+                                            name="ActivityStatusFilter"
+                                            [options]="activityStatuses"
+                                            [(ngModel)]="selectedActivityStatusesFilter"
+                                            optionLabel="displayName"
+                                            [placeholder]="l('FilterByStatus')"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            [showClear]="true"
+                                            (onChange)="getActivities()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <div class="form-group">
+                                        <div class="p-field-checkbox">
+                                            <p-checkbox
+                                                id="ExcludeCompletedFilter"
+                                                name="ExcludeCompletedFilter"
+                                                [binary]="true"
+                                                [(ngModel)]="excludeCompletedFilter"
+                                                (onChange)="getActivities()"
+                                            ></p-checkbox>
+                                            <label for="ExcludeCompletedFilter" class="mb-0 ml-1">
+                                                {{ l('ExcludeCompleted') }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row align-items-center">
+                        <!--<Primeng-Datatable-Start>-->
+                        <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                            <p-table
+                                #dataTable
+                                (onLazyLoad)="getActivities($event)"
+                                [value]="primengTableHelper.records"
+                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                [paginator]="false"
+                                [lazy]="true"
+                                [scrollable]="true"
+                                ScrollWidth="100%"
+                                [responsive]="primengTableHelper.isResponsive"
+                                [resizableColumns]="primengTableHelper.resizableColumns"
+                            >
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th
+                                            style="width: 130px"
+                                            [hidden]="!isGrantedAny('Pages.Activities.Edit', 'Pages.Activities.Delete')"
+                                        >
+                                            {{ l('Actions') }}
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="activityStatusDescription">
+                                            {{ l('Status') }}
+                                            <p-sortIcon field="activityStatusDescription"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="activitySourceTypeDescription">
+                                            {{ l('SourceType') }}
+                                            <p-sortIcon field="activitySourceTypeDescription"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="companyName">
+                                            {{ l('CompanyName') }}
+                                            <p-sortIcon field="companyName"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="activityTaskTypeDescription">
+                                            {{ l('Activity') }}
+                                            <p-sortIcon field="activityTaskTypeDescription"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="activityPriorityDescription">
+                                            {{ l('Priority') }}
+                                            <p-sortIcon field="activityPriorityDescription"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="dueDate">
+                                            {{ l('ScheduleAndDueDate') }}
+                                            <p-sortIcon field="dueDate"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="userName">
+                                            {{ l('AssignedUser') }}
+                                            <p-sortIcon field="userName"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                    <tr>
+                                        <td
+                                            style="width: 130px"
+                                            [hidden]="!isGrantedAny('Pages.Activities.Edit', 'Pages.Activities.Delete')"
+                                        >
+                                            <div class="btn-group dropdown" dropdown container="body">
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a
+                                                            href="javascript:;"
+                                                            class="dropdown-item"
+                                                            (click)="viewActivityModal.show(record)"
+                                                        >
+                                                            {{ l('View') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            href="javascript:;"
+                                                            *ngIf="permission.isGranted('Pages.Activities.Edit')"
+                                                            class="dropdown-item"
+                                                            (click)="createOrEditActivityModal.show(record.activity.id)"
+                                                        >
+                                                            {{ l('Edit') }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Status') }}</span>
+                                            <span
+                                                class="cell-span-color text-white"
+                                                [ngStyle]="{ 'background-color': record.activityStatusColor }"
+                                            >
+                                                {{ record.activityStatusDescription }}
+                                            </span>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('SourceType') }}</span>
+                                            {{ record.activitySourceTypeDescription }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('CompanyName') }}</span>
+                                            <div class="color-blue">
+                                                {{
+                                                    record.companyName
+                                                }}
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Activity') }}</span>
+                                            {{ record.activityTaskTypeDescription }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Priority') }}</span>
+
+                                            <span
+                                                class="cell-span-color text-white"
+                                                [ngStyle]="{
+                                                    'background-color': record.activityPriorityColor
+                                                }"
+                                            >
+                                                {{ record.activityPriorityDescription }}
+                                            </span>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ScheduleAndDueDate') }}</span>
+                                            <span
+                                                *ngIf="record.activity.startsAt"
+                                                [ngClass]="{
+                                                    'text-danger': record.isPastDue
+                                                }"
+                                            >
+                                                {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
+                                            </span>
+                                            <span *ngIf="!record.activity.startsAt">-</span>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
+                                            <span class="d-flex align-items-center">
+                                                <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+
+                                                {{ record.userName }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{ l('NoData') }}
+                            </div>
+                            <div class="primeng-paging-container">
+                                <p-paginator
+                                    [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                    #paginator
+                                    (onPageChange)="getActivities($event)"
+                                    [totalRecords]="primengTableHelper.totalRecordsCount"
+                                    [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                    [showCurrentPageReport]="true"
+                                    [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                                    "
+                                ></p-paginator>
+                            </div>
+                        </div>
+                        <!--<Primeng-Datatable-End>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <createOrEditActivityModal #createOrEditActivityModal (modalSave)="getActivities()"></createOrEditActivityModal>
+        <viewActivityModal #viewActivityModal></viewActivityModal>
+    </div>
+</div>
