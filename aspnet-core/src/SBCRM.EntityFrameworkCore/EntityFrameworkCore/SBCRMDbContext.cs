@@ -21,12 +21,6 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
-        public virtual DbSet<Activity> Activities { get; set; }
-
-        public virtual DbSet<ActivitySourceType> ActivitySourceTypes { get; set; }
-
-        public virtual DbSet<ActivityPriority> ActivityPriorities { get; set; }
-
         public virtual DbSet<Contact> Contacts { get; set; }
 
         public virtual DbSet<Secure> Secure { get; set; }

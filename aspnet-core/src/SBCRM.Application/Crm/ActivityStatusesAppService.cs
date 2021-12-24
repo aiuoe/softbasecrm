@@ -32,7 +32,7 @@ namespace SBCRM.Crm
         {
 
             var filteredActivityStatuses = _activityStatusRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredActivityStatuses = filteredActivityStatuses
@@ -45,8 +45,6 @@ namespace SBCRM.Crm
 
                                        o.Description,
                                        o.Order,
-                                       o.Color,
-                                       o.IsCompletedStatus,
                                        Id = o.Id
                                    };
 
@@ -64,8 +62,6 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         Order = o.Order,
-                        Color = o.Color,
-                        IsCompletedStatus = o.IsCompletedStatus,
                         Id = o.Id,
                     }
                 };
