@@ -41,7 +41,7 @@
                                             <form #customerForm="ngForm" role="form" class="form-validation" novalidate>
 
                                                 <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                                    <i class="pi pi-user"></i>
+                                                    <i class="fas fa-user-alt text-dark pr-3"></i>
                                                     {{ l('GeneralInformation') }}
                                                 </h3>
 
@@ -167,7 +167,7 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
-                                                            <p-dropdown #Customer_Country="ngModel"                                                                        
+                                                            <p-dropdown #Customer_Country="ngModel"
                                                                         id="Customer_Country"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         [options]="countries"
@@ -177,7 +177,7 @@
                                                                         placeholder="Select Country"
                                                                         [showClear]="true"
                                                                         optionValue="code">
-                                                            </p-dropdown>                                                            
+                                                            </p-dropdown>
                                                             <validation-messages [formCtrl]="Customer_Country"></validation-messages>
                                                         </div>
                                                     </div>
@@ -237,7 +237,7 @@
 
                                                 <hr>
                                                 <h3 class="font-size-lg text-dark font-weight-bold mb-6">
-                                                    <i class="fa fa-id-card"></i>
+                                                    <i class="fas fa-calendar-day text-dark pr-3"></i>
                                                     {{ l('Details') }}
                                                 </h3>
 
@@ -431,11 +431,154 @@
                 </tab>
 
                 <tab heading="{{ 'Opportunities' | localize }}" [disabled]="this.isNew">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card card-custom card-in-tab gutter-b">
-                                <div class="card-body">
-
+                    <div class="card card-custom card-in-tab gutter-b"
+                         [hidden]="!showOpportunitiesTab">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button *ngIf="isGrantedAny('Pages.Customer.AddOpportunity')" (click)="addOpportunity()" class="btn btn-primary blue float-right">
+                                        <i class="fa fa-plus"></i>
+                                        <span>{{ l('Opportunity') }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="primeng-datatable-container col-12"
+                                         [busyIf]="primengTableHelperOpportunities.isLoading">
+                                        <p-table
+                                            id="opportunitiesDataTable"
+                                            #opportunitiesDataTable
+                                            (onLazyLoad)="getOpportunities($event)"
+                                            [value]="primengTableHelperOpportunities.records"
+                                            rows="{{ primengTableHelperOpportunities.defaultRecordsCountPerPage }}"
+                                            [paginator]="false"
+                                            [lazy]="true"
+                                            [scrollable]="true"
+                                            ScrollWidth="100%"
+                                            [responsive]="primengTableHelperOpportunities.isResponsive"
+                                            [resizableColumns]="primengTableHelperOpportunities.resizableColumns"
+                                        >
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th
+                                                        style="width: 80px"
+                                                        [hidden]="
+                                                !isGrantedAny('Pages.Customer.EditOpportunity')
+                                            "
+                                                    >
+                                                        {{ l('Actions') }}
+                                                    </th>
+                                                    <th style="width: 150px" pSortableColumn="name">
+                                                        {{ l('Name') }}
+                                                        <p-sortIcon field="name"></p-sortIcon>
+                                                    </th>
+                                                    <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
+                                                        {{ l('Stage')}}
+                                                        <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
+                                                    </th>
+                                                    <th style="width: 150px" pSortableColumn="closeDate">
+                                                        {{ l('CloseDate') }}
+                                                        <p-sortIcon field="closeDate"></p-sortIcon>
+                                                    </th>
+                                                    <th style="width: 150px" pSortableColumn="amount">
+                                                        {{ l('Amount') }}
+                                                        <p-sortIcon field="amount"></p-sortIcon>
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                                <tr>
+                                                    <td
+                                                        style="width: 80px"
+                                                        [hidden]="!isGrantedAny('Pages.Customer.EditOpportunity')"
+                                                    >
+                                                        <div class="btn-group dropdown" dropdown container="body">
+                                                            <button class="dropdown-toggle btn btn-secondary i" dropdownToggle>
+                                                                <i class="fa fa-cog color-blue"></i>
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                                <li>
+                                                                    <a
+                                                                        *ngIf="permission.isGranted('Pages.Customer.EditOpportunity')"
+                                                                        class="dropdown-item"
+                                                                        [routerLink]="['/app/main/crm/opportunities/view']"
+                                                                        [queryParams]="{ id: record.id }"
+                                                                    >
+                                                                        {{ l('View') }}
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a
+                                                                        *ngIf="permission.isGranted('Pages.Customer.EditOpportunity')"
+                                                                        class="dropdown-item"
+                                                                        [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
+                                                                        [queryParams]="{ id: record.id }"
+                                                                    >
+                                                                        {{ l('Edit') }}
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
+                                                        <a
+                                                            [routerLink]="['/app/main/crm/opportunities/view']"
+                                                            [queryParams]="{ id: record.id }"
+                                                        >
+                                                            {{ record.name }}
+                                                        </a>
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Stage') }}</span>
+                                                        <span class="cell-span-color text-white"
+                                                            [ngStyle]="{'background-color': record.stageColor}">
+                                                            {{ record.stage }}
+                                                        </span>
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('CloseDate') }}</span>
+                                                        <span *ngIf="record.closeDate">{{ record.closeDate | date: 'MM/dd/yyyy' }}
+                                                        </span>
+                                                        <span *ngIf="!record.closeDate">-</span>
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        <span class="p-column-title">{{ l('Amount') }}</span>
+                                                        {{ record.amount | currency: 'USD' : true }}
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        <div class="primeng-no-data" *ngIf="primengTableHelperOpportunities.totalRecordsCount == 0">
+                                            {{ l('NoData') }}
+                                        </div>
+                                        <div class="primeng-paging-container">
+                                            <p-paginator
+                                                [rows]="primengTableHelperOpportunities.defaultRecordsCountPerPage"
+                                                #opportunitiesPaginator
+                                                (onPageChange)="getOpportunities($event)"
+                                                [totalRecords]="primengTableHelperOpportunities.totalRecordsCount"
+                                                [rowsPerPageOptions]="primengTableHelperOpportunities.predefinedRecordsCountPerPage"
+                                                [showCurrentPageReport]="true"
+                                                [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize: primengTableHelperOpportunities.totalRecordsCount
+                                    "
+                                            ></p-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!showOpportunitiesTab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-custom card-in-tab gutter-b">
+                                    <div class="card-body">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -443,7 +586,7 @@
                 </tab>
 
                 <tab heading="{{ 'Invoices' | localize }}" [disabled]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showInvoiceTab" >
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!showInvoicesTab" >
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -569,7 +712,7 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="!this.showInvoiceTab">
+                    <div *ngIf="!showInvoicesTab">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-custom card-in-tab gutter-b">
@@ -583,7 +726,7 @@
                 </tab>
 
                 <tab heading="{{ 'Equipment' | localize }}" [disabled]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showEquipmentTab">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!showEquipmentsTab">
                         <div class="card-body">
 
                             <div class="row pb-5">
@@ -718,7 +861,7 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="!this.showEquipmentTab">
+                    <div *ngIf="!showEquipmentsTab">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-custom card-in-tab gutter-b">
@@ -733,7 +876,7 @@
 
 
                 <tab heading="{{ 'WIP' | localize }}" [disabled]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!this.showWipTab">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!showWipTab">
                         <div class="card-body">
                             <div class="row pb-5">
                                 <div class="col-md-12">
@@ -893,7 +1036,7 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="!this.showWipTab">
+                    <div *ngIf="!showWipTab">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-custom card-in-tab gutter-b">
@@ -912,7 +1055,7 @@
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
                                     <entityTypeHistory [requiredPermission]="'Pages.Customer.ViewEvents'" #entityTypeHistory></entityTypeHistory>
-                                    <div *ngIf="!this.showEventsTab">
+                                    <div *ngIf="!showEventsTab">
                                         {{ l('UserDontHavePermission') }}
                                     </div>
                                 </div>

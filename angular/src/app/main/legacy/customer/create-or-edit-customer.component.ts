@@ -1,4 +1,13 @@
-﻿import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+﻿import {
+    AfterContentInit,
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    Injector,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import {
     CustomerServiceProxy,
@@ -33,8 +42,10 @@ import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/ent
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class CreateOrEditCustomerComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditCustomerComponent extends AppComponentBase implements OnInit, AfterViewInit, AfterContentInit {
     @ViewChild('customerForm', { static: true }) customerForm: NgForm;
+    @ViewChild('opportunitiesDataTable', { static: true }) opportunitiesDataTable: Table;
+    @ViewChild('opportunitiesPaginator', { static: true }) opportunitiesPaginator: Paginator;
     @ViewChild('customerInvoicesDataTable', { static: true }) customerInvoicesDataTable: Table;
     @ViewChild('CustomerInvoicesPaginator', { static: true }) paginator: Paginator;
     @ViewChild('customerEquipmentsDataTable', { static: true }) customerEquipmentsDataTable: Table;
@@ -44,6 +55,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
     routerLink = '/app/main/business/accounts';
+    opportunitiesRouterLink = '/app/main/crm/opportunities/createOrEdit';
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Customer'), this.routerLink)
     ];
@@ -64,26 +76,25 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
     invoicesDateRange: DateTime[] = [this._dateTimeService.getStartOfDayMinusDays(30), this._dateTimeService.getEndOfDay()];
     customerNumber: string;
+    primengTableHelperOpportunities = new PrimengTableHelper();
     primengTableHelperEquipments = new PrimengTableHelper();
     primengTableHelperWip = new PrimengTableHelper();
 
     wipQuotes = false;
     wipAcceptedQuotes = false;
     wipCanceledQuotes = false;
-
-    // Tab permissions
-    showInvoiceTab = true;
-    showEquipmentTab = true;
-    showWipTab = true;
-    showEventsTab = true;
     isPageLoading = true;
+    showOpportunitiesTab = false;
+    showInvoicesTab = false;
+    showEquipmentsTab = false;
+    showWipTab = false;
+    showEventsTab = false;
 
     /***
      * Main constructor
      * @param injector
      * @param _activatedRoute
      * @param _customerServiceProxy
-     * @param _accountUserServiceProxy
      * @param _zipCodeServiceProxy
      * @param _router
      * @param _dateTimeService
@@ -92,7 +103,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _customerServiceProxy: CustomerServiceProxy,
-        private _accountUserServiceProxy: AccountUsersServiceProxy,
         private _zipCodeServiceProxy: ZipCodesServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService
@@ -100,21 +110,35 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         super(injector);
     }
 
+    ngAfterContentInit(): void {
+    }
+
+    ngAfterViewInit(): void {
+    }
+
+
+
     /***
      * Initialize component
      */
     ngOnInit(): void {
-        this.showInvoiceTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
-        this.showEquipmentTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
-        this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
-        this.showEventsTab = this.isGrantedAny('Pages.Customer.ViewEvents');
-
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!this.customerNumber;
+
+        this.setPermissions();
+
         this.show(this.customerNumber);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.l('EditCustomer')));
+
+    }
+
+    setPermissions() {
+        this.showOpportunitiesTab = this.isGrantedAny('Pages.Customer.ViewOpportunities');
+        this.showInvoicesTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
+        this.showEquipmentsTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
+        this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
+        this.showEventsTab = this.isGrantedAny('Pages.Customer.ViewEvents');
     }
 
     /***
@@ -153,7 +177,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 }, (_) => {
                     this.goToAccounts();
                 });
-
+            this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.l('EditCustomer')));
         } else {
             this.entityTypeHistory.show({
                 entityId: this.customerNumber,
@@ -181,6 +205,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.countries = countries;
 
                     this.showSaveButton = !this.isReadOnlyMode;
+                    this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.customer?.name));
                 }, (_) => {
                     this.goToAccounts();
                 });
@@ -236,11 +261,44 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     }
 
     /***
+     * Add opportunity
+     */
+    addOpportunity() {
+        this._router.navigate([this.opportunitiesRouterLink], { queryParams: { customerNumber: this.customerNumber }});
+    }
+
+    /***
+     * Get customer opportunities
+     * @param event
+     */
+    getOpportunities(event?: LazyLoadEvent) {
+        if (!this.isNew && this.showOpportunitiesTab) {
+            if (this.primengTableHelperOpportunities.shouldResetPaging(event)) {
+                this.opportunitiesPaginator.changePage(0);
+                return;
+            }
+
+            this.primengTableHelperOpportunities.showLoadingIndicator();
+
+            this._customerServiceProxy.getAllOpportunities(
+                this.customerNumber,
+                this.primengTableHelperOpportunities.getSorting(this.opportunitiesDataTable),
+                this.primengTableHelperOpportunities.getSkipCount(this.opportunitiesPaginator, event),
+                this.primengTableHelperOpportunities.getMaxResultCount(this.opportunitiesPaginator, event)
+            ).subscribe((result) => {
+                this.primengTableHelperOpportunities.totalRecordsCount = result.totalCount;
+                this.primengTableHelperOpportunities.records = result.items;
+                this.primengTableHelperOpportunities.hideLoadingIndicator();
+            });
+        }
+    }
+
+    /***
      * Get customer invoices
      * @param event
      */
     getCustomerInvoices(event?: LazyLoadEvent) {
-        if (!this.isNew) {
+        if (!this.isNew && this.showInvoicesTab) {
             if (this.primengTableHelper.shouldResetPaging(event)) {
                 this.paginator.changePage(0);
                 return;
@@ -268,7 +326,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param event
      */
     getCustomerEquipments(event?: LazyLoadEvent) {
-        if (!this.isNew) {
+        if (!this.isNew && this.showEquipmentsTab) {
             if (this.primengTableHelperEquipments.shouldResetPaging(event)) {
                 this.customerEquipmentsPaginator.changePage(0);
                 return;
@@ -294,7 +352,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param event
      */
     getCustomerWip(event?: LazyLoadEvent) {
-        if (!this.isNew) {
+        if (!this.isNew && this.showWipTab) {
             if (this.primengTableHelperWip.shouldResetPaging(event)) {
                 this.customerWipPaginator.changePage(0);
                 return;
