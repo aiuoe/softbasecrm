@@ -17,6 +17,9 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App service for handling CRUD operations of Activity Types
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_ActivityTaskTypes)]
     public class ActivityTaskTypesAppService : SBCRMAppServiceBase, IActivityTaskTypesAppService
     {
@@ -28,6 +31,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get all activity types
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetActivityTaskTypeForViewDto>> GetAll(GetAllActivityTaskTypesInput input)
         {
 
@@ -76,6 +84,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get activity type for viewing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetActivityTaskTypeForViewDto> GetActivityTaskTypeForView(int id)
         {
             var activityTaskType = await _activityTaskTypeRepository.GetAsync(id);
@@ -85,6 +98,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get activity type for editing
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityTaskTypes_Edit)]
         public async Task<GetActivityTaskTypeForEditOutput> GetActivityTaskTypeForEdit(EntityDto input)
         {
@@ -95,6 +113,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Create or edit an activity type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityTaskTypeDto input)
         {
             if (input.Id == null)
@@ -107,6 +130,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Creates an activity type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityTaskTypes_Create)]
         protected virtual async Task Create(CreateOrEditActivityTaskTypeDto input)
         {
@@ -116,6 +144,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Updates an activity type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityTaskTypes_Edit)]
         protected virtual async Task Update(CreateOrEditActivityTaskTypeDto input)
         {
@@ -123,7 +156,12 @@ namespace SBCRM.Crm
             ObjectMapper.Map(input, activityTaskType);
 
         }
-
+        
+        /// <summary>
+        /// Deletes an activity type
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityTaskTypes_Delete)]
         public async Task Delete(EntityDto input)
         {

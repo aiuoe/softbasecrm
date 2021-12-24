@@ -14,32 +14,32 @@ namespace SBCRM.Crm
         public int? TenantId { get; set; }
 
         [Required]
-        [StringLength(LeadConsts.MaxCompanyNameLength, MinimumLength = LeadConsts.MinCompanyNameLength)]
+        [StringLength(LeadConsts.MaxCompanyNameLength)]
         public virtual string CompanyName { get; set; }
 
-        [StringLength(LeadConsts.MaxContactNameLength, MinimumLength = LeadConsts.MinContactNameLength)]
+        [StringLength(LeadConsts.MaxContactNameLength)]
         public virtual string ContactName { get; set; }
 
-        [StringLength(LeadConsts.MaxContactPositionLength, MinimumLength = LeadConsts.MinContactPositionLength)]
+        [StringLength(LeadConsts.MaxContactPositionLength)]
         public virtual string ContactPosition { get; set; }
 
-        [StringLength(LeadConsts.MaxWebSiteLength, MinimumLength = LeadConsts.MinWebSiteLength)]
+        [StringLength(LeadConsts.MaxWebSiteLength)]
         public virtual string WebSite { get; set; }
 
-        [StringLength(LeadConsts.MaxAddressLength, MinimumLength = LeadConsts.MinAddressLength)]
+        [StringLength(LeadConsts.MaxAddressLength)]
         public virtual string Address { get; set; }
 
-        [StringLength(LeadConsts.MaxCountryLength, MinimumLength = LeadConsts.MinCountryLength)]
+        [StringLength(LeadConsts.MaxCountryLength)]
         public virtual string Country { get; set; }
 
-        [StringLength(LeadConsts.MaxStateLength, MinimumLength = LeadConsts.MinStateLength)]
+        [StringLength(LeadConsts.MaxStateLength)]
         public virtual string State { get; set; }
 
 
-        [StringLength(LeadConsts.MaxCityLength, MinimumLength = LeadConsts.MinCityLength)]
+        [StringLength(LeadConsts.MaxCityLength)]
         public virtual string City { get; set; }
 
-        public virtual string Description { get; set; }
+        public virtual string Notes { get; set; }
 
         [Phone]
         public virtual string CompanyPhone { get; set; }
@@ -47,28 +47,28 @@ namespace SBCRM.Crm
         [EmailAddress]
         public virtual string CompanyEmail { get; set; }
 
-        [StringLength(LeadConsts.MaxPoBoxLength, MinimumLength = LeadConsts.MinPoBoxLength)]
+        [StringLength(LeadConsts.MaxPoBoxLength)]
         public virtual string PoBox { get; set; }
 
-        [StringLength(LeadConsts.MaxZipCodeLength, MinimumLength = LeadConsts.MinZipCodeLength)]
+        [StringLength(LeadConsts.MaxZipCodeLength)]
         public virtual string ZipCode { get; set; }
 
-        [StringLength(LeadConsts.MaxContactPhoneLength, MinimumLength = LeadConsts.MinContactPhoneLength)]
+        [StringLength(LeadConsts.MaxContactPhoneLength)]
         public virtual string ContactPhone { get; set; }
 
-        [StringLength(LeadConsts.MaxContactPhoneExtensionLength, MinimumLength = LeadConsts.MinContactPhoneExtensionLength)]
+        [StringLength(LeadConsts.MaxContactPhoneExtensionLength)]
         public virtual string ContactPhoneExtension { get; set; }
 
-        [StringLength(LeadConsts.MaxContactCellPhoneLength, MinimumLength = LeadConsts.MinContactCellPhoneLength)]
+        [StringLength(LeadConsts.MaxContactCellPhoneLength)]
         public virtual string ContactCellPhone { get; set; }
 
-        [StringLength(LeadConsts.MaxContactFaxNumberLength, MinimumLength = LeadConsts.MinContactFaxNumberLength)]
+        [StringLength(LeadConsts.MaxContactFaxNumberLength)]
         public virtual string ContactFaxNumber { get; set; }
 
-        [StringLength(LeadConsts.MaxPagerNumberLength, MinimumLength = LeadConsts.MinPagerNumberLength)]
+        [StringLength(LeadConsts.MaxPagerNumberLength)]
         public virtual string PagerNumber { get; set; }
 
-        [StringLength(LeadConsts.MaxContactEmailLength, MinimumLength = LeadConsts.MinContactEmailLength)]
+        [StringLength(LeadConsts.MaxContactEmailLength)]
         public virtual string ContactEmail { get; set; }
 
         public virtual int? LeadSourceId { get; set; }

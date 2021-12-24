@@ -1794,7 +1794,140 @@ namespace SBCRM.Migrations
                     b.ToTable("AccountUsers");
                 });
 
-            modelBuilder.Entity("SBCRM.Crm.ActivityStatus", b =>
+            modelBuilder.Entity("SBCRM.Crm.Activity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ActivityPriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivitySourceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivityStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivityTaskTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CustomerNumber")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("LeadId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OpportunityId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartsAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TaskName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityPriorityId");
+
+                    b.HasIndex("ActivitySourceTypeId");
+
+                    b.HasIndex("ActivityStatusId");
+
+                    b.HasIndex("ActivityTaskTypeId");
+
+                    b.HasIndex("CustomerNumber");
+
+                    b.HasIndex("LeadId");
+
+                    b.HasIndex("OpportunityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.ActivityPriority", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActivityPriorities");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.ActivitySourceType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1814,8 +1947,55 @@ namespace SBCRM.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActivitySourceTypes");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.ActivityStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsCompletedStatus")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1986,16 +2166,16 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactEmail")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactFaxNumber")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactPhone")
                         .HasMaxLength(50)
@@ -2006,8 +2186,8 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactPosition")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Country")
                         .HasMaxLength(100)
@@ -2028,9 +2208,6 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2045,6 +2222,9 @@ namespace SBCRM.Migrations
 
                     b.Property<int?>("LeadStatusId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PagerNumber")
                         .HasMaxLength(50)
@@ -2109,9 +2289,6 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2120,9 +2297,6 @@ namespace SBCRM.Migrations
 
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -2242,7 +2416,8 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("CloseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ContactId")
+                    b.Property<int?>("ContactId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -2285,7 +2460,8 @@ namespace SBCRM.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("OpportunityStageId")
+                    b.Property<int?>("OpportunityStageId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("OpportunityTypeId")
@@ -2315,11 +2491,6 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -2534,10 +2705,9 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Legacy.Contact", b =>
                 {
-                    b.Property<int>("ContactId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("ID")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AddedBy")
@@ -2626,7 +2796,7 @@ namespace SBCRM.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ContactId");
+                    b.HasKey("Id");
 
                     b.ToTable("Contacts", "dbo");
                 });
@@ -4158,6 +4328,67 @@ namespace SBCRM.Migrations
                         .IsRequired();
 
                     b.Navigation("CustomerFk");
+
+                    b.Navigation("UserFk");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.Activity", b =>
+                {
+                    b.HasOne("SBCRM.Crm.ActivityPriority", "ActivityPriorityFk")
+                        .WithMany()
+                        .HasForeignKey("ActivityPriorityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SBCRM.Crm.ActivitySourceType", "ActivitySourceTypeFk")
+                        .WithMany()
+                        .HasForeignKey("ActivitySourceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SBCRM.Crm.ActivityStatus", "ActivityStatusFk")
+                        .WithMany()
+                        .HasForeignKey("ActivityStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SBCRM.Crm.ActivityTaskType", "ActivityTaskTypeFk")
+                        .WithMany()
+                        .HasForeignKey("ActivityTaskTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SBCRM.Legacy.Customer", "CustomerFk")
+                        .WithMany()
+                        .HasForeignKey("CustomerNumber");
+
+                    b.HasOne("SBCRM.Crm.Lead", "LeadFk")
+                        .WithMany()
+                        .HasForeignKey("LeadId");
+
+                    b.HasOne("SBCRM.Crm.Opportunity", "OpportunityFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityId");
+
+                    b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ActivityPriorityFk");
+
+                    b.Navigation("ActivitySourceTypeFk");
+
+                    b.Navigation("ActivityStatusFk");
+
+                    b.Navigation("ActivityTaskTypeFk");
+
+                    b.Navigation("CustomerFk");
+
+                    b.Navigation("LeadFk");
+
+                    b.Navigation("OpportunityFk");
 
                     b.Navigation("UserFk");
                 });
