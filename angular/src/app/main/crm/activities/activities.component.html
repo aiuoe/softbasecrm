@@ -241,15 +241,8 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Status') }}</span>
                                             <span
-                                                class="badge"
-                                                [ngClass]="{
-                                                    'text-light':
-                                                        record.activityStatusColor.length > 1 &&
-                                                        record.activityStatusColor.startsWith('#')
-                                                }"
-                                                [ngStyle]="{
-                                                    'background-color': record.activityStatusColor
-                                                }"
+                                                class="cell-span-color text-white"
+                                                [ngStyle]="{ 'background-color': record.activityStatusColor }"
                                             >
                                                 {{ record.activityStatusDescription }}
                                             </span>
@@ -274,12 +267,7 @@
                                             <span class="p-column-title">{{ l('Priority') }}</span>
 
                                             <span
-                                                class="badge"
-                                                [ngClass]="{
-                                                    'text-light':
-                                                        record.activityPriorityColor.length > 1 &&
-                                                        record.activityPriorityColor.startsWith('#')
-                                                }"
+                                                class="cell-span-color text-white"
                                                 [ngStyle]="{
                                                     'background-color': record.activityPriorityColor
                                                 }"

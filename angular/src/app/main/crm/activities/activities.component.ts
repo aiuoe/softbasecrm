@@ -1,40 +1,31 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
-    AccountUsersServiceProxy,
     AccountUserUserLookupTableDto,
     ActivitiesServiceProxy,
     ActivityActivitySourceTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityTaskTypeLookupTableDto,
     ActivityDto,
-    ActivitySourceTypeDto,
-    ActivitySourceTypesServiceProxy,
-    ActivityStatusDto,
-    ActivityStatusesServiceProxy,
-    ActivityTaskTypeDto,
-    ActivityTaskTypesServiceProxy,
-    CustomerServiceProxy,
     ProfileServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditActivityModalComponent } from './create-or-edit-activity-modal.component';
-
 import { ViewActivityModalComponent } from './view-activity-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
-import { filter as _filter } from 'lodash-es';
-import { DateTime } from 'luxon';
-
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 
+/***
+ * Component to manage the activities summary grid
+ */
 @Component({
     templateUrl: './activities.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -88,6 +79,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
 
+    /***
+     * Initialize component
+     */
     ngOnInit(): void {
         this.loadUsers();
         this.loadActivitySourceTypes();
