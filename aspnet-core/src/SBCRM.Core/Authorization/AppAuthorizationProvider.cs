@@ -34,7 +34,7 @@ namespace SBCRM.Authorization
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
-            
+
             var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
             countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
@@ -44,11 +44,6 @@ namespace SBCRM.Authorization
             //accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
             //accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Edit, L("EditAccountUser"));
             //accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
-
-            var activityStatuses = pages.CreateChildPermission(AppPermissions.Pages_ActivityStatuses, L("ActivityStatuses"));
-            activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Create, L("CreateNewActivityStatus"));
-            activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Edit, L("EditActivityStatus"));
-            activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Delete, L("DeleteActivityStatus"));
 
             var activityTaskTypes = pages.CreateChildPermission(AppPermissions.Pages_ActivityTaskTypes, L("ActivityTaskTypes"));
             activityTaskTypes.CreateChildPermission(AppPermissions.Pages_ActivityTaskTypes_Create, L("CreateNewActivityTaskType"));
@@ -65,10 +60,31 @@ namespace SBCRM.Authorization
             opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Edit, L("EditOpportunityType"));
             opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Delete, L("DeleteOpportunityType"));
 
-            var opportunityStages = pages.CreateChildPermission(AppPermissions.Pages_OpportunityStages, L("OpportunityStages"));
+            #region Module Configuration
+
+            Permission configuration = context.GetPermissionOrNull(AppPermissions.Pages_Configuration) ?? context.CreatePermission(AppPermissions.Pages_Configuration, L("Configuration"));
+
+            Permission opportunityStages = configuration.CreateChildPermission(AppPermissions.Pages_OpportunityStages, L("OpportunityStages"));
             opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Create, L("CreateNewOpportunityStage"));
             opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Edit, L("EditOpportunityStage"));
             opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Delete, L("DeleteOpportunityStage"));
+
+            Permission leadStatuses = configuration.CreateChildPermission(AppPermissions.Pages_LeadStatuses, L("LeadStatuses"));
+            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Create, L("CreateNewLeadStatus"));
+            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Edit, L("EditLeadStatus"));
+            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Delete, L("DeleteLeadStatus"));
+
+            Permission leadSources = configuration.CreateChildPermission(AppPermissions.Pages_LeadSources, L("LeadSources"));
+            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Create, L("CreateNewLeadSource"));
+            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Edit, L("EditLeadSource"));
+            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Delete, L("DeleteLeadSource"));
+
+            Permission activityStatuses = configuration.CreateChildPermission(AppPermissions.Pages_ActivityStatuses, L("ActivityStatuses"));
+            activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Create, L("CreateNewActivityStatus"));
+            activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Edit, L("EditActivityStatus"));
+            activityStatuses.CreateChildPermission(AppPermissions.Pages_ActivityStatuses_Delete, L("DeleteActivityStatus"));
+
+            #endregion Module Configuration
 
             var leadUsers = pages.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadUsers"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
@@ -85,16 +101,6 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
-
-            var leadStatuses = pages.CreateChildPermission(AppPermissions.Pages_LeadStatuses, L("LeadStatuses"));
-            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Create, L("CreateNewLeadStatus"));
-            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Edit, L("EditLeadStatus"));
-            leadStatuses.CreateChildPermission(AppPermissions.Pages_LeadStatuses_Delete, L("DeleteLeadStatus"));
-
-            var leadSources = pages.CreateChildPermission(AppPermissions.Pages_LeadSources, L("LeadSources"));
-            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Create, L("CreateNewLeadSource"));
-            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Edit, L("EditLeadSource"));
-            leadSources.CreateChildPermission(AppPermissions.Pages_LeadSources_Delete, L("DeleteLeadSource"));
 
             var industries = pages.CreateChildPermission(AppPermissions.Pages_Industries, L("Industries"));
             industries.CreateChildPermission(AppPermissions.Pages_Industries_Create, L("CreateNewIndustry"));
@@ -121,7 +127,6 @@ namespace SBCRM.Authorization
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteAccountContact"));
-
 
             var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));

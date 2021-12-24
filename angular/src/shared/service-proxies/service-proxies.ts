@@ -13412,6 +13412,58 @@ export class OpportunityStagesServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateOrder(body: UpdateOrderOpportunityStageDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/UpdateOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOrder(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOrder(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOrder(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -13461,6 +13513,67 @@ export class OpportunityStagesServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @return Success
+     */
+    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStagesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityStagesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityStagesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityStagesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
     }
 }
 
@@ -24840,7 +24953,8 @@ export interface ICreateOrEditOpportunityDto {
 
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
     description!: string;
-    color!: string;
+    order!: number;
+    color!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -24855,6 +24969,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.color = _data["color"];
             this.id = _data["id"];
         }
@@ -24870,6 +24985,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["color"] = this.color;
         data["id"] = this.id;
         return data; 
@@ -24878,7 +24994,8 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 
 export interface ICreateOrEditOpportunityStageDto {
     description: string;
-    color: string;
+    order: number;
+    color: string | undefined;
     id: number | undefined;
 }
 
@@ -34661,7 +34778,6 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
     order!: number;
-    color!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -34677,7 +34793,6 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
-            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -34693,7 +34808,6 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
-        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -34702,7 +34816,6 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 export interface IOpportunityStageDto {
     description: string | undefined;
     order: number;
-    color: string | undefined;
     id: number;
 }
 
@@ -40147,6 +40260,50 @@ export class UpdateNotificationSettingsInput implements IUpdateNotificationSetti
 export interface IUpdateNotificationSettingsInput {
     receiveNotifications: boolean;
     notifications: NotificationSubscriptionDto[] | undefined;
+}
+
+export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunityStageDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number | undefined;
+
+    constructor(data?: IUpdateOrderOpportunityStageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): UpdateOrderOpportunityStageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateOrderOpportunityStageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IUpdateOrderOpportunityStageDto {
+    description: string | undefined;
+    order: number;
+    id: number | undefined;
 }
 
 export class UpdateOrganizationUnitInput implements IUpdateOrganizationUnitInput {

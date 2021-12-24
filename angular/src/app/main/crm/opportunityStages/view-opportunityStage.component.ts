@@ -1,6 +1,4 @@
-﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+﻿import { Component, Injector, OnInit } from '@angular/core';
 import {
     OpportunityStagesServiceProxy,
     GetOpportunityStageForViewDto,
@@ -10,6 +8,10 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
+
+/***
+ * Component to view opportunity stage
+ */
 @Component({
     templateUrl: './view-opportunityStage.component.html',
     animations: [appModuleAnimation()],
@@ -24,6 +26,13 @@ export class ViewOpportunityStageComponent extends AppComponentBase implements O
         new BreadcrumbItem(this.l('OpportunityStage'), '/app/main/crm/opportunityStages'),
         new BreadcrumbItem(this.l('OpportunityStages') + '' + this.l('Details')),
     ];
+
+    /***
+     * Class constructor
+     * @param injector
+     * @param _activatedRoute
+     * @param _opportunityStagesServiceProxy
+     */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -38,6 +47,10 @@ export class ViewOpportunityStageComponent extends AppComponentBase implements O
         this.show(this._activatedRoute.snapshot.queryParams['id']);
     }
 
+    /***
+     * Method that show the view
+     * @param opportunityStageId
+     */
     show(opportunityStageId: number): void {
         this._opportunityStagesServiceProxy.getOpportunityStageForView(opportunityStageId).subscribe((result) => {
             this.item = result;
