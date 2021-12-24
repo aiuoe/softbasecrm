@@ -99,7 +99,7 @@ namespace SBCRM.Crm
                            .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                           .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                           .WhereIf(!string.IsNullOrWhiteSpace(input.NotesFilter), e => e.Notes == input.NotesFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
                            .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
@@ -125,8 +125,8 @@ namespace SBCRM.Crm
             else
                 pagedAndFilteredLeads = filteredLeads
                 .OrderByDescending(o => o.CreationTime)
-                .ThenByDescending(s1 => s1.Description)
-                .ThenBy(s2 => s2.Description)
+                .ThenByDescending(s1 => s1.Notes)
+                .ThenBy(s2 => s2.Notes)
                 .ThenBy(o => o.CompanyName)
                 .ThenBy(o => o.ContactName)
                 .PageBy(input);
@@ -151,7 +151,7 @@ namespace SBCRM.Crm
                             o.Country,
                             o.State,
                             o.City,
-                            o.Description,
+                            o.Notes,
                             o.CompanyPhone,
                             o.CompanyEmail,
                             o.PoBox,
@@ -191,7 +191,7 @@ namespace SBCRM.Crm
                         Country = o.Country,
                         State = o.State,
                         City = o.City,
-                        Description = o.Description,
+                        Notes = o.Notes,
                         CompanyPhone = o.CompanyPhone,
                         CompanyEmail = o.CompanyEmail,
                         PoBox = o.PoBox,
@@ -524,7 +524,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Notes == input.DescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
@@ -563,7 +563,7 @@ namespace SBCRM.Crm
                                  Country = o.Country,
                                  State = o.State,
                                  City = o.City,
-                                 Description = o.Description,
+                                 Notes = o.Notes,
                                  CompanyPhone = o.CompanyPhone,
                                  CompanyEmail = o.CompanyEmail,
                                  PoBox = o.PoBox,

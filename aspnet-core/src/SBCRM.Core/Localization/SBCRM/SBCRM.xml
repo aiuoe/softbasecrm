@@ -173,8 +173,8 @@
 		<text name="LeadStatuses">Lead statuses</text>
 		<text name="LeadSource">Lead Source</text>
 		<text name="SBCRM.Crm.LeadSource">LeadSource</text>
-		<text name="Description">Description</text>
-		<text name="EnterDescription">Enter Description</text>
+		<text name="Notes">Notes</text>
+		<text name="EnterNotes">Enter Notes</text>
 		<text name="LeadSourcesHeaderInfo">Lead sources header info</text>
 		<text name="NewLeadSource">New lead source</text>
 		<text name="CreateNewLeadSource">Create new lead source</text>
@@ -680,11 +680,15 @@
 		<text name="ContactPosition">Position</text>
 		<text name="SubordinateTo">Subordinate To</text>
 		<text name="ContactPhone">Phone Number</text>
-		<text name="ContactPhoneInvalid">Invalid Contact phone</text>
+		<text name="ContactPhone_Invalid">Invalid Contact phone</text>
 		<text name="ContactPhoneExtension">Ext</text>
+		<text name="ContactPhoneExtension_Invalid">Invalid Extension</text>
 		<text name="ContactCellPhone">Cell Phone Number</text>
+		<text name="ContactCellPhone_Invalid">Invalid Cell Phone Number</text>
 		<text name="ContactFaxNumber">Fax Number</text>
+		<text name="ContactFaxNumber_Invalid">Invalid Fax Number</text>
 		<text name="PagerNumber">Pager Number</text>
+		<text name="PagerNumber_Invalid">Pager Number</text>
 		<text name="ContactNotes">Notes</text>
 		<text name="ContactEmail">Email Address</text>
 		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
