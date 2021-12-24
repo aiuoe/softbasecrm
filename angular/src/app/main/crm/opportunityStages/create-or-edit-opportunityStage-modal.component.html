@@ -21,7 +21,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="OpportunityStage_Description">{{ l('StageName') }} *</label>
@@ -34,12 +33,13 @@
                             name="Description"
                             minlength="1"
                             maxlength="100"
-                            placeholder="Enter Name"
                             required
+                            placeholder="Enter Name"
                         />
                         <validation-messages [formCtrl]="OpportunityStage_Description"></validation-messages>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}

@@ -12,157 +12,178 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
-namespace SBCRM.Crm;
-
-[AbpAuthorize(AppPermissions.Pages_OpportunityStages)]
-public class OpportunityStagesAppService : SBCRMAppServiceBase, IOpportunityStagesAppService
+namespace SBCRM.Crm
 {
-    private readonly IRepository<OpportunityStage> _opportunityStageRepository;
-    private readonly IOpportunityStagesExcelExporter _opportunityStagesExcelExporter;
-
-    /// <summary>
-    /// Class constructor
-    /// </summary>
-    /// <param name="opportunityStageRepository"></param>
-    /// <param name="opportunityStagesExcelExporter"></param>
-    public OpportunityStagesAppService(IRepository<OpportunityStage> opportunityStageRepository,
-        IOpportunityStagesExcelExporter opportunityStagesExcelExporter)
+    [AbpAuthorize(AppPermissions.Pages_OpportunityStages)]
+    public class OpportunityStagesAppService : SBCRMAppServiceBase, IOpportunityStagesAppService
     {
-        _opportunityStageRepository = opportunityStageRepository;
-        _opportunityStagesExcelExporter = opportunityStagesExcelExporter;
-    }
+        private readonly IRepository<OpportunityStage> _opportunityStageRepository;
+        private readonly IOpportunityStagesExcelExporter _opportunityStagesExcelExporter;
 
-    /// <summary>
-    /// Method that create or edit tOpportunityStage
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public async Task CreateOrEdit(CreateOrEditOpportunityStageDto input)
-    {
-        if (input.Id == null)
+        public OpportunityStagesAppService(IRepository<OpportunityStage> opportunityStageRepository, IOpportunityStagesExcelExporter opportunityStagesExcelExporter)
         {
-            await Create(input);
+            _opportunityStageRepository = opportunityStageRepository;
+            _opportunityStagesExcelExporter = opportunityStagesExcelExporter;
         }
-        else
+
+        public async Task<PagedResultDto<GetOpportunityStageForViewDto>> GetAll(GetAllOpportunityStagesInput input)
         {
-            await Update(input);
-        }
-    }
+            IQueryable<OpportunityStage> filteredOpportunityStages = _opportunityStageRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
-    /// <summary>
-    /// Method that delete tOpportunityStage
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Delete)]
-    public async Task Delete(EntityDto input)
-    {
-        await _opportunityStageRepository.DeleteAsync(input.Id);
-    }
+            IQueryable<OpportunityStage> pagedAndFilteredOpportunityStages = filteredOpportunityStages
+                .OrderBy(input.Sorting ?? "id asc")
+                .PageBy(input);
 
-    /// <summary>
-    /// Method that get a list Opportunity Stage
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public async Task<PagedResultDto<GetOpportunityStageForViewDto>> GetAll(GetAllOpportunityStagesInput input)
-    {
-        var filteredOpportunityStages = _opportunityStageRepository.GetAll()
-            .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-            .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter),
-                e => e.Description == input.DescriptionFilter);
+            var opportunityStages = from o in pagedAndFilteredOpportunityStages
+                                    select new
+                                    {
+                                        o.Description,
+                                        o.Order,
+                                        Id = o.Id
+                                    };
 
-        var pagedAndFilteredOpportunityStages = filteredOpportunityStages
-            .OrderBy(input.Sorting ?? "id asc")
-            .PageBy(input);
+            int totalCount = await filteredOpportunityStages.CountAsync();
 
-        var opportunityStages = from o in pagedAndFilteredOpportunityStages
-                                select new
-                                {
-                                    o.Description,
-                                    o.Id
-                                };
+            var dbList = await opportunityStages.OrderBy(x => x.Order).ToListAsync();
+            List<GetOpportunityStageForViewDto> results = new List<GetOpportunityStageForViewDto>();
 
-        var totalCount = await filteredOpportunityStages.CountAsync();
-
-        var dbList = await opportunityStages.ToListAsync();
-        var results = new List<GetOpportunityStageForViewDto>();
-
-        foreach (var o in dbList)
-        {
-            var res = new GetOpportunityStageForViewDto
+            foreach (var o in dbList)
             {
-                OpportunityStage = new OpportunityStageDto
+                GetOpportunityStageForViewDto res = new GetOpportunityStageForViewDto()
                 {
-                    Description = o.Description,
-                    Id = o.Id
-                }
-            };
+                    OpportunityStage = new OpportunityStageDto
+                    {
+                        Description = o.Description,
+                        Order = o.Order,
+                        Id = o.Id,
+                    }
+                };
 
-            results.Add(res);
+                results.Add(res);
+            }
+
+            return new PagedResultDto<GetOpportunityStageForViewDto>(
+                totalCount,
+                results
+            );
         }
 
-        return new PagedResultDto<GetOpportunityStageForViewDto>(
-            totalCount,
-            results
-        );
-    }
+        public async Task<GetOpportunityStageForViewDto> GetOpportunityStageForView(int id)
+        {
+            OpportunityStage opportunityStage = await _opportunityStageRepository.GetAsync(id);
 
-    [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
-    public async Task<GetOpportunityStageForEditOutput> GetOpportunityStageForEdit(EntityDto input)
-    {
-        var opportunityStage = await _opportunityStageRepository.FirstOrDefaultAsync(input.Id);
+            GetOpportunityStageForViewDto output = new GetOpportunityStageForViewDto { OpportunityStage = ObjectMapper.Map<OpportunityStageDto>(opportunityStage) };
 
-        var output = new GetOpportunityStageForEditOutput
-        { OpportunityStage = ObjectMapper.Map<CreateOrEditOpportunityStageDto>(opportunityStage) };
+            return output;
+        }
 
-        return output;
-    }
+        [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
+        public async Task<GetOpportunityStageForEditOutput> GetOpportunityStageForEdit(EntityDto input)
+        {
+            OpportunityStage opportunityStage = await _opportunityStageRepository.FirstOrDefaultAsync(input.Id);
 
-    public async Task<GetOpportunityStageForViewDto> GetOpportunityStageForView(int id)
-    {
-        var opportunityStage = await _opportunityStageRepository.GetAsync(id);
+            GetOpportunityStageForEditOutput output = new GetOpportunityStageForEditOutput { OpportunityStage = ObjectMapper.Map<CreateOrEditOpportunityStageDto>(opportunityStage) };
 
-        var output = new GetOpportunityStageForViewDto
-        { OpportunityStage = ObjectMapper.Map<OpportunityStageDto>(opportunityStage) };
+            return output;
+        }
 
-        return output;
-    }
+        public async Task CreateOrEdit(CreateOrEditOpportunityStageDto input)
+        {
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+            else
+            {
+                await Update(input);
+            }
+        }
 
-    public async Task<FileDto> GetOpportunityStagesToExcel(GetAllOpportunityStagesForExcelInput input)
-    {
-        var filteredOpportunityStages = _opportunityStageRepository.GetAll()
-            .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-            .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter),
-                e => e.Description == input.DescriptionFilter);
+        [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Create)]
+        protected virtual async Task Create(CreateOrEditOpportunityStageDto input)
+        {
+            input.Order = _opportunityStageRepository.GetAll().Count() + 1;
 
-        var query = from o in filteredOpportunityStages
-                    select new GetOpportunityStageForViewDto
-                    {
-                        OpportunityStage = new OpportunityStageDto
-                        {
-                            Description = o.Description,
-                            Id = o.Id
-                        }
-                    };
+            OpportunityStage opportunityStage = ObjectMapper.Map<OpportunityStage>(input);
 
-        var opportunityStageListDtos = await query.ToListAsync();
+            await _opportunityStageRepository.InsertAsync(opportunityStage);
+        }
 
-        return _opportunityStagesExcelExporter.ExportToFile(opportunityStageListDtos);
-    }
+        [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
+        protected virtual async Task Update(CreateOrEditOpportunityStageDto input)
+        {
+            OpportunityStage opportunityStage = await _opportunityStageRepository.FirstOrDefaultAsync((int)input.Id);
+            ObjectMapper.Map(input, opportunityStage);
+        }
 
-    [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Create)]
-    protected virtual async Task Create(CreateOrEditOpportunityStageDto input)
-    {
-        var opportunityStage = ObjectMapper.Map<OpportunityStage>(input);
+        [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
+        public virtual async Task UpdateOrder(List<UpdateOrderOpportunityStageDto> input)
+        {
+            int orderSrc = input[0].Order + 1;
+            int orderDst = input[1].Order + 1;
 
-        await _opportunityStageRepository.InsertAsync(opportunityStage);
-    }
+            OpportunityStage opportunityStageSrc = await _opportunityStageRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
+            opportunityStageSrc.Order = orderDst;
+            await _opportunityStageRepository.FirstOrDefaultAsync(opportunityStageSrc.Id);
 
-    [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
-    protected virtual async Task Update(CreateOrEditOpportunityStageDto input)
-    {
-        var opportunityStage = await _opportunityStageRepository.FirstOrDefaultAsync((int)input.Id);
-        ObjectMapper.Map(input, opportunityStage);
+            List<OpportunityStage> allOpportunityStage = _opportunityStageRepository.GetAll().OrderBy(x => x.Order).ToList();
+            allOpportunityStage.Remove(opportunityStageSrc);
+
+            int i = orderDst + 1;
+            foreach (OpportunityStage item in allOpportunityStage)
+            {
+                if (item.Order >= orderDst && item.Order <= orderSrc)
+                {
+                    item.Order = i;
+                    await _opportunityStageRepository.FirstOrDefaultAsync(item.Id);
+                    i++;
+                }
+            }
+        }
+
+        [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Delete)]
+        public async Task Delete(EntityDto input)
+        {
+            _opportunityStageRepository.Delete(input.Id);
+
+            UpdateOrderAfterDelete();
+        }
+
+        public async Task<FileDto> GetOpportunityStagesToExcel(GetAllOpportunityStagesForExcelInput input)
+        {
+            IQueryable<OpportunityStage> filteredOpportunityStages = _opportunityStageRepository.GetAll()
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+
+            IQueryable<GetOpportunityStageForViewDto> query = from o in filteredOpportunityStages
+                                                              select new GetOpportunityStageForViewDto()
+                                                              {
+                                                                  OpportunityStage = new OpportunityStageDto
+                                                                  {
+                                                                      Description = o.Description,
+                                                                      Order = o.Order,
+                                                                      Id = o.Id
+                                                                  }
+                                                              };
+
+            List<GetOpportunityStageForViewDto> opportunityStageListDtos = await query.ToListAsync();
+
+            return _opportunityStagesExcelExporter.ExportToFile(opportunityStageListDtos);
+        }
+
+        private void UpdateOrderAfterDelete()
+        {
+            List<OpportunityStage> ListOpportunityStage = _opportunityStageRepository.GetAll().ToList();
+
+            int order = 1;
+            foreach (OpportunityStage opportunityStage in ListOpportunityStage)
+            {
+                opportunityStage.Order = order;
+                order++;
+                _opportunityStageRepository.FirstOrDefault(opportunityStage.Id);
+            }
+        }
     }
 }

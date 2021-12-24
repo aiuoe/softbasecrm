@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211221224010_AddOrderColumn_OpportunityStages")]
+    partial class AddOrderColumn_OpportunityStages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2236,18 +2238,11 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("CloseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("CustomerNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
@@ -2279,7 +2274,7 @@ namespace SBCRM.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("OpportunityStageId")
+                    b.Property<int?>("OpportunityStageId")
                         .HasColumnType("int");
 
                     b.Property<int?>("OpportunityTypeId")
@@ -2289,10 +2284,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContactId");
-
-                    b.HasIndex("CustomerNumber");
 
                     b.HasIndex("LeadSourceId");
 
@@ -4194,35 +4185,17 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Crm.Opportunity", b =>
                 {
-                    b.HasOne("SBCRM.Legacy.Contact", "ContactFk")
-                        .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SBCRM.Legacy.Customer", "CustomerFk")
-                        .WithMany()
-                        .HasForeignKey("CustomerNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceFk")
                         .WithMany()
                         .HasForeignKey("LeadSourceId");
 
                     b.HasOne("SBCRM.Crm.OpportunityStage", "OpportunityStageFk")
                         .WithMany()
-                        .HasForeignKey("OpportunityStageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OpportunityStageId");
 
                     b.HasOne("SBCRM.Crm.OpportunityType", "OpportunityTypeFk")
                         .WithMany()
                         .HasForeignKey("OpportunityTypeId");
-
-                    b.Navigation("ContactFk");
-
-                    b.Navigation("CustomerFk");
 
                     b.Navigation("LeadSourceFk");
 

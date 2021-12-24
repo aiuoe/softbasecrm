@@ -6,6 +6,7 @@
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
                 </button>
+
                 <button
                     *ngIf="isGranted('Pages.OpportunityStages.Create')"
                     (click)="createOpportunityStage()"
@@ -35,26 +36,43 @@
                                 [responsive]="primengTableHelper.isResponsive"
                                 [resizableColumns]="primengTableHelper.resizableColumns"
                                 [reorderableColumns]="true"
+                                (onRowReorder)="UpdateOrder($event)"
                             >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th
-                                            class="col-2"
-                                            [hidden]="!isGrantedAny('Pages.OpportunityStages.Edit','Pages.OpportunityStages.Delete')">
+                                            class="col-1"
+                                            [hidden]="
+                                                !isGrantedAny(
+                                                    'Pages.OpportunityStages.Edit',
+                                                    'Pages.OpportunityStages.Delete'
+                                                )
+                                            "
+                                        >
                                             {{ l('Actions') }}
                                         </th>
-                                        <th class="col-10" pSortableColumn="description">
-                                            {{ l('OpportunityStages') }}
+                                        <th class="col-1"></th>
+                                        <th class="col-9" pSortableColumn="description">
+                                            {{ l('Description') }}
                                             <p-sortIcon field="opportunityStage.description"></p-sortIcon>
+                                        </th>
+                                        <th class="col-1" pSortableColumn="order">
+                                            {{ l('Order') }}
+                                            <p-sortIcon field="opportunityStage.order"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
-
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr [pReorderableRow]="i">
                                         <td
                                             class="col-1"
-                                            [hidden]="!isGrantedAny('Pages.OpportunityStages.Edit','Pages.OpportunityStages.Delete')">
+                                            [hidden]="
+                                                !isGrantedAny(
+                                                    'Pages.OpportunityStages.Edit',
+                                                    'Pages.OpportunityStages.Delete'
+                                                )
+                                            "
+                                        >
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
@@ -84,7 +102,7 @@
                                                             "
                                                             (click)="deleteOpportunityStage(record.opportunityStage)"
                                                         >
-                                                            {{ l('Remove') }}
+                                                            {{ l('Delete') }}
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -93,9 +111,13 @@
                                         <td class="col-1">
                                             <span class="pi pi-bars" pReorderableRowHandle></span>
                                         </td>
-                                        <td class="col-10">
-                                            <span class="p-column-title">{{ l('OpportunityStages') }}</span>
+                                        <td class="col-9">
+                                            <span class="p-column-title">{{ l('Description') }}</span>
                                             {{ record.opportunityStage.description }}
+                                        </td>
+                                        <td class="col-1">
+                                            <span class="p-column-title">{{ l('Order') }}</span>
+                                            {{ record.opportunityStage.order }}
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -122,12 +144,10 @@
                 </div>
             </div>
         </div>
-
         <createOrEditOpportunityStageModal
             #createOrEditOpportunityStageModal
             (modalSave)="getOpportunityStages()"
         ></createOrEditOpportunityStageModal>
-
         <viewOpportunityStageModal #viewOpportunityStageModal></viewOpportunityStageModal>
     </div>
 </div>

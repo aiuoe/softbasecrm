@@ -17,18 +17,21 @@ export class ViewOpportunityStageModalComponent extends AppComponentBase {
 
     item: GetOpportunityStageForViewDto;
 
+    /** Class constructor */
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetOpportunityStageForViewDto();
         this.item.opportunityStage = new OpportunityStageDto();
     }
 
+    /**method that shows the create or edit modal */
     show(item: GetOpportunityStageForViewDto): void {
         this.item = item;
         this.active = true;
         this.modal.show();
     }
 
+    /**method that closes the modal */
     close(): void {
         this.active = false;
         this.modal.hide();

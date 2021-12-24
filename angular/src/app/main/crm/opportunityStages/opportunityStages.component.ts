@@ -1,7 +1,11 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OpportunityStagesServiceProxy, OpportunityStageDto } from '@shared/service-proxies/service-proxies';
+import {
+    OpportunityStagesServiceProxy,
+    OpportunityStageDto,
+    UpdateOrderOpportunityStageDto,
+} from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -14,6 +18,8 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { finalize } from 'rxjs/operators';
+
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
@@ -33,7 +39,11 @@ export class OpportunityStagesComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
+    @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+    opportunityStage1: UpdateOrderOpportunityStageDto = new UpdateOrderOpportunityStageDto();
+    opportunityStage2: UpdateOrderOpportunityStageDto = new UpdateOrderOpportunityStageDto();
 
+    /** Class constructor */
     constructor(
         injector: Injector,
         private _opportunityStagesServiceProxy: OpportunityStagesServiceProxy,
@@ -46,6 +56,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
         super(injector);
     }
 
+    /**Method that gets the rows to display in the grid */
     getOpportunityStages(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -69,14 +80,17 @@ export class OpportunityStagesComponent extends AppComponentBase {
             });
     }
 
+    /** Method that reload a page */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /** method that shows the create or edit modal*/
     createOpportunityStage(): void {
         this.createOrEditOpportunityStageModal.show();
     }
 
+    /**method that removes an opportunity from the database */
     deleteOpportunityStage(opportunityStage: OpportunityStageDto): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
@@ -88,11 +102,26 @@ export class OpportunityStagesComponent extends AppComponentBase {
         });
     }
 
+    /**Method that exports the rows of the grid in an excel file */
     exportToExcel(): void {
         this._opportunityStagesServiceProxy
             .getOpportunityStagesToExcel(this.filterText, this.descriptionFilter)
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    }
+
+    /** Method that updates the order of a row in the database */
+    UpdateOrder($event: any): void {
+        this.opportunityStage1.order = $event.dragIndex;
+        this.opportunityStage2.order = $event.dropIndex;
+
+        let request: UpdateOrderOpportunityStageDto[] = [this.opportunityStage1, this.opportunityStage2];
+
+        this._opportunityStagesServiceProxy.updateOrder(request).subscribe(() => {
+            this.notify.info(this.l('UpdateSuccessfully'));
+            this.modalSave.emit(null);
+            this.getOpportunityStages();
+        });
     }
 }

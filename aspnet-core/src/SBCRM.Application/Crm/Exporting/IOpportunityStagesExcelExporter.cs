@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using SBCRM.Crm.Dtos;
+﻿using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Exporting
 {

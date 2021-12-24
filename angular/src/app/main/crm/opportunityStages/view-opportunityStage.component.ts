@@ -24,6 +24,8 @@ export class ViewOpportunityStageComponent extends AppComponentBase implements O
         new BreadcrumbItem(this.l('OpportunityStage'), '/app/main/crm/opportunityStages'),
         new BreadcrumbItem(this.l('OpportunityStages') + '' + this.l('Details')),
     ];
+
+    /** Class constructor */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -38,6 +40,7 @@ export class ViewOpportunityStageComponent extends AppComponentBase implements O
         this.show(this._activatedRoute.snapshot.queryParams['id']);
     }
 
+    /** Method that show the view */
     show(opportunityStageId: number): void {
         this._opportunityStagesServiceProxy.getOpportunityStageForView(opportunityStageId).subscribe((result) => {
             this.item = result;
