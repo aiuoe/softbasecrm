@@ -23,9 +23,42 @@ export class AppNavigationService {
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/'),
-            new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads'),
+            new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads'),            
             new AppMenuItem('Opportunities', 'Pages.Opportunities', 'fa fa-thumbs-up', '/app/main/crm/opportunities'),
             new AppMenuItem('Activities', 'Pages.Activities', 'flaticon2-list-3', '/app/main/crm/activities'),
+            new AppMenuItem(
+                'Configuration',
+                '',
+                'fas fa-cog',
+                '',
+                [],
+                [
+                    new AppMenuItem(
+                        'OpportunityStages',
+                        'Pages.OpportunityStages',
+                        '',
+                        '/app/main/crm/opportunityStages'
+                    ),
+                    new AppMenuItem(
+                        'OpportunityTypes',
+                        'Pages.OpportunityTypes',
+                        '',
+                        '/app/main/crm/opportunityTypes'
+                    ),
+                    new AppMenuItem(
+                        'LeadStatuses',
+                        'Pages.LeadStatuses',
+                        '',
+                        '/app/main/crm/leadStatuses'
+                    ),
+                    new AppMenuItem(
+                        'ActivityStatus',
+                        'Pages.ActivityStatuses',
+                        '',
+                        '/app/main/crm/activityStatuses'
+                    )
+                ]
+            ),
             new AppMenuItem(
                 'Business',
                 '',
@@ -33,13 +66,7 @@ export class AppNavigationService {
                 '',
                 [],
                 [
-                    new AppMenuItem('Countries', 'Pages.Countries', 'flaticon-more', '/app/main/crm/countries'),
-                    new AppMenuItem(
-                        'OpportunityStages',
-                        'Pages.OpportunityStages',
-                        'flaticon-more',
-                        '/app/main/crm/opportunityStages'
-                    ),
+                    new AppMenuItem('Countries', 'Pages.Countries', 'flaticon-more', '/app/main/crm/countries'), 
                     new AppMenuItem(
                         'OpportunityTypes',
                         'Pages.OpportunityTypes',
@@ -71,12 +98,6 @@ export class AppNavigationService {
                         'flaticon-more',
                         '/app/main/crm/activityTaskTypes'
                     ),
-                    // new AppMenuItem(
-                    //     'AccountUsers',
-                    //     'Pages.AccountUsers',
-                    //     'flaticon-more',
-                    //     '/app/main/crm/accountUsers'
-                    // ),
                     new AppMenuItem(
                         'ActivityPriorities',
                         'Pages.ActivityPriorities',
@@ -94,6 +115,12 @@ export class AppNavigationService {
                         'Pages.ActivityStatuses',
                         'flaticon-more',
                         '/app/main/crm/activityStatuses'
+                        ), 
+                    new AppMenuItem(
+                        'AccountUsers',
+                        'Pages.AccountUsers',
+                        'flaticon-more',
+                        '/app/main/crm/accountUsers'
                     ),
                 ]
             ),
