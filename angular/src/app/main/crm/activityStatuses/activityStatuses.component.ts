@@ -1,7 +1,7 @@
-﻿import {AppConsts} from '@shared/AppConsts';
+﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
-import { ActivityStatusesServiceProxy, ActivityStatusDto  } from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActivityStatusesServiceProxy, ActivityStatusDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -15,19 +15,23 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
+
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/**
+ * Component for managing the activity statuses
+ */
 @Component({
     templateUrl: './activityStatuses.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()]
+    animations: [appModuleAnimation()],
 })
 export class ActivityStatusesComponent extends AppComponentBase {
-    
-    
-    @ViewChild('createOrEditActivityStatusModal', { static: true }) createOrEditActivityStatusModal: CreateOrEditActivityStatusModalComponent;
-    @ViewChild('viewActivityStatusModalComponent', { static: true }) viewActivityStatusModal: ViewActivityStatusModalComponent;   
-    
+    @ViewChild('createOrEditActivityStatusModal', { static: true })
+    createOrEditActivityStatusModal: CreateOrEditActivityStatusModalComponent;
+    @ViewChild('viewActivityStatusModalComponent', { static: true })
+    viewActivityStatusModal: ViewActivityStatusModalComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -35,11 +39,9 @@ export class ActivityStatusesComponent extends AppComponentBase {
     filterText = '';
     descriptionFilter = '';
 
-
-
-
-
-
+    /**
+     * Constructor method
+     */
     constructor(
         injector: Injector,
         private _activityStatusesServiceProxy: ActivityStatusesServiceProxy,
@@ -47,11 +49,14 @@ export class ActivityStatusesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
 
+    /**
+     * Get the list of activity status from the back-end
+     */
     getActivityStatuses(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -60,46 +65,46 @@ export class ActivityStatusesComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._activityStatusesServiceProxy.getAll(
-            this.filterText,
-            this.descriptionFilter,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        this._activityStatusesServiceProxy
+            .getAll(
+                this.filterText,
+                this.descriptionFilter,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
     }
 
+    /**
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Shows the form dialog for creating an activity status
+     */
     createActivityStatus(): void {
-        this.createOrEditActivityStatusModal.show();        
+        this.createOrEditActivityStatusModal.show();
     }
 
-
+    /**
+     * Delete an activity status
+     */
     deleteActivityStatus(activityStatus: ActivityStatusDto): void {
-        this.message.confirm(
-            '',
-            this.l('AreYouSure'),
-            (isConfirmed) => {
-                if (isConfirmed) {
-                    this._activityStatusesServiceProxy.delete(activityStatus.id)
-                        .subscribe(() => {
-                            this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
-                        });
-                }
+        this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
+            if (isConfirmed) {
+                this._activityStatusesServiceProxy.delete(activityStatus.id).subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('SuccessfullyDeleted'));
+                });
             }
-        );
+        });
     }
-    
-    
-    
-    
-    
 }

@@ -17,22 +17,34 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// App Service for handling CRUD operations of Activity Statuses
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_ActivityStatuses)]
     public class ActivityStatusesAppService : SBCRMAppServiceBase, IActivityStatusesAppService
     {
         private readonly IRepository<ActivityStatus> _activityStatusRepository;
 
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="activityStatusRepository"></param>
         public ActivityStatusesAppService(IRepository<ActivityStatus> activityStatusRepository)
         {
             _activityStatusRepository = activityStatusRepository;
 
         }
 
+        /// <summary>
+        /// Get all activity statuses
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetActivityStatusForViewDto>> GetAll(GetAllActivityStatusesInput input)
         {
 
             var filteredActivityStatuses = _activityStatusRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredActivityStatuses = filteredActivityStatuses
@@ -45,6 +57,8 @@ namespace SBCRM.Crm
 
                                        o.Description,
                                        o.Order,
+                                       o.Color,
+                                       o.IsCompletedStatus,
                                        Id = o.Id
                                    };
 
@@ -62,6 +76,8 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         Order = o.Order,
+                        Color = o.Color,
+                        IsCompletedStatus = o.IsCompletedStatus,
                         Id = o.Id,
                     }
                 };
@@ -76,6 +92,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get the activity status for viewing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetActivityStatusForViewDto> GetActivityStatusForView(int id)
         {
             var activityStatus = await _activityStatusRepository.GetAsync(id);
@@ -85,6 +106,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get the activity status for editing
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Edit)]
         public async Task<GetActivityStatusForEditOutput> GetActivityStatusForEdit(EntityDto input)
         {
@@ -95,6 +121,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Create or edit an activity status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityStatusDto input)
         {
             if (input.Id == null)
@@ -107,6 +138,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Create an activity status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Create)]
         protected virtual async Task Create(CreateOrEditActivityStatusDto input)
         {
@@ -116,6 +152,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Update an activity status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Edit)]
         protected virtual async Task Update(CreateOrEditActivityStatusDto input)
         {
@@ -124,6 +165,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Delete an activity status
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {

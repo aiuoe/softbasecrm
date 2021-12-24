@@ -38,3 +38,29 @@ GO
 
 
 UPDATE Web.LeadStatuses SET Code = UPPER(Description) WHERE 1 = 1;
+
+-- Activity Lookup Data 
+-- Added by Kevin C.
+-- Date: 2021-12-23
+GO
+INSERT [web].[ActivityPriorities] ([Description], [Color], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Low', N'#263950', GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityPriorities] ([Description], [Color], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Medium', N'#FF8900', GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityPriorities] ([Description], [Color], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'High', N'#FF0000', GETDATE(), 0, NULL, NULL)
+GO
+
+INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Account', GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Lead', GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Opportunity', GETDATE(), 0, NULL, NULL)
+GO
+
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'Scheduled', 0, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0)
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'In Process', 5, GETDATE(), 0, NULL, NULL, N'#FF8900', 0)
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'Completed', 10, GETDATE(), 0, NULL, NULL, N'#008E26', 1)
+GO
+
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Schedule Meeting', 0, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Schedule Call', 0, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Email Reminder', 0, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'To Do Reminder', 0, GETDATE(), 0, NULL, NULL)
+GO
+-- END Kevin C.

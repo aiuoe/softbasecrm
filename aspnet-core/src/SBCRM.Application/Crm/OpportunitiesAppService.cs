@@ -1,7 +1,4 @@
-﻿using SBCRM.Crm;
-
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
@@ -12,11 +9,10 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
+using SBCRM.Auditing;
+using SBCRM.Auditing.Dto;
 using SBCRM.Legacy;
 
 namespace SBCRM.Crm
@@ -27,40 +23,44 @@ namespace SBCRM.Crm
     [AbpAuthorize(AppPermissions.Pages_Opportunities)]
     public class OpportunitiesAppService : SBCRMAppServiceBase, IOpportunitiesAppService
     {
-        private readonly IRepository<Opportunity> _opportunityRepository;
         private readonly IOpportunitiesExcelExporter _opportunitiesExcelExporter;
-        private readonly IRepository<OpportunityStage, int> _lookup_opportunityStageRepository;
-        private readonly IRepository<LeadSource, int> _lookup_leadSourceRepository;
-        private readonly IRepository<OpportunityType, int> _lookup_opportunityTypeRepository;
-        private readonly IRepository<Customer, int> _lookup_customerRepository;
-        private readonly IRepository<Contact, int> _lookup_contactsRepository;
+        private readonly IRepository<Opportunity> _opportunityRepository;
+        private readonly IRepository<OpportunityStage, int> _lookupOpportunityStageRepository;
+        private readonly IRepository<LeadSource, int> _lookupLeadSourceRepository;
+        private readonly IRepository<OpportunityType, int> _lookupOpportunityTypeRepository;
+        private readonly IRepository<Customer, int> _lookupCustomerRepository;
+        private readonly IRepository<Contact, int> _lookupContactsRepository;
+        private readonly IAuditEventsService _auditEventsService;
 
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="opportunityRepository"></param>
         /// <param name="opportunitiesExcelExporter"></param>
-        /// <param name="lookup_opportunityStageRepository"></param>
-        /// <param name="lookup_leadSourceRepository"></param>
-        /// <param name="lookup_opportunityTypeRepository"></param>
-        /// <param name="lookup_customerRepository"></param>
-        /// <param name="lookup_contactsRepository"></param>
+        /// <param name="lookupOpportunityStageRepository"></param>
+        /// <param name="lookupLeadSourceRepository"></param>
+        /// <param name="lookupOpportunityTypeRepository"></param>
+        /// <param name="lookupCustomerRepository"></param>
+        /// <param name="lookupContactsRepository"></param>
+        /// <param name="auditEventsService"></param>    
         public OpportunitiesAppService(
-            IRepository<Opportunity> opportunityRepository,
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
-            IRepository<OpportunityStage, int> lookup_opportunityStageRepository,
-            IRepository<LeadSource, int> lookup_leadSourceRepository,
-            IRepository<OpportunityType, int> lookup_opportunityTypeRepository,
-            IRepository<Customer, int> lookup_customerRepository,
-            IRepository<Contact, int> lookup_contactsRepository)
+            IRepository<Opportunity> opportunityRepository,
+            IRepository<OpportunityStage, int> lookupOpportunityStageRepository, 
+            IRepository<LeadSource, int> lookupLeadSourceRepository, 
+            IRepository<OpportunityType, int> lookupOpportunityTypeRepository,
+            IRepository<Customer, int> lookupCustomerRepository,
+            IRepository<Contact, int> lookupContactsRepository,
+            IAuditEventsService auditEventsService)
         {
             _opportunityRepository = opportunityRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
-            _lookup_opportunityStageRepository = lookup_opportunityStageRepository;
-            _lookup_leadSourceRepository = lookup_leadSourceRepository;
-            _lookup_opportunityTypeRepository = lookup_opportunityTypeRepository;
-            _lookup_customerRepository = lookup_customerRepository;
-            _lookup_contactsRepository = lookup_contactsRepository;
+            _lookupOpportunityStageRepository = lookupOpportunityStageRepository;
+            _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _lookupOpportunityTypeRepository = lookupOpportunityTypeRepository;
+            _lookupCustomerRepository = lookupCustomerRepository;
+            _lookupContactsRepository = lookupContactsRepository;
+            _auditEventsService = auditEventsService;
         }
 
         /// <summary>
@@ -109,19 +109,19 @@ namespace SBCRM.Crm
                 .PageBy(input);
 
             var opportunities = from o in pagedAndFilteredOpportunities
-                                join o1 in _lookup_opportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
                                 from s1 in j1.DefaultIfEmpty()
 
-                                join o2 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
                                 from s2 in j2.DefaultIfEmpty()
 
-                                join o3 in _lookup_opportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
                                 from s3 in j3.DefaultIfEmpty()
 
-                                join o4 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
                                 from s4 in j4.DefaultIfEmpty()
 
-                                join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                                 from s5 in j5.DefaultIfEmpty()
 
                                 select new
@@ -135,6 +135,7 @@ namespace SBCRM.Crm
                                     o.Department,
                                     Id = o.Id,
                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                    OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                                     CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
@@ -163,6 +164,7 @@ namespace SBCRM.Crm
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
+                    OpportunityStageColor = o.OpportunityStageColor,
                     LeadSourceDescription = o.LeadSourceDescription,
                     OpportunityTypeDescription = o.OpportunityTypeDescription,
                     CustomerName = o.CustomerName,
@@ -192,37 +194,37 @@ namespace SBCRM.Crm
 
             if (output.Opportunity.OpportunityStageId != null)
             {
-                var _lookupOpportunityStage = await _lookup_opportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
+                var _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
                 output.OpportunityStageDescription = _lookupOpportunityStage?.Description?.ToString();
             }
 
             if (output.Opportunity.LeadSourceId != null)
             {
-                var _lookupLeadSource = await _lookup_leadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
+                var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
                 output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
             }
 
             if (output.Opportunity.OpportunityTypeId != null)
             {
-                var _lookupOpportunityType = await _lookup_opportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
+                var _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
                 output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerNumber = _lookupCustomer?.Number?.ToString();
             }
 
             if (output.Opportunity.ContactId != null)
             {
-                var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
+                var _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
@@ -243,37 +245,37 @@ namespace SBCRM.Crm
 
             if (output.Opportunity.OpportunityStageId != null)
             {
-                var _lookupOpportunityStage = await _lookup_opportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
+                var _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
                 output.OpportunityStageDescription = _lookupOpportunityStage?.Description?.ToString();
             }
 
             if (output.Opportunity.LeadSourceId != null)
             {
-                var _lookupLeadSource = await _lookup_leadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
+                var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
                 output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
             }
 
             if (output.Opportunity.OpportunityTypeId != null)
             {
-                var _lookupOpportunityType = await _lookup_opportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
+                var _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
                 output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookup_customerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerNumber = _lookupCustomer?.Number?.ToString();
             }
 
             if (output.Opportunity.ContactId != null)
-            {
-                var _lookupContact = await _lookup_contactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
+            {        
+                var _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
@@ -308,6 +310,13 @@ namespace SBCRM.Crm
             var opportunity = ObjectMapper.Map<Opportunity>(input);
 
             await _opportunityRepository.InsertAsync(opportunity);
+
+            await _auditEventsService.AddEvent(AuditEventDto.ForCreate(
+                entityType: typeof(Customer),
+                entityId: opportunity.CustomerNumber,
+                message: $"Added opportunity, {opportunity.Name}")
+            );
+
         }
 
         /// <summary>
@@ -356,19 +365,19 @@ namespace SBCRM.Crm
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
 
             var query = (from o in filteredOpportunities
-                         join o1 in _lookup_opportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                         join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
-                         join o2 in _lookup_leadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                         join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
                          from s2 in j2.DefaultIfEmpty()
 
-                         join o3 in _lookup_opportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                         join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
                          from s3 in j3.DefaultIfEmpty()
 
-                         join o4 in _lookup_customerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                         join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
                          from s4 in j4.DefaultIfEmpty()
 
-                         join o5 in _lookup_contactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                         join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                          from s5 in j5.DefaultIfEmpty()
 
                          select new GetOpportunityForViewDto()
@@ -404,7 +413,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityOpportunityStageLookupTableDto>> GetAllOpportunityStageForTableDropdown()
         {
-            return await _lookup_opportunityStageRepository.GetAll()
+            return await _lookupOpportunityStageRepository.GetAll()
                 .Select(opportunityStage => new OpportunityOpportunityStageLookupTableDto
                 {
                     Id = opportunityStage.Id,
@@ -419,7 +428,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
-            return await _lookup_leadSourceRepository.GetAll()
+            return await _lookupLeadSourceRepository.GetAll()
                 .Select(leadSource => new OpportunityLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
@@ -434,7 +443,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityOpportunityTypeLookupTableDto>> GetAllOpportunityTypeForTableDropdown()
         {
-            return await _lookup_opportunityTypeRepository.GetAll()
+            return await _lookupOpportunityTypeRepository.GetAll()
                 .Select(opportunityType => new OpportunityOpportunityTypeLookupTableDto
                 {
                     Id = opportunityType.Id,
@@ -449,7 +458,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
         {
-            return await _lookup_customerRepository.GetAll()
+            return await _lookupCustomerRepository.GetAll()
                 .Select(customer => new OpportunityCustomerLookupTableDto
                 {
                     Number = customer.Number,
@@ -464,7 +473,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdown()
         {
-            return await _lookup_contactsRepository.GetAll()
+            return await _lookupContactsRepository.GetAll()
                 .Select(contact => new OpportunityContactsLookupTableDto
                 {
                     Id = contact.ContactId,
@@ -478,7 +487,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdownCustomerSpecific(string customerNumber)
         {
-            return await _lookup_contactsRepository.GetAll().WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
+            return await _lookupContactsRepository.GetAll().WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
                 .Select(contact => new OpportunityContactsLookupTableDto
                 {
                     Id = contact.ContactId,

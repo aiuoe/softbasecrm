@@ -6,6 +6,22 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Activities = "Pages.Activities";
+        public const string Pages_Activities_Create = "Pages.Activities.Create";
+        public const string Pages_Activities_Edit = "Pages.Activities.Edit";
+        public const string Pages_Activities_Delete = "Pages.Activities.Delete";
+        public const string Pages_Activities_View_AssignedUserFilter = "Pages.Activities.View_AssignedUserFilter";
+
+        public const string Pages_ActivitySourceTypes = "Pages.ActivitySourceTypes";
+        public const string Pages_ActivitySourceTypes_Create = "Pages.ActivitySourceTypes.Create";
+        public const string Pages_ActivitySourceTypes_Edit = "Pages.ActivitySourceTypes.Edit";
+        public const string Pages_ActivitySourceTypes_Delete = "Pages.ActivitySourceTypes.Delete";
+
+        public const string Pages_ActivityPriorities = "Pages.ActivityPriorities";
+        public const string Pages_ActivityPriorities_Create = "Pages.ActivityPriorities.Create";
+        public const string Pages_ActivityPriorities_Edit = "Pages.ActivityPriorities.Edit";
+        public const string Pages_ActivityPriorities_Delete = "Pages.ActivityPriorities.Delete";
+
         public const string Pages_Contacts = "Pages.Contacts";
         public const string Pages_Contacts_Create = "Pages.Contacts.Create";
         public const string Pages_Contacts_Edit = "Pages.Contacts.Edit";
@@ -87,7 +103,10 @@
         public const string Pages_Customer_View_Events = "Pages.Customer.ViewEvents";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
+        public const string Pages_Customer_View_Opportunities = "Pages.Customer.ViewOpportunities";
         public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
+        public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
+        
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

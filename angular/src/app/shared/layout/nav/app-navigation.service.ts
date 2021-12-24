@@ -25,7 +25,7 @@ export class AppNavigationService {
             new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/'),
             new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads'),            
             new AppMenuItem('Opportunities', 'Pages.Opportunities', 'fa fa-thumbs-up', '/app/main/crm/opportunities'),
-
+            new AppMenuItem('Activities', 'Pages.Activities', 'flaticon2-list-3', '/app/main/crm/activities'),
             new AppMenuItem(
                 'Configuration',
                 '',
@@ -59,7 +59,6 @@ export class AppNavigationService {
                     )
                 ]
             ),
-
             new AppMenuItem(
                 'Business',
                 '',
@@ -73,7 +72,13 @@ export class AppNavigationService {
                         'Pages.OpportunityTypes',
                         'flaticon-more',
                         '/app/main/crm/opportunityTypes'
-                    ), 
+                    ),
+                    new AppMenuItem(
+                        'LeadStatuses',
+                        'Pages.LeadStatuses',
+                        'flaticon-more',
+                        '/app/main/crm/leadStatuses'
+                    ),
                     new AppMenuItem(
                         'LeadSources',
                         'Pages.LeadSources',
@@ -93,6 +98,24 @@ export class AppNavigationService {
                         'flaticon-more',
                         '/app/main/crm/activityTaskTypes'
                     ),
+                    new AppMenuItem(
+                        'ActivityPriorities',
+                        'Pages.ActivityPriorities',
+                        'flaticon-more',
+                        '/app/main/crm/activityPriorities'
+                    ),
+                    new AppMenuItem(
+                        'ActivitySourceTypes',
+                        'Pages.ActivitySourceTypes',
+                        'flaticon-more',
+                        '/app/main/crm/activitySourceTypes'
+                    ),
+                    new AppMenuItem(
+                        'ActivityStatuses',
+                        'Pages.ActivityStatuses',
+                        'flaticon-more',
+                        '/app/main/crm/activityStatuses'
+                        ), 
                     new AppMenuItem(
                         'AccountUsers',
                         'Pages.AccountUsers',

@@ -30,6 +30,22 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
+            var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
+            //activities.CreateChildPermission(AppPermissions.Pages_Activities_Delete, L("DeleteActivity"));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter, L("FilterByAssignee"));
+
+            var activitySourceTypes = pages.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes, L("ActivitySourceTypes"));
+            activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Create, L("CreateNewActivitySourceType"));
+            activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Edit, L("EditActivitySourceType"));
+            activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Delete, L("DeleteActivitySourceType"));
+
+            var activityPriorities = pages.CreateChildPermission(AppPermissions.Pages_ActivityPriorities, L("ActivityPriorities"));
+            activityPriorities.CreateChildPermission(AppPermissions.Pages_ActivityPriorities_Create, L("CreateNewActivityPriority"));
+            activityPriorities.CreateChildPermission(AppPermissions.Pages_ActivityPriorities_Edit, L("EditActivityPriority"));
+            activityPriorities.CreateChildPermission(AppPermissions.Pages_ActivityPriorities_Delete, L("DeleteActivityPriority"));
+
             //var contacts = pages.CreateChildPermission(AppPermissions.Pages_Contacts, L("Contacts"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
@@ -114,7 +130,9 @@ namespace SBCRM.Authorization
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events, L("CustomerViewEvents"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity, L("CustomerAddOpportunity"));
+            var accountOpportunities = customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Opportunities, L("CustomerViewOpportunities"));
+            accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity, L("CustomerAddOpportunity"));
+            accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Opportunity, L("CustomerEditOpportunity"));
 
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));

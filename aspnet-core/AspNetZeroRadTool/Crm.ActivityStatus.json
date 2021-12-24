@@ -1,5 +1,5 @@
 {
-  "IsRegenerate": false,
+  "IsRegenerate": true,
   "MenuPosition": "main",
   "RelativeNamespace": "Crm",
   "EntityName": "ActivityStatus",
@@ -30,7 +30,7 @@
         "MinimumValue": 0.0,
         "MaximumValue": 0.0
       },
-      "Required": false,
+      "Required": true,
       "Nullable": false,
       "Regex": "",
       "UserInterface": {
@@ -42,6 +42,44 @@
     {
       "Name": "Order",
       "Type": "int",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "Color",
+      "Type": "string",
+      "MaxLength": 10,
+      "MinLength": 1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": true,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": false,
+        "List": true,
+        "CreateOrUpdate": true
+      }
+    },
+    {
+      "Name": "IsCompletedStatus",
+      "Type": "bool",
       "MaxLength": 0,
       "MinLength": 0,
       "Range": {
@@ -55,7 +93,7 @@
       "UserInterface": {
         "AdvancedFilter": false,
         "List": true,
-        "CreateOrUpdate": false
+        "CreateOrUpdate": true
       }
     }
   ],
