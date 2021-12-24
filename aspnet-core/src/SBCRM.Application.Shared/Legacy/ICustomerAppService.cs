@@ -68,6 +68,13 @@ namespace SBCRM.Legacy
         Task<List<CustomerCountryLookupTableDto>> GetAllCountriesForTableDropdown();
 
         /// <summary>
+        /// Get all Customer opportunities
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<CustomerOpportunityViewDto>> GetAllOpportunities(GetAllCustomerOpportunitiesInput input);
+
+        /// <summary>
         /// Get all Customer invoices
         /// </summary>
         /// <param name="input"></param>

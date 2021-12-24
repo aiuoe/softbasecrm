@@ -381,6 +381,8 @@
 		<text name="CustomerViewWip">View WIP in Account detail</text>
 		<text name="CustomerViewAssignUsers">View assign users in Account detail</text>
 		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
+		<text name="CustomerViewOpportunities">View Opportunities in Account detail</text>
+		<text name="CustomerEditOpportunity">Edit Opportunities in Account detail</text>
 		<text name="{0}IsRequired">{0} is required.</text>
 		<text name="AccountTypeDescription">Account type description</text>
 		<text name="PickAccountType">Pick account type</text>
