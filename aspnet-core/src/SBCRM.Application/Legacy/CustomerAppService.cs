@@ -37,6 +37,7 @@ namespace SBCRM.Legacy
         private readonly BaseRepo.IRepository<LeadSource> _lookupLeadSourceRepository;
         private readonly BaseRepo.IRepository<Country> _lookupCountryRepository;
         private readonly BaseRepo.IRepository<AccountUser> _accountUserRepository;
+        private readonly BaseRepo.IRepository<Opportunity> _opportunityRepository;
         private readonly ICustomerExcelExporter _customerExcelExporter;
         private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
         private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
@@ -56,6 +57,7 @@ namespace SBCRM.Legacy
         /// <param name="customerExcelExporter"></param>
         /// <param name="lookupAccountTypeRepository"></param>
         /// <param name="lookupLeadSourceRepository"></param>
+        /// <param name="opportunityRepository"></param>
         /// <param name="customerCustomerInvoiceRepository"></param>
         /// <param name="customerEquipmentRepository"></param>
         /// <param name="customerWipRepository"></param>
@@ -72,6 +74,7 @@ namespace SBCRM.Legacy
             BaseRepo.IRepository<AccountType> lookupAccountTypeRepository,
             BaseRepo.IRepository<LeadSource> lookupLeadSourceRepository,
             BaseRepo.IRepository<AccountUser> accountUserRepository,
+            BaseRepo.IRepository<Opportunity> opportunityRepository,
             ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
             ISoftBaseCustomerEquipmentRepository customerEquipmentRepository,
             ISoftBaseCustomerWipRepository customerWipRepository,
@@ -80,11 +83,13 @@ namespace SBCRM.Legacy
             ISoftBaseCustomerSequenceRepository customerSequenceRepository,
             IContactsAppService contactsAppService,
             ICustomerExcelExporter customerExcelExporter,
-            IAuditEventsService auditEventsService)
+            IAuditEventsService auditEventsService
+            )
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
             _auditEventsService = auditEventsService;
+            _opportunityRepository = opportunityRepository;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
             _customerCustomerInvoiceRepository = customerCustomerInvoiceRepository;
@@ -451,6 +456,56 @@ namespace SBCRM.Legacy
                     Code = country.Code,
                     DisplayName = country == null || country.Name == null ? "" : country.Name.ToString()
                 }).ToListAsync(); ;
+        }
+
+        /// <summary>
+        /// Get all customer opportunities
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<PagedResultDto<CustomerOpportunityViewDto>> GetAllOpportunities(GetAllCustomerOpportunitiesInput input)
+        {
+            var opportunities = _opportunityRepository.GetAll()
+                .Include(x => x.OpportunityStageFk)
+                .Where(x => x.CustomerNumber == input.CustomerNumber);
+
+            IQueryable<Opportunity> pagedAndFilteredOpportunities;
+
+            if (input.Sorting != null)
+                pagedAndFilteredOpportunities = opportunities
+                    .OrderBy(input.Sorting)
+                    .PageBy(input);
+            else
+                pagedAndFilteredOpportunities = opportunities
+                    .OrderByDescending(o => o.CloseDate)
+                    .ThenBy(o => o.Name)
+                    .ThenBy(o => o.Branch)
+                    .ThenBy(o => o.Department)
+                    .PageBy(input);
+
+            var totalCount = await opportunities.CountAsync();
+
+            var dbList = await pagedAndFilteredOpportunities.ToListAsync();
+            var results = new List<CustomerOpportunityViewDto>();
+
+            foreach (var o in dbList)
+            {
+                var res = new CustomerOpportunityViewDto {
+                    Id = o.Id,
+                    Name = o.Name,
+                    Stage = o.OpportunityStageFk?.Description,
+                    StageColor = o.OpportunityStageFk?.Color,
+                    CloseDate = o.CloseDate,
+                    Amount = o.Amount
+                };
+                results.Add(res);
+            }
+
+            return new PagedResultDto<CustomerOpportunityViewDto>(
+                totalCount,
+                results
+            );
         }
 
         /// <summary>
