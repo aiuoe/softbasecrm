@@ -25,7 +25,7 @@ namespace SBCRM.Crm.Exporting
             _abpSession = abpSession;
         }
 
-        public FileDto ExportToFile(List<GetActivityForViewDto> activities)
+        public FileDto ExportToFile(List<GetActivityForViewExportDto> activities)
         {
             var fileName = $"Activities_{DateTime.UtcNow:MM_dd_yyyy}.xlsx";
 

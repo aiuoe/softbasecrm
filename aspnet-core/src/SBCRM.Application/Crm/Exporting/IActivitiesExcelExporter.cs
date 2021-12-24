@@ -6,6 +6,6 @@ namespace SBCRM.Crm.Exporting
 {
     public interface IActivitiesExcelExporter
     {
-        FileDto ExportToFile(List<GetActivityForViewDto> activities);
+        FileDto ExportToFile(List<GetActivityForViewExportDto> activities);
     }
 }
