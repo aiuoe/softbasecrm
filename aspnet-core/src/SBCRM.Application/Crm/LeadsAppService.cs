@@ -243,7 +243,7 @@ namespace SBCRM.Crm
         {
             try
             {
-                var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
+                var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2, allowEverySheet: false);
 
                 var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
@@ -331,7 +331,7 @@ namespace SBCRM.Crm
             foreach (var item in importedLeads)
             {
                 // Validations for mandarory fields
-                if ((item.CompanyName == null && item.ContactName == null) || (item.Phone == null && item.CompanyEmail == null))
+                if (item.CompanyName == null || (item.Phone == null && item.CompanyEmail == null))
                 {
                     return false;
                 }

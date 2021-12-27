@@ -11,7 +11,7 @@ namespace SBCRM.Infrastructure.Excel
 {
     public static class ExcelHandler
     {
-        public static async Task<List<T>> ReadIntoList<T>(byte[] bin, int startFromRow = 1)
+        public static async Task<List<T>> ReadIntoList<T>(byte[] bin, int startFromRow = 1, bool allowEverySheet = true)
         {
             //create a list to hold all the values
             List<T> excelData = new List<T>();
@@ -52,6 +52,11 @@ namespace SBCRM.Infrastructure.Excel
                             excelData.Add(instance);
                             counter++;
                         }
+                    }
+
+                    if (!allowEverySheet)
+                    {
+                        break;
                     }
                 }
             }
