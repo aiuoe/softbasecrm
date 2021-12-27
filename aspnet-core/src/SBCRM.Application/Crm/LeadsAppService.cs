@@ -247,14 +247,14 @@ namespace SBCRM.Crm
 
                 var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                if (!ValidateLeadsImported(leadsToImport))
+                if (! await ValidateLeadsImported(leadsToImport))
                 {
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
 
                 // Default status and priority
-                var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description.ToUpper() == "NEW");
-                var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description.ToUpper() == "LOW");
+                var leadStatusId = await _lookupLeadStatusRepository.FirstOrDefaultAsync(p => p.IsDefault);
+                var leadPriorityId = await _lookupPriorityRepository.FirstOrDefaultAsync(p => p.IsDefault);
 
 
                 foreach (var item in leadsToImport)
@@ -326,7 +326,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="importedLeads"></param>
         /// <returns></returns>
-        private bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
+        private async Task<bool> ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
         {
             foreach (var item in importedLeads)
             {
@@ -337,7 +337,7 @@ namespace SBCRM.Crm
                 }
 
                 // Validations for country field
-                var existingCountries = _countryRepository.GetAllList();
+                var existingCountries = await _countryRepository.GetAllListAsync();
                 if (item.Country != null && !existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
                 {
                     return false;

@@ -164,8 +164,8 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
                         }
                     },
                     {
-                        confirmButtonText: "Download",
-                        cancelButtonText: "Close",      
+                        confirmButtonText: this.l('Download'),
+                        cancelButtonText: this.l('Close'),      
                     }
                 );
             } else {

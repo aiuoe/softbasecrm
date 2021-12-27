@@ -11,6 +11,14 @@ namespace SBCRM.Infrastructure.Excel
 {
     public static class ExcelHandler
     {
+        /// <summary>
+        /// Reads an excel and returns a list of the elements
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="bin">Array of bites for the uploaded file</param>
+        /// <param name="startFromRow">Row position to start</param>
+        /// <param name="allowEverySheet">Flag to see wheter it's needed to read every worksheet or not</param>
+        /// <returns></returns>
         public static async Task<List<T>> ReadIntoList<T>(byte[] bin, int startFromRow = 1, bool allowEverySheet = true)
         {
             //create a list to hold all the values
