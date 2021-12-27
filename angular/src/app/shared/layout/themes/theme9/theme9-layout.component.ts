@@ -25,7 +25,7 @@ export class Theme9LayoutComponent extends ThemesLayoutBaseComponent implements 
     };
 
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
-    defaultLogo = AppConsts.appBaseUrl + '/assets/common/images/app-logo-on-dark-2.svg';
+    defaultLogo = AppConsts.appBaseUrl + '/assets/common/images/logo.svg';
 
     constructor(
         injector: Injector,
