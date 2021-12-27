@@ -47,7 +47,12 @@
             {{ userFullName }}
         </span>
         <span [class]="symbolCssClass">
-            <span [class]="symbolTextCssClass">{{ usernameFirstLetter }}</span>
+            <span *ngIf="hasDefaultProfilePicture; else userProfilePicture" [class]="symbolTextCssClass">
+                {{ usernameFirstLetter }}
+            </span>
+            <ng-template #userProfilePicture>
+                <img [src]="profilePicture" class="symbol-label" />
+            </ng-template>
         </span>
     </div>
 </div>
