@@ -283,18 +283,18 @@ namespace SBCRM.Crm
         {
             try
             {
-                var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2);
+                var leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2, allowEverySheet: false);
 
                 var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                if (!ValidateLeadsImported(leadsToImport))
+                if (! await ValidateLeadsImported(leadsToImport))
                 {
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
 
                 // Default status and priority
-                var leadStatusId = _lookupLeadStatusRepository.FirstOrDefault(p => p.Description.ToUpper() == "NEW");
-                var leadPriorityId = _lookupPriorityRepository.FirstOrDefault(p => p.Description.ToUpper() == "LOW");
+                var leadStatusId = await _lookupLeadStatusRepository.FirstOrDefaultAsync(p => p.IsDefault);
+                var leadPriorityId = await _lookupPriorityRepository.FirstOrDefaultAsync(p => p.IsDefault);
 
 
                 foreach (var item in leadsToImport)
@@ -323,7 +323,7 @@ namespace SBCRM.Crm
                     leadAux.LeadStatusId = leadStatusId.Id;
                     leadAux.PriorityId = leadPriorityId.Id;
 
-                    Lead storedLead = new();
+                    Lead storedLead = null;
 
                     if (item.ContactName != null)
                     {
@@ -366,7 +366,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="importedLeads"></param>
         /// <returns></returns>
-        private bool ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
+        private async Task<bool> ValidateLeadsImported(List<LeadImportedInputDto> importedLeads)
         {
             foreach (var item in importedLeads)
             {
@@ -377,8 +377,8 @@ namespace SBCRM.Crm
                 }
 
                 // Validations for country field
-                var existingCountries = _countryRepository.GetAll();
-                if (item.Country != null && existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
+                var existingCountries = await _countryRepository.GetAllListAsync();
+                if (item.Country != null && !existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
                 {
                     return false;
                 }

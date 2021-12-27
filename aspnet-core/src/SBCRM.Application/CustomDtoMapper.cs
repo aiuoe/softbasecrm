@@ -231,6 +231,12 @@ namespace SBCRM
 
             configuration.CreateMap<GetCustomerForEditOutput, GetCustomerForViewOutput>()
                 .ReverseMap();
+
+            configuration.CreateMap<User, Person>()
+                .ForMember(u => u.FirstName, opt => opt.MapFrom(u => u.Name))
+                .ForMember(u => u.LastName, opt => opt.MapFrom(u => u.Surname))
+                .ForMember(u => u.Phone, opt => opt.MapFrom(u => u.PhoneNumber))
+                .ReverseMap();
         }
     }
 }

@@ -4,7 +4,7 @@
             <div *ngIf="active">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        Assigned Users
+                        {{ 'AssignUsers' | localize }}
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -21,6 +21,7 @@
                             [multiple]="true" 
                             optionLabel="displayName"
                             [filter]="true"
+                            [filterPlaceHolder] = "this.l('Search')"
                             [listStyle]="{'max-height':'300px'}" 
                             [style]="{'border':'none'}">
                         </p-listbox>                        
@@ -29,7 +30,7 @@
 
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" (click)="confirm()" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><span>Confirm</span></button>
+                    <button type="submit" class="btn btn-primary blue" (click)="confirm()" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><span>Assign</span></button>
                 </div>
             </div>
         </div>

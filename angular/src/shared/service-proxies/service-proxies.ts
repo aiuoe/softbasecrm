@@ -22191,6 +22191,53 @@ export class UserServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    acceptTermsAndConditions(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/User/AcceptTermsAndConditions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAcceptTermsAndConditions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAcceptTermsAndConditions(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAcceptTermsAndConditions(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -43491,6 +43538,7 @@ export class UserEditDto implements IUserEditDto {
     shouldChangePasswordOnNextLogin!: boolean;
     isTwoFactorEnabled!: boolean;
     isLockoutEnabled!: boolean;
+    hasAcceptedTermsAndConditions!: boolean;
 
     constructor(data?: IUserEditDto) {
         if (data) {
@@ -43514,6 +43562,7 @@ export class UserEditDto implements IUserEditDto {
             this.shouldChangePasswordOnNextLogin = _data["shouldChangePasswordOnNextLogin"];
             this.isTwoFactorEnabled = _data["isTwoFactorEnabled"];
             this.isLockoutEnabled = _data["isLockoutEnabled"];
+            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
         }
     }
 
@@ -43537,6 +43586,7 @@ export class UserEditDto implements IUserEditDto {
         data["shouldChangePasswordOnNextLogin"] = this.shouldChangePasswordOnNextLogin;
         data["isTwoFactorEnabled"] = this.isTwoFactorEnabled;
         data["isLockoutEnabled"] = this.isLockoutEnabled;
+        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         return data; 
     }
 }
@@ -43553,6 +43603,7 @@ export interface IUserEditDto {
     shouldChangePasswordOnNextLogin: boolean;
     isTwoFactorEnabled: boolean;
     isLockoutEnabled: boolean;
+    hasAcceptedTermsAndConditions: boolean;
 }
 
 export class UserListDto implements IUserListDto {
@@ -43566,6 +43617,7 @@ export class UserListDto implements IUserListDto {
     roles!: UserListRoleDto[] | undefined;
     isActive!: boolean;
     creationTime!: DateTime;
+    hasAcceptedTermsAndConditions!: boolean;
     id!: number;
 
     constructor(data?: IUserListDto) {
@@ -43593,6 +43645,7 @@ export class UserListDto implements IUserListDto {
             }
             this.isActive = _data["isActive"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
             this.id = _data["id"];
         }
     }
@@ -43620,6 +43673,7 @@ export class UserListDto implements IUserListDto {
         }
         data["isActive"] = this.isActive;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         data["id"] = this.id;
         return data; 
     }
@@ -43636,6 +43690,7 @@ export interface IUserListDto {
     roles: UserListRoleDto[] | undefined;
     isActive: boolean;
     creationTime: DateTime;
+    hasAcceptedTermsAndConditions: boolean;
     id: number;
 }
 
@@ -43789,6 +43844,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
     userName!: string | undefined;
     emailAddress!: string | undefined;
     profilePictureId!: string | undefined;
+    hasAcceptedTermsAndConditions!: boolean;
     id!: number;
 
     constructor(data?: IUserLoginInfoDto) {
@@ -43807,6 +43863,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
             this.userName = _data["userName"];
             this.emailAddress = _data["emailAddress"];
             this.profilePictureId = _data["profilePictureId"];
+            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
             this.id = _data["id"];
         }
     }
@@ -43825,6 +43882,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
         data["profilePictureId"] = this.profilePictureId;
+        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         data["id"] = this.id;
         return data; 
     }
@@ -43836,6 +43894,7 @@ export interface IUserLoginInfoDto {
     userName: string | undefined;
     emailAddress: string | undefined;
     profilePictureId: string | undefined;
+    hasAcceptedTermsAndConditions: boolean;
     id: number;
 }
 

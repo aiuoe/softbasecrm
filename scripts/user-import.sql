@@ -8,7 +8,7 @@ BEGIN TRY
 	INSERT INTO [web].[AbpUsers] ([UserName],[NormalizedUserName],[Name],[Surname], [EmailAddress],[NormalizedEmailAddress], [PhoneNumber], [Password],[CreationTime],[IsActive],[AccessFailedCount],[IsEmailConfirmed],[IsTwoFactorEnabled],[IsLockoutEnabled],[IsPhoneNumberConfirmed],[ShouldChangePasswordOnNextLogin], [IsDeleted])
 		OUTPUT [inserted].[UserName]
 			INTO @InsertedEmployeeNo
-	SELECT [S].[EmployeeNo],[S].[EmployeeNo], [P].[FirstName], ISNULL([P].[LastName],'') AS LastName, ISNULL([P].[EMailAddress],''),ISNULL([P].[EMailAddress],''), P.Phone, S.[Password], GETDATE(),1,0,0,0,0,0,0,0
+	SELECT [S].[EmployeeNo],[S].[EmployeeNo], [P].[FirstName], ISNULL([P].[LastName],'') AS LastName, ISNULL([P].[EMailAddress],''),ISNULL([P].[EMailAddress],''), P.Phone, S.Password, GETDATE(),1,0,0,0,0,0,0,0
 	FROM [dbo].[secure] AS s
 		JOIN dbo.Person AS p
 			ON s.EmployeeNo = p.Number
