@@ -283,7 +283,7 @@ namespace SBCRM.Crm
                     leadAux.LeadStatusId = leadStatusId.Id;
                     leadAux.PriorityId = leadPriorityId.Id;
 
-                    Lead storedLead = new();
+                    Lead storedLead = null;
 
                     if (item.ContactName != null)
                     {
@@ -331,14 +331,14 @@ namespace SBCRM.Crm
             foreach (var item in importedLeads)
             {
                 // Validations for mandarory fields
-                if (item.CompanyName == null || (item.Phone == null && item.CompanyEmail == null))
+                if ((item.CompanyName == null && item.ContactName == null) || (item.Phone == null && item.CompanyEmail == null))
                 {
                     return false;
                 }
 
                 // Validations for country field
-                var existingCountries = _countryRepository.GetAll();
-                if (item.Country != null && existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
+                var existingCountries = _countryRepository.GetAllList();
+                if (item.Country != null && !existingCountries.Any(p => p.Name.ToUpper().Trim() == item.Country.ToUpper().Trim()))
                 {
                     return false;
                 }
