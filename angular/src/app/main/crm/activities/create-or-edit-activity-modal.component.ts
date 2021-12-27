@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import {
@@ -16,17 +16,19 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { ActivityDuration, ActivitySourceType, getActivityDurationIitems } from '@shared/AppEnums';
 
 /**
  * Component for creating or updating an activity
  */
 @Component({
     selector: 'createOrEditActivityModal',
-    templateUrl: './create-or-edit-activity-modal.component.html'
+    templateUrl: './create-or-edit-activity-modal.component.html',
 })
 export class CreateOrEditActivityModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
+    @Input() sourceType: ActivitySourceType;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
@@ -50,6 +52,8 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     allActivityStatuss: ActivityActivityStatusLookupTableDto[];
     allActivityPrioritys: ActivityActivityPriorityLookupTableDto[];
 
+    durationItems = [];
+
     /**
      * Constructor method
      */
@@ -70,6 +74,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             this.activity.id = activityId;
             this.activity.dueDate = this._dateTimeService.getStartOfDay();
             this.activity.startsAt = this._dateTimeService.getStartOfDay();
+            this.activity.durationMinutes = getActivityDurationIitems().find(
+                (x) => x.enumValue === ActivityDuration.OneHour
+            ).value;
             this.opportunityName = '';
             this.leadCompanyName = '';
             this.userName = '';
@@ -147,5 +154,24 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         this.modal.hide();
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.durationItems = getActivityDurationIitems();
+    }
+
+    get activitySourceTypeEnum(): typeof ActivitySourceType {
+        return ActivitySourceType;
+    }
+
+    get formTitle(): string {
+        switch (this.sourceType) {
+            case ActivitySourceType.Lead:
+                return this.l('CreateNewActivityByLead');
+            case ActivitySourceType.Account:
+                return this.l('CreateNewActivityByAccount');
+            case ActivitySourceType.Opportunity:
+                return this.l('CreateNewActivityByOpportunity');
+            default:
+                return this.l('CreateNewActivity');
+        }
+    }
 }

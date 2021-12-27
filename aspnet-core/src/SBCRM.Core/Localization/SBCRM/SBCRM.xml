@@ -2,6 +2,11 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="Company">Company</text>
+    <text name="CreateNewActivityByLead">New Activity by Lead</text>
+    <text name="CreateNewActivityByAccount">New Activity by Account</text>
+    <text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
+    
     <text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
@@ -24,7 +29,7 @@
     <text name="DurationMinutes">Duration minutes</text>
     <text name="ActivitiesHeaderInfo">Activities header info</text>
     <text name="CreateNewActivity">Create new activity</text>
-    <text name="EditActivity">Edit activity</text>
+    <text name="EditActivity">Edit Activity</text>
     <text name="DeleteActivity">Delete activity</text>
     <text name="Activities">Activities</text>
     <text name="OpportunityName">Opportunity name</text>

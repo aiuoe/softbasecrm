@@ -14,171 +14,183 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="activity.id">{{ l('EditActivity') }}</span>
-                        <span *ngIf="!activity.id">{{ l('CreateNewActivity') }}</span>
+                        <span *ngIf="!activity.id">{{ formTitle }}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group m-form__group">
-                        <label for="OpportunityName">{{ l('Opportunity') }}</label>
-                        <select name="activity.opportunityId" [(ngModel)]="activity.opportunityId" class="form-control">
-                            <option value="">{{ l('SelectAOpportunity') }}</option>
-                            <option *ngFor="let item of allOpportunitys" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div *ngIf="sourceType === activitySourceTypeEnum.Lead" class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="LeadCompanyName">{{ l('Company') }}</label>
+                                    <select name="activity.leadId" [(ngModel)]="activity.leadId" class="form-control">
+                                        <option *ngFor="let item of allLeads" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="LeadCompanyName">{{ l('Lead') }}</label>
-                        <select name="activity.leadId" [(ngModel)]="activity.leadId" class="form-control">
-                            <option value="">{{ l('SelectALead') }}</option>
-                            <option *ngFor="let item of allLeads" value="{{ item.id }}">{{ item.displayName }}</option>
-                        </select>
-                    </div>
+                            <div *ngIf="sourceType === activitySourceTypeEnum.Account" class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="AccountCompanyName">{{ l('Company') }}</label>
+                                    <select name="activity.leadId" [(ngModel)]="activity.leadId" class="form-control">
+                                        <option *ngFor="let item of allLeads" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="UserName">{{ l('User') }}</label>
-                        <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required>
-                            <option value="">{{ l('SelectAUser') }}</option>
-                            <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
-                        </select>
-                    </div>
+                            <div *ngIf="sourceType === activitySourceTypeEnum.Opportunity" class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="OpportunityName">{{ l('Opportunity') }}</label>
+                                    <select
+                                        name="activity.opportunityId"
+                                        [(ngModel)]="activity.opportunityId"
+                                        class="form-control"
+                                    >
+                                        <option *ngFor="let item of allOpportunitys" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="ActivitySourceTypeDescription">{{ l('ActivitySourceType') }}</label>
-                        <select
-                            name="activity.activitySourceTypeId"
-                            [(ngModel)]="activity.activitySourceTypeId"
-                            class="form-control"
-                            required
-                        >
-                            <option value="">{{ l('SelectAActivitySourceType') }}</option>
-                            <option *ngFor="let item of allActivitySourceTypes" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="UserName">{{ l('AssignedUser') }}</label>
+                                    <select
+                                        name="activity.userId"
+                                        [(ngModel)]="activity.userId"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option *ngFor="let item of allUsers" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="ActivityTaskTypeDescription">{{ l('ActivityTaskType') }}</label>
-                        <select
-                            name="activity.activityTaskTypeId"
-                            [(ngModel)]="activity.activityTaskTypeId"
-                            class="form-control"
-                            required
-                        >
-                            <option value="">{{ l('SelectAActivityTaskType') }}</option>
-                            <option *ngFor="let item of allActivityTaskTypes" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="ActivityTaskTypeDescription">{{ l('Activity') }}</label>
+                                    <select
+                                        name="activity.activityTaskTypeId"
+                                        [(ngModel)]="activity.activityTaskTypeId"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option *ngFor="let item of allActivityTaskTypes" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="ActivityStatusDescription">{{ l('ActivityStatus') }}</label>
-                        <select
-                            name="activity.activityStatusId"
-                            [(ngModel)]="activity.activityStatusId"
-                            class="form-control"
-                            required
-                        >
-                            <option value="">{{ l('SelectAActivityStatus') }}</option>
-                            <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="Activity_DueDate">{{ l('Date') }}</label>
+                                    <input
+                                        required
+                                        class="form-control m-input"
+                                        #Activity_DueDate
+                                        type="datetime"
+                                        bsDatepicker
+                                        datePickerLuxonModifier
+                                        [(date)]="activity.dueDate"
+                                        id="Activity_DueDate"
+                                        name="Activity_DueDate"
+                                    />
+                                    <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
+                                </div>
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="ActivityPriorityDescription">{{ l('ActivityPriority') }}</label>
-                        <select
-                            name="activity.activityPriorityId"
-                            [(ngModel)]="activity.activityPriorityId"
-                            class="form-control"
-                            required
-                        >
-                            <option value="">{{ l('SelectAActivityPriority') }}</option>
-                            <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="Activity_StartsAt">{{ l('StartsAt') }}</label>
+                                    <input
+                                        required
+                                        class="form-control m-input"
+                                        #Activity_StartsAt
+                                        type="datetime"
+                                        bsDatepicker
+                                        datePickerLuxonModifier
+                                        [(date)]="activity.startsAt"
+                                        id="Activity_StartsAt"
+                                        name="Activity_StartsAt"
+                                    />
+                                    <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="Activity_TaskName">{{ l('TaskName') }} *</label>
-                        <input
-                            type="text"
-                            #Activity_TaskName="ngModel"
-                            id="Activity_TaskName"
-                            class="form-control"
-                            [(ngModel)]="activity.taskName"
-                            name="TaskName"
-                            minlength="1"
-                            maxlength="100"
-                            required
-                        />
-                        <validation-messages [formCtrl]="Activity_TaskName"></validation-messages>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="Activity_DurationMinutes">{{ l('Duration') }}</label>
+                                    <select
+                                        name="DurationMinutes"
+                                        [(ngModel)]="activity.durationMinutes"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option *ngFor="let item of durationItems" value="{{ item.value }}">
+                                            {{ item.text }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="Activity_DueDate">{{ l('DueDate') }}</label>
-                        <input
-                            required
-                            class="form-control m-input"
-                            #Activity_DueDate
-                            type="datetime"
-                            bsDatepicker
-                            datePickerLuxonModifier
-                            [(date)]="activity.dueDate"
-                            id="Activity_DueDate"
-                            name="Activity_DueDate"
-                        />
-                        <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="ActivityStatusDescription">{{ l('Status') }}</label>
+                                    <select
+                                        name="activity.activityStatusId"
+                                        [(ngModel)]="activity.activityStatusId"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="Activity_StartsAt">{{ l('StartsAt') }}</label>
-                        <input
-                            required
-                            class="form-control m-input"
-                            #Activity_StartsAt
-                            type="datetime"
-                            bsDatepicker
-                            datePickerLuxonModifier
-                            [(date)]="activity.startsAt"
-                            id="Activity_StartsAt"
-                            name="Activity_StartsAt"
-                        />
-                        <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
-                    </div>
+                            <div class="col-sm-6">
+                                <div class="form-group m-form__group">
+                                    <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
+                                    <select
+                                        name="activity.activityPriorityId"
+                                        [(ngModel)]="activity.activityPriorityId"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="Activity_DurationMinutes">{{ l('DurationMinutes') }}</label>
-                        <input
-                            type="number"
-                            #Activity_DurationMinutes="ngModel"
-                            id="Activity_DurationMinutes"
-                            class="form-control"
-                            [(ngModel)]="activity.durationMinutes"
-                            name="DurationMinutes"
-                        />
-                        <validation-messages [formCtrl]="Activity_DurationMinutes"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Activity_Description">{{ l('Description') }}</label>
-                        <input
-                            type="text"
-                            #Activity_Description="ngModel"
-                            id="Activity_Description"
-                            class="form-control"
-                            [(ngModel)]="activity.description"
-                            name="Description"
-                        />
-                        <validation-messages [formCtrl]="Activity_Description"></validation-messages>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Activity_Description">{{ l('Description') }}</label>
+                                    <textarea
+                                        #Activity_Description="ngModel"
+                                        id="Activity_Description"
+                                        class="form-control"
+                                        [(ngModel)]="activity.description"
+                                        name="Description"
+                                        rows="3"
+                                    ></textarea>
+                                    <validation-messages [formCtrl]="Activity_Description"></validation-messages>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

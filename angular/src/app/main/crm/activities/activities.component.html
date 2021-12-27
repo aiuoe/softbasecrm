@@ -7,14 +7,23 @@
                     {{ l('Export') }}
                 </button>
 
-                <button
-                    *ngIf="isGranted('Pages.Activities.Create')"
-                    (click)="createActivity()"
-                    class="btn btn-primary blue"
-                >
-                    <i class="fa fa-plus"></i>
-                    {{ l('Activity') }}
-                </button>
+                <div *ngIf="isGranted('Pages.Activities.Create')" class="btn-group dropdown ml-1" dropdown>
+                    <button dropdownToggle class="btn btn-primary blue dropdown-toggle">
+                        <i class="fa fa-plus"></i>
+                        {{ l('Activity') }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                        <li *ngFor="let item of newActivityTypes">
+                            <a
+                                class="dropdown-item text-dark font-weight-bold"
+                                href="javascript:;"
+                                (click)="createActivity(item.value)"
+                            >
+                                By {{ item.text }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </sub-header>
 
@@ -206,10 +215,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td
-                                            style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Activities.Edit', 'Pages.Activities.Delete')"
-                                        >
+                                        <td style="width: 130px">
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
@@ -254,9 +260,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CompanyName') }}</span>
                                             <div class="color-blue">
-                                                {{
-                                                    record.companyName
-                                                }}
+                                                {{ record.companyName }}
                                             </div>
                                         </td>
                                         <td style="width: 150px">
@@ -320,7 +324,11 @@
                 </div>
             </div>
         </div>
-        <createOrEditActivityModal #createOrEditActivityModal (modalSave)="getActivities()"></createOrEditActivityModal>
+        <createOrEditActivityModal
+            #createOrEditActivityModal
+            [sourceType]="newActivitySourceType"
+            (modalSave)="getActivities()"
+        ></createOrEditActivityModal>
         <viewActivityModal #viewActivityModal></viewActivityModal>
     </div>
 </div>
