@@ -135,7 +135,5 @@ a:hover {
 }
 
 .p-listbox-item:focus {
-    outline: 0 none;
-    outline-offset: 0;
-    box-shadow: inset 0 0 0 0 #605e5c !important;
+    box-shadow: none !important;
 }
