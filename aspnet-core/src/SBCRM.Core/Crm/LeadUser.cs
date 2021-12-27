@@ -9,7 +9,7 @@ using Abp.Domain.Entities;
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// This class stores Leads connected to accounts
+    /// This class stores Users connected to leads
     /// </summary>
     [Table("LeadUsers")]
     public class LeadUser : FullAuditedEntity

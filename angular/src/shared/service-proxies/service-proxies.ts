@@ -1408,6 +1408,1609 @@ export class AccountUsersServiceProxy {
 }
 
 @Injectable()
+export class ActivitiesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param opportunityNameFilter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param activitySourceTypeDescriptionFilter (optional) 
+     * @param activityTaskTypeDescriptionFilter (optional) 
+     * @param activityStatusDescriptionFilter (optional) 
+     * @param activityPriorityDescriptionFilter (optional) 
+     * @param customerNameFilter (optional) 
+     * @param userIds (optional) 
+     * @param excludeCompleted (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (opportunityNameFilter === null)
+            throw new Error("The parameter 'opportunityNameFilter' cannot be null.");
+        else if (opportunityNameFilter !== undefined)
+            url_ += "OpportunityNameFilter=" + encodeURIComponent("" + opportunityNameFilter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (activitySourceTypeDescriptionFilter === null)
+            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
+        else if (activitySourceTypeDescriptionFilter !== undefined)
+            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
+        if (activityTaskTypeDescriptionFilter === null)
+            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
+        else if (activityTaskTypeDescriptionFilter !== undefined)
+            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
+        if (activityStatusDescriptionFilter === null)
+            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
+        else if (activityStatusDescriptionFilter !== undefined)
+            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
+        if (activityPriorityDescriptionFilter === null)
+            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
+        else if (activityPriorityDescriptionFilter !== undefined)
+            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
+        if (customerNameFilter === null)
+            throw new Error("The parameter 'customerNameFilter' cannot be null.");
+        else if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
+        if (excludeCompleted === null)
+            throw new Error("The parameter 'excludeCompleted' cannot be null.");
+        else if (excludeCompleted !== undefined)
+            url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityForView(id: number | undefined): Observable<GetActivityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetActivityForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityForView(response: HttpResponseBase): Observable<GetActivityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityForEdit(id: number | undefined): Observable<GetActivityForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetActivityForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityForEdit(response: HttpResponseBase): Observable<GetActivityForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param opportunityNameFilter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param activitySourceTypeDescriptionFilter (optional) 
+     * @param activityTaskTypeDescriptionFilter (optional) 
+     * @param activityStatusDescriptionFilter (optional) 
+     * @param activityPriorityDescriptionFilter (optional) 
+     * @param customerNameFilter (optional) 
+     * @param userIds (optional) 
+     * @param excludeCompleted (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (opportunityNameFilter === null)
+            throw new Error("The parameter 'opportunityNameFilter' cannot be null.");
+        else if (opportunityNameFilter !== undefined)
+            url_ += "OpportunityNameFilter=" + encodeURIComponent("" + opportunityNameFilter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (activitySourceTypeDescriptionFilter === null)
+            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
+        else if (activitySourceTypeDescriptionFilter !== undefined)
+            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
+        if (activityTaskTypeDescriptionFilter === null)
+            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
+        else if (activityTaskTypeDescriptionFilter !== undefined)
+            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
+        if (activityStatusDescriptionFilter === null)
+            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
+        else if (activityStatusDescriptionFilter !== undefined)
+            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
+        if (activityPriorityDescriptionFilter === null)
+            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
+        else if (activityPriorityDescriptionFilter !== undefined)
+            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
+        if (customerNameFilter === null)
+            throw new Error("The parameter 'customerNameFilter' cannot be null.");
+        else if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
+        if (excludeCompleted === null)
+            throw new Error("The parameter 'excludeCompleted' cannot be null.");
+        else if (excludeCompleted !== undefined)
+            url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivitiesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivitiesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivitiesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllOpportunityForTableDropdown(): Observable<ActivityOpportunityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOpportunityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOpportunityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityOpportunityLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityOpportunityLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOpportunityForTableDropdown(response: HttpResponseBase): Observable<ActivityOpportunityLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityOpportunityLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityOpportunityLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadForTableDropdown(): Observable<ActivityLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllLeadForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityLeadLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityLeadLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadForTableDropdown(response: HttpResponseBase): Observable<ActivityLeadLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityLeadLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityLeadLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<ActivityUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<ActivityUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityUserLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivitySourceTypeForTableDropdown(): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivitySourceTypeForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivitySourceTypeForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivitySourceTypeForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivitySourceTypeLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivitySourceTypeLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivitySourceTypeForTableDropdown(response: HttpResponseBase): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivitySourceTypeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivitySourceTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityTaskTypeForTableDropdown(): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityTaskTypeForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityTaskTypeForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityTaskTypeForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivityTaskTypeLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivityTaskTypeLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityTaskTypeForTableDropdown(response: HttpResponseBase): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivityTaskTypeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivityTaskTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityStatusForTableDropdown(): Observable<ActivityActivityStatusLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityStatusForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityStatusForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityStatusForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivityStatusLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivityStatusLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityStatusForTableDropdown(response: HttpResponseBase): Observable<ActivityActivityStatusLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivityStatusLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivityStatusLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityPriorityForTableDropdown(): Observable<ActivityActivityPriorityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityPriorityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityPriorityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityPriorityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivityPriorityLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivityPriorityLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityPriorityForTableDropdown(response: HttpResponseBase): Observable<ActivityActivityPriorityLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivityPriorityLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivityPriorityLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityCustomerForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityCustomerForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityCustomerForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityCustomerForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityCustomerForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class ActivityPrioritiesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityPriorityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityPriorityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityPriorityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityPriorityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityPriorityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityPriorityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityPriorityForView(id: number | undefined): Observable<GetActivityPriorityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPriorityForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityPriorityForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityPriorityForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityPriorityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityPriorityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityPriorityForView(response: HttpResponseBase): Observable<GetActivityPriorityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityPriorityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityPriorityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivityPriorityForEdit(id: number | undefined): Observable<GetActivityPriorityForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPriorityForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityPriorityForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityPriorityForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivityPriorityForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivityPriorityForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityPriorityForEdit(response: HttpResponseBase): Observable<GetActivityPriorityForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivityPriorityForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivityPriorityForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityPriorityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @return Success
+     */
+    getActivityPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPrioritiesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivityPrioritiesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivityPrioritiesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivityPrioritiesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ActivitySourceTypesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivitySourceTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivitySourceTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivitySourceTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivitySourceTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivitySourceTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivitySourceTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivitySourceTypeForView(id: number | undefined): Observable<GetActivitySourceTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/GetActivitySourceTypeForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivitySourceTypeForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivitySourceTypeForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivitySourceTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivitySourceTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivitySourceTypeForView(response: HttpResponseBase): Observable<GetActivitySourceTypeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivitySourceTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivitySourceTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getActivitySourceTypeForEdit(id: number | undefined): Observable<GetActivitySourceTypeForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/GetActivitySourceTypeForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActivitySourceTypeForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActivitySourceTypeForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetActivitySourceTypeForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetActivitySourceTypeForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetActivitySourceTypeForEdit(response: HttpResponseBase): Observable<GetActivitySourceTypeForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetActivitySourceTypeForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetActivitySourceTypeForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivitySourceTypeDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class ActivityStatusesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4702,6 +6305,77 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<CustomerCountryLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param customerNumber (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOpportunities(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllOpportunities?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOpportunities(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOpportunities(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCustomerOpportunityViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCustomerOpportunityViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOpportunities(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerOpportunityViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerOpportunityViewDto>(<any>null);
     }
 
     /**
@@ -9768,7 +11442,7 @@ export class LeadsServiceProxy {
      * @param countryFilter (optional) 
      * @param stateFilter (optional) 
      * @param cityFilter (optional) 
-     * @param descriptionFilter (optional) 
+     * @param notesFilter (optional) 
      * @param companyPhoneFilter (optional) 
      * @param companyEmailFilter (optional) 
      * @param poBoxFilter (optional) 
@@ -9790,7 +11464,7 @@ export class LeadsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, notesFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -9828,10 +11502,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'cityFilter' cannot be null.");
         else if (cityFilter !== undefined)
             url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
-        if (descriptionFilter === null)
-            throw new Error("The parameter 'descriptionFilter' cannot be null.");
-        else if (descriptionFilter !== undefined)
-            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (notesFilter === null)
+            throw new Error("The parameter 'notesFilter' cannot be null.");
+        else if (notesFilter !== undefined)
+            url_ += "NotesFilter=" + encodeURIComponent("" + notesFilter) + "&";
         if (companyPhoneFilter === null)
             throw new Error("The parameter 'companyPhoneFilter' cannot be null.");
         else if (companyPhoneFilter !== undefined)
@@ -11474,12 +13148,13 @@ export class LeadUsersServiceProxy {
      * @param filter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
+     * @param leadId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, leadId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11493,6 +13168,10 @@ export class LeadUsersServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (leadId === null)
+            throw new Error("The parameter 'leadId' cannot be null.");
+        else if (leadId !== undefined)
+            url_ += "LeadId=" + encodeURIComponent("" + leadId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -11825,6 +13504,58 @@ export class LeadUsersServiceProxy {
             }));
         }
         return _observableOf<LeadUserUserLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createMultipleLeadUsers(body: CreateOrEditLeadUserDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadUsers/CreateMultipleLeadUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateMultipleLeadUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMultipleLeadUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMultipleLeadUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -13352,6 +15083,58 @@ export class OpportunityStagesServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateOrder(body: UpdateOrderOpportunityStageDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/UpdateOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOrder(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOrder(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOrder(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -13401,6 +15184,67 @@ export class OpportunityStagesServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param descriptionFilter (optional) 
+     * @return Success
+     */
+    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStagesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityStagesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityStagesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityStagesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
     }
 }
 
@@ -22326,9 +24170,451 @@ export interface IActivateWebhookSubscriptionInput {
     isActive: boolean;
 }
 
+export class ActivityActivityPriorityLookupTableDto implements IActivityActivityPriorityLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityActivityPriorityLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityActivityPriorityLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityActivityPriorityLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityActivityPriorityLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivitySourceTypeLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityActivitySourceTypeLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityActivitySourceTypeLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityActivitySourceTypeLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityActivitySourceTypeLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class ActivityActivityStatusLookupTableDto implements IActivityActivityStatusLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityActivityStatusLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityActivityStatusLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityActivityStatusLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityActivityStatusLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivityTaskTypeLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityActivityTaskTypeLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityActivityTaskTypeLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityActivityTaskTypeLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityActivityTaskTypeLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class ActivityCustomerLookupTableDto implements IActivityCustomerLookupTableDto {
+    number!: string | undefined;
+    name!: string | undefined;
+
+    constructor(data?: IActivityCustomerLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): ActivityCustomerLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityCustomerLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IActivityCustomerLookupTableDto {
+    number: string | undefined;
+    name: string | undefined;
+}
+
+export class ActivityDto implements IActivityDto {
+    dueDate!: DateTime;
+    startsAt!: DateTime;
+    opportunityId!: number | undefined;
+    leadId!: number | undefined;
+    userId!: number;
+    activitySourceTypeId!: number;
+    activityTaskTypeId!: number;
+    activityStatusId!: number;
+    activityPriorityId!: number;
+    customerNumber!: string | undefined;
+    id!: number;
+
+    constructor(data?: IActivityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dueDate = _data["dueDate"] ? DateTime.fromISO(_data["dueDate"].toString()) : <any>undefined;
+            this.startsAt = _data["startsAt"] ? DateTime.fromISO(_data["startsAt"].toString()) : <any>undefined;
+            this.opportunityId = _data["opportunityId"];
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.activitySourceTypeId = _data["activitySourceTypeId"];
+            this.activityTaskTypeId = _data["activityTaskTypeId"];
+            this.activityStatusId = _data["activityStatusId"];
+            this.activityPriorityId = _data["activityPriorityId"];
+            this.customerNumber = _data["customerNumber"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dueDate"] = this.dueDate ? this.dueDate.toString() : <any>undefined;
+        data["startsAt"] = this.startsAt ? this.startsAt.toString() : <any>undefined;
+        data["opportunityId"] = this.opportunityId;
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["activitySourceTypeId"] = this.activitySourceTypeId;
+        data["activityTaskTypeId"] = this.activityTaskTypeId;
+        data["activityStatusId"] = this.activityStatusId;
+        data["activityPriorityId"] = this.activityPriorityId;
+        data["customerNumber"] = this.customerNumber;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivityDto {
+    dueDate: DateTime;
+    startsAt: DateTime;
+    opportunityId: number | undefined;
+    leadId: number | undefined;
+    userId: number;
+    activitySourceTypeId: number;
+    activityTaskTypeId: number;
+    activityStatusId: number;
+    activityPriorityId: number;
+    customerNumber: string | undefined;
+    id: number;
+}
+
+export class ActivityLeadLookupTableDto implements IActivityLeadLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityLeadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityLeadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityLeadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityLeadLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityOpportunityLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityOpportunityLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityOpportunityLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityOpportunityLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class ActivityPriorityDto implements IActivityPriorityDto {
+    description!: string | undefined;
+    color!: string | undefined;
+    id!: number;
+
+    constructor(data?: IActivityPriorityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.color = _data["color"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivityPriorityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityPriorityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["color"] = this.color;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivityPriorityDto {
+    description: string | undefined;
+    color: string | undefined;
+    id: number;
+}
+
+export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
+    description!: string | undefined;
+    id!: number;
+
+    constructor(data?: IActivitySourceTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): ActivitySourceTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivitySourceTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IActivitySourceTypeDto {
+    description: string | undefined;
+    id: number;
+}
+
 export class ActivityStatusDto implements IActivityStatusDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
+    isCompletedStatus!: boolean;
     id!: number;
 
     constructor(data?: IActivityStatusDto) {
@@ -22344,6 +24630,8 @@ export class ActivityStatusDto implements IActivityStatusDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
+            this.isCompletedStatus = _data["isCompletedStatus"];
             this.id = _data["id"];
         }
     }
@@ -22359,6 +24647,8 @@ export class ActivityStatusDto implements IActivityStatusDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
+        data["isCompletedStatus"] = this.isCompletedStatus;
         data["id"] = this.id;
         return data; 
     }
@@ -22367,6 +24657,8 @@ export class ActivityStatusDto implements IActivityStatusDto {
 export interface IActivityStatusDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
+    isCompletedStatus: boolean;
     id: number;
 }
 
@@ -22412,6 +24704,46 @@ export interface IActivityTaskTypeDto {
     description: string | undefined;
     order: number;
     id: number;
+}
+
+export class ActivityUserLookupTableDto implements IActivityUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IActivityUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ActivityUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IActivityUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
 }
 
 export class AddNewPageInput implements IAddNewPageInput {
@@ -24046,11 +26378,143 @@ export interface ICreateOrEditAccountUserDto {
     id: number | undefined;
 }
 
-export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatusDto {
+export class CreateOrEditActivityDto implements ICreateOrEditActivityDto {
+    taskName!: string;
+    dueDate!: DateTime;
+    startsAt!: DateTime;
+    durationMinutes!: number;
     description!: string | undefined;
+    opportunityId!: number | undefined;
+    leadId!: number | undefined;
+    userId!: number;
+    activitySourceTypeId!: number;
+    activityTaskTypeId!: number;
+    activityStatusId!: number;
+    activityPriorityId!: number;
+    customerNumber!: string | undefined;
     id!: number | undefined;
 
-    constructor(data?: ICreateOrEditActivityStatusDto) {
+    constructor(data?: ICreateOrEditActivityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.taskName = _data["taskName"];
+            this.dueDate = _data["dueDate"] ? DateTime.fromISO(_data["dueDate"].toString()) : <any>undefined;
+            this.startsAt = _data["startsAt"] ? DateTime.fromISO(_data["startsAt"].toString()) : <any>undefined;
+            this.durationMinutes = _data["durationMinutes"];
+            this.description = _data["description"];
+            this.opportunityId = _data["opportunityId"];
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.activitySourceTypeId = _data["activitySourceTypeId"];
+            this.activityTaskTypeId = _data["activityTaskTypeId"];
+            this.activityStatusId = _data["activityStatusId"];
+            this.activityPriorityId = _data["activityPriorityId"];
+            this.customerNumber = _data["customerNumber"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["taskName"] = this.taskName;
+        data["dueDate"] = this.dueDate ? this.dueDate.toString() : <any>undefined;
+        data["startsAt"] = this.startsAt ? this.startsAt.toString() : <any>undefined;
+        data["durationMinutes"] = this.durationMinutes;
+        data["description"] = this.description;
+        data["opportunityId"] = this.opportunityId;
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["activitySourceTypeId"] = this.activitySourceTypeId;
+        data["activityTaskTypeId"] = this.activityTaskTypeId;
+        data["activityStatusId"] = this.activityStatusId;
+        data["activityPriorityId"] = this.activityPriorityId;
+        data["customerNumber"] = this.customerNumber;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditActivityDto {
+    taskName: string;
+    dueDate: DateTime;
+    startsAt: DateTime;
+    durationMinutes: number;
+    description: string | undefined;
+    opportunityId: number | undefined;
+    leadId: number | undefined;
+    userId: number;
+    activitySourceTypeId: number;
+    activityTaskTypeId: number;
+    activityStatusId: number;
+    activityPriorityId: number;
+    customerNumber: string | undefined;
+    id: number | undefined;
+}
+
+export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPriorityDto {
+    description!: string;
+    color!: string;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivityPriorityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.color = _data["color"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityPriorityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityPriorityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["color"] = this.color;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditActivityPriorityDto {
+    description: string;
+    color: string;
+    id: number | undefined;
+}
+
+export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivitySourceTypeDto {
+    description!: string;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivitySourceTypeDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -24066,9 +26530,9 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
         }
     }
 
-    static fromJS(data: any): CreateOrEditActivityStatusDto {
+    static fromJS(data: any): CreateOrEditActivitySourceTypeDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditActivityStatusDto();
+        let result = new CreateOrEditActivitySourceTypeDto();
         result.init(data);
         return result;
     }
@@ -24081,8 +26545,60 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
     }
 }
 
+export interface ICreateOrEditActivitySourceTypeDto {
+    description: string;
+    id: number | undefined;
+}
+
+export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatusDto {
+    description!: string;
+    order!: number;
+    color!: string;
+    isCompletedStatus!: boolean;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditActivityStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.color = _data["color"];
+            this.isCompletedStatus = _data["isCompletedStatus"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditActivityStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditActivityStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["color"] = this.color;
+        data["isCompletedStatus"] = this.isCompletedStatus;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
 export interface ICreateOrEditActivityStatusDto {
-    description: string | undefined;
+    description: string;
+    order: number;
+    color: string;
+    isCompletedStatus: boolean;
     id: number | undefined;
 }
 
@@ -24436,14 +26952,14 @@ export interface ICreateOrEditIndustryDto {
 
 export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     companyName!: string;
-    contactName!: string | undefined;
+    contactName!: string;
     contactPosition!: string | undefined;
     webSite!: string | undefined;
     address!: string | undefined;
     country!: string | undefined;
     state!: string | undefined;
     city!: string | undefined;
-    description!: string | undefined;
+    notes!: string | undefined;
     companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
@@ -24478,7 +26994,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
             this.country = _data["country"];
             this.state = _data["state"];
             this.city = _data["city"];
-            this.description = _data["description"];
+            this.notes = _data["notes"];
             this.companyPhone = _data["companyPhone"];
             this.companyEmail = _data["companyEmail"];
             this.poBox = _data["poBox"];
@@ -24513,7 +27029,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
         data["country"] = this.country;
         data["state"] = this.state;
         data["city"] = this.city;
-        data["description"] = this.description;
+        data["notes"] = this.notes;
         data["companyPhone"] = this.companyPhone;
         data["companyEmail"] = this.companyEmail;
         data["poBox"] = this.poBox;
@@ -24534,14 +27050,14 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
 
 export interface ICreateOrEditLeadDto {
     companyName: string;
-    contactName: string | undefined;
+    contactName: string;
     contactPosition: string | undefined;
     webSite: string | undefined;
     address: string | undefined;
     country: string | undefined;
     state: string | undefined;
     city: string | undefined;
-    description: string | undefined;
+    notes: string | undefined;
     companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
@@ -24780,7 +27296,8 @@ export interface ICreateOrEditOpportunityDto {
 
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
     description!: string;
-    color!: string;
+    order!: number;
+    color!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -24795,6 +27312,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.color = _data["color"];
             this.id = _data["id"];
         }
@@ -24810,6 +27328,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["color"] = this.color;
         data["id"] = this.id;
         return data; 
@@ -24818,7 +27337,8 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 
 export interface ICreateOrEditOpportunityStageDto {
     description: string;
-    color: string;
+    order: number;
+    color: string | undefined;
     id: number | undefined;
 }
 
@@ -25699,6 +28219,62 @@ export class CustomerLeadSourceLookupTableDto implements ICustomerLeadSourceLook
 export interface ICustomerLeadSourceLookupTableDto {
     id: number;
     displayName: string | undefined;
+}
+
+export class CustomerOpportunityViewDto implements ICustomerOpportunityViewDto {
+    id!: number;
+    name!: string | undefined;
+    stage!: string | undefined;
+    stageColor!: string | undefined;
+    closeDate!: DateTime | undefined;
+    amount!: number | undefined;
+
+    constructor(data?: ICustomerOpportunityViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.stage = _data["stage"];
+            this.stageColor = _data["stageColor"];
+            this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
+            this.amount = _data["amount"];
+        }
+    }
+
+    static fromJS(data: any): CustomerOpportunityViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerOpportunityViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["stage"] = this.stage;
+        data["stageColor"] = this.stageColor;
+        data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
+        data["amount"] = this.amount;
+        return data; 
+    }
+}
+
+export interface ICustomerOpportunityViewDto {
+    id: number;
+    name: string | undefined;
+    stage: string | undefined;
+    stageColor: string | undefined;
+    closeDate: DateTime | undefined;
+    amount: number | undefined;
 }
 
 export class CustomerWipViewDto implements ICustomerWipViewDto {
@@ -28081,6 +30657,298 @@ export interface IGetAccountUserForViewDto {
     firstName: string | undefined;
     surName: string | undefined;
     fullName: string | undefined;
+}
+
+export class GetActivityForEditOutput implements IGetActivityForEditOutput {
+    activity!: CreateOrEditActivityDto;
+    opportunityName!: string | undefined;
+    leadCompanyName!: string | undefined;
+    userName!: string | undefined;
+    activitySourceTypeDescription!: string | undefined;
+    activityTaskTypeDescription!: string | undefined;
+    activityStatusDescription!: string | undefined;
+    activityPriorityDescription!: string | undefined;
+    customerName!: string | undefined;
+
+    constructor(data?: IGetActivityForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activity = _data["activity"] ? CreateOrEditActivityDto.fromJS(_data["activity"]) : <any>undefined;
+            this.opportunityName = _data["opportunityName"];
+            this.leadCompanyName = _data["leadCompanyName"];
+            this.userName = _data["userName"];
+            this.activitySourceTypeDescription = _data["activitySourceTypeDescription"];
+            this.activityTaskTypeDescription = _data["activityTaskTypeDescription"];
+            this.activityStatusDescription = _data["activityStatusDescription"];
+            this.activityPriorityDescription = _data["activityPriorityDescription"];
+            this.customerName = _data["customerName"];
+        }
+    }
+
+    static fromJS(data: any): GetActivityForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
+        data["opportunityName"] = this.opportunityName;
+        data["leadCompanyName"] = this.leadCompanyName;
+        data["userName"] = this.userName;
+        data["activitySourceTypeDescription"] = this.activitySourceTypeDescription;
+        data["activityTaskTypeDescription"] = this.activityTaskTypeDescription;
+        data["activityStatusDescription"] = this.activityStatusDescription;
+        data["activityPriorityDescription"] = this.activityPriorityDescription;
+        data["customerName"] = this.customerName;
+        return data; 
+    }
+}
+
+export interface IGetActivityForEditOutput {
+    activity: CreateOrEditActivityDto;
+    opportunityName: string | undefined;
+    leadCompanyName: string | undefined;
+    userName: string | undefined;
+    activitySourceTypeDescription: string | undefined;
+    activityTaskTypeDescription: string | undefined;
+    activityStatusDescription: string | undefined;
+    activityPriorityDescription: string | undefined;
+    customerName: string | undefined;
+}
+
+export class GetActivityForViewDto implements IGetActivityForViewDto {
+    activity!: ActivityDto;
+    companyName!: string | undefined;
+    opportunityName!: string | undefined;
+    leadCompanyName!: string | undefined;
+    userName!: string | undefined;
+    activitySourceTypeDescription!: string | undefined;
+    activityTaskTypeDescription!: string | undefined;
+    activityStatusDescription!: string | undefined;
+    activityStatusColor!: string | undefined;
+    activityPriorityDescription!: string | undefined;
+    activityPriorityColor!: string | undefined;
+    customerName!: string | undefined;
+
+    constructor(data?: IGetActivityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activity = _data["activity"] ? ActivityDto.fromJS(_data["activity"]) : <any>undefined;
+            this.companyName = _data["companyName"];
+            this.opportunityName = _data["opportunityName"];
+            this.leadCompanyName = _data["leadCompanyName"];
+            this.userName = _data["userName"];
+            this.activitySourceTypeDescription = _data["activitySourceTypeDescription"];
+            this.activityTaskTypeDescription = _data["activityTaskTypeDescription"];
+            this.activityStatusDescription = _data["activityStatusDescription"];
+            this.activityStatusColor = _data["activityStatusColor"];
+            this.activityPriorityDescription = _data["activityPriorityDescription"];
+            this.activityPriorityColor = _data["activityPriorityColor"];
+            this.customerName = _data["customerName"];
+        }
+    }
+
+    static fromJS(data: any): GetActivityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
+        data["companyName"] = this.companyName;
+        data["opportunityName"] = this.opportunityName;
+        data["leadCompanyName"] = this.leadCompanyName;
+        data["userName"] = this.userName;
+        data["activitySourceTypeDescription"] = this.activitySourceTypeDescription;
+        data["activityTaskTypeDescription"] = this.activityTaskTypeDescription;
+        data["activityStatusDescription"] = this.activityStatusDescription;
+        data["activityStatusColor"] = this.activityStatusColor;
+        data["activityPriorityDescription"] = this.activityPriorityDescription;
+        data["activityPriorityColor"] = this.activityPriorityColor;
+        data["customerName"] = this.customerName;
+        return data; 
+    }
+}
+
+export interface IGetActivityForViewDto {
+    activity: ActivityDto;
+    companyName: string | undefined;
+    opportunityName: string | undefined;
+    leadCompanyName: string | undefined;
+    userName: string | undefined;
+    activitySourceTypeDescription: string | undefined;
+    activityTaskTypeDescription: string | undefined;
+    activityStatusDescription: string | undefined;
+    activityStatusColor: string | undefined;
+    activityPriorityDescription: string | undefined;
+    activityPriorityColor: string | undefined;
+    customerName: string | undefined;
+}
+
+export class GetActivityPriorityForEditOutput implements IGetActivityPriorityForEditOutput {
+    activityPriority!: CreateOrEditActivityPriorityDto;
+
+    constructor(data?: IGetActivityPriorityForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityPriority = _data["activityPriority"] ? CreateOrEditActivityPriorityDto.fromJS(_data["activityPriority"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityPriorityForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityPriorityForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityPriority"] = this.activityPriority ? this.activityPriority.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityPriorityForEditOutput {
+    activityPriority: CreateOrEditActivityPriorityDto;
+}
+
+export class GetActivityPriorityForViewDto implements IGetActivityPriorityForViewDto {
+    activityPriority!: ActivityPriorityDto;
+
+    constructor(data?: IGetActivityPriorityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activityPriority = _data["activityPriority"] ? ActivityPriorityDto.fromJS(_data["activityPriority"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivityPriorityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivityPriorityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityPriority"] = this.activityPriority ? this.activityPriority.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivityPriorityForViewDto {
+    activityPriority: ActivityPriorityDto;
+}
+
+export class GetActivitySourceTypeForEditOutput implements IGetActivitySourceTypeForEditOutput {
+    activitySourceType!: CreateOrEditActivitySourceTypeDto;
+
+    constructor(data?: IGetActivitySourceTypeForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activitySourceType = _data["activitySourceType"] ? CreateOrEditActivitySourceTypeDto.fromJS(_data["activitySourceType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivitySourceTypeForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivitySourceTypeForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activitySourceType"] = this.activitySourceType ? this.activitySourceType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivitySourceTypeForEditOutput {
+    activitySourceType: CreateOrEditActivitySourceTypeDto;
+}
+
+export class GetActivitySourceTypeForViewDto implements IGetActivitySourceTypeForViewDto {
+    activitySourceType!: ActivitySourceTypeDto;
+
+    constructor(data?: IGetActivitySourceTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.activitySourceType = _data["activitySourceType"] ? ActivitySourceTypeDto.fromJS(_data["activitySourceType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetActivitySourceTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetActivitySourceTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activitySourceType"] = this.activitySourceType ? this.activitySourceType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetActivitySourceTypeForViewDto {
+    activitySourceType: ActivitySourceTypeDto;
 }
 
 export class GetActivityStatusForEditOutput implements IGetActivityStatusForEditOutput {
@@ -32359,7 +35227,7 @@ export class LeadDto implements ILeadDto {
     country!: string | undefined;
     state!: string | undefined;
     city!: string | undefined;
-    description!: string | undefined;
+    notes!: string | undefined;
     companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
@@ -32370,8 +35238,8 @@ export class LeadDto implements ILeadDto {
     contactFaxNumber!: string | undefined;
     pagerNumber!: string | undefined;
     contactEmail!: string | undefined;
-    leadSourceId!: number;
-    leadStatusId!: number;
+    leadSourceId!: number | undefined;
+    leadStatusId!: number | undefined;
     priorityId!: number | undefined;
     users!: LeadUserViewDto[] | undefined;
     creationTime!: DateTime | undefined;
@@ -32396,7 +35264,7 @@ export class LeadDto implements ILeadDto {
             this.country = _data["country"];
             this.state = _data["state"];
             this.city = _data["city"];
-            this.description = _data["description"];
+            this.notes = _data["notes"];
             this.companyPhone = _data["companyPhone"];
             this.companyEmail = _data["companyEmail"];
             this.poBox = _data["poBox"];
@@ -32437,7 +35305,7 @@ export class LeadDto implements ILeadDto {
         data["country"] = this.country;
         data["state"] = this.state;
         data["city"] = this.city;
-        data["description"] = this.description;
+        data["notes"] = this.notes;
         data["companyPhone"] = this.companyPhone;
         data["companyEmail"] = this.companyEmail;
         data["poBox"] = this.poBox;
@@ -32471,7 +35339,7 @@ export interface ILeadDto {
     country: string | undefined;
     state: string | undefined;
     city: string | undefined;
-    description: string | undefined;
+    notes: string | undefined;
     companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
@@ -32482,8 +35350,8 @@ export interface ILeadDto {
     contactFaxNumber: string | undefined;
     pagerNumber: string | undefined;
     contactEmail: string | undefined;
-    leadSourceId: number;
-    leadStatusId: number;
+    leadSourceId: number | undefined;
+    leadStatusId: number | undefined;
     priorityId: number | undefined;
     users: LeadUserViewDto[] | undefined;
     creationTime: DateTime | undefined;
@@ -34645,7 +37513,6 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
     order!: number;
-    color!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -34661,7 +37528,6 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
-            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -34677,7 +37543,6 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
-        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -34686,7 +37551,6 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 export interface IOpportunityStageDto {
     description: string | undefined;
     order: number;
-    color: string | undefined;
     id: number;
 }
 
@@ -35146,6 +38010,54 @@ export interface IPagedResultDtoOfCustomerInvoiceViewDto {
     items: CustomerInvoiceViewDto[] | undefined;
 }
 
+export class PagedResultDtoOfCustomerOpportunityViewDto implements IPagedResultDtoOfCustomerOpportunityViewDto {
+    totalCount!: number;
+    items!: CustomerOpportunityViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerOpportunityViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerOpportunityViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerOpportunityViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerOpportunityViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfCustomerOpportunityViewDto {
+    totalCount: number;
+    items: CustomerOpportunityViewDto[] | undefined;
+}
+
 export class PagedResultDtoOfCustomerWipViewDto implements IPagedResultDtoOfCustomerWipViewDto {
     totalCount!: number;
     items!: CustomerWipViewDto[] | undefined;
@@ -35336,6 +38248,150 @@ export class PagedResultDtoOfGetAccountUserForViewDto implements IPagedResultDto
 export interface IPagedResultDtoOfGetAccountUserForViewDto {
     totalCount: number;
     items: GetAccountUserForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetActivityForViewDto implements IPagedResultDtoOfGetActivityForViewDto {
+    totalCount!: number;
+    items!: GetActivityForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivityForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivityForViewDto {
+    totalCount: number;
+    items: GetActivityForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetActivityPriorityForViewDto implements IPagedResultDtoOfGetActivityPriorityForViewDto {
+    totalCount!: number;
+    items!: GetActivityPriorityForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivityPriorityForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivityPriorityForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivityPriorityForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivityPriorityForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivityPriorityForViewDto {
+    totalCount: number;
+    items: GetActivityPriorityForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetActivitySourceTypeForViewDto implements IPagedResultDtoOfGetActivitySourceTypeForViewDto {
+    totalCount!: number;
+    items!: GetActivitySourceTypeForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetActivitySourceTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetActivitySourceTypeForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetActivitySourceTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetActivitySourceTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetActivitySourceTypeForViewDto {
+    totalCount: number;
+    items: GetActivitySourceTypeForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetActivityStatusForViewDto implements IPagedResultDtoOfGetActivityStatusForViewDto {
@@ -40087,6 +43143,50 @@ export class UpdateNotificationSettingsInput implements IUpdateNotificationSetti
 export interface IUpdateNotificationSettingsInput {
     receiveNotifications: boolean;
     notifications: NotificationSubscriptionDto[] | undefined;
+}
+
+export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunityStageDto {
+    description!: string | undefined;
+    order!: number;
+    id!: number | undefined;
+
+    constructor(data?: IUpdateOrderOpportunityStageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): UpdateOrderOpportunityStageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateOrderOpportunityStageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IUpdateOrderOpportunityStageDto {
+    description: string | undefined;
+    order: number;
+    id: number | undefined;
 }
 
 export class UpdateOrganizationUnitInput implements IUpdateOrganizationUnitInput {

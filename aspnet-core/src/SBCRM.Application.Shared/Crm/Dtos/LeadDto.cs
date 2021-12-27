@@ -24,7 +24,7 @@ namespace SBCRM.Crm.Dtos
 
         public string City { get; set; }
 
-        public string Description { get; set; }
+        public string Notes { get; set; }
 
         public string CompanyPhone { get; set; }
 
@@ -46,9 +46,9 @@ namespace SBCRM.Crm.Dtos
 
         public string ContactEmail { get; set; }
 
-        public int LeadSourceId { get; set; }
+        public int? LeadSourceId { get; set; }
 
-        public int LeadStatusId { get; set; }
+        public int? LeadStatusId { get; set; }
 
         public int? PriorityId { get; set; }
 

@@ -4,16 +4,16 @@
             <div role="actions" class="d-flex flex-row align-items-center" >
 
                 <div class = padding-left-5>
-                    <button 
-                        (click)="exportToExcel()" 
+                    <button
+                        (click)="exportToExcel()"
                         class="btn btn btn-primary blue"
                     >
                         <i class="fa fa-download fa-lg"></i>
                         {{ l('Export') }}
                     </button>
-                </div> 
+                </div>
 
-                <div class = padding-left-5> 
+                <div class = padding-left-5>
                     <button
                         *ngIf="isGranted('Pages.Opportunities.Create')"
                         (click)="createOpportunity()"
@@ -71,8 +71,8 @@
                                                 name="OpportunityStagesFilter"
                                                 [options]="opportunityStages"
                                                 [(ngModel)]="selectedOpportunityStage"
-                                                optionLabel="displayName"     
-                                                placeholder="Filter by Stage"                                          
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Stage"
                                                 (onChange)="getOpportunities($event)"
                                             >
                                             </p-dropdown>
@@ -139,22 +139,22 @@
                                             {{ l('Stage')}}
                                             <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
                                         </th>
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="customerFk.name"
                                         >
                                             {{ l('Account') }}
                                             <p-sortIcon field="customerFk.name"></p-sortIcon>
-                                        </th> 
+                                        </th>
                                         <!-- These is just a placeholder -->
-                                        <th 
+                                        <th
                                             style="width: 150px"
                                             pSortableColumn="name"
                                         >
                                             {{ l('AssignedUser') }}
                                             <p-sortIcon field="name"></p-sortIcon>
                                         </th>
-                                        <!-- Above is just a placeholder -->                                        
+                                        <!-- Above is just a placeholder -->
                                         <th style="width: 150px" pSortableColumn="closeDate">
                                             {{ l('CloseDate') }}
                                             <p-sortIcon field="closeDate"></p-sortIcon>
@@ -211,40 +211,37 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </td>                                       
+                                        </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
-                                            <a                                                
+                                            <a
                                                 [routerLink]="['/app/main/crm/opportunities/view']"
                                                 [queryParams]="{ id: record.opportunity.id }"
                                             >
                                                 {{ record.opportunity.name }}
-                                            </a>                                               
+                                            </a>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Stage') }}</span>
                                             <span
-                                                class="p-3 mb-2"
-                                                [ngStyle]="{
-                                                    'color': record.opportunityStageColor,
-                                                    'background-color': record.opportunityStageColor + '33'
-                                                }"
-                                            >    
-                                                {{ record.opportunityStageDescription }}        
-                                            </span>                                        
+                                                class="cell-span-color text-white"
+                                                [ngStyle]="{ 'background-color': record.opportunityStageColor }"
+                                            >
+                                                {{ record.opportunityStageDescription }}
+                                            </span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Account') }}</span>
-                                            {{ record.customerName }}                                           
+                                            {{ record.customerName }}
                                         </td>
                                         <!-- These is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <img 
-                                                width="50" 
+                                            <img
+                                                width="50"
                                                 height="50"
                                                 src="\assets\metronic\common\images\users\100_4.jpg">
-                                                {{ l('Placeholder') }}                                           
+                                                {{ l('Placeholder') }}
                                         </td>
                                         <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
@@ -260,7 +257,7 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Branch') }}}</span>
-                                                {{ record.opportunity.branch }}                                                   
+                                                {{ record.opportunity.branch }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Department') }</span>

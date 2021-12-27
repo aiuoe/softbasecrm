@@ -7,6 +7,8 @@ import {
     LeadLeadSourceLookupTableDto,
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
+    CountriesServiceProxy,
+    CountryDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -47,6 +49,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     ];
 
     items: MenuItem[];
+    countries: CountryDto[] = [];
 
     /**
      * Main constructor
@@ -62,6 +65,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         private _leadsServiceProxy: LeadsServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService,
+        private _countriesServiceProxy: CountriesServiceProxy
     ) {
         super(injector);
     }
@@ -72,7 +76,6 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     ngOnInit(): void {
         const hasId = this._activatedRoute.snapshot.queryParams['id'];
         this.show(hasId);
-        this.breadcrumbs.push(new BreadcrumbItem(hasId ? this.l('EditLead') : this.l('CreateNewLead')));
     }
 
     /**
@@ -93,12 +96,13 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
             this.leadSourceDescription = '';
             this.leadStatusDescription = '';
             this.priorityDescription = '';
-
             this.active = true;
+            this.breadcrumbs.push(new BreadcrumbItem(this.l('CreateNewLead')));
         } else {
-            this._leadsServiceProxy.getLeadForEdit(leadId).subscribe((result) => {
+            this._leadsServiceProxy.getLeadForEdit(leadId)
+            .subscribe((result) => {
                 this.lead = result.lead;
-
+                this.breadcrumbs.push(new BreadcrumbItem(result.lead.companyName ||  this.l('EditLead')));
                 this.leadSourceDescription = result.leadSourceDescription;
                 this.leadStatusDescription = result.leadStatusDescription;
                 this.priorityDescription = result.priorityDescription;
@@ -126,6 +130,9 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                 const defaultPriority = result.find(p => p.isDefault)?.id;
                 this.lead.priorityId = defaultPriority;
             }
+        });
+        this._countriesServiceProxy.getAllForTableDropdown().subscribe((result) => {
+            this.countries = result.map(c => c.country);
         });
     }
 

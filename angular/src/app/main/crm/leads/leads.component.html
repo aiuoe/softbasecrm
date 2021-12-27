@@ -104,7 +104,7 @@
                                                 optionLabel="displayName"
                                                 placeholder="Filter by Status"
                                                 (onChange)="getLeads($event)"
-                                            >                                                
+                                            >
                                             </p-dropdown>
                                         </div>
                                     </div>
@@ -114,20 +114,20 @@
                                     <div class="form-group">
                                         <label for="PriorityFilter"></label>
                                         <div>
-                                            <p-dropdown                                           
+                                            <p-dropdown
                                                 id="PriorityFilter"
                                                 name="PriorityFilter"
                                                 [options]="priorities"
                                                 [(ngModel)]="selectedPriority"
-                                                optionLabel="displayName"     
-                                                placeholder="Filter by Priorities"                                          
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Priorities"
                                                 (onChange)="getLeads($event)"
                                             >
                                             </p-dropdown>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-2">
@@ -308,10 +308,8 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Status') }}</span>
                                             <span
-                                                class="cell-span-color"
-                                                [ngStyle]="{                                                                                                
-                                                    'background-color': record.leadStatusColor
-                                                }"
+                                                class="cell-span-color text-white"
+                                                [ngStyle]="{ 'background-color': record.leadStatusColor }"
                                             >
                                                 {{ record.leadStatusDescription }}
                                             </span>
