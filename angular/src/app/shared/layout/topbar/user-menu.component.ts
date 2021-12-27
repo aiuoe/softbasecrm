@@ -19,7 +19,7 @@ export class UserMenuComponent extends ThemesLayoutBaseComponent implements OnIn
     @Input() togglerCssClass = 'btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2';
     @Input() textCssClass = 'text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3';
     @Input() symbolCssClass = 'symbol symbol-35 symbol-light-success';
-    @Input() symbolTextCssClass = 'symbol-label font-size-h5 font-weight-bold';
+    @Input() symbolTextCssClass = 'symbol-label font-size-h5 font-weight-bold user-initial';
 
     usernameFirstLetter = '';
 
@@ -27,10 +27,13 @@ export class UserMenuComponent extends ThemesLayoutBaseComponent implements OnIn
     shownLoginName = '';
     tenancyName = '';
     userName = '';
+    firstName = '';
+    lastName = '';
 
     recentlyLinkedUsers: LinkedUserDto[];
     isImpersonatedLogin = false;
     isMultiTenancyEnabled = false;
+    hasDefaultProfilePicture = true;
 
     mQuickUserOffcanvas: any;
 
@@ -56,7 +59,6 @@ export class UserMenuComponent extends ThemesLayoutBaseComponent implements OnIn
         this.getProfilePicture();
         this.getRecentlyLinkedUsers();
         this.registerToEvents();
-        this.usernameFirstLetter = this.appSession.user.userName.substring(0, 1).toUpperCase();
     }
 
     ngAfterViewInit(): void {
@@ -79,7 +81,17 @@ export class UserMenuComponent extends ThemesLayoutBaseComponent implements OnIn
     setCurrentLoginInformations(): void {
         this.shownLoginName = this.appSession.getShownLoginName();
         this.tenancyName = this.appSession.tenancyName;
-        this.userName = this.appSession.user.userName;
+
+        const { userName, name: firstName, surname: lastName } = this.appSession.user;
+
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.usernameFirstLetter = firstName.substring(0, 1).toUpperCase();
+    }
+
+    get userFullName(): string {
+        return `${this.firstName} ${this.lastName}`;
     }
 
     getShownUserName(linkedUser: LinkedUserDto): string {
@@ -94,6 +106,7 @@ export class UserMenuComponent extends ThemesLayoutBaseComponent implements OnIn
         this._profileServiceProxy.getProfilePicture().subscribe((result) => {
             if (result && result.profilePicture) {
                 this.profilePicture = 'data:image/jpeg;base64,' + result.profilePicture;
+                this.hasDefaultProfilePicture = false;
             }
         });
     }
