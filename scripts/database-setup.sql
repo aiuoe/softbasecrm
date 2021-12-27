@@ -1,5 +1,5 @@
 
-INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('New', getdate(), '#2C4AB6', 0, 1, 0, 'NEW');
+INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('New', getdate(), '#2C4AB6', 0, 1, 1, 'NEW');
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('In progress', getdate(), '#FF8900', 0, 1, 0, 'IN PROGRESS');
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('Converted', getdate(), '#008E26', 0, 0, 0, 'CONVERTED');
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('Dead', getdate(), '#263950', 0, 1, 0, 'DEAD');

@@ -162,6 +162,10 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
                         } else {
                             this.close();
                         }
+                    },
+                    {
+                        confirmButtonText: this.l('Download'),
+                        cancelButtonText: this.l('Close'),      
                     }
                 );
             } else {
