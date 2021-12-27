@@ -28,7 +28,7 @@ namespace SBCRM.Crm
 
         public string City { get; set; }
 
-        public string Description { get; set; }
+        public string Notes { get; set; }
 
         public string CompanyPhone { get; set; }
 

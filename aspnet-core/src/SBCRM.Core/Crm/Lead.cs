@@ -94,5 +94,6 @@ namespace SBCRM.Crm
         public virtual string CustomerNumber { get; set; }
 
         public List<LeadUser> Users { get; set; }
+        
     }
 }

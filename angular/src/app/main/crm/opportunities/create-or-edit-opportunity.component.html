@@ -29,6 +29,7 @@
                                                 (click)="save()" 
                                                 class="btn btn-primary blue float-right" 
                                                 [buttonBusy]="saving"
+                                                [disabled]="!this.opportunityForm.form.valid"
                                             >    
                                                 <i class="fa fa-save"></i>                               
                                                 <span>{{ l('Save') }}</span>
@@ -77,25 +78,24 @@
 
                                                     <div class="col-md-6 input-field required">                                                                
                                                         <label for="Opportunity_Account">{{ l('Account') }}</label>
-                                                        <p-dropdown                                                            
-                                                            [required]="true"                                                     
+                                                        <p-dropdown
+                                                            [required]="true"
                                                             id="Opportunity_Account"
-                                                            #Opportunity_Account="ngModel" 
-                                                            #name="ngModel"  
-                                                            [ngModelOptions]="{standalone: true}"                                                          
+                                                            name="Opportunity_Account"
+                                                            #Opportunity_Account="ngModel"
                                                             [options]="allCustomers"
                                                             [(ngModel)]="opportunity.customerNumber"
                                                             optionValue="number"
                                                             optionLabel="name"
                                                             placeholder="{{ l('InputAccount') }}"
-                                                            [virtualScroll]="true" 
-                                                            itemSize="40"      
+                                                            [virtualScroll]="true"
+                                                            itemSize="40"
                                                             [showClear]="true"
                                                             [filter]="true"
-                                                            (onChange)="getContactsAccordingToCustomer($event.value)" 
-                                                            [disabled]="this.isReadOnlyMode || !this.isNew || this.isExternalCreation"                                                        
-                                                        >                                                                                                                                                                    
-                                                        </p-dropdown> 
+                                                            (onChange)="getContactsAccordingToCustomer($event.value)"
+                                                            [disabled]="this.isReadOnlyMode || !this.isNew || this.isExternalCreation"
+                                                        >
+                                                        </p-dropdown>
                                                         <validation-messages [formCtrl]="Opportunity_Account"></validation-messages>                                                                                                                                        
                                                     </div>                                                    
 
@@ -106,10 +106,10 @@
                                                         <label for="OpportunityStageId">{{ l('Stage') }}</label>
                                                         <p-dropdown
                                                             [required]="true"                                                     
-                                                            id="OpportunityStageId"
-                                                            #OpportunityStageId="ngModel" 
-                                                            #name="ngModel"  
-                                                            [ngModelOptions]="{standalone: true}"   
+                                                            id="OpportunityStageId"                                                            
+                                                            name="OpportunityStageId"
+                                                            #OpportunityStageId="ngModel"   
+                                                             
                                                             [options]="allOpportunityStages"
                                                             [(ngModel)]="opportunity.opportunityStageId"
                                                             optionValue="id"
@@ -157,11 +157,13 @@
                                                                 suffix="%"
                                                                 #Opportunity_Probability="ngModel"
                                                                 id="Opportunity_Probability"
+                                                                name="Opportunity_Probability"
                                                                 [(ngModel)]="opportunity.probability"
                                                                 [placeholder]= "l('InputProbability')"  
-                                                                name="Probability"
-                                                                min = 1
+                                                                name="Opportunity_Probability"
+                                                                min = 0
                                                                 max = 100
+                                                                oninvalid="this.setCustomValidity('Enter User Name Here')"                                                                
                                                                 [disabled]="this.isReadOnlyMode"
                                                             >
                                                             </p-inputNumber>
@@ -169,22 +171,22 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
-                                                            <p-calendar
-                                                                #Opportunity_CloseDate="ngModel"
-                                                                dataType="date"                                                                
-                                                                dateFormat="mm/dd/yy"     
-                                                                [placeholder]= "l('InputCloseDate')"                                        
-                                                                [(ngModel)]="entryDate"                                                                                                                                                                        
-                                                                id="Opportunity_CloseDate"
-                                                                name="Opportunity_CloseDate"
-                                                                [disabled]="this.isReadOnlyMode"                                                
-                                                            >
-                                                            </p-calendar>
-                                                            <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
-                                                        </div>
+                                                    <div class="col-md-6 input-field">                 
+                                                        <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
+                                                        <p-calendar
+                                                            [style]="{'width':'100%'}" 
+                                                            [inputStyle]="{'width':'100%'}"
+                                                            #Opportunity_CloseDate="ngModel"
+                                                            dataType="date"                                                                
+                                                            dateFormat="mm/dd/yy"     
+                                                            [placeholder]= "l('InputCloseDate')"                                        
+                                                            [(ngModel)]="formDate"                                                                                                                                                                       
+                                                            id="Opportunity_CloseDate"
+                                                            name="Opportunity_CloseDate"
+                                                            [disabled]="this.isReadOnlyMode"                                                
+                                                        >
+                                                        </p-calendar>
+                                                        <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>                                                      
                                                     </div> 
 
                                                 </div>
@@ -196,17 +198,16 @@
                                                         <p-dropdown
                                                             [required]="true"                                                     
                                                             id="Opportunity_Contact"
-                                                            #Opportunity_Contact="ngModel" 
-                                                            #name="ngModel"  
-                                                            [ngModelOptions]="{standalone: true}" 
+                                                            name="Opportunity_Contact" 
+                                                            #Opportunity_Contact="ngModel"                                                         
                                                             [options]="allContacts"
                                                             [(ngModel)]="opportunity.contactId"
                                                             optionValue="id"
                                                             optionLabel="contactName"
-                                                            placeholder="{{ l('InputContact') }}"                                                   
-                                                            [disabled]="this.isReadOnlyMode"
+                                                            placeholder="{{ l('InputContact') }}" 
                                                             [showClear]="true"
-                                                            [filter]="true"                                                            
+                                                            [filter]="true"                                                   
+                                                            [disabled]="this.isReadOnlyMode"                                                           
                                                         > 
                                                         </p-dropdown>  
                                                         <validation-messages [formCtrl]="Opportunity_Contact"></validation-messages>                                      

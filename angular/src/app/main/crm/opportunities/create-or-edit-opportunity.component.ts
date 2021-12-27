@@ -47,6 +47,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     showSaveButton = false;
     isReadOnlyMode = false;
     isExternalCreation = false;
+    formEdited = false;
 
     opportunity: CreateOrEditOpportunityDto = new CreateOrEditOpportunityDto();
 
@@ -57,7 +58,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     contactName = '';
     customerNumber = '';
     opportunityCustomerName = '';
-    entryDate : Date;
+    formDate : Date;
+    counterAfterViewInits = 0;
 
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
@@ -145,7 +147,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }                                                            
                     
-                    this.showSaveButton = !this.isReadOnlyMode;
+                    this.showSaveButton = !this.isReadOnlyMode;    
+                    this.formEdited = true;                
                     }, (error) => {
                     this.goToOpportunities();
                 });
@@ -173,9 +176,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                 this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber); 
      
-                this.entryDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
+                this.formDate  = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
 
                 this.showSaveButton = !this.isReadOnlyMode;
+
+                this.formEdited = false;
 
                 }, (error) => {
                     this.goToOpportunities();
@@ -183,11 +188,19 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         }
     }
 
-    updateOpportunityDate(event) {
-        console.log(event);
-        this.opportunity.closeDate = this._dateTimeService.fromJSDate(event);
+     /**
+     * Actions post components and children views creation 
+     */
+    ngAfterViewInit() {
+        this.opportunityForm.form.valueChanges.subscribe((change) => {  
+            // if (this.counterAfterViewInits >= 200)          
+                console.log(change)
+            // this.formEdited = true;
+            // this.counterAfterViewInits++;
+            // console.log(this.counterAfterViewInits)
+        })
     }
-
+    
     /**
      * Get the contacts for the selected customer
      * @returns void
@@ -195,6 +208,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     getContactsAccordingToCustomer(customerNumber : string) : void {
         this._opportunitiesServiceProxy.getAllContactsForTableDropdownCustomerSpecific(customerNumber).subscribe((result) => {
             this.allContacts = result;
+        if (this.allContacts.length == 1) 
+            this.opportunity.contactId = this.allContacts[0].id;
         });         
     }
 
@@ -208,8 +223,15 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this.message.warn(this.l('InvalidFormMessage'));
             return;
         }
+
+        if (this.opportunity.probability < 1 || this.opportunity.probability > 100)
+        {                      
+            this.opportunityForm.form.controls['Opportunity_Probability'].setErrors({'invalid': true});
+            this.message.warn(this.l('InvalidFormMessage'));
+            return;
+        }
         
-        this.opportunity.closeDate = this._dateTimeService.fromJSDate(this.entryDate);
+        this.opportunity.closeDate = this._dateTimeService.fromJSDate(this.formDate);
 
         this.saving = true;
 

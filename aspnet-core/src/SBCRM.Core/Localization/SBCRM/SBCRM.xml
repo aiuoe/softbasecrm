@@ -2,17 +2,7 @@
 
 <localizationDictionary culture="en">
   <texts>
-    <text name="AddOpportunity">Add Opportunity</text>
-		<text name="InputName">Enter Name</text>
-		<text name="InputAccount">Select Account</text>
-		<text name="InputStage">Select Stage</text>
-		<text name="InputProbability">Enter Percentage</text>
-		<text name="InputCloseDate">Select Date</text>
-		<text name="InputContact">Select Contact</text>
-		<text name="InputLeadSource">Select Source</text>
-		<text name="InputDescription">Enter Description</text>
-		<text name="InputBranch">Enter Name</text>
-		<text name="InputDepartment">Enter Name</text>
+    
     <text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
@@ -75,16 +65,16 @@
     <text name="ActivityPriorities">Activity priorities</text>
 
     <text name="AddOpportunity">Add Opportunity</text>
-    <text name="InputName">Enter a Name</text>
+    <text name="InputName">Enter Name</text>
     <text name="InputAccount">Select Account</text>
     <text name="InputStage">Select Stage</text>
-    <text name="InputProbability">Enter a Percentage</text>
-    <text name="InputCloseDate">Select a Date</text>
-    <text name="InputContact">Select a Contact</text>
-    <text name="InputLeadSource">Select a Source</text>
-    <text name="InputDescription">Enter a Description</text>
-    <text name="InputBranch">Enter the Branch name</text>
-    <text name="InputDepartment">Enter the Department name</text>
+    <text name="InputProbability">Enter Percentage</text>
+    <text name="InputCloseDate">Select Date</text>
+    <text name="InputContact">Select Contact</text>
+    <text name="InputLeadSource">Select Source</text>
+    <text name="InputDescription">Enter Description</text>
+    <text name="InputBranch">Enter Name</text>
+    <text name="InputDepartment">Enter Name</text>
     <text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
     <text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
     <text name="AccountUser">Account user</text>
