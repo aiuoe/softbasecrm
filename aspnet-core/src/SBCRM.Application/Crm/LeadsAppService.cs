@@ -97,6 +97,7 @@ namespace SBCRM.Crm
                 var filteredLeads = _leadRepository.GetAll()
                                .Include(e => e.LeadSourceFk)
                                .Include(e => e.LeadStatusFk)
+                               .Include(x => x.Users)
                                .Include(e => e.PriorityFk)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
@@ -165,6 +166,7 @@ namespace SBCRM.Crm
                                 ContactEmail = o.ContactEmail,
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
+                                Users = o.Users,
                                 LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                 LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
@@ -232,6 +234,7 @@ namespace SBCRM.Crm
                                 ContactEmail = o.ContactEmail,
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
+                                Users = o.Users,
                                 LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                 LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
@@ -612,10 +615,12 @@ namespace SBCRM.Crm
                              PagerNumber = o.PagerNumber,
                              ContactEmail = o.ContactEmail,
                              Id = o.Id,
-                             CreationTime = o.CreationTime,                             
+                             CreationTime = o.CreationTime,
+                             Users = o.Users,
                              LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                             PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString()
+                             PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                             PriorityColor = s3 == null || s3.Color == null ? "" : s3.Color
                          });
 
             var dbList = await query.ToListAsync();
@@ -639,7 +644,6 @@ namespace SBCRM.Crm
                 {
                     Lead = new LeadDto
                     {
-
                         CompanyName = o.CompanyName,
                         ContactName = o.ContactName,
                         ContactPosition = o.ContactPosition,
@@ -666,10 +670,11 @@ namespace SBCRM.Crm
                     LeadStatusDescription = o.LeadStatusDescription,
                     LeadCanBeConvert = o.LeadCanBeConvert,
                     LeadStatusColor = o.LeadStatusColor,
-                    PriorityDescription = o.PriorityDescription
+                    PriorityDescription = o.PriorityDescription,
+                    PriorityColor = o.PriorityColor
                 };
 
-                if (!(o.Users == null))
+                if (o.Users.Any())
                 {
                     var leadUsers = o.Users
                         .Select(x => new LeadUserViewDto

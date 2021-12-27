@@ -3,16 +3,16 @@
 <localizationDictionary culture="en">
 	<texts>
 		<text name="AddOpportunity">Add Opportunity</text>
-		<text name="InputName">Enter a Name</text>
+		<text name="InputName">Enter Name</text>
 		<text name="InputAccount">Select Account</text>
 		<text name="InputStage">Select Stage</text>
-		<text name="InputProbability">Enter a Percentage</text>
-		<text name="InputCloseDate">Select a Date</text>
-		<text name="InputContact">Select a Contact</text>
-		<text name="InputLeadSource">Select a Source</text>
-		<text name="InputDescription">Enter a Description</text>
-		<text name="InputBranch">Enter the Branch name</text>
-		<text name="InputDepartment">Enter the Department name</text>
+		<text name="InputProbability">Enter Percentage</text>
+		<text name="InputCloseDate">Select Date</text>
+		<text name="InputContact">Select Contact</text>
+		<text name="InputLeadSource">Select Source</text>
+		<text name="InputDescription">Enter Description</text>
+		<text name="InputBranch">Enter Name</text>
+		<text name="InputDepartment">Enter Name</text>
 		<text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
 		<text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
 		<text name="AccountUser">Account user</text>
@@ -84,9 +84,9 @@
 		<text name="SBCRM.Crm.Opportunity">Opportunity</text>
 		<text name="Probability">Probability</text>
 		<text name="Probability%">Probability %</text>
-		<text name="CloseDate">Close date</text>
+		<text name="CloseDate">Project Close</text>
 		<text name="Department">Department</text>
-		<text name="NewOpportunites">New Opportunites</text>
+		<text name="NewOpportunities">New Opportunities</text>
 		<text name="DepartmentName">Department Name</text>
 		<text name="OpportunitiesHeaderInfo">Opportunities header info</text>
 		<text name="CreateNewOpportunity">Opportunity</text>
@@ -123,7 +123,7 @@
 		<text name="DescriptionLabel">Description</text>
 		<text name="CompanyPhone">Company Phone</text>
 		<text name="CompanyPhone_Invalid">Invalid Company phone</text>
-		<text name="LeadCompanyPhone">Phone</text>
+		<text name="LeadCompanyPhone">Company Phone</text>
 		<text name="CompanyEmail">Company Email</text>
 		<text name="PoBox">Po Box</text>
 		<text name="PriorityDescription">Priority description</text>

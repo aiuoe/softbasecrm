@@ -74,23 +74,25 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
-                                        <p-multiSelect 
-                                            id="UserAssignedFilter"
-                                            name="UserAssignedFilter"
-                                            [options]="allUsers"
-                                            [(ngModel)]="selectedUsers"
-                                            optionLabel="displayName"
-                                            placeholder="Filter by Users"
-                                            (onChange)="getLeads($event)"
-                                        >
-                                        </p-multiSelect>
+                                        <div>
+                                            <p-multiSelect 
+                                                id="UserAssignedFilter"
+                                                name="UserAssignedFilter"
+                                                [options]="allUsers"
+                                                [(ngModel)]="selectedUsers"
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Users"
+                                                (onChange)="getLeads($event)"
+                                            >
+                                            </p-multiSelect>
+                                        </div>    
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
                                         <div>
@@ -108,7 +110,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="PriorityFilter"></label>
                                         <div>
@@ -183,7 +185,7 @@
                                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                         </th>
                                         <th
-                                            style="width: 150px"
+                                            style="width: 160px"
                                             pSortableColumn="companyName"
                                         >
                                             {{ l('LeadCompanyName') }}
@@ -286,7 +288,7 @@
                                             <p-tableCheckbox    [value]="record">
                                             </p-tableCheckbox>
                                         </td>
-                                        <td style="width: 150px">
+                                        <td style="width: 160px">
                                             <span
                                                 class="p-column-title"
                                             >
@@ -317,8 +319,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
                                                 {{ record.lead.companyPhone }}
-                                        </td>
-                                        <!-- These is just a placeholder -->
+                                        </td>                                        
                                         <td style="width: 150px">
                                             <span>
                                                 <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
@@ -328,8 +329,7 @@
                                                     {{ record.firstUserAssignedFullName }}
                                                 </p>
                                             </span>
-                                        </td>
-                                        <!-- Above is just a placeholder -->
+                                        </td>                                       
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
                                                 {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}

@@ -10,8 +10,8 @@
                 <button 
                     (click)="goToOpportunities()"
                     class="btn btn-secondary float-left" 
-                    [buttonBusy]="saving">
-                        <span>{{ l('Close') }}</span>
+                >
+                    <span>{{ l('Close') }}</span>
                 </button>
             </div>
         </sub-header>
@@ -48,7 +48,7 @@
                                     </div>      
                                     <div class="row">
                                         <div class="col-12">                    
-                                            <form #OpportunityForm="ngForm" role="form" class="form-validation" novalidate>
+                                            <form #opportunityForm="ngForm" role="form" class="form-validation" novalidate>
                                                 <h3 
                                                     class="font-size-lg text-dark font-weight-bold mb-6"
                                                 >
@@ -75,10 +75,9 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6 input-field required">   
-                                                                  
+                                                    <div class="col-md-6 input-field required">                                                                
                                                         <label for="Opportunity_Account">{{ l('Account') }}</label>
-                                                        <p-dropdown
+                                                        <p-dropdown                                                            
                                                             [required]="true"                                                     
                                                             id="Opportunity_Account"
                                                             #Opportunity_Account="ngModel" 
@@ -155,7 +154,7 @@
                                                             <p-inputNumber  
                                                                 [style]="{'width':'100%'}" 
                                                                 [inputStyle]="{'width':'100%'}"                                       
-                                                                prefix="%"
+                                                                suffix="%"
                                                                 #Opportunity_Probability="ngModel"
                                                                 id="Opportunity_Probability"
                                                                 [(ngModel)]="opportunity.probability"
@@ -173,18 +172,17 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
-                                                            <input
-                                                                class="form-control m-input form-xlg"
+                                                            <p-calendar
                                                                 #Opportunity_CloseDate="ngModel"
-                                                                type="datetime"
-                                                                bsDatepicker 
-                                                                dateFormat="MM-dd-yyyy"     
+                                                                dataType="date"                                                                
+                                                                dateFormat="mm/dd/yy"     
                                                                 [placeholder]= "l('InputCloseDate')"                                        
-                                                                [(ngModel)]="opportunity.closeDate?  '' : opportunity.closeDate"                                                
+                                                                [(ngModel)]="entryDate"                                                                                                                                                                        
                                                                 id="Opportunity_CloseDate"
                                                                 name="Opportunity_CloseDate"
                                                                 [disabled]="this.isReadOnlyMode"                                                
-                                                            />
+                                                            >
+                                                            </p-calendar>
                                                             <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
                                                         </div>
                                                     </div> 

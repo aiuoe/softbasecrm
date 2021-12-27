@@ -192,7 +192,8 @@
                                                             *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
-                                                            [queryParams]="{ id: record.opportunity.id }"
+                                                            [queryParams]="{ id: record.opportunity.id,
+                                                                             customerName: record.customerName }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -202,7 +203,8 @@
                                                             *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
-                                                            [queryParams]="{ id: record.opportunity.id }"
+                                                            [queryParams]="{ id: record.opportunity.id,
+                                                                             customerName: record.customerName }"
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
