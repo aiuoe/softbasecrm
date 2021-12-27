@@ -42,7 +42,7 @@ namespace SBCRM.Authorization.Users.Importing
                 user.EmailAddress = GetRequiredValueFromRowOrNull(worksheet, row, 3, nameof(user.EmailAddress), exceptionMessage);
                 user.PhoneNumber = GetOptionalValueFromRowOrNull(worksheet, row, 4, exceptionMessage, CellType.String);
                 user.Password = GetRequiredValueFromRowOrNull(worksheet, row, 5, nameof(user.Password), exceptionMessage);
-                user.AssignedRoleNames = GetAssignedRoleNamesFromRow(worksheet, row, 6);
+                //user.AssignedRoleNames = GetAssignedRoleNamesFromRow(worksheet, row, 6);
             }
             catch (System.Exception exception)
             {

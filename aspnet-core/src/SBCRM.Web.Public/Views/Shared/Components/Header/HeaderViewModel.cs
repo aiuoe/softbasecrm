@@ -44,7 +44,7 @@ namespace SBCRM.Web.Public.Views.Shared.Components.Header
         {
             if (!IsMultiTenancyEnabled || LoginInformations?.Tenant?.LogoId == null)
             {
-                return appPath + "Common/Images/app-logo-on-light.svg";
+                return appPath + "Common/Images/logo.svg";
             }
 
             return AdminWebSiteRootAddress.EnsureEndsWith('/') + "TenantCustomization/GetLogo?tenantId=" + LoginInformations?.Tenant?.Id;

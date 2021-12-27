@@ -8,6 +8,7 @@ import { UrlHelper } from 'shared/helpers/UrlHelper';
 import { ExternalLoginProvider, LoginService } from './login.service';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { AppConsts } from '@shared/AppConsts';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
     templateUrl: './login.component.html',
@@ -18,7 +19,7 @@ export class LoginComponent extends AppComponentBase implements OnInit {
     submitting = false;
     isMultiTenancyEnabled: boolean = this.multiTenancy.isEnabled;
     recaptchaSiteKey: string = AppConsts.recaptchaSiteKey;
-
+    @ViewChild('termsModal', { static: true }) modal: ModalDirective;
     constructor(
         injector: Injector,
         public loginService: LoginService,
@@ -68,6 +69,9 @@ export class LoginComponent extends AppComponentBase implements OnInit {
         this.handleExternalLoginCallbacks();
     }
 
+    showModal():void{
+        this.modal.show();
+    }
     handleExternalLoginCallbacks(): void {
         let state = UrlHelper.getQueryParametersUsingHash().state;
         let queryParameters = UrlHelper.getQueryParameters();
