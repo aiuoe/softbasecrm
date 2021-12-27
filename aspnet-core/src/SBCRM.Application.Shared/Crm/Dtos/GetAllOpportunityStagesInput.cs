@@ -1,5 +1,4 @@
 ﻿using Abp.Application.Services.Dto;
-using System;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -11,6 +10,5 @@ namespace SBCRM.Crm.Dtos
         public string Filter { get; set; }
 
         public string DescriptionFilter { get; set; }
-
     }
 }

@@ -45,15 +45,13 @@
                                                 type="text"
                                                 (keyup)="getCustomerByTextFilter($event)"
                                             />
-                                            <span class="input-group-btn">
-                                                <button
-                                                    (click)="getCustomer()"
-                                                    class="btn btn-primary"
-                                                    type="submit"
-                                                >
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary"
+                                                        (click)="getCustomer()"
+                                                        type="submit">
                                                     <i class="flaticon-search-1"></i>
                                                 </button>
-                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,8 +150,7 @@
                                             {{ l('AccountType') }}
                                             <p-sortIcon field="accountTypeFk.description"></p-sortIcon>
                                         </th>
-
-                                        <th style="width: 150px" pSortableColumn="users.userFk.name">
+                                        <th style="width: 150px" pSortableColumn="users.userFk.name"><!-- Dont change this column name ID, this handle custom sort-->
                                             {{ l('AssignedUser') }}
                                             <p-sortIcon field="users.userFk.name"></p-sortIcon>
                                         </th>
@@ -197,7 +194,7 @@
                                                             *ngIf="permission.isGranted('Pages.Customer.AddOpportunity')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
-                                                            [queryParams]="{ customerNumber: record.customer.number }"  
+                                                            [queryParams]="{ customerNumber: record.customer.number }"
                                                         >
                                                             {{ l('AddOpportunity') }}
                                                         </a>
@@ -208,14 +205,9 @@
 
                                         <td style="width: 250px">
                                             <a
-                                                *ngIf="permission.isGranted('Pages.Customer.Edit')"
                                                 [routerLink]="['/app/main/business/accounts/view']"
                                                 [queryParams]="{ number: record.customer.number }"
                                             >
-                                                <span class="p-column-title">{{ l('Name') }}</span>
-                                                {{ record.customer.name }}
-                                            </a>
-                                            <a *ngIf="!permission.isGranted('Pages.Customer.Edit')">
                                                 <span class="p-column-title">{{ l('Name') }}</span>
                                                 {{ record.customer.name }}
                                             </a>
