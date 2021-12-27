@@ -157,6 +157,7 @@ namespace SBCRM.Authorization.Users.Importing
             if (!input.Password.IsNullOrEmpty())
             {
                 await UserManager.InitializeOptionsAsync(tenantId);
+                //Current process does not includes password streght validation
                 //foreach (var validator in _passwordValidators)
                 //{
                 //    (await validator.ValidateAsync(UserManager, user, input.Password)).CheckErrors();
@@ -165,6 +166,7 @@ namespace SBCRM.Authorization.Users.Importing
                 user.Password = _passwordHasher.HashPassword(user, input.Password);
             }
 
+            //By Default users should not have a role
             //user.Roles = new List<UserRole>();
             //var roleList = _roleManager.Roles.ToList();
 

@@ -23,8 +23,6 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
 import { AppCommonModule } from './common/app-common.module';
 import { ThemesLayoutBaseComponent } from './layout/themes/themes-layout-base.component';
-// import { TermsAndConditionsModalComponent } from './terms-and-conditions-modal/terms-and-conditions-modal.component';;
-
 
 const imports = [
     CommonModule,

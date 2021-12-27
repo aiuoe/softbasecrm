@@ -14,6 +14,8 @@ using LegacyRepositories = SBCRM.Base;
 using SBCRM.MultiTenancy;
 using Abp.IdentityFramework;
 using System;
+using Abp.Localization;
+using Abp.ObjectMapping;
 
 namespace SBCRM.Authorization
 {
@@ -23,7 +25,8 @@ namespace SBCRM.Authorization
         private readonly LegacyRepositories.ISoftBaseSecureRepository _secureRepository;
         private readonly LegacyRepositories.ISoftBasePersonRepository _personRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
-
+        private readonly ILocalizationManager _L;
+        private readonly IObjectMapper _mapper;
         public LogInManager(
             UserManager userManager,
             IMultiTenancyConfig multiTenancyConfig,
@@ -37,7 +40,9 @@ namespace SBCRM.Authorization
             IPasswordHasher<User> passwordHasher,
             UserClaimsPrincipalFactory claimsPrincipalFactory,
             LegacyRepositories.ISoftBaseSecureRepository secureRepository,
-            LegacyRepositories.ISoftBasePersonRepository personRepository)
+            LegacyRepositories.ISoftBasePersonRepository personRepository,
+            ILocalizationManager localizationManager,
+            IObjectMapper mapper)
             : base(
                   userManager,
                   multiTenancyConfig,
@@ -55,11 +60,13 @@ namespace SBCRM.Authorization
             this._secureRepository = secureRepository;
             this._passwordHasher = passwordHasher;
             this._personRepository = personRepository;
+            this._L = localizationManager;
+            this._mapper = mapper;
         }
 
 
         /// <summary>
-        /// 
+        /// Custom login method, will check against the legacy users table
         /// </summary>
         /// <param name="userNameOrEmailAddress"></param>
         /// <param name="plainPassword"></param>
@@ -76,35 +83,31 @@ namespace SBCRM.Authorization
             {
 
                 var user = await userManager.FindByNameAsync(userNameOrEmailAddress);
-                var isEmployeeNumer = int.TryParse(userNameOrEmailAddress, out int employeeNumber);
+                var isEmployeeNumber = int.TryParse(userNameOrEmailAddress, out int employeeNumber);
 
                 Legacy.Secure legacyUser = null;
 
-                if (isEmployeeNumer)
+                if (isEmployeeNumber)
                     legacyUser = await _secureRepository.GetLegacyUserByEmployeNumber(employeeNumber);
 
                 var isLegacyUser = legacyUser is not null && legacyUser.Password == plainPassword;
+
                 //IF USER IS NOT IN AbpUsers but it does on dbo.secure 
                 if (user is null && isLegacyUser)
                 {
                     //we get the person object, this has all the contact information
                     //TODO: We could try to create a view of something instead of getting to separate entities
                     var person = await _personRepository.GetPersonByEmployeeNumberAsync(employeeNumber);
-
                     if (person is null)
-                        throw new ArgumentException($"Employee Number : {employeeNumber}, does not have a record on Person table");
+                    {
+                        var noPersonMesssage = string.Format(this._L.GetString(SBCRMConsts.LocalizationSourceName, "EmployeeNumberDoesNotHaveRecord{0}"), employeeNumber);
+                        throw new ArgumentException(noPersonMesssage);
+                    }
 
                     //it is the first time, so we need to create him a crm user
-                    //TODO: THIS SHOULD BE A MAPPER
-                    var createUser = new User
-                    {
-                        UserName = employeeNumber.ToString(),
-                        Name = person?.FirstName ?? string.Empty,
-                        Surname = person?.LastName ?? string.Empty,
-                        EmailAddress = person?.EMailAddress ?? string.Empty,
-                        PhoneNumber = person?.Phone ?? string.Empty
-                    };
-                    createUser.Password = _passwordHasher.HashPassword(user, plainPassword);
+                    var createUser = _mapper.Map<User>(person);
+                    createUser.UserName = employeeNumber.ToString();
+                    createUser.Password = _passwordHasher.HashPassword(createUser, plainPassword);
                     (await UserManager.CreateAsync(createUser)).CheckErrors();
                 }
                 else if (isLegacyUser && !await userManager.CheckPasswordAsync(user, plainPassword))//password does not match from secure to the one we have on AbpUsers

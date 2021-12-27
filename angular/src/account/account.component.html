@@ -4,14 +4,7 @@
             <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
                 <a (click)="goToHome()" href="" class="text-center mb-10">
                     <img *ngIf="!appSession.tenant || !appSession.tenant.logoId"
-                        [src]="appRootUrl() + 'assets/common/images/logo.svg'" alt="logo" class="max-h-70px" />
-                    <img *ngIf="appSession.tenant && appSession.tenant.logoId" [src]="
-                            remoteServiceBaseUrl +
-                            '/TenantCustomization/GetTenantLogo?skin=light&tenantId=' +
-                            appSession.tenant.id +
-                            '&id=' +
-                            appSession.tenant.logoId
-                        " alt="logo" class="max-h-70px" />
+                        [src]="appRootUrl() + 'assets/crm/common/images/login/logo.svg'" alt="logo" class="max-h-70px" />
                 </a>
                 <!-- <h5 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" >
                     CRM Portal
@@ -25,7 +18,7 @@
                 <h1 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg">
                     CRM Portal
                 </h1>
-                <span class="text-center text-muted">
+                <span class="text-center">
                     Business to Business CRM for use with Softbase 3.0
                 </span>
             </div>

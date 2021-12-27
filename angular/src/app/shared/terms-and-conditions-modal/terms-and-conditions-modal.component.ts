@@ -4,6 +4,9 @@ import { UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.directive';
 import { Subject } from 'rxjs';
 
+/**
+ * Terms and coditions component
+ */
 @Component({
   selector: 'terms-and-conditions-modal',
   templateUrl: './terms-and-conditions-modal.component.html',

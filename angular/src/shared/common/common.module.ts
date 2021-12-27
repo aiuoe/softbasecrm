@@ -7,8 +7,7 @@ import { CookieConsentService } from './session/cookie-consent.service';
 
 
 @NgModule({
-    imports: [CommonModule],
-    declarations: [],
+    imports: [CommonModule]
 })
 export class SBCRMCommonModule {
     static forRoot(): ModuleWithProviders<CommonModule> {

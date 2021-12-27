@@ -502,10 +502,11 @@
     <text name="PleaseEnterLoginInformation">Please enter login information</text>
     <text name="TenancyName">Tenancy name</text>
     <text name="UserNameOrEmail">User name or email</text>
-	<text name="EmployeeNumber">Employee Number #</text>
+	<text name="EmployeeNumber">Employee #</text>
+	<text name="EmployeeNumberDoesNotHaveRecord{0}">Employee Number {0} does not have a record on Person table</text>
     <text name="Password">Password</text>
     <text name="RememberMe">Remember me</text>
-    <text name="LogIn">Sign in</text>
+    <text name="LogIn">Sign In</text>
     <text name="ForgotPassword">Forgot password?</text>
     <text name="DontYouHaveAnAccount">Don't you have an account?</text>
     <text name="CreateAnAccount">Create account</text>

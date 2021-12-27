@@ -209,8 +209,12 @@ namespace SBCRM.Authorization.Users
         {
             return _localizationManager.GetString(SBCRMConsts.LocalizationSourceName, name);
         }
-
-        public async override Task<IdentityResult> UpdateAsync(User user)
+        /// <summary>
+        /// Updates a user, and uses the overrided method CheckDuplicateUsernameOrEmailAddressAsync
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public override async Task<IdentityResult> UpdateAsync(User user)
         {
             var result = await CheckDuplicateUsernameOrEmailAddressAsync(user.Id, user.UserName, user.EmailAddress);
             if (!result.Succeeded)
@@ -230,6 +234,13 @@ namespace SBCRM.Authorization.Users
             return await base.UpdateAsync(user);
         }
 
+        /// <summary>
+        /// Overrided this method to validate only by user name and not email address as some person may not have an email address
+        /// </summary>
+        /// <param name="expectedUserId"></param>
+        /// <param name="userName"></param>
+        /// <param name="emailAddress"></param>
+        /// <returns></returns>
         public override async Task<IdentityResult> CheckDuplicateUsernameOrEmailAddressAsync(long? expectedUserId, string userName, string emailAddress)
         {
             var user = (await FindByNameAsync(userName));
