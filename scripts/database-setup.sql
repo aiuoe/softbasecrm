@@ -53,14 +53,31 @@ INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], 
 INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Opportunity', GETDATE(), 0, NULL, NULL)
 GO
 
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'Scheduled', 0, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0)
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'In Process', 5, GETDATE(), 0, NULL, NULL, N'#FF8900', 0)
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'Completed', 10, GETDATE(), 0, NULL, NULL, N'#008E26', 1)
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'Scheduled', 10, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0)
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'In Process', 20, GETDATE(), 0, NULL, NULL, N'#FF8900', 0)
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus]) VALUES (N'Completed', 30, GETDATE(), 0, NULL, NULL, N'#008E26', 1)
 GO
 
-INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Schedule Meeting', 0, GETDATE(), 0, NULL, NULL)
-INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Schedule Call', 0, GETDATE(), 0, NULL, NULL)
-INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Email Reminder', 0, GETDATE(), 0, NULL, NULL)
-INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'To Do Reminder', 0, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Schedule Meeting', 10, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Schedule Call', 20, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'Email Reminder', 30, GETDATE(), 0, NULL, NULL)
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime]) VALUES (N'To Do Reminder', 40, GETDATE(), 0, NULL, NULL)
+GO
+
+-- Date: 2021-12-28
+UPDATE web.ActivityPriorities SET [Order] = 10, IsDefault = 0 WHERE [Description] = 'Low'
+UPDATE web.ActivityPriorities SET [Order] = 20, IsDefault = 1 WHERE [Description] = 'Medium'
+UPDATE web.ActivityPriorities SET [Order] = 30, IsDefault = 0 WHERE [Description] = 'High'
+GO
+
+UPDATE web.ActivitySourceTypes SET [Order] = 10, EnumValue = 0 WHERE [Description] = 'Lead'
+UPDATE web.ActivitySourceTypes SET [Order] = 20, EnumValue = 1 WHERE [Description] = 'Account'
+UPDATE web.ActivitySourceTypes SET [Order] = 30, EnumValue = 2 WHERE [Description] = 'Opportunity'
+GO
+
+UPDATE web.ActivityStatuses SET IsDefault = 1 WHERE [Description] = 'Scheduled'
+GO
+
+UPDATE web.ActivityTaskTypes SET IsDefault = 1 WHERE [Description] = 'Schedule Meeting'
 GO
 -- END Kevin C.
