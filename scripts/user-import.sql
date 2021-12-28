@@ -14,7 +14,7 @@ BEGIN TRY
 
 	UPDATE [web].[AbpUsers]
 	SET TenantId = 1
-	WHERE UserName IN (SELECT CAST([EmployeeNo] as nvarchar(256)) FROM @InsertedEmployeeNo)
+	WHERE UserName IN (SELECT CAST([EmployeeNo] as nvarchar(256)) FROM [dbo].[Secure])
 	AND TenantId IS NULL
 
 	SELECT EmployeeNo AS 'Imported Employees' FROM @InsertedEmployeeNo
