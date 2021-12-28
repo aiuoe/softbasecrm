@@ -2,9 +2,13 @@
 
 <localizationDictionary culture="en">
   <texts>
-	  
-	<text name="AssignUsers">Assign Users</text>
-	<text name="IsCompletedStatus">Is completed status</text>
+    <text name="AssignUsers">Assign Users</text>
+    <text name="OpportunityUser">Opportunity user</text>
+    <text name="CreateNewOpportunityUser">Create new opportunity user</text>
+    <text name="EditOpportunityUser">Edit opportunity user</text>
+    <text name="DeleteOpportunityUser">Delete opportunity user</text>
+
+    <text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
     <text name="FilterByAssignee">Filter by Assignee</text>

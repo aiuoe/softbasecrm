@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
+            var opportunityUsers = pages.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityUsers"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Create, L("CreateNewOpportunityUser"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Edit, L("EditOpportunityUser"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Delete, L("DeleteOpportunityUser"));
+
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
