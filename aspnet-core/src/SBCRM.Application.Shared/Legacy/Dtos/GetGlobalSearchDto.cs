@@ -7,6 +7,7 @@ namespace SBCRM.Legacy.Dtos
     //DTO for global search
     public class GetGlobalSearchDto
     {
-        public CustomerDto Customer { get; set; }
+        public string Customer { get; set; }
+        public string Type { get; set; }
     }
 }

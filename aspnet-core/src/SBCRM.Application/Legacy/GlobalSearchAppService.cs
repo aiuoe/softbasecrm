@@ -1,31 +1,51 @@
-﻿using System;
-using SBCRM.Crm;
+﻿using SBCRM.Authorization.Users;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Application.Services;
-using SBCRM.Legacy.Exporting;
-using SBCRM.Legacy.Dtos;
+using Abp.Domain.Repositories;
+using SBCRM.Crm.Exporting;
+using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
-using Abp.Domain.Uow;
-using Abp.EntityHistory;
-using Abp.UI;
 using Microsoft.EntityFrameworkCore;
-using SBCRM.Auditing;
-using SBCRM.Auditing.Dto;
-using SBCRM.Authorization.Users;
-using SBCRM.Base;
-using SBCRM.Common;
-using SBCRM.Crm.Dtos;
-using SBCRM.Legacy.Dto;
-using BaseRepo = Abp.Domain.Repositories;
-
+using SBCRM.Legacy;
+using SBCRM.Legacy.Dtos;
+using Abp.Extensions;
 namespace SBCRM.Legacy
 {
-   
+    public class GlobalSearchAppService: SBCRMAppServiceBase, IGlobalSearchAppService
+    {
+        private readonly IRepository<Customer, int> _customerRepository;
+
+        public GlobalSearchAppService(IRepository<Customer> customerRepository)
+        {
+            _customerRepository = customerRepository;
+        }
+
+        public async Task<ListResultDto<GetGlobalSearchDto>> GetAll(GetGlobalSearchInput input)
+        {
+            try
+            {
+                var filteredCustomer = _customerRepository.GetAll()
+            .WhereIf(
+                !input.Filter.IsNullOrEmpty(),
+                p => p.Name.Contains(input.Filter)
+            )
+            .OrderBy(p => p.Name)
+            .ToList();
+
+                return new ListResultDto<GetGlobalSearchDto>(ObjectMapper.Map<List<GetGlobalSearchDto>>(filteredCustomer));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error in CustomerAppService -> ", e);
+                throw;
+            }
+        }
+    }
 }

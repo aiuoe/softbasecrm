@@ -2,19 +2,15 @@
     <div class="content d-inline-flex flex-column flex-column-fluid">
         <sub-header [title]="'Search Results' | localize">
         </sub-header>
+
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
-                    <div class="col-md-3">
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option value="">{{ 'Filter by Module' | localize }}</option>
-                            <option>Accounts</option>
-                        </select>
+                    <div class="row">
+                        <!-- Remove this -->
+                        Your text filter is: {{ this.textFilter }}
                     </div>
-                </div>
                     <div class="row align-items-center">
-                        <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
                             <p-table #dataTable
                                      (onLazyLoad)="getGlobalSearch($event)"
@@ -25,33 +21,27 @@
                                      [scrollable]="true"
                                      ScrollWidth="100%"
                                      [responsive]="primengTableHelper.isResponsive"
-                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                                     [resizableColumns]="primengTableHelper.resizableColumns"
+                                     selectionMode="single">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th style="width: 100px" pSortableColumn="name">
+                                        <th style="width: 80px">
                                             {{ l('Name') }}
-                                            <p-sortIcon field="name"></p-sortIcon>
                                         </th>
-
-                                        <th style="width: 150px" pSortableColumn="phone">
+                                        <th>
                                             {{ l('Module') }}
-                                            <p-sortIcon field="phone"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td style="width: 100px">
-                                            <a [routerLink]="['/app/main/business/accounts/view']"
-                                               [queryParams]="{ number: record.customer.number }">
-                                                <span class="p-column-title">{{ l('Name') }}</span>
-                                                {{ record.customer.name }}
-                                            </a>
+                                        <td style="width: 80px">
+                                            <span class="p-column-title">{{ l('Name') }}</span>
+                                            {{ record.name }}
                                         </td>
-
-                                        <td style="width: 150px">
+                                        <td>
                                             <span class="p-column-title">{{ l('Module') }}</span>
-                                            Accounts
+                                            {{ record.module }}
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -71,10 +61,9 @@
                                     "></p-paginator>
                             </div>
                         </div>
-                        <!--<Primeng-Datatable-End>-->
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>

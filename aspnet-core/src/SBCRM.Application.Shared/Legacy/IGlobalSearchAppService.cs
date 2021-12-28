@@ -12,6 +12,6 @@ namespace SBCRM.Legacy
     //Interface of global search
     public interface IGlobalSearchAppService:IApplicationService
     {
-        Task<PagedResultDto<GetGlobalSearchDto>> GetAccounts(GetGlobalSearchInput input);
+        Task<ListResultDto<GetGlobalSearchDto>> GetAll(GetGlobalSearchInput input);
     }
 }
