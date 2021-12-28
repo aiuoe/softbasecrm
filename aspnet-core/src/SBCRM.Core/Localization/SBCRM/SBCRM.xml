@@ -2,6 +2,8 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="Description">Description</text>
+
     <text name="Company">Company</text>
     <text name="CreateNewActivityByLead">New Activity by Lead</text>
     <text name="CreateNewActivityByAccount">New Activity by Account</text>

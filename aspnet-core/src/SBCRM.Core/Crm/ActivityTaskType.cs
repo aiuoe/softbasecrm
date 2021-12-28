@@ -18,5 +18,7 @@ namespace SBCRM.Crm
 
         public virtual int Order { get; set; }
 
+        public virtual bool IsDefault { get; set; }
+
     }
 }

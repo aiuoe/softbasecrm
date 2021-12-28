@@ -24702,6 +24702,7 @@ export interface IActivityStatusDto {
 export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
     description!: string | undefined;
     order!: number;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IActivityTaskTypeDto) {
@@ -24717,6 +24718,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -24732,6 +24734,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -24740,6 +24743,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
 export interface IActivityTaskTypeDto {
     description: string | undefined;
     order: number;
+    isDefault: boolean;
     id: number;
 }
 
@@ -26641,6 +26645,7 @@ export interface ICreateOrEditActivityStatusDto {
 
 export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTaskTypeDto {
     description!: string | undefined;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityTaskTypeDto) {
@@ -26655,6 +26660,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -26669,6 +26675,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -26676,6 +26683,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
 
 export interface ICreateOrEditActivityTaskTypeDto {
     description: string | undefined;
+    isDefault: boolean;
     id: number | undefined;
 }
 

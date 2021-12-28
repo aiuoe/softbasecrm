@@ -13,5 +13,7 @@ namespace SBCRM.Crm.Dtos
         [StringLength(ActivityTaskTypeConsts.MaxDescriptionLength, MinimumLength = ActivityTaskTypeConsts.MinDescriptionLength)]
         public string Description { get; set; }
 
+        public bool IsDefault { get; set; }
+
     }
 }

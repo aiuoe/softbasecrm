@@ -106,7 +106,6 @@
         public const string Pages_Customer_View_Opportunities = "Pages.Customer.ViewOpportunities";
         public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
         public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
-        
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using SBCRM.Crm;
 using SBCRM.Legacy;
@@ -27,10 +27,7 @@ namespace SBCRM.EntityFrameworkCore
 
         public virtual DbSet<ActivityPriority> ActivityPriorities { get; set; }
 
-       
         public virtual DbSet<Contact> Contacts { get; set; }
-
-        
 
         public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
