@@ -47,7 +47,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     showSaveButton = false;
     isReadOnlyMode = false;
     isExternalCreation = false;
-    formEdited = false;
 
     opportunity: CreateOrEditOpportunityDto = new CreateOrEditOpportunityDto();
 
@@ -59,7 +58,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     customerNumber = '';
     opportunityCustomerName = '';
     formDate : Date;
-    counterAfterViewInits = 0;
 
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
@@ -147,8 +145,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }                                                            
                     
-                    this.showSaveButton = !this.isReadOnlyMode;    
-                    this.formEdited = true;                
+                    this.showSaveButton = !this.isReadOnlyMode; 
                     }, (error) => {
                     this.goToOpportunities();
                 });
@@ -180,27 +177,12 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                 this.showSaveButton = !this.isReadOnlyMode;
 
-                this.formEdited = false;
-
                 }, (error) => {
                     this.goToOpportunities();
                 });
         }
     }
-
-     /**
-     * Actions post components and children views creation 
-     */
-    ngAfterViewInit() {
-        this.opportunityForm.form.valueChanges.subscribe((change) => {  
-            // if (this.counterAfterViewInits >= 200)          
-                console.log(change)
-            // this.formEdited = true;
-            // this.counterAfterViewInits++;
-            // console.log(this.counterAfterViewInits)
-        })
-    }
-    
+  
     /**
      * Get the contacts for the selected customer
      * @returns void
