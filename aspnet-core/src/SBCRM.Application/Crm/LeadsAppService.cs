@@ -86,19 +86,43 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// The user will be shown all the leads if he has permission for it
+        /// </summary>
+        /// <returns></returns>
+        public bool CanSeeAllLeads()
+        {            
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Leads_AllLeads);            
+        }
+
+        /// <summary>
+        /// Get the id of the current user.       
+        /// </summary>
+        /// <returns></returns>
+        public long GetCurrentUserId()
+        {
+            var currentUser = GetCurrentUser();
+            return currentUser.Id;
+        }
+
+
+        /// <summary>
         /// Gets all leads
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
-        {
+        { 
             try
             { 
                 var filteredLeads = _leadRepository.GetAll()
                                .Include(e => e.LeadSourceFk)
                                .Include(e => e.LeadStatusFk)
-                               .Include(x => x.Users)
                                .Include(e => e.PriorityFk)
+                               .Include(x => x.Users)
+                               .ThenInclude(x => x.UserFk)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
                                .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
@@ -124,7 +148,9 @@ namespace SBCRM.Crm
                                .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
                                .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
                                .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
-                               .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
+                               .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                               .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                               .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
                 var isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
 
@@ -335,7 +361,7 @@ namespace SBCRM.Crm
                         var lead = ObjectMapper.Map<Lead>(leadAux);
                         int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
 
-                        if (leadId != 0)
+                        if (assignedUserId != 0)
                         {
                             var leadUser = new LeadUser
                             {
@@ -556,6 +582,7 @@ namespace SBCRM.Crm
                         .Include(e => e.LeadStatusFk)
                         .Include(e => e.PriorityFk)
                         .Include(x => x.Users)
+                        .ThenInclude(x => x.UserFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyOrContactNameFilter), e => e.CompanyName.Contains(input.CompanyOrContactNameFilter) || e.ContactName.Contains(input.CompanyOrContactNameFilter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.ContactNameFilter), e => e.ContactName == input.ContactNameFilter)
@@ -725,6 +752,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
+ 
             return await _lookup_userRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {

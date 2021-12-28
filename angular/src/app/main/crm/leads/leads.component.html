@@ -52,8 +52,10 @@
                                                 name="companyOrContactNameFilter"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('Search') + '' + l('CompanyName')"
+                                                [placeholder]="l('Search') + ' ' + l('CompanyName')
+                                                                + ' or ' + l('ContactName') "
                                                 type="text"
+                                                (keyup)="getCustomerByCompanyOrContactNameFilter($event)"
                                             />
                                             <span class="input-group-btn">
                                                 <button
@@ -74,7 +76,7 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="col-md-2" *ngIf="isGranted('Pages.Leads.AllLeads')">
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
                                         <div>
@@ -122,6 +124,7 @@
                                                 optionLabel="displayName"
                                                 placeholder="Filter by Priorities"
                                                 (onChange)="getLeads($event)"
+                                                [virtualScroll]="true"
                                             >
                                             </p-dropdown>
                                         </div>

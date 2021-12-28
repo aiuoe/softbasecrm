@@ -208,7 +208,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
         if (this.opportunity.probability < 1 || this.opportunity.probability > 100)
         {                      
-            this.opportunityForm.form.controls['Opportunity_Probability'].setErrors({'invalid': true});
+            this.opportunityForm.form.controls['Opportunity_Probability'].setErrors(
+                                            {'opportunityInvalidProbability': true});
             this.message.warn(this.l('InvalidFormMessage'));
             return;
         }

@@ -28,8 +28,7 @@
                                             <button 
                                                 (click)="save()" 
                                                 class="btn btn-primary blue float-right" 
-                                                [buttonBusy]="saving"
-                                                [disabled]="!this.opportunityForm.form.valid"
+                                                [buttonBusy]="saving"                                                
                                             >    
                                                 <i class="fa fa-save"></i>                               
                                                 <span>{{ l('Save') }}</span>
@@ -268,6 +267,7 @@
                                                                 [placeholder]="l('InputBranch')" 
                                                                 name="Branch"
                                                                 [disabled]="this.isReadOnlyMode"
+                                                                maxlength="100"
                                                             />
                                                             <validation-messages [formCtrl]="Opportunity_Branch"></validation-messages>
                                                         </div>
@@ -285,6 +285,7 @@
                                                                 [placeholder]="l('InputDepartment')" 
                                                                 name="Department"
                                                                 [disabled]="this.isReadOnlyMode"
+                                                                maxlength="100"
                                                             />
                                                             <validation-messages [formCtrl]="Opportunity_Department"></validation-messages>
                                                         </div>

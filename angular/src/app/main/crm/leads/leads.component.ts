@@ -32,6 +32,7 @@ import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { AppConsts } from '@shared/AppConsts';
+import { forkJoin, Observable } from 'rxjs';
 
 /***
  * Component to manage the leads summary grid
@@ -59,9 +60,11 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     selectedPriorities: LeadPriorityLookupTableDto[];
     allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
     
-    allUsers: LeadUserUserLookupTableDto[];
+    allUsers: LeadUserUserLookupTableDto[];   
     selectedUsers: LeadUserUserLookupTableDto[];
-    
+    noAssignedUsersOption: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto;
+    defaultUser: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto
+
     advancedFiltersAreShown = false;
     filterText = '';
     companyOrContactNameFilter = '';
@@ -136,6 +139,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     * Initialize component
     */
     ngOnInit(){
+
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
@@ -153,10 +157,27 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             this.allPrioritiesFilter.displayName = "All";
             this.priorities.unshift(this.allPrioritiesFilter);  
         });
+
         this._leadsServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
-            this.allUsers = result;           
+            this.allUsers = result;    
+            this.noAssignedUsersOption.id = -1;
+            this.noAssignedUsersOption.displayName = "None"   
+            this.allUsers.unshift(this.noAssignedUsersOption);
         });
     }
+
+    /***
+     * Get leads by company or contact filter changed
+     * @param event
+     */
+    getCustomerByCompanyOrContactNameFilter(event: KeyboardEvent) {
+        const textFilterHasMoreThan2Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 2;
+        const keyDownIsBackspace = event && event.key === 'Backspace';
+        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
+            this.getLeads();
+        }
+    }
+
 
     /***
     * Get leads on page load/filter changes
@@ -168,7 +189,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             return;
         }
 
-        this.primengTableHelper.showLoadingIndicator();
+        this.primengTableHelper.showLoadingIndicator();          
 
         this._leadsServiceProxy
             .getAll(
