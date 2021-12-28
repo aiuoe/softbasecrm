@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO for the lead user object for view
+    /// </summary>
     public class LeadUserViewDto
     {
         public int? LeadId { get; set; }

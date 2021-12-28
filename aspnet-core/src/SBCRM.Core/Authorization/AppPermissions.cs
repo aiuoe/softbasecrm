@@ -77,7 +77,7 @@
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";
         public const string Pages_Leads_Delete = "Pages.Leads.Delete";
-        public const string Pages_Leads_AllLeads = "Pages.Leads.AllLeads";
+        public const string Pages_Leads_ViewAssignedUserFilter = "Pages.Leads.ViewAssignedUserFilter";
         public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
         public const string Pages_Leads_View_Events = "Pages.Leads.ViewEvents";
 
