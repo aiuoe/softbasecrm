@@ -20,4 +20,10 @@
     border-color: $primaryBorderHoverInputColor;
 }
 
+.p-multiselect-header {
+    background-color: $readonlyInputBackgroundColor !important;
+}
 
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+    background-color: $readonlyInputBackgroundColor !important;
+}
