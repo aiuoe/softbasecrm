@@ -181,7 +181,7 @@
 
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="Activity_Description">{{ l('Description') }}</label>
+                                    <label for="Activity_Description">{{ l('Notes') }}</label>
                                     <textarea
                                         #Activity_Description="ngModel"
                                         id="Activity_Description"
@@ -189,6 +189,7 @@
                                         [(ngModel)]="activity.description"
                                         name="Description"
                                         rows="3"
+                                        [placeholder]="l('EnterDescription')"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
