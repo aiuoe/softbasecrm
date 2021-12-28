@@ -69,6 +69,9 @@
                                         class="form-control"
                                         required
                                     >
+                                        <option [value]="undefined" class="font-italic font-weight-light">
+                                            {{ l('SelectAUser') }}
+                                        </option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>

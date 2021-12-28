@@ -69,7 +69,8 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Show the form dialog
      */
     show(activityId?: number): void {
-        if (!activityId) {
+        const isCreate = !activityId;
+        if (isCreate) {
             this.activity = new CreateOrEditActivityDto();
             this.activity.id = activityId;
             this.activity.dueDate = this._dateTimeService.getStartOfDay();
@@ -114,15 +115,27 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         });
         this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
             this.allActivitySourceTypes = result;
+            if (isCreate && result.length > 0) {
+                this.activity.activitySourceTypeId = result.find((x) => x.enumValue === this.sourceType)?.id;
+            }
         });
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
             this.allActivityTaskTypes = result;
+            if (isCreate && result.length > 0) {
+                this.activity.activityTaskTypeId = result.find((x) => x.isDefault)?.id || result[0].id;
+            }
         });
         this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
             this.allActivityStatuss = result;
+            if (isCreate && result.length > 0) {
+                this.activity.activityStatusId = result.find((x) => x.isDefault)?.id || result[0].id;
+            }
         });
         this._activitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
             this.allActivityPrioritys = result;
+            if (isCreate && result.length > 0) {
+                this.activity.activityPriorityId = result.find((x) => x.isDefault)?.id || result[0].id;
+            }
         });
     }
 
