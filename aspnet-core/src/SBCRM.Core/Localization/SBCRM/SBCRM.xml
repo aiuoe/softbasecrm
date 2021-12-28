@@ -764,6 +764,7 @@
 		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
 		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewEvents">View Events in Account detail</text>
+		<text name="LeadViewEvents">View Events in Lead detail</text>
 		<text name="UsersManagement">Users Management</text>
 		<text name="SettingsAppearance">Appearance settings</text>
 		<text name="SeeDemo">See demo</text>
@@ -1667,7 +1668,7 @@
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
 		<text name="DashboardNoteForMpaVersion">
-			<![CDATA[
+      <![CDATA[
 	<texts>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[
