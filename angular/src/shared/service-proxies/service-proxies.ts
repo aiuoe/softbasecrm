@@ -24607,6 +24607,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
     order!: number;
     color!: string | undefined;
     isCompletedStatus!: boolean;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IActivityStatusDto) {
@@ -24624,6 +24625,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
             this.order = _data["order"];
             this.color = _data["color"];
             this.isCompletedStatus = _data["isCompletedStatus"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -24641,6 +24643,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
         data["order"] = this.order;
         data["color"] = this.color;
         data["isCompletedStatus"] = this.isCompletedStatus;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -24651,6 +24654,7 @@ export interface IActivityStatusDto {
     order: number;
     color: string | undefined;
     isCompletedStatus: boolean;
+    isDefault: boolean;
     id: number;
 }
 
@@ -26567,6 +26571,7 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
     order!: number;
     color!: string;
     isCompletedStatus!: boolean;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityStatusDto) {
@@ -26584,6 +26589,7 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
             this.order = _data["order"];
             this.color = _data["color"];
             this.isCompletedStatus = _data["isCompletedStatus"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -26601,6 +26607,7 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
         data["order"] = this.order;
         data["color"] = this.color;
         data["isCompletedStatus"] = this.isCompletedStatus;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -26611,6 +26618,7 @@ export interface ICreateOrEditActivityStatusDto {
     order: number;
     color: string;
     isCompletedStatus: boolean;
+    isDefault: boolean;
     id: number | undefined;
 }
 

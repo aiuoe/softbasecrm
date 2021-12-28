@@ -16,5 +16,7 @@ namespace SBCRM.Crm.Dtos
 
         public bool IsCompletedStatus { get; set; }
 
+        public bool IsDefault { get; set; }
+
     }
 }

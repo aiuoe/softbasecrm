@@ -81,6 +81,22 @@
                         </label>
                         <validation-messages [formCtrl]="ActivityStatus_IsCompletedStatus"></validation-messages>
                     </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="ActivityStatus_IsDefault" class="kt-checkbox">
+                            <input
+                                id="ActivityStatus_IsDefault"
+                                #ActivityStatus_IsDefault="ngModel"
+                                type="checkbox"
+                                name="IsDefault"
+                                [(ngModel)]="activityStatus.isDefault"
+                            />
+                            {{ l('IsDefault') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="ActivityStatus_IsDefault"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
