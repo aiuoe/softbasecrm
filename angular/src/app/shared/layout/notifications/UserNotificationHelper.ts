@@ -136,7 +136,7 @@ export class UserNotificationHelper extends AppComponentBase {
             //Desktop notification
             Push.default.create('SBCRM', {
                 body: this.format(userNotification).text,
-                icon: abp.appPath + 'assets/common/images/app-logo-on-dark-sm.svg',
+                icon: abp.appPath + 'assets/common/images/logo.svg',
                 timeout: 6000,
                 onClick: function () {
                     window.focus();

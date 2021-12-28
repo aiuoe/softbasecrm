@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/common';
     encapsulation: ViewEncapsulation.None,
 })
 export class Theme11BrandComponent extends AppComponentBase {
-    defaultLogo = AppConsts.appBaseUrl + '/assets/common/images/app-logo-on-light.svg';
+    defaultLogo = AppConsts.appBaseUrl + '/assets/common/images/logo.svg';
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
 
     constructor(injector: Injector, @Inject(DOCUMENT) private document: Document) {

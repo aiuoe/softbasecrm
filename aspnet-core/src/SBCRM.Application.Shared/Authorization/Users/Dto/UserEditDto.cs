@@ -46,5 +46,6 @@ namespace SBCRM.Authorization.Users.Dto
 
         public virtual bool IsLockoutEnabled { get; set; }
 
+        public virtual bool HasAcceptedTermsAndConditions { get; set; }
     }
 }

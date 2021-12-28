@@ -4,8 +4,8 @@ import {
     CustomerServiceProxy,
     AccountUserDto,
     GetCustomerForViewDto,
-    AccountUserUserLookupTableDto,
-    CustomerAccountTypeLookupTableDto
+    CustomerAccountTypeLookupTableDto,
+    AccountUserLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -18,7 +18,6 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { AppConsts } from '@shared/AppConsts';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
-import { CreateOrEditAssignedUserModalComponent } from '@app/main/crm/assigned-user/create-or-edit-assined-user-modal.component';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -31,7 +30,6 @@ import { CreateOrEditAssignedUserModalComponent } from '@app/main/crm/assigned-u
 export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
-    @ViewChild('assignedUsersModal', { static: true }) assignedUsersModal: CreateOrEditAssignedUserModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -39,7 +37,8 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     selectedAccountType: CustomerAccountTypeLookupTableDto;
     selectedAccountTypes: CustomerAccountTypeLookupTableDto[];
     accountUsers: AccountUserDto[] = [];
-    assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
+    assignedUsersFilter: AccountUserLookupTableDto[] = [];
+    allUsers: AccountUserLookupTableDto[];
 
     /***
      * Main constructor
@@ -74,6 +73,11 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
         this._customerServiceProxy.getAllAccountTypeForTableDropdown()
             .subscribe((result: CustomerAccountTypeLookupTableDto[]) => {
                 this.accountTypes = result;
+            });
+
+        this._customerServiceProxy.getAllUserForTableDropdown()
+            .subscribe((result: AccountUserLookupTableDto[]) => {
+                this.allUsers = result;
             });
     }
 
@@ -169,22 +173,4 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
                 this._fileDownloadService.downloadTempFile(result);
             });
     }
-
-    /**
-     * Handles the creating assigned user modal
-     */
-    createAccountUser(): void {
-        this.assignedUsersModal.show();
-    }
-
-    /**
-     * Method that receives the selected users from the Assigned Users component
-     * @param selectedUsers
-     * @returns
-     */
-    selectAssignedUsers(selectedUsers: AccountUserUserLookupTableDto[]) {
-        this.assignedUsersFilter = selectedUsers ?? [];
-        this.getCustomer();
-    }
-
 }

@@ -18,6 +18,7 @@ using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
+using SBCRM.Authorization.Users;
 using SBCRM.Base;
 using SBCRM.Common;
 using SBCRM.Crm.Dtos;
@@ -38,6 +39,7 @@ namespace SBCRM.Legacy
         private readonly BaseRepo.IRepository<Country> _lookupCountryRepository;
         private readonly BaseRepo.IRepository<AccountUser> _accountUserRepository;
         private readonly BaseRepo.IRepository<Opportunity> _opportunityRepository;
+        private readonly BaseRepo.IRepository<User, long> _lookupUserRepository;
         private readonly ICustomerExcelExporter _customerExcelExporter;
         private readonly ISoftBaseCustomerInvoiceRepository _customerCustomerInvoiceRepository;
         private readonly ISoftBaseCustomerEquipmentRepository _customerEquipmentRepository;
@@ -58,6 +60,7 @@ namespace SBCRM.Legacy
         /// <param name="lookupAccountTypeRepository"></param>
         /// <param name="lookupLeadSourceRepository"></param>
         /// <param name="opportunityRepository"></param>
+        /// <param name="lookupUserRepository"></param>
         /// <param name="customerCustomerInvoiceRepository"></param>
         /// <param name="customerEquipmentRepository"></param>
         /// <param name="customerWipRepository"></param>
@@ -75,6 +78,7 @@ namespace SBCRM.Legacy
             BaseRepo.IRepository<LeadSource> lookupLeadSourceRepository,
             BaseRepo.IRepository<AccountUser> accountUserRepository,
             BaseRepo.IRepository<Opportunity> opportunityRepository,
+            BaseRepo.IRepository<User, long> lookupUserRepository,
             ISoftBaseCustomerInvoiceRepository customerCustomerInvoiceRepository,
             ISoftBaseCustomerEquipmentRepository customerEquipmentRepository,
             ISoftBaseCustomerWipRepository customerWipRepository,
@@ -83,12 +87,12 @@ namespace SBCRM.Legacy
             ISoftBaseCustomerSequenceRepository customerSequenceRepository,
             IContactsAppService contactsAppService,
             ICustomerExcelExporter customerExcelExporter,
-            IAuditEventsService auditEventsService
-            )
+            IAuditEventsService auditEventsService)
         {
             _customerRepository = customerRepository;
             _customerExcelExporter = customerExcelExporter;
             _auditEventsService = auditEventsService;
+            _lookupUserRepository = lookupUserRepository;
             _opportunityRepository = opportunityRepository;
             _lookupAccountTypeRepository = lookupAccountTypeRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
@@ -456,6 +460,22 @@ namespace SBCRM.Legacy
                     Code = country.Code,
                     DisplayName = country == null || country.Name == null ? "" : country.Name.ToString()
                 }).ToListAsync(); ;
+        }
+
+
+        /// <summary>
+        /// Get all users for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<List<AccountUserLookupTableDto>> GetAllUserForTableDropdown()
+        {
+            return await _lookupUserRepository.GetAll()
+                .Select(user => new AccountUserLookupTableDto
+                {
+                    Id = user.Id,
+                    DisplayName = user != null ? user.FullName : string.Empty
+                }).ToListAsync();
         }
 
         /// <summary>
