@@ -322,12 +322,11 @@ namespace SBCRM.Legacy
                 .Where(x => input.Name.ToLower().Trim() == x.Name.ToLower().Trim())
                 .ToListAsync();
 
-            if (customerSameName.Any())
-            {
-                throw new UserFriendlyException(L("CustomerNameAlreadyExist"));
-            }
+            GuardHelper.ThrowIf(customerSameName.Any(), new UserFriendlyException(L("CustomerNameAlreadyExist")));
 
             var defaultAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.IsDefault.HasValue && x.IsDefault.Value);
+            GuardHelper.ThrowIf(defaultAccountType == null, new UserFriendlyException(L("DefaultAccountTypeNotExist")));
+
             customer.Terms = defaultAccountType.Description;
 
             var currentUser = await GetCurrentUserAsync();
