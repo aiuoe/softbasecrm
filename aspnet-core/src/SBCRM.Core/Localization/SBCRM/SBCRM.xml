@@ -1668,7 +1668,7 @@
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
 		<text name="DashboardNoteForMpaVersion">
-      <![CDATA[
+			<![CDATA[
 	<texts>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[
