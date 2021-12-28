@@ -24678,6 +24678,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
     description!: string | undefined;
     order!: number;
     isDefault!: boolean;
+    enumValue!: number;
     id!: number;
 
     constructor(data?: IActivityTaskTypeDto) {
@@ -24694,6 +24695,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
             this.description = _data["description"];
             this.order = _data["order"];
             this.isDefault = _data["isDefault"];
+            this.enumValue = _data["enumValue"];
             this.id = _data["id"];
         }
     }
@@ -24710,6 +24712,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         data["description"] = this.description;
         data["order"] = this.order;
         data["isDefault"] = this.isDefault;
+        data["enumValue"] = this.enumValue;
         data["id"] = this.id;
         return data; 
     }
@@ -24719,6 +24722,7 @@ export interface IActivityTaskTypeDto {
     description: string | undefined;
     order: number;
     isDefault: boolean;
+    enumValue: number;
     id: number;
 }
 
@@ -26641,6 +26645,7 @@ export interface ICreateOrEditActivityStatusDto {
 export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTaskTypeDto {
     description!: string | undefined;
     isDefault!: boolean;
+    enumValue!: number;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityTaskTypeDto) {
@@ -26656,6 +26661,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
         if (_data) {
             this.description = _data["description"];
             this.isDefault = _data["isDefault"];
+            this.enumValue = _data["enumValue"];
             this.id = _data["id"];
         }
     }
@@ -26671,6 +26677,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["isDefault"] = this.isDefault;
+        data["enumValue"] = this.enumValue;
         data["id"] = this.id;
         return data; 
     }
@@ -26679,6 +26686,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
 export interface ICreateOrEditActivityTaskTypeDto {
     description: string | undefined;
     isDefault: boolean;
+    enumValue: number;
     id: number | undefined;
 }
 

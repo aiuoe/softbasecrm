@@ -51,6 +51,19 @@
                         </label>
                         <validation-messages [formCtrl]="ActivityTaskType_IsDefault"></validation-messages>
                     </div>
+
+                    <div class="form-group">
+                        <label for="ActivityTaskType_EnumValue">{{ l('EnumValue') }}</label>
+                        <input
+                            type="number"
+                            #ActivityTaskType_EnumValue="ngModel"
+                            id="ActivityTaskType_EnumValue"
+                            class="form-control"
+                            [(ngModel)]="activityTaskType.enumValue"
+                            name="EnumValue"
+                        />
+                        <validation-messages [formCtrl]="ActivityTaskType_EnumValue"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

@@ -78,6 +78,9 @@ GO
 UPDATE web.ActivityStatuses SET IsDefault = 1 WHERE [Description] = 'Scheduled'
 GO
 
-UPDATE web.ActivityTaskTypes SET IsDefault = 1 WHERE [Description] = 'Schedule Meeting'
+UPDATE web.ActivityTaskTypes SET IsDefault = 1, EnumValue = 0 WHERE [Description] = 'Schedule Meeting'
+UPDATE web.ActivityTaskTypes SET IsDefault = 0, EnumValue = 1 WHERE [Description] = 'Schedule Call'
+UPDATE web.ActivityTaskTypes SET IsDefault = 0, EnumValue = 2 WHERE [Description] = 'Email Reminder'
+UPDATE web.ActivityTaskTypes SET IsDefault = 0, EnumValue = 3 WHERE [Description] = 'To Do Reminder'
 GO
 -- END Kevin C.

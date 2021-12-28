@@ -54,6 +54,7 @@ namespace SBCRM.Crm
                                         o.Description,
                                         o.Order,
                                         o.IsDefault,
+                                        o.EnumValue,
                                         Id = o.Id
                                     };
 
@@ -72,6 +73,7 @@ namespace SBCRM.Crm
                         Description = o.Description,
                         Order = o.Order,
                         IsDefault = o.IsDefault,
+                        EnumValue = o.EnumValue,
                         Id = o.Id,
                     }
                 };

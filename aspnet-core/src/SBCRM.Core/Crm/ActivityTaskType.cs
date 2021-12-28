@@ -20,5 +20,7 @@ namespace SBCRM.Crm
 
         public virtual bool IsDefault { get; set; }
 
+        public virtual int EnumValue { get; set; }
+
     }
 }
