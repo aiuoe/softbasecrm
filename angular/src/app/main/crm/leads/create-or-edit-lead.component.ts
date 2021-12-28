@@ -2,10 +2,7 @@
     Component,
     ViewChild,
     Injector,
-    Output,
-    EventEmitter,
     OnInit,
-    ElementRef,
     ViewEncapsulation
 } from '@angular/core';
 import { finalize } from 'rxjs/operators';
@@ -22,11 +19,10 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
-
-import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { MenuItem } from 'primeng/api';
 import { NgForm } from '@angular/forms';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
+import { Location } from '@angular/common';
 
 /**
  * Component to create or edit leads
@@ -42,8 +38,13 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     @ViewChild('LeadForm', { static: true }) LeadForm: NgForm;
     @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
+    pageMode = '';
     active = false;
     saving = false;
+    showSaveButton = false;
+    leadId: number;
+
+    routerLink = '/app/main/crm/leads';
 
     lead: CreateOrEditLeadDto = new CreateOrEditLeadDto();
     leadSourceDescription = '';
@@ -54,10 +55,11 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     allLeadStatuss: LeadLeadStatusLookupTableDto[];
     allPrioritys: LeadPriorityLookupTableDto[];
     isNew = true;
+    isReadOnlyMode = false;
     showEventsTab = false;
 
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Lead'), '/app/main/crm/leads')
+        new BreadcrumbItem(this.l('Lead'), this.routerLink)
     ];
 
     items: MenuItem[];
@@ -70,13 +72,15 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * @param _leadsServiceProxy
      * @param _router
      * @param _countriesServiceProxy
+     * @param location
      */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _leadsServiceProxy: LeadsServiceProxy,
         private _router: Router,
-        private _countriesServiceProxy: CountriesServiceProxy
+        private _countriesServiceProxy: CountriesServiceProxy,
+        private location: Location
     ) {
         super(injector);
     }
@@ -85,10 +89,20 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * Initialize component
      */
     ngOnInit(): void {
-        const hasId = this._activatedRoute.snapshot.queryParams['id'];
-        this.isNew = !!!hasId;
+        this.leadId = this._activatedRoute.snapshot.queryParams['id'];
+        this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
+        this.isReadOnlyMode = this.pageMode === 'view';
+        this.isNew = !!!this.leadId;
+        this.setPermissions();
+
+        this.show(this.leadId);
+    }
+
+    /***
+     * Set permissions
+     */
+    setPermissions() {
         this.showEventsTab = this.isGrantedAny('Pages.Leads.ViewEvents');
-        this.show(hasId);
     }
 
     /**
@@ -111,6 +125,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
             this.priorityDescription = '';
             this.active = true;
             this.breadcrumbs.push(new BreadcrumbItem(this.l('CreateNewLead')));
+            this.showSaveButton = !this.isReadOnlyMode;
         } else {
             this.entityTypeHistory.show({
                 entityId: leadId.toString(),
@@ -125,6 +140,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                     this.priorityDescription = result.priorityDescription;
 
                     this.active = true;
+                    this.showSaveButton = !this.isReadOnlyMode;
                 });
         }
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
@@ -177,6 +193,17 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                 this.goToLeads();
             });
     }
+
+    /***
+     * Open internal edition mode
+     */
+    openEditionMode() {
+        this.isReadOnlyMode = false;
+        this.isNew = false;
+        this.showSaveButton = true;
+        this.location.replaceState(`${this.routerLink}/createOrEdit?id=${this.leadId}`);
+    }
+
 
     /***
      * Reload entity events grid

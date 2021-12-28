@@ -14,12 +14,21 @@
                         <div class="col-sm-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <div class="row">
+
+                                    <div class="row" *ngIf="this.showSaveButton">
                                         <div class="col-12">
-                                            <button (click)="save()" class="btn btn-primary blue float-right"
-                                                    [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                                            <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
+                                                    [busyText]="l('SavingWithThreeDot')">
                                                 <i class="fa fa-save"></i>
                                                 <span>{{ l('Save') }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="(!this.showSaveButton && this.isReadOnlyMode) && isGranted('Pages.Customer.Edit')">
+                                        <div class="col-12">
+                                            <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                <span>{{ l('Edit') }}</span>
                                             </button>
                                         </div>
                                     </div>
@@ -33,6 +42,7 @@
                                                     <input type="text" #Lead_CompanyName="ngModel" id="Lead_CompanyName"
                                                            class="form-control" [(ngModel)]="lead.companyName"
                                                            [placeholder]="l('CompanyName')" name="CompanyName" maxlength="250"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            required />
                                                     <validation-messages [formCtrl]="Lead_CompanyName"></validation-messages>
                                                 </div>
@@ -44,6 +54,7 @@
                                                            [placeholder]="l('CompanyPhone')" [(ngModel)]="lead.companyPhone"
                                                            [required]="!lead.companyEmail" name="CompanyPhone" class="form-control"
                                                            type="tel" maxlength="15"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                                     <div
                                                         *ngIf="!Lead_CompanyPhone.valid && (Lead_CompanyPhone.dirty || Lead_CompanyPhone.touched)">
@@ -61,6 +72,7 @@
                                                     <input type="email" #Lead_CompanyEmail="ngModel" id="Lead_CompanyEmail"
                                                            class="form-control" [(ngModel)]="lead.companyEmail"
                                                            [placeholder]="l('CompanyEmail')" name="CompanyEmail" email
+                                                           [disabled]="this.isReadOnlyMode"
                                                            [required]="!lead.companyPhone" />
                                                     <validation-messages [formCtrl]="Lead_CompanyEmail"></validation-messages>
                                                 </div>
@@ -71,6 +83,7 @@
                                                     <input type="url" #Lead_WebSite="ngModel" id="Lead_WebSite"
                                                            class="form-control" [(ngModel)]="lead.webSite"
                                                            [placeholder]="l('WebSite')" name="WebSite"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" />
                                                     <div
                                                         *ngIf="!Lead_WebSite.valid && (Lead_WebSite.dirty || Lead_WebSite.touched)">
@@ -87,6 +100,7 @@
                                                 <label for="Lead_Address">{{ l('Address') }}</label>
                                                 <input type="text" #Lead_Address="ngModel" id="Lead_Address"
                                                        class="form-control" [(ngModel)]="lead.address" [placeholder]="l('Address')"
+                                                       [disabled]="this.isReadOnlyMode"
                                                        name="Address" maxlength="100" />
                                                 <validation-messages [formCtrl]="Lead_Address"></validation-messages>
                                             </div>
@@ -94,6 +108,7 @@
                                                 <label for="Lead_PoBox">{{ l('PoBox') }}</label>
                                                 <input type="text" #Lead_PoBox="ngModel" id="Lead_PoBox" class="form-control"
                                                        [(ngModel)]="lead.poBox" [placeholder]="l('PoBox')" name="PoBox"
+                                                       [disabled]="this.isReadOnlyMode"
                                                        maxlength="100" />
                                                 <validation-messages [formCtrl]="Lead_PoBox"></validation-messages>
                                             </div>
@@ -106,6 +121,7 @@
                                                     <p-dropdown #Lead_Country="ngModel" id="Lead_Country"
                                                                 [ngModelOptions]="{standalone: true}" [options]="countries"
                                                                 [(ngModel)]="lead.country" optionLabel="name"
+                                                                [disabled]="this.isReadOnlyMode"
                                                                 placeholder="{{l('Country')}}" [showClear]="true" optionValue="name">
                                                     </p-dropdown>
                                                     <validation-messages [formCtrl]="Lead_Country"></validation-messages>
@@ -116,6 +132,7 @@
                                                     <label for="Lead_City">{{ l('City') }}</label>
                                                     <input type="text" #Lead_City="ngModel" id="Lead_City" class="form-control"
                                                            [(ngModel)]="lead.city" [placeholder]="l('City')" name="City"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            maxlength="100" />
                                                     <validation-messages [formCtrl]="Lead_City"></validation-messages>
                                                 </div>
@@ -125,6 +142,7 @@
                                                     <label for="Lead_State">{{ l('State') }}</label>
                                                     <input type="text" #Lead_State="ngModel" id="Lead_State"
                                                            class="form-control" [(ngModel)]="lead.state" [placeholder]="l('State')"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            name="State" maxlength="100" />
                                                     <validation-messages [formCtrl]="Lead_State"></validation-messages>
                                                 </div>
@@ -134,6 +152,7 @@
                                                     <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
                                                     <input type="text" #Lead_ZipCode="ngModel" id="Lead_ZipCode"
                                                            class="form-control" [(ngModel)]="lead.zipCode"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            [placeholder]="l('ZipCodeProvince')" name="ZipCode" maxlength="50" />
                                                     <validation-messages [formCtrl]="Lead_ZipCode"></validation-messages>
                                                 </div>
@@ -150,6 +169,7 @@
                                                     <input type="text" #Lead_ContactName="ngModel" id="Lead_ContactName"
                                                            class="form-control" [(ngModel)]="lead.contactName"
                                                            [placeholder]="l('ContactName')" name="ContactName" required
+                                                           [disabled]="this.isReadOnlyMode"
                                                            maxlength="50" />
                                                     <validation-messages [formCtrl]="Lead_ContactName"></validation-messages>
                                                 </div>
@@ -160,6 +180,7 @@
                                                     <input type="text" #Lead_ContactPosition="ngModel" id="Lead_ContactPosition"
                                                            class="form-control" [(ngModel)]="lead.contactPosition"
                                                            [placeholder]="l('ContactPosition')" name="ContactPosition"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            maxlength="50" />
                                                     <validation-messages [formCtrl]="Lead_ContactPosition">
                                                     </validation-messages>
@@ -174,6 +195,7 @@
                                                     <input id="Lead_ContactPhone" #Lead_ContactPhone="ngModel"
                                                            [(ngModel)]="lead.contactPhone" [placeholder]="l('ContactPhone')"
                                                            class="form-control" name="ContactPhone" type="tel" maxlength="15"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                                     <div
                                                         *ngIf="!Lead_ContactPhone.valid && (Lead_ContactPhone.dirty || Lead_ContactPhone.touched)">
@@ -192,6 +214,7 @@
                                                            name="ContactPhoneExtension"
                                                            type="tel" class="form-control"
                                                            maxlength="5"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            pattern="\+?\d{1,5}$" />
                                                     <div
                                                         *ngIf="!Lead_ContactPhoneExtension.valid && (Lead_ContactPhoneExtension.dirty || Lead_ContactPhoneExtension.touched)">
@@ -207,6 +230,7 @@
                                                            id="Lead_ContactCellPhone" class="form-control"
                                                            [(ngModel)]="lead.contactCellPhone"
                                                            [placeholder]="l('ContactCellPhone')" name="ContactCellPhone" type="tel"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                                     <div
                                                         *ngIf="!Lead_ContactCellPhone.valid && (Lead_ContactCellPhone.dirty || Lead_ContactCellPhone.touched)">
@@ -225,6 +249,7 @@
                                                            id="Lead_ContactFaxNumber" class="form-control"
                                                            [(ngModel)]="lead.contactFaxNumber"
                                                            [placeholder]="l('ContactFaxNumber')" name="ContactFaxNumber" type="tel"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                                     <div
                                                         *ngIf="!Lead_ContactFaxNumber.valid && (Lead_ContactFaxNumber.dirty || Lead_ContactFaxNumber.touched)">
@@ -239,6 +264,7 @@
                                                     <input #Lead_PagerNumber="ngModel" class="form-control"
                                                            [(ngModel)]="lead.pagerNumber" [placeholder]="l('PagerNumber')"
                                                            name="PagerNumber" type="tel" maxlength="15"
+                                                           [disabled]="this.isReadOnlyMode"
                                                            pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
                                                     <div
                                                         *ngIf="!Lead_PagerNumber.valid && (Lead_PagerNumber.dirty || Lead_PagerNumber.touched)">
@@ -255,6 +281,7 @@
                                                     <input type="email" #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
                                                            class="form-control" [(ngModel)]="lead.contactEmail"
                                                            [placeholder]="l('ContactEmai l')" name="ContactEmail" email
+                                                           [disabled]="this.isReadOnlyMode"
                                                            maxlength="50" />
                                                     <validation-messages [formCtrl]="Lead_ContactEmail"></validation-messages>
                                                 </div>
@@ -270,6 +297,7 @@
                                                 <div class="form-group m-form__group">
                                                     <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
                                                     <select #Lead_Status name="lead.leadStatusId"
+                                                            [disabled]="this.isReadOnlyMode"
                                                             [(ngModel)]="lead.leadStatusId" class="form-control">
                                                         <option value="">{{ l('SelectALeadStatus') }}</option>
                                                         <option *ngFor="let item of allLeadStatuss" value="{{ item.id }}">
@@ -283,6 +311,7 @@
                                                 <div class="form-group m-form__group">
                                                     <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
                                                     <select name="lead.leadSourceId" [(ngModel)]="lead.leadSourceId"
+                                                            [disabled]="this.isReadOnlyMode"
                                                             class="form-control">
                                                         <option value="">{{ l('SelectALeadSource') }}</option>
                                                         <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
@@ -295,6 +324,7 @@
                                                 <div class="form-group m-form__group">
                                                     <label for="PriorityDescription">{{ l('Priority') }}</label>
                                                     <select name="lead.priorityId" [(ngModel)]="lead.priorityId"
+                                                            [disabled]="this.isReadOnlyMode"
                                                             class="form-control">
                                                         <option value="">{{ l('SelectAPriority') }}</option>
                                                         <option *ngFor="let item of allPrioritys" value="{{ item.id }}">
@@ -309,6 +339,7 @@
                                             <div class="col-md-12">
                                                 <label for="Lead_Notes">{{ l('EnterNotes') }}</label>
                                                 <textarea class="form-control" #Lead_Notes="ngModel" [(ngModel)]="lead.notes"
+                                                          [disabled]="this.isReadOnlyMode"
                                                           [placeholder]="l('EnterNotes')" name="Notes" id="Lead_Notes"
                                                           rows="10"></textarea>
                                                 <validation-messages [formCtrl]="Lead_Notes"></validation-messages>
