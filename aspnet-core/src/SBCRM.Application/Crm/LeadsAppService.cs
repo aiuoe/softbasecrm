@@ -85,7 +85,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
         {
-
             var filteredLeads = _leadRepository.GetAll()
                            .Include(e => e.LeadSourceFk)
                            .Include(e => e.LeadStatusFk)
@@ -116,7 +115,7 @@ namespace SBCRM.Crm
                            .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
                            .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id);
 
-            IQueryable<Lead> pagedAndFilteredLeads; 
+            IQueryable<Lead> pagedAndFilteredLeads;
 
             if (input.Sorting != null)
                 pagedAndFilteredLeads = filteredLeads
@@ -165,7 +164,7 @@ namespace SBCRM.Crm
                             o.Id,
                             LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                             LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
-                            CanBeConvert =  s2 != null && s2.IsLeadConversionValid,
+                            CanBeConvert = s2 != null && s2.IsLeadConversionValid,
                             LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                             PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                             o.CreationTime
@@ -182,7 +181,6 @@ namespace SBCRM.Crm
                 {
                     Lead = new LeadDto
                     {
-
                         CompanyName = o.CompanyName,
                         ContactName = o.ContactName,
                         ContactPosition = o.ContactPosition,
@@ -219,17 +217,16 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         /// <summary>
-        /// Method to return an excel file with duplicated leads when Importing Leads 
+        /// Method to return an excel file with duplicated leads when Importing Leads
         /// </summary>
         /// <param name="leads"></param>
         /// <returns></returns>
         public async Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads)
         {
-            return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads); 
+            return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads);
         }
 
         /// <summary>
@@ -247,7 +244,7 @@ namespace SBCRM.Crm
 
                 var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                if (! await ValidateLeadsImported(leadsToImport))
+                if (!await ValidateLeadsImported(leadsToImport))
                 {
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
@@ -255,7 +252,6 @@ namespace SBCRM.Crm
                 // Default status and priority
                 var leadStatusId = await _lookupLeadStatusRepository.FirstOrDefaultAsync(p => p.IsDefault);
                 var leadPriorityId = await _lookupPriorityRepository.FirstOrDefaultAsync(p => p.IsDefault);
-
 
                 foreach (var item in leadsToImport)
                 {
@@ -289,7 +285,7 @@ namespace SBCRM.Crm
                     {
                         storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
                     }
-                  
+
                     if (storedLead == null)
                     {
                         var lead = ObjectMapper.Map<Lead>(leadAux);
@@ -318,7 +314,6 @@ namespace SBCRM.Crm
             {
                 throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
-
         }
 
         /// <summary>
@@ -343,10 +338,10 @@ namespace SBCRM.Crm
                     return false;
                 }
 
-                // Validations for specific format fields 
+                // Validations for specific format fields
                 var emailValidator = new EmailAddressAttribute();
-                if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail)) 
-                    || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail)) 
+                if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail))
+                    || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail))
                     || (item.Website != null && !Uri.IsWellFormedUriString(item.Website.ToString(), UriKind.RelativeOrAbsolute)))
                 {
                     return false;
@@ -476,7 +471,6 @@ namespace SBCRM.Crm
             }
 
             await _leadRepository.InsertAsync(lead);
-
         }
 
         /// <summary>
@@ -489,7 +483,6 @@ namespace SBCRM.Crm
         {
             var lead = await _leadRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, lead);
-
         }
 
         /// <summary>
@@ -510,7 +503,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<FileDto> GetLeadsToExcel(GetAllLeadsForExcelInput input)
         {
-
             var filteredLeads = _leadRepository.GetAll()
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
@@ -598,8 +590,7 @@ namespace SBCRM.Crm
                 .Select(leadSource => new LeadLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
-                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString(),
-                    IsDefault = leadSource.IsDefault
+                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString()
                 }).ToListAsync();
         }
 
@@ -635,8 +626,7 @@ namespace SBCRM.Crm
                     IsDefault = priority.IsDefault
                 }).ToListAsync();
         }
-        
-        
+
         /// <summary>
         /// Convert Lead in Account
         /// </summary>
@@ -663,7 +653,7 @@ namespace SBCRM.Crm
             var accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
 
             GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", convertedStatusCode)));
-            
+
             var customerNumber = await _customerAppService.ConvertFromLead(
                 new ConvertLeadToAccountDto(
                     lead: ObjectMapper.Map<LeadDto>(lead),
@@ -679,6 +669,5 @@ namespace SBCRM.Crm
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
         }
-
     }
 }

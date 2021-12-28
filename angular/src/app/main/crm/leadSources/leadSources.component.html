@@ -1,8 +1,8 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'LeadSources' | localize" [description]="'LeadSourcesHeaderInfo' | localize">
+        <sub-header [title]="'LeadSources' | localize">
             <div role="actions">
-                <button (click)="exportToExcel()" class="btn btn-outline-success">
+                <button (click)="exportToExcel()" class="btn btn-outline-success" *ngIf="false">
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
                 </button>
@@ -13,7 +13,7 @@
                     class="btn btn-primary blue"
                 >
                     <i class="fa fa-plus"></i>
-                    {{ l('CreateNewLeadSource') }}
+                    {{ l('Source') }}
                 </button>
             </div>
         </sub-header>
@@ -21,87 +21,6 @@
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
-                    <form class="form" autocomplete="off">
-                        <div>
-                            <div class="row align-items-center">
-                                <div class="col-xl-12">
-                                    <div class="form-group m-form__group align-items-center">
-                                        <div class="input-group">
-                                            <input
-                                                [(ngModel)]="filterText"
-                                                name="filterText"
-                                                autoFocus
-                                                class="form-control m-input"
-                                                [placeholder]="l('SearchWithThreeDot')"
-                                                type="text"
-                                            />
-                                            <span class="input-group-btn">
-                                                <button
-                                                    (click)="getLeadSources()"
-                                                    class="btn btn-primary"
-                                                    type="submit"
-                                                >
-                                                    <i class="flaticon-search-1"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" [hidden]="!advancedFiltersAreShown">
-                                <div class="col-md-12">
-                                    <div class="separator separator-dashed"></div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="DescriptionFilter">{{ l('Description') }}</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="DescriptionFilter"
-                                            name="descriptionFilter"
-                                            [(ngModel)]="descriptionFilter"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="IsDefaultFilterSelect">{{ l('IsDefault') }}</label>
-                                    <select
-                                        class="form-control"
-                                        name="IsDefaultFilter"
-                                        id="IsDefaultFilterSelect"
-                                        [(ngModel)]="isDefaultFilter"
-                                    >
-                                        <option value="-1">{{ l('All') }}</option>
-                                        <option value="0">{{ l('False') }}</option>
-                                        <option value="1">{{ l('True') }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-12">
-                                    <span
-                                        class="clickable-item text-muted"
-                                        *ngIf="!advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
-                                    >
-                                        <i class="fa fa-angle-down"></i>
-                                        {{ l('ShowAdvancedFilters') }}
-                                    </span>
-                                    <span
-                                        class="clickable-item text-muted"
-                                        *ngIf="advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
-                                    >
-                                        <i class="fa fa-angle-up"></i>
-                                        {{ l('HideAdvancedFilters') }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
                     <div class="row align-items-center">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
@@ -116,35 +35,30 @@
                                 ScrollWidth="100%"
                                 [responsive]="primengTableHelper.isResponsive"
                                 [resizableColumns]="primengTableHelper.resizableColumns"
+                                [reorderableColumns]="true"
+                                (onRowReorder)="UpdateOrder($event)"
                             >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th
-                                            style="width: 130px"
+                                            class="col-1"
                                             [hidden]="
                                                 !isGrantedAny('Pages.LeadSources.Edit', 'Pages.LeadSources.Delete')
                                             "
                                         >
                                             {{ l('Actions') }}
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="description">
-                                            {{ l('Description') }}
+                                        <th class="col-1"></th>
+                                        <th class="col-10" pSortableColumn="description">
+                                            {{ l('LeadSource') }}
                                             <p-sortIcon field="leadSource.description"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="order">
-                                            {{ l('Order') }}
-                                            <p-sortIcon field="leadSource.order"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="isDefault">
-                                            {{ l('IsDefault') }}
-                                            <p-sortIcon field="leadSource.isDefault"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
-                                    <tr>
+                                    <tr [pReorderableRow]="i">
                                         <td
-                                            style="width: 130px"
+                                            class="col-1"
                                             [hidden]="
                                                 !isGrantedAny('Pages.LeadSources.Edit', 'Pages.LeadSources.Delete')
                                             "
@@ -153,18 +67,8 @@
                                                 <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
-                                                    {{ l('Actions') }}
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
-                                                    <li>
-                                                        <a
-                                                            href="javascript:;"
-                                                            class="dropdown-item"
-                                                            (click)="viewLeadSourceModal.show(record)"
-                                                        >
-                                                            {{ l('View') }}
-                                                        </a>
-                                                    </li>
                                                     <li>
                                                         <a
                                                             href="javascript:;"
@@ -184,28 +88,18 @@
                                                             *ngIf="permission.isGranted('Pages.LeadSources.Delete')"
                                                             (click)="deleteLeadSource(record.leadSource)"
                                                         >
-                                                            {{ l('Delete') }}
+                                                            {{ l('Remove') }}
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td style="width: 150px">
+                                        <td class="col-1">
+                                            <span class="pi pi-bars" pReorderableRowHandle></span>
+                                        </td>
+                                        <td class="col-10">
                                             <span class="p-column-title">{{ l('Description') }}</span>
                                             {{ record.leadSource.description }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('Order') }}</span>
-                                            {{ record.leadSource.order }}
-                                        </td>
-                                        <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('IsDefault') }}</span>
-                                            <div *ngIf="record.leadSource.isDefault" class="text-center">
-                                                <i class="fa fa-check-circle text-success" title="True"></i>
-                                            </div>
-                                            <div *ngIf="!record.leadSource.isDefault" class="text-center">
-                                                <i class="fa fa-times-circle" title="False"></i>
-                                            </div>
                                         </td>
                                     </tr>
                                 </ng-template>

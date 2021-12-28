@@ -4,7 +4,6 @@ import { finalize } from 'rxjs/operators';
 import { LeadSourcesServiceProxy, CreateOrEditLeadSourceDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
-
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
@@ -29,6 +28,10 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
         super(injector);
     }
 
+    /***
+     * Method that gets the rows to display in the grid
+     * @param opportunityStageId
+     */
     show(leadSourceId?: number): void {
         if (!leadSourceId) {
             this.leadSource = new CreateOrEditLeadSourceDto();
@@ -46,6 +49,9 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
         }
     }
 
+    /***
+     * Method that saves a lead source in the database
+     */
     save(): void {
         this.saving = true;
 
@@ -63,6 +69,9 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
             });
     }
 
+    /***
+     * Method that close modal
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

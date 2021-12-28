@@ -14,15 +14,16 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="leadSource.id">{{ l('EditLeadSource') }}</span>
-                        <span *ngIf="!leadSource.id">{{ l('CreateNewLeadSource') }}</span>
+                        <span *ngIf="!leadSource.id">{{ l('NewLeadSource') }}</span>
                     </h4>
+
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="LeadSource_Description">{{ l('Description') }} *</label>
+                        <label for="LeadSource_Description">{{ l('LeadSourceName') }} *</label>
                         <input
                             type="text"
                             #LeadSource_Description="ngModel"
@@ -33,24 +34,9 @@
                             minlength="1"
                             maxlength="100"
                             required
+                            placeholder="Enter Source Name"
                         />
                         <validation-messages [formCtrl]="LeadSource_Description"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="LeadSource_IsDefault" class="kt-checkbox">
-                            <input
-                                id="LeadSource_IsDefault"
-                                #LeadSource_IsDefault="ngModel"
-                                type="checkbox"
-                                name="IsDefault"
-                                [(ngModel)]="leadSource.isDefault"
-                            />
-                            {{ l('IsDefault') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="LeadSource_IsDefault"></validation-messages>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -64,8 +50,7 @@
                         [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')"
                     >
-                        <i class="fa fa-save"></i>
-                        <span>{{ l('Save') }}</span>
+                        <span>{{ l('Add') }}</span>
                     </button>
                 </div>
             </form>

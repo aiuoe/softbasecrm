@@ -1,88 +1,70 @@
-﻿using System;
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Authorization;
+using SBCRM.Crm.Dtos;
+using SBCRM.Crm.Exporting;
+using SBCRM.Dto;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Exporting;
-using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
-using Abp.Extensions;
-using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
-
     /// <summary>
-    /// LeadSourcesAppService
+    /// Class app service for lead source
     /// </summary>
     [AbpAuthorize(AppPermissions.Pages_LeadSources)]
     public class LeadSourcesAppService : SBCRMAppServiceBase, ILeadSourcesAppService
     {
         private readonly IRepository<LeadSource> _leadSourceRepository;
         private readonly ILeadSourcesExcelExporter _leadSourcesExcelExporter;
+
         /// <summary>
-        /// LeadSourcesAppService constructor
+        /// Class constructor
         /// </summary>
         /// <param name="leadSourceRepository"></param>
         /// <param name="leadSourcesExcelExporter"></param>
-        public LeadSourcesAppService(
-            IRepository<LeadSource> leadSourceRepository,
-            ILeadSourcesExcelExporter leadSourcesExcelExporter)
+        public LeadSourcesAppService(IRepository<LeadSource> leadSourceRepository, ILeadSourcesExcelExporter leadSourcesExcelExporter)
         {
             _leadSourceRepository = leadSourceRepository;
             _leadSourcesExcelExporter = leadSourcesExcelExporter;
-
         }
 
-        /// <summary>
-        /// Gets all the lead sources
-        /// </summary>
-        /// <param name="input"><see cref="GetAllLeadSourcesInput"/></param>
-        /// <returns></returns>
         public async Task<PagedResultDto<GetLeadSourceForViewDto>> GetAll(GetAllLeadSourcesInput input)
         {
-
-            var filteredLeadSources = _leadSourceRepository.GetAll()
+            IQueryable<LeadSource> filteredLeadSources = _leadSourceRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
-            var pagedAndFilteredLeadSources = filteredLeadSources
+            IQueryable<LeadSource> pagedAndFilteredLeadSources = filteredLeadSources
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
             var leadSources = from o in pagedAndFilteredLeadSources
                               select new
                               {
-
                                   o.Description,
                                   o.Order,
-                                  o.IsDefault,
                                   Id = o.Id
                               };
 
-            var totalCount = await filteredLeadSources.CountAsync();
+            int totalCount = await filteredLeadSources.CountAsync();
 
-            var dbList = await leadSources.ToListAsync();
-            var results = new List<GetLeadSourceForViewDto>();
+            var dbList = await leadSources.OrderBy(x => x.Order).ToListAsync();
+            List<GetLeadSourceForViewDto> results = new List<GetLeadSourceForViewDto>();
 
             foreach (var o in dbList)
             {
-                var res = new GetLeadSourceForViewDto()
+                GetLeadSourceForViewDto res = new GetLeadSourceForViewDto()
                 {
                     LeadSource = new LeadSourceDto
                     {
-
                         Description = o.Description,
                         Order = o.Order,
-                        IsDefault = o.IsDefault,
                         Id = o.Id,
                     }
                 };
@@ -94,43 +76,27 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
-        /// <summary>
-        /// Gets leads for source view by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public async Task<GetLeadSourceForViewDto> GetLeadSourceForView(int id)
         {
-            var leadSource = await _leadSourceRepository.GetAsync(id);
+            LeadSource leadSource = await _leadSourceRepository.GetAsync(id);
 
-            var output = new GetLeadSourceForViewDto { LeadSource = ObjectMapper.Map<LeadSourceDto>(leadSource) };
+            GetLeadSourceForViewDto output = new GetLeadSourceForViewDto { LeadSource = ObjectMapper.Map<LeadSourceDto>(leadSource) };
 
             return output;
         }
 
-        /// <summary>
-        /// Gets a lead soruce object to be edited
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         public async Task<GetLeadSourceForEditOutput> GetLeadSourceForEdit(EntityDto input)
         {
-            var leadSource = await _leadSourceRepository.FirstOrDefaultAsync(input.Id);
+            LeadSource leadSource = await _leadSourceRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetLeadSourceForEditOutput { LeadSource = ObjectMapper.Map<CreateOrEditLeadSourceDto>(leadSource) };
+            GetLeadSourceForEditOutput output = new GetLeadSourceForEditOutput { LeadSource = ObjectMapper.Map<CreateOrEditLeadSourceDto>(leadSource) };
 
             return output;
         }
 
-        /// <summary>
-        /// Creates or edits a lead source
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditLeadSourceDto input)
         {
             if (input.Id == null)
@@ -143,73 +109,89 @@ namespace SBCRM.Crm
             }
         }
 
-        /// <summary>
-        /// Creates a new lead soruce
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Create)]
         protected virtual async Task Create(CreateOrEditLeadSourceDto input)
         {
-            var leadSource = ObjectMapper.Map<LeadSource>(input);
+            input.Order = _leadSourceRepository.GetAll().Count() + 1;
+
+            LeadSource leadSource = ObjectMapper.Map<LeadSource>(input);
 
             await _leadSourceRepository.InsertAsync(leadSource);
-
         }
 
-        /// <summary>
-        /// Updates a lead source
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         protected virtual async Task Update(CreateOrEditLeadSourceDto input)
         {
-            var leadSource = await _leadSourceRepository.FirstOrDefaultAsync((int)input.Id);
+            LeadSource leadSource = await _leadSourceRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, leadSource);
-
         }
 
-        /// <summary>
-        /// Deletes a lead source
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
+        public virtual async Task UpdateOrder(List<UpdateOrderleadSourceDto> input)
+        {
+            int orderSrc = input[0].Order + 1;
+            int orderDst = input[1].Order + 1;
+
+            var leadSourceSrc = await _leadSourceRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
+            leadSourceSrc.Order = orderDst;
+            await _leadSourceRepository.FirstOrDefaultAsync(leadSourceSrc.Id);
+
+            List<LeadSource> allLeadSource = _leadSourceRepository.GetAll().OrderBy(x => x.Order).ToList();
+            allLeadSource.Remove(leadSourceSrc);
+
+            int i = orderDst + 1;
+            foreach (LeadSource item in allLeadSource)
+            {
+                if (item.Order >= orderDst && item.Order <= orderSrc)
+                {
+                    item.Order = i;
+                    await _leadSourceRepository.FirstOrDefaultAsync(item.Id);
+                    i++;
+                }
+            }
+        }
+
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _leadSourceRepository.DeleteAsync(input.Id);
+
+            UpdateOrderAfterDelete();
         }
 
-        /// <summary>
-        /// Gets an excel file with a list of lead sources
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public async Task<FileDto> GetLeadSourcesToExcel(GetAllLeadSourcesForExcelInput input)
         {
-
-            var filteredLeadSources = _leadSourceRepository.GetAll()
+            IQueryable<LeadSource> filteredLeadSources = _leadSourceRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
-            var query = (from o in filteredLeadSources
-                         select new GetLeadSourceForViewDto()
-                         {
-                             LeadSource = new LeadSourceDto
-                             {
-                                 Description = o.Description,
-                                 Order = o.Order,
-                                 IsDefault = o.IsDefault,
-                                 Id = o.Id
-                             }
-                         });
+            IQueryable<GetLeadSourceForViewDto> query = (from o in filteredLeadSources
+                                                         select new GetLeadSourceForViewDto()
+                                                         {
+                                                             LeadSource = new LeadSourceDto
+                                                             {
+                                                                 Description = o.Description,
+                                                                 Order = o.Order,
+                                                                 Id = o.Id
+                                                             }
+                                                         });
 
-            var leadSourceListDtos = await query.ToListAsync();
+            List<GetLeadSourceForViewDto> leadSourceListDtos = await query.ToListAsync();
 
             return _leadSourcesExcelExporter.ExportToFile(leadSourceListDtos);
         }
 
+        private void UpdateOrderAfterDelete()
+        {
+            List<LeadSource> listLeadSource = _leadSourceRepository.GetAll().ToList();
+
+            int order = 1;
+            foreach (LeadSource leadSource in listLeadSource)
+            {
+                leadSource.Order = order;
+                order++;
+                _leadSourceRepository.FirstOrDefault(leadSource.Id);
+            }
+        }
     }
 }
