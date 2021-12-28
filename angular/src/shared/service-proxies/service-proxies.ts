@@ -43561,7 +43561,7 @@ export class UserEditDto implements IUserEditDto {
         data["isTwoFactorEnabled"] = this.isTwoFactorEnabled;
         data["isLockoutEnabled"] = this.isLockoutEnabled;
         data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
-        return data; 
+        return data;
     }
 }
 
