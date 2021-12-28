@@ -207,6 +207,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             });
     }
 
+    /***
+     * Reload entity events grid
+     */
     reloadEvents() {
         this.entityTypeHistory.refreshTable();
     }
