@@ -480,9 +480,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityActivitySourceTypeLookupTableDto>> GetAllActivitySourceTypeForTableDropdown()
         {
             return await _lookupActivitySourceTypeRepository.GetAll()
+                .OrderBy(x => x.Order)
                 .Select(activitySourceType => new ActivityActivitySourceTypeLookupTableDto
                 {
                     Id = activitySourceType.Id,
+                    EnumValue = activitySourceType.EnumValue,
                     DisplayName = activitySourceType == null || activitySourceType.Description == null ? "" : activitySourceType.Description.ToString()
                 }).ToListAsync();
         }
@@ -495,9 +497,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityActivityTaskTypeLookupTableDto>> GetAllActivityTaskTypeForTableDropdown()
         {
             return await _lookupActivityTaskTypeRepository.GetAll()
+                .OrderBy(x => x.Order)
                 .Select(activityTaskType => new ActivityActivityTaskTypeLookupTableDto
                 {
                     Id = activityTaskType.Id,
+                    IsDefault = activityTaskType.IsDefault,
                     DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString()
                 }).ToListAsync();
         }
@@ -510,9 +514,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityActivityStatusLookupTableDto>> GetAllActivityStatusForTableDropdown()
         {
             return await _lookupActivityStatusRepository.GetAll()
+                .OrderBy(x => x.Order)
                 .Select(activityStatus => new ActivityActivityStatusLookupTableDto
                 {
                     Id = activityStatus.Id,
+                    IsDefault = activityStatus.IsDefault,
                     DisplayName = activityStatus == null || activityStatus.Description == null ? "" : activityStatus.Description.ToString()
                 }).ToListAsync();
         }
@@ -525,9 +531,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown()
         {
             return await _lookupActivityPriorityRepository.GetAll()
+                .OrderBy(x => x.Order)
                 .Select(activityPriority => new ActivityActivityPriorityLookupTableDto
                 {
                     Id = activityPriority.Id,
+                    IsDefault = activityPriority.IsDefault,
                     DisplayName = activityPriority == null || activityPriority.Description == null ? "" : activityPriority.Description.ToString()
                 }).ToListAsync();
         }

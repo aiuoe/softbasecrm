@@ -24149,6 +24149,7 @@ export interface IActivateWebhookSubscriptionInput {
 export class ActivityActivityPriorityLookupTableDto implements IActivityActivityPriorityLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: IActivityActivityPriorityLookupTableDto) {
         if (data) {
@@ -24163,6 +24164,7 @@ export class ActivityActivityPriorityLookupTableDto implements IActivityActivity
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -24177,6 +24179,7 @@ export class ActivityActivityPriorityLookupTableDto implements IActivityActivity
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -24184,11 +24187,13 @@ export class ActivityActivityPriorityLookupTableDto implements IActivityActivity
 export interface IActivityActivityPriorityLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivitySourceTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    enumValue!: number;
 
     constructor(data?: IActivityActivitySourceTypeLookupTableDto) {
         if (data) {
@@ -24203,6 +24208,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.enumValue = _data["enumValue"];
         }
     }
 
@@ -24217,6 +24223,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["enumValue"] = this.enumValue;
         return data; 
     }
 }
@@ -24224,11 +24231,13 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
 export interface IActivityActivitySourceTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
+    enumValue: number;
 }
 
 export class ActivityActivityStatusLookupTableDto implements IActivityActivityStatusLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: IActivityActivityStatusLookupTableDto) {
         if (data) {
@@ -24243,6 +24252,7 @@ export class ActivityActivityStatusLookupTableDto implements IActivityActivitySt
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -24257,6 +24267,7 @@ export class ActivityActivityStatusLookupTableDto implements IActivityActivitySt
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -24264,11 +24275,13 @@ export class ActivityActivityStatusLookupTableDto implements IActivityActivitySt
 export interface IActivityActivityStatusLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivityTaskTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: IActivityActivityTaskTypeLookupTableDto) {
         if (data) {
@@ -24283,6 +24296,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -24297,6 +24311,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -24304,6 +24319,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
 export interface IActivityActivityTaskTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class ActivityCustomerLookupTableDto implements IActivityCustomerLookupTableDto {
