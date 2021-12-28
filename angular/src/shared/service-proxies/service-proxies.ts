@@ -10016,6 +10016,94 @@ export class FriendshipServiceProxy {
 }
 
 @Injectable()
+export class GlobalSearchServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param categoryCode (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, categoryCode: GlobalSearchCategory | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetGlobalSearchItemDto> {
+        let url_ = this.baseUrl + "/api/services/app/GlobalSearch/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (categoryCode === null)
+            throw new Error("The parameter 'categoryCode' cannot be null.");
+        else if (categoryCode !== undefined)
+            url_ += "CategoryCode=" + encodeURIComponent("" + categoryCode) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetGlobalSearchItemDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetGlobalSearchItemDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetGlobalSearchItemDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetGlobalSearchItemDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetGlobalSearchItemDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class HostDashboardServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -32276,6 +32364,46 @@ export interface IGetGeneralStatsOutput {
     bouncePercent: number;
 }
 
+export class GetGlobalSearchItemDto implements IGetGlobalSearchItemDto {
+    name!: string | undefined;
+    type!: string | undefined;
+
+    constructor(data?: IGetGlobalSearchItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.type = _data["type"];
+        }
+    }
+
+    static fromJS(data: any): GetGlobalSearchItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetGlobalSearchItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["type"] = this.type;
+        return data; 
+    }
+}
+
+export interface IGetGlobalSearchItemDto {
+    name: string | undefined;
+    type: string | undefined;
+}
+
 export class GetIncomeStatisticsDataOutput implements IGetIncomeStatisticsDataOutput {
     incomeStatistics!: IncomeStastistic[] | undefined;
 
@@ -34134,6 +34262,14 @@ export class GetZipCodeForViewDto implements IGetZipCodeForViewDto {
 
 export interface IGetZipCodeForViewDto {
     zipCode: ZipCodeDto;
+}
+
+export enum GlobalSearchCategory {
+    All = 0,
+    Account = 1,
+    Lead = 2,
+    Opportunity = 3,
+    Activity = 4,
 }
 
 export class GoogleExternalLoginProviderSettings implements IGoogleExternalLoginProviderSettings {
@@ -38665,6 +38801,54 @@ export class PagedResultDtoOfGetCustomerForViewDto implements IPagedResultDtoOfG
 export interface IPagedResultDtoOfGetCustomerForViewDto {
     totalCount: number;
     items: GetCustomerForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetGlobalSearchItemDto implements IPagedResultDtoOfGetGlobalSearchItemDto {
+    totalCount!: number;
+    items!: GetGlobalSearchItemDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetGlobalSearchItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetGlobalSearchItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetGlobalSearchItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetGlobalSearchItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetGlobalSearchItemDto {
+    totalCount: number;
+    items: GetGlobalSearchItemDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetIndustryForViewDto implements IPagedResultDtoOfGetIndustryForViewDto {

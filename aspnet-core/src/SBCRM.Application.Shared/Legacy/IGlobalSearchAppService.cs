@@ -2,16 +2,19 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Legacy.Dtos;
-using SBCRM.Dto;
-using System.Collections.Generic;
-using SBCRM.Auditing.Dto;
-using SBCRM.Crm.Dtos;
 
 namespace SBCRM.Legacy
 {
-    //Interface of global search
-    public interface IGlobalSearchAppService:IApplicationService
+    /// <summary>
+    /// App service to handle Global search information
+    /// </summary>
+    public interface IGlobalSearchAppService : IApplicationService
     {
-        Task<ListResultDto<GetGlobalSearchDto>> GetAll(GetGlobalSearchInput input);
+        /// <summary>
+        /// Get all global search
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<GetGlobalSearchItemDto>> GetAll(GetGlobalSearchInput input);
     }
 }

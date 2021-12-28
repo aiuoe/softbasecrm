@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
 using Abp.Domain.Entities;
@@ -90,6 +91,8 @@ namespace SBCRM.Crm
         public Customer CustomerFk { get; set; }
 
         public virtual string CustomerNumber { get; set; }
+
+        public List<LeadUser> Users { get; set; }
 
     }
 }

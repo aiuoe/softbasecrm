@@ -1,49 +1,106 @@
-﻿using SBCRM.Authorization.Users;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Exporting;
-using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
 using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
-using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
-using SBCRM.Legacy;
+using SBCRM.Authorization;
+using SBCRM.Crm;
 using SBCRM.Legacy.Dtos;
-using Abp.Extensions;
+
 namespace SBCRM.Legacy
 {
-    public class GlobalSearchAppService: SBCRMAppServiceBase, IGlobalSearchAppService
+    /// <summary>
+    /// App service to handle Global search information
+    /// </summary>
+    public class GlobalSearchAppService : SBCRMAppServiceBase, IGlobalSearchAppService
     {
-        private readonly IRepository<Customer, int> _customerRepository;
+        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<Lead> _leadRepository;
 
-        public GlobalSearchAppService(IRepository<Customer> customerRepository)
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="customerRepository"></param>
+        /// <param name="leadRepository"></param>
+        public GlobalSearchAppService(
+            IRepository<Customer> customerRepository,
+            IRepository<Lead> leadRepository)
         {
             _customerRepository = customerRepository;
+            _leadRepository = leadRepository;
         }
 
-        public async Task<ListResultDto<GetGlobalSearchDto>> GetAll(GetGlobalSearchInput input)
+        /// <summary>
+        /// Get all global search
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GetGlobalSearchItemDto>> GetAll(GetGlobalSearchInput input)
         {
             try
             {
-                var filteredCustomer = _customerRepository.GetAll()
-            .WhereIf(
-                !input.Filter.IsNullOrEmpty(),
-                p => p.Name.Contains(input.Filter)
-            )
-            .OrderBy(p => p.Name)
-            .ToList();
+                var currentUser = await GetCurrentUserAsync();
+                var hasRestrictedAccountPermission = await UserManager.IsGrantedAsync(
+                    currentUser.Id, AppPermissions.Pages_AccountUsers_Create_Restricted);// TODO Confirm with Carlos and Kevin what permissions needs for Leads, Opportunity and Activities
 
-                return new ListResultDto<GetGlobalSearchDto>(ObjectMapper.Map<List<GetGlobalSearchDto>>(filteredCustomer));
+                var globalSearchCategory = input.CategoryCode;
+
+                var customersQuery = _customerRepository.GetAll()
+                    .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Account == globalSearchCategory)
+                    .Select(x => new GetGlobalSearchItemDto
+                    {
+                        Name = Convert.ToString(x.Name),
+                        Type = Convert.ToString(L("Customer"))
+                    });
+                var leadsQuery = _leadRepository.GetAll()
+                    .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Lead == globalSearchCategory)
+                    //.Include(x => x.Users) TODO In these 2 lines you can filter in case you have a specific permission to see only your leads assigned to the current user
+                    //.WhereIf(hasRestrictedAccountPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
+                    .Select(x => new GetGlobalSearchItemDto
+                    {
+                        Name = Convert.ToString(x.CompanyName),
+                        Type = Convert.ToString(L("Lead"))
+                    });
+
+                var unionQuery = customersQuery
+                    .Union(leadsQuery)
+                    //.Union(opportunityQuery) TODO Here you must add the other queries that are needed
+                    //.Union(activityQuery)
+                    ;
+
+                unionQuery = unionQuery.WhereIf(!string.IsNullOrEmpty(input.Filter),
+                    x => x.Name.Contains(input.Filter));
+
+
+                var totalCount = await unionQuery.CountAsync();
+
+                unionQuery = unionQuery
+                    .OrderBy(input.Sorting ?? $"{nameof(GetGlobalSearchItemDto.Name)} asc")
+                    .PageBy(input);
+
+
+                var dbList = await unionQuery.ToListAsync();
+                var results = new List<GetGlobalSearchItemDto>();
+                foreach (var row in dbList)
+                {
+                    var globalSearchItem = new GetGlobalSearchItemDto();
+                    globalSearchItem.Name = row.Name;
+                    globalSearchItem.Type = row.Type;
+                    results.Add(globalSearchItem);
+                }
+
+                return new PagedResultDto<GetGlobalSearchItemDto>(
+                    totalCount,
+                    results
+                );
             }
             catch (Exception e)
             {
-                Logger.Error("Error in CustomerAppService -> ", e);
+                Logger.Error("Error in GlobalSearchAppService -> ", e);
                 throw;
             }
         }
