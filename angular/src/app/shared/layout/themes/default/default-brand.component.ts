@@ -6,14 +6,13 @@ import { DOCUMENT } from '@angular/common';
 @Component({
     templateUrl: './default-brand.component.html',
     selector: 'default-brand',
+    styleUrls:['./default-brand.component.less'],
     encapsulation: ViewEncapsulation.None,
 })
 export class DefaultBrandComponent extends AppComponentBase {
     defaultLogo =
         AppConsts.appBaseUrl +
-        '/assets/common/images/app-logo-on-' +
-        this.currentTheme.baseSettings.menu.asideSkin +
-        '.svg';
+        '/assets/common/images/logo.svg';
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
 
     constructor(injector: Injector, @Inject(DOCUMENT) private document: Document) {

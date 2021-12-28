@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="Contact_Phone">{{ l('ContactPhone') }} <span class="color-red">*</span></label>
+                                <label for="Contact_Phone">{{ l('ContactPhone') }}</label>
                                 <input
                                     type="text"
                                     #Contact_Phone="ngModel"
@@ -87,9 +87,8 @@
                                     [(ngModel)]="customerContact.phone"
                                     name="Contact_Phone"
                                     minlength="1"
-                                    maxlength="12"
+                                    maxlength="15"
                                     pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
-                                    required
                                 />
                                 <div *ngIf="!Contact_Phone.valid && (Contact_Phone.dirty || Contact_Phone.touched)">
                                     <span class="form-text text-danger text-left">{{ 'ContactPhoneInvalid' | localize }}</span>
@@ -126,7 +125,7 @@
                                     [(ngModel)]="customerContact.cellular"
                                     name="Contact_Cell_Phone"
                                     minlength="1"
-                                    maxlength="12"
+                                    maxlength="15"
                                 />
                                 <validation-messages [formCtrl]="Contact_Cell_Phone"></validation-messages>
                             </div>
@@ -142,7 +141,7 @@
                                     [(ngModel)]="customerContact.fax"
                                     name="Contact_Fax"
                                     minlength="1"
-                                    maxlength="12"
+                                    maxlength="15"
                                 />
                                 <validation-messages [formCtrl]="Contact_Fax"></validation-messages>
                             </div>
@@ -161,7 +160,7 @@
                                     [(ngModel)]="customerContact.pager"
                                     name="Contact_Pager"
                                     minlength="1"
-                                    maxlength="12"
+                                    maxlength="15"
                                 />
                                 <validation-messages [formCtrl]="Contact_Pager"></validation-messages>
                             </div>

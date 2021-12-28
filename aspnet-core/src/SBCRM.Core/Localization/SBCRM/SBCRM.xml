@@ -2,13 +2,18 @@
 
 <localizationDictionary culture="en">
   <texts>
-    <text name="AssignUsers">Assign Users</text>
-    <text name="OpportunityUser">Opportunity user</text>
-    <text name="CreateNewOpportunityUser">Create new opportunity user</text>
-    <text name="EditOpportunityUser">Edit opportunity user</text>
-    <text name="DeleteOpportunityUser">Delete opportunity user</text>
+
+  <text name="OpportunityUser">Opportunity user</text>
+  <text name="CreateNewOpportunityUser">Create new opportunity user</text>
+  <text name="EditOpportunityUser">Edit opportunity user</text>
+  <text name="DeleteOpportunityUser">Delete opportunity user</text>
 
     <text name="IsCompletedStatus">Is completed status</text>
+	<text name="AccountHeader">CRM Portal</text>
+	<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
+	  
+	<text name="AssignUsers">Assign Users</text>
+	<text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
     <text name="FilterByAssignee">Filter by Assignee</text>
@@ -508,12 +513,17 @@
     <text name="PleaseEnterLoginInformation">Please enter login information</text>
     <text name="TenancyName">Tenancy name</text>
     <text name="UserNameOrEmail">User name or email</text>
+	<text name="EmployeeNumber">Employee #</text>
+	<text name="EmployeeNumberDoesNotHaveRecord{0}">Employee Number {0} does not have a record on Person table</text>
     <text name="Password">Password</text>
     <text name="RememberMe">Remember me</text>
-    <text name="LogIn">Log in</text>
+    <text name="LogIn">Sign In</text>
     <text name="ForgotPassword">Forgot password?</text>
     <text name="DontYouHaveAnAccount">Don't you have an account?</text>
     <text name="CreateAnAccount">Create account</text>
+	<text name="TermsAndConditions">Terms and Conditions</text>
+	<text name="TermsAndConditionsLogging">Logging into this website you accept our</text>
+	<text name="TermsAndConditionsLink">Terms of use and our Privacy Policy</text>
     <text name="Pages">Pages</text>
     <text name="Modules">Modules</text>
     <text name="BasePermission">Base permission</text>
@@ -736,6 +746,7 @@
     <text name="DeleteContact">Delete contact</text>
     <text name="ConvertedLeadRequired">Lead is required to convert</text>
     <text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>
+    <text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
     <text name="AccountTypeNotExist">Account type {0} does not exist</text>
     <text name="LeadStatusNotExist">Lead status {0} does not exist</text>
     <text name="LeadNotExist">Lead does not exist</text>

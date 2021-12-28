@@ -37,6 +37,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PasswordInputWithShowButtonComponent } from './password-input-with-show-button/password-input-with-show-button.component';
 import { KeyValueListManagerComponent } from './key-value-list-manager/key-value-list-manager.component';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
+import { TermsAndConditionsModalComponent } from '../terms-and-conditions-modal/terms-and-conditions-modal.component';
 
 @NgModule({
     imports: [
@@ -70,6 +71,7 @@ import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/ent
         MultipleSelectComboboxInputTypeComponent,
         PasswordInputWithShowButtonComponent,
         KeyValueListManagerComponent,
+        TermsAndConditionsModalComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -81,6 +83,7 @@ import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/ent
         DatePickerInitialValueSetterDirective,
         PasswordInputWithShowButtonComponent,
         KeyValueListManagerComponent,
+        TermsAndConditionsModalComponent
     ],
     providers: [
         DateTimeService,

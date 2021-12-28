@@ -178,10 +178,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
-        public async Task<List<AccountUserUserLookupTableDto>> GetAllUserForTableDropdown()
+        public async Task<List<AccountUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             return await _lookupUserRepository.GetAll()
-                .Select(user => new AccountUserUserLookupTableDto
+                .Select(user => new AccountUserLookupTableDto
                 {
                     Id = user.Id,
                     DisplayName = user == null || user.FullName == null ? string.Empty : user.FullName
