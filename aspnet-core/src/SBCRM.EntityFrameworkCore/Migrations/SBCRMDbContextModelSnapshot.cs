@@ -1559,6 +1559,9 @@ namespace SBCRM.Migrations
                     b.Property<string>("GoogleAuthenticatorKey")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("HasAcceptedTermsAndConditions")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -2289,6 +2292,9 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2297,6 +2303,9 @@ namespace SBCRM.Migrations
 
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -2491,6 +2500,11 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -2705,9 +2719,10 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Legacy.Contact", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ContactId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasColumnName("ID")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AddedBy")
@@ -2796,7 +2811,7 @@ namespace SBCRM.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ContactId");
 
                     b.ToTable("Contacts", "dbo");
                 });
@@ -3092,8 +3107,146 @@ namespace SBCRM.Migrations
                     b.ToView("InvoiceRegList", "dbo");
                 });
 
+            modelBuilder.Entity("SBCRM.Legacy.Person", b =>
+                {
+                    b.Property<int>("Number")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<short?>("Active")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("AutomaticEmailBCC")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("Branch")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DLExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DLNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateChanged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("Dept")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("EMailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Extention")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("ExtentionList")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("MaleFemale")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MaritalStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("Mechanic")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MiddleInit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("MonthlyRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("NextReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NickName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonGroup")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PersonImage")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PositionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SSNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceVan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("TerminationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("UseDefaults")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Number");
+
+                    b.ToTable("Person", "dbo");
+                });
+
             modelBuilder.Entity("SBCRM.Legacy.Secure", b =>
                 {
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<short?>("APChecks")
                         .HasColumnType("smallint");
 
@@ -3121,7 +3274,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("ARCash")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("ARComments")
+                    b.Property<bool?>("ARComments")
                         .HasColumnType("bit");
 
                     b.Property<short?>("ARInquiry")
@@ -3130,16 +3283,16 @@ namespace SBCRM.Migrations
                     b.Property<string>("AddedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("AdminDisableDLN")
+                    b.Property<bool?>("AdminDisableDLN")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("AdminDisableHourlyRate")
+                    b.Property<bool?>("AdminDisableHourlyRate")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("AdminDisableSSN")
+                    b.Property<bool?>("AdminDisableSSN")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("AdminInspectionSetup")
+                    b.Property<bool?>("AdminInspectionSetup")
                         .HasColumnType("bit");
 
                     b.Property<short?>("AdminProgram")
@@ -3169,13 +3322,13 @@ namespace SBCRM.Migrations
                     b.Property<short?>("CustomerChange")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("CustomerCommission")
+                    b.Property<bool?>("CustomerCommission")
                         .HasColumnType("bit");
 
                     b.Property<short?>("CustomerCreditApproval")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("CustomerCreditInfo")
+                    b.Property<bool?>("CustomerCreditInfo")
                         .HasColumnType("bit");
 
                     b.Property<short?>("CustomerDelete")
@@ -3184,10 +3337,10 @@ namespace SBCRM.Migrations
                     b.Property<short?>("CustomerProgram")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("CustomerRates")
+                    b.Property<bool?>("CustomerRates")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CustomerTerms")
+                    b.Property<bool?>("CustomerTerms")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("DateAdded")
@@ -3202,55 +3355,55 @@ namespace SBCRM.Migrations
                     b.Property<string>("DispatchName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("DocumentCenter")
+                    b.Property<bool?>("DocumentCenter")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterAPInvoiceAdd")
+                    b.Property<bool?>("DocumentCenterAPInvoiceAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterAPInvoiceDelete")
+                    b.Property<bool?>("DocumentCenterAPInvoiceDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterCustomerAdd")
+                    b.Property<bool?>("DocumentCenterCustomerAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterCustomerDelete")
+                    b.Property<bool?>("DocumentCenterCustomerDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterEQAdd")
+                    b.Property<bool?>("DocumentCenterEQAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterEQDelete")
+                    b.Property<bool?>("DocumentCenterEQDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterMechanicAdd")
+                    b.Property<bool?>("DocumentCenterMechanicAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterMechanicDelete")
+                    b.Property<bool?>("DocumentCenterMechanicDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterPOAdd")
+                    b.Property<bool?>("DocumentCenterPOAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterPODelete")
+                    b.Property<bool?>("DocumentCenterPODelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterRentalAdd")
+                    b.Property<bool?>("DocumentCenterRentalAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterRentalDelete")
+                    b.Property<bool?>("DocumentCenterRentalDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterVendorAdd")
+                    b.Property<bool?>("DocumentCenterVendorAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterVendorDelete")
+                    b.Property<bool?>("DocumentCenterVendorDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterWOAdd")
+                    b.Property<bool?>("DocumentCenterWOAdd")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DocumentCenterWODelete")
+                    b.Property<bool?>("DocumentCenterWODelete")
                         .HasColumnType("bit");
 
                     b.Property<int?>("EmployeeNo")
@@ -3268,10 +3421,10 @@ namespace SBCRM.Migrations
                     b.Property<short?>("EquipmentChange")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("EquipmentChangeSerialNo")
+                    b.Property<bool?>("EquipmentChangeSerialNo")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentControlNo")
+                    b.Property<bool?>("EquipmentControlNo")
                         .HasColumnType("bit");
 
                     b.Property<short?>("EquipmentCost")
@@ -3280,13 +3433,13 @@ namespace SBCRM.Migrations
                     b.Property<short?>("EquipmentDelete")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("EquipmentGLInfo")
+                    b.Property<bool?>("EquipmentGLInfo")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentInventory")
+                    b.Property<bool?>("EquipmentInventory")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentLocation")
+                    b.Property<bool?>("EquipmentLocation")
                         .HasColumnType("bit");
 
                     b.Property<short?>("EquipmentPM")
@@ -3295,40 +3448,40 @@ namespace SBCRM.Migrations
                     b.Property<short?>("EquipmentProgram")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("EquipmentRentalRates")
+                    b.Property<bool?>("EquipmentRentalRates")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab0")
+                    b.Property<bool?>("EquipmentTab0")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab1")
+                    b.Property<bool?>("EquipmentTab1")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab10")
+                    b.Property<bool?>("EquipmentTab10")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab2")
+                    b.Property<bool?>("EquipmentTab2")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab3")
+                    b.Property<bool?>("EquipmentTab3")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab4")
+                    b.Property<bool?>("EquipmentTab4")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab5")
+                    b.Property<bool?>("EquipmentTab5")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab6")
+                    b.Property<bool?>("EquipmentTab6")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab7")
+                    b.Property<bool?>("EquipmentTab7")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab8")
+                    b.Property<bool?>("EquipmentTab8")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EquipmentTab9")
+                    b.Property<bool?>("EquipmentTab9")
                         .HasColumnType("bit");
 
                     b.Property<short?>("EquipmentUnitNo")
@@ -3343,13 +3496,13 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceAccountingDist")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceAccountingFormat")
+                    b.Property<bool?>("InvoiceAccountingFormat")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceAddShipTo")
+                    b.Property<bool?>("InvoiceAddShipTo")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceAutoOpenPMs")
+                    b.Property<bool?>("InvoiceAutoOpenPMs")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoiceClose")
@@ -3361,7 +3514,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceDeptLimit")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceDesignOptions")
+                    b.Property<bool?>("InvoiceDesignOptions")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoiceEquipmentAdd")
@@ -3376,64 +3529,64 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceEquipmentTransfer")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceFix")
+                    b.Property<bool?>("InvoiceFix")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixComments")
+                    b.Property<bool?>("InvoiceFixComments")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixFOB")
+                    b.Property<bool?>("InvoiceFixFOB")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixHourMeter")
+                    b.Property<bool?>("InvoiceFixHourMeter")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixPONo")
+                    b.Property<bool?>("InvoiceFixPONo")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixRentalDates")
+                    b.Property<bool?>("InvoiceFixRentalDates")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixSalesman")
+                    b.Property<bool?>("InvoiceFixSalesman")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixShipVia")
+                    b.Property<bool?>("InvoiceFixShipVia")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFixWriter")
+                    b.Property<bool?>("InvoiceFixWriter")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFlatRateEquipment")
+                    b.Property<bool?>("InvoiceFlatRateEquipment")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFlatRateLabor")
+                    b.Property<bool?>("InvoiceFlatRateLabor")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFlatRateMisc")
+                    b.Property<bool?>("InvoiceFlatRateMisc")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFlatRateParts")
+                    b.Property<bool?>("InvoiceFlatRateParts")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceFlatRateRental")
+                    b.Property<bool?>("InvoiceFlatRateRental")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceGPEquipment")
+                    b.Property<bool?>("InvoiceGPEquipment")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceGPLabor")
+                    b.Property<bool?>("InvoiceGPLabor")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceGPMisc")
+                    b.Property<bool?>("InvoiceGPMisc")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceGPParts")
+                    b.Property<bool?>("InvoiceGPParts")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceGPRental")
+                    b.Property<bool?>("InvoiceGPRental")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("InvoiceGPTotal")
+                    b.Property<bool?>("InvoiceGPTotal")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoiceLaborAdd")
@@ -3451,7 +3604,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceLaborTransfer")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceMechLimitFlag")
+                    b.Property<bool?>("InvoiceMechLimitFlag")
                         .HasColumnType("bit");
 
                     b.Property<int?>("InvoiceMechNo")
@@ -3469,7 +3622,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceMiscTransfer")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceNewEquipment")
+                    b.Property<bool?>("InvoiceNewEquipment")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoiceOpen")
@@ -3478,13 +3631,13 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceOpenPM")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceOverRideCurrencyRate")
+                    b.Property<bool?>("InvoiceOverRideCurrencyRate")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoicePartsAdd")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoicePartsBelowCost")
+                    b.Property<bool?>("InvoicePartsBelowCost")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoicePartsChange")
@@ -3502,7 +3655,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceProgram")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceRates")
+                    b.Property<bool?>("InvoiceRates")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoiceReOpen")
@@ -3523,7 +3676,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("InvoiceRentalTransfer")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("InvoiceSalesman")
+                    b.Property<bool?>("InvoiceSalesman")
                         .HasColumnType("bit");
 
                     b.Property<short?>("InvoiceUpdate")
@@ -3535,10 +3688,10 @@ namespace SBCRM.Migrations
                     b.Property<short?>("LaborRates")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("ManagementInformation")
+                    b.Property<bool?>("ManagementInformation")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("MechanicClockIn")
+                    b.Property<bool?>("MechanicClockIn")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsAdd")
@@ -3547,7 +3700,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("PartsAdmin")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsApproveOrders")
+                    b.Property<bool?>("PartsApproveOrders")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsChange")
@@ -3559,13 +3712,13 @@ namespace SBCRM.Migrations
                     b.Property<short?>("PartsDelete")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsDisallowBOCostChange")
+                    b.Property<bool?>("PartsDisallowBOCostChange")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsGroup")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsGroupBinChange")
+                    b.Property<bool?>("PartsGroupBinChange")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsInquiry")
@@ -3574,7 +3727,7 @@ namespace SBCRM.Migrations
                     b.Property<short?>("PartsInventory")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsLostSale")
+                    b.Property<bool?>("PartsLostSale")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsOnHand")
@@ -3589,31 +3742,28 @@ namespace SBCRM.Migrations
                     b.Property<short?>("PartsProgram")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsReceiving")
+                    b.Property<bool?>("PartsReceiving")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("PartsToyotaNoAutoDash")
+                    b.Property<bool?>("PartsToyotaNoAutoDash")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsTransfer")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsUserCrossSetup")
+                    b.Property<bool?>("PartsUserCrossSetup")
                         .HasColumnType("bit");
 
                     b.Property<short?>("PartsWarehouse")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("PartsWarehouseLimit")
+                    b.Property<bool?>("PartsWarehouseLimit")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<short?>("Personnel")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("ProfileARComments")
+                    b.Property<bool?>("ProfileARComments")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("SDI")
@@ -3628,77 +3778,79 @@ namespace SBCRM.Migrations
                     b.Property<short?>("Security")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("Transportation")
+                    b.Property<bool?>("Transportation")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("TransportationDetail")
+                    b.Property<bool?>("TransportationDetail")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("TransportationHeader")
+                    b.Property<bool?>("TransportationHeader")
                         .HasColumnType("bit");
 
                     b.Property<short?>("Vendor")
                         .HasColumnType("smallint");
 
-                    b.Property<bool>("WebAccess")
+                    b.Property<bool?>("WebAccess")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebCallReports")
+                    b.Property<bool?>("WebCallReports")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebContacts")
+                    b.Property<bool?>("WebContacts")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebCustAR")
+                    b.Property<bool?>("WebCustAR")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebCustFleet")
+                    b.Property<bool?>("WebCustFleet")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebCustWIP")
+                    b.Property<bool?>("WebCustWIP")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebCustomer")
+                    b.Property<bool?>("WebCustomer")
                         .HasColumnType("bit");
 
                     b.Property<string>("WebCustomerNo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("WebEquipmentSummary")
+                    b.Property<bool?>("WebEquipmentSummary")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebMobileAdmin")
+                    b.Property<bool?>("WebMobileAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebMobileNoLaborEdit")
+                    b.Property<bool?>("WebMobileNoLaborEdit")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebMobileNoSelfPMDispatch")
+                    b.Property<bool?>("WebMobileNoSelfPMDispatch")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebMobileSalesman")
+                    b.Property<bool?>("WebMobileSalesman")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebPartsInquiry")
+                    b.Property<bool?>("WebPartsInquiry")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebPartsOrder")
+                    b.Property<bool?>("WebPartsOrder")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebServiceDispatch")
+                    b.Property<bool?>("WebServiceDispatch")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("WebTransportationDispatch")
+                    b.Property<bool?>("WebTransportationDispatch")
                         .HasColumnType("bit");
 
                     b.Property<string>("WebUserID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("WebWIP")
+                    b.Property<bool?>("WebWIP")
                         .HasColumnType("bit");
 
                     b.Property<string>("WebWarehouse")
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Password");
 
                     b.ToTable("Secure", "dbo");
                 });

@@ -56,4 +56,4 @@ const imports = [
     exports: [...imports],
     declarations: [ThemesLayoutBaseComponent],
 })
-export class AppSharedModule {}
+export class AppSharedModule { }

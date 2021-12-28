@@ -13,5 +13,7 @@ namespace SBCRM.Sessions.Dto
         public string EmailAddress { get; set; }
 
         public string ProfilePictureId { get; set; }
+
+        public bool HasAcceptedTermsAndConditions { get; set; }
     }
 }

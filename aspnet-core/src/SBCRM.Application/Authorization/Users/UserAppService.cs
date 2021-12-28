@@ -30,6 +30,7 @@ using SBCRM.Dto;
 using SBCRM.Notifications;
 using SBCRM.Url;
 using SBCRM.Organizations.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SBCRM.Authorization.Users
 {
@@ -253,6 +254,19 @@ namespace SBCRM.Authorization.Users
             {
                 await CreateUserAsync(input);
             }
+        }
+        /// <summary>
+        /// This method should aknowledge the user has read the terms and conditions
+        /// </summary>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        [HttpPatch]
+        public async Task AcceptTermsAndConditions()
+        {
+            var userId = AbpSession.GetUserId();
+            var user = await UserManager.GetUserByIdAsync(userId);
+            user.HasAcceptedTermsAndConditions = true;
+            await UserManager.UpdateAsync(user);
         }
 
         [AbpAuthorize(AppPermissions.Pages_Administration_Users_Delete)]

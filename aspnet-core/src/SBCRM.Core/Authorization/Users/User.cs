@@ -16,6 +16,8 @@ namespace SBCRM.Authorization.Users
 
         public virtual bool ShouldChangePasswordOnNextLogin { get; set; }
 
+        public virtual bool HasAcceptedTermsAndConditions { get; set; }
+
         public DateTime? SignInTokenExpireTimeUtc { get; set; }
 
         public string SignInToken { get; set; }
