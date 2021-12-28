@@ -1,4 +1,6 @@
-﻿namespace SBCRM.Crm.Dtos
+﻿using System;
+
+namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// DTO to manage the object lead for view purposes
@@ -18,5 +20,19 @@
         public object City { get; set; }
         
         public bool LeadCanBeConvert { get; set; }
+
+        public string PriorityColor { get; set; }
+
+        public long? FirstUserAssignedId { get; set; } 
+
+        public string FirstUserAssignedName { get; set; }
+
+        public string FirstUserAssignedSurName { get; set; }
+
+        public string FirstUserAssignedFullName { get; set; }
+
+        public Guid? FirstUserProfilePictureUrl { get; set; }
+
+        public int AssignedUsers { get; set; }
     }
 }

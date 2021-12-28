@@ -66,7 +66,7 @@
         public const string Pages_LeadUsers = "Pages.LeadUsers";
         public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
         public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
-        public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";
+        public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";        
 
         public const string Pages_Priorities = "Pages.Priorities";
         public const string Pages_Priorities_Create = "Pages.Priorities.Create";
@@ -77,6 +77,7 @@
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";
         public const string Pages_Leads_Delete = "Pages.Leads.Delete";
+        public const string Pages_Leads_ViewAssignedUserFilter = "Pages.Leads.ViewAssignedUserFilter";
         public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
         public const string Pages_Leads_View_Events = "Pages.Leads.ViewEvents";
 
