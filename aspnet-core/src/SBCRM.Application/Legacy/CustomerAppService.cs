@@ -30,7 +30,6 @@ namespace SBCRM.Legacy
     /// <summary>
     /// App service to handle Accounts(Customers) information
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_Customer)]
     public class CustomerAppService : SBCRMAppServiceBase, ICustomerAppService
     {
         private readonly BaseRepo.IRepository<Customer> _customerRepository;
@@ -112,6 +111,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<PagedResultDto<GetCustomerForViewDto>> GetAll(GetAllCustomerInput input)
         {
             try
@@ -264,6 +264,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<GetCustomerForViewOutput> GetCustomerForView(string customerNumber)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(customerNumber));
@@ -295,6 +296,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task CreateOrEdit(CreateOrEditCustomerDto input)
         {
             if (string.IsNullOrEmpty(input.Number))
@@ -371,6 +373,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<FileDto> GetCustomerToExcel(GetAllCustomerForExcelInput input)
         {
             var filteredCustomer = _customerRepository.GetAll()
