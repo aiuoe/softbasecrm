@@ -71,7 +71,7 @@ namespace SBCRM.Test.Base
 
         public override void Initialize()
         {
-            ServiceCollectionRegistrar.Register(IocManager);
+            ServiceCollectionRegistrar.Register(IocManager, GetConfiguration());
         }
 
         private void RegisterFakeService<TService>()

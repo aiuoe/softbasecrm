@@ -739,6 +739,7 @@
     <text name="DeleteContact">Delete contact</text>
     <text name="ConvertedLeadRequired">Lead is required to convert</text>
     <text name="ConvertedAccountTypeNotExist">Converted Account type does not exist</text>
+    <text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
     <text name="AccountTypeNotExist">Account type {0} does not exist</text>
     <text name="LeadStatusNotExist">Lead status {0} does not exist</text>
     <text name="LeadNotExist">Lead does not exist</text>
