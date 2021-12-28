@@ -3,8 +3,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
     AccountUsersServiceProxy,
     CreateOrEditAccountUserDto,
-    AccountUserUserLookupTableDto,
-    ContactsServiceProxy, CreateOrEditContactDto, GetContactForViewDto, GetContactForEditOutput
+    ContactsServiceProxy,
+    CreateOrEditContactDto,
+    GetContactForViewDto,
+    GetContactForEditOutput,
+    AccountUserLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
@@ -27,7 +30,7 @@ export class CreateOrEditCustomerContactModalComponent extends AppComponentBase 
     saving = false;
     accountUser: CreateOrEditAccountUserDto = new CreateOrEditAccountUserDto();
     userName = '';
-    selectedUsers: AccountUserUserLookupTableDto[];
+    selectedUsers: AccountUserLookupTableDto[];
 
     customerContact: CreateOrEditContactDto = new CreateOrEditContactDto();
     parentContacts: string[] = [];

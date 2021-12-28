@@ -2,7 +2,7 @@
 
 namespace SBCRM.Crm.Dtos
 {
-    public class AccountUserUserLookupTableDto
+    public class AccountUserLookupTableDto
     {
         public long Id { get; set; }
 
