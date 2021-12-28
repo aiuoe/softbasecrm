@@ -153,7 +153,7 @@
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
     <text name="Probability%">Probability %</text>
-    <text name="CloseDate">Close date</text>
+    <text name="CloseDate">Project Close</text>
     <text name="Department">Department</text>
     <text name="NewOpportunites">New Opportunites</text>
     <text name="DepartmentName">Department Name</text>
