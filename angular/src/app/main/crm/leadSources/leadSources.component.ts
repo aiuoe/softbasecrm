@@ -42,7 +42,7 @@ export class LeadSourcesComponent extends AppComponentBase {
     descriptionFilter = '';
 
     /***
-     * Class constructor
+     * Class Constructor
      * @param injector
      * @param _opportunityStagesServiceProxy
      * @param _notifyService

@@ -3,9 +3,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { LeadSourcesServiceProxy, CreateOrEditLeadSourceDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
+/***
+ * Class containing the component that calls the APIs to create or update rows
+ */
 @Component({
     selector: 'createOrEditLeadSourceModal',
     templateUrl: './create-or-edit-leadSource-modal.component.html',

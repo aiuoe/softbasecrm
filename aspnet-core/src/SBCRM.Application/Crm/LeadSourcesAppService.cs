@@ -34,6 +34,11 @@ namespace SBCRM.Crm
             _leadSourcesExcelExporter = leadSourcesExcelExporter;
         }
 
+        /// <summary>
+        /// Get all lead sources
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetLeadSourceForViewDto>> GetAll(GetAllLeadSourcesInput input)
         {
             IQueryable<LeadSource> filteredLeadSources = _leadSourceRepository.GetAll()
@@ -78,6 +83,11 @@ namespace SBCRM.Crm
             );
         }
 
+        /// <summary>
+        /// Get lead source for view mode
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetLeadSourceForViewDto> GetLeadSourceForView(int id)
         {
             LeadSource leadSource = await _leadSourceRepository.GetAsync(id);
@@ -87,6 +97,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get lead source for edition mode
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         public async Task<GetLeadSourceForEditOutput> GetLeadSourceForEdit(EntityDto input)
         {
@@ -97,6 +112,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Create or edit a lead source
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditLeadSourceDto input)
         {
             if (input.Id == null)
@@ -109,6 +129,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Method that Create a lead source
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Create)]
         protected virtual async Task Create(CreateOrEditLeadSourceDto input)
         {
@@ -119,6 +144,11 @@ namespace SBCRM.Crm
             await _leadSourceRepository.InsertAsync(leadSource);
         }
 
+        /// <summary>
+        /// Method that edit an opportunity stage
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         protected virtual async Task Update(CreateOrEditLeadSourceDto input)
         {
@@ -126,6 +156,11 @@ namespace SBCRM.Crm
             ObjectMapper.Map(input, leadSource);
         }
 
+        /// <summary>
+        /// Method that updates the order of a list
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         public virtual async Task UpdateOrder(List<UpdateOrderleadSourceDto> input)
         {
@@ -134,7 +169,6 @@ namespace SBCRM.Crm
 
             var leadSourceSrc = await _leadSourceRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
             leadSourceSrc.Order = orderDst;
-            await _leadSourceRepository.FirstOrDefaultAsync(leadSourceSrc.Id);
 
             List<LeadSource> allLeadSource = _leadSourceRepository.GetAll().OrderBy(x => x.Order).ToList();
             allLeadSource.Remove(leadSourceSrc);
@@ -151,6 +185,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Delete opportunity stage
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Delete)]
         public async Task Delete(EntityDto input)
         {
@@ -159,6 +198,11 @@ namespace SBCRM.Crm
             UpdateOrderAfterDelete();
         }
 
+        /// <summary>
+        /// Method that gets the rows to export to Excel
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<FileDto> GetLeadSourcesToExcel(GetAllLeadSourcesForExcelInput input)
         {
             IQueryable<LeadSource> filteredLeadSources = _leadSourceRepository.GetAll()
@@ -181,6 +225,9 @@ namespace SBCRM.Crm
             return _leadSourcesExcelExporter.ExportToFile(leadSourceListDtos);
         }
 
+        /// <summary>
+        /// Method that update order after delete an item from grid
+        /// </summary>
         private void UpdateOrderAfterDelete()
         {
             List<LeadSource> listLeadSource = _leadSourceRepository.GetAll().ToList();
