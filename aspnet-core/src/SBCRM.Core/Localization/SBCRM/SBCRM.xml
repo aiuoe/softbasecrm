@@ -3,12 +3,11 @@
 <localizationDictionary culture="en">
   <texts>
 
-  <text name="OpportunityUser">Opportunity user</text>
-  <text name="CreateNewOpportunityUser">Create new opportunity user</text>
-  <text name="EditOpportunityUser">Edit opportunity user</text>
-  <text name="DeleteOpportunityUser">Delete opportunity user</text>
+    <text name="OpportunityUser">Opportunity user</text>
+    <text name="CreateNewOpportunityUser">Create new opportunity user</text>
+    <text name="EditOpportunityUser">Edit opportunity user</text>
+    <text name="DeleteOpportunityUser">Delete opportunity user</text>
 
-    <text name="IsCompletedStatus">Is completed status</text>
 	<text name="AccountHeader">CRM Portal</text>
 	<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
 	  
