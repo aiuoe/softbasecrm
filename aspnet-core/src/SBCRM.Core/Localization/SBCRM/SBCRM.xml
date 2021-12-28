@@ -4,7 +4,7 @@
   <texts>
 
 	<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>  
-	<text name="LeadAllLeads">Access to all Leads</text>  
+	<text name="LeadViewAssignedUserFilter">Access to all Leads</text>  
 	  
     <text name="IsCompletedStatus">Is completed status</text>
 	<text name="AccountHeader">CRM Portal</text>
