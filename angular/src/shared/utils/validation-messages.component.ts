@@ -29,6 +29,7 @@ export class ValidationMessagesComponent {
     }
 
     readonly standartErrorDefs: ErrorDef[] = [
+        { error: 'opportunityInvalidProbability', localizationKey: 'OpportunityInvalidProbability'} as ErrorDef,
         { error: 'required', localizationKey: 'ThisFieldIsRequired' } as ErrorDef,
         {
             error: 'minlength',

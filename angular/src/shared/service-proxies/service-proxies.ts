@@ -11491,6 +11491,108 @@ export class LeadsServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    canSeeAllLeads(): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/CanSeeAllLeads";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCanSeeAllLeads(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCanSeeAllLeads(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getCurrentUserId(): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetCurrentUserId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCurrentUserId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCurrentUserId(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCurrentUserId(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param companyOrContactNameFilter (optional) 
      * @param contactNameFilter (optional) 
@@ -11516,12 +11618,13 @@ export class LeadsServiceProxy {
      * @param priorityDescriptionFilter (optional) 
      * @param leadStatusId (optional) 
      * @param priorityId (optional) 
+     * @param userIds (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, notesFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, notesFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11623,6 +11726,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'priorityId' cannot be null.");
         else if (priorityId !== undefined)
             url_ += "PriorityId=" + encodeURIComponent("" + priorityId) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -12057,9 +12164,10 @@ export class LeadsServiceProxy {
      * @param priorityDescriptionFilter (optional) 
      * @param leadStatusId (optional) 
      * @param priorityId (optional) 
+     * @param userIds (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12161,6 +12269,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'priorityId' cannot be null.");
         else if (priorityId !== undefined)
             url_ += "PriorityId=" + encodeURIComponent("" + priorityId) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12263,6 +12375,64 @@ export class LeadsServiceProxy {
             }));
         }
         return _observableOf<LeadLeadSourceLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUsersForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetAllUsersForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUsersForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUsersForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadUserUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadUserUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUsersForTableDropdown(response: HttpResponseBase): Observable<LeadUserUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadUserUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadUserUserLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -27498,6 +27668,7 @@ export interface ICreateOrEditOpportunityTypeDto {
 export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
     description!: string;
     isDefault!: boolean;
+    color!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditPriorityDto) {
@@ -27513,6 +27684,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
         if (_data) {
             this.description = _data["description"];
             this.isDefault = _data["isDefault"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -27528,6 +27700,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["isDefault"] = this.isDefault;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -27536,6 +27709,7 @@ export class CreateOrEditPriorityDto implements ICreateOrEditPriorityDto {
 export interface ICreateOrEditPriorityDto {
     description: string;
     isDefault: boolean;
+    color: string;
     id: number | undefined;
 }
 
@@ -32676,6 +32850,13 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     priorityDescription!: string | undefined;
     city!: any | undefined;
     leadCanBeConvert!: boolean;
+    priorityColor!: string | undefined;
+    firstUserAssignedId!: number | undefined;
+    firstUserAssignedName!: string | undefined;
+    firstUserAssignedSurName!: string | undefined;
+    firstUserAssignedFullName!: string | undefined;
+    firstUserProfilePictureUrl!: string | undefined;
+    assignedUsers!: number;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -32695,6 +32876,13 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.priorityDescription = _data["priorityDescription"];
             this.city = _data["city"];
             this.leadCanBeConvert = _data["leadCanBeConvert"];
+            this.priorityColor = _data["priorityColor"];
+            this.firstUserAssignedId = _data["firstUserAssignedId"];
+            this.firstUserAssignedName = _data["firstUserAssignedName"];
+            this.firstUserAssignedSurName = _data["firstUserAssignedSurName"];
+            this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
+            this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
+            this.assignedUsers = _data["assignedUsers"];
         }
     }
 
@@ -32714,6 +32902,13 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["priorityDescription"] = this.priorityDescription;
         data["city"] = this.city;
         data["leadCanBeConvert"] = this.leadCanBeConvert;
+        data["priorityColor"] = this.priorityColor;
+        data["firstUserAssignedId"] = this.firstUserAssignedId;
+        data["firstUserAssignedName"] = this.firstUserAssignedName;
+        data["firstUserAssignedSurName"] = this.firstUserAssignedSurName;
+        data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
+        data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
+        data["assignedUsers"] = this.assignedUsers;
         return data; 
     }
 }
@@ -32726,6 +32921,13 @@ export interface IGetLeadForViewDto {
     priorityDescription: string | undefined;
     city: any | undefined;
     leadCanBeConvert: boolean;
+    priorityColor: string | undefined;
+    firstUserAssignedId: number | undefined;
+    firstUserAssignedName: string | undefined;
+    firstUserAssignedSurName: string | undefined;
+    firstUserAssignedFullName: string | undefined;
+    firstUserProfilePictureUrl: string | undefined;
+    assignedUsers: number;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -35322,6 +35524,7 @@ export class LeadDto implements ILeadDto {
     leadSourceId!: number | undefined;
     leadStatusId!: number | undefined;
     priorityId!: number | undefined;
+    users!: LeadUserViewDto[] | undefined;
     creationTime!: DateTime | undefined;
     id!: number;
 
@@ -35358,6 +35561,11 @@ export class LeadDto implements ILeadDto {
             this.leadSourceId = _data["leadSourceId"];
             this.leadStatusId = _data["leadStatusId"];
             this.priorityId = _data["priorityId"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(LeadUserViewDto.fromJS(item));
+            }
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.id = _data["id"];
         }
@@ -35394,6 +35602,11 @@ export class LeadDto implements ILeadDto {
         data["leadSourceId"] = this.leadSourceId;
         data["leadStatusId"] = this.leadStatusId;
         data["priorityId"] = this.priorityId;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["id"] = this.id;
         return data; 
@@ -35423,6 +35636,7 @@ export interface ILeadDto {
     leadSourceId: number | undefined;
     leadStatusId: number | undefined;
     priorityId: number | undefined;
+    users: LeadUserViewDto[] | undefined;
     creationTime: DateTime | undefined;
     id: number;
 }
@@ -35781,6 +35995,62 @@ export class LeadUserUserLookupTableDto implements ILeadUserUserLookupTableDto {
 export interface ILeadUserUserLookupTableDto {
     id: number;
     displayName: string | undefined;
+}
+
+export class LeadUserViewDto implements ILeadUserViewDto {
+    leadId!: number | undefined;
+    userId!: number | undefined;
+    name!: string | undefined;
+    surName!: string | undefined;
+    profilePictureUrl!: string | undefined;
+    fullName!: string | undefined;
+
+    constructor(data?: ILeadUserViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadId = _data["leadId"];
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.surName = _data["surName"];
+            this.profilePictureUrl = _data["profilePictureUrl"];
+            this.fullName = _data["fullName"];
+        }
+    }
+
+    static fromJS(data: any): LeadUserViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadUserViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadId"] = this.leadId;
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["surName"] = this.surName;
+        data["profilePictureUrl"] = this.profilePictureUrl;
+        data["fullName"] = this.fullName;
+        return data; 
+    }
+}
+
+export interface ILeadUserViewDto {
+    leadId: number | undefined;
+    userId: number | undefined;
+    name: string | undefined;
+    surName: string | undefined;
+    profilePictureUrl: string | undefined;
+    fullName: string | undefined;
 }
 
 export class LinkedUserDto implements ILinkedUserDto {
@@ -39901,6 +40171,7 @@ export interface IPayPalConfigurationDto {
 export class PriorityDto implements IPriorityDto {
     description!: string | undefined;
     isDefault!: boolean;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: IPriorityDto) {
@@ -39916,6 +40187,7 @@ export class PriorityDto implements IPriorityDto {
         if (_data) {
             this.description = _data["description"];
             this.isDefault = _data["isDefault"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -39931,6 +40203,7 @@ export class PriorityDto implements IPriorityDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["isDefault"] = this.isDefault;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -39939,6 +40212,7 @@ export class PriorityDto implements IPriorityDto {
 export interface IPriorityDto {
     description: string | undefined;
     isDefault: boolean;
+    color: string | undefined;
     id: number;
 }
 

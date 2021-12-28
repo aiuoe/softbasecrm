@@ -68,7 +68,6 @@
                         </li>
                     </ul>
                 </div>
-
                 <button
                     (click)="createUser()"
                     *ngIf="'Pages.Administration.Users.Create' | permission"
@@ -77,7 +76,8 @@
                     <i class="fa fa-plus"></i>
                     {/{ 'CreateNewUser' | localize }}
                 </button>
-            </div>-->
+                
+            </div>-->           
         </sub-header>
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
@@ -174,7 +174,7 @@
                     </form>
 
                     <div class="row align-items-center">
-                        <!--<Primeng-TurboTable-Start>-->
+                        <!--<Primeng-TurboTable-Start>-->                           
                         <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
                             <p-table
                                 #dataTable
