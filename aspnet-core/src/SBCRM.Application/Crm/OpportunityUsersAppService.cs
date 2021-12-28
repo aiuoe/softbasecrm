@@ -17,6 +17,8 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using Abp.Domain.Uow;
+using Abp.EntityHistory;
 
 namespace SBCRM.Crm
 {
@@ -29,6 +31,8 @@ namespace SBCRM.Crm
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IRepository<Opportunity, int> _lookup_opportunityRepository;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
 
         /// <summary>
         /// Constructor
@@ -36,11 +40,19 @@ namespace SBCRM.Crm
         /// <param name="opportunityUserRepository"></param>
         /// <param name="lookup_userRepository"></param>
         /// <param name="lookup_opportunityRepository"></param>
-        public OpportunityUsersAppService(IRepository<OpportunityUser> opportunityUserRepository, IRepository<User, long> lookup_userRepository, IRepository<Opportunity, int> lookup_opportunityRepository)
+        /// <param name="unitOfWorkManager"></param>
+        /// <param name="reasonProvider"></param>
+        public OpportunityUsersAppService(IRepository<OpportunityUser> opportunityUserRepository, 
+                                            IRepository<User, long> lookup_userRepository, 
+                                            IRepository<Opportunity, int> lookup_opportunityRepository,
+                                            IUnitOfWorkManager unitOfWorkManager,
+                                            IEntityChangeSetReasonProvider reasonProvider)
         {
             _opportunityUserRepository = opportunityUserRepository;
             _lookup_userRepository = lookup_userRepository;
             _lookup_opportunityRepository = lookup_opportunityRepository;
+            _unitOfWorkManager = unitOfWorkManager;
+            _reasonProvider = reasonProvider;
 
         }
 
@@ -57,7 +69,9 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
+                        .Where(e => e.OpportunityFk != null && e.OpportunityFk.Id == input.OpportunityId)
+                        .Where(e => !e.IsDeleted);
 
             var pagedAndFilteredOpportunityUsers = filteredOpportunityUsers
                 .OrderBy(input.Sorting ?? "id asc")
@@ -75,7 +89,8 @@ namespace SBCRM.Crm
 
                                        Id = o.Id,
                                        UserName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
-                                       OpportunityName = s2 == null || s2.Name == null ? "" : s2.Name.ToString()
+                                       OpportunityName = s2 == null || s2.Name == null ? "" : s2.Name.ToString(),
+                                       UserId = o.UserId
                                    };
 
             var totalCount = await filteredOpportunityUsers.CountAsync();
@@ -91,6 +106,7 @@ namespace SBCRM.Crm
                     {
 
                         Id = o.Id,
+                        UserId = o.UserId
                     },
                     UserName = o.UserName,
                     OpportunityName = o.OpportunityName
@@ -247,6 +263,42 @@ namespace SBCRM.Crm
                     Id = opportunity.Id,
                     DisplayName = opportunity == null || opportunity.Name == null ? "" : opportunity.Name.ToString()
                 }).ToListAsync();
+        }
+
+
+        /// <summary>
+        /// This method save a list of users connected with an specific Opportunity
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_OpportunityUsers_Create)]
+        public async Task CreateMultipleOpportunityUsers(List<CreateOrEditOpportunityUserDto> input)
+        {
+            using (_reasonProvider.Use("Users were assigned to Opportunity"))
+            {
+                foreach (var item in input)
+                {
+                    var opportunityUserExists = _opportunityUserRepository.FirstOrDefault(p => p.UserId == item.UserId
+                        && p.OpportunityId == item.OpportunityId
+                        && p.IsDeleted);
+
+                    if (opportunityUserExists == null)
+                    {
+                        var opportunityUser = ObjectMapper.Map<OpportunityUser>(item);
+
+                        await _opportunityUserRepository.InsertAsync(opportunityUser);
+                    }
+                    else
+                    {
+                        opportunityUserExists.IsDeleted = false;
+                        var leadUserInDatabase = ObjectMapper.Map<CreateOrEditLeadUserDto>(opportunityUserExists);
+                        var accountUser = await _opportunityUserRepository.FirstOrDefaultAsync(leadUserInDatabase.Id.Value);
+                        ObjectMapper.Map(input, accountUser);
+                    }
+                }
+
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
     }

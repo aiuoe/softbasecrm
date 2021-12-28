@@ -60,5 +60,12 @@ namespace SBCRM.Crm
         /// <returns></returns>
         Task<List<OpportunityUserOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown();
 
+        /// <summary>
+        /// This method save a list of users connected with an specific Opportunity
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task CreateMultipleOpportunityUsers(List<CreateOrEditOpportunityUserDto> input);
+
     }
 }

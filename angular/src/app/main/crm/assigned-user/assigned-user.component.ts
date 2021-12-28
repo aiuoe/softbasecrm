@@ -7,7 +7,7 @@ import {
     LeadUsersServiceProxy,
     LeadUserUserLookupTableDto,
     CreateOrEditLeadUserDto,
-    LeadUserDto, AccountUserLookupTableDto,
+    LeadUserDto, AccountUserLookupTableDto, OpportunityUsersServiceProxy, OpportunityUserDto, OpportunityUserUserLookupTableDto, CreateOrEditOpportunityUserDto,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -61,7 +61,8 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _dateTimeService: DateTimeService,
-        private _leadUserServiceProxy: LeadUsersServiceProxy
+        private _leadUserServiceProxy: LeadUsersServiceProxy,
+        private _opportunityUserServiceProxy: OpportunityUsersServiceProxy
     ) {
         super(injector);
     }
@@ -106,6 +107,10 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.getLeadUsers(event);
                 break;
 
+            case 'Opportunity':
+                this.getOpportunityUsers(event);
+                break;
+
             default:
                 this.getLeadUsers(event);
                 break;
@@ -143,6 +148,41 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.assignedUsersExists.push(assignedUser);
             });
             // this.assignedUsersExists = result.items;
+            this.primengTableHelper.hideLoadingIndicator();
+        });
+    }
+
+    /**
+     *
+     * @param event Gets the list of users assigned to an Account/Lead/Opportunity
+     * @returns
+     */
+     getOpportunityUsers(event?: LazyLoadEvent) {
+        if (this.primengTableHelper.shouldResetPaging(event)) {
+            this.paginator.changePage(0);
+            return;
+        }
+
+        this.primengTableHelper.showLoadingIndicator();
+
+        this._opportunityUserServiceProxy.getAll(
+            this.filterText,
+            this.userNameFilter,
+            '',
+            this.idToStore,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getSkipCount(this.paginator, event),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event)
+        ).subscribe(result => {
+            this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.primengTableHelper.records = result.items;
+            this.assignedUsersExists = [];
+            result.items.forEach(x => {
+                const assignedUser = new AccountUserLookupTableDto();
+                assignedUser.id = x.opportunityUser.userId;
+                assignedUser.displayName = x.userName;
+                this.assignedUsersExists.push(assignedUser);
+            });
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -237,6 +277,26 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             }
         );
     }
+    
+        /**
+     * Handles the deletion of an opportunity user
+     * @param leadUser
+     */
+         deleteOpportunityUser(opportunityUser: OpportunityUserDto): void {
+            this.message.confirm(
+                '',
+                this.l('AreYouSure'),
+                (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._opportunityUserServiceProxy.delete(opportunityUser.id)
+                            .subscribe(() => {
+                                this.reloadPage();
+                                this.notify.success(this.l('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
 
 
     /**
@@ -254,6 +314,10 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
                 case 'Lead':
                     this.saveLeadAssignedUsers(usersList);
+                    break;
+
+                case 'Opportunity':
+                    this.saveOpportunityAssignedUsers(usersList);
                     break;
 
                 default:
@@ -305,6 +369,28 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         this.saving = true;
 
         this._leadUserServiceProxy.createMultipleLeadUsers(leadUserToSave)
+            .pipe(finalize(() => {
+                this.saving = false;
+            }))
+            .subscribe(() => {
+                this.notify.info(this.l('SavedSuccessfully'));
+                this.getLeadUsers();
+            });
+    }
+
+
+    saveOpportunityAssignedUsers(usersList: OpportunityUserUserLookupTableDto[]) {
+        const opportunityUserToSave: CreateOrEditOpportunityUserDto[] = [];
+        usersList.forEach(element => {
+            let opportunityUser = new CreateOrEditOpportunityUserDto();
+            opportunityUser.userId = element.id;
+            opportunityUser.opportunityId = this.idToStore;
+            opportunityUserToSave.push(opportunityUser);
+        });
+
+        this.saving = true;
+
+        this._opportunityUserServiceProxy.createMultipleOpportunityUsers(opportunityUserToSave)
             .pipe(finalize(() => {
                 this.saving = false;
             }))
