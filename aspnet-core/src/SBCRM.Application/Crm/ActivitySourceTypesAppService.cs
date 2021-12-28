@@ -56,6 +56,8 @@ namespace SBCRM.Crm
                                       {
 
                                           o.Description,
+                                          o.Order,
+                                          o.EnumValue,
                                           Id = o.Id
                                       };
 
@@ -72,6 +74,8 @@ namespace SBCRM.Crm
                     {
 
                         Description = o.Description,
+                        Order = o.Order,
+                        EnumValue = o.EnumValue,
                         Id = o.Id,
                     }
                 };

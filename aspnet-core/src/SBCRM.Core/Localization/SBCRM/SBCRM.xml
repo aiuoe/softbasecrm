@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="EnumValue">Enum value</text>
     <text name="Description">Description</text>
 
     <text name="Company">Company</text>

@@ -36,6 +36,32 @@
                         />
                         <validation-messages [formCtrl]="ActivitySourceType_Description"></validation-messages>
                     </div>
+
+                    <div class="form-group">
+                        <label for="ActivitySourceType_Order">{{ l('Order') }}</label>
+                        <input
+                            type="number"
+                            #ActivitySourceType_Order="ngModel"
+                            id="ActivitySourceType_Order"
+                            class="form-control"
+                            [(ngModel)]="activitySourceType.order"
+                            name="Order"
+                        />
+                        <validation-messages [formCtrl]="ActivitySourceType_Order"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ActivitySourceType_EnumValue">{{ l('EnumValue') }}</label>
+                        <input
+                            type="number"
+                            #ActivitySourceType_EnumValue="ngModel"
+                            id="ActivitySourceType_EnumValue"
+                            class="form-control"
+                            [(ngModel)]="activitySourceType.enumValue"
+                            name="EnumValue"
+                        />
+                        <validation-messages [formCtrl]="ActivitySourceType_EnumValue"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

@@ -17,5 +17,9 @@ namespace SBCRM.Crm
         [StringLength(ActivitySourceTypeConsts.MaxDescriptionLength, MinimumLength = ActivitySourceTypeConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
+        public virtual int Order { get; set; }
+
+        public virtual int EnumValue { get; set; }
+
     }
 }

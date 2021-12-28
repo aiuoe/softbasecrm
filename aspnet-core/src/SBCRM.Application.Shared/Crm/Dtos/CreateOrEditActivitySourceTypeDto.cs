@@ -14,5 +14,9 @@ namespace SBCRM.Crm.Dtos
         [StringLength(ActivitySourceTypeConsts.MaxDescriptionLength, MinimumLength = ActivitySourceTypeConsts.MinDescriptionLength)]
         public string Description { get; set; }
 
+        public int Order { get; set; }
+
+        public int EnumValue { get; set; }
+
     }
 }

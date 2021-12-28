@@ -24556,6 +24556,8 @@ export interface IActivityPriorityDto {
 
 export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     description!: string | undefined;
+    order!: number;
+    enumValue!: number;
     id!: number;
 
     constructor(data?: IActivitySourceTypeDto) {
@@ -24570,6 +24572,8 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
+            this.enumValue = _data["enumValue"];
             this.id = _data["id"];
         }
     }
@@ -24584,6 +24588,8 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
+        data["enumValue"] = this.enumValue;
         data["id"] = this.id;
         return data; 
     }
@@ -24591,6 +24597,8 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
 
 export interface IActivitySourceTypeDto {
     description: string | undefined;
+    order: number;
+    enumValue: number;
     id: number;
 }
 
@@ -26508,6 +26516,8 @@ export interface ICreateOrEditActivityPriorityDto {
 
 export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivitySourceTypeDto {
     description!: string;
+    order!: number;
+    enumValue!: number;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivitySourceTypeDto) {
@@ -26522,6 +26532,8 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
+            this.enumValue = _data["enumValue"];
             this.id = _data["id"];
         }
     }
@@ -26536,6 +26548,8 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
+        data["enumValue"] = this.enumValue;
         data["id"] = this.id;
         return data; 
     }
@@ -26543,6 +26557,8 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
 
 export interface ICreateOrEditActivitySourceTypeDto {
     description: string;
+    order: number;
+    enumValue: number;
     id: number | undefined;
 }
 
