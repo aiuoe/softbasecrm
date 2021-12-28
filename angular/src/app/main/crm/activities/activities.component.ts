@@ -2,12 +2,11 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-    AccountUserUserLookupTableDto,
     ActivitiesServiceProxy,
     ActivityActivitySourceTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityTaskTypeLookupTableDto,
-    ActivityDto,
+    ActivityDto, ActivityUserLookupTableDto,
     ProfileServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
@@ -48,16 +47,16 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityTaskTypeDescriptionFilter = '';
     activityStatusDescriptionFilter = '';
     activityPriorityDescriptionFilter = '';
-    customerNameFilter: string = '';
+    customerNameFilter = '';
 
-    selectedAssignedUsersFilter: AccountUserUserLookupTableDto[] = [];
+    selectedAssignedUsersFilter: ActivityUserLookupTableDto[] = [];
     selectedActivitySourceTypesFilter: ActivityActivitySourceTypeLookupTableDto;
     selectedActivityTaskTypesFilter: ActivityActivityTaskTypeLookupTableDto;
     selectedActivityStatusesFilter: ActivityActivityStatusLookupTableDto;
-    excludeCompletedFilter: boolean = false;
+    excludeCompletedFilter = false;
 
     // Filter data sources
-    allUsers: AccountUserUserLookupTableDto[];
+    allUsers: ActivityUserLookupTableDto[];
     activitySourceTypes: ActivityActivitySourceTypeLookupTableDto[];
     activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
     activityStatuses: ActivityActivityStatusLookupTableDto[];

@@ -211,6 +211,10 @@ namespace SBCRM.Web.Startup
                     Component.For<ISoftBaseCustomerSequenceRepository>()
                         .ImplementedBy<SoftBaseCustomerSequenceRepository>().LifestyleTransient());
                 
+
+                options.IocManager.IocContainer.Register(
+                 Component.For<ISoftBasePersonRepository>()
+                     .ImplementedBy<SoftBasePersonRepository>().LifestyleTransient());
             });
         }
 

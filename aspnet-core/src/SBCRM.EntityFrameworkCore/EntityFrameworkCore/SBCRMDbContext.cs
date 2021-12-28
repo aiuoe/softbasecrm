@@ -27,9 +27,10 @@ namespace SBCRM.EntityFrameworkCore
 
         public virtual DbSet<ActivityPriority> ActivityPriorities { get; set; }
 
+       
         public virtual DbSet<Contact> Contacts { get; set; }
 
-        public virtual DbSet<Secure> Secure { get; set; }
+        
 
         public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
@@ -40,6 +41,10 @@ namespace SBCRM.EntityFrameworkCore
         public virtual DbSet<WO> WO { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EQCustomFields> EQCustomFields { get; set; }
+
+        public virtual DbSet<Secure> Secure { get; set; }
+
+        public virtual DbSet<Person> Person { get; set; }
 
         public virtual DbSet<ActivityStatus> ActivityStatuses { get; set; }
 

@@ -18,9 +18,7 @@ export class ThemesLayoutBaseComponent extends AppComponentBase {
 
     defaultLogo =
         AppConsts.appBaseUrl +
-        '/assets/common/images/app-logo-on-' +
-        this.currentTheme.baseSettings.menu.asideSkin +
-        '.svg';
+        '/assets/common/images/logo.svg';
 
     constructor(injector: Injector, private _dateTimeService: DateTimeService) {
         super(injector);
