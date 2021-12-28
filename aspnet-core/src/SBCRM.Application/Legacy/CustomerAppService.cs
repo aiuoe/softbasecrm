@@ -322,12 +322,11 @@ namespace SBCRM.Legacy
                 .Where(x => input.Name.ToLower().Trim() == x.Name.ToLower().Trim())
                 .ToListAsync();
 
-            if (customerSameName.Any())
-            {
-                throw new UserFriendlyException(L("CustomerNameAlreadyExist"));
-            }
+            GuardHelper.ThrowIf(customerSameName.Any(), new UserFriendlyException(L("CustomerNameAlreadyExist")));
 
             var defaultAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.IsDefault.HasValue && x.IsDefault.Value);
+            GuardHelper.ThrowIf(defaultAccountType == null, new UserFriendlyException(L("DefaultAccountTypeNotExist")));
+
             customer.Terms = defaultAccountType.Description;
 
             var currentUser = await GetCurrentUserAsync();
@@ -601,6 +600,9 @@ namespace SBCRM.Legacy
 
             var customer = new Customer();
 
+            var defaultAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.Id == input.ConversionAccountTypeId);
+            GuardHelper.ThrowIf(defaultAccountType == null, new UserFriendlyException(L("DefaultAccountTypeNotExist")));
+
             using (_reasonProvider.Use("Account created from Lead conversion"))
             {
                 // Mapping Overview data
@@ -615,6 +617,7 @@ namespace SBCRM.Legacy
                 customer.POBox = input.Lead.PoBox;
                 customer.LeadSourceId = input.Lead.LeadSourceId;
                 customer.AccountTypeId = input.ConversionAccountTypeId;
+                customer.Terms = defaultAccountType.Description;
 
                 // Set internal audit fields
                 customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();

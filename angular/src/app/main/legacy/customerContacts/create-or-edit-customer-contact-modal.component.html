@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="Contact_Phone">{{ l('ContactPhone') }} <span class="color-red">*</span></label>
+                                <label for="Contact_Phone">{{ l('ContactPhone') }}</label>
                                 <input
                                     type="text"
                                     #Contact_Phone="ngModel"
@@ -89,7 +89,6 @@
                                     minlength="1"
                                     maxlength="15"
                                     pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
-                                    required
                                 />
                                 <div *ngIf="!Contact_Phone.valid && (Contact_Phone.dirty || Contact_Phone.touched)">
                                     <span class="form-text text-danger text-left">{{ 'ContactPhoneInvalid' | localize }}</span>
