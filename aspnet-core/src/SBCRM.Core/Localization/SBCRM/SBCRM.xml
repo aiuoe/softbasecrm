@@ -2,7 +2,11 @@
 
 <localizationDictionary culture="en">
   <texts>
-    <text name="IsCompletedStatus">Is completed status</text>
+	<text name="AccountHeader">CRM Portal</text>
+	<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
+	  
+	<text name="AssignUsers">Assign Users</text>
+	<text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
     <text name="FilterByAssignee">Filter by Assignee</text>
@@ -502,12 +506,17 @@
     <text name="PleaseEnterLoginInformation">Please enter login information</text>
     <text name="TenancyName">Tenancy name</text>
     <text name="UserNameOrEmail">User name or email</text>
+	<text name="EmployeeNumber">Employee #</text>
+	<text name="EmployeeNumberDoesNotHaveRecord{0}">Employee Number {0} does not have a record on Person table</text>
     <text name="Password">Password</text>
     <text name="RememberMe">Remember me</text>
-    <text name="LogIn">Log in</text>
+    <text name="LogIn">Sign In</text>
     <text name="ForgotPassword">Forgot password?</text>
     <text name="DontYouHaveAnAccount">Don't you have an account?</text>
     <text name="CreateAnAccount">Create account</text>
+	<text name="TermsAndConditions">Terms and Conditions</text>
+	<text name="TermsAndConditionsLogging">Logging into this website you accept our</text>
+	<text name="TermsAndConditionsLink">Terms of use and our Privacy Policy</text>
     <text name="Pages">Pages</text>
     <text name="Modules">Modules</text>
     <text name="BasePermission">Base permission</text>

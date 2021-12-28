@@ -1299,7 +1299,7 @@ export class AccountUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown(): Observable<AccountUserUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<AccountUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1318,14 +1318,14 @@ export class AccountUsersServiceProxy {
                 try {
                     return this.processGetAllUserForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<AccountUserUserLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<AccountUserUserLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserUserLookupTableDto[]> {
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1339,7 +1339,7 @@ export class AccountUsersServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(AccountUserUserLookupTableDto.fromJS(item));
+                    result200!.push(AccountUserLookupTableDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -1351,7 +1351,7 @@ export class AccountUsersServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<AccountUserUserLookupTableDto[]>(<any>null);
+        return _observableOf<AccountUserLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -6305,6 +6305,64 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<CustomerCountryLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<AccountUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AccountUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AccountUserLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -22123,6 +22181,53 @@ export class UserServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    acceptTermsAndConditions(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/User/AcceptTermsAndConditions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAcceptTermsAndConditions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAcceptTermsAndConditions(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAcceptTermsAndConditions(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -23922,11 +24027,11 @@ export interface IAccountUserDto {
     id: number;
 }
 
-export class AccountUserUserLookupTableDto implements IAccountUserUserLookupTableDto {
+export class AccountUserLookupTableDto implements IAccountUserLookupTableDto {
     id!: number;
     displayName!: string | undefined;
 
-    constructor(data?: IAccountUserUserLookupTableDto) {
+    constructor(data?: IAccountUserLookupTableDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -23942,9 +24047,9 @@ export class AccountUserUserLookupTableDto implements IAccountUserUserLookupTabl
         }
     }
 
-    static fromJS(data: any): AccountUserUserLookupTableDto {
+    static fromJS(data: any): AccountUserLookupTableDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AccountUserUserLookupTableDto();
+        let result = new AccountUserLookupTableDto();
         result.init(data);
         return result;
     }
@@ -23957,7 +24062,7 @@ export class AccountUserUserLookupTableDto implements IAccountUserUserLookupTabl
     }
 }
 
-export interface IAccountUserUserLookupTableDto {
+export interface IAccountUserLookupTableDto {
     id: number;
     displayName: string | undefined;
 }
@@ -43319,6 +43424,7 @@ export class UserEditDto implements IUserEditDto {
     shouldChangePasswordOnNextLogin!: boolean;
     isTwoFactorEnabled!: boolean;
     isLockoutEnabled!: boolean;
+    hasAcceptedTermsAndConditions!: boolean;
 
     constructor(data?: IUserEditDto) {
         if (data) {
@@ -43342,6 +43448,7 @@ export class UserEditDto implements IUserEditDto {
             this.shouldChangePasswordOnNextLogin = _data["shouldChangePasswordOnNextLogin"];
             this.isTwoFactorEnabled = _data["isTwoFactorEnabled"];
             this.isLockoutEnabled = _data["isLockoutEnabled"];
+            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
         }
     }
 
@@ -43365,6 +43472,7 @@ export class UserEditDto implements IUserEditDto {
         data["shouldChangePasswordOnNextLogin"] = this.shouldChangePasswordOnNextLogin;
         data["isTwoFactorEnabled"] = this.isTwoFactorEnabled;
         data["isLockoutEnabled"] = this.isLockoutEnabled;
+        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         return data; 
     }
 }
@@ -43381,6 +43489,7 @@ export interface IUserEditDto {
     shouldChangePasswordOnNextLogin: boolean;
     isTwoFactorEnabled: boolean;
     isLockoutEnabled: boolean;
+    hasAcceptedTermsAndConditions: boolean;
 }
 
 export class UserListDto implements IUserListDto {
@@ -43394,6 +43503,7 @@ export class UserListDto implements IUserListDto {
     roles!: UserListRoleDto[] | undefined;
     isActive!: boolean;
     creationTime!: DateTime;
+    hasAcceptedTermsAndConditions!: boolean;
     id!: number;
 
     constructor(data?: IUserListDto) {
@@ -43421,6 +43531,7 @@ export class UserListDto implements IUserListDto {
             }
             this.isActive = _data["isActive"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
             this.id = _data["id"];
         }
     }
@@ -43448,6 +43559,7 @@ export class UserListDto implements IUserListDto {
         }
         data["isActive"] = this.isActive;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         data["id"] = this.id;
         return data; 
     }
@@ -43464,6 +43576,7 @@ export interface IUserListDto {
     roles: UserListRoleDto[] | undefined;
     isActive: boolean;
     creationTime: DateTime;
+    hasAcceptedTermsAndConditions: boolean;
     id: number;
 }
 
@@ -43617,6 +43730,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
     userName!: string | undefined;
     emailAddress!: string | undefined;
     profilePictureId!: string | undefined;
+    hasAcceptedTermsAndConditions!: boolean;
     id!: number;
 
     constructor(data?: IUserLoginInfoDto) {
@@ -43635,6 +43749,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
             this.userName = _data["userName"];
             this.emailAddress = _data["emailAddress"];
             this.profilePictureId = _data["profilePictureId"];
+            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
             this.id = _data["id"];
         }
     }
@@ -43653,6 +43768,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
         data["profilePictureId"] = this.profilePictureId;
+        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         data["id"] = this.id;
         return data; 
     }
@@ -43664,6 +43780,7 @@ export interface IUserLoginInfoDto {
     userName: string | undefined;
     emailAddress: string | undefined;
     profilePictureId: string | undefined;
+    hasAcceptedTermsAndConditions: boolean;
     id: number;
 }
 

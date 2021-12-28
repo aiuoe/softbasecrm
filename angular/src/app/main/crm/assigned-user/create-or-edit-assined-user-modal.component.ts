@@ -1,20 +1,13 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef, Input } from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { finalize } from 'rxjs/operators';
 import {
+    AccountUserLookupTableDto,
     AccountUsersServiceProxy,
     CreateOrEditAccountUserDto,
-    AccountUserUserLookupTableDto,
-    GetAccountUserForViewDto,
     LeadUsersServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { LazyLoadEvent } from 'primeng/api';
-import { threadId } from 'worker_threads';
-import { isNgTemplate } from '@angular/compiler';
-
 
 /***
  * Component to manage creation of assigned users
@@ -29,8 +22,8 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
-    @Output() assignedUsers: EventEmitter<AccountUserUserLookupTableDto[]> = new EventEmitter<AccountUserUserLookupTableDto[]>();
-    @Input() assignedUsersExists: AccountUserUserLookupTableDto[] = [];
+    @Output() assignedUsers: EventEmitter<AccountUserLookupTableDto[]> = new EventEmitter<AccountUserLookupTableDto[]>();
+    @Input() assignedUsersExists: AccountUserLookupTableDto[] = [];
     @Input() excludeSelectedItemsInMultiSelect = false;
     @Input() componentType = '';
 
@@ -38,8 +31,8 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     saving = false;
     accountUser: CreateOrEditAccountUserDto = new CreateOrEditAccountUserDto();
     userName = '';
-    allUsers: AccountUserUserLookupTableDto[];
-    selectedUsers: AccountUserUserLookupTableDto[];
+    allUsers: AccountUserLookupTableDto[];
+    selectedUsers: AccountUserLookupTableDto[];
 
 
     constructor(
@@ -67,13 +60,13 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
             this.userName = '';
             this.active = true;
             this.modal.show();
-        } 
-        
+        }
+
         switch(this.componentType){
             case 'Account':
                 this.getAllUsersForAccountModule();
                 break;
-            
+
             case 'Lead':
                 this.getAllUserForLeadsModule();
                 break;

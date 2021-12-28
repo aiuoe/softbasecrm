@@ -1,19 +1,19 @@
-import {TokenService} from 'abp-ng2-module';
-import {Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild} from '@angular/core';
-import {AppConsts} from '@shared/AppConsts';
-import {AppComponentBase} from '@shared/common/app-component-base';
+import { TokenService } from 'abp-ng2-module';
+import { Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { AppConsts } from '@shared/AppConsts';
+import { AppComponentBase } from '@shared/common/app-component-base';
 import {
+    AccountUserLookupTableDto,
     AccountUsersServiceProxy,
-    AccountUserUserLookupTableDto,
     LeadDto,
     LeadLeadSourceLookupTableDto,
     LeadsServiceProxy,
     ProfileServiceProxy
 } from '@shared/service-proxies/service-proxies';
-import {FileUploader, FileUploaderOptions, FileItem} from 'ng2-file-upload';
-import {ModalDirective} from 'ngx-bootstrap/modal';
-import {nextGuid} from '@shared/utils/global.utils';
-import {FileDownloadService} from '@shared/utils/file-download.service';
+import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { nextGuid } from '@shared/utils/global.utils';
+import { FileDownloadService } from '@shared/utils/file-download.service';
 
 /***
  * Component to manage the import leads functionallity
@@ -41,7 +41,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     allLeadSources: LeadLeadSourceLookupTableDto[];
 
     // List of users to show in dropdown
-    allUsers: AccountUserUserLookupTableDto[];
+    allUsers: AccountUserLookupTableDto[];
     // Flag used to know if there's a change on the inout file
     fileFlag = false;
 
@@ -165,7 +165,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
                     },
                     {
                         confirmButtonText: this.l('Download'),
-                        cancelButtonText: this.l('Close'),      
+                        cancelButtonText: this.l('Close'),
                     }
                 );
             } else {

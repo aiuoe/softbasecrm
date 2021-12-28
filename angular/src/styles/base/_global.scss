@@ -133,3 +133,7 @@ a:hover {
 .ngx-spinner-overlay {
     z-index: 50 !important;
 }
+
+.p-listbox-item:focus {
+    box-shadow: none !important;
+}

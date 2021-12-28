@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import {
     AccountUsersServiceProxy,
     AccountUserDto,
-    AccountUserUserLookupTableDto,
     CreateOrEditAccountUserDto,
     LeadUsersServiceProxy,
     LeadUserUserLookupTableDto,
     CreateOrEditLeadUserDto,
-    LeadUserDto,
+    LeadUserDto, AccountUserLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -49,10 +48,11 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     filterText = '';
     userNameFilter = '';
     saving = false;
-    assignedUsersExists: AccountUserUserLookupTableDto[];
+    assignedUsersExists: AccountUserLookupTableDto[];
     canAssignUser = false;
 
     leadCompanyNameFilter = '';
+
     constructor(
         injector: Injector,
         private _accountUsersServiceProxy: AccountUsersServiceProxy,
@@ -90,14 +90,14 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             this.canAssignUser = true;
         }
     }
-    
+
 
     /**
-     * Method to call data 
-     * @param event 
+     * Method to call data
+     * @param event
      */
-    loadDataTable(event?: LazyLoadEvent){
-        switch(this.componentType){
+    loadDataTable(event?: LazyLoadEvent) {
+        switch (this.componentType) {
             case 'Account':
                 this.getAccountUsers(event);
                 break;
@@ -108,7 +108,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
             default:
                 this.getLeadUsers(event);
-                break;           
+                break;
         }
     }
 
@@ -137,7 +137,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.records = result.items;
             this.assignedUsersExists = [];
             result.items.forEach(x => {
-                const assignedUser = new AccountUserUserLookupTableDto();
+                const assignedUser = new AccountUserLookupTableDto();
                 assignedUser.id = x.accountUser.userId;
                 assignedUser.displayName = x.fullName;
                 this.assignedUsersExists.push(assignedUser);
@@ -149,9 +149,9 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
     /**
      * Gets the list of users assigned to an Account/Lead/Opportunity
-     * @param event 
+     * @param event
      */
-    getLeadUsers(event?: LazyLoadEvent){
+    getLeadUsers(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
@@ -172,7 +172,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.records = result.items;
             this.assignedUsersExists = [];
             result.items.forEach(x => {
-                const assignedUser = new AccountUserUserLookupTableDto();
+                const assignedUser = new AccountUserLookupTableDto();
                 assignedUser.id = x.leadUser.userId;
                 assignedUser.displayName = x.userName;
                 this.assignedUsersExists.push(assignedUser);
@@ -220,9 +220,9 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
     /**
      * Handles the deletion of an lead user
-     * @param accountUser Hanl
+     * @param leadUser
      */
-    deleteLeadUser(leadUser: LeadUserDto): void{
+    deleteLeadUser(leadUser: LeadUserDto): void {
         this.message.confirm(
             '',
             this.l('AreYouSure'),
@@ -235,7 +235,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                         });
                 }
             }
-        )
+        );
     }
 
 
@@ -245,9 +245,9 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
      * @param usersList
      * @returns
      */
-    savingAssignedUsers(usersList: AccountUserUserLookupTableDto[]) {
+    savingAssignedUsers(usersList: AccountUserLookupTableDto[]) {
         if (usersList.length > 0) {
-            switch (this.componentType){
+            switch (this.componentType) {
                 case 'Account':
                     this.saveAccountAssignedUser(usersList);
                     break;
@@ -255,7 +255,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 case 'Lead':
                     this.saveLeadAssignedUsers(usersList);
                     break;
-                
+
                 default:
                     this.saveLeadAssignedUsers(usersList);
                     break;
@@ -268,7 +268,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
      * Save a list of users of an especific account
      * @param usersList
      */
-    saveAccountAssignedUser(usersList: AccountUserUserLookupTableDto[]) {
+    saveAccountAssignedUser(usersList: AccountUserLookupTableDto[]) {
         const accountUserToSave: CreateOrEditAccountUserDto[] = [];
         usersList.forEach(element => {
             let accountUser = new CreateOrEditAccountUserDto();
@@ -291,9 +291,9 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
     /**
      * Save a list of users of an especific lead
-     * @param usersList 
+     * @param usersList
      */
-    saveLeadAssignedUsers(usersList: LeadUserUserLookupTableDto[]){
+    saveLeadAssignedUsers(usersList: LeadUserUserLookupTableDto[]) {
         const leadUserToSave: CreateOrEditLeadUserDto[] = [];
         usersList.forEach(element => {
             let leadUser = new CreateOrEditLeadUserDto();
@@ -305,13 +305,13 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         this.saving = true;
 
         this._leadUserServiceProxy.createMultipleLeadUsers(leadUserToSave)
-        .pipe(finalize(() => {
-            this.saving = false;
-        }))
-        .subscribe(() => {
-            this.notify.info(this.l('SavedSuccessfully'));
-            this.getLeadUsers();
-        });
+            .pipe(finalize(() => {
+                this.saving = false;
+            }))
+            .subscribe(() => {
+                this.notify.info(this.l('SavedSuccessfully'));
+                this.getLeadUsers();
+            });
     }
 
 

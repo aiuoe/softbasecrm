@@ -50,7 +50,7 @@ namespace SBCRM.Crm
         /// Get all users for table dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<AccountUserUserLookupTableDto>> GetAllUserForTableDropdown();
+        Task<List<AccountUserLookupTableDto>> GetAllUserForTableDropdown();
 
         /// <summary>
         /// This method save a list of users connected with an specific Account
