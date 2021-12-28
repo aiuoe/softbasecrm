@@ -3,9 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
     CustomerServiceProxy,
     AccountUserDto,
-    GetCustomerForViewDto,
-    AccountUserUserLookupTableDto,
-    CustomerAccountTypeLookupTableDto
+    CustomerAccountTypeLookupTableDto,
+    AccountUserLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -16,7 +15,6 @@ import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { AppConsts } from '@shared/AppConsts';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 
 @Component({
@@ -35,7 +33,7 @@ export class GlobalSearchComponent extends AppComponentBase implements OnInit {
     selectedAccountType: CustomerAccountTypeLookupTableDto;
     selectedAccountTypes: CustomerAccountTypeLookupTableDto[];
     accountUsers: AccountUserDto[] = [];
-    assignedUsersFilter: AccountUserUserLookupTableDto[] = [];
+    assignedUsersFilter: AccountUserLookupTableDto[] = [];
 
     constructor(
         injector: Injector,
@@ -51,11 +49,11 @@ export class GlobalSearchComponent extends AppComponentBase implements OnInit {
         super(injector);
         this._router.routeReuseStrategy.shouldReuseRoute = function () {
             return false;
-        }
+        };
     }
 
     ngOnInit(): void {
-        this.textFilter=this._activatedRoute.snapshot.queryParams['filter'];
+        this.textFilter = this._activatedRoute.snapshot.queryParams['filter'];
 
         this._customerServiceProxy.getAllAccountTypeForTableDropdown()
             .subscribe((result: CustomerAccountTypeLookupTableDto[]) => {
