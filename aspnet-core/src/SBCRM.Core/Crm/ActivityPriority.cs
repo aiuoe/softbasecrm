@@ -21,5 +21,9 @@ namespace SBCRM.Crm
         [StringLength(ActivityPriorityConsts.MaxColorLength, MinimumLength = ActivityPriorityConsts.MinColorLength)]
         public virtual string Color { get; set; }
 
+        public virtual int Order { get; set; }
+
+        public virtual bool IsDefault { get; set; }
+
     }
 }

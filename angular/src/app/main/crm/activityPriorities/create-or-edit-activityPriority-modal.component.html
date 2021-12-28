@@ -52,6 +52,35 @@
                         />
                         <validation-messages [formCtrl]="ActivityPriority_Color"></validation-messages>
                     </div>
+
+                    <div class="form-group">
+                        <label for="ActivityPriority_Order">{{ l('Order') }}</label>
+                        <input
+                            type="number"
+                            #ActivityPriority_Order="ngModel"
+                            id="ActivityPriority_Order"
+                            class="form-control"
+                            [(ngModel)]="activityPriority.order"
+                            name="Order"
+                        />
+                        <validation-messages [formCtrl]="ActivityPriority_Order"></validation-messages>
+                    </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="ActivityPriority_IsDefault" class="kt-checkbox">
+                            <input
+                                id="ActivityPriority_IsDefault"
+                                #ActivityPriority_IsDefault="ngModel"
+                                type="checkbox"
+                                name="IsDefault"
+                                [(ngModel)]="activityPriority.isDefault"
+                            />
+                            {{ l('IsDefault') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="ActivityPriority_IsDefault"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

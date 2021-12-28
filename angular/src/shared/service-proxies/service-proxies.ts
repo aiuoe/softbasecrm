@@ -2643,67 +2643,6 @@ export class ActivityPrioritiesServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param filter (optional) 
-     * @param descriptionFilter (optional) 
-     * @return Success
-     */
-    getActivityPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
-        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPrioritiesToExcel?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (descriptionFilter === null)
-            throw new Error("The parameter 'descriptionFilter' cannot be null.");
-        else if (descriptionFilter !== undefined)
-            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetActivityPrioritiesToExcel(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetActivityPrioritiesToExcel(<any>response_);
-                } catch (e) {
-                    return <Observable<FileDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetActivityPrioritiesToExcel(response: HttpResponseBase): Observable<FileDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = FileDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -24566,6 +24505,8 @@ export interface IActivityOpportunityLookupTableDto {
 export class ActivityPriorityDto implements IActivityPriorityDto {
     description!: string | undefined;
     color!: string | undefined;
+    order!: number;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IActivityPriorityDto) {
@@ -24581,6 +24522,8 @@ export class ActivityPriorityDto implements IActivityPriorityDto {
         if (_data) {
             this.description = _data["description"];
             this.color = _data["color"];
+            this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -24596,6 +24539,8 @@ export class ActivityPriorityDto implements IActivityPriorityDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["color"] = this.color;
+        data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -24604,6 +24549,8 @@ export class ActivityPriorityDto implements IActivityPriorityDto {
 export interface IActivityPriorityDto {
     description: string | undefined;
     color: string | undefined;
+    order: number;
+    isDefault: boolean;
     id: number;
 }
 
@@ -26510,6 +26457,8 @@ export interface ICreateOrEditActivityDto {
 export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPriorityDto {
     description!: string;
     color!: string;
+    order!: number;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityPriorityDto) {
@@ -26525,6 +26474,8 @@ export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPri
         if (_data) {
             this.description = _data["description"];
             this.color = _data["color"];
+            this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -26540,6 +26491,8 @@ export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPri
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["color"] = this.color;
+        data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -26548,6 +26501,8 @@ export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPri
 export interface ICreateOrEditActivityPriorityDto {
     description: string;
     color: string;
+    order: number;
+    isDefault: boolean;
     id: number | undefined;
 }
 
