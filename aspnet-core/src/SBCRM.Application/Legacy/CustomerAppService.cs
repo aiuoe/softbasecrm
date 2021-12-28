@@ -600,6 +600,9 @@ namespace SBCRM.Legacy
 
             var customer = new Customer();
 
+            var defaultAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.Id == input.ConversionAccountTypeId);
+            GuardHelper.ThrowIf(defaultAccountType == null, new UserFriendlyException(L("DefaultAccountTypeNotExist")));
+
             using (_reasonProvider.Use("Account created from Lead conversion"))
             {
                 // Mapping Overview data
@@ -614,6 +617,7 @@ namespace SBCRM.Legacy
                 customer.POBox = input.Lead.PoBox;
                 customer.LeadSourceId = input.Lead.LeadSourceId;
                 customer.AccountTypeId = input.ConversionAccountTypeId;
+                customer.Terms = defaultAccountType.Description;
 
                 // Set internal audit fields
                 customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
