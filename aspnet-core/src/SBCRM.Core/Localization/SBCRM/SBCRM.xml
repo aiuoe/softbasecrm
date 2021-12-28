@@ -7,7 +7,6 @@
     <text name="CreateNewActivityByAccount">New Activity by Account</text>
     <text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
 
-    <text name="IsCompletedStatus">Is completed status</text>
     <text name="AccountHeader">CRM Portal</text>
     <text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
 
