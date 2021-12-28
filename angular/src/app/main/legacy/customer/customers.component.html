@@ -61,12 +61,22 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div class="col-md-2">
-                                    <button (click)="createAccountUser()"
-                                        class="btn btn-primary blue"
-                                    >
-                                        {{ l('SelectAssignedUsersFormat', this.assignedUsersFilter?.length) }}
-                                    </button>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-multiSelect
+                                            id="assignedUsersFilter"
+                                            name="assignedUsersFilter"
+                                            [options]="allUsers"
+                                            [(ngModel)]="assignedUsersFilter"
+                                            optionLabel="displayName"
+                                            display="chip"
+                                            [style]="{'width':'100%'}"
+                                            [placeholder]="l('FilterByAssignee')"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="getCustomer()"
+                                            [virtualScroll]="true"
+                                        ></p-multiSelect>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-3">
@@ -233,7 +243,9 @@
                                                 <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
                                                     <img class="img-circle" [src]="record.profilePictureUrl" />
                                                 </a>
-                                                <p [className]="record.assignedUsers > 1 ? 'no-wrap-150' : ''">{{ record.firstUserAssignedFullName }}</p>
+                                                <p [className]="record.assignedUsers > 1 ? 'no-wrap-150' : ''">
+                                                    {{ record.firstUserAssignedFullName }} {{record.assignedUsers > 1 ? '...' : ''}}
+                                                </p>
                                             </span>
                                         </td>
 
@@ -262,11 +274,6 @@
                 </div>
             </div>
         </div>
-
-        <app-create-or-edit-assined-user-modal #assignedUsersModal
-                                               (assignedUsers)="selectAssignedUsers($event)"
-                                               [assignedUsersExists]="this.assignedUsersFilter">
-        </app-create-or-edit-assined-user-modal>
 
     </div>
 </div>

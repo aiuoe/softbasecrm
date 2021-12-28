@@ -1,24 +1,63 @@
 ﻿using Abp.Dependency;
+using Abp.EntityHistory;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor.MsDependencyInjection;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SBCRM.Base;
 using SBCRM.EntityFrameworkCore;
+using SBCRM.EntityFrameworkCore.Repositories;
 using SBCRM.Identity;
 
 namespace SBCRM.Test.Base.DependencyInjection
 {
     public static class ServiceCollectionRegistrar
     {
-        public static void Register(IIocManager iocManager)
+        public static void Register(IIocManager iocManager, IConfigurationRoot configuration)
         {
             RegisterIdentity(iocManager);
 
-            var builder = new DbContextOptionsBuilder<SBCRMDbContext>();
+            iocManager.IocContainer.Register(Component
+                .For(typeof(IRepository<>))
+                .ImplementedBy(typeof(Repository<>))
+                .LifestyleTransient());
 
-            var inMemorySqlite = new SqliteConnection("Data Source=:memory:");
-            builder.UseSqlite(inMemorySqlite);
+            var sx = NullEntityChangeSetReasonProvider.Instance;
+
+            iocManager.IocContainer.Register(
+                Component.For<IEntityChangeSetReasonProvider>()
+                    .Instance(sx)
+                    .LifestyleTransient());
+
+            iocManager.IocContainer.Register(
+                Component.For<ISoftBaseCustomerInvoiceRepository>()
+                    .ImplementedBy<SoftBaseCustomerInvoiceRepository>().LifestyleTransient());
+
+            iocManager.IocContainer.Register(
+                Component.For<ISoftBaseCustomerEquipmentRepository>()
+                    .ImplementedBy<SoftBaseCustomerEquipmentRepository>().LifestyleTransient());
+
+            iocManager.IocContainer.Register(
+                Component.For<ISoftBaseCustomerWipRepository>()
+                    .ImplementedBy<SoftBaseCustomerWipRepository>().LifestyleTransient());
+
+            iocManager.IocContainer.Register(
+                Component.For<ISoftBaseSecureRepository>()
+                    .ImplementedBy<SoftBaseSecureRepository>().LifestyleTransient());
+
+            iocManager.IocContainer.Register(
+                Component.For<ISoftBaseCustomerSequenceRepository>()
+                    .ImplementedBy<SoftBaseCustomerSequenceRepository>().LifestyleTransient());
+
+            iocManager.IocContainer.Register(
+                Component.For<ISoftBasePersonRepository>()
+                    .ImplementedBy<SoftBasePersonRepository>().LifestyleTransient());
+            
+
+            var builder = new DbContextOptionsBuilder<SBCRMDbContext>();
+            
+            builder.UseSqlServer(configuration.GetConnectionString(SBCRMConsts.ConnectionStringName));
 
             iocManager.IocContainer.Register(
                 Component
@@ -26,8 +65,6 @@ namespace SBCRM.Test.Base.DependencyInjection
                     .Instance(builder.Options)
                     .LifestyleSingleton()
             );
-
-            inMemorySqlite.Open();
 
             new SBCRMDbContext(builder.Options).Database.EnsureCreated();
         }

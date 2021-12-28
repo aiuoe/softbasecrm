@@ -22,6 +22,8 @@ using SBCRM.Legacy.Dtos;
 using System;
 using System.ComponentModel.DataAnnotations;
 using SBCRM.Authorization.Users;
+using SBCRM.Auditing;
+using SBCRM.Auditing.Dto;
 
 namespace SBCRM.Crm
 {
@@ -44,6 +46,7 @@ namespace SBCRM.Crm
         private readonly IRepository<User, long> _lookup_userRepository;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
+        private readonly IAuditEventsService _auditEventsService;
 
         /// <summary>
         /// Base constructor
@@ -59,6 +62,7 @@ namespace SBCRM.Crm
         /// <param name="leadUserRepository"></param>
         /// <param name="countryRepository"></param>
         /// <param name="lookupUserRepository"></param>
+        /// <param name="auditEventsService"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,
@@ -70,7 +74,8 @@ namespace SBCRM.Crm
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<LeadUser> leadUserRepository,
             IRepository<Country> countryRepository,
-            IRepository<User, long> lookupUserRepository)
+            IRepository<User, long> lookupUserRepository,
+            IAuditEventsService auditEventsService)
         {
             _leadRepository = leadRepository;
             _leadsExcelExporter = leadsExcelExporter;
@@ -83,6 +88,7 @@ namespace SBCRM.Crm
             _leadUserRepository = leadUserRepository;
             _countryRepository = countryRepository;
             _lookup_userRepository = lookupUserRepository;
+            _auditEventsService = auditEventsService;
         }
 
         /// <summary>
@@ -541,8 +547,11 @@ namespace SBCRM.Crm
                 lead.TenantId = AbpSession.TenantId;
             }
 
-            await _leadRepository.InsertAsync(lead);
-
+            using (_reasonProvider.Use("Lead created"))
+            {
+                await _leadRepository.InsertAsync(lead);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
         /// <summary>
@@ -554,7 +563,12 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditLeadDto input)
         {
             var lead = await _leadRepository.FirstOrDefaultAsync((int)input.Id);
-            ObjectMapper.Map(input, lead);
+
+            using (_reasonProvider.Use("Lead updated"))
+            {
+                ObjectMapper.Map(input, lead);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
 
         }
 
@@ -836,6 +850,18 @@ namespace SBCRM.Crm
                 await _leadRepository.UpdateAsync(lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
+        }
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads_View_Events)]
+        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
+        {
+            input.EntityTypeFullName = typeof(Lead).FullName;
+            return await _auditEventsService.GetEntityTypeChanges(input);
         }
 
     }

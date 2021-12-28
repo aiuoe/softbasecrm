@@ -1299,7 +1299,7 @@ export class AccountUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown(): Observable<AccountUserUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<AccountUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1318,14 +1318,14 @@ export class AccountUsersServiceProxy {
                 try {
                     return this.processGetAllUserForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<AccountUserUserLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<AccountUserUserLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserUserLookupTableDto[]> {
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1339,7 +1339,7 @@ export class AccountUsersServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(AccountUserUserLookupTableDto.fromJS(item));
+                    result200!.push(AccountUserLookupTableDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -1351,7 +1351,7 @@ export class AccountUsersServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<AccountUserUserLookupTableDto[]>(<any>null);
+        return _observableOf<AccountUserLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -6305,6 +6305,64 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<CustomerCountryLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<AccountUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AccountUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<AccountUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AccountUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AccountUserLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -12543,6 +12601,82 @@ export class LeadsServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param entityTypeFullName (optional) 
+     * @param entityId (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/GetEntityTypeChanges?";
+        if (entityTypeFullName === null)
+            throw new Error("The parameter 'entityTypeFullName' cannot be null.");
+        else if (entityTypeFullName !== undefined)
+            url_ += "EntityTypeFullName=" + encodeURIComponent("" + entityTypeFullName) + "&";
+        if (entityId === null)
+            throw new Error("The parameter 'entityId' cannot be null.");
+        else if (entityId !== undefined)
+            url_ += "EntityId=" + encodeURIComponent("" + entityId) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEntityTypeChanges(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEntityTypeChanges(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEntityTypeChanges(response: HttpResponseBase): Observable<PagedResultDtoOfEntityChangeListDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfEntityChangeListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
     }
 }
 
@@ -24139,11 +24273,11 @@ export interface IAccountUserDto {
     id: number;
 }
 
-export class AccountUserUserLookupTableDto implements IAccountUserUserLookupTableDto {
+export class AccountUserLookupTableDto implements IAccountUserLookupTableDto {
     id!: number;
     displayName!: string | undefined;
 
-    constructor(data?: IAccountUserUserLookupTableDto) {
+    constructor(data?: IAccountUserLookupTableDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -24159,9 +24293,9 @@ export class AccountUserUserLookupTableDto implements IAccountUserUserLookupTabl
         }
     }
 
-    static fromJS(data: any): AccountUserUserLookupTableDto {
+    static fromJS(data: any): AccountUserLookupTableDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AccountUserUserLookupTableDto();
+        let result = new AccountUserLookupTableDto();
         result.init(data);
         return result;
     }
@@ -24174,7 +24308,7 @@ export class AccountUserUserLookupTableDto implements IAccountUserUserLookupTabl
     }
 }
 
-export interface IAccountUserUserLookupTableDto {
+export interface IAccountUserLookupTableDto {
     id: number;
     displayName: string | undefined;
 }

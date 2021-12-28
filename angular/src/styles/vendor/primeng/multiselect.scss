@@ -20,5 +20,7 @@
     border-color: $primaryBorderHoverInputColor;
 }
 
-
+.p-multiselect-header {
+    background-color: $readonlyInputBackgroundColor !important;
+}
 

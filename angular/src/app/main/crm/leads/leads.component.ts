@@ -13,7 +13,6 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     GetCustomerForViewDto,
-    AccountUserUserLookupTableDto,
     LeadUserUserLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
