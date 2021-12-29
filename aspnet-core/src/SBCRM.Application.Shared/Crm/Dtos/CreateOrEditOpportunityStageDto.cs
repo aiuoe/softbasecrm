@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO to manage the object opportunity stage for create or edit purposes
+    /// DTO to manage the object opportunity stages for input purposes
     /// </summary>
     public class CreateOrEditOpportunityStageDto : EntityDto<int?>
     {
@@ -14,6 +14,8 @@ namespace SBCRM.Crm.Dtos
 
         public virtual int Order { get; set; }
 
-        public virtual string Color { get; set; }
+        [Required]
+        [StringLength(OpportunityStageConsts.MaxColorLength, MinimumLength = OpportunityStageConsts.MinColorLength)]
+        public string Color { get; set; }
     }
 }
