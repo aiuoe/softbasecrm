@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_OpportunityUsers = "Pages.OpportunityUsers";
+        public const string Pages_OpportunityUsers_Create = "Pages.OpportunityUsers.Create";
+        public const string Pages_OpportunityUsers_Edit = "Pages.OpportunityUsers.Edit";
+        public const string Pages_OpportunityUsers_Delete = "Pages.OpportunityUsers.Delete";
+
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
         public const string Pages_Activities_Edit = "Pages.Activities.Edit";
@@ -108,7 +113,6 @@
         public const string Pages_Customer_View_Opportunities = "Pages.Customer.ViewOpportunities";
         public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
         public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
-        
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

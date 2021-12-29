@@ -2,6 +2,11 @@
 
 <localizationDictionary culture="en">
 	<texts>
+	    <text name="OpportunityUsers">Opportunity user</text>
+		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
+		<text name="EditOpportunityUser">Edit opportunity user</text>
+		<text name="DeleteOpportunityUser">Delete opportunity user</text>
+		
 		<text name="GlobalSearch">Global Search Access</text>
 		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
 		<text name="LeadViewAssignedUserFilter">Access to all Leads</text>
