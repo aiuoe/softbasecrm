@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using SBCRM.Authorization.Users;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
+using System.Net;
 
 namespace SBCRM.Crm
 {
@@ -97,10 +98,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         public bool CanSeeAllLeads()
-        {            
+        {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);            
+                currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);
         }
 
         /// <summary>
@@ -120,9 +121,9 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
-        { 
+        {
             try
-            { 
+            {
                 var filteredLeads = _leadRepository.GetAll()
                                .Include(e => e.LeadSourceFk)
                                .Include(e => e.LeadStatusFk)
@@ -301,7 +302,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads)
         {
-            return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads); 
+            return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads);
         }
 
         /// <summary>
@@ -319,7 +320,7 @@ namespace SBCRM.Crm
 
                 var duplicatedLeads = new List<CreateOrEditLeadDto>();
 
-                if (! await ValidateLeadsImported(leadsToImport))
+                if (!await ValidateLeadsImported(leadsToImport))
                 {
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
@@ -361,7 +362,7 @@ namespace SBCRM.Crm
                     {
                         storedLead = _leadRepository.GetAllList().Find(l => l.CompanyName == leadAux.CompanyName && l.ContactName == leadAux.ContactName);
                     }
-                  
+
                     if (storedLead == null)
                     {
                         var lead = ObjectMapper.Map<Lead>(leadAux);
@@ -417,8 +418,8 @@ namespace SBCRM.Crm
 
                 // Validations for specific format fields 
                 var emailValidator = new EmailAddressAttribute();
-                if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail)) 
-                    || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail)) 
+                if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail))
+                    || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail))
                     || (item.Website != null && !Uri.IsWellFormedUriString(item.Website.ToString(), UriKind.RelativeOrAbsolute)))
                 {
                     return false;
@@ -549,6 +550,13 @@ namespace SBCRM.Crm
 
             using (_reasonProvider.Use("Lead created"))
             {
+                var existingLead = await _leadRepository
+                    .FirstOrDefaultAsync(l => l.CompanyName.ToLower() == lead.CompanyName.ToLower()
+                                           && l.ContactName.ToLower() == lead.ContactName.ToLower());
+
+                if (existingLead is not null)
+                    throw new UserFriendlyException((int)HttpStatusCode.BadRequest, L("DuplicatedLead"));
+
                 await _leadRepository.InsertAsync(lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -566,6 +574,13 @@ namespace SBCRM.Crm
 
             using (_reasonProvider.Use("Lead updated"))
             {
+                var existingLead = await _leadRepository
+                   .FirstOrDefaultAsync(l => l.Id != (int)input.Id && (l.CompanyName.ToLower() == input.CompanyName.ToLower()
+                                          && l.ContactName.ToLower() == input.ContactName.ToLower()));
+
+                if (existingLead is not null)
+                    throw new UserFriendlyException((int)HttpStatusCode.BadRequest, L("DuplicatedLead"));
+
                 ObjectMapper.Map(input, lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -766,7 +781,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
- 
+
             return await _lookup_userRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {
@@ -807,8 +822,8 @@ namespace SBCRM.Crm
                     IsDefault = priority.IsDefault
                 }).ToListAsync();
         }
-        
-        
+
+
         /// <summary>
         /// Convert Lead in Account
         /// </summary>
@@ -835,7 +850,7 @@ namespace SBCRM.Crm
             var accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
 
             GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", convertedStatusCode)));
-            
+
             var customerNumber = await _customerAppService.ConvertFromLead(
                 new ConvertLeadToAccountDto(
                     lead: ObjectMapper.Map<LeadDto>(lead),
