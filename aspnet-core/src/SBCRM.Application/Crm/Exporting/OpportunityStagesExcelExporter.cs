@@ -1,15 +1,16 @@
-﻿using Abp.Runtime.Session;
+﻿using System.Collections.Generic;
+using Abp.Runtime.Session;
 using Abp.Timing.Timezone;
-using SBCRM.Crm.Dtos;
 using SBCRM.DataExporting.Excel.NPOI;
+using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
-using System.Collections.Generic;
 
 namespace SBCRM.Crm.Exporting
 {
     public class OpportunityStagesExcelExporter : NpoiExcelExporterBase, IOpportunityStagesExcelExporter
     {
+
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
@@ -29,19 +30,23 @@ namespace SBCRM.Crm.Exporting
                 "OpportunityStages.xlsx",
                 excelPackage =>
                 {
+
                     var sheet = excelPackage.CreateSheet(L("OpportunityStages"));
 
                     AddHeader(
                         sheet,
                         L("Description"),
-                        L("Order")
+                        L("Order"),
+                        L("Color")
                         );
 
                     AddObjects(
                         sheet, opportunityStages,
                         _ => _.OpportunityStage.Description,
-                        _ => _.OpportunityStage.Order
+                        _ => _.OpportunityStage.Order,
+                        _ => _.OpportunityStage.Color
                         );
+
                 });
         }
     }

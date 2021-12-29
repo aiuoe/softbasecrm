@@ -30,7 +30,6 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
-
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));

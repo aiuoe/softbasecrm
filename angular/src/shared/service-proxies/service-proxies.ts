@@ -15218,12 +15218,13 @@ export class OpportunityStagesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param colorFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15233,6 +15234,10 @@ export class OpportunityStagesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (colorFilter === null)
+            throw new Error("The parameter 'colorFilter' cannot be null.");
+        else if (colorFilter !== undefined)
+            url_ += "ColorFilter=" + encodeURIComponent("" + colorFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -15562,9 +15567,10 @@ export class OpportunityStagesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param colorFilter (optional) 
      * @return Success
      */
-    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
+    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStagesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15574,6 +15580,10 @@ export class OpportunityStagesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (colorFilter === null)
+            throw new Error("The parameter 'colorFilter' cannot be null.");
+        else if (colorFilter !== undefined)
+            url_ += "ColorFilter=" + encodeURIComponent("" + colorFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -28208,7 +28218,7 @@ export interface ICreateOrEditOpportunityDto {
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
     description!: string;
     order!: number;
-    color!: string | undefined;
+    color!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -28249,7 +28259,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 export interface ICreateOrEditOpportunityStageDto {
     description: string;
     order: number;
-    color: string | undefined;
+    color: string;
     id: number | undefined;
 }
 
@@ -38608,6 +38618,7 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -38623,6 +38634,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -38638,6 +38650,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data;
     }
@@ -38646,6 +38659,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 export interface IOpportunityStageDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
     id: number;
 }
 

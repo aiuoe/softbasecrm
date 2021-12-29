@@ -42,8 +42,9 @@ namespace SBCRM.Crm
         public async Task<PagedResultDto<GetOpportunityStageForViewDto>> GetAll(GetAllOpportunityStagesInput input)
         {
             IQueryable<OpportunityStage> filteredOpportunityStages = _opportunityStageRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ColorFilter), e => e.Color == input.ColorFilter);
 
             IQueryable<OpportunityStage> pagedAndFilteredOpportunityStages = filteredOpportunityStages
                 .OrderBy(input.Sorting ?? "id asc")
@@ -54,6 +55,7 @@ namespace SBCRM.Crm
                                     {
                                         o.Description,
                                         o.Order,
+                                        o.Color,
                                         Id = o.Id
                                     };
 
@@ -70,6 +72,7 @@ namespace SBCRM.Crm
                     {
                         Description = o.Description,
                         Order = o.Order,
+                        Color = o.Color,
                         Id = o.Id,
                     }
                 };
@@ -138,7 +141,6 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditOpportunityStageDto input)
         {
             input.Order = _opportunityStageRepository.GetAll().Count() + 1;
-            input.Color = string.Empty;
 
             OpportunityStage opportunityStage = ObjectMapper.Map<OpportunityStage>(input);
 
@@ -207,19 +209,21 @@ namespace SBCRM.Crm
         public async Task<FileDto> GetOpportunityStagesToExcel(GetAllOpportunityStagesForExcelInput input)
         {
             IQueryable<OpportunityStage> filteredOpportunityStages = _opportunityStageRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.ColorFilter), e => e.Color == input.ColorFilter);
 
-            IQueryable<GetOpportunityStageForViewDto> query = from o in filteredOpportunityStages
-                                                              select new GetOpportunityStageForViewDto()
-                                                              {
-                                                                  OpportunityStage = new OpportunityStageDto
-                                                                  {
-                                                                      Description = o.Description,
-                                                                      Order = o.Order,
-                                                                      Id = o.Id
-                                                                  }
-                                                              };
+            IQueryable<GetOpportunityStageForViewDto> query = (from o in filteredOpportunityStages
+                                                               select new GetOpportunityStageForViewDto()
+                                                               {
+                                                                   OpportunityStage = new OpportunityStageDto
+                                                                   {
+                                                                       Description = o.Description,
+                                                                       Order = o.Order,
+                                                                       Color = o.Color,
+                                                                       Id = o.Id
+                                                                   }
+                                                               });
 
             List<GetOpportunityStageForViewDto> opportunityStageListDtos = await query.ToListAsync();
 
