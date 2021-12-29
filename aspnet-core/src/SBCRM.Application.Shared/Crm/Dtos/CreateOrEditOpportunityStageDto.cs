@@ -1,9 +1,11 @@
-﻿using System;
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object opportunity stages for input purposes
+    /// </summary>
     public class CreateOrEditOpportunityStageDto : EntityDto<int?>
     {
         [Required]
