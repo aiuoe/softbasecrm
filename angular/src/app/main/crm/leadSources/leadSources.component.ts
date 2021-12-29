@@ -135,7 +135,7 @@ export class LeadSourcesComponent extends AppComponentBase {
      * @param $event
      * @constructor
      */
-    UpdateOrder($event: any): void {
+    updateOrder($event: any): void {
         this.leadsourceSrc.order = $event.dragIndex;
         this.leadsourceDst.order = $event.dropIndex;
 
