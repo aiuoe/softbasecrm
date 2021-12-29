@@ -5,7 +5,7 @@ import { LazyLoadEvent } from '@node_modules/primeng/api';
 import { Table } from '@node_modules/primeng/table';
 import { Paginator } from '@node_modules/primeng/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from '@app/shared/common/crm/services/data.service';
+import { GlobalSearchDataService } from '@app/shared/common/crm/services/global-search-data.service';
 import { GlobalSearchCategory, GlobalSearchServiceProxy } from '@shared/service-proxies/service-proxies';
 import { GlobalSearchTypeDto } from '@app/shared/common/crm/dto/global-search-type.dto';
 
@@ -35,7 +35,7 @@ export class GlobalSearchComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
-        private _dataService: DataService,
+        private _dataService: GlobalSearchDataService,
         private _globalSearchServiceProxy: GlobalSearchServiceProxy
     ) {
         super(injector);

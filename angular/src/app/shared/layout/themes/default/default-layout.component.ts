@@ -8,13 +8,13 @@ import { AppConsts } from '@shared/AppConsts';
 import { ToggleOptions } from '@metronic/app/core/_base/layout/directives/toggle.directive';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { Router } from '@angular/router';
-import { DataService } from '@app/shared/common/crm/services/data.service';
+import { GlobalSearchDataService } from '@app/shared/common/crm/services/global-search-data.service';
 
 @Component({
     templateUrl: './default-layout.component.html',
     selector: 'default-layout',
     animations: [appModuleAnimation()],
-    providers: [DataService]
+    providers: [GlobalSearchDataService]
 })
 export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements OnInit {
     menuCanvasOptions: OffcanvasOptions = {
@@ -38,7 +38,7 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
         @Inject(DOCUMENT) private document: Document,
         _dateTimeService: DateTimeService,
         private _router: Router,
-        private _dataService: DataService) {
+        private _dataService: GlobalSearchDataService) {
         super(injector, _dateTimeService);
     }
 

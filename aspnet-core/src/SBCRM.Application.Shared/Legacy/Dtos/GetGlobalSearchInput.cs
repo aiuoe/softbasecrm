@@ -2,15 +2,6 @@
 
 namespace SBCRM.Legacy.Dtos
 {
-    public enum GlobalSearchCategory
-    {
-        All,
-        Account,
-        Lead,
-        Opportunity,
-        Activity
-    }
-
     /// <summary>
     /// Input for global search
     /// </summary>

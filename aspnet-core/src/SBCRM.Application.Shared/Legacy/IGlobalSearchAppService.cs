@@ -5,6 +5,9 @@ using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Legacy
 {
+    /// <summary>
+    /// App service to handle Global search information
+    /// </summary>
     public interface IGlobalSearchAppService : IApplicationService
     {
         /// <summary>
