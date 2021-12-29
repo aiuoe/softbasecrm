@@ -1,6 +1,4 @@
-﻿using Abp.Application.Services.Dto;
-
-namespace SBCRM.Crm.Dtos
+﻿namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// A lookup table dto for lead sources

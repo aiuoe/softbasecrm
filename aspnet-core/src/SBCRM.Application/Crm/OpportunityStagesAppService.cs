@@ -14,18 +14,31 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Class app service for Opportunity Stages
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_OpportunityStages)]
     public class OpportunityStagesAppService : SBCRMAppServiceBase, IOpportunityStagesAppService
     {
         private readonly IRepository<OpportunityStage> _opportunityStageRepository;
         private readonly IOpportunityStagesExcelExporter _opportunityStagesExcelExporter;
 
+        /// <summary>
+        /// Class Constructor
+        /// </summary>
+        /// <param name="opportunityStageRepository"></param>
+        /// <param name="opportunityStagesExcelExporter"></param>
         public OpportunityStagesAppService(IRepository<OpportunityStage> opportunityStageRepository, IOpportunityStagesExcelExporter opportunityStagesExcelExporter)
         {
             _opportunityStageRepository = opportunityStageRepository;
             _opportunityStagesExcelExporter = opportunityStagesExcelExporter;
         }
 
+        /// <summary>
+        /// Get all opportunity stages
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetOpportunityStageForViewDto>> GetAll(GetAllOpportunityStagesInput input)
         {
             IQueryable<OpportunityStage> filteredOpportunityStages = _opportunityStageRepository.GetAll()
@@ -70,6 +83,11 @@ namespace SBCRM.Crm
             );
         }
 
+        /// <summary>
+        /// Get opportunity stage for view mode
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetOpportunityStageForViewDto> GetOpportunityStageForView(int id)
         {
             OpportunityStage opportunityStage = await _opportunityStageRepository.GetAsync(id);
@@ -79,6 +97,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Get opportunity stage for edition mode
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
         public async Task<GetOpportunityStageForEditOutput> GetOpportunityStageForEdit(EntityDto input)
         {
@@ -89,6 +112,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Create or edit opportunity stage
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditOpportunityStageDto input)
         {
             if (input.Id == null)
@@ -101,6 +129,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Method that Create an opportunity stage
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityStageDto input)
         {
@@ -112,6 +145,11 @@ namespace SBCRM.Crm
             await _opportunityStageRepository.InsertAsync(opportunityStage);
         }
 
+        /// <summary>
+        /// Method that edit an opportunity stage
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
         protected virtual async Task Update(CreateOrEditOpportunityStageDto input)
         {
@@ -119,6 +157,11 @@ namespace SBCRM.Crm
             ObjectMapper.Map(input, opportunityStage);
         }
 
+        /// <summary>
+        /// Method that updates the order of a list
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
         public virtual async Task UpdateOrder(List<UpdateOrderOpportunityStageDto> input)
         {
@@ -127,7 +170,6 @@ namespace SBCRM.Crm
 
             OpportunityStage opportunityStageSrc = await _opportunityStageRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
             opportunityStageSrc.Order = orderDst;
-            await _opportunityStageRepository.FirstOrDefaultAsync(opportunityStageSrc.Id);
 
             List<OpportunityStage> allOpportunityStage = _opportunityStageRepository.GetAll().OrderBy(x => x.Order).ToList();
             allOpportunityStage.Remove(opportunityStageSrc);
@@ -144,6 +186,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Delete opportunity stage
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Delete)]
         public async Task Delete(EntityDto input)
         {
@@ -152,6 +199,11 @@ namespace SBCRM.Crm
             UpdateOrderAfterDelete();
         }
 
+        /// <summary>
+        /// Method that gets the rows to export to Excel
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<FileDto> GetOpportunityStagesToExcel(GetAllOpportunityStagesForExcelInput input)
         {
             IQueryable<OpportunityStage> filteredOpportunityStages = _opportunityStageRepository.GetAll()
@@ -174,6 +226,9 @@ namespace SBCRM.Crm
             return _opportunityStagesExcelExporter.ExportToFile(opportunityStageListDtos);
         }
 
+        /// <summary>
+        /// Method that update order after delete an item from grid
+        /// </summary>
         private void UpdateOrderAfterDelete()
         {
             List<OpportunityStage> ListOpportunityStage = _opportunityStageRepository.GetAll().ToList();

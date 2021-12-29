@@ -53,6 +53,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditOpportunityUserDto, OpportunityUser>().ReverseMap();
+            configuration.CreateMap<OpportunityUserDto, OpportunityUser>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivityDto, Activity>().ReverseMap();
             configuration.CreateMap<ActivityDto, Activity>().ReverseMap();
             configuration.CreateMap<CreateOrEditActivitySourceTypeDto, ActivitySourceType>().ReverseMap();
@@ -77,8 +79,12 @@ namespace SBCRM
 
             //OpportunityStages
             configuration.CreateMap<CreateOrEditOpportunityStageDto, OpportunityStage>().ReverseMap();
-            configuration.CreateMap<CreateOrEditOpportunityStageDto, OpportunityStage>().ReverseMap();
             configuration.CreateMap<List<UpdateOrderOpportunityStageDto>, List<OpportunityStage>>().ReverseMap();
+
+            //Lead Sources
+            configuration.CreateMap<CreateOrEditLeadSourceDto, LeadSource>().ReverseMap();
+            configuration.CreateMap<LeadSourceDto, LeadSource>().ReverseMap();
+            configuration.CreateMap<List<UpdateOrderleadSourceDto>, List<LeadSource>>().ReverseMap();
 
             configuration.CreateMap<CreateOrEditLeadUserDto, LeadUser>().ReverseMap();
             configuration.CreateMap<LeadUserDto, LeadUser>().ReverseMap();
@@ -88,8 +94,6 @@ namespace SBCRM
             configuration.CreateMap<LeadDto, Lead>().ReverseMap();
             configuration.CreateMap<CreateOrEditLeadStatusDto, LeadStatus>().ReverseMap();
             configuration.CreateMap<LeadStatusDto, LeadStatus>().ReverseMap();
-            configuration.CreateMap<CreateOrEditLeadSourceDto, LeadSource>().ReverseMap();
-            configuration.CreateMap<LeadSourceDto, LeadSource>().ReverseMap();
             configuration.CreateMap<CreateOrEditIndustryDto, Industry>().ReverseMap();
             configuration.CreateMap<IndustryDto, Industry>().ReverseMap();
             configuration.CreateMap<CreateOrEditCustomerDto, Customer>().ReverseMap();

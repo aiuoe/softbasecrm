@@ -317,7 +317,16 @@
                 </tab>
             </tabset>
         </div>
-    </div>
+
+        <div class="row" *ngIf="this.opportunity.id">
+            <div class="col-sm-12 col-lg-6">
+                <app-assigned-user
+                [componentType]="'Opportunity'"
+                [idToStore]="this.opportunity.id">
+            </app-assigned-user>
+            </div>
+        </div>
+    </div>    
 </div>
 
 

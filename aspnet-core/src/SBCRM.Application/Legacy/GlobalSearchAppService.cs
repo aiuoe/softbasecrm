@@ -22,18 +22,27 @@ namespace SBCRM.Legacy
     {
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Lead> _leadRepository;
+        private readonly IRepository<Opportunity> _opportunityRepository;
+        private readonly IRepository<Activity, long> _activityRepository;
 
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="customerRepository"></param>
         /// <param name="leadRepository"></param>
+        /// <param name="opportunityRepository"></param>
+        /// <param name="activityRepository"></param>
         public GlobalSearchAppService(
             IRepository<Customer> customerRepository,
-            IRepository<Lead> leadRepository)
+            IRepository<Lead> leadRepository,
+            IRepository<Opportunity> opportunityRepository,
+            IRepository<Activity, long> activityRepository
+            )
         {
             _customerRepository = customerRepository;
             _leadRepository = leadRepository;
+            _opportunityRepository = opportunityRepository;
+            _activityRepository = activityRepository;
         }
 
         /// <summary>
@@ -46,8 +55,15 @@ namespace SBCRM.Legacy
             try
             {
                 var currentUser = await GetCurrentUserAsync();
-                var hasRestrictedAccountPermission = await UserManager.IsGrantedAsync(
-                    currentUser.Id, AppPermissions.Pages_AccountUsers_Create_Restricted);
+
+                var hasRestrictedLeadsPermission = await UserManager.IsGrantedAsync(
+                    currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);
+
+                var hasRestrictedActivitiesPermission = await UserManager.IsGrantedAsync(
+                    currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+
+                var hasRestrictedOpportunitiesPermission = await UserManager.IsGrantedAsync(
+                    currentUser.Id, AppPermissions.Pages_Opportunities_ViewAssignedUserFilter);
 
                 var globalSearchCategory = input.CategoryCode;
 
@@ -59,10 +75,11 @@ namespace SBCRM.Legacy
                         Name = Convert.ToString(x.Name),
                         Type = Convert.ToString(L("Customer"))
                     });
+
                 var leadsQuery = _leadRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Lead == globalSearchCategory)
-                    //.Include(x => x.Users)
-                    //.WhereIf(hasRestrictedAccountPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
+                    .Include(x => x.Users)
+                    .WhereIf(hasRestrictedLeadsPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
@@ -70,10 +87,30 @@ namespace SBCRM.Legacy
                         Type = Convert.ToString(L("Lead"))
                     });
 
+                var opportunityQuery = _opportunityRepository.GetAll()
+                    .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Opportunity == globalSearchCategory)
+                    .Select(x => new GetGlobalSearchItemDto
+                    {
+                        Id = Convert.ToString(x.Id),
+                        Name = Convert.ToString(x.Name),
+                        Type = Convert.ToString(L("Opportunity"))
+                    });
+
+                var activityQuery=_activityRepository.GetAll()
+                    .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Activity == globalSearchCategory)
+                    .WhereIf(hasRestrictedActivitiesPermission, x => x.UserId==currentUser.Id)
+                    .Select(x => new GetGlobalSearchItemDto
+                    {
+                        Id = Convert.ToString(x.Id),
+                        Name = Convert.ToString(x.TaskName),
+                        Type = Convert.ToString(L("Activity"))
+                    });
+
+
                 var unionQuery = customersQuery
                     .Union(leadsQuery)
-                    //.Union(opportunityQuery)
-                    //.Union(activityQuery)
+                    .Union(opportunityQuery)
+                    .Union(activityQuery)
                     ;
 
                 unionQuery = unionQuery.WhereIf(!string.IsNullOrEmpty(input.Filter),
