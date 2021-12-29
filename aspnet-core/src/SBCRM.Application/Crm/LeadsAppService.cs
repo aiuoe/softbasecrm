@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using SBCRM.Authorization.Users;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
+using System.Net;
 
 namespace SBCRM.Crm
 {
@@ -97,10 +98,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         public bool CanSeeAllLeads()
-        {            
+        {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);            
+                currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);
         }
 
         /// <summary>
@@ -120,9 +121,9 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAll(GetAllLeadsInput input)
-        { 
+        {
             try
-            { 
+            {
                 var filteredLeads = _leadRepository.GetAll()
                                .Include(e => e.LeadSourceFk)
                                .Include(e => e.LeadStatusFk)
@@ -138,7 +139,7 @@ namespace SBCRM.Crm
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                               .WhereIf(!string.IsNullOrWhiteSpace(input.NotesFilter), e => e.Notes == input.NotesFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
@@ -185,7 +186,7 @@ namespace SBCRM.Crm
                                 Country = o.Country,
                                 State = o.State,
                                 City = o.City,
-                                Notes = o.Notes,
+                                Description = o.Description,
                                 CompanyPhone = o.CompanyPhone,
                                 CompanyEmail = o.CompanyEmail,
                                 PoBox = o.PoBox,
@@ -199,8 +200,8 @@ namespace SBCRM.Crm
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
                                 Users = o.Users,
-                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
-                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
                                 LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                                 PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
@@ -227,8 +228,8 @@ namespace SBCRM.Crm
                     else
                         pagedAndFilteredOpportunities = filteredLeads
                             .OrderByDescending(o => o.CreationTime)
-                            .ThenByDescending(s1 => s1.Notes)
-                            .ThenBy(s2 => s2.Notes)
+                            .ThenByDescending(s1 => s1.Description)
+                            .ThenBy(s2 => s2.Description)
                             .ThenBy(o => o.CompanyName)
                             .ThenBy(o => o.ContactName)
                             .PageBy(input);
@@ -253,7 +254,7 @@ namespace SBCRM.Crm
                                 Country = o.Country,
                                 State = o.State,
                                 City = o.City,
-                                Notes = o.Notes,
+                                Description = o.Description,
                                 CompanyPhone = o.CompanyPhone,
                                 CompanyEmail = o.CompanyEmail,
                                 PoBox = o.PoBox,
@@ -267,8 +268,8 @@ namespace SBCRM.Crm
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
                                 Users = o.Users,
-                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
-                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
                                 LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                                 PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
@@ -547,6 +548,13 @@ namespace SBCRM.Crm
 
             using (_reasonProvider.Use("Lead created"))
             {
+                var existingLead = await _leadRepository
+                    .FirstOrDefaultAsync(l => l.CompanyName.ToLower() == lead.CompanyName.ToLower()
+                                           && l.ContactName.ToLower() == lead.ContactName.ToLower());
+
+                if (existingLead is not null)
+                    throw new UserFriendlyException((int)HttpStatusCode.BadRequest, L("DuplicatedLead"));
+
                 await _leadRepository.InsertAsync(lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -564,6 +572,13 @@ namespace SBCRM.Crm
 
             using (_reasonProvider.Use("Lead updated"))
             {
+                var existingLead = await _leadRepository
+                   .FirstOrDefaultAsync(l => l.Id != (int)input.Id && (l.CompanyName.ToLower() == input.CompanyName.ToLower()
+                                          && l.ContactName.ToLower() == input.ContactName.ToLower()));
+
+                if (existingLead is not null)
+                    throw new UserFriendlyException((int)HttpStatusCode.BadRequest, L("DuplicatedLead"));
+
                 ObjectMapper.Map(input, lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -603,7 +618,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Notes == input.DescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
@@ -641,7 +656,7 @@ namespace SBCRM.Crm
                              Country = o.Country,
                              State = o.State,
                              City = o.City,
-                             Notes = o.Notes,
+                             Description = o.Description,
                              CompanyPhone = o.CompanyPhone,
                              CompanyEmail = o.CompanyEmail,
                              PoBox = o.PoBox,
@@ -690,7 +705,7 @@ namespace SBCRM.Crm
                         Country = o.Country,
                         State = o.State,
                         City = o.City,
-                        Notes = o.Notes,
+                        Description = o.Description,
                         CompanyPhone = o.CompanyPhone,
                         CompanyEmail = o.CompanyEmail,
                         PoBox = o.PoBox,
@@ -762,7 +777,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
- 
+
             return await _lookup_userRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {
