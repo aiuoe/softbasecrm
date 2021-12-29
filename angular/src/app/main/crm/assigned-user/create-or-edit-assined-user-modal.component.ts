@@ -141,33 +141,33 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
         });
     }
 
-        /***
+    /***
     * Gets all the users  to list on the popup only for Opportunity module
     */
-         getAllUsersForOpportunityModule(){
-            this._opportunityUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
-                this.allUsers = result;
-    
-                const userIdsArray = [];
-                for (let i = 0; i < this.assignedUsersExists.length; i++) {
-                    userIdsArray.push(this.assignedUsersExists[i].id);
-                }
-    
-                if (this.excludeSelectedItemsInMultiSelect) {
-                    // Filtering by users who hasn't been assigned yet
-                    const arrayResult = [];
-                    this.allUsers.forEach(element => {
-                        if (!userIdsArray.find(p => p === element.id)) {
-                            arrayResult.push(element);
-                        }
-                    });
-                    this.allUsers = [];
-                    this.allUsers = arrayResult;
-                } else {
-                    this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
+    getAllUsersForOpportunityModule(){
+    this._opportunityUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+        this.allUsers = result;
+
+        const userIdsArray = [];
+        for (let i = 0; i < this.assignedUsersExists.length; i++) {
+            userIdsArray.push(this.assignedUsersExists[i].id);
+        }
+
+        if (this.excludeSelectedItemsInMultiSelect) {
+            // Filtering by users who hasn't been assigned yet
+            const arrayResult = [];
+            this.allUsers.forEach(element => {
+                if (!userIdsArray.find(p => p === element.id)) {
+                    arrayResult.push(element);
                 }
             });
+            this.allUsers = [];
+            this.allUsers = arrayResult;
+        } else {
+            this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
         }
+    });
+}
 
     /**
      * This method emites the list of selected users

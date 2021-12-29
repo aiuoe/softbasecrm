@@ -278,25 +278,25 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         );
     }
     
-        /**
+    /**
      * Handles the deletion of an opportunity user
      * @param leadUser
      */
-         deleteOpportunityUser(opportunityUser: OpportunityUserDto): void {
-            this.message.confirm(
-                '',
-                this.l('AreYouSure'),
-                (isConfirmed) => {
-                    if (isConfirmed) {
-                        this._opportunityUserServiceProxy.delete(opportunityUser.id)
-                            .subscribe(() => {
-                                this.reloadPage();
-                                this.notify.success(this.l('SuccessfullyDeleted'));
-                            });
-                    }
-                }
-            );
+    deleteOpportunityUser(opportunityUser: OpportunityUserDto): void {
+    this.message.confirm(
+        '',
+        this.l('AreYouSure'),
+        (isConfirmed) => {
+            if (isConfirmed) {
+                this._opportunityUserServiceProxy.delete(opportunityUser.id)
+                    .subscribe(() => {
+                        this.reloadPage();
+                        this.notify.success(this.l('SuccessfullyDeleted'));
+                    });
+            }
         }
+    );
+}
 
 
     /**
@@ -379,6 +379,10 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     }
 
 
+    /**
+     * Save a list of users of an especific opportunity
+     * @param usersList 
+     */
     saveOpportunityAssignedUsers(usersList: OpportunityUserUserLookupTableDto[]) {
         const opportunityUserToSave: CreateOrEditOpportunityUserDto[] = [];
         usersList.forEach(element => {
