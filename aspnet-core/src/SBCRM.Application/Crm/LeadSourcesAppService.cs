@@ -138,6 +138,7 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditLeadSourceDto input)
         {
             input.Order = _leadSourceRepository.GetAll().Count() + 1;
+            input.IsDefault = false;
 
             LeadSource leadSource = ObjectMapper.Map<LeadSource>(input);
 

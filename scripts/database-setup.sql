@@ -23,11 +23,11 @@ INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDef
 INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('High', GETDATE(),0, 0);
 GO
 
-INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted], [Order]) VALUES ('Email', GETDATE(), 0, 1);
-INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted], [Order]) VALUES ('Social Media', GETDATE(),0, 2);
-INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted], [Order]) VALUES ('Direct Mail', GETDATE(),0, 3);
-INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted], [Order]) VALUES ('Referrals', GETDATE(),0, 4);
-INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted], [Order]) VALUES ('Paid Advertisement', GETDATE(),0, 5);
+INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Email', GETDATE(), 0, 0, 1);
+INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Social Media', GETDATE(),0, 0, 2);
+INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Direct Mail', GETDATE(),0, 0, 3);
+INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Referrals', GETDATE(),0, 0, 4);
+INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Paid Advertisement', GETDATE(),0, 0, 5);
 GO
 
 

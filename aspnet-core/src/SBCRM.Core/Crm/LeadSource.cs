@@ -12,5 +12,7 @@ namespace SBCRM.Crm
         public virtual string Description { get; set; }
 
         public virtual int Order { get; set; }
+
+        public virtual bool IsDefault { get; set; }
     }
 }

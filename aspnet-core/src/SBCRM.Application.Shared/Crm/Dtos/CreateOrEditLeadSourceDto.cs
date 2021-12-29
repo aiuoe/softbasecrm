@@ -19,5 +19,10 @@ namespace SBCRM.Crm.Dtos
         /// lead source order
         /// </summary>
         public virtual int Order { get; set; }
+
+        /// <summary>
+        /// lead source flag is default
+        /// </summary>
+        public virtual bool IsDefault { get; set; }
     }
 }
