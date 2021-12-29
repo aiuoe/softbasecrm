@@ -5,8 +5,10 @@
 
 	<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>  
 	<text name="LeadViewAssignedUserFilter">Access to all Leads</text>  
-	  
-    <text name="IsCompletedStatus">Is completed status</text>
+	<text name="NewOpportunities">New Opportunities</text>
+	<text name="ProjectClose">Project Close</text>
+
+	<text name="IsCompletedStatus">Is completed status</text>
 	<text name="AccountHeader">CRM Portal</text>
 	<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
 	<text name="AssignUsers">Assign Users</text>
@@ -153,7 +155,7 @@
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
     <text name="Probability%">Probability %</text>
-    <text name="CloseDate">Project Close</text>
+    <text name="CloseDate">Closed Date</text>
     <text name="Department">Department</text>
     <text name="NewOpportunites">New Opportunites</text>
     <text name="DepartmentName">Department Name</text>

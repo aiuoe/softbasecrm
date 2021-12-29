@@ -64,6 +64,28 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// The user will be shown all the leads if he has permission for it
+        /// </summary>
+        /// <returns></returns>
+        public bool CanSeeAllLeads()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Opportunities_ViewAssignedUserFilter);
+        }
+
+        /// <summary>
+        /// Get the id of the current user.       
+        /// </summary>
+        /// <returns></returns>
+        public long GetCurrentUserId()
+        {
+            var currentUser = GetCurrentUser();
+            return currentUser.Id;
+        }
+
+        /// <summary>
         /// Get all opportunities
         /// </summary>
         /// <param name="input"></param>
@@ -89,6 +111,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
+
 
             IQueryable<Opportunity> pagedAndFilteredOpportunities;
 

@@ -1,6 +1,10 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit, forwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CalendarOptions, Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import {
     ActivitiesServiceProxy,
     ActivityActivitySourceTypeLookupTableDto,
@@ -37,6 +41,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -48,6 +53,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityStatusDescriptionFilter = '';
     activityPriorityDescriptionFilter = '';
     customerNameFilter = '';
+
+    summaryTableIsShown = true;
+    summaryCalendarIsShown = false;
 
     selectedAssignedUsersFilter: ActivityUserLookupTableDto[] = [];
     selectedActivitySourceTypesFilter: ActivityActivitySourceTypeLookupTableDto;
@@ -78,6 +86,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
 
+    calendarOptions: any;
+
     /***
      * Initialize component
      */
@@ -86,7 +96,45 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivitySourceTypes();
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
+
+        forwardRef(() => Calendar);
+
+        this.calendarOptions = {
+            initialView: 'dayGridMonth',
+            plugins: [dayGridPlugin, interactionPlugin],
+            editable: true,
+            customButtons: {
+              myCustomButton: {
+                text: 'custom!',
+                click: function () {
+                  alert('clicked the custom button!');
+                }
+              }
+            },
+            headerToolbar: {
+              left: 'prev,next today myCustomButton',
+              center: 'title',
+              right: 'dayGridMonth'
+            },
+            // dateClick: this.handleDateClick.bind(this),
+            // eventClick: this.handleEventClick.bind(this),
+            // eventDragStop: this.handleEventDragStop.bind(this),
+            events: [
+                { title: 'event 1', date: '2021-12-21', color  : '#378006' },
+                { title: 'event 2', date: '2019-04-02' }
+              ]     
+             
+              
+          };     
     }
+
+    test() {        
+        this.fullcalendar.getApi().refetchEvents();
+        this.fullcalendar.getApi().render();
+        setTimeout(() => this.fullcalendar.getApi().render());
+
+    }
+    
 
     /**
      * Load the activities from the back-end
@@ -239,4 +287,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             });
         }
     }
+
+    
 }

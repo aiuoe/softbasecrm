@@ -89,6 +89,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     leadStatusDescriptionFilter = '';
     priorityDescriptionFilter = '';
 
+    componentType = 'Lead'
+    
+
     displayModal = false;
     allLeadSources: LeadLeadSourceLookupTableDto[];
     leadSourceDescription = '';
@@ -170,9 +173,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * @param event
      */
     getCustomerByCompanyOrContactNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 2;
+        const textFilterHasMoreThan1Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 1;
         const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
+        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
             this.getLeads();
         }
     }

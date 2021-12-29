@@ -51,11 +51,12 @@
         public const string Pages_Opportunities_Create = "Pages.Opportunities.Create";
         public const string Pages_Opportunities_Edit = "Pages.Opportunities.Edit";
         public const string Pages_Opportunities_Delete = "Pages.Opportunities.Delete";
+        public const string Pages_Opportunities_ViewAssignedUserFilter = "Pages.Opportunity.ViewAssignedUserFilter";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
         public const string Pages_OpportunityTypes_Edit = "Pages.OpportunityTypes.Edit";
-        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";
+        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";        
 
         public const string Pages_Configuration = "Pages.Configuration";
         public const string Pages_OpportunityStages = "Pages.OpportunityStages";

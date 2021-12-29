@@ -157,7 +157,7 @@
                                         </th>
                                         <!-- Above is just a placeholder -->
                                         <th style="width: 150px" pSortableColumn="closeDate">
-                                            {{ l('CloseDate') }}
+                                            {{ l('ProjectClose') }}
                                             <p-sortIcon field="closeDate"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="amount">
@@ -248,7 +248,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CloseDate') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">
-                                                {{ record.opportunity.closeDate | date: 'MM/dd/yyyy' }}
+                                                {{ record.opportunity.closeDate | date:'short':'UTC+8' }}
                                             </span>
                                             <span *ngIf="!record.opportunity.closeDate">-</span>
                                         </td>

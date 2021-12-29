@@ -133,7 +133,8 @@ export class OpportunitiesComponent extends AppComponentBase {
             )
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
-                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.records = result.items;                
+                
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -143,9 +144,9 @@ export class OpportunitiesComponent extends AppComponentBase {
      * @param event
      */
     getOpportunityByNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.nameFilter && this.nameFilter?.trim().length >= 2;
+        const textFilterHasMoreThan1Characters = this.nameFilter && this.nameFilter?.trim().length >= 1;
         const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
+        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
             this.getOpportunities();
         }
     }

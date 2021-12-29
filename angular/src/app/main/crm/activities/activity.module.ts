@@ -10,7 +10,16 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
+import {CalendarModule} from 'primeng/calendar';
+import {FullCalendarModule} from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
 
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+    dayGridPlugin,
+    interactionPlugin
+  ]);
+  
 @NgModule({
     declarations: [ActivitiesComponent, CreateOrEditActivityModalComponent, ViewActivityModalComponent],
     imports: [
@@ -22,6 +31,8 @@ import { ButtonModule } from 'primeng/button';
         CheckboxModule,
         ChipModule,
         ButtonModule,
+        CalendarModule,
+        FullCalendarModule,
     ],
 })
 export class ActivityModule {}

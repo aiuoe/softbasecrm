@@ -103,7 +103,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this.isExternalCreation = true;
         this.isNew = !!!this.opportunityId;
         this.show(this.opportunityId);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityCustomerName));
+        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunity.name));
     }
 
     /**
@@ -206,15 +206,18 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             return;
         }
 
-        if (this.opportunity.probability < 1 || this.opportunity.probability > 100)
+        if (this.opportunity.probability != null && (this.opportunity.probability < 1 || this.opportunity.probability > 100))
         {                      
             this.opportunityForm.form.controls['Opportunity_Probability'].setErrors(
                                             {'opportunityInvalidProbability': true});
             this.message.warn(this.l('InvalidFormMessage'));
             return;
         }
-        
-        this.opportunity.closeDate = this._dateTimeService.fromJSDate(this.formDate);
+
+        // let userTimezoneOffset : number = this.formDate.getTimezoneOffset() * 60000;        
+        // let date : Date = new Date(this.formDate.getTime() - userTimezoneOffset);
+        this.opportunity.closeDate = this._dateTimeService.fromJSDate(new Date());
+        console.log("on utc the time is" + this.opportunity.closeDate.toString())
 
         this.saving = true;
 
