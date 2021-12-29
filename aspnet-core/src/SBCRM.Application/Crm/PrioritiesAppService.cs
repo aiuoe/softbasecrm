@@ -51,6 +51,7 @@ namespace SBCRM.Crm
 
             var filteredPriorities = _priorityRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
@@ -64,6 +65,7 @@ namespace SBCRM.Crm
 
                                  o.Description,
                                  o.IsDefault,
+                                 o.Color,
                                  Id = o.Id
                              };
 
@@ -81,6 +83,7 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         IsDefault = o.IsDefault,
+                        Color = o.Color,
                         Id = o.Id,
                     }
                 };
@@ -189,6 +192,7 @@ namespace SBCRM.Crm
 
             var filteredPriorities = _priorityRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(input.IsDefaultFilter.HasValue && input.IsDefaultFilter > -1, e => (input.IsDefaultFilter == 1 && e.IsDefault) || (input.IsDefaultFilter == 0 && !e.IsDefault));
 
@@ -199,6 +203,7 @@ namespace SBCRM.Crm
                              {
                                  Description = o.Description,
                                  IsDefault = o.IsDefault,
+                                 Color = o.Color,
                                  Id = o.Id
                              }
                          });
