@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using System.Collections.Generic;
+using SBCRM.Auditing.Dto;
 using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
@@ -97,6 +98,13 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         Task ConvertToAccount(ConvertLeadToAccountRequestDto input);
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input);
 
     }
 }
