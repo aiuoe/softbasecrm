@@ -60,7 +60,7 @@
         public const int MinContactEmailLength = 1;
         public const int MaxContactEmailLength = 50;
 
-        public const int MaxNotesLength = 250;
+        public const int MaxDescriptionLength = 250;
 
     }
 }
