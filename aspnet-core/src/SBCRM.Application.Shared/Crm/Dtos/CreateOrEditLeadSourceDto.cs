@@ -1,20 +1,28 @@
-﻿using System;
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// Lead source dto used by the ui to create or edit a lead source
+    /// Class that handles Dto for lead sources
     /// </summary>
     public class CreateOrEditLeadSourceDto : EntityDto<int?>
     {
-
+        /// <summary>
+        /// Lead source description
+        /// </summary>
         [Required]
         [StringLength(LeadSourceConsts.MaxDescriptionLength, MinimumLength = LeadSourceConsts.MinDescriptionLength)]
         public string Description { get; set; }
 
-        public bool IsDefault { get; set; }
+        /// <summary>
+        /// lead source order
+        /// </summary>
+        public virtual int Order { get; set; }
 
+        /// <summary>
+        /// lead source flag is default
+        /// </summary>
+        public virtual bool IsDefault { get; set; }
     }
 }

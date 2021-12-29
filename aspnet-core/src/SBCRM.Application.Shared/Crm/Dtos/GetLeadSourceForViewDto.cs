@@ -1,11 +1,10 @@
 ﻿namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO to manage the lead source for view purposes
+    /// Dto for lead source view
     /// </summary>
     public class GetLeadSourceForViewDto
     {
         public LeadSourceDto LeadSource { get; set; }
-
     }
 }

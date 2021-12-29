@@ -296,7 +296,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Method to return an excel file with duplicated leads when Importing Leads 
+        /// Method to return an excel file with duplicated leads when Importing Leads
         /// </summary>
         /// <param name="leads"></param>
         /// <returns></returns>
@@ -328,7 +328,6 @@ namespace SBCRM.Crm
                 // Default status and priority
                 var leadStatusId = await _lookupLeadStatusRepository.FirstOrDefaultAsync(p => p.IsDefault);
                 var leadPriorityId = await _lookupPriorityRepository.FirstOrDefaultAsync(p => p.IsDefault);
-
 
                 foreach (var item in leadsToImport)
                 {
@@ -391,7 +390,6 @@ namespace SBCRM.Crm
             {
                 throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
-
         }
 
         /// <summary>
@@ -416,7 +414,7 @@ namespace SBCRM.Crm
                     return false;
                 }
 
-                // Validations for specific format fields 
+                // Validations for specific format fields
                 var emailValidator = new EmailAddressAttribute();
                 if ((item.CompanyEmail != null && !emailValidator.IsValid(item.CompanyEmail))
                     || (item.ContactEmail != null && !emailValidator.IsValid(item.ContactEmail))
@@ -605,7 +603,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<FileDto> GetLeadsToExcel(GetAllLeadsForExcelInput input)
         {
-
             var filteredLeads = _leadRepository.GetAll()
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
@@ -769,8 +766,7 @@ namespace SBCRM.Crm
                 .Select(leadSource => new LeadLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
-                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString(),
-                    IsDefault = leadSource.IsDefault
+                    DisplayName = leadSource == null || leadSource.Description == null ? "" : leadSource.Description.ToString()
                 }).ToListAsync();
         }
 
@@ -822,7 +818,6 @@ namespace SBCRM.Crm
                     IsDefault = priority.IsDefault
                 }).ToListAsync();
         }
-
 
         /// <summary>
         /// Convert Lead in Account
