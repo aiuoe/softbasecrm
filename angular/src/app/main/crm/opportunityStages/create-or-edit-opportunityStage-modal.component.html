@@ -34,12 +34,25 @@
                             minlength="1"
                             maxlength="100"
                             required
-                            placeholder="Enter Name"
+                            placeholder="Enter Stage Name"
                         />
                         <validation-messages [formCtrl]="OpportunityStage_Description"></validation-messages>
                     </div>
-                </div>
 
+                    <div class="form-group">
+                        <label class="col-1" for="OpportunityStage_Color">{{ l('Color') }}:</label>
+                        <label class="col-1">{{ opportunityStage.color }}</label>
+                        <p-colorPicker
+                            class="col-1"
+                            #OpportunityStage_Color="ngModel"
+                            id="OpportunityStage_Color"
+                            [(ngModel)]="opportunityStage.color"
+                            name="Color"
+                            required
+                        ></p-colorPicker>
+                        <validation-messages [formCtrl]="OpportunityStage_Color"></validation-messages>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}

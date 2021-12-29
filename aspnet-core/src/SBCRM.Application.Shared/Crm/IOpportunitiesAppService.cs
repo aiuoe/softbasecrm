@@ -7,6 +7,7 @@ using SBCRM.Dto;
 using System.Collections.Generic;
 using System.Collections.Generic;
 using System.Collections.Generic;
+using SBCRM.Auditing.Dto;
 
 namespace SBCRM.Crm
 {
@@ -92,5 +93,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdownCustomerSpecific(string customerNumber);
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input);
     }
 }

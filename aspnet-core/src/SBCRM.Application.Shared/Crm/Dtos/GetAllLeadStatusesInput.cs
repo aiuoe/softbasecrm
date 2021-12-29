@@ -1,5 +1,4 @@
 ﻿using Abp.Application.Services.Dto;
-using System;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -15,6 +14,5 @@ namespace SBCRM.Crm.Dtos
         public int? IsLeadConversionValidFilter { get; set; }
 
         public int? IsDefaultFilter { get; set; }
-
     }
 }

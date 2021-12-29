@@ -70,6 +70,13 @@ namespace SBCRM.Authorization
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Create, L("CreateNewOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Edit, L("EditOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Delete, L("DeleteOpportunity"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Events, L("OpportunityViewEvents"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_ViewAssignedUserFilter, L("OpportunityViewAssignedUserFilter"));
+
+            var opportunityUsers = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityUsers"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Create, L("CreateNewOpportunityUser"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Edit, L("EditOpportunityUser"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Delete, L("DeleteOpportunityUser"));
 
             var opportunityTypes = pages.CreateChildPermission(AppPermissions.Pages_OpportunityTypes, L("OpportunityTypes"));
             opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Create, L("CreateNewOpportunityType"));

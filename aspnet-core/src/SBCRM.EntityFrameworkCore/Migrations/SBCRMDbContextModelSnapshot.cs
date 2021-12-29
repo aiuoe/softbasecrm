@@ -2211,6 +2211,9 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2225,9 +2228,6 @@ namespace SBCRM.Migrations
 
                     b.Property<int?>("LeadStatusId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PagerNumber")
                         .HasMaxLength(50)
@@ -2582,6 +2582,49 @@ namespace SBCRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OpportunityTypes");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("OpportunityId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OpportunityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OpportunityUsers");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.Priority", b =>
@@ -4632,6 +4675,25 @@ namespace SBCRM.Migrations
                     b.Navigation("OpportunityStageFk");
 
                     b.Navigation("OpportunityTypeFk");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityUser", b =>
+                {
+                    b.HasOne("SBCRM.Crm.Opportunity", "OpportunityFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OpportunityFk");
+
+                    b.Navigation("UserFk");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>

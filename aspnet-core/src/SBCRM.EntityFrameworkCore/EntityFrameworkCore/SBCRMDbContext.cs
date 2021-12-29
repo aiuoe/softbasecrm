@@ -21,16 +21,15 @@ namespace SBCRM.EntityFrameworkCore
 {
     public class SBCRMDbContext : AbpZeroDbContext<Tenant, Role, User, SBCRMDbContext>, IAbpPersistedGrantDbContext
     {
+        public virtual DbSet<OpportunityUser> OpportunityUsers { get; set; }
+
         public virtual DbSet<Activity> Activities { get; set; }
 
         public virtual DbSet<ActivitySourceType> ActivitySourceTypes { get; set; }
 
         public virtual DbSet<ActivityPriority> ActivityPriorities { get; set; }
 
-       
         public virtual DbSet<Contact> Contacts { get; set; }
-
-        
 
         public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }

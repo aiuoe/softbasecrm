@@ -1,4 +1,12 @@
 <div class="modal-body" [hidden]="!isGranted(requiredPermission)">
+    <div class="row">
+        <div class="col-md-12">
+            <button (click)="getRecords()" class="btn btn-primary blue float-right">
+                <i class="fas fa-sync-alt"></i>
+                <span>{{ l('RefreshData') }}</span>
+            </button>
+        </div>
+    </div>
     <!--<Primeng-TurboTable-Start>-->
     <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
         <p-table
