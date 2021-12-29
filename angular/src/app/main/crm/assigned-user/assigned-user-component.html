@@ -56,6 +56,10 @@
                                                         <a class="dropdown-item" href="javascript:;"
                                                            *ngIf="permission.isGranted('Pages.LeadUsers.Delete') && this.componentType == 'Lead'"
                                                            (click)="deleteLeadUser(record.leadUser)">{{l('Delete')}}</a>
+                                                       
+                                                        <a class="dropdown-item" href="javascript:;"
+                                                        *ngIf="permission.isGranted('Pages.OpportunityUsers.Delete') && this.componentType == 'Opportunity'"
+                                                        (click)="deleteOpportunityUser(record.opportunityUser)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -65,6 +69,10 @@
                                             {{record.fullName}}
                                         </td>
                                         <td style="width:150px" *ngIf="'Lead' === this.componentType">
+                                            <span class="p-column-title"> {{l('Name')}}</span>
+                                            {{record.userName}}
+                                        </td>
+                                        <td style="width:150px" *ngIf="'Opportunity' === this.componentType">
                                             <span class="p-column-title"> {{l('Name')}}</span>
                                             {{record.userName}}
                                         </td>

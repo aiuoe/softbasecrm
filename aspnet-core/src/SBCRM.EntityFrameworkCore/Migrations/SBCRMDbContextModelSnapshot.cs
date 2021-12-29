@@ -2500,6 +2500,9 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("Probability")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ContactId");
@@ -2602,12 +2605,60 @@ namespace SBCRM.Migrations
                     b.ToTable("OpportunityTypes");
                 });
 
+            modelBuilder.Entity("SBCRM.Crm.OpportunityUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("OpportunityId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OpportunityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OpportunityUsers");
+                });
+
             modelBuilder.Entity("SBCRM.Crm.Priority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -4596,7 +4647,7 @@ namespace SBCRM.Migrations
             modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
                 {
                     b.HasOne("SBCRM.Crm.Lead", "LeadFk")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("LeadId");
 
                     b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
@@ -4645,6 +4696,25 @@ namespace SBCRM.Migrations
                     b.Navigation("OpportunityStageFk");
 
                     b.Navigation("OpportunityTypeFk");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.OpportunityUser", b =>
+                {
+                    b.HasOne("SBCRM.Crm.Opportunity", "OpportunityFk")
+                        .WithMany()
+                        .HasForeignKey("OpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OpportunityFk");
+
+                    b.Navigation("UserFk");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>
@@ -4792,6 +4862,11 @@ namespace SBCRM.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.Lead", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>

@@ -16,10 +16,10 @@
 
         public const double MinProbabilityValue = 1;
 
-        public const int MinBranchLength = 1;
+        public const int MinBranchLength = 0;
         public const int MaxBranchLength = 100;
 
-        public const int MinDepartmentLength = 1;
+        public const int MinDepartmentLength = 0;
         public const int MaxDepartmentLength = 100;
 
     }

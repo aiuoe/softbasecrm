@@ -8,336 +8,371 @@
             </div>
         </sub-header>
         <div [class]="containerClass">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card card-custom gutter-b">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <button (click)="save()" class="btn btn-primary blue float-right"
-                                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
-                                        <i class="fa fa-save"></i>
-                                        <span>{{ l('Save') }}</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
-                                <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i>
-                                    {{ l('GeneralInformation') }}</h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_CompanyName">{{ l('CompanyName') }} *</label>
-                                            <input type="text" #Lead_CompanyName="ngModel" id="Lead_CompanyName"
-                                                class="form-control" [(ngModel)]="lead.companyName"
-                                                [placeholder]="l('CompanyName')" name="CompanyName" maxlength="250"
-                                                required />
-                                            <validation-messages [formCtrl]="Lead_CompanyName"></validation-messages>
+            <tabset>
+                <tab heading="{{ 'Overview' | localize }}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+
+                                    <div class="row" *ngIf="this.showSaveButton">
+                                        <div class="col-12">
+                                            <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
+                                                    [busyText]="l('SavingWithThreeDot')">
+                                                <i class="fa fa-save"></i>
+                                                <span>{{ l('Save') }}</span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
-                                            <input id="Lead_CompanyPhone" #Lead_CompanyPhone="ngModel"
-                                                [placeholder]="l('CompanyPhone')" [(ngModel)]="lead.companyPhone"
-                                                [required]="!lead.companyEmail" name="CompanyPhone" class="form-control"
-                                                type="tel" maxlength="15"
-                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
-                                            <div
-                                                *ngIf="!Lead_CompanyPhone.valid && (Lead_CompanyPhone.dirty || Lead_CompanyPhone.touched)">
+                                    <div class="row" *ngIf="(!this.showSaveButton && this.isReadOnlyMode) && isGranted('Pages.Customer.Edit')">
+                                        <div class="col-12">
+                                            <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                <span>{{ l('Edit') }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="pi pi-user"></i>
+                                            {{ l('GeneralInformation') }}</h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_CompanyName">{{ l('CompanyName') }} *</label>
+                                                    <input type="text" #Lead_CompanyName="ngModel" id="Lead_CompanyName"
+                                                           class="form-control" [(ngModel)]="lead.companyName"
+                                                           [placeholder]="l('CompanyName')" name="CompanyName" maxlength="250"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           required />
+                                                    <validation-messages [formCtrl]="Lead_CompanyName"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
+                                                    <input id="Lead_CompanyPhone" #Lead_CompanyPhone="ngModel"
+                                                           [placeholder]="l('CompanyPhone')" [(ngModel)]="lead.companyPhone"
+                                                           [required]="!lead.companyEmail" name="CompanyPhone" class="form-control"
+                                                           type="tel" maxlength="15"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                                    <div
+                                                        *ngIf="!Lead_CompanyPhone.valid && (Lead_CompanyPhone.dirty || Lead_CompanyPhone.touched)">
                                                 <span class="form-text text-danger text-left">{{ 'CompanyPhone_Invalid'
                                                     | localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
-                                            <input type="email" #Lead_CompanyEmail="ngModel" id="Lead_CompanyEmail"
-                                                class="form-control" [(ngModel)]="lead.companyEmail"
-                                                [placeholder]="l('CompanyEmail')" name="CompanyEmail" email
-                                                [required]="!lead.companyPhone" />
-                                            <validation-messages [formCtrl]="Lead_CompanyEmail"></validation-messages>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_WebSite">{{ l('WebSite') }}</label>
-                                            <input type="url" #Lead_WebSite="ngModel" id="Lead_WebSite"
-                                                class="form-control" [(ngModel)]="lead.webSite"
-                                                [placeholder]="l('WebSite')" name="WebSite"
-                                                pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" />
-                                            <div
-                                                *ngIf="!Lead_WebSite.valid && (Lead_WebSite.dirty || Lead_WebSite.touched)">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_CompanyEmail">{{ l('CompanyEmail') }}</label>
+                                                    <input type="email" #Lead_CompanyEmail="ngModel" id="Lead_CompanyEmail"
+                                                           class="form-control" [(ngModel)]="lead.companyEmail"
+                                                           [placeholder]="l('CompanyEmail')" name="CompanyEmail" email
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           [required]="!lead.companyPhone" />
+                                                    <validation-messages [formCtrl]="Lead_CompanyEmail"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_WebSite">{{ l('WebSite') }}</label>
+                                                    <input type="url" #Lead_WebSite="ngModel" id="Lead_WebSite"
+                                                           class="form-control" [(ngModel)]="lead.webSite"
+                                                           [placeholder]="l('WebSite')" name="WebSite"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" />
+                                                    <div
+                                                        *ngIf="!Lead_WebSite.valid && (Lead_WebSite.dirty || Lead_WebSite.touched)">
                                                 <span *ngIf="Lead_WebSite.errors?.['pattern']"
-                                                    class="form-text text-danger text-left">{{ 'WebSite_Invalid' |
+                                                      class="form-text text-danger text-left">{{ 'WebSite_Invalid' |
                                                     localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label for="Lead_Address">{{ l('Address') }}</label>
-                                        <input type="text" #Lead_Address="ngModel" id="Lead_Address"
-                                            class="form-control" [(ngModel)]="lead.address" [placeholder]="l('Address')"
-                                            name="Address" maxlength="100" />
-                                        <validation-messages [formCtrl]="Lead_Address"></validation-messages>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="Lead_PoBox">{{ l('PoBox') }}</label>
-                                        <input type="text" #Lead_PoBox="ngModel" id="Lead_PoBox" class="form-control"
-                                            [(ngModel)]="lead.poBox" [placeholder]="l('PoBox')" name="PoBox"
-                                            maxlength="100" />
-                                        <validation-messages [formCtrl]="Lead_PoBox"></validation-messages>
-                                    </div>
-                                </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <label for="Lead_Address">{{ l('Address') }}</label>
+                                                <input type="text" #Lead_Address="ngModel" id="Lead_Address"
+                                                       class="form-control" [(ngModel)]="lead.address" [placeholder]="l('Address')"
+                                                       [disabled]="this.isReadOnlyMode"
+                                                       name="Address" maxlength="100" />
+                                                <validation-messages [formCtrl]="Lead_Address"></validation-messages>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="Lead_PoBox">{{ l('PoBox') }}</label>
+                                                <input type="text" #Lead_PoBox="ngModel" id="Lead_PoBox" class="form-control"
+                                                       [(ngModel)]="lead.poBox" [placeholder]="l('PoBox')" name="PoBox"
+                                                       [disabled]="this.isReadOnlyMode"
+                                                       maxlength="100" />
+                                                <validation-messages [formCtrl]="Lead_PoBox"></validation-messages>
+                                            </div>
+                                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="Lead_Country">{{ l('Country') }}</label>
-                                            <p-dropdown #Lead_Country="ngModel" id="Lead_Country"
-                                                [ngModelOptions]="{standalone: true}" [options]="countries"
-                                                [(ngModel)]="lead.country" optionLabel="name"
-                                                placeholder="{{l('Country')}}" [showClear]="true" optionValue="name">
-                                            </p-dropdown>
-                                            <validation-messages [formCtrl]="Lead_Country"></validation-messages>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Lead_Country">{{ l('Country') }}</label>
+                                                    <p-dropdown #Lead_Country="ngModel" id="Lead_Country"
+                                                                [ngModelOptions]="{standalone: true}" [options]="countries"
+                                                                [(ngModel)]="lead.country" optionLabel="name"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                                placeholder="{{l('Country')}}" [showClear]="true" optionValue="name">
+                                                    </p-dropdown>
+                                                    <validation-messages [formCtrl]="Lead_Country"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Lead_City">{{ l('City') }}</label>
+                                                    <input type="text" #Lead_City="ngModel" id="Lead_City" class="form-control"
+                                                           [(ngModel)]="lead.city" [placeholder]="l('City')" name="City"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="100" />
+                                                    <validation-messages [formCtrl]="Lead_City"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Lead_State">{{ l('State') }}</label>
+                                                    <input type="text" #Lead_State="ngModel" id="Lead_State"
+                                                           class="form-control" [(ngModel)]="lead.state" [placeholder]="l('State')"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           name="State" maxlength="100" />
+                                                    <validation-messages [formCtrl]="Lead_State"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
+                                                    <input type="text" #Lead_ZipCode="ngModel" id="Lead_ZipCode"
+                                                           class="form-control" [(ngModel)]="lead.zipCode"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           [placeholder]="l('ZipCodeProvince')" name="ZipCode" maxlength="50" />
+                                                    <validation-messages [formCtrl]="Lead_ZipCode"></validation-messages>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="Lead_City">{{ l('City') }}</label>
-                                            <input type="text" #Lead_City="ngModel" id="Lead_City" class="form-control"
-                                                [(ngModel)]="lead.city" [placeholder]="l('City')" name="City"
-                                                maxlength="100" />
-                                            <validation-messages [formCtrl]="Lead_City"></validation-messages>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="Lead_State">{{ l('State') }}</label>
-                                            <input type="text" #Lead_State="ngModel" id="Lead_State"
-                                                class="form-control" [(ngModel)]="lead.state" [placeholder]="l('State')"
-                                                name="State" maxlength="100" />
-                                            <validation-messages [formCtrl]="Lead_State"></validation-messages>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
-                                            <input type="text" #Lead_ZipCode="ngModel" id="Lead_ZipCode"
-                                                class="form-control" [(ngModel)]="lead.zipCode"
-                                                [placeholder]="l('ZipCodeProvince')" name="ZipCode" maxlength="50" />
-                                            <validation-messages [formCtrl]="Lead_ZipCode"></validation-messages>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-id-card"></i>
-                                    {{ l('ContactDetails') }}
-                                </h3>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactName">{{ l('ContactName') }}</label>
-                                            <input type="text" #Lead_ContactName="ngModel" id="Lead_ContactName"
-                                                class="form-control" [(ngModel)]="lead.contactName"
-                                                [placeholder]="l('ContactName')" name="ContactName" required
-                                                maxlength="50" />
-                                            <validation-messages [formCtrl]="Lead_ContactName"></validation-messages>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-id-card"></i>
+                                            {{ l('ContactDetails') }}
+                                        </h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactName">{{ l('ContactName') }}</label>
+                                                    <input type="text" #Lead_ContactName="ngModel" id="Lead_ContactName"
+                                                           class="form-control" [(ngModel)]="lead.contactName"
+                                                           [placeholder]="l('ContactName')" name="ContactName" required
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="50" />
+                                                    <validation-messages [formCtrl]="Lead_ContactName"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactPosition">{{ l('ContactPosition') }}</label>
+                                                    <input type="text" #Lead_ContactPosition="ngModel" id="Lead_ContactPosition"
+                                                           class="form-control" [(ngModel)]="lead.contactPosition"
+                                                           [placeholder]="l('ContactPosition')" name="ContactPosition"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="50" />
+                                                    <validation-messages [formCtrl]="Lead_ContactPosition">
+                                                    </validation-messages>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactPosition">{{ l('ContactPosition') }}</label>
-                                            <input type="text" #Lead_ContactPosition="ngModel" id="Lead_ContactPosition"
-                                                class="form-control" [(ngModel)]="lead.contactPosition"
-                                                [placeholder]="l('ContactPosition')" name="ContactPosition"
-                                                maxlength="50" />
-                                            <validation-messages [formCtrl]="Lead_ContactPosition">
-                                            </validation-messages>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
-                                            <input id="Lead_ContactPhone" #Lead_ContactPhone="ngModel"
-                                                [(ngModel)]="lead.contactPhone" [placeholder]="l('ContactPhone')"
-                                                class="form-control" name="ContactPhone" type="tel" maxlength="15"
-                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
-                                            <div
-                                                *ngIf="!Lead_ContactPhone.valid && (Lead_ContactPhone.dirty || Lead_ContactPhone.touched)">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactPhone">{{ l('ContactPhone') }}</label>
+                                                    <input id="Lead_ContactPhone" #Lead_ContactPhone="ngModel"
+                                                           [(ngModel)]="lead.contactPhone" [placeholder]="l('ContactPhone')"
+                                                           class="form-control" name="ContactPhone" type="tel" maxlength="15"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                                    <div
+                                                        *ngIf="!Lead_ContactPhone.valid && (Lead_ContactPhone.dirty || Lead_ContactPhone.touched)">
                                                 <span class="form-text text-danger text-left">{{
                                                     'ContactPhone_Invalid' | localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension')
-                                                }}</label>
-                                            <input id="Lead_ContactPhoneExtension" #Lead_ContactPhoneExtension="ngModel"
-                                                [(ngModel)]="lead.contactPhoneExtension"
-                                                [placeholder]="l('ContactPhoneExtension')" 
-                                                name="ContactPhoneExtension"
-                                                type="tel" class="form-control" 
-                                                maxlength="5" 
-                                                pattern="\+?\d{1,5}$" />
-                                            <div
-                                                *ngIf="!Lead_ContactPhoneExtension.valid && (Lead_ContactPhoneExtension.dirty || Lead_ContactPhoneExtension.touched)">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactPhoneExtension">{{ l('ContactPhoneExtension')
+                                                        }}</label>
+                                                    <input id="Lead_ContactPhoneExtension" #Lead_ContactPhoneExtension="ngModel"
+                                                           [(ngModel)]="lead.contactPhoneExtension"
+                                                           [placeholder]="l('ContactPhoneExtension')"
+                                                           name="ContactPhoneExtension"
+                                                           type="tel" class="form-control"
+                                                           maxlength="5"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           pattern="\+?\d{1,5}$" />
+                                                    <div
+                                                        *ngIf="!Lead_ContactPhoneExtension.valid && (Lead_ContactPhoneExtension.dirty || Lead_ContactPhoneExtension.touched)">
                                                 <span class="form-text text-danger text-left">{{
                                                     'ContactPhoneExtension_Invalid' | localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
-                                            <input type="text" #Lead_ContactCellPhone="ngModel"
-                                                id="Lead_ContactCellPhone" class="form-control"
-                                                [(ngModel)]="lead.contactCellPhone"
-                                                [placeholder]="l('ContactCellPhone')" name="ContactCellPhone" type="tel"
-                                                maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
-                                            <div
-                                                *ngIf="!Lead_ContactCellPhone.valid && (Lead_ContactCellPhone.dirty || Lead_ContactCellPhone.touched)">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactCellPhone">{{ l('ContactCellPhone') }}</label>
+                                                    <input type="text" #Lead_ContactCellPhone="ngModel"
+                                                           id="Lead_ContactCellPhone" class="form-control"
+                                                           [(ngModel)]="lead.contactCellPhone"
+                                                           [placeholder]="l('ContactCellPhone')" name="ContactCellPhone" type="tel"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                                    <div
+                                                        *ngIf="!Lead_ContactCellPhone.valid && (Lead_ContactCellPhone.dirty || Lead_ContactCellPhone.touched)">
                                                 <span class="form-text text-danger text-left">{{
                                                     'ContactCellPhone_Invalid' | localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
-                                            <input type="text" #Lead_ContactFaxNumber="ngModel"
-                                                id="Lead_ContactFaxNumber" class="form-control"
-                                                [(ngModel)]="lead.contactFaxNumber"
-                                                [placeholder]="l('ContactFaxNumber')" name="ContactFaxNumber" type="tel"
-                                                maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
-                                            <div
-                                                *ngIf="!Lead_ContactFaxNumber.valid && (Lead_ContactFaxNumber.dirty || Lead_ContactFaxNumber.touched)">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactFaxNumber">{{ l('ContactFaxNumber') }}</label>
+                                                    <input type="text" #Lead_ContactFaxNumber="ngModel"
+                                                           id="Lead_ContactFaxNumber" class="form-control"
+                                                           [(ngModel)]="lead.contactFaxNumber"
+                                                           [placeholder]="l('ContactFaxNumber')" name="ContactFaxNumber" type="tel"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="15" pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                                    <div
+                                                        *ngIf="!Lead_ContactFaxNumber.valid && (Lead_ContactFaxNumber.dirty || Lead_ContactFaxNumber.touched)">
                                                 <span class="form-text text-danger text-left">{{
                                                     'ContactFaxNumber_Invalid' | localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
-                                            <input #Lead_PagerNumber="ngModel" class="form-control"
-                                                [(ngModel)]="lead.pagerNumber" [placeholder]="l('PagerNumber')"
-                                                name="PagerNumber" type="tel" maxlength="15"
-                                                pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
-                                            <div
-                                                *ngIf="!Lead_PagerNumber.valid && (Lead_PagerNumber.dirty || Lead_PagerNumber.touched)">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_PagerNumber">{{ l('PagerNumber') }}</label>
+                                                    <input #Lead_PagerNumber="ngModel" class="form-control"
+                                                           [(ngModel)]="lead.pagerNumber" [placeholder]="l('PagerNumber')"
+                                                           name="PagerNumber" type="tel" maxlength="15"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" />
+                                                    <div
+                                                        *ngIf="!Lead_PagerNumber.valid && (Lead_PagerNumber.dirty || Lead_PagerNumber.touched)">
                                                 <span class="form-text text-danger text-left">{{ 'PagerNumber_Invalid' |
                                                     localize }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
-                                            <input type="email" #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
-                                                class="form-control" [(ngModel)]="lead.contactEmail"
-                                                [placeholder]="l('ContactEmai l')" name="ContactEmail" email
-                                                maxlength="50" />
-                                            <validation-messages [formCtrl]="Lead_ContactEmail"></validation-messages>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="Lead_ContactEmail">{{ l('ContactEmail') }}</label>
+                                                    <input type="email" #Lead_ContactEmail="ngModel" id="Lead_ContactEmail"
+                                                           class="form-control" [(ngModel)]="lead.contactEmail"
+                                                           [placeholder]="l('ContactEmai l')" name="ContactEmail" email
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="50" />
+                                                    <validation-messages [formCtrl]="Lead_ContactEmail"></validation-messages>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-clipboard"></i>
-                                    {{ l('LeadDetails') }}
-                                </h3>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i class="fa fa-clipboard"></i>
+                                            {{ l('LeadDetails') }}
+                                        </h3>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group m-form__group">
-                                            <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
-                                            <select #Lead_Status name="lead.leadStatusId"
-                                                [(ngModel)]="lead.leadStatusId" class="form-control">
-                                                <option value="">{{ l('SelectALeadStatus') }}</option>
-                                                <option *ngFor="let item of allLeadStatuss" value="{{ item.id }}">
-                                                    {{ item.displayName }}
-                                                </option>
-                                            </select>
-                                            <validation-messages [formCtrl]="Lead_Status"></validation-messages>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group m-form__group">
+                                                    <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
+                                                    <select #Lead_Status name="lead.leadStatusId"
+                                                            [disabled]="this.isReadOnlyMode"
+                                                            [(ngModel)]="lead.leadStatusId" class="form-control">
+                                                        <option value="">{{ l('SelectALeadStatus') }}</option>
+                                                        <option *ngFor="let item of allLeadStatuss" value="{{ item.id }}">
+                                                            {{ item.displayName }}
+                                                        </option>
+                                                    </select>
+                                                    <validation-messages [formCtrl]="Lead_Status"></validation-messages>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group m-form__group">
+                                                    <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
+                                                    <select name="lead.leadSourceId" [(ngModel)]="lead.leadSourceId"
+                                                            [disabled]="this.isReadOnlyMode"
+                                                            class="form-control">
+                                                        <option value="">{{ l('SelectALeadSource') }}</option>
+                                                        <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
+                                                            {{ item.displayName }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group m-form__group">
+                                                    <label for="PriorityDescription">{{ l('Priority') }}</label>
+                                                    <select name="lead.priorityId" [(ngModel)]="lead.priorityId"
+                                                            [disabled]="this.isReadOnlyMode"
+                                                            class="form-control">
+                                                        <option value="">{{ l('SelectAPriority') }}</option>
+                                                        <option *ngFor="let item of allPrioritys" value="{{ item.id }}">
+                                                            {{ item.displayName }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group m-form__group">
-                                            <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
-                                            <select name="lead.leadSourceId" [(ngModel)]="lead.leadSourceId"
-                                                class="form-control">
-                                                <option value="">{{ l('SelectALeadSource') }}</option>
-                                                <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
-                                                    {{ item.displayName }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group m-form__group">
-                                            <label for="PriorityDescription">{{ l('Priority') }}</label>
-                                            <select name="lead.priorityId" [(ngModel)]="lead.priorityId"
-                                                class="form-control">
-                                                <option value="">{{ l('SelectAPriority') }}</option>
-                                                <option *ngFor="let item of allPrioritys" value="{{ item.id }}">
-                                                    {{ item.displayName }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <label for="Lead_Notes">{{ l('EnterNotes') }}</label>
-                                        <textarea class="form-control" #Lead_Notes="ngModel" [(ngModel)]="lead.notes"
-                                            [placeholder]="l('EnterNotes')" name="Notes" id="Lead_Notes"
-                                            rows="10"></textarea>
-                                        <validation-messages [formCtrl]="Lead_Notes"></validation-messages>
-                                    </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <label for="Lead_Notes">{{ l('EnterNotes') }}</label>
+                                                <textarea class="form-control" #Lead_Notes="ngModel" [(ngModel)]="lead.notes"
+                                                          [disabled]="this.isReadOnlyMode"
+                                                          [placeholder]="l('EnterNotes')" name="Notes" id="Lead_Notes"
+                                                          rows="10"></textarea>
+                                                <validation-messages [formCtrl]="Lead_Notes"></validation-messages>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- TODO:THIS SHOULD BE A WIDGETS COMPONENT -->
-                <div class="col-sm-12">
-                    <div class="card card-custom gutter-b">
-                        <div class="card-body">
-                            <div class="card card-custom gutter-b">
-                                <div class="card-body">Widget 1</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card card-custom gutter-b">
-                                <div class="card-body">Widget 2</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card card-custom gutter-b">
-                                <div class="card-body">Widget 3</div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </tab>
+                <tab heading="{{ 'Events' | localize }}" [disabled]="this.isNew">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <entityTypeHistory [requiredPermission]="'Pages.Leads.ViewEvents'" #entityTypeHistory></entityTypeHistory>
+                                    <div *ngIf="!showEventsTab">
+                                        {{ l('UserDontHavePermission') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+        <div class="row" *ngIf="this.lead.id">
+            <div class="col-sm-12 col-lg-6">
+                <app-assigned-user
+                    [componentType]="'Lead'"
+                    [idToStore]="this.lead.id">
+                </app-assigned-user>
             </div>
         </div>
     </div>

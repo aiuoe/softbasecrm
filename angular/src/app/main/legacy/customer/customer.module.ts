@@ -9,6 +9,7 @@ import {
     AccountTypesServiceProxy,
     CountriesServiceProxy,
     LeadUsersServiceProxy,
+    OpportunityUsersServiceProxy,
     ZipCodesServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { MultiSelectModule } from '@node_modules/primeng/multiselect';
@@ -21,7 +22,8 @@ import { CustomerContactsModule } from '@app/main/legacy/customerContacts/custom
         AccountTypesServiceProxy,
         ZipCodesServiceProxy,
         CountriesServiceProxy,
-        LeadUsersServiceProxy 
+        LeadUsersServiceProxy,
+        OpportunityUsersServiceProxy
     ],
     declarations: [
         CustomersComponent,
