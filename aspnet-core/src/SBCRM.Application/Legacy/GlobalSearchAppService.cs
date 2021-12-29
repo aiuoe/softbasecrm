@@ -53,6 +53,7 @@ namespace SBCRM.Legacy
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Account == globalSearchCategory)
                     .Select(x => new GetGlobalSearchItemDto
                     {
+                        Number =Convert.ToString(x.Number),
                         Name = Convert.ToString(x.Name),
                         Type = Convert.ToString(L("Customer"))
                     });
@@ -62,6 +63,7 @@ namespace SBCRM.Legacy
                     //.WhereIf(hasRestrictedAccountPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
                     .Select(x => new GetGlobalSearchItemDto
                     {
+                        Number = Convert.ToString(x.Id),
                         Name = Convert.ToString(x.CompanyName),
                         Type = Convert.ToString(L("Lead"))
                     });
@@ -88,6 +90,7 @@ namespace SBCRM.Legacy
                 foreach (var row in dbList)
                 {
                     var globalSearchItem = new GetGlobalSearchItemDto();
+                    globalSearchItem.Number = row.Number;
                     globalSearchItem.Name = row.Name;
                     globalSearchItem.Type = row.Type;
                     results.Add(globalSearchItem);

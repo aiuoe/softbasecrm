@@ -32365,6 +32365,8 @@ export interface IGetGeneralStatsOutput {
 }
 
 export class GetGlobalSearchItemDto implements IGetGlobalSearchItemDto {
+
+    number!: string |undefined;
     name!: string | undefined;
     type!: string | undefined;
 
@@ -32379,6 +32381,7 @@ export class GetGlobalSearchItemDto implements IGetGlobalSearchItemDto {
 
     init(_data?: any) {
         if (_data) {
+            this.number=_data["number"];
             this.name = _data["name"];
             this.type = _data["type"];
         }
@@ -32393,6 +32396,7 @@ export class GetGlobalSearchItemDto implements IGetGlobalSearchItemDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
         data["name"] = this.name;
         data["type"] = this.type;
         return data; 
@@ -32400,6 +32404,7 @@ export class GetGlobalSearchItemDto implements IGetGlobalSearchItemDto {
 }
 
 export interface IGetGlobalSearchItemDto {
+    number:string|undefined;
     name: string | undefined;
     type: string | undefined;
 }

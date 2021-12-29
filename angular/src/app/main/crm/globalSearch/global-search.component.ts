@@ -46,6 +46,7 @@ export class GlobalSearchComponent extends AppComponentBase implements OnInit {
      */
     ngOnInit(): void {
         this.textFilter = this._activatedRoute.snapshot.queryParams['filter'];
+        this.paginator.rows = 10;
 
         this.types = [];
         this.types.push({ id: GlobalSearchCategory.All, name: this.l('All')});

@@ -207,7 +207,7 @@ import { RouterModule } from '@angular/router';
                     {
                         path: 'global-search',
                         loadChildren: () => import('./crm/globalSearch/global-search.module').then((m) => m.GlobalSearchModule),
-                        data: { permission: 'Pages.Customer' },
+                        data: { permission: 'Pages.GlobalSearch.View' },
                     },
 
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

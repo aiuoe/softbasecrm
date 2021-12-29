@@ -84,7 +84,9 @@
             >
                 <div class="{{ containerClass }} d-flex align-items-stretch justify-content-between">
                     <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-                        <div class="mt-4">
+                        <div
+                             *ngIf="isGranted('Pages.GlobalSearch.View')" 
+                             class="mt-4">
                             <div class="col-xl-12">
                                 <form class="form" autocomplete="off">
                                     <div class="form-group m-form__group align-items-center">
