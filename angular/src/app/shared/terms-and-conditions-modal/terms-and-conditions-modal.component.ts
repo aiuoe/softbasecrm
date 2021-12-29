@@ -31,11 +31,11 @@ export class TermsAndConditionsModalComponent {
    * conditions, will send an update to accept them.
    */
   close(): void {
-    if (this._sessionService.user
-      && !this._sessionService.user.hasAcceptedTermsAndConditions) {
-      this._userServiceProxy.acceptTermsAndConditions()
-      .subscribe((_) => _);
-    }
+    // if (this._sessionService.user
+    //   && !this._sessionService.user.hasAcceptedTermsAndConditions) {
+    //   this._userServiceProxy.acceptTermsAndConditions()
+    //   .subscribe((_) => _);
+    // }
     this.modal.hide();
   }
 

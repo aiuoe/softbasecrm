@@ -38,7 +38,7 @@ export class AppComponent extends AppComponentBase implements OnInit {
     isQuickThemeSelectEnabled: boolean = this.setting.getBoolean('App.UserManagement.IsQuickThemeSelectEnabled');
     IsSessionTimeOutEnabled: boolean =
         this.setting.getBoolean('App.UserManagement.SessionTimeOut.IsEnabled') && this.appSession.userId != null;
-    @ViewChild('termsModal', { static: true }) termsModal: ModalDirective;
+    
     public constructor(
         injector: Injector,
         private _chatSignalrService: ChatSignalrService,
@@ -60,10 +60,6 @@ export class AppComponent extends AppComponentBase implements OnInit {
             SignalRHelper.initSignalR(() => {
                 this._chatSignalrService.init();
             });
-        }
-        if (this._sessionService.user
-            && !this._sessionService.user.hasAcceptedTermsAndConditions) {
-            this.termsModal.show();
         }
     }
 
