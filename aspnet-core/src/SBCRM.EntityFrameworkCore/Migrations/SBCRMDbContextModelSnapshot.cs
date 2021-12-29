@@ -2479,9 +2479,6 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("Probability")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ContactId");
@@ -2590,11 +2587,6 @@ namespace SBCRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -4583,7 +4575,7 @@ namespace SBCRM.Migrations
             modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
                 {
                     b.HasOne("SBCRM.Crm.Lead", "LeadFk")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("LeadId");
 
                     b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
@@ -4779,11 +4771,6 @@ namespace SBCRM.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.Lead", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>

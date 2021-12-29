@@ -52,22 +52,6 @@
                         </label>
                         <validation-messages [formCtrl]="Priority_IsDefault"></validation-messages>
                     </div>
-
-                    <div class="form-group">
-                        <label for="Priority_Color">{{ l('Color') }} *</label>
-                        <input
-                            type="text"
-                            #Priority_Color="ngModel"
-                            id="Priority_Color"
-                            class="form-control"
-                            [(ngModel)]="priority.color"
-                            name="Color"
-                            minlength="1"
-                            maxlength="10"
-                            required
-                        />
-                        <validation-messages [formCtrl]="Priority_Color"></validation-messages>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

@@ -11,9 +11,7 @@ import {
     PrioritiesServiceProxy,
     PagedResultDtoOfGetPriorityForViewDto,
     LeadLeadStatusLookupTableDto,
-    LeadPriorityLookupTableDto,
-    GetCustomerForViewDto,
-    LeadUserUserLookupTableDto
+    LeadPriorityLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -29,9 +27,6 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { HttpClient } from '@angular/common/http';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
-import { LocalStorageService } from '@shared/utils/local-storage.service';
-import { AppConsts } from '@shared/AppConsts';
-import { forkJoin, Observable } from 'rxjs';
 
 /***
  * Component to manage the leads summary grid
@@ -59,11 +54,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     selectedPriorities: LeadPriorityLookupTableDto[];
     allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
     
-    allUsers: LeadUserUserLookupTableDto[];   
-    selectedUsers: LeadUserUserLookupTableDto[];
-    noAssignedUsersOption: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto;
-    defaultUser: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto
-
     advancedFiltersAreShown = false;
     filterText = '';
     companyOrContactNameFilter = '';
@@ -114,7 +104,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * @param _dateTimeService
      * @param http
      * @param _tokenService
-     * @param _localStorageService
      */
     constructor(
         injector: Injector,
@@ -128,8 +117,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         private _router: Router,
         private _dateTimeService: DateTimeService,
         private http: HttpClient,
-        private _tokenService: TokenService,
-        private _localStorageService: LocalStorageService
+        private _tokenService: TokenService
     ) {
         super(injector);
     }
@@ -138,7 +126,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     * Initialize component
     */
     ngOnInit(){
-
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
@@ -156,27 +143,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             this.allPrioritiesFilter.displayName = "All";
             this.priorities.unshift(this.allPrioritiesFilter);  
         });
-
-        this._leadsServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
-            this.allUsers = result;    
-            this.noAssignedUsersOption.id = -1;
-            this.noAssignedUsersOption.displayName = "None"   
-            this.allUsers.unshift(this.noAssignedUsersOption);
-        });
     }
-
-    /***
-     * Get leads by company or contact filter changed
-     * @param event
-     */
-    getCustomerByCompanyOrContactNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 2;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
-            this.getLeads();
-        }
-    }
-
 
     /***
     * Get leads on page load/filter changes
@@ -188,7 +155,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             return;
         }
 
-        this.primengTableHelper.showLoadingIndicator();          
+        this.primengTableHelper.showLoadingIndicator();
 
         this._leadsServiceProxy
             .getAll(
@@ -217,7 +184,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
-                this.selectedUsers?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -282,7 +248,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
                 this.priorityDescriptionFilter,
                 this.selectedLeadStatus?.id,
                 this.selectedPriority?.id,
-                this.selectedUsers?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
@@ -309,29 +274,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     showModalDialog() {
         this.importLeadsModalComponent.show();
-    }
-
-    /***
-     * Set user image profile reference
-     * @param users
-     */
-     setUsersProfilePictureUrl(users: GetCustomerForViewDto[]): void {
-        for (let i = 0; i < users.length; i++) {
-            let user = users[i];
-            if (user.firstUserAssignedId) {
-                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
-                    let profilePictureUrl =
-                        AppConsts.remoteServiceBaseUrl +
-                        '/Profile/GetProfilePictureByUser?userId=' +
-                        user.firstUserAssignedId +
-                        '&' +
-                        AppConsts.authorization.encrptedAuthTokenName +
-                        '=' +
-                        encodeURIComponent(value.token);
-                    (user as any).profilePictureUrl = profilePictureUrl;
-                });
-            }
-        }
     }
 
     /***

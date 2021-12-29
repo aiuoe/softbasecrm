@@ -16,9 +16,5 @@ namespace SBCRM.Crm
 
         public virtual bool IsDefault { get; set; }
 
-        [Required]
-        [StringLength(PriorityConsts.MaxColorLength, MinimumLength = PriorityConsts.MinColorLength)]
-        public virtual string Color { get; set; }
-
     }
 }

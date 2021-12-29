@@ -116,9 +116,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
-            leads.CreateChildPermission(AppPermissions.Pages_Leads_ViewAssignedUserFilter, L("LeadViewAssignedUserFilter"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
-            leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
 
             var industries = pages.CreateChildPermission(AppPermissions.Pages_Industries, L("Industries"));
             industries.CreateChildPermission(AppPermissions.Pages_Industries_Create, L("CreateNewIndustry"));
