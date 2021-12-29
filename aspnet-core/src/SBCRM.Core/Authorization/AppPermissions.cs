@@ -56,6 +56,7 @@
         public const string Pages_Opportunities_Create = "Pages.Opportunities.Create";
         public const string Pages_Opportunities_Edit = "Pages.Opportunities.Edit";
         public const string Pages_Opportunities_Delete = "Pages.Opportunities.Delete";
+        public const string Pages_Opportunities_ViewAssignedUserFilter = "Pages.Opportunities.ViewAssignedUserFilter";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
