@@ -19,7 +19,7 @@ export class AppNavigationService {
                 'flaticon-line-graph',
                 '/app/admin/hostDashboard'
             ),
-            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard',['/app/main/dashboard']),
+            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'fas fa-chart-pie', '/app/main/dashboard', ['/app/main/dashboard']),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants', ['/app/admin/tenants']),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions', ['/app/admin/editions']),
             new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/', ['/app/main/business/accounts']),
