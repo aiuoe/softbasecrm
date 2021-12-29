@@ -26,6 +26,7 @@ namespace SBCRM.Crm
         private readonly IRepository<Activity, long> _activityRepository;
         private readonly IActivitiesExcelExporter _activitiesExcelExporter;
         private readonly IRepository<Opportunity, int> _lookupOpportunityRepository;
+        private readonly IRepository<OpportunityUser, int> _lookupOpportunityUserRepository;
         private readonly IRepository<Lead, int> _lookupLeadRepository;
         private readonly IRepository<LeadUser, int> _lookupLeadUserRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
@@ -34,6 +35,7 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityStatus, int> _lookupActivityStatusRepository;
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
+        private readonly IRepository<AccountUser, int> _lookupAccountUserRepository;
 
         /// <summary>
         /// The constructor method
@@ -41,6 +43,7 @@ namespace SBCRM.Crm
         /// <param name="activityRepository"></param>
         /// <param name="activitiesExcelExporter"></param>
         /// <param name="lookupOpportunityRepository"></param>
+        /// <param name="lookupOpportunityUserRepository"></param>
         /// <param name="lookupLeadRepository"></param>
         /// <param name="lookupLeadUserRepository"></param>
         /// <param name="lookupUserRepository"></param>
@@ -49,10 +52,12 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityStatusRepository"></param>
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
+        /// <param name="lookupAccountUserRepository"></param>
         public ActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IActivitiesExcelExporter activitiesExcelExporter,
             IRepository<Opportunity, int> lookupOpportunityRepository,
+            IRepository<OpportunityUser, int> lookupOpportunityUserRepository,
             IRepository<Lead, int> lookupLeadRepository,
             IRepository<LeadUser, int> lookupLeadUserRepository,
             IRepository<User, long> lookupUserRepository,
@@ -60,11 +65,13 @@ namespace SBCRM.Crm
             IRepository<ActivityTaskType, int> lookupActivityTaskTypeRepository,
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
-            IRepository<Customer, int> lookupCustomerRepository)
+            IRepository<Customer, int> lookupCustomerRepository,
+            IRepository<AccountUser, int> lookupAccountUserRepository)
         {
             _activityRepository = activityRepository;
             _activitiesExcelExporter = activitiesExcelExporter;
             _lookupOpportunityRepository = lookupOpportunityRepository;
+            _lookupOpportunityUserRepository = lookupOpportunityUserRepository;
             _lookupLeadRepository = lookupLeadRepository;
             _lookupLeadUserRepository = lookupLeadUserRepository;
             _lookupUserRepository = lookupUserRepository;
@@ -73,6 +80,7 @@ namespace SBCRM.Crm
             _lookupActivityStatusRepository = lookupActivityStatusRepository;
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
+            _lookupAccountUserRepository = lookupAccountUserRepository;
         }
 
         /// <summary>
@@ -132,6 +140,7 @@ namespace SBCRM.Crm
                                  activity.DueDate,
                                  activity.StartsAt,
                                  User = user,
+                                 SourceTypeEnumValue = sourceType.EnumValue,
                                  UserName = user != null ? user.Name + " " + user.Surname : string.Empty,
                                  ActivitySourceTypeDescription = sourceType != null ? sourceType.Description : string.Empty,
                                  ActivityTaskTypeDescription = type != null ? type.Description : string.Empty,
@@ -181,7 +190,8 @@ namespace SBCRM.Crm
                     ActivityStatusColor = o.ActivityStatusColor,
                     ActivityPriorityDescription = o.ActivityPriorityDescription,
                     ActivityPriorityColor = o.ActivityPriorityColor,
-                    CompanyName = o.CompanyName
+                    CompanyName = o.CompanyName,
+                    SourceTypeEnumValue = o.SourceTypeEnumValue,
                 };
 
                 results.Add(res);
@@ -216,23 +226,23 @@ namespace SBCRM.Crm
                 output.LeadCompanyName = _lookupLead?.CompanyName?.ToString();
             }
 
-            var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
-            output.UserName = _lookupUser?.Name?.ToString();
+            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
+            output.UserName = lookupUser?.Name?.ToString();
 
-            var _lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
-            output.ActivitySourceTypeDescription = _lookupActivitySourceType?.Description?.ToString();
+            var lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
+            output.ActivitySourceTypeDescription = lookupActivitySourceType?.Description?.ToString();
 
-            var _lookupActivityTaskType = await _lookupActivityTaskTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivityTaskTypeId);
-            output.ActivityTaskTypeDescription = _lookupActivityTaskType?.Description?.ToString();
+            var lookupActivityTaskType = await _lookupActivityTaskTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivityTaskTypeId);
+            output.ActivityTaskTypeDescription = lookupActivityTaskType?.Description?.ToString();
 
-            var _lookupActivityStatus = await _lookupActivityStatusRepository.FirstOrDefaultAsync((int)output.Activity.ActivityStatusId);
-            output.ActivityStatusDescription = _lookupActivityStatus?.Description?.ToString();
+            var lookupActivityStatus = await _lookupActivityStatusRepository.FirstOrDefaultAsync((int)output.Activity.ActivityStatusId);
+            output.ActivityStatusDescription = lookupActivityStatus?.Description?.ToString();
 
-            var _lookupActivityPriority = await _lookupActivityPriorityRepository.FirstOrDefaultAsync((int)output.Activity.ActivityPriorityId);
-            output.ActivityPriorityDescription = _lookupActivityPriority?.Description?.ToString();
+            var lookupActivityPriority = await _lookupActivityPriorityRepository.FirstOrDefaultAsync((int)output.Activity.ActivityPriorityId);
+            output.ActivityPriorityDescription = lookupActivityPriority?.Description?.ToString();
 
-            var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(x => x.Number == output.Activity.CustomerNumber);
-            output.CustomerName = _lookupCustomer?.Name?.ToString();
+            var lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(x => x.Number == output.Activity.CustomerNumber);
+            output.CustomerName = lookupCustomer?.Name?.ToString();
 
             return output;
         }
@@ -438,7 +448,21 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown()
         {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+
+            var userCustomers = new List<string>();
+
+            if (!canAssignOthers)
+            {
+                userCustomers = await _lookupAccountUserRepository.GetAll()
+                    .Where(x => x.UserId == currentUser.Id)
+                    .Select(x => x.CustomerNumber)
+                    .ToListAsync();
+            }
+
             return await _lookupCustomerRepository.GetAll()
+                .Where(x => canAssignOthers || userCustomers.Any(cn => cn == x.Number))
                 .Select(account => new ActivityCustomerLookupTableDto
                 {
                     Number = account.Number,
@@ -474,7 +498,21 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown()
         {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+
+            var userOpportunities = new List<int>();
+
+            if (!canAssignOthers)
+            {
+                userOpportunities = await _lookupOpportunityUserRepository.GetAll()
+                    .Where(x => x.UserId == currentUser.Id)
+                    .Select(x => x.OpportunityId)
+                    .ToListAsync();
+            }
+
             return await _lookupOpportunityRepository.GetAll()
+                .Where(x => canAssignOthers || userOpportunities.Any(id => id == x.Id))
                 .Select(opportunity => new ActivityOpportunityLookupTableDto
                 {
                     Id = opportunity.Id,

@@ -39,7 +39,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     activity: CreateOrEditActivityDto = new CreateOrEditActivityDto();
 
     opportunityCustomerNumber: string = '';
-    selectedDate: string = '';
+    selectedDate: Date = new Date();
     selectedTime: string = '';
 
     allLeads: ActivityLeadLookupTableDto[];
@@ -67,7 +67,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     /**
      * Show the form dialog
      */
-    show(sourceType: ActivitySourceType, activityId?: number): void {
+    async show(sourceType: ActivitySourceType, activityId?: number): Promise<void> {
         this.sourceType = sourceType;
 
         const isCreate = !activityId;
@@ -84,12 +84,20 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             this.active = true;
             this.modal.show();
         } else {
-            this._activitiesServiceProxy.getActivityForEdit(activityId).subscribe((result) => {
-                this.activity = result.activity;
+            await this._activitiesServiceProxy
+                .getActivityForEdit(activityId)
+                .toPromise()
+                .then((result) => {
+                    this.activity = result.activity;
 
-                this.active = true;
-                this.modal.show();
-            });
+                    const { dueDate } = result.activity;
+
+                    this.selectedDate = dueDate.toJSDate();
+                    this.selectedTime = dueDate.toFormat('hh:mm a');
+
+                    this.active = true;
+                    this.modal.show();
+                });
         }
 
         switch (sourceType) {
@@ -106,6 +114,10 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             case ActivitySourceType.Opportunity:
                 this._activitiesServiceProxy.getAllOpportunityForTableDropdown().subscribe((result) => {
                     this.allOpportunities = result;
+
+                    this.opportunityCustomerNumber = result.find(
+                        (x) => x.id == this.activity.opportunityId
+                    )?.customerNumber;
                 });
 
                 this._activitiesServiceProxy.getAllAccountRelatedToOpportunityForTableDropdown().subscribe((result) => {
@@ -152,16 +164,19 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
 
     processDataModel(): void {
         const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
-        console.log(selectedActivityType);
 
         this.activity.taskName = selectedActivityType.displayName;
 
-        const time = DateTime.fromFormat(this.selectedTime, 'hh:mm a');
+        this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
 
-        this.activity.dueDate = DateTime.fromISO(this.selectedDate).set({
-            hour: time.hour,
-            minute: time.minute,
-        });
+        if (!this.isReminder) {
+            const time = DateTime.fromFormat(this.selectedTime, 'hh:mm a');
+
+            this.activity.dueDate = this.activity.dueDate.set({
+                hour: time.hour,
+                minute: time.minute,
+            });
+        }
 
         this.activity.startsAt = this.activity.dueDate;
     }
@@ -225,7 +240,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     get isReminder(): boolean {
         const id = this.activity.activityTaskTypeId;
 
-        if (!id) {
+        if (!id || !this.allActivityTaskTypes || this.allActivityTaskTypes.length === 0) {
             return false;
         }
 

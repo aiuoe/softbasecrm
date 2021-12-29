@@ -35,7 +35,7 @@
                                         <option class="font-italic font-weight-light">
                                             {{ l('SelectALead') }}
                                         </option>
-                                        <option *ngFor="let item of allLeads" value="{{ item.id }}">
+                                        <option *ngFor="let item of allLeads" [ngValue]="item.id">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
@@ -54,7 +54,7 @@
                                         <option class="font-italic font-weight-light">
                                             {{ l('SelectAnAccount') }}
                                         </option>
-                                        <option *ngFor="let item of allAccounts" value="{{ item.number }}">
+                                        <option *ngFor="let item of allAccounts" [ngValue]="item.number">
                                             {{ item.name }}
                                         </option>
                                     </select>
@@ -74,7 +74,7 @@
                                             <option class="font-italic font-weight-light">
                                                 {{ l('SelectACustomer') }}
                                             </option>
-                                            <option *ngFor="let item of allAccounts" value="{{ item.number }}">
+                                            <option *ngFor="let item of allAccounts" [ngValue]="item.number">
                                                 {{ item.name }}
                                             </option>
                                         </select>
@@ -93,7 +93,7 @@
                                             <option class="font-italic font-weight-light">
                                                 {{ l('SelectAOpportunity') }}
                                             </option>
-                                            <option *ngFor="let item of getFilteredOpportunities" value="{{ item.id }}">
+                                            <option *ngFor="let item of getFilteredOpportunities" [ngValue]="item.id">
                                                 {{ item.displayName }}
                                             </option>
                                         </select>
@@ -114,7 +114,7 @@
                                         <option class="font-italic font-weight-light">
                                             {{ l('SelectAUser') }}
                                         </option>
-                                        <option *ngFor="let item of allUsers" value="{{ item.id }}">
+                                        <option *ngFor="let item of allUsers" [ngValue]="item.id">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
@@ -130,7 +130,7 @@
                                         class="form-control"
                                         required
                                     >
-                                        <option *ngFor="let item of allActivityTaskTypes" value="{{ item.id }}">
+                                        <option *ngFor="let item of allActivityTaskTypes" [ngValue]="item.id">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
@@ -146,8 +146,7 @@
                                         #Activity_DueDate
                                         type="datetime"
                                         bsDatepicker
-                                        datePickerLuxonModifier
-                                        [(date)]="selectedDate"
+                                        [(ngModel)]="selectedDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
                                     />
@@ -184,7 +183,7 @@
                                             class="form-control"
                                             required
                                         >
-                                            <option *ngFor="let item of durationItems" value="{{ item.value }}">
+                                            <option *ngFor="let item of durationItems" [ngValue]="item.value">
                                                 {{ item.text }}
                                             </option>
                                         </select>
@@ -201,7 +200,7 @@
                                         class="form-control"
                                         required
                                     >
-                                        <option *ngFor="let item of allActivityStatuses" value="{{ item.id }}">
+                                        <option *ngFor="let item of allActivityStatuses" [ngValue]="item.id">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
@@ -217,7 +216,7 @@
                                         class="form-control"
                                         required
                                     >
-                                        <option *ngFor="let item of allActivityPriorities" value="{{ item.id }}">
+                                        <option *ngFor="let item of allActivityPriorities" [ngValue]="item.id">
                                             {{ item.displayName }}
                                         </option>
                                     </select>

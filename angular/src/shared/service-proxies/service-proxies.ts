@@ -31772,6 +31772,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
     activityPriorityDescription!: string | undefined;
     activityPriorityColor!: string | undefined;
     customerName!: string | undefined;
+    sourceTypeEnumValue!: number;
 
     constructor(data?: IGetActivityForViewDto) {
         if (data) {
@@ -31796,6 +31797,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
             this.activityPriorityDescription = _data["activityPriorityDescription"];
             this.activityPriorityColor = _data["activityPriorityColor"];
             this.customerName = _data["customerName"];
+            this.sourceTypeEnumValue = _data["sourceTypeEnumValue"];
         }
     }
 
@@ -31820,6 +31822,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
         data["activityPriorityDescription"] = this.activityPriorityDescription;
         data["activityPriorityColor"] = this.activityPriorityColor;
         data["customerName"] = this.customerName;
+        data["sourceTypeEnumValue"] = this.sourceTypeEnumValue;
         return data; 
     }
 }
@@ -31837,6 +31840,7 @@ export interface IGetActivityForViewDto {
     activityPriorityDescription: string | undefined;
     activityPriorityColor: string | undefined;
     customerName: string | undefined;
+    sourceTypeEnumValue: number;
 }
 
 export class GetActivityPriorityForEditOutput implements IGetActivityPriorityForEditOutput {

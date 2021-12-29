@@ -28,5 +28,7 @@
         public string ActivityPriorityColor { get; set; }
 
         public string CustomerName { get; set; }
+
+        public int SourceTypeEnumValue { get; set; }
     }
 }
