@@ -76,10 +76,6 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
             case 'Opportunity':
                 this.getAllUsersForOpportunityModule();
                 break;
-
-            default:
-                this.getAllUserForLeadsModule();
-                break;
         }
     }
 

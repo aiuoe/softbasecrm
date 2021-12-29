@@ -110,10 +110,6 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             case 'Opportunity':
                 this.getOpportunityUsers(event);
                 break;
-
-            default:
-                this.getLeadUsers(event);
-                break;
         }
     }
 
