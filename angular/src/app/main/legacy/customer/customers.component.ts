@@ -18,6 +18,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { AppConsts } from '@shared/AppConsts';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { last } from '@node_modules/rxjs/internal/operators';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -114,6 +115,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
             )
+            .pipe(last())
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;

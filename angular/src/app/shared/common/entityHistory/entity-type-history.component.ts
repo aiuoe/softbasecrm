@@ -4,7 +4,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import {
     AuditLogServiceProxy,
     CustomerServiceProxy,
-    EntityChangeListDto
+    EntityChangeListDto, LeadsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
@@ -44,10 +44,12 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
      * @param injector
      * @param _auditLogService
      * @param _customerServiceProxy
+     * @param _leadServiceProxy
      */
     constructor(injector: Injector,
                 private _auditLogService: AuditLogServiceProxy,
-                private _customerServiceProxy: CustomerServiceProxy) {
+                private _customerServiceProxy: CustomerServiceProxy,
+                private _leadServiceProxy: LeadsServiceProxy) {
         super(injector);
     }
 
@@ -113,6 +115,21 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
                             this.primengTableHelper.hideLoadingIndicator();
                         });
                     break;
+                case 'Lead':
+                    this._leadServiceProxy
+                        .getEntityTypeChanges(
+                            '',
+                            this.options.entityId,
+                            this.primengTableHelper.getSorting(this.dataTable),
+                            this.primengTableHelper.getMaxResultCount(this.paginator, event),
+                            this.primengTableHelper.getSkipCount(this.paginator, event)
+                        )
+                        .pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator()))
+                        .subscribe((result) => {
+                            this.primengTableHelper.totalRecordsCount = result.totalCount;
+                            this.primengTableHelper.records = result.items;
+                            this.primengTableHelper.hideLoadingIndicator();
+                        });
             }
         }
     }

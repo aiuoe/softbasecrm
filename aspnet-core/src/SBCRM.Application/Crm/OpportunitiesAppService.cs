@@ -309,6 +309,11 @@ namespace SBCRM.Crm
         {
             var opportunity = ObjectMapper.Map<Opportunity>(input);
 
+            if (AbpSession.TenantId != null)
+            {
+                opportunity.TenantId = AbpSession.TenantId;
+            }
+
             await _opportunityRepository.InsertAsync(opportunity);
 
             await _auditEventsService.AddEvent(AuditEventDto.ForCreate(

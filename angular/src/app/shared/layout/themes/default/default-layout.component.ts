@@ -7,14 +7,11 @@ import { OffcanvasOptions } from '@metronic/app/core/_base/layout/directives/off
 import { AppConsts } from '@shared/AppConsts';
 import { ToggleOptions } from '@metronic/app/core/_base/layout/directives/toggle.directive';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { Router } from '@angular/router';
-import { DataService } from '@app/shared/common/crm/services/data.service';
 
 @Component({
     templateUrl: './default-layout.component.html',
     selector: 'default-layout',
     animations: [appModuleAnimation()],
-    providers: [DataService]
 })
 export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements OnInit {
     menuCanvasOptions: OffcanvasOptions = {
@@ -31,23 +28,12 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
     };
 
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
-    globalSearchFilter: string;
 
-    constructor(
-        injector: Injector,
-        @Inject(DOCUMENT) private document: Document,
-        _dateTimeService: DateTimeService,
-        private _router: Router,
-        private _dataService: DataService) {
+    constructor(injector: Injector, @Inject(DOCUMENT) private document: Document, _dateTimeService: DateTimeService) {
         super(injector, _dateTimeService);
     }
 
     ngOnInit() {
         this.installationMode = UrlHelper.isInstallUrl(location.href);
-    }
-
-    globalSearch() {
-        this._router.navigate(['/app/main/global-search'], { queryParams: { filter: this.globalSearchFilter }});
-        this._dataService.updatedGlobalSearch(this.globalSearchFilter);
     }
 }

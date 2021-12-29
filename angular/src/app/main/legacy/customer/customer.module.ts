@@ -21,7 +21,7 @@ import { CustomerContactsModule } from '@app/main/legacy/customerContacts/custom
         AccountTypesServiceProxy,
         ZipCodesServiceProxy,
         CountriesServiceProxy,
-        LeadUsersServiceProxy 
+        LeadUsersServiceProxy
     ],
     declarations: [
         CustomersComponent,

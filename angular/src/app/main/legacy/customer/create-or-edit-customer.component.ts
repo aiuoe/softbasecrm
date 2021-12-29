@@ -31,6 +31,7 @@ import { Table } from 'primeng/table';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 import { Observable, forkJoin } from 'rxjs';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
+import { Location } from '@angular/common';
 
 /***
  * Component to manage the customers/accounts create/edit mode
@@ -96,6 +97,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param _zipCodeServiceProxy
      * @param _router
      * @param _dateTimeService
+     * @param location
      */
     constructor(
         injector: Injector,
@@ -103,7 +105,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         private _customerServiceProxy: CustomerServiceProxy,
         private _zipCodeServiceProxy: ZipCodesServiceProxy,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private location: Location
     ) {
         super(injector);
     }
@@ -116,13 +119,15 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.isReadOnlyMode = this.pageMode === 'view';
         this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!this.customerNumber;
-
         this.setPermissions();
 
         this.show(this.customerNumber);
 
     }
 
+    /***
+     * Set permissions
+     */
     setPermissions() {
         this.showOpportunitiesTab = this.isGrantedAny('Pages.Customer.ViewOpportunities');
         this.showInvoicesTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
@@ -207,6 +212,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             });
     }
 
+    /***
+     * Reload entity events grid
+     */
     reloadEvents() {
         this.entityTypeHistory.refreshTable();
     }
@@ -241,6 +249,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     openEditionMode() {
         this.isReadOnlyMode = false;
         this.showSaveButton = true;
+        this.location.replaceState(`${this.routerLink}/createOrEdit?number=${this.customerNumber}`);
     }
 
     /***
