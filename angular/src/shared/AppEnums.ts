@@ -9,6 +9,13 @@ export enum ActivitySourceType {
     Opportunity,
 }
 
+export enum ActivityTaskType {
+    ScheduleMeeting,
+    ScheduleCall,
+    EmailReminder,
+    ToDoReminder,
+}
+
 export enum ActivityDuration {
     FifteenMinutes,
     ThirtyMinutes,
@@ -29,7 +36,7 @@ export const getActivityDurationIitems = () => [
         enumValue: ActivityDuration.ThirtyMinutes,
     },
     {
-        text: 'One Hour',
+        text: '1 Hour',
         value: 60,
         enumValue: ActivityDuration.OneHour,
     },

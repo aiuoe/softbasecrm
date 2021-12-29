@@ -149,7 +149,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      */
     createActivity(sourceType: ActivitySourceType): void {
         this.newActivitySourceType = sourceType;
-        this.createOrEditActivityModal.show();
+        this.createOrEditActivityModal.show(sourceType);
     }
 
     /**

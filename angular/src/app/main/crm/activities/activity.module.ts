@@ -10,6 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [ActivitiesComponent, CreateOrEditActivityModalComponent, ViewActivityModalComponent],
@@ -22,6 +23,7 @@ import { ButtonModule } from 'primeng/button';
         CheckboxModule,
         ChipModule,
         ButtonModule,
+        CalendarModule,
     ],
 })
 export class ActivityModule {}

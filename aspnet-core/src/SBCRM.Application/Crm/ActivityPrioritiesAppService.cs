@@ -29,8 +29,6 @@ namespace SBCRM.Crm
         /// Constructor method
         /// </summary>
         /// <param name="activityPriorityRepository"></param>
-        /// <param name="activityPrioritiesExcelExporter"></param>
-
         public ActivityPrioritiesAppService(IRepository<ActivityPriority> activityPriorityRepository)
         {
             _activityPriorityRepository = activityPriorityRepository;

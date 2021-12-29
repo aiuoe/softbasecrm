@@ -1879,6 +1879,122 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
+    getAllAccountsForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAccountsForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAccountsForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllAccountsForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllAccountRelatedToOpportunityForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountRelatedToOpportunityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAccountRelatedToOpportunityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAccountRelatedToOpportunityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllAccountRelatedToOpportunityForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
     getAllOpportunityForTableDropdown(): Observable<ActivityOpportunityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
@@ -24282,6 +24398,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
     id!: number;
     displayName!: string | undefined;
     isDefault!: boolean;
+    enumValue!: number;
 
     constructor(data?: IActivityActivityTaskTypeLookupTableDto) {
         if (data) {
@@ -24297,6 +24414,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
             this.id = _data["id"];
             this.displayName = _data["displayName"];
             this.isDefault = _data["isDefault"];
+            this.enumValue = _data["enumValue"];
         }
     }
 
@@ -24312,6 +24430,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         data["id"] = this.id;
         data["displayName"] = this.displayName;
         data["isDefault"] = this.isDefault;
+        data["enumValue"] = this.enumValue;
         return data; 
     }
 }
@@ -24320,6 +24439,7 @@ export interface IActivityActivityTaskTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
     isDefault: boolean;
+    enumValue: number;
 }
 
 export class ActivityCustomerLookupTableDto implements IActivityCustomerLookupTableDto {
@@ -24481,6 +24601,7 @@ export interface IActivityLeadLookupTableDto {
 export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    customerNumber!: string | undefined;
 
     constructor(data?: IActivityOpportunityLookupTableDto) {
         if (data) {
@@ -24495,6 +24616,7 @@ export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLo
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.customerNumber = _data["customerNumber"];
         }
     }
 
@@ -24509,6 +24631,7 @@ export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLo
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["customerNumber"] = this.customerNumber;
         return data; 
     }
 }
@@ -24516,6 +24639,7 @@ export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLo
 export interface IActivityOpportunityLookupTableDto {
     id: number;
     displayName: string | undefined;
+    customerNumber: string | undefined;
 }
 
 export class ActivityPriorityDto implements IActivityPriorityDto {

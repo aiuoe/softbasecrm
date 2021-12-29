@@ -11,12 +11,13 @@ import {
     ActivityActivityTaskTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityPriorityLookupTableDto,
+    ActivityCustomerLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { ActivityDuration, ActivitySourceType, getActivityDurationIitems } from '@shared/AppEnums';
+import { ActivityDuration, ActivitySourceType, ActivityTaskType, getActivityDurationIitems } from '@shared/AppEnums';
 
 /**
  * Component for creating or updating an activity
@@ -28,29 +29,27 @@ import { ActivityDuration, ActivitySourceType, getActivityDurationIitems } from 
 export class CreateOrEditActivityModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
-    @Input() sourceType: ActivitySourceType;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
     saving = false;
 
+    sourceType: ActivitySourceType;
+
     activity: CreateOrEditActivityDto = new CreateOrEditActivityDto();
 
-    opportunityName = '';
-    leadCompanyName = '';
-    userName = '';
-    activitySourceTypeDescription = '';
-    activityTaskTypeDescription = '';
-    activityStatusDescription = '';
-    activityPriorityDescription = '';
+    opportunityCustomerNumber: string = '';
+    selectedDate: string = '';
+    selectedTime: string = '';
 
-    allOpportunitys: ActivityOpportunityLookupTableDto[];
     allLeads: ActivityLeadLookupTableDto[];
+    allAccounts: ActivityCustomerLookupTableDto[];
+    allOpportunities: ActivityOpportunityLookupTableDto[];
     allUsers: ActivityUserLookupTableDto[];
     allActivitySourceTypes: ActivityActivitySourceTypeLookupTableDto[];
     allActivityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
-    allActivityStatuss: ActivityActivityStatusLookupTableDto[];
-    allActivityPrioritys: ActivityActivityPriorityLookupTableDto[];
+    allActivityStatuses: ActivityActivityStatusLookupTableDto[];
+    allActivityPriorities: ActivityActivityPriorityLookupTableDto[];
 
     durationItems = [];
 
@@ -68,8 +67,11 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     /**
      * Show the form dialog
      */
-    show(activityId?: number): void {
+    show(sourceType: ActivitySourceType, activityId?: number): void {
+        this.sourceType = sourceType;
+
         const isCreate = !activityId;
+
         if (isCreate) {
             this.activity = new CreateOrEditActivityDto();
             this.activity.id = activityId;
@@ -78,13 +80,6 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             this.activity.durationMinutes = getActivityDurationIitems().find(
                 (x) => x.enumValue === ActivityDuration.OneHour
             ).value;
-            this.opportunityName = '';
-            this.leadCompanyName = '';
-            this.userName = '';
-            this.activitySourceTypeDescription = '';
-            this.activityTaskTypeDescription = '';
-            this.activityStatusDescription = '';
-            this.activityPriorityDescription = '';
 
             this.active = true;
             this.modal.show();
@@ -92,58 +87,92 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             this._activitiesServiceProxy.getActivityForEdit(activityId).subscribe((result) => {
                 this.activity = result.activity;
 
-                this.opportunityName = result.opportunityName;
-                this.leadCompanyName = result.leadCompanyName;
-                this.userName = result.userName;
-                this.activitySourceTypeDescription = result.activitySourceTypeDescription;
-                this.activityTaskTypeDescription = result.activityTaskTypeDescription;
-                this.activityStatusDescription = result.activityStatusDescription;
-                this.activityPriorityDescription = result.activityPriorityDescription;
-
                 this.active = true;
                 this.modal.show();
             });
         }
-        this._activitiesServiceProxy.getAllOpportunityForTableDropdown().subscribe((result) => {
-            this.allOpportunitys = result;
-        });
-        this._activitiesServiceProxy.getAllLeadForTableDropdown().subscribe((result) => {
-            this.allLeads = result;
-        });
+
+        switch (sourceType) {
+            case ActivitySourceType.Lead:
+                this._activitiesServiceProxy.getAllLeadForTableDropdown().subscribe((result) => {
+                    this.allLeads = result;
+                });
+                break;
+            case ActivitySourceType.Account:
+                this._activitiesServiceProxy.getAllAccountsForTableDropdown().subscribe((result) => {
+                    this.allAccounts = result;
+                });
+                break;
+            case ActivitySourceType.Opportunity:
+                this._activitiesServiceProxy.getAllOpportunityForTableDropdown().subscribe((result) => {
+                    this.allOpportunities = result;
+                });
+
+                this._activitiesServiceProxy.getAllAccountRelatedToOpportunityForTableDropdown().subscribe((result) => {
+                    this.allAccounts = result;
+                });
+                break;
+        }
+
         this._activitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
             this.allUsers = result;
+            if (result.length === 1) {
+                this.activity.userId = result[0].id;
+            }
         });
+
         this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
             this.allActivitySourceTypes = result;
             if (isCreate && result.length > 0) {
                 this.activity.activitySourceTypeId = result.find((x) => x.enumValue === this.sourceType)?.id;
             }
         });
+
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
             this.allActivityTaskTypes = result;
             if (isCreate && result.length > 0) {
                 this.activity.activityTaskTypeId = result.find((x) => x.isDefault)?.id || result[0].id;
             }
         });
+
         this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
-            this.allActivityStatuss = result;
+            this.allActivityStatuses = result;
             if (isCreate && result.length > 0) {
                 this.activity.activityStatusId = result.find((x) => x.isDefault)?.id || result[0].id;
             }
         });
+
         this._activitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
-            this.allActivityPrioritys = result;
+            this.allActivityPriorities = result;
             if (isCreate && result.length > 0) {
                 this.activity.activityPriorityId = result.find((x) => x.isDefault)?.id || result[0].id;
             }
         });
     }
 
+    processDataModel(): void {
+        const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
+        console.log(selectedActivityType);
+
+        this.activity.taskName = selectedActivityType.displayName;
+
+        const time = DateTime.fromFormat(this.selectedTime, 'hh:mm a');
+
+        this.activity.dueDate = DateTime.fromISO(this.selectedDate).set({
+            hour: time.hour,
+            minute: time.minute,
+        });
+
+        this.activity.startsAt = this.activity.dueDate;
+    }
+
     /**
      * Save changes
      */
     save(): void {
-        this.saving = true;
+        // this.saving = true;
+
+        this.processDataModel();
 
         this._activitiesServiceProxy
             .createOrEdit(this.activity)
@@ -167,14 +196,46 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         this.modal.hide();
     }
 
+    /**
+     * Initialize Component
+     */
     ngOnInit(): void {
         this.durationItems = getActivityDurationIitems();
     }
 
-    get activitySourceTypeEnum(): typeof ActivitySourceType {
+    /**
+     * Returns the filtered opportunities based on the selected company
+     */
+    get getFilteredOpportunities(): ActivityOpportunityLookupTableDto[] {
+        if (!this.opportunityCustomerNumber) return [];
+
+        return this.allOpportunities.filter((x) => x.customerNumber == this.opportunityCustomerNumber);
+    }
+
+    /**
+     * Get ActivitySourceType enum for accessing in the component's html file
+     */
+    get getActivitySourceTypeEnum(): typeof ActivitySourceType {
         return ActivitySourceType;
     }
 
+    /**
+     * Returns whether the activity is a reminder type
+     */
+    get isReminder(): boolean {
+        const id = this.activity.activityTaskTypeId;
+
+        if (!id) {
+            return false;
+        }
+
+        let value = <ActivityTaskType>this.allActivityTaskTypes.find((x) => x.id == id).enumValue;
+        return value === ActivityTaskType.EmailReminder || value === ActivityTaskType.ToDoReminder;
+    }
+
+    /**
+     * Returns the form title text based on the Activity source type
+     */
     get formTitle(): string {
         switch (this.sourceType) {
             case ActivitySourceType.Lead:

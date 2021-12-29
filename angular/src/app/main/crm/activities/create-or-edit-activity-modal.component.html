@@ -23,53 +23,95 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
-                            <div *ngIf="sourceType === activitySourceTypeEnum.Lead" class="col-sm-6">
-                                <div class="form-group m-form__group">
+                            <div *ngIf="sourceType === getActivitySourceTypeEnum.Lead" class="col-sm-6">
+                                <div class="form-group m-form__group input-field required">
                                     <label for="LeadCompanyName">{{ l('Company') }}</label>
-                                    <select name="activity.leadId" [(ngModel)]="activity.leadId" class="form-control">
-                                        <option *ngFor="let item of allLeads" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div *ngIf="sourceType === activitySourceTypeEnum.Account" class="col-sm-6">
-                                <div class="form-group m-form__group">
-                                    <label for="AccountCompanyName">{{ l('Company') }}</label>
-                                    <select name="activity.leadId" [(ngModel)]="activity.leadId" class="form-control">
-                                        <option *ngFor="let item of allLeads" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div *ngIf="sourceType === activitySourceTypeEnum.Opportunity" class="col-sm-6">
-                                <div class="form-group m-form__group">
-                                    <label for="OpportunityName">{{ l('Opportunity') }}</label>
                                     <select
-                                        name="activity.opportunityId"
-                                        [(ngModel)]="activity.opportunityId"
+                                        required
+                                        name="activity.leadId"
+                                        [(ngModel)]="activity.leadId"
                                         class="form-control"
                                     >
-                                        <option *ngFor="let item of allOpportunitys" value="{{ item.id }}">
+                                        <option class="font-italic font-weight-light">
+                                            {{ l('SelectALead') }}
+                                        </option>
+                                        <option *ngFor="let item of allLeads" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
                                 </div>
                             </div>
 
+                            <div *ngIf="sourceType === getActivitySourceTypeEnum.Account" class="col-sm-6">
+                                <div class="form-group m-form__group input-field required">
+                                    <label for="AccountCompanyName">{{ l('Company') }}</label>
+                                    <select
+                                        required
+                                        name="activity.customerNumber"
+                                        [(ngModel)]="activity.customerNumber"
+                                        class="form-control"
+                                    >
+                                        <option class="font-italic font-weight-light">
+                                            {{ l('SelectAnAccount') }}
+                                        </option>
+                                        <option *ngFor="let item of allAccounts" value="{{ item.number }}">
+                                            {{ item.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <ng-container *ngIf="sourceType === getActivitySourceTypeEnum.Opportunity">
+                                <div class="col-sm-6">
+                                    <div class="form-group m-form__group input-field required">
+                                        <label for="OpportunityCustomerNumber">{{ l('Company') }}</label>
+                                        <select
+                                            required
+                                            name="opportunityCustomerNumber"
+                                            [(ngModel)]="opportunityCustomerNumber"
+                                            class="form-control"
+                                        >
+                                            <option class="font-italic font-weight-light">
+                                                {{ l('SelectACustomer') }}
+                                            </option>
+                                            <option *ngFor="let item of allAccounts" value="{{ item.number }}">
+                                                {{ item.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group m-form__group input-field required">
+                                        <label for="OpportunityName">{{ l('Opportunity') }}</label>
+                                        <select
+                                            required
+                                            name="activity.opportunityId"
+                                            [(ngModel)]="activity.opportunityId"
+                                            class="form-control"
+                                        >
+                                            <option class="font-italic font-weight-light">
+                                                {{ l('SelectAOpportunity') }}
+                                            </option>
+                                            <option *ngFor="let item of getFilteredOpportunities" value="{{ item.id }}">
+                                                {{ item.displayName }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </ng-container>
+
                             <div class="col-sm-6">
-                                <div class="form-group m-form__group">
+                                <div class="form-group m-form__group input-field required">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
                                     <select
+                                        [disabled]="allUsers?.length === 1"
                                         name="activity.userId"
                                         [(ngModel)]="activity.userId"
                                         class="form-control"
                                         required
                                     >
-                                        <option [value]="undefined" class="font-italic font-weight-light">
+                                        <option class="font-italic font-weight-light">
                                             {{ l('SelectAUser') }}
                                         </option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">
@@ -80,7 +122,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group m-form__group">
+                                <div class="form-group m-form__group input-field required">
                                     <label for="ActivityTaskTypeDescription">{{ l('Activity') }}</label>
                                     <select
                                         name="activity.activityTaskTypeId"
@@ -96,8 +138,8 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="Activity_DueDate">{{ l('Date') }}</label>
+                                <div class="form-group input-field required">
+                                    <label for="Activity_DueDate">{{ isReminder ? l('DueDate') : l('Date') }}</label>
                                     <input
                                         required
                                         class="form-control m-input"
@@ -105,7 +147,7 @@
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
-                                        [(date)]="activity.dueDate"
+                                        [(date)]="selectedDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
                                     />
@@ -113,42 +155,45 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="Activity_StartsAt">{{ l('StartsAt') }}</label>
-                                    <input
-                                        required
-                                        class="form-control m-input"
-                                        #Activity_StartsAt
-                                        type="datetime"
-                                        bsDatepicker
-                                        datePickerLuxonModifier
-                                        [(date)]="activity.startsAt"
-                                        id="Activity_StartsAt"
-                                        name="Activity_StartsAt"
-                                    />
-                                    <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
+                            <ng-container *ngIf="!isReminder">
+                                <div class="col-sm-6">
+                                    <div class="form-group input-field required">
+                                        <label for="Activity_StartsAt">{{ l('StartsAt') }}</label>
+                                        <p-calendar
+                                            required
+                                            styleClass="d-flex"
+                                            inputStyleClass="form-control m-input"
+                                            #Activity_StartsAt
+                                            [(ngModel)]="selectedTime"
+                                            [timeOnly]="true"
+                                            hourFormat="12"
+                                            dataType="string"
+                                            inputId="Activity_StartsAt"
+                                            name="Activity_StartsAt"
+                                        ></p-calendar>
+                                        <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group input-field required">
+                                        <label for="Activity_DurationMinutes">{{ l('Duration') }}</label>
+                                        <select
+                                            name="DurationMinutes"
+                                            [(ngModel)]="activity.durationMinutes"
+                                            class="form-control"
+                                            required
+                                        >
+                                            <option *ngFor="let item of durationItems" value="{{ item.value }}">
+                                                {{ item.text }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </ng-container>
 
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="Activity_DurationMinutes">{{ l('Duration') }}</label>
-                                    <select
-                                        name="DurationMinutes"
-                                        [(ngModel)]="activity.durationMinutes"
-                                        class="form-control"
-                                        required
-                                    >
-                                        <option *ngFor="let item of durationItems" value="{{ item.value }}">
-                                            {{ item.text }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <div class="form-group m-form__group">
+                                <div class="form-group m-form__group input-field required">
                                     <label for="ActivityStatusDescription">{{ l('Status') }}</label>
                                     <select
                                         name="activity.activityStatusId"
@@ -156,7 +201,7 @@
                                         class="form-control"
                                         required
                                     >
-                                        <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
+                                        <option *ngFor="let item of allActivityStatuses" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
@@ -164,7 +209,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group m-form__group">
+                                <div class="form-group m-form__group input-field required">
                                     <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
                                     <select
                                         name="activity.activityPriorityId"
@@ -172,14 +217,14 @@
                                         class="form-control"
                                         required
                                     >
-                                        <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
+                                        <option *ngFor="let item of allActivityPriorities" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="col">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label for="Activity_Description">{{ l('Notes') }}</label>
                                     <textarea

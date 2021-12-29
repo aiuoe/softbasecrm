@@ -236,7 +236,12 @@
                                                             href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.Activities.Edit')"
                                                             class="dropdown-item"
-                                                            (click)="createOrEditActivityModal.show(record.activity.id)"
+                                                            (click)="
+                                                                createOrEditActivityModal.show(
+                                                                    record.sourceTypeEnum,
+                                                                    record.activity.id
+                                                                )
+                                                            "
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
@@ -324,11 +329,7 @@
                 </div>
             </div>
         </div>
-        <createOrEditActivityModal
-            #createOrEditActivityModal
-            [sourceType]="newActivitySourceType"
-            (modalSave)="getActivities()"
-        ></createOrEditActivityModal>
+        <createOrEditActivityModal #createOrEditActivityModal (modalSave)="getActivities()"></createOrEditActivityModal>
         <viewActivityModal #viewActivityModal></viewActivityModal>
     </div>
 </div>

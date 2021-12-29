@@ -12,5 +12,7 @@ namespace SBCRM.Crm.Dtos
         public string DisplayName { get; set; }
 
         public bool IsDefault { get; set; }
+
+        public int EnumValue { get; set; }
     }
 }

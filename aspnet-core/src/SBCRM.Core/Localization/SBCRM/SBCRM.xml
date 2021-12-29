@@ -2,6 +2,8 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="SelectAnAccount">Select an Account</text>
+    <text name="SelectACustomer">Select a Customer</text>
     <text name="EnumValue">Enum value</text>
     <text name="Description">Description</text>
     <text name="EnterDescription">Enter Description</text>
@@ -32,7 +34,7 @@
     <text name="Activity">Activity</text>
     <text name="SBCRM.Crm.Activity">Activity</text>
     <text name="TaskName">Task name</text>
-    <text name="DueDate">Due date</text>
+    <text name="DueDate">Due Date</text>
     <text name="StartsAt">Starts at</text>
     <text name="DurationMinutes">Duration minutes</text>
     <text name="ActivitiesHeaderInfo">Activities header info</text>
