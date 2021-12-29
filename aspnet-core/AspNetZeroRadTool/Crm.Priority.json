@@ -8,7 +8,7 @@
   "PrimaryKeyType": "int",
   "BaseClass": "FullAuditedEntity",
   "EntityHistory": false,
-  "AutoMigration": true,
+  "AutoMigration": false,
   "UpdateDatabase": false,
   "CreateUserInterface": true,
   "CreateViewOnly": true,
@@ -54,25 +54,6 @@
       "Regex": "",
       "UserInterface": {
         "AdvancedFilter": true,
-        "List": true,
-        "CreateOrUpdate": true
-      }
-    },
-    {
-      "Name": "Color",
-      "Type": "string",
-      "MaxLength": 10,
-      "MinLength": 1,
-      "Range": {
-        "IsRangeSet": false,
-        "MinimumValue": 0.0,
-        "MaximumValue": 0.0
-      },
-      "Required": true,
-      "Nullable": false,
-      "Regex": "",
-      "UserInterface": {
-        "AdvancedFilter": false,
         "List": true,
         "CreateOrUpdate": true
       }

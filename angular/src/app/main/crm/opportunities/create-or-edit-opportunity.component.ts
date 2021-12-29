@@ -22,7 +22,6 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
-import { NgForm } from '@angular/forms';
 
 /**
  * Component to create or edit opportunity
@@ -32,12 +31,12 @@ import { NgForm } from '@angular/forms';
     animations: [appModuleAnimation()],
 })
 export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {    
-    @ViewChild('opportunityForm', { static: true }) opportunityForm: NgForm;
     @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
     routerLink = '/app/main/business/opportunities';
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Opportunity'), '/app/main/crm/opportunities'),        
+        new BreadcrumbItem(this.l('Opportunity'), '/app/main/crm/opportunities'),
+        new BreadcrumbItem(this.l('NewOpportunites'), '/app/main/crm/opportunities')
     ];
 
     pageMode = '';
@@ -56,8 +55,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     customerName = '';
     contactName = '';
     customerNumber = '';
-    opportunityCustomerName = '';
-    formDate : Date;
 
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
@@ -97,13 +94,12 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
-        this.opportunityCustomerName = this._activatedRoute.snapshot.queryParams['customerName'];
         this.customerNumber = this._activatedRoute.snapshot.queryParams['customerNumber'];
         if (this.customerNumber)
             this.isExternalCreation = true;
         this.isNew = !!!this.opportunityId;
         this.show(this.opportunityId);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityCustomerName));
+        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewOpportunity') : this.l('EditOpportunity')));
     }
 
     /**
@@ -145,7 +141,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }                                                            
                     
-                    this.showSaveButton = !this.isReadOnlyMode; 
+                    this.showSaveButton = !this.isReadOnlyMode;
                     }, (error) => {
                     this.goToOpportunities();
                 });
@@ -171,18 +167,15 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 this.allOpportunityTypes = opportunityTypes;  
                 this.allCustomers = customers;   
 
-                this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber); 
-     
-                this.formDate  = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
+                this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
 
                 this.showSaveButton = !this.isReadOnlyMode;
-
                 }, (error) => {
                     this.goToOpportunities();
                 });
         }
     }
-  
+
     /**
      * Get the contacts for the selected customer
      * @returns void
@@ -190,8 +183,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     getContactsAccordingToCustomer(customerNumber : string) : void {
         this._opportunitiesServiceProxy.getAllContactsForTableDropdownCustomerSpecific(customerNumber).subscribe((result) => {
             this.allContacts = result;
-        if (this.allContacts.length == 1) 
-            this.opportunity.contactId = this.allContacts[0].id;
         });         
     }
 
@@ -200,22 +191,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     save(): void {
-        if (!this.opportunityForm.form.valid) {
-            this.opportunityForm.form.markAllAsTouched();
-            this.message.warn(this.l('InvalidFormMessage'));
-            return;
-        }
-
-        if (this.opportunity.probability < 1 || this.opportunity.probability > 100)
-        {                      
-            this.opportunityForm.form.controls['Opportunity_Probability'].setErrors(
-                                            {'opportunityInvalidProbability': true});
-            this.message.warn(this.l('InvalidFormMessage'));
-            return;
-        }
-        
-        this.opportunity.closeDate = this._dateTimeService.fromJSDate(this.formDate);
-
         this.saving = true;
 
         this._opportunitiesServiceProxy

@@ -26,8 +26,8 @@ namespace SBCRM.Crm.Exporting
         public PrioritiesExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
-            ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
+            ITempFileCacheManager tempFileCacheManager)
+            : base(tempFileCacheManager)
         {
             _timeZoneConverter = timeZoneConverter;
             _abpSession = abpSession;
@@ -50,15 +50,13 @@ namespace SBCRM.Crm.Exporting
                     AddHeader(
                         sheet,
                         L("Description"),
-                        L("IsDefault"),
-                        L("Color")
+                        L("IsDefault")
                         );
 
                     AddObjects(
                         sheet, priorities,
                         _ => _.Priority.Description,
-                        _ => _.Priority.IsDefault,
-                        _ => _.Priority.Color
+                        _ => _.Priority.IsDefault
                         );
 
                 });

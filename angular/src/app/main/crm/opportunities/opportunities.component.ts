@@ -139,18 +139,6 @@ export class OpportunitiesComponent extends AppComponentBase {
     }
 
     /***
-     * Get opportunities by name filter changed
-     * @param event
-     */
-    getOpportunityByNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.nameFilter && this.nameFilter?.trim().length >= 2;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
-            this.getOpportunities();
-        }
-    }
-
-    /***
     * Reload page
     */
     reloadPage(): void {

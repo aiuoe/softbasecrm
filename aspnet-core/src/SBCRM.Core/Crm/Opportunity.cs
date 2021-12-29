@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using SBCRM.Legacy;
 
@@ -11,9 +10,8 @@ namespace SBCRM.Crm
     /// Opportunity entity from schema
     /// </summary>
     [Table("Opportunities")]
-    public class Opportunity : FullAuditedEntity, IMayHaveTenant
+    public class Opportunity : FullAuditedEntity
     {
-        public int? TenantId { get; set; }
 
         [Required(ErrorMessage = "A Name is required")]
         [StringLength(OpportunityConsts.MaxNameLength, MinimumLength = OpportunityConsts.MinNameLength)]
@@ -62,5 +60,6 @@ namespace SBCRM.Crm
 
         [ForeignKey("CustomerNumber")]
         public Customer CustomerFk { get; set; }
+
     }
 }

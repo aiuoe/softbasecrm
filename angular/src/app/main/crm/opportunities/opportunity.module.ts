@@ -7,11 +7,9 @@ import { CreateOrEditOpportunityComponent } from './create-or-edit-opportunity.c
 import { ViewOpportunityComponent } from './view-opportunity.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputNumberModule} from 'primeng/inputNumber';
-import { CalendarModule} from 'primeng/calendar';
 
 @NgModule({
     declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent],
-    imports: [AppSharedModule, OpportunityRoutingModule, AdminSharedModule,MultiSelectModule,InputNumberModule, 
-            CalendarModule],
+    imports: [AppSharedModule, OpportunityRoutingModule, AdminSharedModule,MultiSelectModule,InputNumberModule],
 })
 export class OpportunityModule {}

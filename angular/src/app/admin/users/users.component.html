@@ -68,6 +68,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <button
                     (click)="createUser()"
                     *ngIf="'Pages.Administration.Users.Create' | permission"
@@ -76,7 +77,6 @@
                     <i class="fa fa-plus"></i>
                     {/{ 'CreateNewUser' | localize }}
                 </button>
-
             </div>-->
         </sub-header>
         <div [class]="containerClass">
@@ -93,7 +93,7 @@
                                                 name="filterText"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('UsersSearchWithThreeDot')"
+                                                [placeholder]="l('SearchWithThreeDot')"
                                                 type="text"
                                             />
                                             <div class="input-group-append">
