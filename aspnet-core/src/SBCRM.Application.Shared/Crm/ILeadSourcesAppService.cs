@@ -1,58 +1,64 @@
-﻿using System;
-using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// App service to handle lead sources information
+    /// Interface for lead source service
     /// </summary>
     public interface ILeadSourcesAppService : IApplicationService
     {
         /// <summary>
-        /// Get all lead sources
+        /// Method that get all rows lead sources
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
+        /// <returns>List lead sources</returns>
         Task<PagedResultDto<GetLeadSourceForViewDto>> GetAll(GetAllLeadSourcesInput input);
 
         /// <summary>
-        /// Get lead source for view mode
+        /// Method that get lead sources for main view by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<GetLeadSourceForViewDto> GetLeadSourceForView(int id);
 
         /// <summary>
-        /// Get lead source for edition mode
+        /// Get lead sources for edit information
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetLeadSourceForEditOutput> GetLeadSourceForEdit(EntityDto input);
 
         /// <summary>
-        /// Create or edit lead source
+        /// Method that create a new lead source
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         Task CreateOrEdit(CreateOrEditLeadSourceDto input);
 
         /// <summary>
-        /// Delete lead source
+        /// Method that delete a row in database
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         Task Delete(EntityDto input);
 
         /// <summary>
-        /// Get leads sources to excel
+        /// Method that get all rows lead sources for export to excel
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>List lead sources</returns>
+        Task<FileDto> GetLeadSourcesToExcel(GetAllLeadSourcesForExcelInput input);
+
+        /// <summary>
+        /// Method that updates the order of a list
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<FileDto> GetLeadSourcesToExcel(GetAllLeadSourcesForExcelInput input);
-
+        Task UpdateOrder(List<UpdateOrderleadSourceDto> input);
     }
 }

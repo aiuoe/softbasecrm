@@ -27,7 +27,6 @@
 		<text name="ExcludeCompleted">Exclude Completed</text>
 		<text name="NoRecordsFound">No records found.</text>
 		<text name="SearchCompanyName">Search Company Name</text>
-
 		<text name="Activity">Activity</text>
 		<text name="SBCRM.Crm.Activity">Activity</text>
 		<text name="TaskName">Task name</text>
@@ -249,8 +248,8 @@
 		<text name="Notes">Notes</text>
 		<text name="EnterNotes">Enter Notes</text>
 		<text name="LeadSourcesHeaderInfo">Lead sources header info</text>
-		<text name="NewLeadSource">New lead source</text>
-		<text name="CreateNewLeadSource">Create new lead source</text>
+		<text name="NewLeadSource">New Lead Source</text>
+		<text name="CreateNewLeadSource">Create lead source</text>
 		<text name="EditLeadSource">Edit lead source</text>
 		<text name="DeleteLeadSource">Delete lead source</text>
 		<text name="LeadSources">Lead sources</text>
