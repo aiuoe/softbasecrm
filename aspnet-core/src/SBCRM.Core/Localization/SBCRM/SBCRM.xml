@@ -584,7 +584,7 @@
     <text name="CreationTime">Creation time</text>
     <text name="LeadCreationTime">Created at</text>
     <text name="SearchWithThreeDot">Search...</text>
-    <text name="UsersSearchWithThreeDot">Search by Employee# or Name or Last Name or Email Addresss</text>
+    <text name="UsersSearchWithThreeDot">Search by Employee # or Name or Last Name or Email Address</text>
     <text name="ActivitySearchWithThreeDot">Search by Company Name</text>
     <text name="OpportunitySearchWithThreeDot">Search by Opportunity Name</text>
     <text name="LeadSearchWithThreeDot">Search by Company or Contact Name</text>
