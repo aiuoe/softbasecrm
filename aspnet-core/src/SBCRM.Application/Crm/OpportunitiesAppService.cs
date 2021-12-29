@@ -96,6 +96,8 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
+                        //.Include(x => x.Users)
+                        //.ThenInclude(x => x.UserFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
@@ -111,7 +113,9 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
-
+                        //.WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        //.WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                        //.WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
             IQueryable<Opportunity> pagedAndFilteredOpportunities;
 
@@ -193,7 +197,8 @@ namespace SBCRM.Crm
                     CustomerName = o.CustomerName,
                     CustomerNumber = o.CustomerNumber,
                     ContactName = o.ContactName
-                };
+
+            };
 
                 results.Add(res);
             }
@@ -330,6 +335,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityDto input)
         {
+            input.CloseDate = input.CloseDate.Value.ToUniversalTime();
             var opportunity = ObjectMapper.Map<Opportunity>(input);
 
             if (AbpSession.TenantId != null)
@@ -356,7 +362,8 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditOpportunityDto input)
         {
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
-            ObjectMapper.Map(input, opportunity);
+            input.CloseDate = input.CloseDate.Value.ToUniversalTime();
+            ObjectMapper.Map(input, opportunity);            
         }
 
         /// <summary>

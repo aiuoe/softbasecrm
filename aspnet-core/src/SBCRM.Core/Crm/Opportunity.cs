@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
@@ -63,5 +64,6 @@ namespace SBCRM.Crm
         [ForeignKey("CustomerNumber")]
         public Customer CustomerFk { get; set; }
 
+        //public List<OpportunityUser> Users { get; set; }
     }
 }

@@ -41,7 +41,7 @@
                                                 name="nameFilter"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('Search') + ' ' + l('OpportunityName')"
+                                                [placeholder]="l('OpportunitySearchWithThreeDot')"
                                                 type="text"
                                                 (keyup)="getOpportunityByNameFilter($event)"
                                             />
@@ -194,7 +194,7 @@
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
                                                             [queryParams]="{ id: record.opportunity.id,
-                                                                             customerName: record.customerName }"
+                                                                            opportunityName: record.opportunity.name }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -205,7 +205,7 @@
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
                                                             [queryParams]="{ id: record.opportunity.id,
-                                                                             customerName: record.customerName }"
+                                                                            opportunityName: record.opportunity.name }"
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
@@ -246,9 +246,9 @@
                                         </td>
                                         <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('CloseDate') }}</span>
+                                            <span class="p-column-title">{{ l('ProjectClose') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">
-                                                {{ record.opportunity.closeDate | date:'short':'UTC+8' }}
+                                                {{ record.opportunity.closeDate | dateLocation: "MM/dd/yyyy hh" : '+2200'}}
                                             </span>
                                             <span *ngIf="!record.opportunity.closeDate">-</span>
                                         </td>

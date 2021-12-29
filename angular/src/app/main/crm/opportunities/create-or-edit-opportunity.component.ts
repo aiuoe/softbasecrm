@@ -68,6 +68,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allContacts: OpportunityContactsLookupTableDto[];
 
     opportunityId : number;
+    opportunityName : string;
     
     // Tab permissions
     isPageLoading = true;
@@ -97,13 +98,13 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
-        this.opportunityCustomerName = this._activatedRoute.snapshot.queryParams['customerName'];
+        this.opportunityName = this._activatedRoute.snapshot.queryParams['opportunityName'];
         this.customerNumber = this._activatedRoute.snapshot.queryParams['customerNumber'];
         if (this.customerNumber)
             this.isExternalCreation = true;
         this.isNew = !!!this.opportunityId;
         this.show(this.opportunityId);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunity.name));
+        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityName));
     }
 
     /**
@@ -179,7 +180,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                 }, (error) => {
                     this.goToOpportunities();
-                });
+                });                  
         }
     }
   
@@ -217,7 +218,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         // let userTimezoneOffset : number = this.formDate.getTimezoneOffset() * 60000;        
         // let date : Date = new Date(this.formDate.getTime() - userTimezoneOffset);
         this.opportunity.closeDate = this._dateTimeService.fromJSDate(new Date());
-        console.log("on utc the time is" + this.opportunity.closeDate.toString())
+        // console.log("on utc the time is" + this.opportunity.closeDate.toString())
 
         this.saving = true;
 

@@ -182,7 +182,9 @@
                                                             [(ngModel)]="formDate"                                                                                                                                                                       
                                                             id="Opportunity_CloseDate"
                                                             name="Opportunity_CloseDate"
-                                                            [disabled]="this.isReadOnlyMode"                                                
+                                                            [disabled]="this.isReadOnlyMode"  
+                                                            showTime="true" 
+                                                            [hourFormat]="24"                                              
                                                         >
                                                         </p-calendar>
                                                         <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>                                                      
@@ -313,6 +315,15 @@
                     </div>
                 </tab>  
             </tabset>    
+        </div>
+
+        <div class="row" *ngIf="this.opportunity.id">
+            <div class="col-sm-12 col-lg-6">
+                <app-assigned-user
+                [componentType]="'Opportunity'"
+                [idToStore]="this.opportunity.id">
+            </app-assigned-user>
+            </div>
         </div>
     </div>    
 </div>

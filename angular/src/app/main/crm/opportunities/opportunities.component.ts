@@ -55,6 +55,8 @@ export class OpportunitiesComponent extends AppComponentBase {
     customerName = '';
     contactName = '';
 
+    timeZone = 'GMT'
+
     /***
      * Main constructor
      * @param injector
@@ -84,6 +86,13 @@ export class OpportunitiesComponent extends AppComponentBase {
     * Initialize component
     */
      ngOnInit(){
+
+        let offset : number = (new Date().getTimezoneOffset() / 60)        
+        if (offset < 0)
+            this.timeZone = this.timeZone + "+" + (offset * -1).toString();
+        else if (offset > 0)    
+            this.timeZone = this.timeZone + "-" + (offset).toString(); 
+
         this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown()
         .subscribe((result) => {
             this.opportunityStages = result;
@@ -133,8 +142,8 @@ export class OpportunitiesComponent extends AppComponentBase {
             )
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
-                this.primengTableHelper.records = result.items;                
-                
+                this.primengTableHelper.records = result.items;
+                console.log("here" + result.items[0].opportunity.closeDate)                     
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
