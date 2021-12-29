@@ -139,7 +139,7 @@ namespace SBCRM.Crm
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                               .WhereIf(!string.IsNullOrWhiteSpace(input.NotesFilter), e => e.Notes == input.NotesFilter)
+                               .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
                                .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
@@ -186,7 +186,7 @@ namespace SBCRM.Crm
                                 Country = o.Country,
                                 State = o.State,
                                 City = o.City,
-                                Notes = o.Notes,
+                                Description = o.Description,
                                 CompanyPhone = o.CompanyPhone,
                                 CompanyEmail = o.CompanyEmail,
                                 PoBox = o.PoBox,
@@ -200,8 +200,8 @@ namespace SBCRM.Crm
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
                                 Users = o.Users,
-                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
-                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
                                 LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                                 PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
@@ -228,8 +228,8 @@ namespace SBCRM.Crm
                     else
                         pagedAndFilteredOpportunities = filteredLeads
                             .OrderByDescending(o => o.CreationTime)
-                            .ThenByDescending(s1 => s1.Notes)
-                            .ThenBy(s2 => s2.Notes)
+                            .ThenByDescending(s1 => s1.Description)
+                            .ThenBy(s2 => s2.Description)
                             .ThenBy(o => o.CompanyName)
                             .ThenBy(o => o.ContactName)
                             .PageBy(input);
@@ -254,7 +254,7 @@ namespace SBCRM.Crm
                                 Country = o.Country,
                                 State = o.State,
                                 City = o.City,
-                                Notes = o.Notes,
+                                Description = o.Description,
                                 CompanyPhone = o.CompanyPhone,
                                 CompanyEmail = o.CompanyEmail,
                                 PoBox = o.PoBox,
@@ -268,8 +268,8 @@ namespace SBCRM.Crm
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
                                 Users = o.Users,
-                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description,
-                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
                                 LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
                                 PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
@@ -618,7 +618,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CountryFilter), e => e.Country == input.CountryFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.StateFilter), e => e.State == input.StateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CityFilter), e => e.State == input.CityFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Notes == input.DescriptionFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyPhoneFilter), e => e.CompanyPhone == input.CompanyPhoneFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.CompanyEmailFilter), e => e.CompanyEmail == input.CompanyEmailFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PoBoxFilter), e => e.PoBox == input.PoBoxFilter)
@@ -656,7 +656,7 @@ namespace SBCRM.Crm
                              Country = o.Country,
                              State = o.State,
                              City = o.City,
-                             Notes = o.Notes,
+                             Description = o.Description,
                              CompanyPhone = o.CompanyPhone,
                              CompanyEmail = o.CompanyEmail,
                              PoBox = o.PoBox,
@@ -705,7 +705,7 @@ namespace SBCRM.Crm
                         Country = o.Country,
                         State = o.State,
                         City = o.City,
-                        Notes = o.Notes,
+                        Description = o.Description,
                         CompanyPhone = o.CompanyPhone,
                         CompanyEmail = o.CompanyEmail,
                         PoBox = o.PoBox,

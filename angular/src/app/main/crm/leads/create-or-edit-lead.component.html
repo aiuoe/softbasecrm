@@ -225,7 +225,7 @@
                                                     <input id="Lead_ContactPhoneExtension"
                                                         #Lead_ContactPhoneExtension="ngModel"
                                                         [(ngModel)]="lead.contactPhoneExtension"
-                                                        [placeholder]="l('ContactPhoneExtension')"
+                                                        [placeholder]="l('EnterContactPhoneExtension')"
                                                         name="EnterContactPhoneExtension" type="tel"
                                                         class="form-control" maxlength="5"
                                                         [disabled]="this.isReadOnlyMode" pattern="\+?\d{1,5}$" />
@@ -316,12 +316,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-group m-form__group">
                                                     <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
-                                                    <p-dropdown 
-                                                        #Lead_Status="ngModel" id="Lead_Status"
-                                                        [ngModelOptions]="{standalone: true}" 
-                                                        [options]="allLeadStatuss"
-                                                        [(ngModel)]="lead.leadStatusId" 
-                                                        optionLabel="displayName"
+                                                    <p-dropdown #Lead_Status="ngModel" id="Lead_Status"
+                                                        [ngModelOptions]="{standalone: true}" [options]="allLeadStatuss"
+                                                        [(ngModel)]="lead.leadStatusId" optionLabel="displayName"
                                                         [disabled]="this.isReadOnlyMode"
                                                         [placeholder]="l('EnterLeadStatus')" [showClear]="true"
                                                         optionValue="id">
@@ -356,12 +353,11 @@
 
                                         <div class="form-group row">
                                             <div class="col-md-12">
-                                                <label for="Lead_Notes">{{ l('EnterNotes') }}</label>
-                                                <textarea class="form-control" #Lead_Notes="ngModel"
-                                                    [(ngModel)]="lead.notes" [disabled]="this.isReadOnlyMode"
-                                                    [placeholder]="l('EnterNotes')" name="Notes" id="Lead_Notes"
-                                                    rows="10"></textarea>
-                                                <validation-messages [formCtrl]="Lead_Notes"></validation-messages>
+                                                <label for="Lead_Description">{{ l('Description') }}</label>
+                                                <textarea class="form-control" #Lead_Description="ngModel"
+                                                    [(ngModel)]="lead.description" [disabled]="this.isReadOnlyMode"
+                                                    [placeholder]="l('EnterDescription')" name="Description"
+                                                    id="Lead_Description" rows="10"></textarea>
                                             </div>
                                         </div>
                                     </form>
@@ -389,9 +385,7 @@
         </div>
         <div class="row" *ngIf="this.lead.id">
             <div class="col-sm-12 col-lg-6">
-                <app-assigned-user
-                    [componentType]="'Lead'"
-                    [idToStore]="this.lead.id">
+                <app-assigned-user [componentType]="'Lead'" [idToStore]="this.lead.id">
                 </app-assigned-user>
             </div>
         </div>

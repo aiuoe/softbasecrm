@@ -41,7 +41,7 @@ namespace SBCRM.Crm
         [StringLength(LeadConsts.MaxCityLength)]
         public virtual string City { get; set; }
 
-        public virtual string Notes { get; set; }
+        public virtual string Description { get; set; }
 
         [Phone]
         public virtual string CompanyPhone { get; set; }
