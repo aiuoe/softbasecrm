@@ -126,6 +126,7 @@ namespace SBCRM.Legacy
                         .Select(x => new
                         {
                             x.AccountTypeId,
+                            AccountTypeDescription = x.AccountTypeFk.Description,
                             x.Number,
                             x.BillTo,
                             x.Name,
