@@ -2,7 +2,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { OpportunitiesComponent } from './opportunities.component';
 import { CreateOrEditOpportunityComponent } from './create-or-edit-opportunity.component';
-import { ViewOpportunityComponent } from './view-opportunity.component';
 
 const routes: Routes = [
     {

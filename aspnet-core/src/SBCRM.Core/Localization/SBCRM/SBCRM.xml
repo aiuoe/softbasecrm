@@ -798,6 +798,7 @@
 		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewEvents">View Events in Account detail</text>
 		<text name="LeadViewEvents">View Events in Lead detail</text>
+		<text name="OpportunityViewEvents">View Events in Opportunity detail</text>
 		<text name="UsersManagement">Users Management</text>
 		<text name="SettingsAppearance">Appearance settings</text>
 		<text name="SeeDemo">See demo</text>
