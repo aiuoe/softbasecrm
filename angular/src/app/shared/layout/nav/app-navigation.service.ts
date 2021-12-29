@@ -203,7 +203,8 @@ export class AppNavigationService {
                         '/app/admin/languages',
                         ['/app/admin/languages/{name}/texts']
                     )
-                ])
+                ]),
+            new AppMenuItem("Search", "Pages.GlobalSearch.View", "flaticon-book", "/app/main/global-search")
         ]);
     }
 

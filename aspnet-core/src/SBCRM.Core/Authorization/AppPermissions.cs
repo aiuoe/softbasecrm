@@ -125,6 +125,8 @@
         public const string Pages_ZipCodes_Edit = "Pages.ZipCodes.Edit";
         public const string Pages_ZipCodes_Delete = "Pages.ZipCodes.Delete";
 
+        public const string Pages_GlobalSearch = "Pages.GlobalSearch";
+
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";

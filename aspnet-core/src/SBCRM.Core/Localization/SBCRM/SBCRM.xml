@@ -1677,6 +1677,7 @@
     <text name="WhatsIncludedInYourPlan">What's included in your plan</text>
     <text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
     <text name="DashboardNoteForMpaVersion">
+    <text name="GlobalSearch">Global Search Access</text>
       <![CDATA[
 	<texts>
 		<text name="DashboardNoteForMpaVersion">
