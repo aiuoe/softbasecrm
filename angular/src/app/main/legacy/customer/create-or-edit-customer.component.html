@@ -1088,6 +1088,15 @@
             </div>
         </div>
 
+        <div class="row" *ngIf="this.customer.number">
+            <div class="col-sm-12 col-lg-6">
+                <app-activities-widget
+                    (componenteType) = "'Account'">
+                    
+                </app-activities-widget>
+            </div>
+        </div>
+
     </div>
 
 
