@@ -6,6 +6,8 @@ import {
     CreateOrEditOpportunityStageDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { DateTime } from 'luxon';
+
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 /***
@@ -42,6 +44,7 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
             this.opportunityStage = new CreateOrEditOpportunityStageDto();
             this.opportunityStage.id = opportunityStageId;
 
+            this.opportunityStage.color = '#2c4ab6';
             this.active = true;
             this.modal.show();
         } else {

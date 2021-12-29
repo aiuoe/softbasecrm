@@ -3,12 +3,14 @@
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO to manage the oportunity stage object
+    /// App service to handle opportunity stage information
     /// </summary>
     public class OpportunityStageDto : EntityDto
     {
         public string Description { get; set; }
 
         public int Order { get; set; }
+
+        public string Color { get; set; }
     }
 }
