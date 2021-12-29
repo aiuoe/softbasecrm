@@ -2,7 +2,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LeadsComponent } from './leads.component';
 import { CreateOrEditLeadComponent } from './create-or-edit-lead.component';
-import { ViewLeadComponent } from './view-lead.component';
 
 const routes: Routes = [
     {
@@ -19,7 +18,7 @@ const routes: Routes = [
 
     {
         path: 'view',
-        component: ViewLeadComponent,
+        component: CreateOrEditLeadComponent,
         pathMatch: 'full',
     },
 ];

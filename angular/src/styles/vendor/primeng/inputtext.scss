@@ -9,3 +9,9 @@
     border-radius: .42rem;
     padding: .65rem 1rem;
 }
+
+.p-inputtext:disabled {
+    background-color: #F2F6F9;
+    border-color: #e4e6ef;
+    color: #050505;
+}    

@@ -2,11 +2,14 @@
 
 <localizationDictionary culture="en">
   <texts>
+
+	<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>  
+	<text name="LeadViewAssignedUserFilter">Access to all Leads</text>  
+	  
+    <text name="IsCompletedStatus">Is completed status</text>
 	<text name="AccountHeader">CRM Portal</text>
 	<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
-	  
 	<text name="AssignUsers">Assign Users</text>
-	<text name="IsCompletedStatus">Is completed status</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
 
     <text name="FilterByAssignee">Filter by Assignee</text>
@@ -68,16 +71,16 @@
     <text name="ActivityPriorities">Activity priorities</text>
 
     <text name="AddOpportunity">Add Opportunity</text>
-    <text name="InputName">Enter a Name</text>
+    <text name="InputName">Enter Name</text>
     <text name="InputAccount">Select Account</text>
     <text name="InputStage">Select Stage</text>
-    <text name="InputProbability">Enter a Percentage</text>
-    <text name="InputCloseDate">Select a Date</text>
-    <text name="InputContact">Select a Contact</text>
-    <text name="InputLeadSource">Select a Source</text>
-    <text name="InputDescription">Enter a Description</text>
-    <text name="InputBranch">Enter the Branch name</text>
-    <text name="InputDepartment">Enter the Department name</text>
+    <text name="InputProbability">Enter Percentage</text>
+    <text name="InputCloseDate">Select Date</text>
+    <text name="InputContact">Select Contact</text>
+    <text name="InputLeadSource">Select Source</text>
+    <text name="InputDescription">Enter Description</text>
+    <text name="InputBranch">Enter Name</text>
+    <text name="InputDepartment">Enter Name</text>
     <text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
     <text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
     <text name="AccountUser">Account user</text>
@@ -150,7 +153,7 @@
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
     <text name="Probability%">Probability %</text>
-    <text name="CloseDate">Close date</text>
+    <text name="CloseDate">Project Close</text>
     <text name="Department">Department</text>
     <text name="NewOpportunites">New Opportunites</text>
     <text name="DepartmentName">Department Name</text>
@@ -581,8 +584,11 @@
     <text name="CreationTime">Creation time</text>
     <text name="LeadCreationTime">Created at</text>
     <text name="SearchWithThreeDot">Search...</text>
-    <text name="LeadSearchWithThreeDot">Search Lead</text>
-    <text name="AccountSearchWithThreeDot">Search Account</text>
+    <text name="UsersSearchWithThreeDot">Search by Employee # or Name or Last Name or Email Address</text>
+    <text name="ActivitySearchWithThreeDot">Search by Company Name</text>
+    <text name="OpportunitySearchWithThreeDot">Search by Opportunity Name</text>
+    <text name="LeadSearchWithThreeDot">Search by Company or Contact Name</text>
+    <text name="AccountSearchWithThreeDot">Search by Company Name</text>
     <text name="ResetSpecialPermissions">Reset special permissions</text>
     <text name="SavingWithThreeDot">Saving...</text>
     <text name="Settings">Settings</text>
@@ -767,6 +773,7 @@
     <text name="CustomerViewInvoices">View Invoices in Account detail</text>
     <text name="CustomerViewEquipments">View Equipments in Account detail</text>
     <text name="CustomerViewEvents">View Events in Account detail</text>
+    <text name="LeadViewEvents">View Events in Lead detail</text>
     <text name="UsersManagement">Users Management</text>
     <text name="SettingsAppearance">Appearance settings</text>
     <text name="SeeDemo">See demo</text>
