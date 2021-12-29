@@ -13,6 +13,5 @@ namespace SBCRM.Crm.Dtos
         public bool IsLeadConversionValid { get; set; }
 
         public bool IsDefault { get; set; }
-
     }
 }
