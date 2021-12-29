@@ -201,7 +201,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         this.isReadOnlyMode = false;
         this.isNew = false;
         this.showSaveButton = true;
-        this.location.replaceState(`${this.routerLink}/createOrEdit?id=${this.leadId}`);
+        this.location.replaceState(`${ this.routerLink }/createOrEdit?id=${ this.leadId }`);
     }
 
 
