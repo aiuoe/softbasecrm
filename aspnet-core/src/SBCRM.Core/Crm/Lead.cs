@@ -4,11 +4,13 @@ using Abp.Auditing;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using SBCRM.Legacy;
-using SBCRM.Crm;
 using System.Collections.Generic;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Lead entity
+    /// </summary>
     [Table("Leads")]
     [Audited]
     public class Lead : FullAuditedEntity, IMayHaveTenant
