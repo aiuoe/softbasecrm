@@ -4,11 +4,13 @@ using Abp.Auditing;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using SBCRM.Legacy;
-using SBCRM.Crm;
 using System.Collections.Generic;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Lead entity
+    /// </summary>
     [Table("Leads")]
     [Audited]
     public class Lead : FullAuditedEntity, IMayHaveTenant
@@ -41,7 +43,7 @@ namespace SBCRM.Crm
         [StringLength(LeadConsts.MaxCityLength)]
         public virtual string City { get; set; }
 
-        public virtual string Notes { get; set; }
+        public virtual string Description { get; set; }
 
         [Phone]
         public virtual string CompanyPhone { get; set; }

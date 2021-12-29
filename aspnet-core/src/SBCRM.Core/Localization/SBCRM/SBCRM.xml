@@ -2,6 +2,9 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		
+	<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
+	
 	<text name="OpportunityUsers">Opportunity user</text>
 	<text name="CreateNewOpportunityUser">Create new opportunity user</text>
 	<text name="EditOpportunityUser">Edit opportunity user</text>
@@ -29,7 +32,6 @@
 	<text name="ExcludeCompleted">Exclude Completed</text>
 	<text name="NoRecordsFound">No records found.</text>
 	<text name="SearchCompanyName">Search Company Name</text>
-
 	<text name="Activity">Activity</text>
 	<text name="SBCRM.Crm.Activity">Activity</text>
 	<text name="TaskName">Task name</text>
@@ -160,7 +162,7 @@
 	<text name="SBCRM.Crm.Opportunity">Opportunity</text>
 	<text name="Probability">Probability</text>
 	<text name="Probability%">Probability %</text>
-	<text name="CloseDate">Close Date</text>
+	<text name="CloseDate">Project Close</text>
 	<text name="Department">Department</text>
 	<text name="NewOpportunites">New Opportunites</text>
 	<text name="DepartmentName">Department Name</text>
@@ -200,15 +202,17 @@
 	<text name="AssignedUsers">Assigned Users</text>
 	<text name="DescriptionLabel">Description</text>
 	<text name="CompanyPhone">Company Phone</text>
+	<text name="EnterCompanyPhone">Enter Company Phone</text>
 	<text name="CompanyPhone_Invalid">Invalid Company phone</text>
 	<text name="LeadCompanyPhone">Phone</text>
 	<text name="CompanyEmail">Company Email</text>
-	<text name="PoBox">Po Box</text>
+	<text name="EnterCompanyEmail">Enter Company Email</text>
 	<text name="PriorityDescription">Priority description</text>
 	<text name="PickPriority">Pick priority</text>
 	<text name="LeadPriority">Priority</text>
 	<text name="SelectAPriority">Select a priority</text>
 	<text name="Priority">Priority</text>
+	<text name="EnterPriority">Enter Priority</text>
 	<text name="SBCRM.Crm.Priority">Priority</text>
 	<text name="PrioritiesHeaderInfo">Priorities header info</text>
 	<text name="CreateNewPriority">Create new priority</text>
@@ -218,10 +222,12 @@
 	<text name="Lead">Lead</text>
 	<text name="SBCRM.Crm.Lead">Lead</text>
 	<text name="CompanyName">Company Name</text>
+	<text name="EnterCompanyName">Enter Company Name</text>
 	<text name="LeadCompanyName">Company name</text>
 	<text name="LastName">Last Name</text>
 	<text name="Title">Title</text>
-	<text name="WebSite">Web site</text>
+	<text name="WebSite">Website</text>
+	<text name="EnterWebSite">Enter Website</text>
 	<text name="WebSite_Invalid">Invalid Web site</text>
 	<text name="LeadsHeaderInfo">Leads header info</text>
 	<text name="CreateNewLead">New lead</text>
@@ -238,7 +244,8 @@
 	<text name="LeadStatusDescription">Lead status description</text>
 	<text name="PickLeadStatus">Pick lead status</text>
 	<text name="SelectALeadStatus">Select a lead status</text>
-	<text name="LeadStatus">Lead status</text>
+	<text name="LeadStatus">Status</text>
+	<text name="EnterLeadStatus">Enter Lead status</text>
 	<text name="MakeAccount">Make Account</text>
 	<text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
 	<text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
@@ -247,12 +254,13 @@
 	<text name="DeleteLeadStatus">Delete lead status</text>
 	<text name="LeadStatuses">Lead statuses</text>
 	<text name="LeadSource">Lead Source</text>
+	<text name="EnterLeadSource">Enter Lead Source</text>
 	<text name="SBCRM.Crm.LeadSource">LeadSource</text>
-	<text name="Notes">Notes</text>
-	<text name="EnterNotes">Enter Notes</text>
+	<text name="Description">Description</text>
+	<text name="EnterDescription">Enter Description</text>
 	<text name="LeadSourcesHeaderInfo">Lead sources header info</text>
-	<text name="NewLeadSource">New lead source</text>
-	<text name="CreateNewLeadSource">Create new lead source</text>
+	<text name="NewLeadSource">New Lead Source</text>
+	<text name="CreateNewLeadSource">Create lead source</text>
 	<text name="EditLeadSource">Edit lead source</text>
 	<text name="DeleteLeadSource">Delete lead source</text>
 	<text name="LeadSources">Lead sources</text>
@@ -269,9 +277,13 @@
 	<text name="SearchName">Search name</text>
 	<text name="SubName">Sub name</text>
 	<text name="POBox">PO Box</text>
+	<text name="EnterPOBox">Enter PO Box</text>
 	<text name="City">City</text>
+	<text name="EnterCity">Enter City</text>
 	<text name="State">State/Province</text>
+	<text name="EnterState">Enter State/Province</text>
 	<text name="Country">Country</text>
+	<text name="EnterCountry">Enter Country</text>
 	<text name="Salutation">Salutation</text>
 	<text name="Phone">Phone</text>
 	<text name="Extention">Extention</text>
@@ -499,7 +511,7 @@
 	<text name="AcceptedQuotes">Accepted Quotes</text>
 	<text name="CanceledQuotes">Canceled Quotes</text>
 	<text name="ZipCode">Zip Code/Postal Code</text>
-	<text name="ZipCodeProvince">Zip code/Province</text>
+	<text name="EnterZipCode">Enter Zip Code/Postal Code</text>
 	<text name="CreateNewZipCode">Create new zip code</text>
 	<text name="EditZipCode">Edit zip code</text>
 	<text name="DeleteZipCode">Delete zip code</text>
@@ -763,24 +775,33 @@
 	<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 	<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
 	<text name="ContactName">Contact Name</text>
+	<text name="EnterContactName">Enter Contact Name</text>
 	<text name="ContactPosition">Position</text>
+	<text name="EnterContactPosition">Enter Position</text>
 	<text name="SubordinateTo">Subordinate To</text>
 	<text name="ContactPhone">Phone Number</text>
+	<text name="EnterContactPhone">Enter Phone Number</text>
 	<text name="ContactPhone_Invalid">Invalid Contact phone</text>
 	<text name="ContactPhoneExtension">Ext</text>
+	<text name="EnterContactPhoneExtension">Enter Ext</text>
 	<text name="ContactPhoneExtension_Invalid">Invalid Extension</text>
 	<text name="ContactCellPhone">Cell Phone Number</text>
+	<text name="EnterContactCellPhone">Enter Cell Phone Number</text>
 	<text name="ContactCellPhone_Invalid">Invalid Cell Phone Number</text>
 	<text name="ContactFaxNumber">Fax Number</text>
+	<text name="EnterContactFaxNumber">Enter Fax Number</text>
 	<text name="ContactFaxNumber_Invalid">Invalid Fax Number</text>
 	<text name="PagerNumber">Pager Number</text>
+	<text name="EnterPagerNumber">Enter Pager Number</text>
 	<text name="PagerNumber_Invalid">Pager Number</text>
 	<text name="ContactNotes">Notes</text>
 	<text name="ContactEmail">Email Address</text>
+	<text name="EnterContactEmail">Enter Email Address</text>
 	<text name="CustomerViewInvoices">View Invoices in Account detail</text>
 	<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 	<text name="CustomerViewEvents">View Events in Account detail</text>
 	<text name="LeadViewEvents">View Events in Lead detail</text>
+	<text name="OpportunityViewEvents">View Events in Opportunity detail</text>
 	<text name="UsersManagement">Users Management</text>
 	<text name="SettingsAppearance">Appearance settings</text>
 	<text name="SeeDemo">See demo</text>
@@ -1225,6 +1246,7 @@
 	<text name="Billing">Billing</text>
 	<text name="LegalName">Legal Name</text>
 	<text name="Address">Address</text>
+	<text name="EnterAddress">Enter Address</text>
 	<text name="Tax/VatNo">Tax/VatNo</text>
 	<text name="Invoice">Invoice</text>
 	<text name="TotalAmount">Total Amount</text>
@@ -1684,7 +1706,7 @@
 	<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 	<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
 	<text name="DashboardNoteForMpaVersion">
-	<![CDATA[
+		<![CDATA[
 	<texts>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[

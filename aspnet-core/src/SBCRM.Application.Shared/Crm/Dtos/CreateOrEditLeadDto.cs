@@ -37,8 +37,8 @@ namespace SBCRM.Crm.Dtos
         [StringLength(LeadConsts.MaxCityLength)]
         public string City { get; set; }
 
-        [StringLength(LeadConsts.MaxNotesLength)]
-        public string Notes { get; set; }
+        [StringLength(LeadConsts.MaxDescriptionLength)]
+        public string Description { get; set; }
 
 
         [StringLength(LeadConsts.MaxCompanyPhoneLength)]
