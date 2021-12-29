@@ -23,7 +23,7 @@ export class AppNavigationService {
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants', ['/app/admin/tenants']),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions', ['/app/admin/editions']),
             new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/', ['/app/main/business/accounts']),
-            new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads', ['/app/main/crm/leads']),            
+            new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads', ['/app/main/crm/leads']),
             new AppMenuItem('Opportunities', 'Pages.Opportunities', 'fa fa-thumbs-up', '/app/main/crm/opportunities', ['/app/main/crm/opportunities']),
             new AppMenuItem('Activities', 'Pages.Activities', 'flaticon2-list-3', '/app/main/crm/activities', ['/app/main/crm/activities']),
             new AppMenuItem(
@@ -59,71 +59,71 @@ export class AppNavigationService {
                     )
                 ]
             ),
-            new AppMenuItem(
-                'Business',
-                '',
-                'flaticon-interface-8',
-                '',
-                [],
-                [
-                    new AppMenuItem('Countries', 'Pages.Countries', 'flaticon-more', '/app/main/crm/countries'), 
-                    new AppMenuItem(
-                        'OpportunityTypes',
-                        'Pages.OpportunityTypes',
-                        'flaticon-more',
-                        '/app/main/crm/opportunityTypes'
-                    ),
-                    new AppMenuItem(
-                        'LeadStatuses',
-                        'Pages.LeadStatuses',
-                        'flaticon-more',
-                        '/app/main/crm/leadStatuses'
-                    ),
-                    new AppMenuItem(
-                        'LeadSources',
-                        'Pages.LeadSources',
-                        'flaticon-more',
-                        '/app/main/business/leadSources'
-                    ),
-                    new AppMenuItem(
-                        'LeadStatuses',
-                        'Pages.LeadStatuses',
-                        'flaticon-more',
-                        '/app/main/business/leadStatuses'
-                    ),
-                    new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),
-                    new AppMenuItem(
-                        'ActivityTaskTypes',
-                        'Pages.ActivityTaskTypes',
-                        'flaticon-more',
-                        '/app/main/crm/activityTaskTypes'
-                    ),
-                    new AppMenuItem(
-                        'ActivityPriorities',
-                        'Pages.ActivityPriorities',
-                        'flaticon-more',
-                        '/app/main/crm/activityPriorities'
-                    ),
-                    new AppMenuItem(
-                        'ActivitySourceTypes',
-                        'Pages.ActivitySourceTypes',
-                        'flaticon-more',
-                        '/app/main/crm/activitySourceTypes'
-                    ),
-                    new AppMenuItem(
-                        'ActivityStatuses',
-                        'Pages.ActivityStatuses',
-                        'flaticon-more',
-                        '/app/main/crm/activityStatuses'
-                        ), 
-                    new AppMenuItem(
-                        'AccountUsers',
-                        'Pages.AccountUsers',
-                        'flaticon-more',
-                        '/app/main/crm/accountUsers'
-                    ),
-                ]
-            ),
+            // new AppMenuItem(
+            //     'Business',
+            //     '',
+            //     'flaticon-interface-8',
+            //     '',
+            //     [],
+            //     [
+            //         new AppMenuItem('Countries', 'Pages.Countries', 'flaticon-more', '/app/main/crm/countries'),
+            //         new AppMenuItem(
+            //             'OpportunityTypes',
+            //             'Pages.OpportunityTypes',
+            //             'flaticon-more',
+            //             '/app/main/crm/opportunityTypes'
+            //         ),
+            //         new AppMenuItem(
+            //             'LeadStatuses',
+            //             'Pages.LeadStatuses',
+            //             'flaticon-more',
+            //             '/app/main/crm/leadStatuses'
+            //         ),
+            //         new AppMenuItem(
+            //             'LeadSources',
+            //             'Pages.LeadSources',
+            //             'flaticon-more',
+            //             '/app/main/business/leadSources'
+            //         ),
+            //         new AppMenuItem(
+            //             'LeadStatuses',
+            //             'Pages.LeadStatuses',
+            //             'flaticon-more',
+            //             '/app/main/business/leadStatuses'
+            //         ),
+            //         new AppMenuItem('Priorities', 'Pages.Priorities', 'flaticon-more', '/app/main/crm/priorities'),
+            //         new AppMenuItem(
+            //             'ActivityTaskTypes',
+            //             'Pages.ActivityTaskTypes',
+            //             'flaticon-more',
+            //             '/app/main/crm/activityTaskTypes'
+            //         ),
+            //         new AppMenuItem(
+            //             'ActivityPriorities',
+            //             'Pages.ActivityPriorities',
+            //             'flaticon-more',
+            //             '/app/main/crm/activityPriorities'
+            //         ),
+            //         new AppMenuItem(
+            //             'ActivitySourceTypes',
+            //             'Pages.ActivitySourceTypes',
+            //             'flaticon-more',
+            //             '/app/main/crm/activitySourceTypes'
+            //         ),
+            //         new AppMenuItem(
+            //             'ActivityStatuses',
+            //             'Pages.ActivityStatuses',
+            //             'flaticon-more',
+            //             '/app/main/crm/activityStatuses'
+            //             ),
+            //         new AppMenuItem(
+            //             'AccountUsers',
+            //             'Pages.AccountUsers',
+            //             'flaticon-more',
+            //             '/app/main/crm/accountUsers'
+            //         ),
+            //     ]
+            // ),
             new AppMenuItem(
                 'User Management',
                 '',

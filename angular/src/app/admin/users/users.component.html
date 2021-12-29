@@ -76,8 +76,8 @@
                     <i class="fa fa-plus"></i>
                     {/{ 'CreateNewUser' | localize }}
                 </button>
-                
-            </div>-->           
+
+            </div>-->
         </sub-header>
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
@@ -93,7 +93,7 @@
                                                 name="filterText"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('SearchWithThreeDot')"
+                                                [placeholder]="l('UsersSearchWithThreeDot')"
                                                 type="text"
                                             />
                                             <div class="input-group-append">
@@ -174,7 +174,7 @@
                     </form>
 
                     <div class="row align-items-center">
-                        <!--<Primeng-TurboTable-Start>-->                           
+                        <!--<Primeng-TurboTable-Start>-->
                         <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
                             <p-table
                                 #dataTable
