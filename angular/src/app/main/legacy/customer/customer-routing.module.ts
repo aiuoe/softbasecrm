@@ -2,7 +2,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CustomersComponent } from './customers.component';
 import { CreateOrEditCustomerComponent } from './create-or-edit-customer.component';
-import { ViewCustomerComponent } from './view-customer.component';
 
 const routes: Routes = [
     {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211228135439_Add_Opportunity_Tenant")]
+    partial class Add_Opportunity_Tenant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2591,11 +2593,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -4583,7 +4580,7 @@ namespace SBCRM.Migrations
             modelBuilder.Entity("SBCRM.Crm.LeadUser", b =>
                 {
                     b.HasOne("SBCRM.Crm.Lead", "LeadFk")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("LeadId");
 
                     b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
@@ -4779,11 +4776,6 @@ namespace SBCRM.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.Lead", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.Customer", b =>

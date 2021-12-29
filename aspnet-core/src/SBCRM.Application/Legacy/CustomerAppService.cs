@@ -30,7 +30,6 @@ namespace SBCRM.Legacy
     /// <summary>
     /// App service to handle Accounts(Customers) information
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_Customer)]
     public class CustomerAppService : SBCRMAppServiceBase, ICustomerAppService
     {
         private readonly BaseRepo.IRepository<Customer> _customerRepository;
@@ -112,6 +111,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<PagedResultDto<GetCustomerForViewDto>> GetAll(GetAllCustomerInput input)
         {
             try
@@ -120,15 +120,23 @@ namespace SBCRM.Legacy
                         .Include(e => e.AccountTypeFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-                            e => e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
-                                 e.Number.Equals(input.Filter) ||
-                                 e.Name.Contains(input.Filter) ||
-                                 e.Address.Contains(input.Filter) ||
-                                 e.City.Contains(input.Filter) ||
-                                 e.Phone.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),e => e.Name.Contains(input.Filter))
                         .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id))
                         .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                        .Select(x => new
+                        {
+                            x.AccountTypeId,
+                            x.Number,
+                            x.BillTo,
+                            x.Name,
+                            x.Address,
+                            x.Phone,
+                            x.AddedBy,
+                            x.Added,
+                            x.ChangedBy,
+                            x.Changed,
+                            x.Users
+                        })
                     ;
 
                 var isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
@@ -264,6 +272,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<GetCustomerForViewOutput> GetCustomerForView(string customerNumber)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(customerNumber));
@@ -295,6 +304,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task CreateOrEdit(CreateOrEditCustomerDto input)
         {
             if (string.IsNullOrEmpty(input.Number))
@@ -371,6 +381,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<FileDto> GetCustomerToExcel(GetAllCustomerForExcelInput input)
         {
             var filteredCustomer = _customerRepository.GetAll()

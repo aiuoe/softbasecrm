@@ -16,5 +16,9 @@ namespace SBCRM.Crm.Dtos
 
         public bool IsDefault { get; set; }
 
+        [Required]
+        [StringLength(PriorityConsts.MaxColorLength, MinimumLength = PriorityConsts.MinColorLength)]
+        public string Color { get; set; }
+
     }
 }
