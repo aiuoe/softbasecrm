@@ -1,0 +1,57 @@
+
+/***
+Custom styles for aside menu
+ */
+#kt_brand {
+    background-color: $primaryColor !important;
+}
+
+.aside-menu-wrapper {
+    background-color:  $primaryColor !important;
+}
+
+#kt_aside_menu {
+    background-color:  $primaryColor !important;
+}
+
+.aside-menu .menu-nav>.menu-item.menu-item-here>.menu-heading, .aside-menu .menu-nav>.menu-item.menu-item-here>.menu-link {
+    background-color: $selectedMenuColor !important;
+}
+
+.aside-menu .menu-nav>.menu-item.menu-item-here>.menu-heading .menu-text, .aside-menu .menu-nav>.menu-item.menu-item-here>.menu-link .menu-text {
+    color: white !important;
+}
+
+.aside-menu .menu-nav>.menu-item>.menu-heading .menu-text, .aside-menu .menu-nav>.menu-item>.menu-link .menu-text {
+    color: white !important;
+}
+
+
+.aside-menu .menu-nav>.menu-item .menu-submenu .menu-item.menu-item-here>.menu-heading, .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item.menu-item-here>.menu-link {
+    background-color: $selectedMenuColor !important;
+}
+
+.aside-menu .menu-nav>.menu-item .menu-submenu .menu-item.menu-item-open>.menu-heading .menu-text, .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item.menu-item-open>.menu-link .menu-text {
+    color: white !important;
+}
+
+.aside-menu .menu-nav>.menu-item .menu-submenu .menu-item>.menu-heading .menu-text, .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item>.menu-link .menu-text {
+    color: white !important;
+}
+
+.aside-menu .menu-nav>.menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-heading, .aside-menu .menu-nav>.menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-link {
+    background-color: $selectedMenuColor !important;
+}
+
+.aside-menu .menu-nav>.menu-item.menu-item-open>.menu-heading, .aside-menu .menu-nav>.menu-item.menu-item-open>.menu-link {
+    background-color: $selectedMenuColor !important;
+}
+
+.aside-menu .menu-nav>.menu-item .menu-submenu .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-heading, .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-link {
+    background-color: $selectedMenuColor !important;
+}
+
+.menu-icon > i {
+    font-size: 1.25rem;
+    color: white;
+}

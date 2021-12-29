@@ -7,9 +7,22 @@ import { CreateOrEditOpportunityComponent } from './create-or-edit-opportunity.c
 import { ViewOpportunityComponent } from './view-opportunity.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputNumberModule} from 'primeng/inputNumber';
+import { CalendarModule} from 'primeng/calendar';
+import { AssignedUserModule } from '../assigned-user/assigned-user.module';
+import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @NgModule({
     declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent],
-    imports: [AppSharedModule, OpportunityRoutingModule, AdminSharedModule,MultiSelectModule,InputNumberModule],
+    imports: [
+        AppSharedModule, 
+        OpportunityRoutingModule, 
+        AdminSharedModule,
+        MultiSelectModule,
+        InputNumberModule, 
+        CalendarModule, 
+        AssignedUserModule],
+        
+    providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })
+
 export class OpportunityModule {}

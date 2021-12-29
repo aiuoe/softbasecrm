@@ -30,6 +30,7 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
+
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
@@ -70,6 +71,12 @@ namespace SBCRM.Authorization
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Create, L("CreateNewOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Edit, L("EditOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Delete, L("DeleteOpportunity"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_ViewAssignedUserFilter, L("OpportunityViewAssignedUserFilter"));
+
+            var opportunityUsers = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityUsers"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Create, L("CreateNewOpportunityUser"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Edit, L("EditOpportunityUser"));
+            opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Delete, L("DeleteOpportunityUser"));
 
             var opportunityTypes = pages.CreateChildPermission(AppPermissions.Pages_OpportunityTypes, L("OpportunityTypes"));
             opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Create, L("CreateNewOpportunityType"));
@@ -116,6 +123,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_ViewAssignedUserFilter, L("LeadViewAssignedUserFilter"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
 
@@ -221,6 +229,8 @@ namespace SBCRM.Authorization
             dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Create, L("CreatingDynamicEntityPropertyValue"));
             dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Edit, L("EditingDynamicEntityPropertyValue"));
             dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Delete, L("DeletingDynamicEntityPropertyValue"));
+
+            pages.CreateChildPermission(AppPermissions.Pages_GlobalSearch, L("GlobalSearch"));
 
             //TENANT-SPECIFIC PERMISSIONS
 

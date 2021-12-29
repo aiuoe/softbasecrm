@@ -1,4 +1,5 @@
 ﻿using SBCRM.Dto;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -50,5 +51,7 @@ namespace SBCRM.Crm.Dtos
         public int? LeadStatusId { get; set; }
 
         public int? PriorityId { get; set; }
+
+        public List<LeadUserViewDto> Users { get; set; }
     }
 }

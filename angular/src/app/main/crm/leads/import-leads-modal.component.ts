@@ -4,10 +4,10 @@ import { AppConsts } from '@shared/AppConsts';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import {
     AccountUserLookupTableDto,
-    AccountUsersServiceProxy,
     LeadDto,
     LeadLeadSourceLookupTableDto,
     LeadsServiceProxy,
+    LeadUsersServiceProxy,
     ProfileServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
@@ -57,8 +57,8 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     constructor(injector: Injector, private _profileService: ProfileServiceProxy,
                 private _tokenService: TokenService,
                 private _leadsServiceProxy: LeadsServiceProxy,
-                private _accountUsersServiceProxy: AccountUsersServiceProxy,
-                private _fileDownloadService: FileDownloadService) {
+                private _fileDownloadService: FileDownloadService,
+                private _leadUserServiceProxy: LeadUsersServiceProxy) {
         super(injector);
     }
 
@@ -70,7 +70,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         });
 
         // Gets all users to show on the User dropdown
-        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+        this._leadUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
             this.allUsers = result;
         });
     }

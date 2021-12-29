@@ -120,15 +120,23 @@ namespace SBCRM.Legacy
                         .Include(e => e.AccountTypeFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-                            e => e.Number.Contains(input.Filter) || e.BillTo.Contains(input.Filter) ||
-                                 e.Number.Equals(input.Filter) ||
-                                 e.Name.Contains(input.Filter) ||
-                                 e.Address.Contains(input.Filter) ||
-                                 e.City.Contains(input.Filter) ||
-                                 e.Phone.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),e => e.Name.Contains(input.Filter))
                         .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id))
                         .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                        .Select(x => new
+                        {
+                            x.AccountTypeId,
+                            x.Number,
+                            x.BillTo,
+                            x.Name,
+                            x.Address,
+                            x.Phone,
+                            x.AddedBy,
+                            x.Added,
+                            x.ChangedBy,
+                            x.Changed,
+                            x.Users
+                        })
                     ;
 
                 var isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);

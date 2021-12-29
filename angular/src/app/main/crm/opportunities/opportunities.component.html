@@ -41,8 +41,9 @@
                                                 name="nameFilter"
                                                 autoFocus
                                                 class="form-control m-input"
-                                                [placeholder]="l('Search')"
+                                                [placeholder]="l('OpportunitySearchWithThreeDot')"
                                                 type="text"
+                                                (keyup)="getOpportunityByNameFilter($event)"
                                             />
                                             <span class="input-group-btn">
                                                 <button
@@ -192,7 +193,8 @@
                                                             *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
-                                                            [queryParams]="{ id: record.opportunity.id }"
+                                                            [queryParams]="{ id: record.opportunity.id,
+                                                                             customerName: record.customerName }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -202,7 +204,8 @@
                                                             *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
-                                                            [queryParams]="{ id: record.opportunity.id }"
+                                                            [queryParams]="{ id: record.opportunity.id,
+                                                                             customerName: record.customerName }"
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
