@@ -36,7 +36,7 @@ export const getActivityDurationIitems = () => [
         enumValue: ActivityDuration.ThirtyMinutes,
     },
     {
-        text: '1 Hour',
+        text: '1 Hour (default)',
         value: 60,
         enumValue: ActivityDuration.OneHour,
     },

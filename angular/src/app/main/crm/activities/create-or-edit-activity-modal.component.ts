@@ -18,6 +18,7 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { ActivityDuration, ActivitySourceType, ActivityTaskType, getActivityDurationIitems } from '@shared/AppEnums';
+import { ThrowStmt } from '@angular/compiler';
 
 /**
  * Component for creating or updating an activity
@@ -33,6 +34,8 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
 
     active = false;
     saving = false;
+    isEditMode = false;
+    readonly = false;
 
     sourceType: ActivitySourceType;
 
@@ -67,10 +70,12 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     /**
      * Show the form dialog
      */
-    async show(sourceType: ActivitySourceType, activityId?: number): Promise<void> {
+    async show(sourceType: ActivitySourceType, activityId?: number, readonly: boolean = false): Promise<void> {
         this.sourceType = sourceType;
+        this.readonly = readonly;
 
         const isCreate = !activityId;
+        this.isEditMode = !isCreate;
 
         if (isCreate) {
             this.activity = new CreateOrEditActivityDto();
@@ -103,25 +108,34 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         switch (sourceType) {
             case ActivitySourceType.Lead:
                 this._activitiesServiceProxy.getAllLeadForTableDropdown().subscribe((result) => {
-                    this.allLeads = result;
+                    this.allLeads = isCreate ? result : result.filter((x) => x.id == this.activity.leadId);
                 });
                 break;
             case ActivitySourceType.Account:
                 this._activitiesServiceProxy.getAllAccountsForTableDropdown().subscribe((result) => {
-                    this.allAccounts = result;
+                    this.allAccounts = isCreate
+                        ? result
+                        : result.filter((x) => x.number == this.activity.customerNumber);
                 });
                 break;
             case ActivitySourceType.Opportunity:
-                this._activitiesServiceProxy.getAllOpportunityForTableDropdown().subscribe((result) => {
-                    this.allOpportunities = result;
+                await this._activitiesServiceProxy
+                    .getAllOpportunityForTableDropdown()
+                    .toPromise()
+                    .then((result) => {
+                        this.allOpportunities = isCreate
+                            ? result
+                            : result.filter((x) => x.id == this.activity.opportunityId);
 
-                    this.opportunityCustomerNumber = result.find(
-                        (x) => x.id == this.activity.opportunityId
-                    )?.customerNumber;
-                });
+                        this.opportunityCustomerNumber = result.find(
+                            (x) => x.id == this.activity.opportunityId
+                        )?.customerNumber;
+                    });
 
                 this._activitiesServiceProxy.getAllAccountRelatedToOpportunityForTableDropdown().subscribe((result) => {
-                    this.allAccounts = result;
+                    this.allAccounts = isCreate
+                        ? result
+                        : result.filter((x) => x.number == this.opportunityCustomerNumber);
                 });
                 break;
         }
@@ -208,6 +222,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      */
     close(): void {
         this.active = false;
+        this.allAccounts = [];
         this.modal.hide();
     }
 

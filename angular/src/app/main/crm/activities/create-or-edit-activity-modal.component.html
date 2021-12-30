@@ -13,8 +13,14 @@
             <form *ngIf="active" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="activity.id">{{ l('EditActivity') }}</span>
-                        <span *ngIf="!activity.id">{{ formTitle }}</span>
+                        <ng-container *ngIf="!readonly; else readonlyTitle">
+                            <span *ngIf="activity.id">{{ l('EditActivity') }}</span>
+                            <span *ngIf="!activity.id">{{ formTitle }}</span>
+                        </ng-container>
+
+                        <ng-template #readonlyTitle>
+                            <span>{{ l('ViewActivity') }}</span>
+                        </ng-template>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -31,6 +37,7 @@
                                         name="activity.leadId"
                                         [(ngModel)]="activity.leadId"
                                         class="form-control"
+                                        [disabled]="isEditMode || readonly"
                                     >
                                         <option class="font-italic font-weight-light">
                                             {{ l('SelectALead') }}
@@ -50,6 +57,7 @@
                                         name="activity.customerNumber"
                                         [(ngModel)]="activity.customerNumber"
                                         class="form-control"
+                                        [disabled]="isEditMode || readonly"
                                     >
                                         <option class="font-italic font-weight-light">
                                             {{ l('SelectAnAccount') }}
@@ -70,6 +78,7 @@
                                             name="opportunityCustomerNumber"
                                             [(ngModel)]="opportunityCustomerNumber"
                                             class="form-control"
+                                            [disabled]="isEditMode || readonly"
                                         >
                                             <option class="font-italic font-weight-light">
                                                 {{ l('SelectACustomer') }}
@@ -89,6 +98,7 @@
                                             name="activity.opportunityId"
                                             [(ngModel)]="activity.opportunityId"
                                             class="form-control"
+                                            [disabled]="isEditMode || readonly"
                                         >
                                             <option class="font-italic font-weight-light">
                                                 {{ l('SelectAOpportunity') }}
@@ -105,7 +115,7 @@
                                 <div class="form-group m-form__group input-field required">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
                                     <select
-                                        [disabled]="allUsers?.length === 1"
+                                        [disabled]="isEditMode || readonly || allUsers?.length === 1"
                                         name="activity.userId"
                                         [(ngModel)]="activity.userId"
                                         class="form-control"
@@ -129,6 +139,7 @@
                                         [(ngModel)]="activity.activityTaskTypeId"
                                         class="form-control"
                                         required
+                                        [disabled]="readonly"
                                     >
                                         <option *ngFor="let item of allActivityTaskTypes" [ngValue]="item.id">
                                             {{ item.displayName }}
@@ -149,6 +160,7 @@
                                         [(ngModel)]="selectedDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
+                                        [disabled]="readonly"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -169,6 +181,7 @@
                                             dataType="string"
                                             inputId="Activity_StartsAt"
                                             name="Activity_StartsAt"
+                                            [disabled]="readonly"
                                         ></p-calendar>
                                         <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
                                     </div>
@@ -182,6 +195,7 @@
                                             [(ngModel)]="activity.durationMinutes"
                                             class="form-control"
                                             required
+                                            [disabled]="readonly"
                                         >
                                             <option *ngFor="let item of durationItems" [ngValue]="item.value">
                                                 {{ item.text }}
@@ -199,6 +213,7 @@
                                         [(ngModel)]="activity.activityStatusId"
                                         class="form-control"
                                         required
+                                        [disabled]="readonly"
                                     >
                                         <option *ngFor="let item of allActivityStatuses" [ngValue]="item.id">
                                             {{ item.displayName }}
@@ -215,6 +230,7 @@
                                         [(ngModel)]="activity.activityPriorityId"
                                         class="form-control"
                                         required
+                                        [disabled]="readonly"
                                     >
                                         <option *ngFor="let item of allActivityPriorities" [ngValue]="item.id">
                                             {{ item.displayName }}
@@ -234,6 +250,7 @@
                                         name="Description"
                                         rows="3"
                                         [placeholder]="l('EnterDescription')"
+                                        [disabled]="readonly"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
@@ -242,10 +259,20 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
-                        {{ l('Cancel') }}
+                    <button
+                        [disabled]="saving"
+                        type="button"
+                        class="btn"
+                        [ngClass]="{
+                            'btn-default': !readonly,
+                            'btn-primary blue': readonly
+                        }"
+                        (click)="close()"
+                    >
+                        {{ readonly ? l('Close') : l('Cancel') }}
                     </button>
                     <button
+                        *ngIf="!readonly"
                         type="submit"
                         class="btn btn-primary blue"
                         [disabled]="!activityForm.form.valid"

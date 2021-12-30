@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
   <texts>
+    <text name="ViewActivity">View Activity</text>
     <text name="SelectAnAccount">Select an Account</text>
     <text name="SelectACustomer">Select a Customer</text>
     <text name="EnumValue">Enum value</text>

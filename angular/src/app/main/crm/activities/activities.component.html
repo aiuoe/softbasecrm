@@ -226,7 +226,13 @@
                                                         <a
                                                             href="javascript:;"
                                                             class="dropdown-item"
-                                                            (click)="viewActivityModal.show(record)"
+                                                            (click)="
+                                                                createOrEditActivityModal.show(
+                                                                    record.sourceTypeEnumValue,
+                                                                    record.activity.id,
+                                                                    true
+                                                                )
+                                                            "
                                                         >
                                                             {{ l('View') }}
                                                         </a>
