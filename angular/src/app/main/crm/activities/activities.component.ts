@@ -23,6 +23,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { debounce } from 'lodash-es';
+import { ActivitySourceType } from '@shared/AppEnums';
 
 /***
  * Component to manage the activities summary grid
@@ -88,6 +89,14 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivitySourceTypes();
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
+
+        const routeParams = this._activatedRoute.snapshot.queryParamMap;
+        if (routeParams.has('view')) {
+            const activityId = Number(routeParams.get('view'));
+            if (!isNaN(activityId)) {
+                this.createOrEditActivityModal.show('', activityId, true);
+            }
+        }
     }
 
     /**

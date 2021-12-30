@@ -71,7 +71,6 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Show the form dialog
      */
     async show(sourceTypeCode: string, activityId?: number, readonly: boolean = false): Promise<void> {
-        this.sourceTypeCode = sourceTypeCode;
         this.readonly = readonly;
 
         const isCreate = !activityId;
@@ -93,17 +92,24 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
                 .getActivityForEdit(activityId)
                 .toPromise()
                 .then((result) => {
-                    this.activity = result.activity;
+                    if (result.activity != undefined && result.activity != null) {
+                        this.activity = result.activity;
+                        sourceTypeCode = result.sourceTypeCode;
 
-                    const { dueDate } = result.activity;
+                        const { dueDate } = result.activity;
 
-                    this.selectedDate = dueDate.toJSDate();
-                    this.selectedTime = dueDate.toFormat('hh:mm a');
+                        this.selectedDate = dueDate.toJSDate();
+                        this.selectedTime = dueDate.toFormat('hh:mm a');
 
-                    this.active = true;
-                    this.modal.show();
+                        this.active = true;
+                        this.modal.show();
+                    }
                 });
+
+            if (!this.activity.id) return;
         }
+
+        this.sourceTypeCode = sourceTypeCode;
 
         switch (sourceTypeCode) {
             case ActivitySourceType.LEAD:

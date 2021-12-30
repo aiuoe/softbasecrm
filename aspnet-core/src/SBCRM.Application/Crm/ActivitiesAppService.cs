@@ -257,6 +257,9 @@ namespace SBCRM.Crm
         {
             var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
 
+            if (activity is null)
+                return null;
+
             var output = new GetActivityForEditOutput { Activity = ObjectMapper.Map<CreateOrEditActivityDto>(activity) };
 
             if (output.Activity.OpportunityId != null)
@@ -276,6 +279,7 @@ namespace SBCRM.Crm
 
             var lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
             output.ActivitySourceTypeDescription = lookupActivitySourceType?.Description?.ToString();
+            output.SourceTypeCode = lookupActivitySourceType.Code;
 
             var lookupActivityTaskType = await _lookupActivityTaskTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivityTaskTypeId);
             output.ActivityTaskTypeDescription = lookupActivityTaskType?.Description?.ToString();

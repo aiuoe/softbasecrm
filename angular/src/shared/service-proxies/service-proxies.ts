@@ -31833,6 +31833,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
     activityStatusDescription!: string | undefined;
     activityPriorityDescription!: string | undefined;
     customerName!: string | undefined;
+    sourceTypeCode!: string | undefined;
 
     constructor(data?: IGetActivityForEditOutput) {
         if (data) {
@@ -31854,6 +31855,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
             this.activityStatusDescription = _data["activityStatusDescription"];
             this.activityPriorityDescription = _data["activityPriorityDescription"];
             this.customerName = _data["customerName"];
+            this.sourceTypeCode = _data["sourceTypeCode"];
         }
     }
 
@@ -31875,6 +31877,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
         data["activityStatusDescription"] = this.activityStatusDescription;
         data["activityPriorityDescription"] = this.activityPriorityDescription;
         data["customerName"] = this.customerName;
+        data["sourceTypeCode"] = this.sourceTypeCode;
         return data; 
     }
 }
@@ -31889,6 +31892,7 @@ export interface IGetActivityForEditOutput {
     activityStatusDescription: string | undefined;
     activityPriorityDescription: string | undefined;
     customerName: string | undefined;
+    sourceTypeCode: string | undefined;
 }
 
 export class GetActivityForViewDto implements IGetActivityForViewDto {

@@ -52,7 +52,7 @@
     <text name="Activities">Activities</text>
     <text name="OpportunityName">Opportunity name</text>
     <text name="PickOpportunity">Pick opportunity</text>
-    <text name="SelectAOpportunity">Select a opportunity</text>
+    <text name="SelectAOpportunity">Select an Opportunity</text>
     <text name="PickLead">Pick lead</text>
     <text name="SelectALead">Select a lead</text>
     <text name="ActivitySourceTypeDescription">Activity source type description</text>
