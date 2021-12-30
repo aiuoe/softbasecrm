@@ -125,13 +125,19 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
           };     
     }
 
-    test() {        
+     /**
+     * Method for rendering calendar
+     */
+    initializeClaendar () {        
         this.fullcalendar.getApi().refetchEvents();
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());
 
     }
 
+     /**
+     * Method for handle click events on an event (still on testing)
+     */
     handleDateClick(event) {
         console.log(event)
         this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0])
