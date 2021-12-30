@@ -2,14 +2,13 @@
 
 <localizationDictionary culture="en">
 	<texts>
-		
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
-		
-	    <text name="OpportunityUsers">Opportunity user</text>
+
+		<text name="OpportunityUsers">Opportunity user</text>
 		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
 		<text name="EditOpportunityUser">Edit opportunity user</text>
 		<text name="DeleteOpportunityUser">Delete opportunity user</text>
-		
+
 		<text name="GlobalSearch">Global Search Access</text>
 		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
 		<text name="LeadViewAssignedUserFilter">Access to all Leads</text>
@@ -161,6 +160,7 @@
 		<text name="Probability">Probability</text>
 		<text name="Probability%">Probability %</text>
 		<text name="CloseDate">Project Close</text>
+		<text name="OpportunityCloseDate">Close Date</text>
 		<text name="Department">Department</text>
 		<text name="NewOpportunites">New Opportunites</text>
 		<text name="DepartmentName">Department Name</text>
@@ -799,6 +799,7 @@
 		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewEvents">View Events in Account detail</text>
 		<text name="LeadViewEvents">View Events in Lead detail</text>
+		<text name="OpportunityViewEvents">View Events in Opportunity detail</text>
 		<text name="UsersManagement">Users Management</text>
 		<text name="SettingsAppearance">Appearance settings</text>
 		<text name="SeeDemo">See demo</text>
