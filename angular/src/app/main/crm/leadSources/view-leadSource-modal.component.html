@@ -14,7 +14,8 @@
                 <h4 class="modal-title">
                     <span>{{ l('Details') }}</span>
                 </h4>
-                <button type="button" class="close" (click)="close()" aria-label="Close">
+
+                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -27,15 +28,6 @@
                     <div class="col-6 mb-3">
                         <h6>{{ l('Order') }} :</h6>
                         {{ item.leadSource.order }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{ l('IsDefault') }} :</h6>
-                        <div *ngIf="item.leadSource.isDefault" class="text-left">
-                            <i class="fa fa-check-circle text-success" title="True"></i>
-                        </div>
-                        <div *ngIf="!item.leadSource.isDefault" class="text-left">
-                            <i class="fa fa-times-circle" title="False"></i>
-                        </div>
                     </div>
                 </div>
             </div>

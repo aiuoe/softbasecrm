@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211229200938_Update_Notes_To_Description")]
+    partial class Update_Notes_To_Description
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1558,6 +1560,9 @@ namespace SBCRM.Migrations
 
                     b.Property<string>("GoogleAuthenticatorKey")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasAcceptedTermsAndConditions")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

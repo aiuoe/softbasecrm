@@ -10034,7 +10034,7 @@ export class GlobalSearchServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, categoryCode: GlobalSearchCategory | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetGlobalSearchItemDto> {
+    getAll(filter: string | undefined, categoryCode: GlobalSearchCategory | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetGlobalSearchItemDto> {
         let url_ = this.baseUrl + "/api/services/app/GlobalSearch/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11581,7 +11581,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    canSeeAllLeads(): Observable<boolean> {
+    canSeeAllLeads() : Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Leads/CanSeeAllLeads";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11632,7 +11632,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getCurrentUserId(): Observable<number> {
+    getCurrentUserId() : Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetCurrentUserId";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11690,7 +11690,7 @@ export class LeadsServiceProxy {
      * @param countryFilter (optional) 
      * @param stateFilter (optional) 
      * @param cityFilter (optional) 
-     * @param notesFilter (optional) 
+     * @param descriptionFilter (optional) 
      * @param companyPhoneFilter (optional) 
      * @param companyEmailFilter (optional) 
      * @param poBoxFilter (optional) 
@@ -11712,7 +11712,7 @@ export class LeadsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, notesFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11750,10 +11750,10 @@ export class LeadsServiceProxy {
             throw new Error("The parameter 'cityFilter' cannot be null.");
         else if (cityFilter !== undefined)
             url_ += "CityFilter=" + encodeURIComponent("" + cityFilter) + "&";
-        if (notesFilter === null)
-            throw new Error("The parameter 'notesFilter' cannot be null.");
-        else if (notesFilter !== undefined)
-            url_ += "NotesFilter=" + encodeURIComponent("" + notesFilter) + "&";
+        if (descriptionFilter === null)
+            throw new Error("The parameter 'descriptionFilter' cannot be null.");
+        else if (descriptionFilter !== undefined)
+            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
         if (companyPhoneFilter === null)
             throw new Error("The parameter 'companyPhoneFilter' cannot be null.");
         else if (companyPhoneFilter !== undefined)
@@ -12255,7 +12255,7 @@ export class LeadsServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12468,7 +12468,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getAllUsersForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
+    getAllUsersForTableDropdown() : Observable<LeadUserUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAllUsersForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12526,7 +12526,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getAllLeadStatusForTableDropdown(): Observable<LeadLeadStatusLookupTableDto[]> {
+    getAllLeadStatusForTableDropdown() : Observable<LeadLeadStatusLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAllLeadStatusForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12699,7 +12699,7 @@ export class LeadsServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -12782,13 +12782,12 @@ export class LeadSourcesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
-     * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12798,10 +12797,6 @@ export class LeadSourcesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
-        if (isDefaultFilter === null)
-            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
-        else if (isDefaultFilter !== undefined)
-            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -13025,6 +13020,58 @@ export class LeadSourcesServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateOrder(body: UpdateOrderleadSourceDto[] | undefined) : Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadSources/UpdateOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOrder(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOrder(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOrder(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -13079,10 +13126,9 @@ export class LeadSourcesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
-     * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined) : Observable<FileDto> {
+    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourcesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13092,10 +13138,6 @@ export class LeadSourcesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
-        if (isDefaultFilter === null)
-            throw new Error("The parameter 'isDefaultFilter' cannot be null.");
-        else if (isDefaultFilter !== undefined)
-            url_ += "IsDefaultFilter=" + encodeURIComponent("" + isDefaultFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15153,6 +15195,82 @@ export class OpportunitiesServiceProxy {
         }
         return _observableOf<OpportunityContactsLookupTableDto[]>(<any>null);
     }
+
+    /**
+     * @param entityTypeFullName (optional) 
+     * @param entityId (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetEntityTypeChanges?";
+        if (entityTypeFullName === null)
+            throw new Error("The parameter 'entityTypeFullName' cannot be null.");
+        else if (entityTypeFullName !== undefined)
+            url_ += "EntityTypeFullName=" + encodeURIComponent("" + entityTypeFullName) + "&";
+        if (entityId === null)
+            throw new Error("The parameter 'entityId' cannot be null.");
+        else if (entityId !== undefined)
+            url_ += "EntityId=" + encodeURIComponent("" + entityId) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEntityTypeChanges(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEntityTypeChanges(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfEntityChangeListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEntityTypeChanges(response: HttpResponseBase): Observable<PagedResultDtoOfEntityChangeListDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfEntityChangeListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -15169,12 +15287,13 @@ export class OpportunityStagesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param colorFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15184,6 +15303,10 @@ export class OpportunityStagesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (colorFilter === null)
+            throw new Error("The parameter 'colorFilter' cannot be null.");
+        else if (colorFilter !== undefined)
+            url_ += "ColorFilter=" + encodeURIComponent("" + colorFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -15513,9 +15636,10 @@ export class OpportunityStagesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param colorFilter (optional) 
      * @return Success
      */
-    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined) : Observable<FileDto> {
+    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined) : Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStagesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15525,6 +15649,10 @@ export class OpportunityStagesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (colorFilter === null)
+            throw new Error("The parameter 'colorFilter' cannot be null.");
+        else if (colorFilter !== undefined)
+            url_ += "ColorFilter=" + encodeURIComponent("" + colorFilter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -22997,53 +23125,6 @@ export class UserServiceProxy {
     }
 
     /**
-     * @return Success
-     */
-    acceptTermsAndConditions() : Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/User/AcceptTermsAndConditions";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAcceptTermsAndConditions(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAcceptTermsAndConditions(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processAcceptTermsAndConditions(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
      * @param id (optional) 
      * @return Success
      */
@@ -27812,7 +27893,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     country!: string | undefined;
     state!: string | undefined;
     city!: string | undefined;
-    notes!: string | undefined;
+    description!: string | undefined;
     companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
@@ -27847,7 +27928,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
             this.country = _data["country"];
             this.state = _data["state"];
             this.city = _data["city"];
-            this.notes = _data["notes"];
+            this.description = _data["description"];
             this.companyPhone = _data["companyPhone"];
             this.companyEmail = _data["companyEmail"];
             this.poBox = _data["poBox"];
@@ -27882,7 +27963,7 @@ export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
         data["country"] = this.country;
         data["state"] = this.state;
         data["city"] = this.city;
-        data["notes"] = this.notes;
+        data["description"] = this.description;
         data["companyPhone"] = this.companyPhone;
         data["companyEmail"] = this.companyEmail;
         data["poBox"] = this.poBox;
@@ -27910,7 +27991,7 @@ export interface ICreateOrEditLeadDto {
     country: string | undefined;
     state: string | undefined;
     city: string | undefined;
-    notes: string | undefined;
+    description: string | undefined;
     companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
@@ -27929,6 +28010,7 @@ export interface ICreateOrEditLeadDto {
 
 export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     description!: string;
+    order!: number;
     isDefault!: boolean;
     id!: number | undefined;
 
@@ -27944,6 +28026,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
             this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
@@ -27959,6 +28042,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
         data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
@@ -27967,6 +28051,7 @@ export class CreateOrEditLeadSourceDto implements ICreateOrEditLeadSourceDto {
 
 export interface ICreateOrEditLeadSourceDto {
     description: string;
+    order: number;
     isDefault: boolean;
     id: number | undefined;
 }
@@ -28150,7 +28235,7 @@ export interface ICreateOrEditOpportunityDto {
 export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunityStageDto {
     description!: string;
     order!: number;
-    color!: string | undefined;
+    color!: string;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditOpportunityStageDto) {
@@ -28191,7 +28276,7 @@ export class CreateOrEditOpportunityStageDto implements ICreateOrEditOpportunity
 export interface ICreateOrEditOpportunityStageDto {
     description: string;
     order: number;
-    color: string | undefined;
+    color: string;
     id: number | undefined;
 }
 
@@ -36264,7 +36349,7 @@ export class LeadDto implements ILeadDto {
     country!: string | undefined;
     state!: string | undefined;
     city!: string | undefined;
-    notes!: string | undefined;
+    description!: string | undefined;
     companyPhone!: string | undefined;
     companyEmail!: string | undefined;
     poBox!: string | undefined;
@@ -36301,7 +36386,7 @@ export class LeadDto implements ILeadDto {
             this.country = _data["country"];
             this.state = _data["state"];
             this.city = _data["city"];
-            this.notes = _data["notes"];
+            this.description = _data["description"];
             this.companyPhone = _data["companyPhone"];
             this.companyEmail = _data["companyEmail"];
             this.poBox = _data["poBox"];
@@ -36342,7 +36427,7 @@ export class LeadDto implements ILeadDto {
         data["country"] = this.country;
         data["state"] = this.state;
         data["city"] = this.city;
-        data["notes"] = this.notes;
+        data["description"] = this.description;
         data["companyPhone"] = this.companyPhone;
         data["companyEmail"] = this.companyEmail;
         data["poBox"] = this.poBox;
@@ -36376,7 +36461,7 @@ export interface ILeadDto {
     country: string | undefined;
     state: string | undefined;
     city: string | undefined;
-    notes: string | undefined;
+    description: string | undefined;
     companyPhone: string | undefined;
     companyEmail: string | undefined;
     poBox: string | undefined;
@@ -38550,6 +38635,7 @@ export interface IOpportunityOpportunityTypeLookupTableDto {
 export class OpportunityStageDto implements IOpportunityStageDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
     id!: number;
 
     constructor(data?: IOpportunityStageDto) {
@@ -38565,6 +38651,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
             this.id = _data["id"];
         }
     }
@@ -38580,6 +38667,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
         data["id"] = this.id;
         return data; 
     }
@@ -38588,6 +38676,7 @@ export class OpportunityStageDto implements IOpportunityStageDto {
 export interface IOpportunityStageDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
     id: number;
 }
 
@@ -44402,6 +44491,46 @@ export interface IUpdateNotificationSettingsInput {
     notifications: NotificationSubscriptionDto[] | undefined;
 }
 
+export class UpdateOrderleadSourceDto implements IUpdateOrderleadSourceDto {
+    description!: string | undefined;
+    order!: number;
+
+    constructor(data?: IUpdateOrderleadSourceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.order = _data["order"];
+        }
+    }
+
+    static fromJS(data: any): UpdateOrderleadSourceDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateOrderleadSourceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["order"] = this.order;
+        return data; 
+    }
+}
+
+export interface IUpdateOrderleadSourceDto {
+    description: string | undefined;
+    order: number;
+}
+
 export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunityStageDto {
     description!: string | undefined;
     order!: number;
@@ -44748,7 +44877,6 @@ export class UserEditDto implements IUserEditDto {
     shouldChangePasswordOnNextLogin!: boolean;
     isTwoFactorEnabled!: boolean;
     isLockoutEnabled!: boolean;
-    hasAcceptedTermsAndConditions!: boolean;
 
     constructor(data?: IUserEditDto) {
         if (data) {
@@ -44772,7 +44900,6 @@ export class UserEditDto implements IUserEditDto {
             this.shouldChangePasswordOnNextLogin = _data["shouldChangePasswordOnNextLogin"];
             this.isTwoFactorEnabled = _data["isTwoFactorEnabled"];
             this.isLockoutEnabled = _data["isLockoutEnabled"];
-            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
         }
     }
 
@@ -44796,7 +44923,6 @@ export class UserEditDto implements IUserEditDto {
         data["shouldChangePasswordOnNextLogin"] = this.shouldChangePasswordOnNextLogin;
         data["isTwoFactorEnabled"] = this.isTwoFactorEnabled;
         data["isLockoutEnabled"] = this.isLockoutEnabled;
-        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         return data; 
     }
 }
@@ -44813,7 +44939,6 @@ export interface IUserEditDto {
     shouldChangePasswordOnNextLogin: boolean;
     isTwoFactorEnabled: boolean;
     isLockoutEnabled: boolean;
-    hasAcceptedTermsAndConditions: boolean;
 }
 
 export class UserListDto implements IUserListDto {
@@ -44827,7 +44952,6 @@ export class UserListDto implements IUserListDto {
     roles!: UserListRoleDto[] | undefined;
     isActive!: boolean;
     creationTime!: DateTime;
-    hasAcceptedTermsAndConditions!: boolean;
     id!: number;
 
     constructor(data?: IUserListDto) {
@@ -44855,7 +44979,6 @@ export class UserListDto implements IUserListDto {
             }
             this.isActive = _data["isActive"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
-            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
             this.id = _data["id"];
         }
     }
@@ -44883,7 +45006,6 @@ export class UserListDto implements IUserListDto {
         }
         data["isActive"] = this.isActive;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
-        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         data["id"] = this.id;
         return data; 
     }
@@ -44900,7 +45022,6 @@ export interface IUserListDto {
     roles: UserListRoleDto[] | undefined;
     isActive: boolean;
     creationTime: DateTime;
-    hasAcceptedTermsAndConditions: boolean;
     id: number;
 }
 
@@ -45054,7 +45175,6 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
     userName!: string | undefined;
     emailAddress!: string | undefined;
     profilePictureId!: string | undefined;
-    hasAcceptedTermsAndConditions!: boolean;
     id!: number;
 
     constructor(data?: IUserLoginInfoDto) {
@@ -45073,7 +45193,6 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
             this.userName = _data["userName"];
             this.emailAddress = _data["emailAddress"];
             this.profilePictureId = _data["profilePictureId"];
-            this.hasAcceptedTermsAndConditions = _data["hasAcceptedTermsAndConditions"];
             this.id = _data["id"];
         }
     }
@@ -45092,7 +45211,6 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
         data["profilePictureId"] = this.profilePictureId;
-        data["hasAcceptedTermsAndConditions"] = this.hasAcceptedTermsAndConditions;
         data["id"] = this.id;
         return data; 
     }
@@ -45104,7 +45222,6 @@ export interface IUserLoginInfoDto {
     userName: string | undefined;
     emailAddress: string | undefined;
     profilePictureId: string | undefined;
-    hasAcceptedTermsAndConditions: boolean;
     id: number;
 }
 

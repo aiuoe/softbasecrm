@@ -10,6 +10,8 @@ using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
+using Abp.Domain.Uow;
+using Abp.EntityHistory;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
@@ -31,6 +33,8 @@ namespace SBCRM.Crm
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IRepository<Contact, int> _lookupContactsRepository;
         private readonly IAuditEventsService _auditEventsService;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         /// <summary>
         /// Base constructor
@@ -42,7 +46,9 @@ namespace SBCRM.Crm
         /// <param name="lookupOpportunityTypeRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="lookupContactsRepository"></param>
-        /// <param name="auditEventsService"></param>    
+        /// <param name="auditEventsService"></param>
+        /// <param name="reasonProvider"></param>
+        /// <param name="unitOfWorkManager"></param>    
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
@@ -51,7 +57,9 @@ namespace SBCRM.Crm
             IRepository<OpportunityType, int> lookupOpportunityTypeRepository,
             IRepository<Customer, int> lookupCustomerRepository,
             IRepository<Contact, int> lookupContactsRepository,
-            IAuditEventsService auditEventsService)
+            IAuditEventsService auditEventsService,
+            IEntityChangeSetReasonProvider reasonProvider,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _opportunityRepository = opportunityRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
@@ -61,6 +69,8 @@ namespace SBCRM.Crm
             _lookupCustomerRepository = lookupCustomerRepository;
             _lookupContactsRepository = lookupContactsRepository;
             _auditEventsService = auditEventsService;
+            _reasonProvider = reasonProvider;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -314,7 +324,11 @@ namespace SBCRM.Crm
                 opportunity.TenantId = AbpSession.TenantId;
             }
 
-            await _opportunityRepository.InsertAsync(opportunity);
+            using (_reasonProvider.Use("Opportunity created"))
+            {
+                await _opportunityRepository.InsertAsync(opportunity);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
 
             await _auditEventsService.AddEvent(AuditEventDto.ForCreate(
                 entityType: typeof(Customer),
@@ -333,7 +347,12 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditOpportunityDto input)
         {
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
-            ObjectMapper.Map(input, opportunity);
+
+            using (_reasonProvider.Use("Opportunity updated"))
+            {
+                ObjectMapper.Map(input, opportunity);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
         /// <summary>
@@ -498,6 +517,18 @@ namespace SBCRM.Crm
                     Id = contact.ContactId,
                     ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities_View_Events)]
+        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
+        {
+            input.EntityTypeFullName = typeof(Opportunity).FullName;
+            return await _auditEventsService.GetEntityTypeChanges(input);
         }
     }
 }

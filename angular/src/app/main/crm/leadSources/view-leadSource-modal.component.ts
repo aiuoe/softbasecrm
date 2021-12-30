@@ -17,18 +17,29 @@ export class ViewLeadSourceModalComponent extends AppComponentBase {
 
     item: GetLeadSourceForViewDto;
 
+    /***
+     * Class constructor
+     * @param injector
+     */
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetLeadSourceForViewDto();
         this.item.leadSource = new LeadSourceDto();
     }
 
+    /***
+     * Method that show the view
+     * @param opportunityStageId
+     */
     show(item: GetLeadSourceForViewDto): void {
         this.item = item;
         this.active = true;
         this.modal.show();
     }
 
+    /***
+     * Method that close or hide the view 
+     */
     close(): void {
         this.active = false;
         this.modal.hide();

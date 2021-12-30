@@ -10,5 +10,7 @@ namespace SBCRM.Crm.Dtos
         public string Filter { get; set; }
 
         public string DescriptionFilter { get; set; }
+
+        public string ColorFilter { get; set; }
     }
 }
