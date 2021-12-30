@@ -87,12 +87,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     contactEmailFilter = '';
     leadSourceDescriptionFilter = '';
     leadStatusDescriptionFilter = '';
-    priorityDescriptionFilter = '';
+    priorityDescriptionFilter = ''; 
 
-    componentType = 'Lead'
-    
-
-    displayModal = false;
     allLeadSources: LeadLeadSourceLookupTableDto[];
     leadSourceDescription = '';
     leadSourceId: number;

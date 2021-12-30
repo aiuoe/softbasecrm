@@ -264,7 +264,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('ProjectClose') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">
-                                                {{ record.opportunity.closeDate | momentFormat: "MM/DD/yyyy HH:mm"}}
+                                                {{ record.opportunity.closeDate | momentFormat: "MM/DD/yyyy"}}
                                             </span>
                                             <span *ngIf="!record.opportunity.closeDate">-</span>
                                         </td>

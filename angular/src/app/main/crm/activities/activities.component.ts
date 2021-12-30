@@ -117,10 +117,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
               center: 'title',
               right: 'dayGridMonth'
             },
-            eventClick: this.handleDateClick.bind(this),
-            // eventClick: this.handleEventClick.bind(this),
-            // eventDragStop: this.handleEventDragStop.bind(this),          
-             
+            eventClick: this.handleDateClick.bind(this)           
               
           };     
     }

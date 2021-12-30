@@ -5,6 +5,9 @@
 		
 <text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 
+<text name="SeeAs">See as:</text>
+<text name="List">List</text>
+<text name="Calendar">Calendar</text>
 <text name="OpportunityUsers">Opportunity user</text>
 <text name="CreateNewOpportunityUser">Create new opportunity user</text>
 <text name="EditOpportunityUser">Edit opportunity user</text>

@@ -2,6 +2,9 @@
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object opportunity user for view purposes
+    /// </summary>
     public class OpportunityUserViewDto
     {
         public int? OpportunityId { get; set; }
