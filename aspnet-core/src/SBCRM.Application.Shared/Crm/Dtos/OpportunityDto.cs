@@ -1,6 +1,5 @@
 ﻿using System;
 using Abp.Application.Services.Dto;
-using Abp.Timing;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -15,7 +14,6 @@ namespace SBCRM.Crm.Dtos
 
         public decimal? Probability { get; set; }
 
-        [DisableDateTimeNormalization]
         public DateTime? CloseDate { get; set; }
 
         public string Description { get; set; }
