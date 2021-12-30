@@ -22,6 +22,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { debounce } from 'lodash-es';
 
 /***
  * Component to manage the activities summary grid
@@ -88,6 +89,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
     }
+
+    /**
+     * Used to delay the search and wait for the user to finish typing.
+     */
+    delaySearchActivity = debounce(this.getActivities, 1000);
 
     /**
      * Load the activities from the back-end

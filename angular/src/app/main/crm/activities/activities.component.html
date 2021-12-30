@@ -43,6 +43,7 @@
                                                 class="form-control m-input"
                                                 [placeholder]="l('ActivitySearchWithThreeDot')"
                                                 type="text"
+                                                (input)="delaySearchActivity()"
                                             />
                                             <span class="input-group-btn">
                                                 <button (click)="getActivities()" class="btn btn-primary" type="submit">
