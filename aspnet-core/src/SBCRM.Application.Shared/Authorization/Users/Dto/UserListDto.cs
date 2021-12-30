@@ -27,7 +27,5 @@ namespace SBCRM.Authorization.Users.Dto
         public bool IsActive { get; set; }
 
         public DateTime CreationTime { get; set; }
-
-        public bool HasAcceptedTermsAndConditions { get; set; }
     }
 }
