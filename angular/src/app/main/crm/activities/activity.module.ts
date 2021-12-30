@@ -11,7 +11,17 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
+
+FullCalendarModule.registerPlugins([
+    // register FullCalendar plugins
+    dayGridPlugin,
+    interactionPlugin,
+]);
 
 @NgModule({
     declarations: [ActivitiesComponent, CreateOrEditActivityModalComponent, ViewActivityModalComponent],
@@ -26,6 +36,7 @@ import { ActivitySharedService } from '@app/shared/common/crm/services/activity-
         ChipModule,
         ButtonModule,
         CalendarModule,
+        FullCalendarModule,
     ],
 })
 export class ActivityModule {}

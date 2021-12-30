@@ -219,14 +219,14 @@ namespace SBCRM.Crm
                 }
                 else
                 {
-                    IQueryable<Lead> pagedAndFilteredOpportunities;
+                    IQueryable<Lead> pagedAndFilteredLeads;
 
                     if (input.Sorting != null)
-                        pagedAndFilteredOpportunities = filteredLeads
+                        pagedAndFilteredLeads = filteredLeads
                             .OrderBy(input.Sorting)
                             .PageBy(input);
                     else
-                        pagedAndFilteredOpportunities = filteredLeads
+                        pagedAndFilteredLeads = filteredLeads
                             .OrderByDescending(o => o.CreationTime)
                             .ThenByDescending(s1 => s1.Description)
                             .ThenBy(s2 => s2.Description)
@@ -234,7 +234,7 @@ namespace SBCRM.Crm
                             .ThenBy(o => o.ContactName)
                             .PageBy(input);
 
-                    leads = from o in pagedAndFilteredOpportunities
+                    leads = from o in pagedAndFilteredLeads
                             join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                             from s1 in j1.DefaultIfEmpty()
 
@@ -541,6 +541,8 @@ namespace SBCRM.Crm
         {
             var lead = ObjectMapper.Map<Lead>(input);
 
+            lead.CreationTime = lead.CreationTime.ToUniversalTime();
+
             if (AbpSession.TenantId != null)
             {
                 lead.TenantId = AbpSession.TenantId;
@@ -569,6 +571,8 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditLeadDto input)
         {
             var lead = await _leadRepository.FirstOrDefaultAsync((int)input.Id);
+
+            lead.CreationTime = lead.CreationTime.ToUniversalTime();
 
             using (_reasonProvider.Use("Lead updated"))
             {
@@ -771,7 +775,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get Lead Source type dropdown
+        /// Get Lead Users type dropdown
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]

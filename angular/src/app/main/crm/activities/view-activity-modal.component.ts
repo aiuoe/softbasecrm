@@ -45,4 +45,6 @@ export class ViewActivityModalComponent extends AppComponentBase {
         this.active = false;
         this.modal.hide();
     }
+
+    ngOnInit(): void {}
 }

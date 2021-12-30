@@ -14,6 +14,9 @@
 
     <text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 
+    <text name="SeeAs">See as:</text>
+    <text name="List">List</text>
+    <text name="Calendar">Calendar</text>
     <text name="OpportunityUsers">Opportunity user</text>
     <text name="CreateNewOpportunityUser">Create new opportunity user</text>
     <text name="EditOpportunityUser">Edit opportunity user</text>
@@ -22,13 +25,13 @@
     <text name="GlobalSearch">Global Search Access</text>
     <text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
     <text name="LeadViewAssignedUserFilter">Access to all Leads</text>
-
+    <text name="NewOpportunities">New Opportunities</text>
+    <text name="ProjectClose">Project Close</text>
     <text name="IsCompletedStatus">Is completed status</text>
     <text name="AccountHeader">CRM Portal</text>
     <text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
     <text name="AssignUsers">Assign Users</text>
     <text name="NotIsCompletedStatus">Not is completed status</text>
-
     <text name="FilterByAssignee">Filter by Assignee</text>
     <text name="FilterBySourceType">Filter by Source Type</text>
     <text name="FilterByActivity">Filter by Activity</text>
@@ -69,7 +72,6 @@
     <text name="SelectAActivityPriority">Select a activity priority</text>
     <text name="DueDateRange">Due date range</text>
     <text name="StartsAtRange">Starts at range</text>
-
     <text name="ActivitySourceType">Activity source type</text>
     <text name="SBCRM.Crm.ActivitySourceType">ActivitySourceType</text>
     <text name="ActivitySourceTypesHeaderInfo">Activity source types header info</text>
@@ -77,7 +79,6 @@
     <text name="EditActivitySourceType">Edit activity source type</text>
     <text name="DeleteActivitySourceType">Delete activity source type</text>
     <text name="ActivitySourceTypes">Activity source types</text>
-
     <text name="ActivityPriority">Activity priority</text>
     <text name="SBCRM.Crm.ActivityPriority">ActivityPriority</text>
     <text name="ActivityPrioritiesHeaderInfo">Activity priorities header info</text>
@@ -169,7 +170,7 @@
     <text name="SBCRM.Crm.Opportunity">Opportunity</text>
     <text name="Probability">Probability</text>
     <text name="Probability%">Probability %</text>
-    <text name="CloseDate">Project Close</text>
+    <text name="CloseDate">Closed Date</text>
     <text name="OpportunityCloseDate">Close Date</text>
     <text name="Department">Department</text>
     <text name="NewOpportunites">New Opportunites</text>
@@ -1717,7 +1718,7 @@
     <text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
     <text name="Pages.Activities.Create.Assign_Other_Users">Assign other Users</text>
     <text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities">View All Accounts, Leads and Opportunities</text>
-    
+
     <text name="FifteenMinutes">15 Minutes</text>
     <text name="ThirtyMinutes">30 Minutes</text>
     <text name="OneHour">1 Hour (default)</text>
@@ -1726,26 +1727,26 @@
 
     <text name="DashboardNoteForMpaVersion">
       <![CDATA[
-	<texts>
-		<text name="DashboardNoteForMpaVersion">
-			<![CDATA[
-      See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.
-      ]]>
+<texts>
+	<text name="DashboardNoteForMpaVersion">
+		<![CDATA[
+  See Demo for Multi-Page Application version with <strong>ASP.NET MVC</strong> and <strong>jQuery</strong>.
+  ]]>
     </text>
     <text name="DashboardNoteForSpaVersion">
       <![CDATA[
-      Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.
-      ]]>
+  Notice: There is also a <strong>Single-Page Application</strong> version built using ASP.NET MVC and <strong>AngularJs</strong>.
+  ]]>
     </text>
     <text name="ChatUserSearch_Hint">
       <![CDATA[
-      Write only username for same tenant users, <br>
-      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
-      for example: <br>
-      .\admin -> for host admin <br>
-      Test\admin -> for test tenant's admin <br>
-      admin -> for your tenant's admin
-      ]]>
+  Write only username for same tenant users, <br>
+  <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
+  for example: <br>
+  .\admin -> for host admin <br>
+  Test\admin -> for test tenant's admin <br>
+  admin -> for your tenant's admin
+  ]]>
     </text>
     <text name="DemoUiComponents_Info">
       This page shows a few useful UI components those can be used in your application.
