@@ -128,7 +128,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      /**
      * Method for rendering calendar
      */
-    initializeClaendar () {        
+    initializeCalendar () {        
         this.fullcalendar.getApi().refetchEvents();
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());

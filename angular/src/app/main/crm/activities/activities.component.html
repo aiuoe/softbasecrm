@@ -23,25 +23,28 @@
                 <div class="card-body">
                     <form class="form" autocomplete="off">
                         <div>
+                            
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div class="row mb-2"  style="float:right;">
-                                            See as:
-                                            <div class="col-sm-4">
+                                        <div class=""  style="float:right;">                                                                          
+                                                {{ l('See as:') }}
+                                                                                 
+                                          
                                                 <button (click)="summaryTableIsShown = true; summaryCalendarIsShown = false"
-                                                         class="btn btn-primary" type="submit">                                                    
-                                                    List
+                                                         class="btn btn-primary" type="submit"
+                                                >                                                    
+                                                        {{ l('List') }}
                                                 </button>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  test()" 
-                                                        class="btn btn-primary" type="submit">
-                                                    Calendar
+                                        
+                                            
+                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()" 
+                                                        class="btn btn-primary" type="submit"
+                                                    >
+                                                        {{ l('Calendar') }}
                                                 </button>
-                                            </div>
                                         </div>
-                                        <div class="input-group">
+                                        <div class="input-group extra-padding-for-forms-div">
                                             <input
                                                 [(ngModel)]="filterText"
                                                 name="filterText"
