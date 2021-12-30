@@ -22,10 +22,10 @@
                                         (click)="createActivityHandlder('Schedule Meeting')">{{l('ScheduleMeeting')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('Email Remainder')">{{l('EmailRemainder')}}</a>
+                                        (click)="createActivityHandlder('Email Reminder')">{{l('EmailRemainder')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('ToDo Reminder')">{{l('ToDoReminder')}}</a>
+                                        (click)="createActivityHandlder('To Do Reminder')">{{l('ToDoReminder')}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -118,5 +118,14 @@
                 </div>
             </div>
         </div>
+        <app-create-activity-modal
+            #createActivityModal
+            [activityType] = "this.activityType"
+            [componentType] = "this.componentType"
+            [idToStore]="this.idToStore"
+            (modalSave) = "loadDataTable()"
+            >
+        </app-create-activity-modal>
+
     </div>
 </div>
