@@ -6,11 +6,6 @@ namespace SBCRM.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "EnumValue",
-                schema: "web",
-                table: "ActivityTaskTypes");
-
             migrationBuilder.AddColumn<string>(
                 name: "Code",
                 schema: "web",
@@ -26,14 +21,6 @@ namespace SBCRM.Migrations
                 name: "Code",
                 schema: "web",
                 table: "ActivityTaskTypes");
-
-            migrationBuilder.AddColumn<int>(
-                name: "EnumValue",
-                schema: "web",
-                table: "ActivityTaskTypes",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
         }
     }
 }
