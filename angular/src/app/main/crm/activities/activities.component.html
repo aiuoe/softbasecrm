@@ -23,10 +23,27 @@
                 <div class="card-body">
                     <form class="form" autocomplete="off">
                         <div>
+                            
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div class="input-group">
+                                        <div class=""  style="float:right;">                                                                          
+                                                {{ l('SeeAs') }}
+                                                                                 
+                                          
+                                                <button (click)="summaryTableIsShown = true; summaryCalendarIsShown = false"
+                                                         class="btn btn-primary" type="submit"
+                                                >                                                    
+                                                        {{ l('List') }}
+                                                </button>                                       
+                                            
+                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()" 
+                                                        class="btn btn-primary" type="submit"
+                                                    >
+                                                        {{ l('Calendar') }}
+                                                </button>
+                                        </div>
+                                        <div class="input-group extra-padding-for-forms-div">
                                             <input
                                                 [(ngModel)]="filterText"
                                                 name="filterText"
@@ -151,7 +168,7 @@
                         </div>
                     </form>
 
-                    <div class="row align-items-center">
+                    <div class="row align-items-center" [hidden]="!summaryTableIsShown">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
                             <p-table
@@ -316,6 +333,16 @@
                             </div>
                         </div>
                         <!--<Primeng-Datatable-End>-->
+                    </div>
+                    <div [hidden]="!summaryCalendarIsShown">                     
+                            <full-calendar                                 
+                                contentHeight="auto"
+                                *ngIf="calendarOptions"
+                                #fullcalendar
+                                [options]="calendarOptions"
+                                deepChangeDetection="true"
+                            >
+                            </full-calendar>                        
                     </div>
                 </div>
             </div>

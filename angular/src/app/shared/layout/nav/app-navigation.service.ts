@@ -56,6 +56,12 @@ export class AppNavigationService {
                         'Pages.ActivityStatuses',
                         '',
                         '/app/main/crm/activityStatuses'
+                    ),
+                    new AppMenuItem(
+                        'LeadSources',
+                        'Pages.LeadSources',
+                        '',
+                        '/app/main/crm/leadSources'
                     )
                 ]
             ),

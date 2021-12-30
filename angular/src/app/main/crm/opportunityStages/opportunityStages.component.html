@@ -36,7 +36,7 @@
                                 [responsive]="primengTableHelper.isResponsive"
                                 [resizableColumns]="primengTableHelper.resizableColumns"
                                 [reorderableColumns]="true"
-                                (onRowReorder)="UpdateOrder($event)"
+                                (onRowReorder)="updateOrder($event)"
                             >
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -52,9 +52,12 @@
                                             {{ l('Actions') }}
                                         </th>
                                         <th class="col-1"></th>
-                                        <th class="col-10" pSortableColumn="description">
-                                            {{ l('Description') }}
+                                        <th class="col-5" pSortableColumn="description">
+                                            {{ l('OpportunityStage') }}
                                             <p-sortIcon field="opportunityStage.description"></p-sortIcon>
+                                        </th>
+                                        <th class="col-5" pSortableColumn="color">
+                                            {{ l('Color') }}
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -91,14 +94,14 @@
                                                     </li>
                                                     <li>
                                                         <a
-                                                            class="dropdown-item"
+                                                            class="dropdown-item color-red"
                                                             href="javascript:;"
                                                             *ngIf="
                                                                 permission.isGranted('Pages.OpportunityStages.Delete')
                                                             "
                                                             (click)="deleteOpportunityStage(record.opportunityStage)"
                                                         >
-                                                            {{ l('Delete') }}
+                                                            {{ l('Remove') }}
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -107,9 +110,17 @@
                                         <td class="col-1">
                                             <span class="pi pi-bars" pReorderableRowHandle></span>
                                         </td>
-                                        <td class="col-10">
+                                        <td class="col-5">
                                             <span class="p-column-title">{{ l('OpportunityStage') }}</span>
                                             {{ record.opportunityStage.description }}
+                                        </td>
+                                        <td class="col-5">
+                                            <p-colorPicker
+                                                [(ngModel)]="record.opportunityStage.color"
+                                                disabled
+                                            ></p-colorPicker>
+                                            <span class="p-column-title">{{ l('Color') }}</span>
+                                            {{ record.opportunityStage.color }}
                                         </td>
                                     </tr>
                                 </ng-template>

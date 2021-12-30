@@ -1559,9 +1559,6 @@ namespace SBCRM.Migrations
                     b.Property<string>("GoogleAuthenticatorKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("HasAcceptedTermsAndConditions")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -2211,6 +2208,9 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -2225,9 +2225,6 @@ namespace SBCRM.Migrations
 
                     b.Property<int?>("LeadStatusId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PagerNumber")
                         .HasMaxLength(50)

@@ -56,12 +56,13 @@
         public const string Pages_Opportunities_Create = "Pages.Opportunities.Create";
         public const string Pages_Opportunities_Edit = "Pages.Opportunities.Edit";
         public const string Pages_Opportunities_Delete = "Pages.Opportunities.Delete";
+        public const string Pages_Opportunities_View_Events = "Pages.Opportunities.ViewEvents";
         public const string Pages_Opportunities_ViewAssignedUserFilter = "Pages.Opportunities.ViewAssignedUserFilter";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
         public const string Pages_OpportunityTypes_Edit = "Pages.OpportunityTypes.Edit";
-        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";
+        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";        
 
         public const string Pages_Configuration = "Pages.Configuration";
         public const string Pages_OpportunityStages = "Pages.OpportunityStages";
@@ -72,7 +73,7 @@
         public const string Pages_LeadUsers = "Pages.LeadUsers";
         public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
         public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
-        public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";        
+        public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";
 
         public const string Pages_Priorities = "Pages.Priorities";
         public const string Pages_Priorities_Create = "Pages.Priorities.Create";

@@ -10,10 +10,14 @@ using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
+using Abp.Domain.Uow;
+using Abp.EntityHistory;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
 using SBCRM.Legacy;
+using System;
+using SBCRM.Authorization.Users;
 
 namespace SBCRM.Crm
 {
@@ -31,6 +35,12 @@ namespace SBCRM.Crm
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IRepository<Contact, int> _lookupContactsRepository;
         private readonly IAuditEventsService _auditEventsService;
+        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IRepository<OpportunityUser> _opportunityUserRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
+
+        private readonly string _assignedUserSortKey = "users.userFk.name";
 
         /// <summary>
         /// Base constructor
@@ -42,16 +52,24 @@ namespace SBCRM.Crm
         /// <param name="lookupOpportunityTypeRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="lookupContactsRepository"></param>
-        /// <param name="auditEventsService"></param>    
+        /// <param name="auditEventsService"></param>
+        /// <param name="reasonProvider"></param>
+        /// <param name="unitOfWorkManager"></param>
+        /// <param name="lookupUserRepository"></param>
+        /// <param name="opportunityUserRepository"></param>    
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
-            IRepository<OpportunityStage, int> lookupOpportunityStageRepository, 
-            IRepository<LeadSource, int> lookupLeadSourceRepository, 
+            IRepository<OpportunityStage, int> lookupOpportunityStageRepository,
+            IRepository<LeadSource, int> lookupLeadSourceRepository,
             IRepository<OpportunityType, int> lookupOpportunityTypeRepository,
             IRepository<Customer, int> lookupCustomerRepository,
             IRepository<Contact, int> lookupContactsRepository,
-            IAuditEventsService auditEventsService)
+            IAuditEventsService auditEventsService,
+            IEntityChangeSetReasonProvider reasonProvider,
+            IUnitOfWorkManager unitOfWorkManager,
+            IRepository<User, long> lookupUserRepository,
+            IRepository<OpportunityUser> opportunityUserRepository)
         {
             _opportunityRepository = opportunityRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
@@ -61,6 +79,32 @@ namespace SBCRM.Crm
             _lookupCustomerRepository = lookupCustomerRepository;
             _lookupContactsRepository = lookupContactsRepository;
             _auditEventsService = auditEventsService;
+            _reasonProvider = reasonProvider;
+            _unitOfWorkManager = unitOfWorkManager;
+            _lookup_userRepository = lookupUserRepository;
+            _opportunityUserRepository = opportunityUserRepository;
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// The user will be shown all the leads if he has permission for it
+        /// </summary>
+        /// <returns></returns>
+        public bool CanSeeAllLeads()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Opportunities_ViewAssignedUserFilter);
+        }
+
+        /// <summary>
+        /// Get the id of the current user.       
+        /// </summary>
+        /// <returns></returns>
+        public long GetCurrentUserId()
+        {
+            var currentUser = GetCurrentUser();
+            return currentUser.Id;
         }
 
         /// <summary>
@@ -70,10 +114,14 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetOpportunityForViewDto>> GetAll(GetAllOpportunitiesInput input)
         {
-            var filteredOpportunities = _opportunityRepository.GetAll()
+            try
+            {
+                var filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
+                        .Include(x => x.Users)
+                        .ThenInclude(x => x.UserFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
@@ -88,69 +136,146 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
-                        .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
+                        .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
+                        .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                        .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
-            IQueryable<Opportunity> pagedAndFilteredOpportunities;
+                var isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
 
-            if (input.Sorting != null)
-                pagedAndFilteredOpportunities = filteredOpportunities
-                .OrderBy(input.Sorting)
-                .PageBy(input);
-            else
-                pagedAndFilteredOpportunities = filteredOpportunities
-                .OrderByDescending(o => o.CloseDate)
-                .ThenBy(o => o.Name)
-                .ThenBy(o => o.Branch)
-                .ThenBy(o => o.Department)
-                .PageBy(input);
+                IQueryable<OpportunityQueryDto> opportunities;
 
-            pagedAndFilteredOpportunities = filteredOpportunities
-                .OrderBy(input.Sorting ?? "id asc")
-                .PageBy(input);
+                if (isAssignedUserSorting)
+                {
+                    input.Sorting = input.Sorting.Replace(_assignedUserSortKey, $"{nameof(OpportunityQueryDto.FirstUserAssignedName)}");
+                    opportunities = from o in filteredOpportunities
+                                    join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                    from s1 in j1.DefaultIfEmpty()
 
-            var opportunities = from o in pagedAndFilteredOpportunities
-                                join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
-                                from s1 in j1.DefaultIfEmpty()
+                                    join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                    from s2 in j2.DefaultIfEmpty()
 
-                                join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
-                                from s2 in j2.DefaultIfEmpty()
+                                    join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                    from s3 in j3.DefaultIfEmpty()
 
-                                join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
-                                from s3 in j3.DefaultIfEmpty()
+                                    join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                    from s4 in j4.DefaultIfEmpty()
 
-                                join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
-                                from s4 in j4.DefaultIfEmpty()
+                                    join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                    from s5 in j5.DefaultIfEmpty()
 
-                                join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
-                                from s5 in j5.DefaultIfEmpty()
+                                    select new OpportunityQueryDto
+                                    {
+                                        Name = o.Name,
+                                        Amount = o.Amount,
+                                        Probability = o.Probability,
+                                        CloseDate = o.CloseDate,
+                                        Description = o.Description,
+                                        Branch = o.Branch,
+                                        Department = o.Department,
+                                        Id = o.Id,
+                                        Users = o.Users,
+                                        OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                        OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
+                                        LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                                        OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                        CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                                        CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                                        FirstUserAssignedName = (from s in _opportunityUserRepository.GetAll()
+                                                    .Include(x => x.UserFk)
+                                                                 where s.Id == o.Id
+                                                                 select s.UserFk.Name
+                                            ).OrderBy(x => x).FirstOrDefault()
+                                    };
 
-                                select new
-                                {
-                                    o.Name,
-                                    o.Amount,
-                                    o.Probability,
-                                    o.CloseDate,
-                                    o.Description,
-                                    o.Branch,
-                                    o.Department,
-                                    Id = o.Id,
-                                    OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                                    OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
-                                    LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                                    OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                                    CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                                    CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                    ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
-                                };
+                    opportunities = opportunities
+                            .OrderBy(input.Sorting)
+                            .PageBy(input);
+                }
+                else
+                {
+                    IQueryable<Opportunity> pagedAndFilteredOpportunities;
 
-            var totalCount = await filteredOpportunities.CountAsync();
+                    if (input.Sorting != null)
+                        pagedAndFilteredOpportunities = filteredOpportunities
+                            .OrderBy(input.Sorting)
+                            .PageBy(input);
+                    else
+                        pagedAndFilteredOpportunities = filteredOpportunities
+                            .OrderByDescending(o => o.CloseDate)
+                            .ThenBy(o => o.Name)
+                            .ThenBy(o => o.Branch)
+                            .ThenBy(o => o.Department)
+                            .PageBy(input);
 
-            var dbList = await opportunities.ToListAsync();
+                    opportunities = from o in pagedAndFilteredOpportunities
+                                    join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                    from s1 in j1.DefaultIfEmpty()
+
+                                    join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                    from s2 in j2.DefaultIfEmpty()
+
+                                    join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                    from s3 in j3.DefaultIfEmpty()
+
+                                    join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                    from s4 in j4.DefaultIfEmpty()
+
+                                    join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                    from s5 in j5.DefaultIfEmpty()
+
+                                    select new OpportunityQueryDto
+                                    {
+                                        Name = o.Name,
+                                        Amount = o.Amount,
+                                        Probability = o.Probability,
+                                        CloseDate = o.CloseDate,
+                                        Description = o.Description,
+                                        Branch = o.Branch,
+                                        Department = o.Department,
+                                        Id = o.Id,
+                                        Users = o.Users,
+                                        OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                        OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
+                                        LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                                        OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                        CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                                        CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
+                                    };
+                }
+
+                var totalCount = await filteredOpportunities.CountAsync();
+
+                var dbList = await opportunities.ToListAsync();
+                var results = GetOpportunityForViewDtos(dbList);
+
+                return new PagedResultDto<GetOpportunityForViewDto>(
+                    totalCount,
+                    results
+                );
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error in OpportunitiesAppService -> ", e);
+                throw;
+            }
+
+        }
+
+        /// <summary>
+        /// Get list of Opportunity Query Dtos for view
+        /// </summary>
+        /// <param name="dbList"></param>
+        /// <returns></returns>
+        private static List<GetOpportunityForViewDto> GetOpportunityForViewDtos(List<OpportunityQueryDto> dbList)
+        {
             var results = new List<GetOpportunityForViewDto>();
 
             foreach (var o in dbList)
             {
-                var res = new GetOpportunityForViewDto()
+                var res = new GetOpportunityForViewDto
                 {
                     Opportunity = new OpportunityDto
                     {
@@ -172,13 +297,32 @@ namespace SBCRM.Crm
                     ContactName = o.ContactName
                 };
 
+                if (o.Users.Any())
+                {
+                    var OpportunityUsers = o.Users
+                        .Select(x => new OpportunityUserViewDto
+                        {
+                            OpportunityId = x.Id,
+                            UserId = x.UserFk.Id,
+                            Name = x.UserFk.Name,
+                            SurName = x.UserFk.Surname,
+                            FullName = x.UserFk.FullName,
+                            ProfilePictureUrl = x.UserFk.ProfilePictureId
+                        }).ToList();
+                    res.Opportunity.Users = OpportunityUsers;
+                    var OpportunityUser = OpportunityUsers.OrderBy(x => x.Name).First();
+                    res.FirstUserAssignedName = OpportunityUser.Name;
+                    res.FirstUserAssignedSurName = OpportunityUser.SurName;
+                    res.FirstUserAssignedFullName = OpportunityUser.FullName;
+                    res.FirstUserProfilePictureUrl = OpportunityUser.ProfilePictureUrl;
+                    res.FirstUserAssignedId = OpportunityUser.UserId;
+                    res.AssignedUsers = OpportunityUsers.Count;
+                }
+
                 results.Add(res);
             }
 
-            return new PagedResultDto<GetOpportunityForViewDto>(
-                totalCount,
-                results
-            );
+            return results;
         }
 
         /// <summary>
@@ -308,13 +452,18 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditOpportunityDto input)
         {
             var opportunity = ObjectMapper.Map<Opportunity>(input);
+            opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
 
             if (AbpSession.TenantId != null)
             {
                 opportunity.TenantId = AbpSession.TenantId;
             }
 
-            await _opportunityRepository.InsertAsync(opportunity);
+            using (_reasonProvider.Use("Opportunity created"))
+            {
+                await _opportunityRepository.InsertAsync(opportunity);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
 
             await _auditEventsService.AddEvent(AuditEventDto.ForCreate(
                 entityType: typeof(Customer),
@@ -333,7 +482,14 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditOpportunityDto input)
         {
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
+            input.CloseDate = input.CloseDate?.ToUniversalTime();
             ObjectMapper.Map(input, opportunity);
+
+            using (_reasonProvider.Use("Opportunity updated"))
+            {
+                ObjectMapper.Map(input, opportunity);
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+            }
         }
 
         /// <summary>
@@ -353,6 +509,8 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
+                        .Include(x => x.Users)
+                        .ThenInclude(x => x.UserFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
@@ -367,7 +525,11 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
-                        .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id);
+                        .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
+                        .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                        .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
+
 
             var query = (from o in filteredOpportunities
                          join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
@@ -385,19 +547,17 @@ namespace SBCRM.Crm
                          join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                          from s5 in j5.DefaultIfEmpty()
 
-                         select new GetOpportunityForViewDto()
+                         select new OpportunityQueryDto
                          {
-                             Opportunity = new OpportunityDto
-                             {
-                                 Name = o.Name,
-                                 Amount = o.Amount,
-                                 Probability = o.Probability,
-                                 CloseDate = o.CloseDate,
-                                 Description = o.Description,
-                                 Branch = o.Branch,
-                                 Department = o.Department,
-                                 Id = o.Id
-                             },
+                             Name = o.Name,
+                             Amount = o.Amount,
+                             Probability = o.Probability,
+                             CloseDate = o.CloseDate,
+                             Description = o.Description,
+                             Branch = o.Branch,
+                             Department = o.Department,
+                             Id = o.Id,
+                             Users = o.Users,                           
                              OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                              OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
@@ -406,9 +566,10 @@ namespace SBCRM.Crm
                              ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
                          });
 
-            var opportunityListDtos = await query.ToListAsync();
+            var dbList = await query.ToListAsync();
+            var opportunities = GetOpportunityForViewDtos(dbList);
 
-            return _opportunitiesExcelExporter.ExportToFile(opportunityListDtos);
+            return _opportunitiesExcelExporter.ExportToFile(opportunities);
         }
 
         /// <summary>
@@ -423,6 +584,22 @@ namespace SBCRM.Crm
                 {
                     Id = opportunityStage.Id,
                     DisplayName = opportunityStage == null || opportunityStage.Description == null ? "" : opportunityStage.Description.ToString()
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Opportunity User type dropdown
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
+        {
+
+            return await _lookup_userRepository.GetAll()
+                .Select(user => new LeadUserUserLookupTableDto
+                {
+                    Id = user.Id,
+                    DisplayName = user == null || user.FullName == null ? string.Empty : user.FullName
                 }).ToListAsync();
         }
 
@@ -498,6 +675,18 @@ namespace SBCRM.Crm
                     Id = contact.ContactId,
                     ContactName = contact == null || contact.ContactField == null ? "" : contact.ContactField.ToString()
                 }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities_View_Events)]
+        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
+        {
+            input.EntityTypeFullName = typeof(Opportunity).FullName;
+            return await _auditEventsService.GetEntityTypeChanges(input);
         }
     }
 }

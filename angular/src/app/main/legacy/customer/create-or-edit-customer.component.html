@@ -478,7 +478,7 @@
                                                         <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
                                                     </th>
                                                     <th style="width: 150px" pSortableColumn="closeDate">
-                                                        {{ l('CloseDate') }}
+                                                        {{ l('OpportunityCloseDate') }}
                                                         <p-sortIcon field="closeDate"></p-sortIcon>
                                                     </th>
                                                     <th style="width: 150px" pSortableColumn="amount">
@@ -548,7 +548,7 @@
                                                         </span>
                                                         <span *ngIf="!record.closeDate">-</span>
                                                     </td>
-                                                    <td style="width: 150px"  class="text-right">
+                                                    <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Amount') }}</span>
                                                         {{ record.amount | currency: 'USD' : true }}
                                                     </td>

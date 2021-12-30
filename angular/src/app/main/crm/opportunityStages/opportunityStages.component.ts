@@ -15,6 +15,9 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
+import { filter as _filter } from 'lodash-es';
+import { DateTime } from 'luxon';
+
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 /***
@@ -37,6 +40,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
+    colorFilter = '';
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
     opportunityStage1: UpdateOrderOpportunityStageDto = new UpdateOrderOpportunityStageDto();
     opportunityStage2: UpdateOrderOpportunityStageDto = new UpdateOrderOpportunityStageDto();
@@ -79,6 +83,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
             .getAll(
                 this.filterText,
                 this.descriptionFilter,
+                this.colorFilter,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -124,7 +129,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
      */
     exportToExcel(): void {
         this._opportunityStagesServiceProxy
-            .getOpportunityStagesToExcel(this.filterText, this.descriptionFilter)
+            .getOpportunityStagesToExcel(this.filterText, this.descriptionFilter, this.colorFilter)
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
@@ -135,7 +140,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
      * @param $event
      * @constructor
      */
-    UpdateOrder($event: any): void {
+    updateOrder($event: any): void {
         this.opportunityStage1.order = $event.dragIndex;
         this.opportunityStage2.order = $event.dropIndex;
 

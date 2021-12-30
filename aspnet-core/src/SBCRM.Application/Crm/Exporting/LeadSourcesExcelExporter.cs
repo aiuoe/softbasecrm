@@ -1,23 +1,23 @@
-﻿using System.Collections.Generic;
-using Abp.Runtime.Session;
+﻿using Abp.Runtime.Session;
 using Abp.Timing.Timezone;
-using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
+using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Dto;
 using SBCRM.Storage;
+using System.Collections.Generic;
 
 namespace SBCRM.Crm.Exporting
 {
     /// <summary>
-    /// Excel exporter for lead sources
+    /// Method that handles the export of data to excel
     /// </summary>
     public class LeadSourcesExcelExporter : NpoiExcelExporterBase, ILeadSourcesExcelExporter
     {
-
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
+
         /// <summary>
-        /// LeadSourcesExcelExporter constructor
+        /// Class Constructor
         /// </summary>
         /// <param name="timeZoneConverter"></param>
         /// <param name="abpSession"></param>
@@ -25,41 +25,36 @@ namespace SBCRM.Crm.Exporting
         public LeadSourcesExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
-            ITempFileCacheManager tempFileCacheManager) :
-    base(tempFileCacheManager)
+            ITempFileCacheManager tempFileCacheManager) : base(tempFileCacheManager)
         {
             _timeZoneConverter = timeZoneConverter;
             _abpSession = abpSession;
         }
 
         /// <summary>
-        /// Exports a list of leads sources to excel
+        /// Method that export grid to excel file
         /// </summary>
-        /// <param name="leadSources">The list of sources to be exported</param>
-        /// <returns><see cref="FileDto"/></returns>
+        /// <param name="leadSources"></param>
+        /// <returns></returns>
         public FileDto ExportToFile(List<GetLeadSourceForViewDto> leadSources)
         {
             return CreateExcelPackage(
                 "LeadSources.xlsx",
                 excelPackage =>
                 {
-
                     var sheet = excelPackage.CreateSheet(L("LeadSources"));
 
                     AddHeader(
                         sheet,
                         L("Description"),
-                        L("Order"),
-                        L("IsDefault")
+                        L("Order")
                         );
 
                     AddObjects(
                         sheet, leadSources,
                         _ => _.LeadSource.Description,
-                        _ => _.LeadSource.Order,
-                        _ => _.LeadSource.IsDefault
+                        _ => _.LeadSource.Order
                         );
-
                 });
         }
     }

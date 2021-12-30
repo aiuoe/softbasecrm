@@ -29,10 +29,7 @@ namespace SBCRM.EntityFrameworkCore
 
         public virtual DbSet<ActivityPriority> ActivityPriorities { get; set; }
 
-       
         public virtual DbSet<Contact> Contacts { get; set; }
-
-        
 
         public virtual DbSet<AccountUser> AccountUsers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
