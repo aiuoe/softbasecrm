@@ -81,17 +81,17 @@ export class OpportunitiesComponent extends AppComponentBase {
         super(injector);
     }
 
-    
+
     /***
     * Initialize component
     */
      ngOnInit(){
 
-        let offset : number = (new Date().getTimezoneOffset() / 60)        
+        let offset : number = (new Date().getTimezoneOffset() / 60)
         if (offset < 0)
             this.timeZone = this.timeZone + "+" + (offset * -1).toString();
-        else if (offset > 0)    
-            this.timeZone = this.timeZone + "-" + (offset).toString(); 
+        else if (offset > 0)
+            this.timeZone = this.timeZone + "-" + (offset).toString();
 
         this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown()
         .subscribe((result) => {
@@ -143,7 +143,6 @@ export class OpportunitiesComponent extends AppComponentBase {
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
-                console.log("here" + result.items[0].opportunity.closeDate)                     
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -169,7 +168,7 @@ export class OpportunitiesComponent extends AppComponentBase {
 
     /***
     * Go to create lead page
-    */    
+    */
     createOpportunity(): void {
         this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }

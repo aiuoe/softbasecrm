@@ -12,6 +12,7 @@ using Abp.Castle.Logging.Log4Net;
 using Abp.Extensions;
 using Abp.Hangfire;
 using Abp.PlugIns;
+using Abp.Timing;
 using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
 using Hangfire;
@@ -331,6 +332,8 @@ namespace SBCRM.Web.Startup
                     options.InjectBaseUrl(_appConfiguration["App:ServerRootAddress"]);
                 }); //URL: /swagger
             }
+
+            //Clock.Provider = ClockProviders.Utc;
         }
 
         private void ConfigureKestrel(IServiceCollection services)

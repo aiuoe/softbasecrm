@@ -8,7 +8,7 @@ import {
     OpportunityOpportunityTypeLookupTableDto,
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
-    OpportunityContactsLookupTableDto,
+    OpportunityContactsLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +25,7 @@ import { Location } from '@angular/common';
  */
 @Component({
     templateUrl: './create-or-edit-opportunity.component.html',
-    animations: [appModuleAnimation()],
+    animations: [appModuleAnimation()]
 })
 export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {
     @ViewChild('opportunityForm', { static: true }) opportunityForm: NgForm;
@@ -33,7 +33,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
     routerLink = '/app/main/crm/opportunities';
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Opportunity'), this.routerLink),
+        new BreadcrumbItem(this.l('Opportunity'), this.routerLink)
     ];
 
     pageMode = '';
@@ -62,9 +62,9 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allCustomers: OpportunityCustomerLookupTableDto[];
     allContacts: OpportunityContactsLookupTableDto[];
 
-    opportunityId : number;
-    opportunityName : string;
-    
+    opportunityId: number;
+    opportunityName: string;
+
     // Tab permissions
     isPageLoading = true;
     showEventsTab = false;
@@ -195,7 +195,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                 }, (error) => {
                     this.goToOpportunities();
-                });                  
+                });
         }
     }
 
@@ -223,17 +223,16 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             return;
         }
 
-        if (this.opportunity.probability != null && (this.opportunity.probability < 1 || this.opportunity.probability > 100))
-        {                      
+        if (this.opportunity.probability != null && (this.opportunity.probability < 1 || this.opportunity.probability > 100)) {
             this.opportunityForm.form.controls['Opportunity_Probability'].setErrors(
                 { 'opportunityInvalidProbability': true });
             this.message.warn(this.l('InvalidFormMessage'));
             return;
         }
 
-        // let userTimezoneOffset : number = this.formDate.getTimezoneOffset() * 60000;        
+        // let userTimezoneOffset : number = this.formDate.getTimezoneOffset() * 60000;
         // let date : Date = new Date(this.formDate.getTime() - userTimezoneOffset);
-        this.opportunity.closeDate = this._dateTimeService.fromJSDate(new Date());
+        // this.opportunity.closeDate = this._dateTimeService.fromJSDate(new Date());
         // console.log("on utc the time is" + this.opportunity.closeDate.toString())
 
         this.saving = true;

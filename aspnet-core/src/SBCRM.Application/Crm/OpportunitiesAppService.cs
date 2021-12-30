@@ -345,8 +345,8 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityDto input)
         {
-            input.CloseDate = input.CloseDate.Value.ToUniversalTime();
             var opportunity = ObjectMapper.Map<Opportunity>(input);
+            opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
 
             if (AbpSession.TenantId != null)
             {
@@ -376,8 +376,8 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditOpportunityDto input)
         {
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
-            input.CloseDate = input.CloseDate.Value.ToUniversalTime();
-            ObjectMapper.Map(input, opportunity);            
+            input.CloseDate = input.CloseDate?.ToUniversalTime();
+            ObjectMapper.Map(input, opportunity);
 
             using (_reasonProvider.Use("Opportunity updated"))
             {

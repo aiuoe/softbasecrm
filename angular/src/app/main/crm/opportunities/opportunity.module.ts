@@ -6,24 +6,30 @@ import { OpportunitiesComponent } from './opportunities.component';
 import { CreateOrEditOpportunityComponent } from './create-or-edit-opportunity.component';
 import { ViewOpportunityComponent } from './view-opportunity.component';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { InputNumberModule} from 'primeng/inputNumber';
-import { CalendarModule} from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputNumber';
+import { CalendarModule } from 'primeng/calendar';
 import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
-import { DateLocationPipe } from './date-location.pipe';
+import { MomentFormatPipe } from '@shared/utils/moment-format.pipe';
 
 @NgModule({
-    declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent, DateLocationPipe],
+    declarations: [
+        OpportunitiesComponent,
+        CreateOrEditOpportunityComponent,
+        ViewOpportunityComponent,
+        MomentFormatPipe
+    ],
     imports: [
-        AppSharedModule, 
-        OpportunityRoutingModule, 
+        AppSharedModule,
+        OpportunityRoutingModule,
         AdminSharedModule,
         MultiSelectModule,
-        InputNumberModule, 
-        CalendarModule, 
+        InputNumberModule,
+        CalendarModule,
         AssignedUserModule],
-        
+
     providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })
 
-export class OpportunityModule {}
+export class OpportunityModule {
+}
