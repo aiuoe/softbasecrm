@@ -14,6 +14,5 @@ namespace SBCRM.Sessions.Dto
 
         public string ProfilePictureId { get; set; }
 
-        public bool HasAcceptedTermsAndConditions { get; set; }
     }
 }

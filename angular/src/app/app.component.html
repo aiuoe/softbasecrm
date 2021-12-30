@@ -24,7 +24,6 @@
 <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
 <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
 <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
-<terms-and-conditions-modal #termsModal></terms-and-conditions-modal>
 
 <commonLookupModal #userLookupModal (itemSelected)="chatBarComponent.addFriendSelected($event)"></commonLookupModal>
 <chat-bar #chatBarComponent *ngIf="!installationMode" [userLookupModal]="userLookupModal"></chat-bar>
