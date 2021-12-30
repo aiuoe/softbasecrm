@@ -13,7 +13,8 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     GetCustomerForViewDto,
-    LeadUserUserLookupTableDto
+    LeadUserUserLookupTableDto,
+    GetLeadForViewDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -228,6 +229,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
+                this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -318,7 +320,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Set user image profile reference
      * @param users
      */
-     setUsersProfilePictureUrl(users: GetCustomerForViewDto[]): void {
+     setUsersProfilePictureUrl(users: GetLeadForViewDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
             if (user.firstUserAssignedId) {

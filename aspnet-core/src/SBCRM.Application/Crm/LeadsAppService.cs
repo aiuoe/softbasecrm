@@ -219,14 +219,14 @@ namespace SBCRM.Crm
                 }
                 else
                 {
-                    IQueryable<Lead> pagedAndFilteredOpportunities;
+                    IQueryable<Lead> pagedAndFilteredLeads;
 
                     if (input.Sorting != null)
-                        pagedAndFilteredOpportunities = filteredLeads
+                        pagedAndFilteredLeads = filteredLeads
                             .OrderBy(input.Sorting)
                             .PageBy(input);
                     else
-                        pagedAndFilteredOpportunities = filteredLeads
+                        pagedAndFilteredLeads = filteredLeads
                             .OrderByDescending(o => o.CreationTime)
                             .ThenByDescending(s1 => s1.Description)
                             .ThenBy(s2 => s2.Description)
@@ -234,7 +234,7 @@ namespace SBCRM.Crm
                             .ThenBy(o => o.ContactName)
                             .PageBy(input);
 
-                    leads = from o in pagedAndFilteredOpportunities
+                    leads = from o in pagedAndFilteredLeads
                             join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                             from s1 in j1.DefaultIfEmpty()
 

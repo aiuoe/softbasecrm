@@ -66,6 +66,6 @@ namespace SBCRM.Crm
         [ForeignKey("CustomerNumber")]
         public Customer CustomerFk { get; set; }
 
-        //public List<OpportunityUser> Users { get; set; }
+        public List<OpportunityUser> Users { get; set; }
     }
 }

@@ -35,9 +35,10 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
     animations: [appModuleAnimation()],
 })
 export class ActivitiesComponent extends AppComponentBase implements OnInit {
+    @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
     @ViewChild('createOrEditActivityModal', { static: true })
     createOrEditActivityModal: CreateOrEditActivityModalComponent;
-    @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
+    
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
@@ -116,13 +117,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
               center: 'title',
               right: 'dayGridMonth'
             },
-            // dateClick: this.handleDateClick.bind(this),
+            eventClick: this.handleDateClick.bind(this),
             // eventClick: this.handleEventClick.bind(this),
-            // eventDragStop: this.handleEventDragStop.bind(this),
-            events: [
-                { title: 'event 1', date: '2021-12-21', color  : '#378006' },
-                { title: 'event 2', date: '2019-04-02' }
-              ]     
+            // eventDragStop: this.handleEventDragStop.bind(this),          
              
               
           };     
@@ -134,6 +131,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         setTimeout(() => this.fullcalendar.getApi().render());
 
     }
+
+    handleDateClick(event) {
+        console.log(event)
+        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0])
+    }
     
 
     /**
@@ -143,7 +145,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
-        }
+        }       
 
         this.primengTableHelper.showLoadingIndicator();
 
@@ -174,6 +176,16 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                     isPastDue: dateNow > x.activity.startsAt,
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
+                this.fullcalendar.getApi().removeAllEvents();
+                result.items.forEach(result => {                   
+                   var eventObject = {
+                    title: result.userName,
+                    end: result.activity.startsAt.toString(),
+                    start: result.activity.dueDate.toString(),
+                    color: '#378006' //needs to be changed by ActivityTypeColor -> to be added on database
+                    };  
+                    this.fullcalendar.getApi().addEvent(eventObject); 
+                });                       
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }

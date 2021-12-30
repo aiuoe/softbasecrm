@@ -14460,12 +14460,13 @@ export class OpportunitiesServiceProxy {
      * @param customerName (optional) 
      * @param contactName (optional) 
      * @param opportunityStageId (optional) 
+     * @param userIds (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14535,6 +14536,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
             url_ += "OpportunityStageId=" + encodeURIComponent("" + opportunityStageId) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -14827,9 +14832,10 @@ export class OpportunitiesServiceProxy {
      * @param customerName (optional) 
      * @param contactName (optional) 
      * @param opportunityStageId (optional) 
+     * @param userIds (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14899,6 +14905,10 @@ export class OpportunitiesServiceProxy {
             throw new Error("The parameter 'opportunityStageId' cannot be null.");
         else if (opportunityStageId !== undefined)
             url_ += "OpportunityStageId=" + encodeURIComponent("" + opportunityStageId) + "&";
+        if (userIds === null)
+            throw new Error("The parameter 'userIds' cannot be null.");
+        else if (userIds !== undefined)
+            userIds && userIds.forEach(item => { url_ += "UserIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -34267,6 +34277,12 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     customerName!: string | undefined;
     customerNumber!: string | undefined;
     contactName!: string | undefined;
+    firstUserAssignedId!: number | undefined;
+    firstUserAssignedName!: string | undefined;
+    firstUserAssignedSurName!: string | undefined;
+    firstUserAssignedFullName!: string | undefined;
+    firstUserProfilePictureUrl!: string | undefined;
+    assignedUsers!: number;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -34287,6 +34303,12 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.customerName = _data["customerName"];
             this.customerNumber = _data["customerNumber"];
             this.contactName = _data["contactName"];
+            this.firstUserAssignedId = _data["firstUserAssignedId"];
+            this.firstUserAssignedName = _data["firstUserAssignedName"];
+            this.firstUserAssignedSurName = _data["firstUserAssignedSurName"];
+            this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
+            this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
+            this.assignedUsers = _data["assignedUsers"];
         }
     }
 
@@ -34307,6 +34329,12 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["customerName"] = this.customerName;
         data["customerNumber"] = this.customerNumber;
         data["contactName"] = this.contactName;
+        data["firstUserAssignedId"] = this.firstUserAssignedId;
+        data["firstUserAssignedName"] = this.firstUserAssignedName;
+        data["firstUserAssignedSurName"] = this.firstUserAssignedSurName;
+        data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
+        data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
+        data["assignedUsers"] = this.assignedUsers;
         return data; 
     }
 }
@@ -34320,6 +34348,12 @@ export interface IGetOpportunityForViewDto {
     customerName: string | undefined;
     customerNumber: string | undefined;
     contactName: string | undefined;
+    firstUserAssignedId: number | undefined;
+    firstUserAssignedName: string | undefined;
+    firstUserAssignedSurName: string | undefined;
+    firstUserAssignedFullName: string | undefined;
+    firstUserProfilePictureUrl: string | undefined;
+    assignedUsers: number;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
@@ -38590,6 +38624,7 @@ export class OpportunityDto implements IOpportunityDto {
     opportunityTypeId!: number | undefined;
     customerNumber!: string | undefined;
     contactId!: number | undefined;
+    users!: OpportunityUserViewDto[] | undefined;
     id!: number;
 
     constructor(data?: IOpportunityDto) {
@@ -38615,6 +38650,11 @@ export class OpportunityDto implements IOpportunityDto {
             this.opportunityTypeId = _data["opportunityTypeId"];
             this.customerNumber = _data["customerNumber"];
             this.contactId = _data["contactId"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(OpportunityUserViewDto.fromJS(item));
+            }
             this.id = _data["id"];
         }
     }
@@ -38640,6 +38680,11 @@ export class OpportunityDto implements IOpportunityDto {
         data["opportunityTypeId"] = this.opportunityTypeId;
         data["customerNumber"] = this.customerNumber;
         data["contactId"] = this.contactId;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
         data["id"] = this.id;
         return data; 
     }
@@ -38658,6 +38703,7 @@ export interface IOpportunityDto {
     opportunityTypeId: number | undefined;
     customerNumber: string | undefined;
     contactId: number | undefined;
+    users: OpportunityUserViewDto[] | undefined;
     id: number;
 }
 
@@ -38995,6 +39041,62 @@ export class OpportunityUserUserLookupTableDto implements IOpportunityUserUserLo
 export interface IOpportunityUserUserLookupTableDto {
     id: number;
     displayName: string | undefined;
+}
+
+export class OpportunityUserViewDto implements IOpportunityUserViewDto {
+    opportunityId!: number | undefined;
+    userId!: number | undefined;
+    name!: string | undefined;
+    surName!: string | undefined;
+    profilePictureUrl!: string | undefined;
+    fullName!: string | undefined;
+
+    constructor(data?: IOpportunityUserViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityId = _data["opportunityId"];
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.surName = _data["surName"];
+            this.profilePictureUrl = _data["profilePictureUrl"];
+            this.fullName = _data["fullName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityUserViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityUserViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityId"] = this.opportunityId;
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["surName"] = this.surName;
+        data["profilePictureUrl"] = this.profilePictureUrl;
+        data["fullName"] = this.fullName;
+        return data; 
+    }
+}
+
+export interface IOpportunityUserViewDto {
+    opportunityId: number | undefined;
+    userId: number | undefined;
+    name: string | undefined;
+    surName: string | undefined;
+    profilePictureUrl: string | undefined;
+    fullName: string | undefined;
 }
 
 export class OrganizationUnitDto implements IOrganizationUnitDto {

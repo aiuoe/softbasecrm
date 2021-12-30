@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
+import { OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, OpportunityUserUserLookupTableDto, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -56,6 +56,11 @@ export class OpportunitiesComponent extends AppComponentBase {
     contactName = '';
 
     timeZone = 'GMT'
+
+    allUsers: OpportunityUserUserLookupTableDto[];   
+    selectedUsers: OpportunityUserUserLookupTableDto[];
+    noAssignedUsersOption: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto;
+    defaultUser: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto
 
     /***
      * Main constructor
@@ -136,6 +141,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.customerName,
                 this.contactName,
                 this.selectedOpportunityStage?.id,
+                this.selectedUsers?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -199,7 +205,8 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.opportunityTypeDescriptionFilter,
                 this.customerName,
                 this.contactName,
-                this.selectedOpportunityStage?.id
+                this.selectedOpportunityStage?.id,
+                this.selectedUsers?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);

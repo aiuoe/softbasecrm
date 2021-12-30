@@ -40,6 +40,6 @@ namespace SBCRM.Crm.Dtos
 
         public int? OpportunityStageId { get; set; }
 
-        //public List<long?> UserIds { get; set; } = new List<long?>();
+        public List<long?> UserIds { get; set; } = new List<long?>();
     }
 }
