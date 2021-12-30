@@ -1,4 +1,4 @@
-CREATE OR ALTER TRIGGER sync_create_user
+CREATE OR ALTER TRIGGER SecureInsert --Trigger creates user in web.AbpUsers table after its creation in dbo.Secure table
 ON dbo.Secure
 AFTER INSERT
 AS BEGIN
@@ -16,13 +16,26 @@ WHERE
         WHEN ISNUMERIC([S].EmployeeNo) = 1 THEN CONVERT(INT, [S].EmployeeNo)
         ELSE 0
     END) = @user_num
-UPDATE [web].[AbpUsers]
-SET TenantId = 1
-WHERE
-(
- CASE
-        WHEN ISNUMERIC(UserName) = 1 THEN CONVERT(INT, UserName)
+END;
+
+GO
+
+CREATE OR ALTER TRIGGER PersonUpdate --Trigger edits user information in web.AbpUsers teble when it's changed in dbo.Person table
+ON dbo.Person
+AFTER UPDATE 
+AS
+DECLARE 
+@name VARCHAR(128),
+@surname VARCHAR(128),
+@email VARCHAR(128),
+@user_number INT
+SELECT @name=FirstName, @surname=LastName, @email=EMailAddress, @user_number=Number  FROM Inserted
+BEGIN
+UPDATE [web].[AbpUsers] SET Name=@name, Surname=@surname, EmailAddress=@email, NormalizedEmailAddress=@email 
+WHERE 
+ (
+    CASE
+        WHEN ISNUMERIC([UserName]) = 1 THEN CONVERT(INT, [UserName])
         ELSE 0
-    END) = @user_num
-AND TenantId IS NULL
+    END) = @user_number
 END
