@@ -29,7 +29,10 @@
     "@angular/platform-browser-dynamic": "^12.1.0",
     "@angular/platform-server": "^12.1.0",
     "@angular/router": "^12.1.0",
+    "@fullcalendar/angular": "^5.10.1",
     "@fullcalendar/core": "^5.8.0",
+    "@fullcalendar/daygrid": "^5.10.1",
+    "@fullcalendar/interaction": "^5.10.1",
     "@microsoft/signalr": "^5.0.7",
     "@swimlane/ngx-charts": "^18.0.1",
     "abp-ng2-module": "^6.3.0",
@@ -68,7 +71,9 @@
     "text-mask-addons": "^3.8.0",
     "tslib": "^2.3.0",
     "webdriver-manager": "^12.1.8",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "moment": "^2.29.0",
+    "moment-timezone": "^0.5.31"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.0",

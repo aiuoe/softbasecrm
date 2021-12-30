@@ -6,6 +6,7 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
 using System;
+using System.Linq;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -50,7 +51,7 @@ namespace SBCRM.Crm.Exporting
                         L("Stage"),
                         L("Account"),
                         L("AssignedUser"),
-                        L("CloseDate"),
+                        L("ProjectClose"),
                         L("Amount"),
                         L("Branch"),
                         L("Department")
@@ -61,7 +62,9 @@ namespace SBCRM.Crm.Exporting
                         _ => _.Opportunity.Name,
                         _ => _.OpportunityStageDescription,
                         _ => _.CustomerName,
-                        _ => L("Placeholder"),
+                        _ => _.Opportunity.Users != null && _.Opportunity.Users.Any()
+                            ? string.Join(", ", _.Opportunity.Users.Select(x => x.FullName))
+                            : string.Empty,
                         _ => _.Opportunity.CloseDate.HasValue ? _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy") : null,
                         _ => _.Opportunity.Amount,
                         _ => _.Opportunity.Branch,

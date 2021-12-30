@@ -32,3 +32,7 @@
 .p-dropdown.p-disabled .p-dropdown-label, .p-dropdown.p-disabled .p-dropdown-trigger-icon, .p-multiselect.p-disabled .p-dropdown-label, .p-multiselect.p-disabled .p-dropdown-trigger-icon {
     color: $titleColor !important;
 }
+
+.p-dropdown .p-dropdown-label {
+    padding: 6.5px;
+}

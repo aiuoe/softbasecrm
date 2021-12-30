@@ -79,7 +79,7 @@
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
                                         <div>
-                                            <p-multiSelect
+                                            <p-multiSelect 
                                                 id="UserAssignedFilter"
                                                 name="UserAssignedFilter"
                                                 [options]="allUsers"
@@ -89,7 +89,7 @@
                                                 (onChange)="getLeads($event)"
                                             >
                                             </p-multiSelect>
-                                        </div>
+                                        </div>    
                                     </div>
                                 </div>
 
@@ -184,7 +184,8 @@
                                             {{ l('Actions') }}
                                         </th>
                                         <th style="width: 30px">
-                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                            <!-- Temporaly disabled by customer request -->
+                                            <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
                                         </th>
                                         <th
                                             style="width: 160px"
@@ -213,16 +214,14 @@
                                         >
                                             {{ l('LeadCompanyPhone') }}
                                             <p-sortIcon field="companyPhone"></p-sortIcon>
-                                        </th>
-                                        <!-- These is just a placeholder -->
+                                        </th>                                       
                                         <th
                                             style="width: 150px"
                                             pSortableColumn="users.userFk.name"
                                         >
                                             {{ l('AssignedUser') }}
                                             <p-sortIcon field="users.userFk.name"></p-sortIcon>
-                                        </th>
-                                        <!-- Above is just a placeholder -->
+                                        </th>                                        
                                         <th
                                             style="width: 150px"
                                             pSortableColumn="creationTime"
@@ -287,8 +286,8 @@
                                         </td>
                                         <td
                                             style="width: 30px" >
-                                            <p-tableCheckbox    [value]="record">
-                                            </p-tableCheckbox>
+                                             <!-- Temporaly disabled by customer request -->
+                                            <!-- <p-tableCheckbox  [value]="record"> </p-tableCheckbox> -->
                                         </td>
                                         <td style="width: 160px">
                                             <span
@@ -319,7 +318,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
                                                 {{ record.lead.companyPhone }}
-                                        </td>
+                                        </td>                                        
                                         <td style="width: 150px">
                                             <span>
                                                 <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
@@ -329,16 +328,16 @@
                                                     {{ record.firstUserAssignedFullName }}
                                                 </p>
                                             </span>
-                                        </td>
+                                        </td>                                       
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
-                                                {{ record.lead.creationTime  | date: 'MM/dd/yyyy' }}
+                                                {{ record.lead.creationTime  | momentFormat: "MM/DD/yyyy"}}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadPriority') }}</span>
                                             <span
                                                 class="cell-span-color text-white"
-                                                [ngStyle]="{
+                                                [ngStyle]="{                                                                                                
                                                     'background-color': record.priorityColor
                                                 }"
                                             >
