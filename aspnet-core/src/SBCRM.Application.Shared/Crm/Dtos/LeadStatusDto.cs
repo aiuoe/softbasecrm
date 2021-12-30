@@ -3,7 +3,7 @@
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// Class that handles Dto for  LEad status module
+    /// Class that handles Dto for Lead Status module
     /// </summary>
     public class LeadStatusDto : EntityDto
     {
