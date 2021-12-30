@@ -333,7 +333,7 @@ namespace SBCRM.Web.Startup
                 }); //URL: /swagger
             }
 
-            //Clock.Provider = ClockProviders.Utc;
+            Clock.Provider = ClockProviders.Utc;
         }
 
         private void ConfigureKestrel(IServiceCollection services)
