@@ -230,10 +230,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             return;
         }
 
-        // let userTimezoneOffset : number = this.formDate.getTimezoneOffset() * 60000;
-        // let date : Date = new Date(this.formDate.getTime() - userTimezoneOffset);
-        // this.opportunity.closeDate = this._dateTimeService.fromJSDate(new Date());
-        // console.log("on utc the time is" + this.opportunity.closeDate.toString())
+        this.opportunity.closeDate = this._dateTimeService.fromJSDate(this.formDate);
 
         this.saving = true;
 

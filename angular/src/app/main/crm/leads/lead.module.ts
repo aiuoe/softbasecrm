@@ -6,7 +6,7 @@ import { LeadsComponent } from './leads.component';
 import { CreateOrEditLeadComponent } from './create-or-edit-lead.component';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
-
+import { MomentFormatPipe } from '@shared/utils/moment-format.pipe';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
@@ -14,7 +14,7 @@ import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @NgModule({
-    declarations: [LeadsComponent, CreateOrEditLeadComponent, ImportLeadsModalComponent],
+    declarations: [LeadsComponent, CreateOrEditLeadComponent, ImportLeadsModalComponent, MomentFormatPipe],
     imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, InputTextareaModule, DialogModule, DropdownModule,MultiSelectModule, AssignedUserModule],
     providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })

@@ -13,7 +13,6 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
-
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 /***
@@ -55,8 +54,6 @@ export class OpportunitiesComponent extends AppComponentBase {
     customerName = '';
     contactName = '';
 
-    timeZone = 'GMT'
-
     allUsers: OpportunityUserUserLookupTableDto[];   
     selectedUsers: OpportunityUserUserLookupTableDto[];
     noAssignedUsersOption: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto;
@@ -91,13 +88,6 @@ export class OpportunitiesComponent extends AppComponentBase {
     * Initialize component
     */
      ngOnInit(){
-
-        let offset : number = (new Date().getTimezoneOffset() / 60)
-        if (offset < 0)
-            this.timeZone = this.timeZone + "+" + (offset * -1).toString();
-        else if (offset > 0)
-            this.timeZone = this.timeZone + "-" + (offset).toString();
-
         this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown()
         .subscribe((result) => {
             this.opportunityStages = result;

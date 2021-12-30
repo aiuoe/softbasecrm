@@ -147,15 +147,13 @@
                                             {{ l('Account') }}
                                             <p-sortIcon field="customerFk.name"></p-sortIcon>
                                         </th>
-                                        <!-- These is just a placeholder -->
                                         <th
                                             style="width: 150px"
-                                            pSortableColumn="name"
-                                        >
+                                            pSortableColumn="users.userFk.name"
+                                         >
                                             {{ l('AssignedUser') }}
-                                            <p-sortIcon field="name"></p-sortIcon>
+                                        <p-sortIcon field="users.userFk.name"></p-sortIcon>
                                         </th>
-                                        <!-- Above is just a placeholder -->
                                         <th style="width: 150px" pSortableColumn="closeDate">
                                             {{ l('ProjectClose') }}
                                             <p-sortIcon field="closeDate"></p-sortIcon>
@@ -235,16 +233,16 @@
                                             <span class="p-column-title">{{ l('Account') }}</span>
                                             {{ record.customerName }}
                                         </td>
-                                        <!-- These is just a placeholder -->
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <img
-                                                width="50"
-                                                height="50"
-                                                src="\assets\metronic\common\images\users\100_4.jpg">
-                                                {{ l('Placeholder') }}
+                                            <span>
+                                                <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
+                                                    <img class="img-circle" [src]="record.profilePictureUrl" />
+                                                </a>
+                                                <p [className]="record.assignedUsers > 1 ? 'no-wrap-150' : ''">
+                                                    {{ record.firstUserAssignedFullName }}
+                                                </p>
+                                            </span>
                                         </td>
-                                        <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('ProjectClose') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">
