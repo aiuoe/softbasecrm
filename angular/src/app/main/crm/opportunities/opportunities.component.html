@@ -63,7 +63,25 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2" *ngIf="isGranted('Pages.Opportunities.ViewAssignedUserFilter')">
+                                    <div class="form-group">
+                                        <label for="UserAssignedFilter"></label>
+                                        <div>
+                                            <p-multiSelect 
+                                                id="UserAssignedFilter"
+                                                name="UserAssignedFilter"
+                                                [options]="allUsers"
+                                                [(ngModel)]="selectedUsers"
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Users"
+                                                (onChange)="getOpportunities($event)"
+                                            >
+                                            </p-multiSelect>
+                                        </div>    
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
                                         <div>

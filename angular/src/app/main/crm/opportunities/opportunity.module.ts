@@ -10,10 +10,9 @@ import { InputNumberModule} from 'primeng/inputNumber';
 import { CalendarModule} from 'primeng/calendar';
 import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
-import { MomentFormatPipe } from '@shared/utils/moment-format.pipe';
 
 @NgModule({
-    declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent, MomentFormatPipe],
+    declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent],
     imports: [
         AppSharedModule, 
         OpportunityRoutingModule, 

@@ -63,7 +63,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     allUsers: LeadUserUserLookupTableDto[];   
     selectedUsers: LeadUserUserLookupTableDto[];
     noAssignedUsersOption: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto;
-    defaultUser: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto
 
     advancedFiltersAreShown = false;
     filterText = '';

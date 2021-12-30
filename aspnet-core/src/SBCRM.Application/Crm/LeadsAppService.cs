@@ -541,6 +541,8 @@ namespace SBCRM.Crm
         {
             var lead = ObjectMapper.Map<Lead>(input);
 
+            lead.CreationTime = lead.CreationTime.ToUniversalTime();
+
             if (AbpSession.TenantId != null)
             {
                 lead.TenantId = AbpSession.TenantId;
@@ -569,6 +571,8 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditLeadDto input)
         {
             var lead = await _leadRepository.FirstOrDefaultAsync((int)input.Id);
+
+            lead.CreationTime = lead.CreationTime.ToUniversalTime();
 
             using (_reasonProvider.Use("Lead updated"))
             {
@@ -771,7 +775,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get Lead Source type dropdown
+        /// Get Lead Users type dropdown
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]

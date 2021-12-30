@@ -17,6 +17,7 @@ using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
 using SBCRM.Legacy;
 using System;
+using SBCRM.Authorization.Users;
 
 namespace SBCRM.Crm
 {
@@ -37,6 +38,7 @@ namespace SBCRM.Crm
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
+        private readonly IRepository<User, long> _lookup_userRepository;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -52,7 +54,9 @@ namespace SBCRM.Crm
         /// <param name="lookupContactsRepository"></param>
         /// <param name="auditEventsService"></param>
         /// <param name="reasonProvider"></param>
-        /// <param name="unitOfWorkManager"></param>    
+        /// <param name="unitOfWorkManager"></param>
+        /// <param name="lookupUserRepository"></param>
+        /// <param name="opportunityUserRepository"></param>    
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
@@ -64,6 +68,7 @@ namespace SBCRM.Crm
             IAuditEventsService auditEventsService,
             IEntityChangeSetReasonProvider reasonProvider,
             IUnitOfWorkManager unitOfWorkManager,
+            IRepository<User, long> lookupUserRepository,
             IRepository<OpportunityUser> opportunityUserRepository)
         {
             _opportunityRepository = opportunityRepository;
@@ -76,6 +81,7 @@ namespace SBCRM.Crm
             _auditEventsService = auditEventsService;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _lookup_userRepository = lookupUserRepository;
             _opportunityUserRepository = opportunityUserRepository;
         }
 
@@ -259,7 +265,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get list of Lead Query Dtos for view
+        /// Get list of Opportunity Query Dtos for view
         /// </summary>
         /// <param name="dbList"></param>
         /// <returns></returns>
@@ -578,6 +584,22 @@ namespace SBCRM.Crm
                 {
                     Id = opportunityStage.Id,
                     DisplayName = opportunityStage == null || opportunityStage.Description == null ? "" : opportunityStage.Description.ToString()
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Opportunity User type dropdown
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
+        {
+
+            return await _lookup_userRepository.GetAll()
+                .Select(user => new LeadUserUserLookupTableDto
+                {
+                    Id = user.Id,
+                    DisplayName = user == null || user.FullName == null ? string.Empty : user.FullName
                 }).ToListAsync();
         }
 
