@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Abp.Application.Services.Dto;
 
 namespace SBCRM.Crm.Dtos
@@ -32,5 +33,6 @@ namespace SBCRM.Crm.Dtos
 
         public int? ContactId { get; set; }
 
+        public List<OpportunityUserViewDto> Users { get; set; }
     }
 }

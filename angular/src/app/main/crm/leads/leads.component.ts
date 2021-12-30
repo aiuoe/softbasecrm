@@ -13,7 +13,8 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     GetCustomerForViewDto,
-    LeadUserUserLookupTableDto
+    LeadUserUserLookupTableDto,
+    GetLeadForViewDto
 } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -62,7 +63,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     allUsers: LeadUserUserLookupTableDto[];   
     selectedUsers: LeadUserUserLookupTableDto[];
     noAssignedUsersOption: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto;
-    defaultUser: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -87,9 +87,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     contactEmailFilter = '';
     leadSourceDescriptionFilter = '';
     leadStatusDescriptionFilter = '';
-    priorityDescriptionFilter = '';
+    priorityDescriptionFilter = ''; 
 
-    displayModal = false;
     allLeadSources: LeadLeadSourceLookupTableDto[];
     leadSourceDescription = '';
     leadSourceId: number;
@@ -170,9 +169,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * @param event
      */
     getCustomerByCompanyOrContactNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 2;
+        const textFilterHasMoreThan1Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 1;
         const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
+        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
             this.getLeads();
         }
     }
@@ -225,6 +224,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
+                this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -315,7 +315,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Set user image profile reference
      * @param users
      */
-     setUsersProfilePictureUrl(users: GetCustomerForViewDto[]): void {
+     setUsersProfilePictureUrl(users: GetLeadForViewDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
             if (user.firstUserAssignedId) {

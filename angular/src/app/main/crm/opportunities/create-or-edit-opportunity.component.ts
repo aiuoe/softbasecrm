@@ -8,7 +8,7 @@ import {
     OpportunityOpportunityTypeLookupTableDto,
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
-    OpportunityContactsLookupTableDto,
+    OpportunityContactsLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +25,7 @@ import { Location } from '@angular/common';
  */
 @Component({
     templateUrl: './create-or-edit-opportunity.component.html',
-    animations: [appModuleAnimation()],
+    animations: [appModuleAnimation()]
 })
 export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {
     @ViewChild('opportunityForm', { static: true }) opportunityForm: NgForm;
@@ -33,7 +33,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
     routerLink = '/app/main/crm/opportunities';
     breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Opportunity'), this.routerLink),
+        new BreadcrumbItem(this.l('Opportunity'), this.routerLink)
     ];
 
     pageMode = '';
@@ -63,6 +63,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allContacts: OpportunityContactsLookupTableDto[];
 
     opportunityId: number;
+    opportunityName: string;
 
     // Tab permissions
     isPageLoading = true;
@@ -94,7 +95,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
-        this.opportunityCustomerName = this._activatedRoute.snapshot.queryParams['customerName'];
+        this.opportunityName = this._activatedRoute.snapshot.queryParams['opportunityName'];
         this.customerNumber = this._activatedRoute.snapshot.queryParams['customerNumber'];
         if (this.customerNumber) {
             this.isExternalCreation = true;
@@ -104,7 +105,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.setPermissions();
 
         this.show(this.opportunityId);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityCustomerName));
+        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityName));
     }
 
     /***
@@ -222,7 +223,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             return;
         }
 
-        if (this.opportunity.probability < 1 || this.opportunity.probability > 100) {
+        if (this.opportunity.probability != null && (this.opportunity.probability < 1 || this.opportunity.probability > 100)) {
             this.opportunityForm.form.controls['Opportunity_Probability'].setErrors(
                 { 'opportunityInvalidProbability': true });
             this.message.warn(this.l('InvalidFormMessage'));
