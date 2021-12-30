@@ -3,9 +3,9 @@
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO to manage the oportunity stage for update order
+    /// DTO to manage the lead status for update order
     /// </summary>
-    public class UpdateOrderOpportunityStageDto : EntityDto<int?>
+    public class UpdateOrderLeadStatusDto : EntityDto<int?>
     {
         public virtual int Order { get; set; }
     }

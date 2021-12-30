@@ -1,11 +1,10 @@
 ﻿namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO to manage the object lead status for view purposes
+    /// Class that handles Dto for get lead status
     /// </summary>
     public class GetLeadStatusForViewDto
     {
         public LeadStatusDto LeadStatus { get; set; }
-
     }
 }
