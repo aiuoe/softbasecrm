@@ -62,7 +62,7 @@
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
         public const string Pages_OpportunityTypes_Edit = "Pages.OpportunityTypes.Edit";
-        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";
+        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";        
 
         public const string Pages_Configuration = "Pages.Configuration";
         public const string Pages_OpportunityStages = "Pages.OpportunityStages";

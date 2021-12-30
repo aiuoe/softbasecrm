@@ -23,6 +23,7 @@ import { PermissionAllPipe } from '@shared/common/pipes/permission-all.pipe';
 import { FeatureCheckerPipe } from '@shared/common/pipes/feature-checker.pipe';
 import { DatePickerLuxonModifierDirective } from './date-time/date-picker-luxon-modifier.directive';
 import { DateRangePickerLuxonModifierDirective } from './date-time/date-range-picker-luxon-modifier.directive';
+import { MomentFormatPipe } from '@shared/utils/moment-format.pipe';
 
 @NgModule({
     imports: [CommonModule],
@@ -52,6 +53,7 @@ import { DateRangePickerLuxonModifierDirective } from './date-time/date-range-pi
         DatePickerLuxonModifierDirective,
         DateRangePickerLuxonModifierDirective,
         PermissionAllPipe,
+        MomentFormatPipe
     ],
     exports: [
         EqualValidator,
@@ -71,6 +73,7 @@ import { DateRangePickerLuxonModifierDirective } from './date-time/date-range-pi
         DatePickerLuxonModifierDirective,
         DateRangePickerLuxonModifierDirective,
         PermissionAllPipe,
+        MomentFormatPipe
     ],
 })
 export class UtilsModule {}

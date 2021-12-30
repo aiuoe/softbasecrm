@@ -7,6 +7,7 @@ using SBCRM.Dto;
 using SBCRM.Storage;
 using NPOI.SS.UserModel;
 using System;
+using System.Linq;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -62,7 +63,9 @@ namespace SBCRM.Crm.Exporting
                         _ => _.Lead.ContactName,
                         _ => _.LeadStatusDescription,
                         _ => _.Lead.CompanyPhone,
-                        _ => L("Placeholder"),
+                        _ => _.Lead.Users != null && _.Lead.Users.Any()
+                            ? string.Join(", ", _.Lead.Users.Select(x => x.FullName))
+                            : string.Empty,
                         _ => _.Lead.CreationTime.Value.ToString("MM/dd/yyyy"),                        
                         _ => _.PriorityDescription
                         );

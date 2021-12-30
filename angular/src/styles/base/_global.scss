@@ -1,3 +1,18 @@
+html {
+    font-size: $font-regular;
+    font-family: $font-family !important;
+}
+body, html {
+    font-family: $font-family !important;
+}
+
+.breadcrumb-item + .breadcrumb-item {
+    font-size: 1.15rem !important;
+}
+
+.breadcrumb .breadcrumb-item a {
+    font-size: 1.15rem !important;
+}
 
 .btn.btn-primary {
     color: #fff;
@@ -136,4 +151,8 @@ a:hover {
 
 .p-listbox-item:focus {
     box-shadow: none !important;
+}
+
+.extra-padding-for-forms-div {
+    padding-top: 20px;
 }

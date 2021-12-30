@@ -63,7 +63,25 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-2" *ngIf="isGranted('Pages.Opportunities.ViewAssignedUserFilter')">
+                                    <div class="form-group">
+                                        <label for="UserAssignedFilter"></label>
+                                        <div>
+                                            <p-multiSelect 
+                                                id="UserAssignedFilter"
+                                                name="UserAssignedFilter"
+                                                [options]="allUsers"
+                                                [(ngModel)]="selectedUsers"
+                                                optionLabel="displayName"
+                                                placeholder="Filter by Users"
+                                                (onChange)="getOpportunities($event)"
+                                            >
+                                            </p-multiSelect>
+                                        </div>    
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
                                         <div>
@@ -147,17 +165,15 @@
                                             {{ l('Account') }}
                                             <p-sortIcon field="customerFk.name"></p-sortIcon>
                                         </th>
-                                        <!-- These is just a placeholder -->
                                         <th
                                             style="width: 150px"
-                                            pSortableColumn="name"
-                                        >
+                                            pSortableColumn="users.userFk.name"
+                                         >
                                             {{ l('AssignedUser') }}
-                                            <p-sortIcon field="name"></p-sortIcon>
+                                        <p-sortIcon field="users.userFk.name"></p-sortIcon>
                                         </th>
-                                        <!-- Above is just a placeholder -->
                                         <th style="width: 150px" pSortableColumn="closeDate">
-                                            {{ l('CloseDate') }}
+                                            {{ l('ProjectClose') }}
                                             <p-sortIcon field="closeDate"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="amount">
@@ -194,7 +210,7 @@
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
                                                             [queryParams]="{ id: record.opportunity.id,
-                                                                             customerName: record.customerName }"
+                                                                            opportunityName: record.opportunity.name }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -205,7 +221,7 @@
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
                                                             [queryParams]="{ id: record.opportunity.id,
-                                                                             customerName: record.customerName }"
+                                                                            opportunityName: record.opportunity.name }"
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
@@ -235,20 +251,20 @@
                                             <span class="p-column-title">{{ l('Account') }}</span>
                                             {{ record.customerName }}
                                         </td>
-                                        <!-- These is just a placeholder -->
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <img
-                                                width="50"
-                                                height="50"
-                                                src="\assets\metronic\common\images\users\100_4.jpg">
-                                                {{ l('Placeholder') }}
+                                            <span>
+                                                <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
+                                                    <img class="img-circle" [src]="record.profilePictureUrl" />
+                                                </a>
+                                                <p [className]="record.assignedUsers > 1 ? 'no-wrap-150' : ''">
+                                                    {{ record.firstUserAssignedFullName }}
+                                                </p>
+                                            </span>
                                         </td>
-                                        <!-- Above is just a placeholder -->
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('CloseDate') }}</span>
+                                            <span class="p-column-title">{{ l('ProjectClose') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">
-                                                {{ record.opportunity.closeDate | date: 'MM/dd/yyyy' }}
+                                                {{ record.opportunity.closeDate | momentFormat: "MM/DD/yyyy"}}
                                             </span>
                                             <span *ngIf="!record.opportunity.closeDate">-</span>
                                         </td>
