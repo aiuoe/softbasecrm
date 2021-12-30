@@ -1,6 +1,10 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit, forwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CalendarOptions, Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import {
     ActivitiesServiceProxy,
     ActivityActivitySourceTypeLookupTableDto,
@@ -31,12 +35,14 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
     animations: [appModuleAnimation()],
 })
 export class ActivitiesComponent extends AppComponentBase implements OnInit {
+    @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
     @ViewChild('createOrEditActivityModal', { static: true })
     createOrEditActivityModal: CreateOrEditActivityModalComponent;
-    @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
+    
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -48,6 +54,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityStatusDescriptionFilter = '';
     activityPriorityDescriptionFilter = '';
     customerNameFilter = '';
+
+    summaryTableIsShown = true;
+    summaryCalendarIsShown = false;
 
     selectedAssignedUsersFilter: ActivityUserLookupTableDto[] = [];
     selectedActivitySourceTypesFilter: ActivityActivitySourceTypeLookupTableDto;
@@ -78,6 +87,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
 
+    calendarOptions: any;
+
     /***
      * Initialize component
      */
@@ -86,7 +97,49 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivitySourceTypes();
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
+
+        forwardRef(() => Calendar);
+
+        this.calendarOptions = {
+            initialView: 'dayGridMonth',
+            plugins: [dayGridPlugin, interactionPlugin],
+            editable: true,
+            customButtons: {
+              myCustomButton: {
+                text: 'custom!',
+                click: function () {
+                  alert('clicked the custom button!');
+                }
+              }
+            },
+            headerToolbar: {
+              left: 'prev,next today myCustomButton',
+              center: 'title',
+              right: 'dayGridMonth'
+            },
+            eventClick: this.handleDateClick.bind(this)           
+              
+          };     
     }
+
+     /**
+     * Method for rendering calendar
+     */
+    initializeCalendar () {        
+        this.fullcalendar.getApi().refetchEvents();
+        this.fullcalendar.getApi().render();
+        setTimeout(() => this.fullcalendar.getApi().render());
+
+    }
+
+     /**
+     * Method for handle click events on an event (still on testing)
+     */
+    handleDateClick(event) {
+        console.log(event)
+        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0])
+    }
+    
 
     /**
      * Load the activities from the back-end
@@ -95,7 +148,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
-        }
+        }       
 
         this.primengTableHelper.showLoadingIndicator();
 
@@ -126,6 +179,16 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                     isPastDue: dateNow > x.activity.startsAt,
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
+                this.fullcalendar.getApi().removeAllEvents();
+                result.items.forEach(result => {                   
+                   var eventObject = {
+                    title: result.userName,
+                    end: result.activity.startsAt.toString(),
+                    start: result.activity.dueDate.toString(),
+                    color: '#378006' //needs to be changed by ActivityTypeColor -> to be added on database
+                    };  
+                    this.fullcalendar.getApi().addEvent(eventObject); 
+                });                       
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -239,4 +302,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             });
         }
     }
+
+    
 }

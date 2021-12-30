@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
+import { GetOpportunityForViewDto, OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, OpportunityUserUserLookupTableDto, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -13,8 +13,8 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
-
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { LocalStorageService } from '@shared/utils/local-storage.service';
 
 /***
  * Component to manage the opportunity summary grid
@@ -55,6 +55,11 @@ export class OpportunitiesComponent extends AppComponentBase {
     customerName = '';
     contactName = '';
 
+    allUsers: OpportunityUserUserLookupTableDto[];   
+    selectedUsers: OpportunityUserUserLookupTableDto[];
+    noAssignedUsersOption: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto;
+    defaultUser: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto    
+
     /***
      * Main constructor
      * @param injector
@@ -74,12 +79,13 @@ export class OpportunitiesComponent extends AppComponentBase {
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private _localStorageService: LocalStorageService
     ) {
         super(injector);
     }
 
-    
+
     /***
     * Initialize component
     */
@@ -89,6 +95,13 @@ export class OpportunitiesComponent extends AppComponentBase {
             this.opportunityStages = result;
             this.allStagesFilter.displayName = 'All';
             this.opportunityStages.unshift(this.allStagesFilter);
+        });
+
+        this._opportunitiesServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
+            this.allUsers = result;    
+            this.noAssignedUsersOption.id = -1;
+            this.noAssignedUsersOption.displayName = "None"   
+            this.allUsers.unshift(this.noAssignedUsersOption);
         });
     }
 
@@ -127,6 +140,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.customerName,
                 this.contactName,
                 this.selectedOpportunityStage?.id,
+                this.selectedUsers?.map(x => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -134,6 +148,7 @@ export class OpportunitiesComponent extends AppComponentBase {
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
                 this.primengTableHelper.records = result.items;
+                this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -143,9 +158,9 @@ export class OpportunitiesComponent extends AppComponentBase {
      * @param event
      */
     getOpportunityByNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.nameFilter && this.nameFilter?.trim().length >= 2;
+        const textFilterHasMoreThan1Characters = this.nameFilter && this.nameFilter?.trim().length >= 1;
         const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
+        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
             this.getOpportunities();
         }
     }
@@ -159,7 +174,7 @@ export class OpportunitiesComponent extends AppComponentBase {
 
     /***
     * Go to create lead page
-    */    
+    */
     createOpportunity(): void {
         this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }
@@ -190,10 +205,34 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.opportunityTypeDescriptionFilter,
                 this.customerName,
                 this.contactName,
-                this.selectedOpportunityStage?.id
+                this.selectedOpportunityStage?.id,
+                this.selectedUsers?.map(x => x.id),
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    }
+
+     /***
+     * Set user image profile reference
+     * @param users
+     */
+      setUsersProfilePictureUrl(users: GetOpportunityForViewDto[]): void {
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            if (user.firstUserAssignedId) {
+                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
+                    let profilePictureUrl =
+                        AppConsts.remoteServiceBaseUrl +
+                        '/Profile/GetProfilePictureByUser?userId=' +
+                        user.firstUserAssignedId +
+                        '&' +
+                        AppConsts.authorization.encrptedAuthTokenName +
+                        '=' +
+                        encodeURIComponent(value.token);
+                    (user as any).profilePictureUrl = profilePictureUrl;
+                });
+            }
+        }
     }
 }

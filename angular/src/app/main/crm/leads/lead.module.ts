@@ -6,7 +6,6 @@ import { LeadsComponent } from './leads.component';
 import { CreateOrEditLeadComponent } from './create-or-edit-lead.component';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
-
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';

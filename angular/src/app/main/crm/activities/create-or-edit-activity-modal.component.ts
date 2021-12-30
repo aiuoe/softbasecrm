@@ -11,6 +11,8 @@ import {
     ActivityActivityTaskTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityPriorityLookupTableDto,
+    GetActivityForViewDto,
+    ActivityDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -50,6 +52,8 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     allActivityStatuss: ActivityActivityStatusLookupTableDto[];
     allActivityPrioritys: ActivityActivityPriorityLookupTableDto[];
 
+    item: GetActivityForViewDto;
+    
     /**
      * Constructor method
      */
@@ -59,7 +63,18 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
+        this.item = new GetActivityForViewDto();
+        this.item.activity = new ActivityDto();
     }
+
+        /**
+     * Show the modal dialog
+     */
+         showDialog(item: GetActivityForViewDto): void {
+            this.item = item;
+            this.active = true;
+            this.modal.show();
+        }
 
     /**
      * Show the form dialog
