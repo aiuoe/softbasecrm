@@ -33,6 +33,7 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
     templateUrl: './activities.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
+    styleUrls: ['./activities.component.scss']
 })
 export class ActivitiesComponent extends AppComponentBase implements OnInit {
     @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
@@ -103,30 +104,26 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.calendarOptions = {
             initialView: 'dayGridMonth',
             plugins: [dayGridPlugin, interactionPlugin],
-            editable: true,
-            customButtons: {
-              myCustomButton: {
-                text: 'custom!',
-                click: function () {
-                  alert('clicked the custom button!');
-                }
-              }
-            },
+            editable: false,
             headerToolbar: {
-              left: 'prev,next today myCustomButton',
+              left: 'prev,next,today',
               center: 'title',
-              right: 'dayGridMonth'
+              right: 'dayGridMonth,dayGridWeek'
             },
-            eventClick: this.handleDateClick.bind(this)           
-              
-          };     
+            buttonText: {
+            today:'Today',
+            month:'Month',
+            week: 'Week',
+            },
+            eventClick: this.handleDateClick.bind(this)                         
+          }; 
     }
 
      /**
      * Method for rendering calendar
      */
-    initializeCalendar () {        
-        this.fullcalendar.getApi().refetchEvents();
+    initializeCalendar() {        
+        // this.fullcalendar.getApi().refetchEvents();
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());
 
@@ -189,7 +186,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                     };  
                     this.fullcalendar.getApi().addEvent(eventObject); 
                 });                       
-                this.primengTableHelper.hideLoadingIndicator();
+                this.primengTableHelper.hideLoadingIndicator();                
             });
     }
 
@@ -270,7 +267,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      */
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
-            this.activityTaskTypes = res;
+            this.activityTaskTypes = res;            
         });
     }
 

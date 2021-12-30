@@ -208,7 +208,7 @@ namespace SBCRM.Crm
                                 PriorityColor = s3 == null || s3.Color == null ? "" : s3.Color,
                                 FirstUserAssignedName = (from s in _leadUserRepository.GetAll()
                                             .Include(x => x.UserFk)
-                                                         where s.Id == o.Id
+                                                         where s.LeadId == o.Id
                                                          select s.UserFk.Name
                                     ).OrderBy(x => x).FirstOrDefault()
                             };

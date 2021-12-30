@@ -1,0 +1,99 @@
+.text_next_buttons {
+    font-size: 15px;
+}
+
+.fc-col-header-cell-cushion {
+    color: black !important;
+}
+
+.buttons_text {
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+}
+
+.btn.btn-secondary.k {
+    background-color: #EEF1F9 !important;
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+}
+
+.btn.btn-secondary.j {
+    background-color: #DDE2F4 !important;
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+}
+
+
+.button-margin {
+    margin: 0px !important;
+}
+
+.text-margin {
+    margin: 15px !important;
+}
+
+.fc-today-button.fc-button.fc-button-primary,
+.fc-prev-button.fc-button.fc-button-primary,
+.fc-next-button.fc-button.fc-button-primary {
+    background-color: #EEF1F9 !important;
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+    border: none;    
+}
+
+.fc-prev-button.fc-button.fc-button-primary:active,
+.fc-next-button.fc-button.fc-button-primary:active,
+.fc-today-button.fc-button.fc-button-primary:active {
+    background-color: #DDE2F4 !important;
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+    border: none;
+}
+
+.fc-direction-ltr .fc-button-group>.fc-today-button {
+    margin-left: 10px !important;
+}
+
+.fc-button {
+    outline: none !important;
+    box-shadow: none !important;   
+}
+
+.fc-dayGridWeek-button.fc-button.fc-button-primary,
+.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button {
+    background-color: #EEF1F9 !important;
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+    border: none;    
+}
+
+.fc-dayGridWeek-button.fc-button.fc-button-primary.fc-button-active,
+.fc-dayGridWeek-button.fc-button.fc-button-primary:hover,
+.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button:hover,
+.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
+    background-color: #DDE2F4 !important;
+    color: #3250B8 !important; 
+    font-weight: bold !important; 
+    font-size: 15px !important;
+    border: none;    
+}
+
+.fc .fc-button:disabled {
+    opacity: 100 !important;
+}
+
+.box {
+    height: 10px;
+    width: 10px;
+    margin-left: 18px;
+    margin-right: 9px;
+    display:inline-block;
+    background: black;
+    clear: both;
+  }
