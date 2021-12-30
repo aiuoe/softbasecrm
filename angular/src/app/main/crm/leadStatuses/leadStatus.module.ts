@@ -5,9 +5,10 @@ import { LeadStatusRoutingModule } from './leadStatus-routing.module';
 import { LeadStatusesComponent } from './leadStatuses.component';
 import { CreateOrEditLeadStatusModalComponent } from './create-or-edit-leadStatus-modal.component';
 import { ViewLeadStatusModalComponent } from './view-leadStatus-modal.component';
+import { ColorPickerModule } from "primeng/colorpicker";
 
 @NgModule({
     declarations: [LeadStatusesComponent, CreateOrEditLeadStatusModalComponent, ViewLeadStatusModalComponent],
-    imports: [AppSharedModule, LeadStatusRoutingModule, AdminSharedModule],
+    imports: [AppSharedModule, LeadStatusRoutingModule, AdminSharedModule, ColorPickerModule],
 })
 export class LeadStatusModule {}

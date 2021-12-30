@@ -1,9 +1,9 @@
 
-INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('New', getdate(), '#2C4AB6', 0, 1, 1, 'NEW');
-INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('In progress', getdate(), '#FF8900', 0, 1, 0, 'IN PROGRESS');
-INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('Converted', getdate(), '#008E26', 0, 0, 0, 'CONVERTED');
-INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('Dead', getdate(), '#263950', 0, 1, 0, 'DEAD');
-INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], IsDefault, Code) VALUES ('Duplicate', getdate(), '#5400FF', 0, 1, 0, 'DUPLICATE');
+INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('New', getdate(), '#2C4AB6', 0, 1, 1, 'NEW', 1);
+INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('In progress', getdate(), '#FF8900', 0, 1, 0, 'IN PROGRESS', 2);
+INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('Converted', getdate(), '#008E26', 0, 0, 0, 'CONVERTED', 3);
+INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('Dead', getdate(), '#263950', 0, 1, 0, 'DEAD', 4);
+INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('Duplicate', getdate(), '#5400FF', 0, 1, 0, 'DUPLICATE', 5);
 GO
 
 INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Needs Analysis', getdate(), '#2C4AB6', 0, 1);

@@ -105,7 +105,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get the id of the current user.       
+        /// Get the id of the current user.
         /// </summary>
         /// <returns></returns>
         public long GetCurrentUserId()
@@ -113,7 +113,6 @@ namespace SBCRM.Crm
             var currentUser = GetCurrentUser();
             return currentUser.Id;
         }
-
 
         /// <summary>
         /// Gets all leads
@@ -292,7 +291,6 @@ namespace SBCRM.Crm
                 Logger.Error("Error in LeadsAppService -> ", e);
                 throw;
             }
-
         }
 
         /// <summary>
@@ -586,7 +584,6 @@ namespace SBCRM.Crm
                 ObjectMapper.Map(input, lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
-
         }
 
         /// <summary>
@@ -781,7 +778,6 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
-
             return await _lookup_userRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {
@@ -837,7 +833,7 @@ namespace SBCRM.Crm
                 .FirstOrDefaultAsync();
 
             var convertedStatusCode = "CONVERTED";
-            var convertedStatus = await _lookupLeadStatusRepository.GetAll()
+            LeadStatus convertedStatus = await _lookupLeadStatusRepository.GetAll()
                 .FirstOrDefaultAsync(x => convertedStatusCode == x.Code);
 
             GuardHelper.ThrowIf(lead is null, new UserFriendlyException(L("LeadNotExist")));
@@ -877,6 +873,5 @@ namespace SBCRM.Crm
             input.EntityTypeFullName = typeof(Lead).FullName;
             return await _auditEventsService.GetEntityTypeChanges(input);
         }
-
     }
 }

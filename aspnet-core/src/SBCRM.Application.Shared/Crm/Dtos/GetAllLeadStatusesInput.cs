@@ -3,13 +3,15 @@
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO used as input for the get all lead status method that includes filters
+    /// Class that handles the request for get a lead source list
     /// </summary>
     public class GetAllLeadStatusesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
 
         public string DescriptionFilter { get; set; }
+
+        public string ColorFilter { get; set; }
 
         public int? IsLeadConversionValidFilter { get; set; }
 

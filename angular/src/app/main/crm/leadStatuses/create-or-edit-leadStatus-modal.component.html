@@ -14,15 +14,16 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="leadStatus.id">{{ l('EditLeadStatus') }}</span>
-                        <span *ngIf="!leadStatus.id">{{ l('CreateNewLeadStatus') }}</span>
+                        <span *ngIf="!leadStatus.id">{{ l('NewLeadStatus') }}</span>
                     </h4>
+
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="LeadStatus_Description">{{ l('Description') }} *</label>
+                        <label for="LeadStatus_Description">{{ l('LeadStatusName') }}</label>
                         <input
                             type="text"
                             #LeadStatus_Description="ngModel"
@@ -33,40 +34,23 @@
                             minlength="1"
                             maxlength="100"
                             required
+                            placeholder="Enter Status Name"
                         />
                         <validation-messages [formCtrl]="LeadStatus_Description"></validation-messages>
                     </div>
 
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="LeadStatus_IsLeadConversionValid" class="kt-checkbox">
-                            <input
-                                id="LeadStatus_IsLeadConversionValid"
-                                #LeadStatus_IsLeadConversionValid="ngModel"
-                                type="checkbox"
-                                name="IsLeadConversionValid"
-                                [(ngModel)]="leadStatus.isLeadConversionValid"
-                            />
-                            {{ l('IsLeadConversionValid') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="LeadStatus_IsLeadConversionValid"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="LeadStatus_IsDefault" class="kt-checkbox">
-                            <input
-                                id="LeadStatus_IsDefault"
-                                #LeadStatus_IsDefault="ngModel"
-                                type="checkbox"
-                                name="IsDefault"
-                                [(ngModel)]="leadStatus.isDefault"
-                            />
-                            {{ l('IsDefault') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="LeadStatus_IsDefault"></validation-messages>
+                    <div class="form-group">
+                        <label class="col-1" for="LeadStatus_Color">{{ l('Color') }}:</label>
+                        <label class="col-1">{{ leadStatus.color }}</label>
+                        <p-colorPicker
+                            class="col-1"
+                            #LeadStatus_Color="ngModel"
+                            id="LeadStatus_Color"
+                            [(ngModel)]="leadStatus.color"
+                            name="Color"
+                            required
+                        ></p-colorPicker>
+                        <validation-messages [formCtrl]="LeadStatus_Color"></validation-messages>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -80,8 +64,7 @@
                         [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')"
                     >
-                        <i class="fa fa-save"></i>
-                        <span>{{ l('Save') }}</span>
+                        <span>{{ l('Add') }}</span>
                     </button>
                 </div>
             </form>
