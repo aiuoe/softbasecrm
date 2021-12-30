@@ -15,7 +15,8 @@ namespace SBCRM.Crm.Dtos
 
         public bool IsDefault { get; set; }
 
-        public int EnumValue { get; set; }
+        [StringLength(ActivityTaskTypeConsts.MaxCodeLength, MinimumLength = ActivityTaskTypeConsts.MinCodeLength)]
+        public string Code { get; set; }
 
     }
 }

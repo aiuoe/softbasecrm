@@ -78,10 +78,10 @@
       }
     },
     {
-      "Name": "EnumValue",
-      "Type": "int",
-      "MaxLength": 0,
-      "MinLength": 0,
+      "Name": "Code",
+      "Type": "string",
+      "MaxLength": 50,
+      "MinLength": 1,
       "Range": {
         "IsRangeSet": false,
         "MinimumValue": 0.0,

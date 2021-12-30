@@ -599,7 +599,7 @@ namespace SBCRM.Crm
                 {
                     Id = activityTaskType.Id,
                     IsDefault = activityTaskType.IsDefault,
-                    EnumValue = activityTaskType.EnumValue,
+                    Code = activityTaskType.Code,
                     DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString()
                 }).ToListAsync();
         }

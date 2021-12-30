@@ -20,7 +20,8 @@ namespace SBCRM.Crm
 
         public virtual bool IsDefault { get; set; }
 
-        public virtual int EnumValue { get; set; }
+        [StringLength(ActivityTaskTypeConsts.MaxCodeLength, MinimumLength = ActivityTaskTypeConsts.MinCodeLength)]
+        public virtual string Code { get; set; }
 
     }
 }

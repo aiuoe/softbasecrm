@@ -9,11 +9,11 @@ export class ActivitySourceType {
     static OPPORTUNITY = 'OPPORTUNITY';
 }
 
-export enum ActivityTaskType {
-    ScheduleMeeting,
-    ScheduleCall,
-    EmailReminder,
-    ToDoReminder,
+export class ActivityTaskType {
+    static SCHEDULE_MEETING = 'SCHEDULE_MEETING';
+    static SCHEDULE_CALL = 'SCHEDULE_CALL';
+    static EMAIL_REMINDER = 'EMAIL_REMINDER';
+    static TODO_REMINDER = 'TODO_REMINDER';
 }
 
 export enum ActivityDuration {

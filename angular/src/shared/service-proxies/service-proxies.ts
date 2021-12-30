@@ -25342,7 +25342,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
     id!: number;
     displayName!: string | undefined;
     isDefault!: boolean;
-    enumValue!: number;
+    code!: string | undefined;
 
     constructor(data?: IActivityActivityTaskTypeLookupTableDto) {
         if (data) {
@@ -25358,7 +25358,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
             this.id = _data["id"];
             this.displayName = _data["displayName"];
             this.isDefault = _data["isDefault"];
-            this.enumValue = _data["enumValue"];
+            this.code = _data["code"];
         }
     }
 
@@ -25374,7 +25374,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         data["id"] = this.id;
         data["displayName"] = this.displayName;
         data["isDefault"] = this.isDefault;
-        data["enumValue"] = this.enumValue;
+        data["code"] = this.code;
         return data; 
     }
 }
@@ -25383,7 +25383,7 @@ export interface IActivityActivityTaskTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
     isDefault: boolean;
-    enumValue: number;
+    code: string | undefined;
 }
 
 export class ActivityCustomerLookupTableDto implements IActivityCustomerLookupTableDto {
@@ -25746,7 +25746,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
     description!: string | undefined;
     order!: number;
     isDefault!: boolean;
-    enumValue!: number;
+    code!: string | undefined;
     id!: number;
 
     constructor(data?: IActivityTaskTypeDto) {
@@ -25763,7 +25763,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
             this.description = _data["description"];
             this.order = _data["order"];
             this.isDefault = _data["isDefault"];
-            this.enumValue = _data["enumValue"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -25780,7 +25780,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         data["description"] = this.description;
         data["order"] = this.order;
         data["isDefault"] = this.isDefault;
-        data["enumValue"] = this.enumValue;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -25790,7 +25790,7 @@ export interface IActivityTaskTypeDto {
     description: string | undefined;
     order: number;
     isDefault: boolean;
-    enumValue: number;
+    code: string | undefined;
     id: number;
 }
 
@@ -27713,7 +27713,7 @@ export interface ICreateOrEditActivityStatusDto {
 export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTaskTypeDto {
     description!: string | undefined;
     isDefault!: boolean;
-    enumValue!: number;
+    code!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityTaskTypeDto) {
@@ -27729,7 +27729,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
         if (_data) {
             this.description = _data["description"];
             this.isDefault = _data["isDefault"];
-            this.enumValue = _data["enumValue"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -27745,7 +27745,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["isDefault"] = this.isDefault;
-        data["enumValue"] = this.enumValue;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -27754,7 +27754,7 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
 export interface ICreateOrEditActivityTaskTypeDto {
     description: string | undefined;
     isDefault: boolean;
-    enumValue: number;
+    code: string | undefined;
     id: number | undefined;
 }
 

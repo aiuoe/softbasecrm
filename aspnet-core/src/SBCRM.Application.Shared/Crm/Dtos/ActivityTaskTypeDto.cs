@@ -14,7 +14,7 @@ namespace SBCRM.Crm.Dtos
 
         public bool IsDefault { get; set; }
 
-        public int EnumValue { get; set; }
+        public string Code { get; set; }
 
     }
 }

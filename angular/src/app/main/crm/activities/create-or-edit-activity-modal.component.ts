@@ -259,8 +259,8 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             return false;
         }
 
-        let value = <ActivityTaskType>this.allActivityTaskTypes.find((x) => x.id == id).enumValue;
-        return value === ActivityTaskType.EmailReminder || value === ActivityTaskType.ToDoReminder;
+        let code = <ActivityTaskType>this.allActivityTaskTypes.find((x) => x.id == id).code;
+        return code === ActivityTaskType.EMAIL_REMINDER || code === ActivityTaskType.TODO_REMINDER;
     }
 
     /**

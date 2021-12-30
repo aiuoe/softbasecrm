@@ -124,9 +124,9 @@
                                             {{ l('IsDefault') }}
                                             <p-sortIcon field="activityTaskType.isDefault"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="enumValue">
-                                            {{ l('EnumValue') }}
-                                            <p-sortIcon field="activityTaskType.enumValue"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="code">
+                                            {{ l('Code') }}
+                                            <p-sortIcon field="activityTaskType.code"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -204,8 +204,8 @@
                                             </div>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('EnumValue') }}</span>
-                                            {{ record.activityTaskType.enumValue }}
+                                            <span class="p-column-title">{{ l('Code') }}</span>
+                                            {{ record.activityTaskType.code }}
                                         </td>
                                     </tr>
                                 </ng-template>
