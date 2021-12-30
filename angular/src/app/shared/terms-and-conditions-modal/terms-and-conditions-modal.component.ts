@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.directive';
-import { Subject } from 'rxjs';
 
 /**
  * Terms and coditions component
@@ -27,15 +26,9 @@ export class TermsAndConditionsModalComponent {
   ) { }
 
   /**
-   * Closes the modal and if theres is a user logged that hasnt accepted the terms and
-   * conditions, will send an update to accept them.
+   * Closes the modal 
    */
   close(): void {
-    // if (this._sessionService.user
-    //   && !this._sessionService.user.hasAcceptedTermsAndConditions) {
-    //   this._userServiceProxy.acceptTermsAndConditions()
-    //   .subscribe((_) => _);
-    // }
     this.modal.hide();
   }
 
