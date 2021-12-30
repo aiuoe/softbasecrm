@@ -1713,6 +1713,17 @@
     <text name="YouAreNotLoggedInAsAHostUser">You are not logged in as a host user!</text>
     <text name="WhatsIncludedInYourPlan">What's included in your plan</text>
     <text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
+
+    <text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
+    <text name="Pages.Activities.Create.Assign_Other_Users">Assign other Users</text>
+    <text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities">View All Accounts, Leads and Opportunities</text>
+    
+    <text name="FifteenMinutes">15 Minutes</text>
+    <text name="ThirtyMinutes">30 Minutes</text>
+    <text name="OneHour">1 Hour (default)</text>
+    <text name="OneHourAndThirtyMinutes">1.5 Hours</text>
+    <text name="TwoHours">2 Hours</text>
+
     <text name="DashboardNoteForMpaVersion">
       <![CDATA[
 	<texts>

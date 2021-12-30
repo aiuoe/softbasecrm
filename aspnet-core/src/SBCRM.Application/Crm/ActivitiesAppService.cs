@@ -252,7 +252,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">Input from http header query which includes the id of the activity</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_Activities_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
             var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
@@ -453,11 +453,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities);
 
             var userCustomers = new List<string>();
 
-            if (!canAssignOthers)
+            if (!canViewAll)
             {
                 userCustomers = await _lookupAccountUserRepository.GetAll()
                     .Where(x => x.UserId == currentUser.Id)
@@ -466,7 +466,7 @@ namespace SBCRM.Crm
             }
 
             return await _lookupCustomerRepository.GetAll()
-                .Where(x => canAssignOthers || userCustomers.Any(cn => cn == x.Number))
+                .Where(x => canViewAll || userCustomers.Any(cn => cn == x.Number))
                 .Select(account => new ActivityCustomerLookupTableDto
                 {
                     Number = account.Number,
@@ -503,11 +503,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities);
 
             var userOpportunities = new List<int>();
 
-            if (!canAssignOthers)
+            if (!canViewAll)
             {
                 userOpportunities = await _lookupOpportunityUserRepository.GetAll()
                     .Where(x => x.UserId == currentUser.Id)
@@ -516,7 +516,7 @@ namespace SBCRM.Crm
             }
 
             return await _lookupOpportunityRepository.GetAll()
-                .Where(x => canAssignOthers || userOpportunities.Any(id => id == x.Id))
+                .Where(x => canViewAll || userOpportunities.Any(id => id == x.Id))
                 .Select(opportunity => new ActivityOpportunityLookupTableDto
                 {
                     Id = opportunity.Id,
@@ -533,11 +533,11 @@ namespace SBCRM.Crm
         public async Task<List<ActivityLeadLookupTableDto>> GetAllLeadForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities);
 
             var userLeads = new List<int?>();
 
-            if (!canAssignOthers)
+            if (!canViewAll)
             {
                 userLeads = await _lookupLeadUserRepository.GetAll()
                     .Where(x => x.UserId == currentUser.Id)
@@ -546,7 +546,7 @@ namespace SBCRM.Crm
             }
 
             return await _lookupLeadRepository.GetAll()
-                .Where(x => canAssignOthers || userLeads.Any(id => id == x.Id))
+                .Where(x => canViewAll || userLeads.Any(id => id == x.Id))
                 .Select(lead => new ActivityLeadLookupTableDto
                 {
                     Id = lead.Id,
@@ -562,7 +562,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
 
             return await _lookupUserRepository.GetAll()
                 .Where(x => canAssignOthers || x.Id == currentUser.Id)

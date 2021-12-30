@@ -65,6 +65,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityStatuses: ActivityActivityStatusLookupTableDto[];
 
     /**
+     * Used to delay the search and wait for the user to finish typing.
+     */
+    delaySearchActivity = debounce(this.getActivities, 1000);
+
+    /**
      * Constructor method
      */
     constructor(
@@ -98,11 +103,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             }
         }
     }
-
-    /**
-     * Used to delay the search and wait for the user to finish typing.
-     */
-    delaySearchActivity = debounce(this.getActivities, 1000);
 
     /**
      * Load the activities from the back-end

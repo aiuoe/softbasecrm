@@ -11,9 +11,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 
 @NgModule({
     declarations: [ActivitiesComponent, CreateOrEditActivityModalComponent, ViewActivityModalComponent],
+    providers: [ActivitySharedService],
     imports: [
         AppSharedModule,
         ActivityRoutingModule,

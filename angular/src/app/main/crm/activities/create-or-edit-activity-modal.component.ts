@@ -17,8 +17,9 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { ActivityDuration, ActivitySourceType, ActivityTaskType, getActivityDurationIitems } from '@shared/AppEnums';
+import { ActivityDuration, ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { ThrowStmt } from '@angular/compiler';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 
 /**
  * Component for creating or updating an activity
@@ -61,6 +62,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      */
     constructor(
         injector: Injector,
+        private _activitySharedService: ActivitySharedService,
         private _activitiesServiceProxy: ActivitiesServiceProxy,
         private _dateTimeService: DateTimeService
     ) {
@@ -81,9 +83,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
             this.activity.id = activityId;
             this.activity.dueDate = this._dateTimeService.getStartOfDay();
             this.activity.startsAt = this._dateTimeService.getStartOfDay();
-            this.activity.durationMinutes = getActivityDurationIitems().find(
-                (x) => x.enumValue === ActivityDuration.OneHour
-            ).value;
+            this.activity.durationMinutes = this._activitySharedService
+                .getActivityDurationItems()
+                .find((x) => x.enumValue === ActivityDuration.OneHour).value;
 
             this.active = true;
             this.modal.show();
@@ -236,7 +238,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Initialize Component
      */
     ngOnInit(): void {
-        this.durationItems = getActivityDurationIitems();
+        this.durationItems = this._activitySharedService.getActivityDurationItems();
     }
 
     /**

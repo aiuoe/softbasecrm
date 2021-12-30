@@ -7,12 +7,3 @@ export const nextGuid = () => {
 
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
-
-export const objectToArray = (obj: object) => {
-    return Object.keys(obj)
-        .filter((x) => isNaN(Number(x)))
-        .map((key) => ({
-            text: key,
-            value: obj[key],
-        }));
-};
