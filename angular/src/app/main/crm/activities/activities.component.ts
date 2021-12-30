@@ -6,7 +6,8 @@ import {
     ActivityActivitySourceTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityTaskTypeLookupTableDto,
-    ActivityDto, ActivityUserLookupTableDto,
+    ActivityDto,
+    ActivityUserLookupTableDto,
     ProfileServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
@@ -21,8 +22,6 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
-import { objectToArray } from '@shared/utils/global.utils';
-import { ActivitySourceType } from '@shared/AppEnums';
 
 /***
  * Component to manage the activities summary grid
@@ -63,9 +62,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
     activityStatuses: ActivityActivityStatusLookupTableDto[];
 
-    newActivityTypes = [];
-    newActivitySourceType!: ActivitySourceType;
-
     /**
      * Constructor method
      */
@@ -91,8 +87,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivitySourceTypes();
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
-
-        this.newActivityTypes = objectToArray(ActivitySourceType);
     }
 
     /**
@@ -147,9 +141,8 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     /**
      * Shows the form dialog for creating or updating an Activity
      */
-    createActivity(sourceType: ActivitySourceType): void {
-        this.newActivitySourceType = sourceType;
-        this.createOrEditActivityModal.show(sourceType);
+    createActivity(sourceTypeCode: string): void {
+        this.createOrEditActivityModal.show(sourceTypeCode);
     }
 
     /**

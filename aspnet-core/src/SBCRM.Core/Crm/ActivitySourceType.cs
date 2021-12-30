@@ -19,7 +19,8 @@ namespace SBCRM.Crm
 
         public virtual int Order { get; set; }
 
-        public virtual int EnumValue { get; set; }
+        [StringLength(ActivitySourceTypeConsts.MaxCodeLength, MinimumLength = ActivitySourceTypeConsts.MinCodeLength)]
+        public virtual string Code { get; set; }
 
     }
 }

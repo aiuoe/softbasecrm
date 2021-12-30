@@ -123,9 +123,9 @@
                                             {{ l('Order') }}
                                             <p-sortIcon field="activitySourceType.order"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="enumValue">
-                                            {{ l('EnumValue') }}
-                                            <p-sortIcon field="activitySourceType.enumValue"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="code">
+                                            {{ l('Code') }}
+                                            <p-sortIcon field="activitySourceType.code"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -198,8 +198,8 @@
                                             {{ record.activitySourceType.order }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('EnumValue') }}</span>
-                                            {{ record.activitySourceType.enumValue }}
+                                            <span class="p-column-title">{{ l('Code') }}</span>
+                                            {{ record.activitySourceType.code }}
                                         </td>
                                     </tr>
                                 </ng-template>

@@ -12,7 +12,7 @@ namespace SBCRM.Crm.Dtos
 
         public int Order { get; set; }
 
-        public int EnumValue { get; set; }
+        public string Code { get; set; }
 
     }
 }

@@ -37,7 +37,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     isEditMode = false;
     readonly = false;
 
-    sourceType: ActivitySourceType;
+    sourceTypeCode: string;
 
     activity: CreateOrEditActivityDto = new CreateOrEditActivityDto();
 
@@ -70,8 +70,8 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     /**
      * Show the form dialog
      */
-    async show(sourceType: ActivitySourceType, activityId?: number, readonly: boolean = false): Promise<void> {
-        this.sourceType = sourceType;
+    async show(sourceTypeCode: string, activityId?: number, readonly: boolean = false): Promise<void> {
+        this.sourceTypeCode = sourceTypeCode;
         this.readonly = readonly;
 
         const isCreate = !activityId;
@@ -105,20 +105,20 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
                 });
         }
 
-        switch (sourceType) {
-            case ActivitySourceType.Lead:
+        switch (sourceTypeCode) {
+            case ActivitySourceType.LEAD:
                 this._activitiesServiceProxy.getAllLeadForTableDropdown().subscribe((result) => {
                     this.allLeads = isCreate ? result : result.filter((x) => x.id == this.activity.leadId);
                 });
                 break;
-            case ActivitySourceType.Account:
+            case ActivitySourceType.ACCOUNT:
                 this._activitiesServiceProxy.getAllAccountsForTableDropdown().subscribe((result) => {
                     this.allAccounts = isCreate
                         ? result
                         : result.filter((x) => x.number == this.activity.customerNumber);
                 });
                 break;
-            case ActivitySourceType.Opportunity:
+            case ActivitySourceType.OPPORTUNITY:
                 await this._activitiesServiceProxy
                     .getAllOpportunityForTableDropdown()
                     .toPromise()
@@ -150,7 +150,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
             this.allActivitySourceTypes = result;
             if (isCreate && result.length > 0) {
-                this.activity.activitySourceTypeId = result.find((x) => x.enumValue === this.sourceType)?.id;
+                this.activity.activitySourceTypeId = result.find((x) => x.code === sourceTypeCode)?.id;
             }
         });
 
@@ -245,7 +245,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     /**
      * Get ActivitySourceType enum for accessing in the component's html file
      */
-    get getActivitySourceTypeEnum(): typeof ActivitySourceType {
+    get getActivitySourceType(): typeof ActivitySourceType {
         return ActivitySourceType;
     }
 
@@ -267,12 +267,12 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Returns the form title text based on the Activity source type
      */
     get formTitle(): string {
-        switch (this.sourceType) {
-            case ActivitySourceType.Lead:
+        switch (this.sourceTypeCode) {
+            case ActivitySourceType.LEAD:
                 return this.l('CreateNewActivityByLead');
-            case ActivitySourceType.Account:
+            case ActivitySourceType.ACCOUNT:
                 return this.l('CreateNewActivityByAccount');
-            case ActivitySourceType.Opportunity:
+            case ActivitySourceType.OPPORTUNITY:
                 return this.l('CreateNewActivityByOpportunity');
             default:
                 return this.l('CreateNewActivity');

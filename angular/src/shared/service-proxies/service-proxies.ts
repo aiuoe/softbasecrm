@@ -25253,7 +25253,7 @@ export interface IActivityActivityPriorityLookupTableDto {
 export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivitySourceTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
-    enumValue!: number;
+    code!: string | undefined;
 
     constructor(data?: IActivityActivitySourceTypeLookupTableDto) {
         if (data) {
@@ -25268,7 +25268,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
-            this.enumValue = _data["enumValue"];
+            this.code = _data["code"];
         }
     }
 
@@ -25283,7 +25283,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
-        data["enumValue"] = this.enumValue;
+        data["code"] = this.code;
         return data; 
     }
 }
@@ -25291,7 +25291,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
 export interface IActivityActivitySourceTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
-    enumValue: number;
+    code: string | undefined;
 }
 
 export class ActivityActivityStatusLookupTableDto implements IActivityActivityStatusLookupTableDto {
@@ -25641,7 +25641,7 @@ export interface IActivityPriorityDto {
 export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     description!: string | undefined;
     order!: number;
-    enumValue!: number;
+    code!: string | undefined;
     id!: number;
 
     constructor(data?: IActivitySourceTypeDto) {
@@ -25657,7 +25657,7 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
-            this.enumValue = _data["enumValue"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -25673,7 +25673,7 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
-        data["enumValue"] = this.enumValue;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -25682,7 +25682,7 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
 export interface IActivitySourceTypeDto {
     description: string | undefined;
     order: number;
-    enumValue: number;
+    code: string | undefined;
     id: number;
 }
 
@@ -27609,7 +27609,7 @@ export interface ICreateOrEditActivityPriorityDto {
 export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivitySourceTypeDto {
     description!: string;
     order!: number;
-    enumValue!: number;
+    code!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivitySourceTypeDto) {
@@ -27625,7 +27625,7 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
-            this.enumValue = _data["enumValue"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -27641,7 +27641,7 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
-        data["enumValue"] = this.enumValue;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -27650,7 +27650,7 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
 export interface ICreateOrEditActivitySourceTypeDto {
     description: string;
     order: number;
-    enumValue: number;
+    code: string | undefined;
     id: number | undefined;
 }
 
@@ -31904,7 +31904,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
     activityPriorityDescription!: string | undefined;
     activityPriorityColor!: string | undefined;
     customerName!: string | undefined;
-    sourceTypeEnumValue!: number;
+    sourceTypeCode!: string | undefined;
 
     constructor(data?: IGetActivityForViewDto) {
         if (data) {
@@ -31929,7 +31929,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
             this.activityPriorityDescription = _data["activityPriorityDescription"];
             this.activityPriorityColor = _data["activityPriorityColor"];
             this.customerName = _data["customerName"];
-            this.sourceTypeEnumValue = _data["sourceTypeEnumValue"];
+            this.sourceTypeCode = _data["sourceTypeCode"];
         }
     }
 
@@ -31954,7 +31954,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
         data["activityPriorityDescription"] = this.activityPriorityDescription;
         data["activityPriorityColor"] = this.activityPriorityColor;
         data["customerName"] = this.customerName;
-        data["sourceTypeEnumValue"] = this.sourceTypeEnumValue;
+        data["sourceTypeCode"] = this.sourceTypeCode;
         return data; 
     }
 }
@@ -31972,7 +31972,7 @@ export interface IGetActivityForViewDto {
     activityPriorityDescription: string | undefined;
     activityPriorityColor: string | undefined;
     customerName: string | undefined;
-    sourceTypeEnumValue: number;
+    sourceTypeCode: string | undefined;
 }
 
 export class GetActivityPriorityForEditOutput implements IGetActivityPriorityForEditOutput {

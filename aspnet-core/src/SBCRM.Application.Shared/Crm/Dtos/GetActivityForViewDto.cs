@@ -29,6 +29,6 @@
 
         public string CustomerName { get; set; }
 
-        public int SourceTypeEnumValue { get; set; }
+        public string SourceTypeCode { get; set; }
     }
 }

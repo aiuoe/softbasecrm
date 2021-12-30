@@ -29,7 +29,7 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
-                            <div *ngIf="sourceType === getActivitySourceTypeEnum.Lead" class="col-sm-6">
+                            <div *ngIf="sourceTypeCode === getActivitySourceType.LEAD" class="col-sm-6">
                                 <div class="form-group m-form__group input-field required">
                                     <label for="LeadCompanyName">{{ l('Company') }}</label>
                                     <select
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="sourceType === getActivitySourceTypeEnum.Account" class="col-sm-6">
+                            <div *ngIf="sourceTypeCode === getActivitySourceType.ACCOUNT" class="col-sm-6">
                                 <div class="form-group m-form__group input-field required">
                                     <label for="AccountCompanyName">{{ l('Company') }}</label>
                                     <select
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
 
-                            <ng-container *ngIf="sourceType === getActivitySourceTypeEnum.Opportunity">
+                            <ng-container *ngIf="sourceTypeCode === getActivitySourceType.OPPORTUNITY">
                                 <div class="col-sm-6">
                                     <div class="form-group m-form__group input-field required">
                                         <label for="OpportunityCustomerNumber">{{ l('Company') }}</label>

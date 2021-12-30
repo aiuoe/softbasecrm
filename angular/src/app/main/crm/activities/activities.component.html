@@ -13,13 +13,13 @@
                         {{ l('Activity') }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                        <li *ngFor="let item of newActivityTypes">
+                        <li *ngFor="let item of activitySourceTypes">
                             <a
                                 class="dropdown-item text-dark font-weight-bold"
                                 href="javascript:;"
-                                (click)="createActivity(item.value)"
+                                (click)="createActivity(item.code)"
                             >
-                                By {{ item.text }}
+                                By {{ item.displayName }}
                             </a>
                         </li>
                     </ul>
@@ -228,7 +228,7 @@
                                                             class="dropdown-item"
                                                             (click)="
                                                                 createOrEditActivityModal.show(
-                                                                    record.sourceTypeEnumValue,
+                                                                    record.sourceTypeCode,
                                                                     record.activity.id,
                                                                     true
                                                                 )
@@ -244,7 +244,7 @@
                                                             class="dropdown-item"
                                                             (click)="
                                                                 createOrEditActivityModal.show(
-                                                                    record.sourceTypeEnumValue,
+                                                                    record.sourceTypeCode,
                                                                     record.activity.id
                                                                 )
                                                             "

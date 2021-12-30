@@ -70,9 +70,9 @@ UPDATE web.ActivityPriorities SET [Order] = 20, IsDefault = 1 WHERE [Description
 UPDATE web.ActivityPriorities SET [Order] = 30, IsDefault = 0 WHERE [Description] = 'High'
 GO
 
-UPDATE web.ActivitySourceTypes SET [Order] = 10, EnumValue = 0 WHERE [Description] = 'Lead'
-UPDATE web.ActivitySourceTypes SET [Order] = 20, EnumValue = 1 WHERE [Description] = 'Account'
-UPDATE web.ActivitySourceTypes SET [Order] = 30, EnumValue = 2 WHERE [Description] = 'Opportunity'
+UPDATE web.ActivitySourceTypes SET [Order] = 10, Code = 'LEAD' WHERE [Description] = 'Lead'
+UPDATE web.ActivitySourceTypes SET [Order] = 20, Code = 'ACCOUNT' WHERE [Description] = 'Account'
+UPDATE web.ActivitySourceTypes SET [Order] = 30, Code = 'OPPORTUNITY' WHERE [Description] = 'Opportunity'
 GO
 
 UPDATE web.ActivityStatuses SET IsDefault = 1 WHERE [Description] = 'Scheduled'

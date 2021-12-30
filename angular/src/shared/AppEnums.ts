@@ -3,10 +3,10 @@ export class AppEditionExpireAction {
     static AssignToAnotherEdition = 'AssignToAnotherEdition';
 }
 
-export enum ActivitySourceType {
-    Lead,
-    Account,
-    Opportunity,
+export class ActivitySourceType {
+    static LEAD = 'LEAD';
+    static ACCOUNT = 'ACCOUNT';
+    static OPPORTUNITY = 'OPPORTUNITY';
 }
 
 export enum ActivityTaskType {

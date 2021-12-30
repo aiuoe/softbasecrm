@@ -140,7 +140,7 @@ namespace SBCRM.Crm
                                  activity.DueDate,
                                  activity.StartsAt,
                                  User = user,
-                                 SourceTypeEnumValue = sourceType.EnumValue,
+                                 SourceTypeCode = sourceType.Code,
                                  UserName = user != null ? user.Name + " " + user.Surname : string.Empty,
                                  ActivitySourceTypeDescription = sourceType != null ? sourceType.Description : string.Empty,
                                  ActivityTaskTypeDescription = type != null ? type.Description : string.Empty,
@@ -191,7 +191,7 @@ namespace SBCRM.Crm
                     ActivityPriorityDescription = o.ActivityPriorityDescription,
                     ActivityPriorityColor = o.ActivityPriorityColor,
                     CompanyName = o.CompanyName,
-                    SourceTypeEnumValue = o.SourceTypeEnumValue,
+                    SourceTypeCode = o.SourceTypeCode,
                 };
 
                 results.Add(res);
@@ -581,7 +581,7 @@ namespace SBCRM.Crm
                 .Select(activitySourceType => new ActivityActivitySourceTypeLookupTableDto
                 {
                     Id = activitySourceType.Id,
-                    EnumValue = activitySourceType.EnumValue,
+                    Code = activitySourceType.Code,
                     DisplayName = activitySourceType == null || activitySourceType.Description == null ? "" : activitySourceType.Description.ToString()
                 }).ToListAsync();
         }
