@@ -600,7 +600,7 @@
 <text name="EditingRole">Editing role</text>
 <text name="CreatingNewRole">Creating new role</text>
 <text name="DeletingRole">Deleting role</text>
-<text name="CreationTime">Creation time</text>
+<text name="CreationTime">Creation Time</text>
 <text name="LeadCreationTime">Created at</text>
 <text name="SearchWithThreeDot">Search...</text>
 <text name="UsersSearchWithThreeDot">Search by Employee # or Name or Last Name or Email Address</text>
