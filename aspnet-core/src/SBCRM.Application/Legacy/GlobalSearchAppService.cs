@@ -89,6 +89,8 @@ namespace SBCRM.Legacy
 
                 var opportunityQuery = _opportunityRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Opportunity == globalSearchCategory)
+                    .Include(x => x.Users)
+                    .WhereIf(hasRestrictedOpportunitiesPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
