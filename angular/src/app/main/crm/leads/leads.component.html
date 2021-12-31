@@ -1,5 +1,5 @@
 ﻿<div [@routerTransition]>
-    <div class="content d-inline-flex flex-column flex-column-fluid">
+    <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Leads'" >
 
             <div role="actions" class="d-flex flex-row align-items-center">
@@ -79,7 +79,7 @@
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
                                         <div>
-                                            <p-multiSelect 
+                                            <p-multiSelect
                                                 id="UserAssignedFilter"
                                                 name="UserAssignedFilter"
                                                 [options]="allUsers"
@@ -89,7 +89,7 @@
                                                 (onChange)="getLeads($event)"
                                             >
                                             </p-multiSelect>
-                                        </div>    
+                                        </div>
                                     </div>
                                 </div>
 
@@ -214,14 +214,14 @@
                                         >
                                             {{ l('LeadCompanyPhone') }}
                                             <p-sortIcon field="companyPhone"></p-sortIcon>
-                                        </th>                                       
+                                        </th>
                                         <th
                                             style="width: 150px"
                                             pSortableColumn="users.userFk.name"
                                         >
                                             {{ l('AssignedUser') }}
                                             <p-sortIcon field="users.userFk.name"></p-sortIcon>
-                                        </th>                                        
+                                        </th>
                                         <th
                                             style="width: 150px"
                                             pSortableColumn="creationTime"
@@ -318,7 +318,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('LeadCompanyPhone') }}</span>
                                                 {{ record.lead.companyPhone }}
-                                        </td>                                        
+                                        </td>
                                         <td style="width: 150px">
                                             <span>
                                                 <a target="_blank" class="float-left" *ngIf="record.profilePictureUrl">
@@ -328,7 +328,7 @@
                                                     {{ record.firstUserAssignedFullName }}
                                                 </p>
                                             </span>
-                                        </td>                                       
+                                        </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CreationTime') }}</span>
                                                 {{ record.lead.creationTime  | momentFormat: "MM/DD/yyyy"}}
@@ -337,7 +337,7 @@
                                             <span class="p-column-title">{{ l('LeadPriority') }}</span>
                                             <span
                                                 class="cell-span-color text-white"
-                                                [ngStyle]="{                                                                                                
+                                                [ngStyle]="{
                                                     'background-color': record.priorityColor
                                                 }"
                                             >

@@ -17,7 +17,9 @@
               "object-path",
               "angular2-text-mask",
               "angular2-counto",
-              "rxjs/internal/observable/throwError"
+              "rxjs/internal/observable/throwError",
+              "rxjs/internal/operators",
+              "moment-timezone"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
