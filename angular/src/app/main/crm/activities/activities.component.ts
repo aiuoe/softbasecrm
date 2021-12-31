@@ -143,11 +143,12 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     }
 
     /**
-     * Method for handle click events on an event (still on testing)
+     * Method for handle click events on an event 
      */
     handleDateClick(event) {
-        console.log(event);
-        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0]);
+        this.createOrEditActivityModal.show(this.primengTableHelper.records[parseInt(event.event.id)].sourceTypeCode,
+                                            this.primengTableHelper.records[parseInt(event.event.id)].activity.id,
+                                            true);
     }
 
     /**
@@ -189,13 +190,15 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.fullcalendar.getApi().removeAllEvents();
-                result.items.forEach(result => {                   
+                result.items.forEach((result,i) => {                  
                    var eventObject = {
                     title: result.userName,
-                    end: result.activity.startsAt.toString(),
-                    start: result.activity.dueDate.toString(),
-                    color: result.activityTaskTypeColor ?? '#263950'
-                    };  
+                    allDay : true,
+                    start: result.activity.startsAt.toString(),
+                    // end: result.activity.dueDate.toString(),
+                    color: result.activityTaskTypeColor ?? '#263950',
+                    id: i.toString()
+                    };                      
                     this.fullcalendar.getApi().addEvent(eventObject); 
                 });                       
                 this.primengTableHelper.hideLoadingIndicator();                
