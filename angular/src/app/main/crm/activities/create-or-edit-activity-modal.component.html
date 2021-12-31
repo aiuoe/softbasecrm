@@ -27,267 +27,265 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div *ngIf="sourceTypeCode === getActivitySourceType.LEAD" class="col-sm-6">
-                                <div class="form-group m-form__group input-field required">
-                                    <label for="Lead_Company_Name">{{ l('Company') }}</label>
-                                    <p-dropdown
-                                        [required]="true"
-                                        id="Lead_Company_Name"
-                                        name="Lead_Company_Name"
-                                        #Lead_Company_Name="ngModel"
-                                        [options]="allLeads"
-                                        [(ngModel)]="activity.leadId"
-                                        optionValue="id"
-                                        optionLabel="displayName"
-                                        placeholder="{{ l('SelectALead') }}"
-                                        [virtualScroll]="allLeads?.length > 10"
-                                        [showClear]="true"
-                                        [filter]="true"
-                                        [disabled]="this.isEditMode"
-                                    >
-                                    </p-dropdown>
-                                    <validation-messages [formCtrl]="Lead_Company_Name"></validation-messages>
-                                </div>
+                    <div class="row">
+                        <div *ngIf="sourceTypeCode === getActivitySourceType.LEAD" class="col-sm-6">
+                            <div class="form-group m-form__group input-field required">
+                                <label for="Lead_Company_Name">{{ l('Company') }}</label>
+                                <p-dropdown
+                                    [required]="true"
+                                    id="Lead_Company_Name"
+                                    name="Lead_Company_Name"
+                                    #Lead_Company_Name="ngModel"
+                                    [options]="allLeads"
+                                    [(ngModel)]="activity.leadId"
+                                    optionValue="id"
+                                    optionLabel="displayName"
+                                    placeholder="{{ l('SelectALead') }}"
+                                    [virtualScroll]="allLeads?.length > 10"
+                                    [showClear]="true"
+                                    [filter]="true"
+                                    [disabled]="this.isEditMode"
+                                >
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Lead_Company_Name"></validation-messages>
                             </div>
+                        </div>
 
-                            <div *ngIf="sourceTypeCode === getActivitySourceType.ACCOUNT" class="col-sm-6">
+                        <div *ngIf="sourceTypeCode === getActivitySourceType.ACCOUNT" class="col-sm-6">
+                            <div class="form-group m-form__group input-field required">
+                                <label for="Account_Company_Name">{{ l('Company') }}</label>
+                                <p-dropdown
+                                    [required]="true"
+                                    id="Account_Company_Name"
+                                    name="Account_Company_Name"
+                                    #Account_Company_Name="ngModel"
+                                    [options]="allAccounts"
+                                    [(ngModel)]="activity.customerNumber"
+                                    optionValue="number"
+                                    optionLabel="name"
+                                    placeholder="{{ l('SelectAnAccount') }}"
+                                    [virtualScroll]="true"
+                                    itemSize="40"
+                                    [showClear]="true"
+                                    [filter]="true"
+                                    [disabled]="this.isEditMode"
+                                >
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Account_Company_Name"></validation-messages>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="sourceTypeCode === getActivitySourceType.OPPORTUNITY">
+                            <div class="col-sm-6">
                                 <div class="form-group m-form__group input-field required">
-                                    <label for="Account_Company_Name">{{ l('Company') }}</label>
+                                    <label for="Opportunity_Customer_Number">{{ l('Company') }}</label>
                                     <p-dropdown
                                         [required]="true"
-                                        id="Account_Company_Name"
-                                        name="Account_Company_Name"
-                                        #Account_Company_Name="ngModel"
+                                        id="Opportunity_Customer_Number"
+                                        name="Opportunity_Customer_Number"
+                                        #Opportunity_Customer_Number="ngModel"
                                         [options]="allAccounts"
-                                        [(ngModel)]="activity.customerNumber"
+                                        [(ngModel)]="opportunityCustomerNumber"
                                         optionValue="number"
                                         optionLabel="name"
-                                        placeholder="{{ l('SelectAnAccount') }}"
-                                        [virtualScroll]="true"
+                                        placeholder="{{ l('SelectACustomer') }}"
+                                        [virtualScroll]="allLeads?.length > 10"
                                         itemSize="40"
                                         [showClear]="true"
                                         [filter]="true"
                                         [disabled]="this.isEditMode"
                                     >
                                     </p-dropdown>
-                                    <validation-messages [formCtrl]="Account_Company_Name"></validation-messages>
+                                    <validation-messages [formCtrl]="Opportunity_Customer_Number"></validation-messages>
                                 </div>
                             </div>
 
-                            <ng-container *ngIf="sourceTypeCode === getActivitySourceType.OPPORTUNITY">
-                                <div class="col-sm-6">
-                                    <div class="form-group m-form__group input-field required">
-                                        <label for="Opportunity_Customer_Number">{{ l('Company') }}</label>
-                                        <p-dropdown
-                                            [required]="true"
-                                            id="Opportunity_Customer_Number"
-                                            name="Opportunity_Customer_Number"
-                                            #Opportunity_Customer_Number="ngModel"
-                                            [options]="allAccounts"
-                                            [(ngModel)]="opportunityCustomerNumber"
-                                            optionValue="number"
-                                            optionLabel="name"
-                                            placeholder="{{ l('SelectACustomer') }}"
-                                            [virtualScroll]="allLeads?.length > 10"
-                                            itemSize="40"
-                                            [showClear]="true"
-                                            [filter]="true"
-                                            [disabled]="this.isEditMode"
-                                        >
-                                        </p-dropdown>
-                                        <validation-messages [formCtrl]="Opportunity_Customer_Number"></validation-messages>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group m-form__group input-field required">
-                                        <label for="Opportunity_Name">{{ l('Opportunity') }}</label>
-                                        <p-dropdown
-                                            [required]="true"
-                                            id="Opportunity_Name"
-                                            name="Opportunity_Name"
-                                            #Opportunity_Name="ngModel"
-                                            [options]="getFilteredOpportunities"
-                                            [(ngModel)]="activity.opportunityId"
-                                            optionValue="id"
-                                            optionLabel="displayName"
-                                            placeholder="{{ l('SelectAOpportunity') }}"
-                                            [virtualScroll]="getFilteredOpportunities?.length > 10"
-                                            itemSize="40"
-                                            [showClear]="true"
-                                            [filter]="true"
-                                            [disabled]="this.isEditMode"
-                                        >
-                                        </p-dropdown>
-                                        <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
-                                    </div>
-                                </div>
-                            </ng-container>
-
                             <div class="col-sm-6">
                                 <div class="form-group m-form__group input-field required">
-                                    <label for="Assigned_User">{{ l('AssignedUser') }}</label>
+                                    <label for="Opportunity_Name">{{ l('Opportunity') }}</label>
                                     <p-dropdown
                                         [required]="true"
-                                        id="Assigned_User"
-                                        name="Assigned_User"
-                                        #Assigned_User="ngModel"
-                                        [options]="allUsers"
-                                        [(ngModel)]="activity.userId"
+                                        id="Opportunity_Name"
+                                        name="Opportunity_Name"
+                                        #Opportunity_Name="ngModel"
+                                        [options]="getFilteredOpportunities"
+                                        [(ngModel)]="activity.opportunityId"
                                         optionValue="id"
                                         optionLabel="displayName"
-                                        placeholder="{{ l('SelectAUser') }}"
-                                        [virtualScroll]="allLeads?.length > 10"
+                                        placeholder="{{ l('SelectAOpportunity') }}"
+                                        [virtualScroll]="getFilteredOpportunities?.length > 10"
                                         itemSize="40"
                                         [showClear]="true"
                                         [filter]="true"
-                                        [disabled]="readonly || allUsers?.length === 1"
+                                        [disabled]="this.isEditMode"
                                     >
                                     </p-dropdown>
-                                    <validation-messages [formCtrl]="Assigned_User"></validation-messages>
+                                    <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
                                 </div>
                             </div>
+                        </ng-container>
 
+                        <div class="col-sm-6">
+                            <div class="form-group m-form__group input-field required">
+                                <label for="Assigned_User">{{ l('AssignedUser') }}</label>
+                                <p-dropdown
+                                    [required]="true"
+                                    id="Assigned_User"
+                                    name="Assigned_User"
+                                    #Assigned_User="ngModel"
+                                    [options]="allUsers"
+                                    [(ngModel)]="activity.userId"
+                                    optionValue="id"
+                                    optionLabel="displayName"
+                                    placeholder="{{ l('SelectAUser') }}"
+                                    [virtualScroll]="allLeads?.length > 10"
+                                    itemSize="40"
+                                    [showClear]="true"
+                                    [filter]="true"
+                                    [disabled]="readonly || allUsers?.length === 1"
+                                >
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Assigned_User"></validation-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group m-form__group input-field required">
+                                <label for="Activity_Task_Type">{{ l('Activity') }}</label>
+                                <p-dropdown
+                                    [required]="true"
+                                    id="Activity_Task_Type"
+                                    name="Activity_Task_Type"
+                                    #Activity_Task_Type="ngModel"
+                                    [options]="allActivityTaskTypes"
+                                    [(ngModel)]="activity.activityTaskTypeId"
+                                    optionValue="id"
+                                    optionLabel="displayName"
+                                    placeholder="{{ l('SelectALead') }}"
+                                    [virtualScroll]="allActivityTaskTypes?.length > 10"
+                                    [showClear]="true"
+                                    [filter]="true"
+                                    [disabled]="readonly"
+                                >
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Activity_Task_Type"></validation-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group input-field required">
+                                <label for="Activity_DueDate">{{ isReminder ? l('DueDate') : l('Date') }}</label>
+                                <input
+                                    required
+                                    class="form-control m-input"
+                                    #Activity_DueDate
+                                    type="datetime"
+                                    bsDatepicker
+                                    [(ngModel)]="selectedDate"
+                                    id="Activity_DueDate"
+                                    name="Activity_DueDate"
+                                    [disabled]="readonly"
+                                />
+                                <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="!isReminder">
                             <div class="col-sm-6">
-                                <div class="form-group m-form__group input-field required">
-                                    <label for="Activity_Task_Type">{{ l('Activity') }}</label>
-                                    <p-dropdown
-                                        [required]="true"
-                                        id="Activity_Task_Type"
-                                        name="Activity_Task_Type"
-                                        #Activity_Task_Type="ngModel"
-                                        [options]="allActivityTaskTypes"
-                                        [(ngModel)]="activity.activityTaskTypeId"
-                                        optionValue="id"
-                                        optionLabel="displayName"
-                                        placeholder="{{ l('SelectALead') }}"
-                                        [virtualScroll]="allActivityTaskTypes?.length > 10"
-                                        [showClear]="true"
-                                        [filter]="true"
+                                <div class="form-group input-field required">
+                                    <label for="Activity_Starts_At">{{ l('StartsAt') }}</label>
+                                    <p-calendar
+                                        required
+                                        styleClass="d-flex"
+                                        inputStyleClass="form-control m-input"
+                                        #Activity_Starts_At
+                                        [(ngModel)]="selectedTime"
+                                        [timeOnly]="true"
+                                        hourFormat="12"
+                                        dataType="string"
+                                        id="Activity_Starts_At"
+                                        name="Activity_Starts_At"
                                         [disabled]="readonly"
-                                    >
-                                    </p-dropdown>
-                                    <validation-messages [formCtrl]="Activity_Task_Type"></validation-messages>
+                                    ></p-calendar>
+                                    <validation-messages [formCtrl]="Activity_Starts_At"></validation-messages>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group input-field required">
-                                    <label for="Activity_DueDate">{{ isReminder ? l('DueDate') : l('Date') }}</label>
-                                    <input
-                                        required
-                                        class="form-control m-input"
-                                        #Activity_DueDate
-                                        type="datetime"
-                                        bsDatepicker
-                                        [(ngModel)]="selectedDate"
-                                        id="Activity_DueDate"
-                                        name="Activity_DueDate"
-                                        [disabled]="readonly"
-                                    />
-                                    <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
-                                </div>
-                            </div>
-
-                            <ng-container *ngIf="!isReminder">
-                                <div class="col-sm-6">
-                                    <div class="form-group input-field required">
-                                        <label for="Activity_Starts_At">{{ l('StartsAt') }}</label>
-                                        <p-calendar
-                                            required
-                                            styleClass="d-flex"
-                                            inputStyleClass="form-control m-input"
-                                            #Activity_Starts_At
-                                            [(ngModel)]="selectedTime"
-                                            [timeOnly]="true"
-                                            hourFormat="12"
-                                            dataType="string"
-                                            id="Activity_Starts_At"
-                                            name="Activity_Starts_At"
-                                            [disabled]="readonly"
-                                        ></p-calendar>
-                                        <validation-messages [formCtrl]="Activity_Starts_At"></validation-messages>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group input-field required">
-                                        <label for="Activity_Duration_Minutes">{{ l('Duration') }}</label>
-                                        <p-dropdown
-                                            [required]="true"
-                                            id="Activity_Duration_Minutes"
-                                            name="Activity_Duration_Minutes"
-                                            #Activity_Duration_Minutes="ngModel"
-                                            [options]="durationItems"
-                                            [(ngModel)]="activity.durationMinutes"
-                                            optionValue="value"
-                                            optionLabel="text"
-                                            placeholder="{{ l('Select') }}"
-                                            [disabled]="readonly"
-                                        >
-                                        </p-dropdown>
-                                        <validation-messages [formCtrl]="Activity_Duration_Minutes"></validation-messages>
-                                    </div>
-                                </div>
-                            </ng-container>
-
-                            <div class="col-sm-6">
-                                <div class="form-group m-form__group input-field required">
-                                    <label for="Activity_Status">{{ l('Status') }}</label>
+                                    <label for="Activity_Duration_Minutes">{{ l('Duration') }}</label>
                                     <p-dropdown
                                         [required]="true"
-                                        id="Activity_Status"
-                                        name="Activity_Status"
-                                        #Activity_Status="ngModel"
-                                        [options]="allActivityStatuses"
-                                        [(ngModel)]="activity.activityStatusId"
-                                        optionValue="id"
-                                        optionLabel="displayName"
+                                        id="Activity_Duration_Minutes"
+                                        name="Activity_Duration_Minutes"
+                                        #Activity_Duration_Minutes="ngModel"
+                                        [options]="durationItems"
+                                        [(ngModel)]="activity.durationMinutes"
+                                        optionValue="value"
+                                        optionLabel="text"
                                         placeholder="{{ l('Select') }}"
                                         [disabled]="readonly"
                                     >
                                     </p-dropdown>
-                                    <validation-messages [formCtrl]="Activity_Status"></validation-messages>
+                                    <validation-messages [formCtrl]="Activity_Duration_Minutes"></validation-messages>
                                 </div>
                             </div>
+                        </ng-container>
 
-                            <div class="col-sm-6">
-                                <div class="form-group m-form__group input-field required">
-                                    <label for="Activity_Priority">{{ l('Priority') }}</label>
-                                    <p-dropdown
-                                        [required]="true"
-                                        id="Activity_Priority"
-                                        name="Activity_Priority"
-                                        #Activity_Priority="ngModel"
-                                        [options]="allActivityPriorities"
-                                        [(ngModel)]="activity.activityPriorityId"
-                                        optionValue="id"
-                                        optionLabel="displayName"
-                                        placeholder="{{ l('Select') }}"
-                                        [disabled]="readonly"
-                                    >
-                                    </p-dropdown>
-                                    <validation-messages [formCtrl]="Activity_Priority"></validation-messages>
-                                </div>
+                        <div class="col-sm-6">
+                            <div class="form-group m-form__group input-field required">
+                                <label for="Activity_Status">{{ l('Status') }}</label>
+                                <p-dropdown
+                                    [required]="true"
+                                    id="Activity_Status"
+                                    name="Activity_Status"
+                                    #Activity_Status="ngModel"
+                                    [options]="allActivityStatuses"
+                                    [(ngModel)]="activity.activityStatusId"
+                                    optionValue="id"
+                                    optionLabel="displayName"
+                                    placeholder="{{ l('Select') }}"
+                                    [disabled]="readonly"
+                                >
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Activity_Status"></validation-messages>
                             </div>
+                        </div>
 
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="Activity_Description">{{ l('Notes') }}</label>
-                                    <textarea
-                                        #Activity_Description="ngModel"
-                                        id="Activity_Description"
-                                        class="form-control"
-                                        [(ngModel)]="activity.description"
-                                        name="Description"
-                                        rows="3"
-                                        [placeholder]="l('EnterDescription')"
-                                        [disabled]="readonly"
-                                    ></textarea>
-                                    <validation-messages [formCtrl]="Activity_Description"></validation-messages>
-                                </div>
+                        <div class="col-sm-6">
+                            <div class="form-group m-form__group input-field required">
+                                <label for="Activity_Priority">{{ l('Priority') }}</label>
+                                <p-dropdown
+                                    [required]="true"
+                                    id="Activity_Priority"
+                                    name="Activity_Priority"
+                                    #Activity_Priority="ngModel"
+                                    [options]="allActivityPriorities"
+                                    [(ngModel)]="activity.activityPriorityId"
+                                    optionValue="id"
+                                    optionLabel="displayName"
+                                    placeholder="{{ l('Select') }}"
+                                    [disabled]="readonly"
+                                >
+                                </p-dropdown>
+                                <validation-messages [formCtrl]="Activity_Priority"></validation-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Activity_Description">{{ l('Notes') }}</label>
+                                <textarea
+                                    #Activity_Description="ngModel"
+                                    id="Activity_Description"
+                                    class="form-control"
+                                    [(ngModel)]="activity.description"
+                                    name="Description"
+                                    rows="3"
+                                    [placeholder]="l('EnterDescription')"
+                                    [disabled]="readonly"
+                                ></textarea>
+                                <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                             </div>
                         </div>
                     </div>
