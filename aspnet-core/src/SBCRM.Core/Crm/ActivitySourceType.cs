@@ -17,5 +17,10 @@ namespace SBCRM.Crm
         [StringLength(ActivitySourceTypeConsts.MaxDescriptionLength, MinimumLength = ActivitySourceTypeConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
 
+        public virtual int Order { get; set; }
+
+        [StringLength(ActivitySourceTypeConsts.MaxCodeLength, MinimumLength = ActivitySourceTypeConsts.MinCodeLength)]
+        public virtual string Code { get; set; }
+
     }
 }

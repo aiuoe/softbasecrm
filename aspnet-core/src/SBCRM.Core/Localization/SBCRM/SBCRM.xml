@@ -1,11 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>
+	<texts>		
+		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
+		<text name="ViewActivity">View Activity</text>
+		<text name="SelectAnAccount">Select an Account</text>
+		<text name="SelectACustomer">Select a Customer</text>
+		<text name="Notes">Notes</text>
+		<text name="Company">Company</text>
+		<text name="CreateNewActivityByLead">New Activity by Lead</text>
+		<text name="CreateNewActivityByAccount">New Activity by Account</text>
+		<text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
+		<text name="List">List</text>
+		<text name="Calendar">Calendar</text>
+		<text name="OpportunityUsers">Opportunity user</text>
+		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
+		<text name="EditOpportunityUser">Edit opportunity user</text>
+		<text name="DeleteOpportunityUser">Delete opportunity user</text>
+		<text name="GlobalSearch">Global Search Access</text>
+		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
+		<text name="LeadViewAssignedUserFilter">Access to all Leads</text>
+		<text name="NewOpportunities">New Opportunities</text>
+		<text name="ProjectClose">Project Close</text>
+		<text name="IsCompletedStatus">Is completed status</text>
+		<text name="AccountHeader">CRM Portal</text>
+		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
+		<text name="AssignUsers">Assign Users</text>
+		<text name="NotIsCompletedStatus">Not is completed status</text>
+		<text name="FilterByAssignee">Filter by Assignee</text>
+		<text name="FilterBySourceType">Filter by Source Type</text>
+		<text name="FilterByActivity">Filter by Activity</text>
+		<text name="FilterByStatus">Filter by Status</text>
+		<text name="SourceType">Source Type</text>
+		<text name="Schedule">Schedule</text>
+		<text name="ScheduleAndDueDate">Schedule / Due Date</text>
+		<text name="ExcludeCompleted">Exclude Completed</text>
+		<text name="NoRecordsFound">No records found.</text>
+		<text name="SearchCompanyName">Search Company Name</text>
+		<text name="Activity">Activity</text>
+		<text name="SBCRM.Crm.Activity">Activity</text>
+		<text name="TaskName">Task name</text>
+		<text name="DueDate">Due Date</text>
+		<text name="StartsAt">Starts at</text>
+		<text name="DurationMinutes">Duration minutes</text>
+		<text name="ActivitiesHeaderInfo">Activities header info</text>
+		<text name="CreateNewActivity">Create new activity</text>
+		<text name="EditActivity">Edit Activity</text>
+		<text name="DeleteActivity">Delete activity</text>
+		<text name="Activities">Activities</text>
+		<text name="OpportunityName">Opportunity name</text>
+		<text name="PickOpportunity">Pick opportunity</text>
+		<text name="SelectAOpportunity">Select an Opportunity</text>
+		<text name="PickLead">Pick lead</text>
+		<text name="SelectALead">Select a lead</text>
+		<text name="ActivitySourceTypeDescription">Activity source type description</text>
+		<text name="PickActivitySourceType">Pick activity source type</text>
+		<text name="SelectAActivitySourceType">Select a activity source type</text>
+		<text name="ActivityTaskTypeDescription">Activity task type description</text>
+		<text name="PickActivityTaskType">Pick activity task type</text>
+		<text name="SelectAActivityTaskType">Select a activity task type</text>
+		<text name="ActivityStatusDescription">Activity status description</text>
+		<text name="PickActivityStatus">Pick activity status</text>
+		<text name="SelectAActivityStatus">Select a activity status</text>
+		<text name="ActivityPriorityDescription">Activity priority description</text>
+		<text name="PickActivityPriority">Pick activity priority</text>
+		<text name="SelectAActivityPriority">Select a activity priority</text>
+		<text name="DueDateRange">Due date range</text>
+		<text name="StartsAtRange">Starts at range</text>
+		<text name="ActivitySourceType">Activity source type</text>
+		<text name="SBCRM.Crm.ActivitySourceType">ActivitySourceType</text>
+		<text name="ActivitySourceTypesHeaderInfo">Activity source types header info</text>
+		<text name="CreateNewActivitySourceType">Create new activity source type</text>
+		<text name="EditActivitySourceType">Edit activity source type</text>
+		<text name="DeleteActivitySourceType">Delete activity source type</text>
+		<text name="ActivitySourceTypes">Activity source types</text>
+		<text name="ActivityPriority">Activity priority</text>
+		<text name="SBCRM.Crm.ActivityPriority">ActivityPriority</text>
+		<text name="ActivityPrioritiesHeaderInfo">Activity priorities header info</text>
+		<text name="CreateNewActivityPriority">Create new activity priority</text>
+		<text name="EditActivityPriority">Edit activity priority</text>
+		<text name="DeleteActivityPriority">Delete activity priority</text>
+		<text name="ActivityPriorities">Activity priorities</text>
+
 
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 
+		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
+		<text name="InputPosition">Enter Position</text>
 		<text name="InputName">Enter Name</text>
 		<text name="InputAccount">Select Account</text>
 		<text name="InputStage">Select Stage</text>
@@ -713,8 +795,10 @@
 		<text name="ContactPhone">Phone Number</text>
 		<text name="EnterContactPhone">Enter Phone Number</text>
 		<text name="ContactPhone_Invalid">Invalid Contact phone</text>
+		<text name="InvalidContactPhoneNumber">Invalid Phone Number</text>
 		<text name="ContactPhoneExtension">Ext</text>
 		<text name="EnterContactPhoneExtension">Enter Ext</text>
+		<text name="EnterCustomerContactPhoneExtension">Enter Extension</text>
 		<text name="ContactPhoneExtension_Invalid">Invalid Extension</text>
 		<text name="ContactCellPhone">Cell Phone Number</text>
 		<text name="EnterContactCellPhone">Enter Cell Phone Number</text>
@@ -726,6 +810,7 @@
 		<text name="EnterPagerNumber">Enter Pager Number</text>
 		<text name="PagerNumber_Invalid">Pager Number</text>
 		<text name="ContactNotes">Notes</text>
+		<text name="EnterContactNotes">Enter Notes</text>
 		<text name="ContactEmail">Email Address</text>
 		<text name="EnterContactEmail">Enter Email Address</text>
 		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
@@ -1636,6 +1721,14 @@
 		<text name="YouAreNotLoggedInAsAHostUser">You are not logged in as a host user!</text>
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
+		<text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
+		<text name="Pages.Activities.Create.Assign_Other_Users">Assign other Users</text>
+		<text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities">View All Accounts, Leads and Opportunities</text>
+		<text name="FifteenMinutes">15 Minutes</text>
+		<text name="ThirtyMinutes">30 Minutes</text>
+		<text name="OneHour">1 Hour (default)</text>
+		<text name="OneHourAndThirtyMinutes">1.5 Hours</text>
+		<text name="TwoHours">2 Hours</text>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[
 <texts>

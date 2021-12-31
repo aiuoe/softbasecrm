@@ -182,11 +182,10 @@ namespace SBCRM.Crm
                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
                                         ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
-                                        FirstUserAssignedName = (from s in _opportunityUserRepository.GetAll()
-                                                    .Include(x => x.UserFk)
-                                                                 where s.Id == o.Id
-                                                                 select s.UserFk.Name
-                                            ).OrderBy(x => x).FirstOrDefault()
+                                        FirstUserAssignedName = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
+                                                                 where user.OpportunityId == o.Id
+                                                                  select user.UserFk.Name).FirstOrDefault()
+
                                     };
 
                     opportunities = opportunities

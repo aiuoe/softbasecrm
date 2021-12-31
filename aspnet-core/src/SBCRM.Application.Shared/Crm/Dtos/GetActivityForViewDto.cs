@@ -28,5 +28,9 @@
         public string ActivityPriorityColor { get; set; }
 
         public string CustomerName { get; set; }
+
+        public string ActivityTaskTypeColor { get; set; }
+        
+        public string SourceTypeCode { get; set; }
     }
 }

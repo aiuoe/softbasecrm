@@ -40,7 +40,7 @@ namespace SBCRM.Crm
         {
 
             var filteredActivityTaskTypes = _activityTaskTypeRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Code.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredActivityTaskTypes = filteredActivityTaskTypes
@@ -50,9 +50,11 @@ namespace SBCRM.Crm
             var activityTaskTypes = from o in pagedAndFilteredActivityTaskTypes
                                     select new
                                     {
-
+                                        o.Color,
                                         o.Description,
                                         o.Order,
+                                        o.IsDefault,
+                                        o.Code,
                                         Id = o.Id
                                     };
 
@@ -67,9 +69,11 @@ namespace SBCRM.Crm
                 {
                     ActivityTaskType = new ActivityTaskTypeDto
                     {
-
+                        Color = o.Color,
                         Description = o.Description,
                         Order = o.Order,
+                        IsDefault = o.IsDefault,
+                        Code = o.Code,
                         Id = o.Id,
                     }
                 };

@@ -21,5 +21,8 @@ namespace SBCRM.Crm
         public virtual string Color { get; set; }
 
         public virtual bool IsCompletedStatus { get; set; }
+
+        public virtual bool IsDefault { get; set; }
+
     }
 }

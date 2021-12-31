@@ -10,5 +10,7 @@ namespace SBCRM.Crm.Dtos
         public int Id { get; set; }
 
         public string DisplayName { get; set; }
+
+        public string CustomerNumber { get; set; }
     }
 }

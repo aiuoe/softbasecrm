@@ -12,5 +12,9 @@ namespace SBCRM.Crm.Dtos
 
         public string Color { get; set; }
 
+        public int Order { get; set; }
+
+        public bool IsDefault { get; set; }
+
     }
 }

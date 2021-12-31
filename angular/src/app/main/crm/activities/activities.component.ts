@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit, forwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CalendarOptions, Calendar } from '@fullcalendar/core';
+import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -10,7 +10,8 @@ import {
     ActivityActivitySourceTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityTaskTypeLookupTableDto,
-    ActivityDto, ActivityUserLookupTableDto,
+    ActivityDto,
+    ActivityUserLookupTableDto,
     ProfileServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
@@ -25,6 +26,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { debounce } from 'lodash-es';
 
 /***
  * Component to manage the activities summary grid
@@ -33,12 +35,12 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
     templateUrl: './activities.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
+    styleUrls: ['./activities.component.scss']
 })
 export class ActivitiesComponent extends AppComponentBase implements OnInit {
     @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
     @ViewChild('createOrEditActivityModal', { static: true })
     createOrEditActivityModal: CreateOrEditActivityModalComponent;
-    
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
@@ -71,6 +73,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityStatuses: ActivityActivityStatusLookupTableDto[];
 
     /**
+     * Used to delay the search and wait for the user to finish typing.
+     */
+    delaySearchActivity = debounce(this.getActivities, 1000);
+
+    /**
      * Constructor method
      */
     constructor(
@@ -98,48 +105,50 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
 
+        const routeParams = this._activatedRoute.snapshot.queryParamMap;
+        if (routeParams.has('view')) {
+            const activityId = Number(routeParams.get('view'));
+            if (!isNaN(activityId)) {
+                this.createOrEditActivityModal.show('', activityId, true);
+            }
+        }
+
         forwardRef(() => Calendar);
 
         this.calendarOptions = {
             initialView: 'dayGridMonth',
             plugins: [dayGridPlugin, interactionPlugin],
-            editable: true,
-            customButtons: {
-              myCustomButton: {
-                text: 'custom!',
-                click: function () {
-                  alert('clicked the custom button!');
-                }
-              }
-            },
+            editable: false,
             headerToolbar: {
-              left: 'prev,next today myCustomButton',
-              center: 'title',
-              right: 'dayGridMonth'
+                left: 'prev,next,today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek'
             },
-            eventClick: this.handleDateClick.bind(this)           
-              
-          };     
+            buttonText: {
+                today: 'Today',
+                month: 'Month',
+                week: 'Week',
+            },
+            eventClick: this.handleDateClick.bind(this)
+        };
     }
 
-     /**
+    /**
      * Method for rendering calendar
      */
-    initializeCalendar () {        
-        this.fullcalendar.getApi().refetchEvents();
+    initializeCalendar() {
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());
-
     }
 
-     /**
-     * Method for handle click events on an event (still on testing)
+    /**
+     * Method for handle click events on an event
      */
     handleDateClick(event) {
-        console.log(event)
-        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0])
+        this.createOrEditActivityModal.show(this.primengTableHelper.records[parseInt(event.event.id)].sourceTypeCode,
+            this.primengTableHelper.records[parseInt(event.event.id)].activity.id,
+            true);
     }
-    
 
     /**
      * Load the activities from the back-end
@@ -148,7 +157,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
-        }       
+        }
 
         this.primengTableHelper.showLoadingIndicator();
 
@@ -180,15 +189,17 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.fullcalendar.getApi().removeAllEvents();
-                result.items.forEach(result => {                   
-                   var eventObject = {
-                    title: result.userName,
-                    end: result.activity.startsAt.toString(),
-                    start: result.activity.dueDate.toString(),
-                    color: '#378006' //needs to be changed by ActivityTypeColor -> to be added on database
-                    };  
-                    this.fullcalendar.getApi().addEvent(eventObject); 
-                });                       
+                result.items.forEach((result, i) => {
+                    const eventObject = {
+                        title: result.userName,
+                        allDay: true,
+                        start: result.activity.startsAt.toString(),
+                        // end: result.activity.dueDate.toString(),
+                        color: result.activityTaskTypeColor ?? '#263950',
+                        id: i.toString()
+                    };
+                    this.fullcalendar.getApi().addEvent(eventObject);
+                });
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
@@ -201,10 +212,10 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     }
 
     /**
-     * Shows the form dialog for creating a new Activity
+     * Shows the form dialog for creating or updating an Activity
      */
-    createActivity(): void {
-        this.createOrEditActivityModal.show();
+    createActivity(sourceTypeCode: string): void {
+        this.createOrEditActivityModal.show(sourceTypeCode);
     }
 
     /**
@@ -302,6 +313,4 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             });
         }
     }
-
-    
 }

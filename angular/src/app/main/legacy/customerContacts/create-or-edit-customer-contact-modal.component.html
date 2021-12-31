@@ -8,7 +8,7 @@
     aria-hidden="true"
     [config]="{ backdrop: 'static' }"
 >
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form *ngIf="active" #leadSourceForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
@@ -34,6 +34,7 @@
                                     class="form-control"
                                     [(ngModel)]="customerContact.contact"
                                     name="Contact_Name"
+                                    [placeholder]="l('InputName')"
                                     minlength="1"
                                     maxlength="50"
                                     required
@@ -70,6 +71,7 @@
                                     class="form-control"
                                     [(ngModel)]="customerContact.position"
                                     name="Contact_Position"
+                                    [placeholder]="l('InputPosition')"
                                     minlength="1"
                                     maxlength="50"
                                 />
@@ -78,7 +80,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="Contact_Phone">{{ l('ContactPhone') }}</label>
+                                <label for="Contact_Phone">{{ l('ContactPhone') }} <span class="color-red">*</span></label>
                                 <input
                                     type="text"
                                     #Contact_Phone="ngModel"
@@ -86,12 +88,14 @@
                                     class="form-control"
                                     [(ngModel)]="customerContact.phone"
                                     name="Contact_Phone"
+                                    [placeholder]="l('EnterContactPhone')"
                                     minlength="1"
                                     maxlength="15"
                                     pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
+                                    required
                                 />
                                 <div *ngIf="!Contact_Phone.valid && (Contact_Phone.dirty || Contact_Phone.touched)">
-                                    <span class="form-text text-danger text-left">{{ 'ContactPhoneInvalid' | localize }}</span>
+                                    <span class="form-text text-danger text-left">{{ 'InvalidContactPhoneNumber' | localize }}</span>
                                 </div>
                             </div>
                         </div>
@@ -105,6 +109,7 @@
                                     class="form-control"
                                     [(ngModel)]="customerContact.extention"
                                     name="Contact_Phone_Extension"
+                                    [placeholder]="l('EnterCustomerContactPhoneExtension')"
                                     minlength="1"
                                     maxlength="5"
                                 />
@@ -124,6 +129,7 @@
                                     class="form-control"
                                     [(ngModel)]="customerContact.cellular"
                                     name="Contact_Cell_Phone"
+                                    [placeholder]="l('EnterContactCellPhone')"
                                     minlength="1"
                                     maxlength="15"
                                 />
@@ -139,6 +145,7 @@
                                     id="Contact_Fax"
                                     class="form-control"
                                     [(ngModel)]="customerContact.fax"
+                                    [placeholder]="l('EnterContactFaxNumber')"
                                     name="Contact_Fax"
                                     minlength="1"
                                     maxlength="15"
@@ -157,6 +164,7 @@
                                     #Contact_Pager="ngModel"
                                     id="Contact_Pager"
                                     class="form-control"
+                                    [placeholder]="l('EnterPagerNumber')"
                                     [(ngModel)]="customerContact.pager"
                                     name="Contact_Pager"
                                     minlength="1"
@@ -174,6 +182,7 @@
                                     id="Contact_Email"
                                     class="form-control"
                                     [(ngModel)]="customerContact.eMail"
+                                    [placeholder]="l('EnterContactEmail')"
                                     name="Contact_Email"
                                     minlength="1"
                                     maxlength="50"
@@ -192,6 +201,7 @@
                                           class="form-control"
                                           [(ngModel)]="customerContact.comments"
                                           name="Contact_Notes"
+                                          [placeholder]="l('EnterContactNotes')"
                                           rows="5"
                                 >
                                 </textarea>
