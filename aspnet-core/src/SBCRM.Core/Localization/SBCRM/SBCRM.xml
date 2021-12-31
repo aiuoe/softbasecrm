@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>		
+	<texts>
 		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
@@ -82,7 +82,6 @@
 		<text name="DeleteActivityPriority">Delete activity priority</text>
 		<text name="ActivityPriorities">Activity priorities</text>
 
-
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 
 		<text name="SeeAs">See as:</text>
@@ -137,13 +136,14 @@
 		<text name="AssociatedDoc">Associated Doc</text>
 		<text name="Invoiced">Invoiced</text>
 		<text name="RefreshData">Refresh Data</text>
-		<text name="ActivityStatus">Activity status</text>
+		<text name="ActivityStatus">Activity Status</text>
+		<text name="ActivityStatusName">Status Name</text>
 		<text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
 		<text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
-		<text name="CreateNewActivityStatus">Create new activity status</text>
+		<text name="NewActivityStatus">New Activity Status</text>
+		<text name="CreateNewActivityStatus">Create New Activity Status</text>
 		<text name="EditActivityStatus">Edit activity status</text>
 		<text name="DeleteActivityStatus">Delete activity status</text>
-		<text name="ActivityStatuses">Activity statuses</text>
 		<text name="ActivityTaskType">Activity task type</text>
 		<text name="SBCRM.Crm.ActivityTaskType">ActivityTaskType</text>
 		<text name="ActivityTaskTypesHeaderInfo">Activity task types header info</text>
@@ -259,6 +259,7 @@
 		<text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
 		<text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
 		<text name="NewLeadStatus">New Lead Status</text>
+		<text name="CreateNewLeadStatus">Create New Lead Status</text>
 		<text name="EditLeadStatus">Edit lead status</text>
 		<text name="DeleteLeadStatus">Delete lead status</text>
 		<text name="LeadStatuses">Lead Status</text>
@@ -273,7 +274,7 @@
 		<text name="CreateNewLeadSource">Create lead source</text>
 		<text name="EditLeadSource">Edit lead source</text>
 		<text name="DeleteLeadSource">Delete lead source</text>
-		<text name="LeadSources">Lead sources</text>
+		<text name="LeadSources">Lead Sources</text>
 		<text name="Industry">Industry</text>
 		<text name="CreateNewIndustry">Create new industry</text>
 		<text name="EditIndustry">Edit industry</text>

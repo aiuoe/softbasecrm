@@ -1,5 +1,4 @@
-﻿using System;
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
@@ -9,7 +8,6 @@ namespace SBCRM.Crm.Dtos
     /// </summary>
     public class CreateOrEditActivityStatusDto : EntityDto<int?>
     {
-
         [Required]
         [StringLength(ActivityStatusConsts.MaxDescriptionLength, MinimumLength = ActivityStatusConsts.MinDescriptionLength)]
         public string Description { get; set; }

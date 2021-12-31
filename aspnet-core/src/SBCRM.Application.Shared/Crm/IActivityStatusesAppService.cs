@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -47,5 +46,11 @@ namespace SBCRM.Crm
         /// <returns></returns>
         Task Delete(EntityDto input);
 
+        /// <summary>
+        /// Method that updates the order of a list
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateOrder(List<UpdateOrderActivityStatusDto> input);
     }
 }

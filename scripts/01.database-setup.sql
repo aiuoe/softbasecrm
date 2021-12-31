@@ -47,9 +47,11 @@ INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], 
 INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Order], [Code]) VALUES (N'Opportunity', GETDATE(), 0, NULL, NULL, 30, 'OPPORTUNITY');
 GO
 
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Scheduled', 10, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0, 1);
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'In Process', 20, GETDATE(), 0, NULL, NULL, N'#FF8900', 0, 0);
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Completed', 30, GETDATE(), 0, NULL, NULL, N'#008E26', 1, 0);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Scheduled', 1, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0, 1);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'In Process', 2, GETDATE(), 0, NULL, NULL, N'#FF8900', 0, 0);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Completed', 3, GETDATE(), 0, NULL, NULL, N'#008E26', 1, 0);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Due', 4, GETDATE(), 0, NULL, NULL, N'#FF0000', 0)
+
 GO
 
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Schedule Meeting', 10, GETDATE(), 0, NULL, NULL, N'#008CF2', 1, 'SCHEDULE_MEETING');
