@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>		
+	<texts>
 		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
@@ -82,7 +82,6 @@
 		<text name="DeleteActivityPriority">Delete activity priority</text>
 		<text name="ActivityPriorities">Activity priorities</text>
 
-
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 
 		<text name="SeeAs">See as:</text>
@@ -145,7 +144,6 @@
 		<text name="CreateNewActivityStatus">Create New Activity Status</text>
 		<text name="EditActivityStatus">Edit activity status</text>
 		<text name="DeleteActivityStatus">Delete activity status</text>
-		<text name="ActivityStatuses">Activity Status</text>
 		<text name="ActivityTaskType">Activity task type</text>
 		<text name="SBCRM.Crm.ActivityTaskType">ActivityTaskType</text>
 		<text name="ActivityTaskTypesHeaderInfo">Activity task types header info</text>
