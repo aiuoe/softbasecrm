@@ -5,6 +5,7 @@
 
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 
+		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
 		<text name="InputName">Enter Name</text>
 		<text name="InputAccount">Select Account</text>

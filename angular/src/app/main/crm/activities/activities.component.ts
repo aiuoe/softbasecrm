@@ -182,7 +182,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                     title: result.userName,
                     end: result.activity.startsAt.toString(),
                     start: result.activity.dueDate.toString(),
-                    color: '#378006' //needs to be changed by ActivityTypeColor -> to be added on database
+                    color: result.activityTaskTypeColor ?? '#263950'
                     };  
                     this.fullcalendar.getApi().addEvent(eventObject); 
                 });                       
@@ -267,7 +267,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      */
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
-            this.activityTaskTypes = res;            
+            this.activityTaskTypes = res;  
         });
     }
 

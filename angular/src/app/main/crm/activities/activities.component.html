@@ -353,8 +353,10 @@
                         <!--<Primeng-Datatable-End>-->
                     </div>
                     <div [hidden]="!summaryCalendarIsShown" > 
-                        <div class="row mb-2" *ngFor="let activity of activityTaskTypes">
-                            <div><div class='box'></div> {{ activity.displayName }} </div>
+                        <div class="row mb-2 margin-colors" >
+                            <div *ngFor="let activity of activityTaskTypes" 
+                                class='text_next_boxes'><div class='box' [ngStyle]="{'background-color': activity.color}">                                
+                            </div> {{ activity.displayName }} </div>
                         </div>           
                         <full-calendar                                                                
                             contentHeight="auto"

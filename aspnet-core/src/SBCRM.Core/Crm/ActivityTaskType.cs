@@ -18,5 +18,6 @@ namespace SBCRM.Crm
 
         public virtual int Order { get; set; }
 
+        public string Color { get; set; }
     }
 }
