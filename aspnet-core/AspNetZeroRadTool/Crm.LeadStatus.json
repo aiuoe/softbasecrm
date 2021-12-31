@@ -53,9 +53,9 @@
       "Nullable": false,
       "Regex": "",
       "UserInterface": {
-        "AdvancedFilter": false,
-        "List": false,
-        "CreateOrUpdate": false
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
       }
     },
     {

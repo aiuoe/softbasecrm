@@ -1,14 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// App service to handle lead status information
+    /// Interface that contains the methods for manage lead status module
     /// </summary>
     public interface ILeadStatusesAppService : IApplicationService
     {
@@ -20,7 +19,7 @@ namespace SBCRM.Crm
         Task<PagedResultDto<GetLeadStatusForViewDto>> GetAll(GetAllLeadStatusesInput input);
 
         /// <summary>
-        /// Get lead status for view mode
+        /// Get lead statusfor view mode
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -41,11 +40,17 @@ namespace SBCRM.Crm
         Task CreateOrEdit(CreateOrEditLeadStatusDto input);
 
         /// <summary>
-        /// Get leads statuses to excel
+        /// Delete a lead status
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         Task Delete(EntityDto input);
 
+        /// <summary>
+        /// Method that updates the order of a list
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateOrder(List<UpdateOrderLeadStatusDto> input);
     }
 }

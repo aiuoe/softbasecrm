@@ -1,15 +1,10 @@
-﻿using System;
-using Abp.Application.Services.Dto;
-using System.ComponentModel.DataAnnotations;
-
-namespace SBCRM.Crm.Dtos
+﻿namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// DTO to manage the object lead status for edit purposes
+    /// Class that handles response for create or edit a lead status
     /// </summary>
     public class GetLeadStatusForEditOutput
     {
         public CreateOrEditLeadStatusDto LeadStatus { get; set; }
-
     }
 }

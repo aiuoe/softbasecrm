@@ -13254,6 +13254,7 @@ export class LeadStatusesServiceProxy {
     /**
      * @param filter (optional) 
      * @param descriptionFilter (optional) 
+     * @param colorFilter (optional) 
      * @param isLeadConversionValidFilter (optional) 
      * @param isDefaultFilter (optional) 
      * @param sorting (optional) 
@@ -13261,7 +13262,7 @@ export class LeadStatusesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13271,6 +13272,10 @@ export class LeadStatusesServiceProxy {
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
             url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
+        if (colorFilter === null)
+            throw new Error("The parameter 'colorFilter' cannot be null.");
+        else if (colorFilter !== undefined)
+            url_ += "ColorFilter=" + encodeURIComponent("" + colorFilter) + "&";
         if (isLeadConversionValidFilter === null)
             throw new Error("The parameter 'isLeadConversionValidFilter' cannot be null.");
         else if (isLeadConversionValidFilter !== undefined)
@@ -13483,6 +13488,58 @@ export class LeadStatusesServiceProxy {
     }
 
     protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateOrder(body: UpdateOrderLeadStatusDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadStatuses/UpdateOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOrder(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOrder(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOrder(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -28363,8 +28420,10 @@ export interface ICreateOrEditLeadSourceDto {
 
 export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     description!: string;
+    color!: string;
     isLeadConversionValid!: boolean;
     isDefault!: boolean;
+    order!: number;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditLeadStatusDto) {
@@ -28379,8 +28438,10 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.color = _data["color"];
             this.isLeadConversionValid = _data["isLeadConversionValid"];
             this.isDefault = _data["isDefault"];
+            this.order = _data["order"];
             this.id = _data["id"];
         }
     }
@@ -28395,8 +28456,10 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["color"] = this.color;
         data["isLeadConversionValid"] = this.isLeadConversionValid;
         data["isDefault"] = this.isDefault;
+        data["order"] = this.order;
         data["id"] = this.id;
         return data; 
     }
@@ -28404,8 +28467,10 @@ export class CreateOrEditLeadStatusDto implements ICreateOrEditLeadStatusDto {
 
 export interface ICreateOrEditLeadStatusDto {
     description: string;
+    color: string;
     isLeadConversionValid: boolean;
     isDefault: boolean;
+    order: number;
     id: number | undefined;
 }
 
@@ -37003,6 +37068,7 @@ export interface ILeadSourceDto {
 
 export class LeadStatusDto implements ILeadStatusDto {
     description!: string | undefined;
+    color!: string | undefined;
     isLeadConversionValid!: boolean;
     isDefault!: boolean;
     id!: number;
@@ -37019,6 +37085,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.color = _data["color"];
             this.isLeadConversionValid = _data["isLeadConversionValid"];
             this.isDefault = _data["isDefault"];
             this.id = _data["id"];
@@ -37035,6 +37102,7 @@ export class LeadStatusDto implements ILeadStatusDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["color"] = this.color;
         data["isLeadConversionValid"] = this.isLeadConversionValid;
         data["isDefault"] = this.isDefault;
         data["id"] = this.id;
@@ -37044,6 +37112,7 @@ export class LeadStatusDto implements ILeadStatusDto {
 
 export interface ILeadStatusDto {
     description: string | undefined;
+    color: string | undefined;
     isLeadConversionValid: boolean;
     isDefault: boolean;
     id: number;
@@ -44936,8 +45005,47 @@ export interface IUpdateOrderleadSourceDto {
     order: number;
 }
 
+export class UpdateOrderLeadStatusDto implements IUpdateOrderLeadStatusDto {
+    order!: number;
+    id!: number | undefined;
+
+    constructor(data?: IUpdateOrderLeadStatusDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.order = _data["order"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): UpdateOrderLeadStatusDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateOrderLeadStatusDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["order"] = this.order;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IUpdateOrderLeadStatusDto {
+    order: number;
+    id: number | undefined;
+}
+
 export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunityStageDto {
-    description!: string | undefined;
     order!: number;
     id!: number | undefined;
 
@@ -44952,7 +45060,6 @@ export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunitySt
 
     init(_data?: any) {
         if (_data) {
-            this.description = _data["description"];
             this.order = _data["order"];
             this.id = _data["id"];
         }
@@ -44967,7 +45074,6 @@ export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunitySt
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["description"] = this.description;
         data["order"] = this.order;
         data["id"] = this.id;
         return data; 
@@ -44975,7 +45081,6 @@ export class UpdateOrderOpportunityStageDto implements IUpdateOrderOpportunitySt
 }
 
 export interface IUpdateOrderOpportunityStageDto {
-    description: string | undefined;
     order: number;
     id: number | undefined;
 }
