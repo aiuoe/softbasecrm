@@ -1879,6 +1879,122 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
+    getAllAccountsForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAccountsForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAccountsForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllAccountsForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllAccountRelatedToOpportunityForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountRelatedToOpportunityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAccountRelatedToOpportunityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAccountRelatedToOpportunityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllAccountRelatedToOpportunityForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
     getAllOpportunityForTableDropdown(): Observable<ActivityOpportunityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
@@ -2642,67 +2758,6 @@ export class ActivityPrioritiesServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param filter (optional) 
-     * @param descriptionFilter (optional) 
-     * @return Success
-     */
-    getActivityPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
-        let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPrioritiesToExcel?";
-        if (filter === null)
-            throw new Error("The parameter 'filter' cannot be null.");
-        else if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (descriptionFilter === null)
-            throw new Error("The parameter 'descriptionFilter' cannot be null.");
-        else if (descriptionFilter !== undefined)
-            url_ += "DescriptionFilter=" + encodeURIComponent("" + descriptionFilter) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetActivityPrioritiesToExcel(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetActivityPrioritiesToExcel(<any>response_);
-                } catch (e) {
-                    return <Observable<FileDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetActivityPrioritiesToExcel(response: HttpResponseBase): Observable<FileDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = FileDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileDto>(<any>null);
     }
 }
 
@@ -25334,6 +25389,7 @@ export interface IActivateWebhookSubscriptionInput {
 export class ActivityActivityPriorityLookupTableDto implements IActivityActivityPriorityLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: IActivityActivityPriorityLookupTableDto) {
         if (data) {
@@ -25348,6 +25404,7 @@ export class ActivityActivityPriorityLookupTableDto implements IActivityActivity
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -25362,6 +25419,7 @@ export class ActivityActivityPriorityLookupTableDto implements IActivityActivity
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -25369,11 +25427,13 @@ export class ActivityActivityPriorityLookupTableDto implements IActivityActivity
 export interface IActivityActivityPriorityLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivitySourceTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    code!: string | undefined;
 
     constructor(data?: IActivityActivitySourceTypeLookupTableDto) {
         if (data) {
@@ -25388,6 +25448,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.code = _data["code"];
         }
     }
 
@@ -25402,6 +25463,7 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["code"] = this.code;
         return data; 
     }
 }
@@ -25409,11 +25471,13 @@ export class ActivityActivitySourceTypeLookupTableDto implements IActivityActivi
 export interface IActivityActivitySourceTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
+    code: string | undefined;
 }
 
 export class ActivityActivityStatusLookupTableDto implements IActivityActivityStatusLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    isDefault!: boolean;
 
     constructor(data?: IActivityActivityStatusLookupTableDto) {
         if (data) {
@@ -25428,6 +25492,7 @@ export class ActivityActivityStatusLookupTableDto implements IActivityActivitySt
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.isDefault = _data["isDefault"];
         }
     }
 
@@ -25442,6 +25507,7 @@ export class ActivityActivityStatusLookupTableDto implements IActivityActivitySt
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["isDefault"] = this.isDefault;
         return data; 
     }
 }
@@ -25449,12 +25515,14 @@ export class ActivityActivityStatusLookupTableDto implements IActivityActivitySt
 export interface IActivityActivityStatusLookupTableDto {
     id: number;
     displayName: string | undefined;
+    isDefault: boolean;
 }
 
 export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivityTaskTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
-    color!: string | undefined;
+    isDefault!: boolean;
+    code!: string | undefined;
 
     constructor(data?: IActivityActivityTaskTypeLookupTableDto) {
         if (data) {
@@ -25469,7 +25537,8 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
-            this.color = _data["color"];
+            this.isDefault = _data["isDefault"];
+            this.code = _data["code"];
         }
     }
 
@@ -25484,7 +25553,8 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
-        data["color"] = this.color;
+        data["isDefault"] = this.isDefault;
+        data["code"] = this.code;
         return data; 
     }
 }
@@ -25492,7 +25562,8 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
 export interface IActivityActivityTaskTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
-    color: string | undefined;
+    isDefault: boolean;
+    code: string | undefined;
 }
 
 export class ActivityCustomerLookupTableDto implements IActivityCustomerLookupTableDto {
@@ -25654,6 +25725,7 @@ export interface IActivityLeadLookupTableDto {
 export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    customerNumber!: string | undefined;
 
     constructor(data?: IActivityOpportunityLookupTableDto) {
         if (data) {
@@ -25668,6 +25740,7 @@ export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLo
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.customerNumber = _data["customerNumber"];
         }
     }
 
@@ -25682,6 +25755,7 @@ export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLo
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["customerNumber"] = this.customerNumber;
         return data; 
     }
 }
@@ -25689,11 +25763,14 @@ export class ActivityOpportunityLookupTableDto implements IActivityOpportunityLo
 export interface IActivityOpportunityLookupTableDto {
     id: number;
     displayName: string | undefined;
+    customerNumber: string | undefined;
 }
 
 export class ActivityPriorityDto implements IActivityPriorityDto {
     description!: string | undefined;
     color!: string | undefined;
+    order!: number;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IActivityPriorityDto) {
@@ -25709,6 +25786,8 @@ export class ActivityPriorityDto implements IActivityPriorityDto {
         if (_data) {
             this.description = _data["description"];
             this.color = _data["color"];
+            this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -25724,6 +25803,8 @@ export class ActivityPriorityDto implements IActivityPriorityDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["color"] = this.color;
+        data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -25732,11 +25813,15 @@ export class ActivityPriorityDto implements IActivityPriorityDto {
 export interface IActivityPriorityDto {
     description: string | undefined;
     color: string | undefined;
+    order: number;
+    isDefault: boolean;
     id: number;
 }
 
 export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     description!: string | undefined;
+    order!: number;
+    code!: string | undefined;
     id!: number;
 
     constructor(data?: IActivitySourceTypeDto) {
@@ -25751,6 +25836,8 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -25765,6 +25852,8 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -25772,6 +25861,8 @@ export class ActivitySourceTypeDto implements IActivitySourceTypeDto {
 
 export interface IActivitySourceTypeDto {
     description: string | undefined;
+    order: number;
+    code: string | undefined;
     id: number;
 }
 
@@ -25780,6 +25871,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
     order!: number;
     color!: string | undefined;
     isCompletedStatus!: boolean;
+    isDefault!: boolean;
     id!: number;
 
     constructor(data?: IActivityStatusDto) {
@@ -25797,6 +25889,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
             this.order = _data["order"];
             this.color = _data["color"];
             this.isCompletedStatus = _data["isCompletedStatus"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -25814,6 +25907,7 @@ export class ActivityStatusDto implements IActivityStatusDto {
         data["order"] = this.order;
         data["color"] = this.color;
         data["isCompletedStatus"] = this.isCompletedStatus;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -25824,13 +25918,15 @@ export interface IActivityStatusDto {
     order: number;
     color: string | undefined;
     isCompletedStatus: boolean;
+    isDefault: boolean;
     id: number;
 }
 
 export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
     description!: string | undefined;
     order!: number;
-    color!: string | undefined;
+    isDefault!: boolean;
+    code!: string | undefined;
     id!: number;
 
     constructor(data?: IActivityTaskTypeDto) {
@@ -25846,7 +25942,8 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
-            this.color = _data["color"];
+            this.isDefault = _data["isDefault"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -25862,7 +25959,8 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
-        data["color"] = this.color;
+        data["isDefault"] = this.isDefault;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -25871,7 +25969,8 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
 export interface IActivityTaskTypeDto {
     description: string | undefined;
     order: number;
-    color: string | undefined;
+    isDefault: boolean;
+    code: string | undefined;
     id: number;
 }
 
@@ -27638,6 +27737,8 @@ export interface ICreateOrEditActivityDto {
 export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPriorityDto {
     description!: string;
     color!: string;
+    order!: number;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityPriorityDto) {
@@ -27653,6 +27754,8 @@ export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPri
         if (_data) {
             this.description = _data["description"];
             this.color = _data["color"];
+            this.order = _data["order"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -27668,6 +27771,8 @@ export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPri
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["color"] = this.color;
+        data["order"] = this.order;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -27676,11 +27781,15 @@ export class CreateOrEditActivityPriorityDto implements ICreateOrEditActivityPri
 export interface ICreateOrEditActivityPriorityDto {
     description: string;
     color: string;
+    order: number;
+    isDefault: boolean;
     id: number | undefined;
 }
 
 export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivitySourceTypeDto {
     description!: string;
+    order!: number;
+    code!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivitySourceTypeDto) {
@@ -27695,6 +27804,8 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.order = _data["order"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -27709,6 +27820,8 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["order"] = this.order;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -27716,6 +27829,8 @@ export class CreateOrEditActivitySourceTypeDto implements ICreateOrEditActivityS
 
 export interface ICreateOrEditActivitySourceTypeDto {
     description: string;
+    order: number;
+    code: string | undefined;
     id: number | undefined;
 }
 
@@ -27724,6 +27839,7 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
     order!: number;
     color!: string;
     isCompletedStatus!: boolean;
+    isDefault!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityStatusDto) {
@@ -27741,6 +27857,7 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
             this.order = _data["order"];
             this.color = _data["color"];
             this.isCompletedStatus = _data["isCompletedStatus"];
+            this.isDefault = _data["isDefault"];
             this.id = _data["id"];
         }
     }
@@ -27758,6 +27875,7 @@ export class CreateOrEditActivityStatusDto implements ICreateOrEditActivityStatu
         data["order"] = this.order;
         data["color"] = this.color;
         data["isCompletedStatus"] = this.isCompletedStatus;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -27768,11 +27886,14 @@ export interface ICreateOrEditActivityStatusDto {
     order: number;
     color: string;
     isCompletedStatus: boolean;
+    isDefault: boolean;
     id: number | undefined;
 }
 
 export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTaskTypeDto {
     description!: string | undefined;
+    isDefault!: boolean;
+    code!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditActivityTaskTypeDto) {
@@ -27787,6 +27908,8 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
     init(_data?: any) {
         if (_data) {
             this.description = _data["description"];
+            this.isDefault = _data["isDefault"];
+            this.code = _data["code"];
             this.id = _data["id"];
         }
     }
@@ -27801,6 +27924,8 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
+        data["code"] = this.code;
         data["id"] = this.id;
         return data; 
     }
@@ -27808,6 +27933,8 @@ export class CreateOrEditActivityTaskTypeDto implements ICreateOrEditActivityTas
 
 export interface ICreateOrEditActivityTaskTypeDto {
     description: string | undefined;
+    isDefault: boolean;
+    code: string | undefined;
     id: number | undefined;
 }
 
@@ -31894,6 +32021,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
     activityStatusDescription!: string | undefined;
     activityPriorityDescription!: string | undefined;
     customerName!: string | undefined;
+    sourceTypeCode!: string | undefined;
 
     constructor(data?: IGetActivityForEditOutput) {
         if (data) {
@@ -31915,6 +32043,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
             this.activityStatusDescription = _data["activityStatusDescription"];
             this.activityPriorityDescription = _data["activityPriorityDescription"];
             this.customerName = _data["customerName"];
+            this.sourceTypeCode = _data["sourceTypeCode"];
         }
     }
 
@@ -31936,6 +32065,7 @@ export class GetActivityForEditOutput implements IGetActivityForEditOutput {
         data["activityStatusDescription"] = this.activityStatusDescription;
         data["activityPriorityDescription"] = this.activityPriorityDescription;
         data["customerName"] = this.customerName;
+        data["sourceTypeCode"] = this.sourceTypeCode;
         return data; 
     }
 }
@@ -31950,6 +32080,7 @@ export interface IGetActivityForEditOutput {
     activityStatusDescription: string | undefined;
     activityPriorityDescription: string | undefined;
     customerName: string | undefined;
+    sourceTypeCode: string | undefined;
 }
 
 export class GetActivityForViewDto implements IGetActivityForViewDto {
@@ -31965,7 +32096,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
     activityPriorityDescription!: string | undefined;
     activityPriorityColor!: string | undefined;
     customerName!: string | undefined;
-    activityTaskTypeColor!: string | undefined;
+    sourceTypeCode!: string | undefined;
 
     constructor(data?: IGetActivityForViewDto) {
         if (data) {
@@ -31990,7 +32121,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
             this.activityPriorityDescription = _data["activityPriorityDescription"];
             this.activityPriorityColor = _data["activityPriorityColor"];
             this.customerName = _data["customerName"];
-            this.activityTaskTypeColor = _data["activityTaskTypeColor"];
+            this.sourceTypeCode = _data["sourceTypeCode"];
         }
     }
 
@@ -32015,7 +32146,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
         data["activityPriorityDescription"] = this.activityPriorityDescription;
         data["activityPriorityColor"] = this.activityPriorityColor;
         data["customerName"] = this.customerName;
-        data["activityTaskTypeColor"] = this.activityTaskTypeColor;
+        data["sourceTypeCode"] = this.sourceTypeCode;
         return data; 
     }
 }
@@ -32033,7 +32164,7 @@ export interface IGetActivityForViewDto {
     activityPriorityDescription: string | undefined;
     activityPriorityColor: string | undefined;
     customerName: string | undefined;
-    activityTaskTypeColor: string | undefined;
+    sourceTypeCode: string | undefined;
 }
 
 export class GetActivityPriorityForEditOutput implements IGetActivityPriorityForEditOutput {

@@ -10,7 +10,8 @@ import {
     ActivityActivitySourceTypeLookupTableDto,
     ActivityActivityStatusLookupTableDto,
     ActivityActivityTaskTypeLookupTableDto,
-    ActivityDto, ActivityUserLookupTableDto,
+    ActivityDto,
+    ActivityUserLookupTableDto,
     ProfileServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
@@ -25,6 +26,8 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { debounce } from 'lodash-es';
+import { ActivitySourceType } from '@shared/AppEnums';
 
 /***
  * Component to manage the activities summary grid
@@ -39,7 +42,6 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
     @ViewChild('createOrEditActivityModal', { static: true })
     createOrEditActivityModal: CreateOrEditActivityModalComponent;
-    
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
@@ -72,6 +74,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activityStatuses: ActivityActivityStatusLookupTableDto[];
 
     /**
+     * Used to delay the search and wait for the user to finish typing.
+     */
+    delaySearchActivity = debounce(this.getActivities, 1000);
+
+    /**
      * Constructor method
      */
     constructor(
@@ -99,6 +106,14 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.loadActivityTaskTypes();
         this.loadActivityStatuses();
 
+        const routeParams = this._activatedRoute.snapshot.queryParamMap;
+        if (routeParams.has('view')) {
+            const activityId = Number(routeParams.get('view'));
+            if (!isNaN(activityId)) {
+                this.createOrEditActivityModal.show('', activityId, true);
+            }
+        }
+
         forwardRef(() => Calendar);
 
         this.calendarOptions = {
@@ -119,24 +134,21 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
           }; 
     }
 
-     /**
+    /**
      * Method for rendering calendar
      */
     initializeCalendar() {        
-        // this.fullcalendar.getApi().refetchEvents();
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());
-
     }
 
-     /**
+    /**
      * Method for handle click events on an event (still on testing)
      */
     handleDateClick(event) {
-        console.log(event)
-        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0])
+        console.log(event);
+        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0]);
     }
-    
 
     /**
      * Load the activities from the back-end
@@ -145,7 +157,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
-        }       
+        }
 
         this.primengTableHelper.showLoadingIndicator();
 
@@ -198,10 +210,10 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     }
 
     /**
-     * Shows the form dialog for creating a new Activity
+     * Shows the form dialog for creating or updating an Activity
      */
-    createActivity(): void {
-        this.createOrEditActivityModal.show();
+    createActivity(sourceTypeCode: string): void {
+        this.createOrEditActivityModal.show(sourceTypeCode);
     }
 
     /**
@@ -299,6 +311,4 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             });
         }
     }
-
-    
 }
