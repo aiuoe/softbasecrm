@@ -18,5 +18,9 @@ namespace SBCRM.Crm.Dtos
         [StringLength(ActivityPriorityConsts.MaxColorLength, MinimumLength = ActivityPriorityConsts.MinColorLength)]
         public string Color { get; set; }
 
+        public int Order { get; set; }
+
+        public bool IsDefault { get; set; }
+
     }
 }

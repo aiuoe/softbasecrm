@@ -31,10 +31,12 @@ namespace SBCRM.Authorization
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
-            activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
+            var createActivity = activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
+            createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_Assign_Other_Users, L(AppPermissions.Pages_Activities_Create_Assign_Other_Users));
+            createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities, L(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
             //activities.CreateChildPermission(AppPermissions.Pages_Activities_Delete, L("DeleteActivity"));
-            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter, L("FilterByAssignee"));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter, L(AppPermissions.Pages_Activities_View_AssignedUserFilter));
 
             var activitySourceTypes = pages.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes, L("ActivitySourceTypes"));
             activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Create, L("CreateNewActivitySourceType"));
