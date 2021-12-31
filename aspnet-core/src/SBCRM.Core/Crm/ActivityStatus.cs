@@ -25,5 +25,7 @@ namespace SBCRM.Crm
 
         public virtual bool IsCompletedStatus { get; set; }
 
+        public virtual bool IsDefault { get; set; }
+
     }
 }

@@ -7,7 +7,6 @@ namespace SBCRM.Crm.Dtos
     /// </summary>
     public class UpdateOrderOpportunityStageDto : EntityDto<int?>
     {
-        public string Description { get; set; }
         public virtual int Order { get; set; }
     }
 }
