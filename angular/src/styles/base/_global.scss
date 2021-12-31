@@ -176,7 +176,13 @@ a:hover {
     border-radius: 0.8rem !important;
 }
 
-.btn.btn-default {
+.btn.btn-secondary {
     color: #4E67C2 !important;
     background-color: #DDE2F4 !important;
+}
+
+@media (min-width: 992px){
+    .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        padding: 3px 25px !important;
+    }
 }
