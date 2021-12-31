@@ -32,21 +32,21 @@
                 <div class="card-body">
                     <form class="form" autocomplete="off">
                         <div>
-                            
+
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div class=""  style="float:right;">                                                                          
+                                        <div class=""  style="float:right;">
                                                 {{ l('SeeAs') }}
-                                                                                 
-                                          
+
+
                                                 <button (click)="summaryTableIsShown = true; summaryCalendarIsShown = false"
                                                          class="btn btn-primary" type="submit"
-                                                >                                                    
+                                                >
                                                         {{ l('List') }}
-                                                </button>                                       
-                                            
-                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()" 
+                                                </button>
+
+                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()"
                                                         class="btn btn-primary" type="submit"
                                                     >
                                                         {{ l('Calendar') }}
@@ -235,7 +235,7 @@
                                     <tr>
                                         <td style="width: 130px">
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
                                                 </button>
@@ -350,15 +350,15 @@
                         </div>
                         <!--<Primeng-Datatable-End>-->
                     </div>
-                    <div [hidden]="!summaryCalendarIsShown">                     
-                            <full-calendar                                 
+                    <div [hidden]="!summaryCalendarIsShown">
+                            <full-calendar
                                 contentHeight="auto"
                                 *ngIf="calendarOptions"
                                 #fullcalendar
                                 [options]="calendarOptions"
                                 deepChangeDetection="true"
                             >
-                            </full-calendar>                        
+                            </full-calendar>
                     </div>
                 </div>
             </div>

@@ -322,7 +322,8 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditActivityDto input)
         {
             var activity = ObjectMapper.Map<Activity>(input);
-
+            activity.StartsAt = activity.StartsAt.ToUniversalTime();
+            activity.DueDate = activity.DueDate.ToUniversalTime();
             await _activityRepository.InsertAsync(activity);
 
         }
@@ -336,6 +337,8 @@ namespace SBCRM.Crm
         protected virtual async Task Update(CreateOrEditActivityDto input)
         {
             var activity = await _activityRepository.FirstOrDefaultAsync((long)input.Id);
+            input.StartsAt = input.StartsAt.ToUniversalTime();
+            input.DueDate = input.DueDate.ToUniversalTime();
             ObjectMapper.Map(input, activity);
 
         }
@@ -510,6 +513,7 @@ namespace SBCRM.Crm
             if (!canViewAll)
             {
                 userOpportunities = await _lookupOpportunityUserRepository.GetAll()
+                    .Include(x => x.OpportunityFk)
                     .Where(x => x.UserId == currentUser.Id)
                     .Select(x => x.OpportunityId)
                     .ToListAsync();
@@ -565,7 +569,7 @@ namespace SBCRM.Crm
             var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
 
             return await _lookupUserRepository.GetAll()
-                .Where(x => canAssignOthers || x.Id == currentUser.Id)
+                .WhereIf(!canAssignOthers,x =>  x.Id == currentUser.Id)
                 .Select(user => new ActivityUserLookupTableDto
                 {
                     Id = user.Id,

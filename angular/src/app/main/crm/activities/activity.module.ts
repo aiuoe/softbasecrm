@@ -11,7 +11,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
-import { CalendarModule } from 'primeng/calendar';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
@@ -39,4 +38,5 @@ FullCalendarModule.registerPlugins([
         FullCalendarModule,
     ],
 })
-export class ActivityModule {}
+export class ActivityModule {
+}
