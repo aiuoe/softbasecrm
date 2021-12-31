@@ -30,6 +30,10 @@ import { CountoModule } from 'angular2-counto';
 import { TableModule } from 'primeng/table';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SubheaderModule } from '../sub-header/subheader.module';
+import { WidgetOpportunitiesListComponent } from './widgets/widget-opportunities-list/widget-opportunities-list.component';
+import { WidgetOpportunitiesTopStatsComponent } from './widgets/widget-opportunities-stats/widget-opportunities-stats.component';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @NgModule({
     imports: [
@@ -50,6 +54,7 @@ import { SubheaderModule } from '../sub-header/subheader.module';
         TableModule,
         BsDatepickerModule,
         SubheaderModule,
+        DropdownModule
     ],
 
     declarations: [
@@ -69,6 +74,8 @@ import { SubheaderModule } from '../sub-header/subheader.module';
         FilterDateRangePickerComponent,
         AddWidgetModalComponent,
         WidgetComponentBaseComponent,
+        WidgetOpportunitiesListComponent,
+        WidgetOpportunitiesTopStatsComponent
     ],
 
     providers: [DashboardViewConfigurationService],
@@ -89,6 +96,8 @@ import { SubheaderModule } from '../sub-header/subheader.module';
         WidgetTopStatsComponent,
         FilterDateRangePickerComponent,
         AddWidgetModalComponent,
+        WidgetOpportunitiesListComponent,
+        WidgetOpportunitiesTopStatsComponent
     ],
 })
 export class CustomizableDashboardModule {}

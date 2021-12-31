@@ -14,7 +14,7 @@ using SBCRM.MultiTenancy.Payments;
 namespace SBCRM.MultiTenancy.HostDashboard
 {
     [DisableAuditing]
-    [AbpAuthorize(AppPermissions.Pages_Administration_Host_Dashboard)]
+    [AbpAuthorize(AppPermissions.Pages_Dashboard)]
     public class HostDashboardAppService : SBCRMAppServiceBase, IHostDashboardAppService
     {
         private const int SubscriptionEndAlertDayCount = 30;

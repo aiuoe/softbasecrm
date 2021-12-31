@@ -234,9 +234,10 @@ namespace SBCRM.Authorization
 
             pages.CreateChildPermission(AppPermissions.Pages_GlobalSearch, L("GlobalSearch"));
 
+            pages.CreateChildPermission(AppPermissions.Pages_Dashboard, L("Dashboard"));
             //TENANT-SPECIFIC PERMISSIONS
 
-            pages.CreateChildPermission(AppPermissions.Pages_Tenant_Dashboard, L("Dashboard"), multiTenancySides: MultiTenancySides.Tenant);
+            //pages.CreateChildPermission(AppPermissions.Pages_Tenant_Dashboard, L("Tenant Dashboard"), multiTenancySides: MultiTenancySides.Tenant);
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Tenant_Settings, L("SettingsAppearance"), multiTenancySides: MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Tenant_SubscriptionManagement, L("Subscription"), multiTenancySides: MultiTenancySides.Tenant);
@@ -259,7 +260,7 @@ namespace SBCRM.Authorization
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Settings, L("Settings"), multiTenancySides: MultiTenancySides.Host);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Maintenance, L("Maintenance"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_HangfireDashboard, L("HangfireDashboard"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Dashboard, L("Dashboard"), multiTenancySides: MultiTenancySides.Host);
+            //administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Dashboard, L("Dashboard"), multiTenancySides: MultiTenancySides.Host);
         }
 
         private static ILocalizableString L(string name)
