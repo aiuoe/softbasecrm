@@ -43,7 +43,7 @@
                                                 class="form-control m-input"
                                                 [placeholder]="l('AccountSearchWithThreeDot')"
                                                 type="text"
-                                                (keyup)="getCustomerByTextFilter($event)"
+                                                (input)="delaySearchCustomers()"
                                             />
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"

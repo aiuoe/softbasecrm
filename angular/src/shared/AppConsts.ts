@@ -34,4 +34,6 @@ export class AppConsts {
     /// It's also shown in the web page.
     /// </summary>
     static readonly WebAppGuiVersion = '10.5.0';
+
+    static readonly SearchBarDelayMilliseconds = 500;
 }

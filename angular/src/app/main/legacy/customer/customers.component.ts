@@ -19,6 +19,7 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { AppConsts } from '@shared/AppConsts';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { last } from 'rxjs/internal/operators';
+import { debounce } from 'lodash-es';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -40,6 +41,11 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     accountUsers: AccountUserDto[] = [];
     assignedUsersFilter: AccountUserLookupTableDto[] = [];
     allUsers: AccountUserLookupTableDto[];
+
+    /**
+     * Used to delay the search and wait for the user to finish typing.
+     */
+    delaySearchCustomers = debounce(this.getCustomer, AppConsts.SearchBarDelayMilliseconds);
 
     /***
      * Main constructor
@@ -80,18 +86,6 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .subscribe((result: AccountUserLookupTableDto[]) => {
                 this.allUsers = result;
             });
-    }
-
-    /***
-     * Get customers by text filter changed
-     * @param event
-     */
-    getCustomerByTextFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan2Characters = this.filterText && this.filterText?.trim().length >= 2;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan2Characters || keyDownIsBackspace) {
-            this.getCustomer();
-        }
     }
 
     /***
