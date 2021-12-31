@@ -144,6 +144,7 @@ namespace SBCRM.Crm
                                  UserName = user != null ? user.Name + " " + user.Surname : string.Empty,
                                  ActivitySourceTypeDescription = sourceType != null ? sourceType.Description : string.Empty,
                                  ActivityTaskTypeDescription = type != null ? type.Description : string.Empty,
+                                 ActivityTaskTypeColor = type != null ? type.Color : string.Empty,
                                  ActivityStatusDescription = status != null ? status.Description : string.Empty,
                                  ActivityStatusColor = status != null ? status.Color : string.Empty,
                                  ActivityPriorityDescription = priority != null ? priority.Description : string.Empty,
@@ -186,6 +187,7 @@ namespace SBCRM.Crm
                     UserName = o.UserName,
                     ActivitySourceTypeDescription = o.ActivitySourceTypeDescription,
                     ActivityTaskTypeDescription = o.ActivityTaskTypeDescription,
+                    ActivityTaskTypeColor = o.ActivityTaskTypeColor,
                     ActivityStatusDescription = o.ActivityStatusDescription,
                     ActivityStatusColor = o.ActivityStatusColor,
                     ActivityPriorityDescription = o.ActivityPriorityDescription,
@@ -608,7 +610,8 @@ namespace SBCRM.Crm
                     Id = activityTaskType.Id,
                     IsDefault = activityTaskType.IsDefault,
                     Code = activityTaskType.Code,
-                    DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString()
+                    DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString(),
+                    Color = activityTaskType == null || activityTaskType.Color == null ? "" : activityTaskType.Color.ToString()
                 }).ToListAsync();
         }
 

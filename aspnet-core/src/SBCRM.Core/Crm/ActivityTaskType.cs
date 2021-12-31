@@ -18,6 +18,8 @@ namespace SBCRM.Crm
 
         public virtual int Order { get; set; }
 
+        public string Color { get; set; }
+        
         public virtual bool IsDefault { get; set; }
 
         [StringLength(ActivityTaskTypeConsts.MaxCodeLength, MinimumLength = ActivityTaskTypeConsts.MinCodeLength)]

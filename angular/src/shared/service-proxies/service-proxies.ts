@@ -25521,6 +25521,7 @@ export interface IActivityActivityStatusLookupTableDto {
 export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivityTaskTypeLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    color!: string | undefined;
     isDefault!: boolean;
     code!: string | undefined;
 
@@ -25537,6 +25538,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            this.color = _data["color"];
             this.isDefault = _data["isDefault"];
             this.code = _data["code"];
         }
@@ -25553,6 +25555,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        data["color"] = this.color;
         data["isDefault"] = this.isDefault;
         data["code"] = this.code;
         return data; 
@@ -25562,6 +25565,7 @@ export class ActivityActivityTaskTypeLookupTableDto implements IActivityActivity
 export interface IActivityActivityTaskTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
+    color: string | undefined;
     isDefault: boolean;
     code: string | undefined;
 }
@@ -25925,6 +25929,7 @@ export interface IActivityStatusDto {
 export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
     description!: string | undefined;
     order!: number;
+    color!: string | undefined;
     isDefault!: boolean;
     code!: string | undefined;
     id!: number;
@@ -25942,6 +25947,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         if (_data) {
             this.description = _data["description"];
             this.order = _data["order"];
+            this.color = _data["color"];
             this.isDefault = _data["isDefault"];
             this.code = _data["code"];
             this.id = _data["id"];
@@ -25959,6 +25965,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
         data = typeof data === 'object' ? data : {};
         data["description"] = this.description;
         data["order"] = this.order;
+        data["color"] = this.color;
         data["isDefault"] = this.isDefault;
         data["code"] = this.code;
         data["id"] = this.id;
@@ -25969,6 +25976,7 @@ export class ActivityTaskTypeDto implements IActivityTaskTypeDto {
 export interface IActivityTaskTypeDto {
     description: string | undefined;
     order: number;
+    color: string | undefined;
     isDefault: boolean;
     code: string | undefined;
     id: number;
@@ -32096,6 +32104,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
     activityPriorityDescription!: string | undefined;
     activityPriorityColor!: string | undefined;
     customerName!: string | undefined;
+    activityTaskTypeColor!: string | undefined;
     sourceTypeCode!: string | undefined;
 
     constructor(data?: IGetActivityForViewDto) {
@@ -32121,6 +32130,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
             this.activityPriorityDescription = _data["activityPriorityDescription"];
             this.activityPriorityColor = _data["activityPriorityColor"];
             this.customerName = _data["customerName"];
+            this.activityTaskTypeColor = _data["activityTaskTypeColor"];
             this.sourceTypeCode = _data["sourceTypeCode"];
         }
     }
@@ -32146,6 +32156,7 @@ export class GetActivityForViewDto implements IGetActivityForViewDto {
         data["activityPriorityDescription"] = this.activityPriorityDescription;
         data["activityPriorityColor"] = this.activityPriorityColor;
         data["customerName"] = this.customerName;
+        data["activityTaskTypeColor"] = this.activityTaskTypeColor;
         data["sourceTypeCode"] = this.sourceTypeCode;
         return data; 
     }
@@ -32164,6 +32175,7 @@ export interface IGetActivityForViewDto {
     activityPriorityDescription: string | undefined;
     activityPriorityColor: string | undefined;
     customerName: string | undefined;
+    activityTaskTypeColor: string | undefined;
     sourceTypeCode: string | undefined;
 }
 

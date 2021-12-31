@@ -36,6 +36,7 @@ import { ActivitySourceType } from '@shared/AppEnums';
     templateUrl: './activities.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
+    styleUrls: ['./activities.component.scss']
 })
 export class ActivitiesComponent extends AppComponentBase implements OnInit {
     @ViewChild('viewActivityModalComponent', { static: true }) viewActivityModal: ViewActivityModalComponent;
@@ -118,39 +119,36 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.calendarOptions = {
             initialView: 'dayGridMonth',
             plugins: [dayGridPlugin, interactionPlugin],
-            editable: true,
-            customButtons: {
-                myCustomButton: {
-                    text: 'custom!',
-                    click: function () {
-                        alert('clicked the custom button!');
-                    },
-                },
-            },
+            editable: false,
             headerToolbar: {
-                left: 'prev,next today myCustomButton',
-                center: 'title',
-                right: 'dayGridMonth',
+              left: 'prev,next,today',
+              center: 'title',
+              right: 'dayGridMonth,dayGridWeek'
             },
-            eventClick: this.handleDateClick.bind(this),
-        };
+            buttonText: {
+            today:'Today',
+            month:'Month',
+            week: 'Week',
+            },
+            eventClick: this.handleDateClick.bind(this)                         
+          }; 
     }
 
     /**
      * Method for rendering calendar
      */
-    initializeCalendar() {
-        this.fullcalendar.getApi().refetchEvents();
+    initializeCalendar() {        
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());
     }
 
     /**
-     * Method for handle click events on an event (still on testing)
+     * Method for handle click events on an event 
      */
     handleDateClick(event) {
-        console.log(event);
-        this.createOrEditActivityModal.showDialog(this.primengTableHelper.records[0]);
+        this.createOrEditActivityModal.show(this.primengTableHelper.records[parseInt(event.event.id)].sourceTypeCode,
+                                            this.primengTableHelper.records[parseInt(event.event.id)].activity.id,
+                                            true);
     }
 
     /**
@@ -192,16 +190,18 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.fullcalendar.getApi().removeAllEvents();
-                result.items.forEach((result) => {
-                    var eventObject = {
-                        title: result.userName,
-                        end: result.activity.startsAt.toString(),
-                        start: result.activity.dueDate.toString(),
-                        color: '#378006', //needs to be changed by ActivityTypeColor -> to be added on database
-                    };
-                    this.fullcalendar.getApi().addEvent(eventObject);
-                });
-                this.primengTableHelper.hideLoadingIndicator();
+                result.items.forEach((result,i) => {                  
+                   var eventObject = {
+                    title: result.userName,
+                    allDay : true,
+                    start: result.activity.startsAt.toString(),
+                    // end: result.activity.dueDate.toString(),
+                    color: result.activityTaskTypeColor ?? '#263950',
+                    id: i.toString()
+                    };                      
+                    this.fullcalendar.getApi().addEvent(eventObject); 
+                });                       
+                this.primengTableHelper.hideLoadingIndicator();                
             });
     }
 
@@ -282,7 +282,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      */
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
-            this.activityTaskTypes = res;
+            this.activityTaskTypes = res;  
         });
     }
 

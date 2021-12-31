@@ -36,20 +36,38 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div class=""  style="float:right;">
-                                                {{ l('SeeAs') }}
-
-
-                                                <button (click)="summaryTableIsShown = true; summaryCalendarIsShown = false"
-                                                         class="btn btn-primary" type="submit"
-                                                >
+                                        <div style="float:right;">  
+                                                <span class="text_next_buttons text-margin">                                                                     
+                                                    {{ l('SeeAs') }}  
+                                                </span>                                                                                
+                                                <button 
+                                                    type="button" 
+                                                    (click)="
+                                                        summaryTableIsShown = true; 
+                                                        summaryCalendarIsShown = false;"
+                                                    class="btn btn-secondary k button-margin btn-square-md" 
+                                                    [ngClass]="{ 'j': summaryTableIsShown, 'k': summaryCalendarIsShown  }"
+                                                    aria-pressed="true" 
+                                                    data-toggle="button"
+                                                >   
+                                                    <span class="button_text">
                                                         {{ l('List') }}
-                                                </button>
-
-                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()"
-                                                        class="btn btn-primary" type="submit"
-                                                    >
+                                                    </span>                                                 
+                                                        
+                                                </button>                                       
+                                            
+                                                <button (click)="
+                                                        summaryTableIsShown = false; 
+                                                        summaryCalendarIsShown = true;  
+                                                        initializeCalendar();"
+                                                    class="btn btn-secondary button-margin btn-square-md" 
+                                                    [ngClass]="{ 'j': summaryCalendarIsShown, 'k': summaryTableIsShown  }"
+                                                    aria-pressed="true" 
+                                                    data-toggle="button"
+                                                >
+                                                    <span class="button_text">
                                                         {{ l('Calendar') }}
+                                                    </span>
                                                 </button>
                                         </div>
                                         <div class="input-group extra-padding-for-forms-div">
@@ -350,15 +368,20 @@
                         </div>
                         <!--<Primeng-Datatable-End>-->
                     </div>
-                    <div [hidden]="!summaryCalendarIsShown">
-                            <full-calendar
-                                contentHeight="auto"
-                                *ngIf="calendarOptions"
-                                #fullcalendar
-                                [options]="calendarOptions"
-                                deepChangeDetection="true"
-                            >
-                            </full-calendar>
+                    <div [hidden]="!summaryCalendarIsShown" > 
+                        <div class="row mb-2 margin-colors" >
+                            <div *ngFor="let activity of activityTaskTypes" 
+                                class='text_next_boxes'><div class='box' [ngStyle]="{'background-color': activity.color}">                                
+                            </div> {{ activity.displayName }} </div>
+                        </div>           
+                        <full-calendar                                                                
+                            contentHeight="auto"
+                            *ngIf="calendarOptions"
+                            #fullcalendar
+                            [options]="calendarOptions"
+                            deepChangeDetection="true"
+                        >
+                        </full-calendar>                        
                     </div>
                 </div>
             </div>

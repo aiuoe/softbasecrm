@@ -50,7 +50,7 @@ namespace SBCRM.Crm
             var activityTaskTypes = from o in pagedAndFilteredActivityTaskTypes
                                     select new
                                     {
-
+                                        o.Color,
                                         o.Description,
                                         o.Order,
                                         o.IsDefault,
@@ -69,7 +69,7 @@ namespace SBCRM.Crm
                 {
                     ActivityTaskType = new ActivityTaskTypeDto
                     {
-
+                        Color = o.Color,
                         Description = o.Description,
                         Order = o.Order,
                         IsDefault = o.IsDefault,

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>
+	<texts>		
+		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
@@ -10,7 +11,6 @@
 		<text name="CreateNewActivityByLead">New Activity by Lead</text>
 		<text name="CreateNewActivityByAccount">New Activity by Account</text>
 		<text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
-		<text name="SeeAs">See as:</text>
 		<text name="List">List</text>
 		<text name="Calendar">Calendar</text>
 		<text name="OpportunityUsers">Opportunity user</text>
@@ -84,6 +84,8 @@
 
 
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
+
+		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
 		<text name="InputName">Enter Name</text>
 		<text name="InputAccount">Select Account</text>
