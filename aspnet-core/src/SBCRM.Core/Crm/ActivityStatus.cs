@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Abp.Domain.Entities.Auditing;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -12,7 +10,6 @@ namespace SBCRM.Crm
     [Table("ActivityStatuses")]
     public class ActivityStatus : FullAuditedEntity
     {
-
         [Required]
         [StringLength(ActivityStatusConsts.MaxDescriptionLength, MinimumLength = ActivityStatusConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
@@ -24,6 +21,5 @@ namespace SBCRM.Crm
         public virtual string Color { get; set; }
 
         public virtual bool IsCompletedStatus { get; set; }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 
 namespace SBCRM.Crm.Dtos
 {
@@ -15,6 +14,5 @@ namespace SBCRM.Crm.Dtos
         public string Color { get; set; }
 
         public bool IsCompletedStatus { get; set; }
-
     }
 }

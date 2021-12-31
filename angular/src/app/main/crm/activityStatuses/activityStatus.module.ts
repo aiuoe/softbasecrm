@@ -5,6 +5,7 @@ import { ActivityStatusRoutingModule } from './activityStatus-routing.module';
 import { ActivityStatusesComponent } from './activityStatuses.component';
 import { CreateOrEditActivityStatusModalComponent } from './create-or-edit-activityStatus-modal.component';
 import { ViewActivityStatusModalComponent } from './view-activityStatus-modal.component';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @NgModule({
     declarations: [
@@ -12,6 +13,6 @@ import { ViewActivityStatusModalComponent } from './view-activityStatus-modal.co
         CreateOrEditActivityStatusModalComponent,
         ViewActivityStatusModalComponent,
     ],
-    imports: [AppSharedModule, ActivityStatusRoutingModule, AdminSharedModule],
+    imports: [AppSharedModule, ActivityStatusRoutingModule, AdminSharedModule, ColorPickerModule],
 })
 export class ActivityStatusModule {}

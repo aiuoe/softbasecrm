@@ -14,7 +14,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="activityStatus.id">{{ l('EditActivityStatus') }}</span>
-                        <span *ngIf="!activityStatus.id">{{ l('CreateNewActivityStatus') }}</span>
+                        <span *ngIf="!activityStatus.id">{{ l('NewActivityStatus') }}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="ActivityStatus_Description">{{ l('Description') }} *</label>
+                        <label for="ActivityStatus_Description">{{ l('ActivityStatusName') }} *</label>
                         <input
                             type="text"
                             #ActivityStatus_Description="ngModel"
@@ -33,53 +33,22 @@
                             minlength="1"
                             maxlength="100"
                             required
+                            placeholder="Enter Status Name"
                         />
                         <validation-messages [formCtrl]="ActivityStatus_Description"></validation-messages>
                     </div>
-
                     <div class="form-group">
-                        <label for="ActivityStatus_Order">{{ l('Order') }}</label>
-                        <input
-                            type="number"
-                            #ActivityStatus_Order="ngModel"
-                            id="ActivityStatus_Order"
-                            class="form-control"
-                            [(ngModel)]="activityStatus.order"
-                            name="Order"
-                        />
-                        <validation-messages [formCtrl]="ActivityStatus_Order"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ActivityStatus_Color">{{ l('Color') }} *</label>
-                        <input
-                            type="text"
+                        <label class="col-1" for="ActivityStatus_Color">{{ l('Color') }}:</label>
+                        <label class="col-1">{{ activityStatus.color }}</label>
+                        <p-colorPicker
+                            class="col-1"
                             #ActivityStatus_Color="ngModel"
                             id="ActivityStatus_Color"
-                            class="form-control"
                             [(ngModel)]="activityStatus.color"
                             name="Color"
-                            minlength="1"
-                            maxlength="10"
                             required
-                        />
+                        ></p-colorPicker>
                         <validation-messages [formCtrl]="ActivityStatus_Color"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="ActivityStatus_IsCompletedStatus" class="kt-checkbox">
-                            <input
-                                id="ActivityStatus_IsCompletedStatus"
-                                #ActivityStatus_IsCompletedStatus="ngModel"
-                                type="checkbox"
-                                name="IsCompletedStatus"
-                                [(ngModel)]="activityStatus.isCompletedStatus"
-                            />
-                            {{ l('IsCompletedStatus') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="ActivityStatus_IsCompletedStatus"></validation-messages>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -93,8 +62,7 @@
                         [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')"
                     >
-                        <i class="fa fa-save"></i>
-                        <span>{{ l('Save') }}</span>
+                        <span>{{ l('Add') }}</span>
                     </button>
                 </div>
             </form>
