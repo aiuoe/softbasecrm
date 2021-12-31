@@ -85,6 +85,7 @@
 
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
 		<text name="AddOpportunity">Add Opportunity</text>
+		<text name="InputPosition">Enter Position</text>
 		<text name="InputName">Enter Name</text>
 		<text name="InputAccount">Select Account</text>
 		<text name="InputStage">Select Stage</text>
@@ -789,8 +790,10 @@
 		<text name="ContactPhone">Phone Number</text>
 		<text name="EnterContactPhone">Enter Phone Number</text>
 		<text name="ContactPhone_Invalid">Invalid Contact phone</text>
+		<text name="InvalidContactPhoneNumber">Invalid Phone Number</text>
 		<text name="ContactPhoneExtension">Ext</text>
 		<text name="EnterContactPhoneExtension">Enter Ext</text>
+		<text name="EnterCustomerContactPhoneExtension">Enter Extension</text>
 		<text name="ContactPhoneExtension_Invalid">Invalid Extension</text>
 		<text name="ContactCellPhone">Cell Phone Number</text>
 		<text name="EnterContactCellPhone">Enter Cell Phone Number</text>
@@ -802,6 +805,7 @@
 		<text name="EnterPagerNumber">Enter Pager Number</text>
 		<text name="PagerNumber_Invalid">Pager Number</text>
 		<text name="ContactNotes">Notes</text>
+		<text name="EnterContactNotes">Enter Notes</text>
 		<text name="ContactEmail">Email Address</text>
 		<text name="EnterContactEmail">Enter Email Address</text>
 		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
