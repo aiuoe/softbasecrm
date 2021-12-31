@@ -47,12 +47,5 @@ namespace SBCRM.Crm
         /// <returns></returns>
         Task Delete(EntityDto input);
 
-        /// <summary>
-        /// Generate an excel file containing the Activity Priorities
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task<FileDto> GetActivityPrioritiesToExcel(GetAllActivityPrioritiesForExcelInput input);
-
     }
 }

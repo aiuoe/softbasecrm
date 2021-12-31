@@ -28,6 +28,19 @@
                         <h6>{{ l('Color') }} :</h6>
                         {{ item.activityPriority.color }}
                     </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{ l('Order') }} :</h6>
+                        {{ item.activityPriority.order }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{ l('IsDefault') }} :</h6>
+                        <div *ngIf="item.activityPriority.isDefault" class="text-left">
+                            <i class="fa fa-check-circle text-success" title="True"></i>
+                        </div>
+                        <div *ngIf="!item.activityPriority.isDefault" class="text-left">
+                            <i class="fa fa-times-circle" title="False"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

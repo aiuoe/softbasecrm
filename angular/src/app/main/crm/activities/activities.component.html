@@ -7,14 +7,23 @@
                     {{ l('Export') }}
                 </button>
 
-                <button
-                    *ngIf="isGranted('Pages.Activities.Create')"
-                    (click)="createActivity()"
-                    class="btn btn-primary blue"
-                >
-                    <i class="fa fa-plus"></i>
-                    {{ l('Activity') }}
-                </button>
+                <div *ngIf="isGranted('Pages.Activities.Create')" class="btn-group dropdown ml-1" dropdown>
+                    <button dropdownToggle class="btn btn-primary blue dropdown-toggle">
+                        <i class="fa fa-plus"></i>
+                        {{ l('Activity') }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                        <li *ngFor="let item of activitySourceTypes">
+                            <a
+                                class="dropdown-item text-dark font-weight-bold"
+                                href="javascript:;"
+                                (click)="createActivity(item.code)"
+                            >
+                                By {{ item.displayName }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </sub-header>
 
@@ -23,21 +32,21 @@
                 <div class="card-body">
                     <form class="form" autocomplete="off">
                         <div>
-                            
+
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div class=""  style="float:right;">                                                                          
+                                        <div class=""  style="float:right;">
                                                 {{ l('SeeAs') }}
-                                                                                 
-                                          
+
+
                                                 <button (click)="summaryTableIsShown = true; summaryCalendarIsShown = false"
                                                          class="btn btn-primary" type="submit"
-                                                >                                                    
+                                                >
                                                         {{ l('List') }}
-                                                </button>                                       
-                                            
-                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()" 
+                                                </button>
+
+                                                <button (click)="summaryTableIsShown = false; summaryCalendarIsShown = true;  initializeCalendar()"
                                                         class="btn btn-primary" type="submit"
                                                     >
                                                         {{ l('Calendar') }}
@@ -51,6 +60,7 @@
                                                 class="form-control m-input"
                                                 [placeholder]="l('ActivitySearchWithThreeDot')"
                                                 type="text"
+                                                (input)="delaySearchActivity()"
                                             />
                                             <span class="input-group-btn">
                                                 <button (click)="getActivities()" class="btn btn-primary" type="submit">
@@ -223,12 +233,9 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td
-                                            style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Activities.Edit', 'Pages.Activities.Delete')"
-                                        >
+                                        <td style="width: 130px">
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
                                                 </button>
@@ -237,7 +244,13 @@
                                                         <a
                                                             href="javascript:;"
                                                             class="dropdown-item"
-                                                            (click)="viewActivityModal.show(record)"
+                                                            (click)="
+                                                                createOrEditActivityModal.show(
+                                                                    record.sourceTypeCode,
+                                                                    record.activity.id,
+                                                                    true
+                                                                )
+                                                            "
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -247,7 +260,12 @@
                                                             href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.Activities.Edit')"
                                                             class="dropdown-item"
-                                                            (click)="createOrEditActivityModal.show(record.activity.id)"
+                                                            (click)="
+                                                                createOrEditActivityModal.show(
+                                                                    record.sourceTypeCode,
+                                                                    record.activity.id
+                                                                )
+                                                            "
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
@@ -271,9 +289,7 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('CompanyName') }}</span>
                                             <div class="color-blue">
-                                                {{
-                                                    record.companyName
-                                                }}
+                                                {{ record.companyName }}
                                             </div>
                                         </td>
                                         <td style="width: 150px">
@@ -334,15 +350,15 @@
                         </div>
                         <!--<Primeng-Datatable-End>-->
                     </div>
-                    <div [hidden]="!summaryCalendarIsShown">                     
-                            <full-calendar                                 
+                    <div [hidden]="!summaryCalendarIsShown">
+                            <full-calendar
                                 contentHeight="auto"
                                 *ngIf="calendarOptions"
                                 #fullcalendar
                                 [options]="calendarOptions"
                                 deepChangeDetection="true"
                             >
-                            </full-calendar>                        
+                            </full-calendar>
                     </div>
                 </div>
             </div>
