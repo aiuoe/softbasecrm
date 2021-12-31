@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit, forwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CalendarOptions, Calendar } from '@fullcalendar/core';
+import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -27,7 +27,6 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { debounce } from 'lodash-es';
-import { ActivitySourceType } from '@shared/AppEnums';
 
 /***
  * Component to manage the activities summary grid
@@ -121,34 +120,34 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             plugins: [dayGridPlugin, interactionPlugin],
             editable: false,
             headerToolbar: {
-              left: 'prev,next,today',
-              center: 'title',
-              right: 'dayGridMonth,dayGridWeek'
+                left: 'prev,next,today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek'
             },
             buttonText: {
-            today:'Today',
-            month:'Month',
-            week: 'Week',
+                today: 'Today',
+                month: 'Month',
+                week: 'Week',
             },
-            eventClick: this.handleDateClick.bind(this)                         
-          }; 
+            eventClick: this.handleDateClick.bind(this)
+        };
     }
 
     /**
      * Method for rendering calendar
      */
-    initializeCalendar() {        
+    initializeCalendar() {
         this.fullcalendar.getApi().render();
         setTimeout(() => this.fullcalendar.getApi().render());
     }
 
     /**
-     * Method for handle click events on an event 
+     * Method for handle click events on an event
      */
     handleDateClick(event) {
         this.createOrEditActivityModal.show(this.primengTableHelper.records[parseInt(event.event.id)].sourceTypeCode,
-                                            this.primengTableHelper.records[parseInt(event.event.id)].activity.id,
-                                            true);
+            this.primengTableHelper.records[parseInt(event.event.id)].activity.id,
+            true);
     }
 
     /**
@@ -190,18 +189,18 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.fullcalendar.getApi().removeAllEvents();
-                result.items.forEach((result,i) => {                  
-                   var eventObject = {
-                    title: result.userName,
-                    allDay : true,
-                    start: result.activity.startsAt.toString(),
-                    // end: result.activity.dueDate.toString(),
-                    color: result.activityTaskTypeColor ?? '#263950',
-                    id: i.toString()
-                    };                      
-                    this.fullcalendar.getApi().addEvent(eventObject); 
-                });                       
-                this.primengTableHelper.hideLoadingIndicator();                
+                result.items.forEach((result, i) => {
+                    const eventObject = {
+                        title: result.userName,
+                        allDay: true,
+                        start: result.activity.startsAt.toString(),
+                        // end: result.activity.dueDate.toString(),
+                        color: result.activityTaskTypeColor ?? '#263950',
+                        id: i.toString()
+                    };
+                    this.fullcalendar.getApi().addEvent(eventObject);
+                });
+                this.primengTableHelper.hideLoadingIndicator();
             });
     }
 
@@ -282,7 +281,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      */
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
-            this.activityTaskTypes = res;  
+            this.activityTaskTypes = res;
         });
     }
 
