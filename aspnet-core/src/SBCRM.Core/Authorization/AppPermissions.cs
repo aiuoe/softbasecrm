@@ -13,6 +13,8 @@
 
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
+        public const string Pages_Activities_Create_Assign_Other_Users = "Pages.Activities.Create.Assign_Other_Users";
+        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities";
         public const string Pages_Activities_Edit = "Pages.Activities.Edit";
         public const string Pages_Activities_Delete = "Pages.Activities.Delete";
         public const string Pages_Activities_View_AssignedUserFilter = "Pages.Activities.View_AssignedUserFilter";
@@ -62,7 +64,7 @@
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
         public const string Pages_OpportunityTypes_Edit = "Pages.OpportunityTypes.Edit";
-        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";        
+        public const string Pages_OpportunityTypes_Delete = "Pages.OpportunityTypes.Delete";
 
         public const string Pages_Configuration = "Pages.Configuration";
         public const string Pages_OpportunityStages = "Pages.OpportunityStages";

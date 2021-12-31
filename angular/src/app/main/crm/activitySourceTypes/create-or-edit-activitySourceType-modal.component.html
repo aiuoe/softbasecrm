@@ -36,6 +36,34 @@
                         />
                         <validation-messages [formCtrl]="ActivitySourceType_Description"></validation-messages>
                     </div>
+
+                    <div class="form-group">
+                        <label for="ActivitySourceType_Order">{{ l('Order') }}</label>
+                        <input
+                            type="number"
+                            #ActivitySourceType_Order="ngModel"
+                            id="ActivitySourceType_Order"
+                            class="form-control"
+                            [(ngModel)]="activitySourceType.order"
+                            name="Order"
+                        />
+                        <validation-messages [formCtrl]="ActivitySourceType_Order"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ActivitySourceType_Code">{{ l('Code') }}</label>
+                        <input
+                            type="text"
+                            #ActivitySourceType_Code="ngModel"
+                            id="ActivitySourceType_Code"
+                            class="form-control"
+                            [(ngModel)]="activitySourceType.code"
+                            name="Code"
+                            minlength="1"
+                            maxlength="50"
+                        />
+                        <validation-messages [formCtrl]="ActivitySourceType_Code"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">

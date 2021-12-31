@@ -5,7 +5,6 @@ using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
-using SBCRM.Crm.Exporting;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using Abp.Application.Services.Dto;
@@ -25,17 +24,14 @@ namespace SBCRM.Crm
     public class ActivityPrioritiesAppService : SBCRMAppServiceBase, IActivityPrioritiesAppService
     {
         private readonly IRepository<ActivityPriority> _activityPriorityRepository;
-        private readonly IActivityPrioritiesExcelExporter _activityPrioritiesExcelExporter;
 
         /// <summary>
         /// Constructor method
         /// </summary>
         /// <param name="activityPriorityRepository"></param>
-        /// <param name="activityPrioritiesExcelExporter"></param>
-        public ActivityPrioritiesAppService(IRepository<ActivityPriority> activityPriorityRepository, IActivityPrioritiesExcelExporter activityPrioritiesExcelExporter)
+        public ActivityPrioritiesAppService(IRepository<ActivityPriority> activityPriorityRepository)
         {
             _activityPriorityRepository = activityPriorityRepository;
-            _activityPrioritiesExcelExporter = activityPrioritiesExcelExporter;
 
         }
 
@@ -61,6 +57,8 @@ namespace SBCRM.Crm
 
                                          o.Description,
                                          o.Color,
+                                         o.Order,
+                                         o.IsDefault,
                                          Id = o.Id
                                      };
 
@@ -78,6 +76,8 @@ namespace SBCRM.Crm
 
                         Description = o.Description,
                         Color = o.Color,
+                        Order = o.Order,
+                        IsDefault = o.IsDefault,
                         Id = o.Id,
                     }
                 };
@@ -174,34 +174,6 @@ namespace SBCRM.Crm
         public async Task Delete(EntityDto input)
         {
             await _activityPriorityRepository.DeleteAsync(input.Id);
-        }
-
-        /// <summary>
-        /// Generate an excel file containing the Activity Priorities
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<FileDto> GetActivityPrioritiesToExcel(GetAllActivityPrioritiesForExcelInput input)
-        {
-
-            var filteredActivityPriorities = _activityPriorityRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
-
-            var query = (from o in filteredActivityPriorities
-                         select new GetActivityPriorityForViewDto()
-                         {
-                             ActivityPriority = new ActivityPriorityDto
-                             {
-                                 Description = o.Description,
-                                 Color = o.Color,
-                                 Id = o.Id
-                             }
-                         });
-
-            var activityPriorityListDtos = await query.ToListAsync();
-
-            return _activityPrioritiesExcelExporter.ExportToFile(activityPriorityListDtos);
         }
 
     }

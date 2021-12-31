@@ -107,15 +107,4 @@ export class ActivityPrioritiesComponent extends AppComponentBase {
             }
         });
     }
-
-    /**
-     * Export activity priorities to excel
-     */
-    exportToExcel(): void {
-        this._activityPrioritiesServiceProxy
-            .getActivityPrioritiesToExcel(this.filterText, this.descriptionFilter)
-            .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);
-            });
-    }
 }

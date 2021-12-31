@@ -44,7 +44,7 @@ namespace SBCRM.Crm
         {
 
             var filteredActivitySourceTypes = _activitySourceTypeRepository.GetAll()
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Code.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
             var pagedAndFilteredActivitySourceTypes = filteredActivitySourceTypes
@@ -56,6 +56,8 @@ namespace SBCRM.Crm
                                       {
 
                                           o.Description,
+                                          o.Order,
+                                          o.Code,
                                           Id = o.Id
                                       };
 
@@ -72,6 +74,8 @@ namespace SBCRM.Crm
                     {
 
                         Description = o.Description,
+                        Order = o.Order,
+                        Code = o.Code,
                         Id = o.Id,
                     }
                 };

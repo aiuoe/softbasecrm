@@ -122,9 +122,10 @@ a:hover {
 }
 
 .cell-span-color {
-    padding: 6px 10px !important;
-    border-radius: 8px !important;
+    padding: 4px 8px !important;
+    border-radius: 5px !important;
     font-weight: 600 !important;
+    font-size: 12px !important;
 }
 
 .text-white {
@@ -155,4 +156,22 @@ a:hover {
 
 .extra-padding-for-forms-div {
     padding-top: 20px;
+}
+
+
+.modal .modal-header .modal-title {
+    font-weight: bold !important;
+    font-size: 1.5rem !important;
+    color: #181c32;
+}
+
+.modal-header {
+    padding: 1.8rem 2.5rem 1.5rem 2.5rem !important;
+}
+.modal-body {
+    padding: 1.5rem 2.5rem !important;
+}
+
+.modal-content {
+    border-radius: 0.8rem !important;
 }
