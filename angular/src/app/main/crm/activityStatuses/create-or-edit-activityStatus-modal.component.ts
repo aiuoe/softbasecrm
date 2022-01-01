@@ -11,7 +11,7 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
  */
 @Component({
     selector: 'createOrEditActivityStatusModal',
-    templateUrl: './create-or-edit-activityStatus-modal.component.html'
+    templateUrl: './create-or-edit-activityStatus-modal.component.html',
 })
 export class CreateOrEditActivityStatusModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
@@ -41,6 +41,7 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
         if (!activityStatusId) {
             this.activityStatus = new CreateOrEditActivityStatusDto();
             this.activityStatus.id = activityStatusId;
+            this.activityStatus.color = '#2c4ab6';
 
             this.active = true;
             this.modal.show();

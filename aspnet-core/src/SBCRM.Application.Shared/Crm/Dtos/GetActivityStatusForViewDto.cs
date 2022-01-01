@@ -6,6 +6,5 @@
     public class GetActivityStatusForViewDto
     {
         public ActivityStatusDto ActivityStatus { get; set; }
-
     }
 }

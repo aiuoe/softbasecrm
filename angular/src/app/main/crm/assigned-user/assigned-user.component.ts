@@ -21,7 +21,6 @@ import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { finalize } from 'rxjs/operators';
-import { forkJoin, Observable } from '@node_modules/rxjs';
 
 /***
  * Component to manage the list of assigned users
@@ -78,15 +77,9 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     /***
      * Load permissions
      */
-    loadPermissions() {
+    private loadPermissions() {
         if ('Account' === this.componentType) {
-            const requests: Observable<any>[] = [
-                this._accountUsersServiceProxy.canAssignUsers(this.idToStore?.toString())
-            ];
-            forkJoin([...requests])
-                .subscribe(([canAssignUsersResponse]: [boolean]) => {
-                    this.canAssignUser = canAssignUsersResponse || this.isGranted('Pages.AccountUsers.Create');
-                });
+            this.canAssignUser = this.isGranted('Pages.AccountUsers.Create');
         } else {
             this.canAssignUser = true;
         }
@@ -273,7 +266,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
             }
         );
     }
-    
+
     /**
      * Handles the deletion of an opportunity user
      * @param leadUser
@@ -377,7 +370,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
     /**
      * Save a list of users of an especific opportunity
-     * @param usersList 
+     * @param usersList
      */
     saveOpportunityAssignedUsers(usersList: OpportunityUserUserLookupTableDto[]) {
         const opportunityUserToSave: CreateOrEditOpportunityUserDto[] = [];
