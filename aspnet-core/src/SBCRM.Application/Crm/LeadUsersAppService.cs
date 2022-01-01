@@ -1,7 +1,4 @@
-﻿using SBCRM.Crm;
-using SBCRM.Authorization.Users;
-
-using System;
+﻿using SBCRM.Authorization.Users;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
@@ -9,14 +6,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
 using Abp.EntityHistory;
 using Abp.Domain.Uow;
 
@@ -175,6 +168,11 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditLeadUserDto input)
         {
             var leadUser = ObjectMapper.Map<LeadUser>(input);
+
+            if (AbpSession.TenantId != null)
+            {
+                leadUser.TenantId = AbpSession.TenantId;
+            }
 
             await _leadUserRepository.InsertAsync(leadUser);
 
