@@ -102,9 +102,9 @@
 		<text name="AccountUser">Account user</text>
 		<text name="SBCRM.Crm.AccountUser">AccountUser</text>
 		<text name="AccountUsersHeaderInfo">Account users header info</text>
-		<text name="CreateNewAccountUser">Create account user</text>
+		<text name="CreateNewAccountUser">Create assigned user</text>
 		<text name="EditAccountUser">Edit account user</text>
-		<text name="DeleteAccountUser">Delete account user</text>
+		<text name="DeleteAccountUser">Delete assigned user</text>
 		<text name="AccountUsers">Account users</text>
 		<text name="PickUser">Pick user</text>
 		<text name="Secure">Secure</text>
@@ -477,7 +477,7 @@
 		<text name="EditCustomer">Edit Account</text>
 		<text name="DeleteCustomer">Delete Account</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
-		<text name="CustomerViewAssignUsers">View assign users in Account detail</text>
+		<text name="CustomerViewAssignUsers">View assigned users in Account detail</text>
 		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
 		<text name="CustomerViewOpportunities">View Opportunities in Account detail</text>
 		<text name="CustomerEditOpportunity">Edit Opportunities in Account detail</text>
@@ -758,10 +758,10 @@
 		<text name="ClickHere">click here</text>
 		<text name="Apply">Apply</text>
 		<text name="CustomRange">Custom range</text>
-		<text name="CustomerViewAssignContacts">View assign contacts in Account detail</text>
-		<text name="CreateNewAccountContact">Create new account contact</text>
-		<text name="EditAccountContact">Edit account contact</text>
-		<text name="DeleteAccountContact">Delete account contact</text>
+		<text name="CustomerViewAssignContacts">View contacts in Account detail</text>
+		<text name="CreateNewAccountContact">Create contact</text>
+		<text name="EditAccountContact">Edit contact</text>
+		<text name="DeleteAccountContact">Delete contact</text>
 		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
 		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
 		<text name="DuplicatedLeads">Duplicated leads encountered</text>
@@ -785,6 +785,7 @@
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
 		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
+		<text name="CustomerViewDynamicAssignUsers">View assigned users in Account detail in RO mode if user is assigned to the Account</text>
 		<text name="ContactName">Contact Name</text>
 		<text name="EnterContactName">Enter Contact Name</text>
 		<text name="ContactPosition">Position</text>

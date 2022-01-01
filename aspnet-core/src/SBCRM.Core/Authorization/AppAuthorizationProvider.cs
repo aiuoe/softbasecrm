@@ -145,10 +145,11 @@ namespace SBCRM.Authorization
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity, L("CustomerAddOpportunity"));
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Opportunity, L("CustomerEditOpportunity"));
 
+            customer.CreateChildPermission(AppPermissions.Pages_AccountUsers_View__Dynamic, L("CustomerViewDynamicAssignUsers"));
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
-            accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create_Restricted, L("CreateNewAccountUserRestricted"));
+            
 
             var accountContact = customer.CreateChildPermission(AppPermissions.Pages_Contacts, L("CustomerViewAssignContacts"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewAccountContact"));

@@ -999,8 +999,8 @@ export class AccountUsersServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    canAssignUsers(customerNumber: string | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/AccountUsers/CanAssignUsers?";
+    getCanViewAssignedUsersWidget(customerNumber: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetCanViewAssignedUsersWidget?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
         else if (customerNumber !== undefined)
@@ -1015,12 +1015,12 @@ export class AccountUsersServiceProxy {
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCanAssignUsers(response_);
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCanViewAssignedUsersWidget(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCanAssignUsers(<any>response_);
+                    return this.processGetCanViewAssignedUsersWidget(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -1029,7 +1029,7 @@ export class AccountUsersServiceProxy {
         }));
     }
 
-    protected processCanAssignUsers(response: HttpResponseBase): Observable<boolean> {
+    protected processGetCanViewAssignedUsersWidget(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

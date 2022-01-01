@@ -36,7 +36,7 @@
 
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
-        public const string Pages_AccountUsers_Create_Restricted = "Pages.AccountUsers.Create_Restricted";
+        public const string Pages_AccountUsers_View__Dynamic = "Pages.AccountUsers.View__Dynamic";
         public const string Pages_AccountUsers_Delete = "Pages.AccountUsers.Delete";
 
         public const string Pages_Countries = "Pages.Countries";

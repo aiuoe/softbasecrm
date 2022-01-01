@@ -12,11 +12,14 @@ namespace SBCRM.Crm
     public interface IAccountUsersAppService : IApplicationService
     {
         /// <summary>
-        /// Get the dynamic permission based on the current user and customer.
-        /// If the user has a restricted creation permission and is assigned to the customer then they don't have permission.
+        /// Method to get permission to view Assigned Users widget in Accounts
+        /// You can see the widget if you meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_AccountUsers"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_AccountUsers_View__Dynamic"/> permission and is assigned in the Account/Customer
         /// </summary>
+        /// <param name="customerNumber"></param>
         /// <returns></returns>
-        Task<bool> CanAssignUsers(string customerNumber);
+        Task<bool> GetCanViewAssignedUsersWidget(string customerNumber);
 
         /// <summary>
         /// Gets all the account users give a Customer number
