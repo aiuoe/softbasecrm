@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
-using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
     [Table("Priorities")]
     [Audited]
-    public class Priority : FullAuditedEntity, IMayHaveTenant
+    public class Priority : FullAuditedEntity, ISilentTenant
     {
         public int? TenantId { get; set; }
 

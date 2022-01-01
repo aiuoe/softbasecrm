@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
-using Abp.Domain.Entities;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
     [Table("LeadStatuses")]
     [Audited]
-    public class LeadStatus : FullAuditedEntity, IMayHaveTenant
+    public class LeadStatus : FullAuditedEntity, ISilentTenant
     {
         public int? TenantId { get; set; }
 

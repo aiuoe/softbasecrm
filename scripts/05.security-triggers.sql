@@ -38,7 +38,7 @@ BEGIN
            0,
            0,
            0,
-           NULL
+           (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
     FROM [dbo].[secure] AS S
              JOIN [dbo].[Person] AS P
                   ON [S].[EmployeeNo] = [P].[Number]

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
@@ -11,7 +11,7 @@ namespace SBCRM.Crm
     /// </summary>
     [Table("LeadUsers")]
     [Audited]
-    public class LeadUser : FullAuditedEntity, IMayHaveTenant
+    public class LeadUser : FullAuditedEntity, ISilentTenant
     {
         public int? TenantId { get; set; }
         public virtual int? LeadId { get; set; }

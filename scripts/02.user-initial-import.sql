@@ -41,14 +41,14 @@ BEGIN TRY
                0,
                0,
                0,
-               NULL
+               (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
         FROM [dbo].[secure] AS S
                  JOIN [dbo].[Person] AS P
                       ON [S].[EmployeeNo] = [P].[Number]
         WHERE [S].[EmployeeNo] NOT IN (SELECT ISNULL(TRY_PARSE([UserName] AS INT), 0) FROM [web].[AbpUsers])
 
         UPDATE [web].[AbpUsers]
-        SET TenantId = 1
+        SET TenantId = (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
         WHERE UserName IN (SELECT CAST([EmployeeNo] as nvarchar(256)) FROM [dbo].[Secure])
           AND TenantId IS NULL
 

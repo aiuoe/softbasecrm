@@ -143,10 +143,7 @@ namespace SBCRM.Crm
         {
             var activityPriority = ObjectMapper.Map<ActivityPriority>(input);
 
-            if (AbpSession.TenantId != null)
-            {
-                activityPriority.TenantId = AbpSession.TenantId;
-            }
+            activityPriority.TenantId = GetTenantId();
 
             await _activityPriorityRepository.InsertAsync(activityPriority);
 

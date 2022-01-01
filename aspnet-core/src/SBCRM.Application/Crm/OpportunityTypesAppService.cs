@@ -107,10 +107,7 @@ namespace SBCRM.Crm
         {
             var opportunityType = ObjectMapper.Map<OpportunityType>(input);
 
-            if (AbpSession.TenantId != null)
-            {
-                opportunityType.TenantId = AbpSession.TenantId;
-            }
+            opportunityType.TenantId = GetTenantId();
 
             await _opportunityTypeRepository.InsertAsync(opportunityType);
 

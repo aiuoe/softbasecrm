@@ -150,10 +150,7 @@ namespace SBCRM.Crm
         {
             var priority = ObjectMapper.Map<Priority>(input);
 
-            if (AbpSession.TenantId != null)
-            {
-                priority.TenantId = AbpSession.TenantId;
-            }
+            priority.TenantId = GetTenantId();
 
             await _priorityRepository.InsertAsync(priority);
 

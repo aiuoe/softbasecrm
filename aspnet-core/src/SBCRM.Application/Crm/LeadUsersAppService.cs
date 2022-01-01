@@ -168,11 +168,8 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditLeadUserDto input)
         {
             var leadUser = ObjectMapper.Map<LeadUser>(input);
-
-            if (AbpSession.TenantId != null)
-            {
-                leadUser.TenantId = AbpSession.TenantId;
-            }
+            
+            leadUser.TenantId = GetTenantId();
 
             await _leadUserRepository.InsertAsync(leadUser);
 

@@ -327,10 +327,7 @@ namespace SBCRM.Crm
             activity.StartsAt = activity.StartsAt.ToUniversalTime();
             activity.DueDate = activity.DueDate.ToUniversalTime();
 
-            if (AbpSession.TenantId != null)
-            {
-                activity.TenantId = AbpSession.TenantId;
-            }
+            activity.TenantId = GetTenantId();
 
             await _activityRepository.InsertAsync(activity);
         }

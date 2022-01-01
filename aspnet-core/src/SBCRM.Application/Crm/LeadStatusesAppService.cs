@@ -144,10 +144,7 @@ namespace SBCRM.Crm
 
             LeadStatus leadStatus = ObjectMapper.Map<LeadStatus>(input);
 
-            if (AbpSession.TenantId != null)
-            {
-                leadStatus.TenantId = AbpSession.TenantId;
-            }
+            leadStatus.TenantId = GetTenantId();
 
             await _leadStatusRepository.InsertAsync(leadStatus);
         }

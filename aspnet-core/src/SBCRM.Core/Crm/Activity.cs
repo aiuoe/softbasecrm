@@ -3,8 +3,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
-using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SBCRM.Crm.Support;
 using SBCRM.Legacy;
 
 namespace SBCRM.Crm
@@ -14,7 +14,7 @@ namespace SBCRM.Crm
     /// </summary>
     [Table("Activities")]
     [Audited]
-    public class Activity : FullAuditedEntity<long>, IMayHaveTenant
+    public class Activity : FullAuditedEntity<long>, ISilentTenant
     {
         public int? TenantId { get; set; }
 
