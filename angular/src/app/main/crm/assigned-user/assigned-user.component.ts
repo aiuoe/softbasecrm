@@ -80,13 +80,6 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     private loadPermissions() {
         if ('Account' === this.componentType) {
             this.canAssignUser = this.isGranted('Pages.AccountUsers.Create');
-            // const requests: Observable<any>[] = [
-            //     this._accountUsersServiceProxy.canAssignUsers(this.idToStore?.toString())
-            // ];
-            // forkJoin([...requests])
-            //     .subscribe(([canAssignUsersResponse]: [boolean]) => {
-            //         this.canAssignUser = canAssignUsersResponse || this.isGranted('Pages.AccountUsers.Create');
-            //     });
         } else {
             this.canAssignUser = true;
         }

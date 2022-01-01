@@ -64,6 +64,9 @@ export class CustomerContactsComponent extends AppComponentBase implements OnIni
         this.loadPermissions();
     }
 
+    /***
+     * Load permissions
+     */
     private loadPermissions() {
         const requests: Observable<any>[] = [
             this._contactServiceProxy.getCanDeleteContact(this.customerNumber)
