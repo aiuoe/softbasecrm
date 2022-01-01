@@ -18,7 +18,6 @@ namespace SBCRM.Crm
     /// <summary>
     /// App Service that manages the AccountUser transactions
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
     public class AccountUsersAppService : SBCRMAppServiceBase, IAccountUsersAppService
     {
         private readonly IRepository<AccountUser> _accountUserRepository;
@@ -45,24 +44,28 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get the dynamic permission based on the current user and customer.
-        /// If the user has a restricted creation permission and is assigned to the customer then they don't have permission.
+        /// Method to get permission to VIEW Assigned Users widget in Accounts
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_AccountUsers"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_AccountUsers_View__Dynamic"/> permission and is assigned in the Account/Customer
         /// </summary>
+        /// <param name="customerNumber"></param>
         /// <returns></returns>
-        public async Task<bool> CanAssignUsers(string customerNumber)
+        [AbpAllowAnonymous]
+        public async Task<bool> GetCanViewAssignedUsersWidget(string customerNumber)
         {
             var currentUser = await GetCurrentUserAsync();
-            var hasRestrictedPermission = await UserManager.IsGrantedAsync(
-                currentUser.Id, AppPermissions.Pages_AccountUsers_Create_Restricted);
+            var hasDynamicPermission =
+                await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers_View__Dynamic);
+            var hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers);
 
             var currentUserIsAssignedInCustomer = _accountUserRepository
                 .GetAll()
-                .Include(e => e.UserFk)
+                .Where(x => x.CustomerNumber == customerNumber)
                 .Any(x => x.UserId == currentUser.Id);
 
-
-            var canAssignUsers = hasRestrictedPermission && currentUserIsAssignedInCustomer;
-            return canAssignUsers;
+            var canViewAssignedUsersDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
+            return canViewAssignedUsersDynamic || hasStaticPermission;
         }
 
         /// <summary>
@@ -70,6 +73,14 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_AccountUsers,
+                AppPermissions.Pages_AccountUsers_View__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         public async Task<PagedResultDto<GetAccountUserForViewDto>> GetAll(GetAllAccountUsersInput input)
         {
             var filteredAccountUsers = _accountUserRepository.GetAll()
@@ -120,6 +131,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
         public async Task<GetAccountUserForViewDto> GetAccountUserForView(int id)
         {
             var accountUser = await _accountUserRepository.GetAsync(id);
@@ -140,16 +152,17 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
         public async Task<GetAccountUserForEditOutput> GetAccountUserForEdit(EntityDto input)
         {
             var accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetAccountUserForEditOutput
-                { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
+                {AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser)};
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -170,7 +183,6 @@ namespace SBCRM.Crm
                 await _accountUserRepository.DeleteAsync(input.Id);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
-
         }
 
         /// <summary>
@@ -214,7 +226,8 @@ namespace SBCRM.Crm
                     {
                         accountUserExists.IsDeleted = false;
                         var accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
-                        var accountUser = await _accountUserRepository.FirstOrDefaultAsync(accountUserInDatabase.Id.Value);
+                        var accountUser =
+                            await _accountUserRepository.FirstOrDefaultAsync(accountUserInDatabase.Id.Value);
                         ObjectMapper.Map(input, accountUser);
                     }
                 }

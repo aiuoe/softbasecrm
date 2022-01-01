@@ -15,7 +15,7 @@
 
 
                     <div class="row m-form">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <h5>{{ 'ApplicationLogo' | localize }}</h5>
                             <form #logoUploadForm>
                                 <div
@@ -69,12 +69,15 @@
                                             </span>
                                 </div>
 
-                                <button class="btn btn-primary" type="button" (click)="uploadLogo()">
-                                    {{ 'Upload' | localize }}
-                                </button>
-                                <button class="btn btn-default" type="button" (click)="clearLogo()">
-                                    {{ 'Clear' | localize }}
-                                </button>
+                                <div class="pt-5">
+                                    <button class="btn btn-primary float-right" type="button" (click)="uploadLogo()">
+                                        <i class="fas fa-file-import"></i>
+                                        {{ 'Upload' | localize }}
+                                    </button>
+                                    <button class="btn btn-default float-right mr-3" type="button" (click)="clearLogo()">
+                                        {{ 'Cancel' | localize }}
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>

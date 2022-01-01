@@ -281,7 +281,11 @@ namespace SBCRM.Authorization.Users
             Debug.Assert(input.User.Id != null, "input.User.Id should be set.");
 
             var user = await UserManager.FindByIdAsync(input.User.Id.Value.ToString());
-
+            if (user != null && string.IsNullOrEmpty(user.SecurityStamp))
+            {
+                await UserManager.UpdateSecurityStampAsync(user);
+            }
+            
             //Update user properties
             ObjectMapper.Map(input.User, user); //Passwords is not mapped (see mapping configuration)
 

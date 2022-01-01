@@ -50,7 +50,7 @@ GO
 INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Scheduled', 1, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0, 1);
 INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'In Process', 2, GETDATE(), 0, NULL, NULL, N'#FF8900', 0, 0);
 INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Completed', 3, GETDATE(), 0, NULL, NULL, N'#008E26', 1, 0);
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Due', 4, GETDATE(), 0, NULL, NULL, N'#FF0000', 0)
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Due', 4, GETDATE(), 0, NULL, NULL, N'#FF0000', 0, 0);
 
 GO
 

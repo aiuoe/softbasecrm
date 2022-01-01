@@ -16,7 +16,7 @@ import {
     GetCustomerForEditOutput,
     PagedResultDtoOfGetZipCodeForViewDto,
     ZipCodeDto,
-    CustomerCountryLookupTableDto
+    CustomerCountryLookupTableDto, AccountUsersServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,7 +29,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 import { Location } from '@angular/common';
 
@@ -83,11 +83,16 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     wipAcceptedQuotes = false;
     wipCanceledQuotes = false;
     isPageLoading = true;
+
+    // Tab Permissions
     showOpportunitiesTab = false;
     showInvoicesTab = false;
     showEquipmentsTab = false;
     showWipTab = false;
     showEventsTab = false;
+
+    // Widgets
+    showAssignedUsersWidget = false;
 
     /***
      * Main constructor
@@ -98,6 +103,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * @param _router
      * @param _dateTimeService
      * @param location
+     * @param _accountUsersServiceProxy
      */
     constructor(
         injector: Injector,
@@ -106,7 +112,8 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         private _zipCodeServiceProxy: ZipCodesServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService,
-        private location: Location
+        private location: Location,
+        private _accountUsersServiceProxy: AccountUsersServiceProxy
     ) {
         super(injector);
     }
@@ -122,18 +129,27 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.setPermissions();
 
         this.show(this.customerNumber);
-
     }
 
     /***
      * Set permissions
      */
     setPermissions() {
+        // Static Permissions
         this.showOpportunitiesTab = this.isGrantedAny('Pages.Customer.ViewOpportunities');
         this.showInvoicesTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
         this.showEquipmentsTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
         this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
         this.showEventsTab = this.isGrantedAny('Pages.Customer.ViewEvents');
+
+        // Dynamic at runtime Permissions
+        const permissionsRequests: Observable<any>[] = [
+            this._accountUsersServiceProxy.getCanViewAssignedUsersWidget(this.customerNumber)
+        ];
+        forkJoin([...permissionsRequests])
+            .subscribe(([getCanViewAssignedUsersWidget]) => {
+                this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+            });
     }
 
     /***
@@ -249,7 +265,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     openEditionMode() {
         this.isReadOnlyMode = false;
         this.showSaveButton = true;
-        this.location.replaceState(`${this.routerLink}/createOrEdit?number=${this.customerNumber}`);
+        this.location.replaceState(`${ this.routerLink }/createOrEdit?number=${ this.customerNumber }`);
     }
 
     /***

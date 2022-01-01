@@ -29,7 +29,7 @@ BEGIN TRY
                [P].[FirstName],
                ISNULL([P].[LastName], '') AS LastName,
                ISNULL([P].[EMailAddress], ''),
-               ISNULL([P].[EMailAddress], ''),
+               ISNULL(UPPER([P].[EMailAddress]), ''),
                P.Phone,
                '',
                GETDATE(),

@@ -88,6 +88,9 @@ export class CreateOrEditCustomerContactModalComponent extends AppComponentBase 
                     this.parentContacts.push(...otherContacts);
                     this.active = true;
                     this.modal.show();
+                }, () => {
+                    this.message.error('GenericError');
+                    this.modal.hide();
                 });
         }
     }

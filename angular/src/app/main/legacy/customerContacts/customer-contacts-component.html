@@ -54,7 +54,7 @@
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
-                                                           *ngIf="permission.isGranted('Pages.Contacts.Delete')"
+                                                           *ngIf="this.canRemove"
                                                            (click)="deleteContact(record)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
