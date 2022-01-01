@@ -1,14 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities.Auditing;
+using Abp.Auditing;
 using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
 
 namespace SBCRM.Crm
 {
     [Table("OpportunityTypes")]
-    public class OpportunityType : FullAuditedEntity
+    [Audited]
+    public class OpportunityType : FullAuditedEntity, IMayHaveTenant
     {
+        public int? TenantId { get; set; }
 
         [Required]
         [StringLength(OpportunityTypeConsts.MaxDescriptionLength, MinimumLength = OpportunityTypeConsts.MinDescriptionLength)]
