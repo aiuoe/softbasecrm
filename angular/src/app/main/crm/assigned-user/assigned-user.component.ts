@@ -77,7 +77,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     /***
      * Load permissions
      */
-    loadPermissions() {
+    private loadPermissions() {
         if ('Account' === this.componentType) {
             this.canAssignUser = this.isGranted('Pages.AccountUsers.Create');
             // const requests: Observable<any>[] = [

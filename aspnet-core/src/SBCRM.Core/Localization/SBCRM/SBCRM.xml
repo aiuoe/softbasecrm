@@ -762,6 +762,7 @@
 		<text name="CreateNewAccountContact">Create contact</text>
 		<text name="EditAccountContact">Edit contact</text>
 		<text name="DeleteAccountContact">Delete contact</text>
+		<text name="DeleteDynamicAccountContact">Delete contact if user is assigned to the Account</text>
 		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
 		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
 		<text name="DuplicatedLeads">Duplicated leads encountered</text>
@@ -1025,6 +1026,7 @@
 		<text name="VerifySecurityCode_Information">Please enter the verification code sent to you.</text>
 		<text name="RememberThisBrowser">Remember this browser</text>
 		<text name="InvalidSecurityCode">Invalid security code!</text>
+		<text name="GenericError">An error occurred while processing the information</text>
 		<text name="PhoneNumber">Phone number</text>
 		<text name="Unlock">Unlock</text>
 		<text name="UnlockedTheUser">Unlocked the user {0}</text>

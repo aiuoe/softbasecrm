@@ -44,8 +44,8 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Method to get permission to view Assigned Users widget in Accounts
-        /// You can see the widget if you meet these 2 conditions:
+        /// Method to get permission to VIEW Assigned Users widget in Accounts
+        /// The user can see the widget if meet these 2 conditions:
         /// 1. The current user has <see cref="AppPermissions.Pages_AccountUsers"/>  permission, oriented for Managers
         /// 2. The current user has <see cref="AppPermissions.Pages_AccountUsers_View__Dynamic"/> permission and is assigned in the Account/Customer
         /// </summary>
@@ -55,17 +55,17 @@ namespace SBCRM.Crm
         public async Task<bool> GetCanViewAssignedUsersWidget(string customerNumber)
         {
             var currentUser = await GetCurrentUserAsync();
-            var hasViewDynamicPermission =
+            var hasDynamicPermission =
                 await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers_View__Dynamic);
-            var hasViewPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers);
+            var hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers);
 
             var currentUserIsAssignedInCustomer = _accountUserRepository
                 .GetAll()
                 .Where(x => x.CustomerNumber == customerNumber)
                 .Any(x => x.UserId == currentUser.Id);
 
-            var canViewAssignedUserDynamic = hasViewDynamicPermission && currentUserIsAssignedInCustomer;
-            return canViewAssignedUserDynamic || hasViewPermission;
+            var canViewAssignedUsersDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
+            return canViewAssignedUsersDynamic || hasStaticPermission;
         }
 
         /// <summary>
@@ -73,11 +73,14 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(permissions: new[]
-        {
-            AppPermissions.Pages_AccountUsers,
-            AppPermissions.Pages_AccountUsers_View__Dynamic
-        }, RequireAllPermissions = false)]
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_AccountUsers,
+                AppPermissions.Pages_AccountUsers_View__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         public async Task<PagedResultDto<GetAccountUserForViewDto>> GetAll(GetAllAccountUsersInput input)
         {
             var filteredAccountUsers = _accountUserRepository.GetAll()

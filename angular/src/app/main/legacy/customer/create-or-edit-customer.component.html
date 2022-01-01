@@ -1072,20 +1072,20 @@
         </div>
 
         <div class="row" *ngIf="this.customer.number">
-            <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersTab">
+            <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
                 <app-assigned-user
                     [componentType]="'Account'"
                     [idToStore]="this.customer.number">
                 </app-assigned-user>
             </div>
 
-<!--            <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.Contacts')">-->
-<!--                <app-customer-contacts-->
-<!--                    [customerNumber]="this.customer.number"-->
-<!--                    (onSaveContact)="reloadEvents()"-->
-<!--                >-->
-<!--                </app-customer-contacts>-->
-<!--            </div>-->
+            <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.Contacts')">
+                <app-customer-contacts
+                    [customerNumber]="this.customer.number"
+                    (onSaveContact)="reloadEvents()"
+                >
+                </app-customer-contacts>
+            </div>
 
 <!--            <div class="col-sm-12 col-lg-6">-->
 <!--                <app-activities-widget-->

@@ -14,6 +14,16 @@ namespace SBCRM.Legacy
     public interface IContactsAppService : IApplicationService
     {
         /// <summary>
+        /// Method to get permission to DELETE Contact in Accounts
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_Contacts_Delete"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_Contacts_Delete__Dynamic"/> permission and is assigned in the Account/Customer
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        Task<bool> GetCanDeleteContact(string customerNumber);
+
+        /// <summary>
         /// Get all contacts types without paging
         /// </summary>
         /// <returns></returns>

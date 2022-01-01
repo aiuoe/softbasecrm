@@ -92,7 +92,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     showEventsTab = false;
 
     // Widgets
-    showAssignedUsersTab = false;
+    showAssignedUsersWidget = false;
 
     /***
      * Main constructor
@@ -148,7 +148,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         ];
         forkJoin([...permissionsRequests])
             .subscribe(([getCanViewAssignedUsersWidget]) => {
-                this.showAssignedUsersTab = getCanViewAssignedUsersWidget;
+                this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
             });
     }
 

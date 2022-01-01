@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ViewAssignedUserModalComponent } from '@app/main/crm/assigned-user/view-assigned-user-modal.component';
 import { Table } from '@node_modules/primeng/table';
@@ -13,6 +13,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import {
     CreateOrEditCustomerContactModalComponent
 } from '@app/main/legacy/customerContacts/create-or-edit-customer-contact-modal.component';
+import { forkJoin, Observable } from 'rxjs';
 
 /***
  * Component to manage the list of assigned customer-contacts
@@ -23,7 +24,7 @@ import {
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class CustomerContactsComponent extends AppComponentBase {
+export class CustomerContactsComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('createOrEditCustomerContactModal', { static: true }) createOrEditCustomerContactModal: CreateOrEditCustomerContactModalComponent;
     @ViewChild('viewAssignedUserModal', { static: true }) viewAssignedUserModal: ViewAssignedUserModalComponent;
@@ -37,6 +38,9 @@ export class CustomerContactsComponent extends AppComponentBase {
     userNameFilter = '';
     saving = false;
     customerContacts: ContactDto[];
+
+    // Permissions
+    canRemove = false;
 
     /***
      * Main constructor
@@ -54,6 +58,20 @@ export class CustomerContactsComponent extends AppComponentBase {
         private _activatedRoute: ActivatedRoute
     ) {
         super(injector);
+    }
+
+    ngOnInit(): void {
+        this.loadPermissions();
+    }
+
+    private loadPermissions() {
+        const requests: Observable<any>[] = [
+            this._contactServiceProxy.getCanDeleteContact(this.customerNumber)
+        ];
+        forkJoin([...requests])
+            .subscribe(([canDeleteContact]: [boolean]) => {
+                this.canRemove = canDeleteContact;
+            });
     }
 
     /***
