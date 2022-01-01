@@ -326,8 +326,13 @@ namespace SBCRM.Crm
             var activity = ObjectMapper.Map<Activity>(input);
             activity.StartsAt = activity.StartsAt.ToUniversalTime();
             activity.DueDate = activity.DueDate.ToUniversalTime();
-            await _activityRepository.InsertAsync(activity);
 
+            if (AbpSession.TenantId != null)
+            {
+                activity.TenantId = AbpSession.TenantId;
+            }
+
+            await _activityRepository.InsertAsync(activity);
         }
 
         /// <summary>

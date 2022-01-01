@@ -1,15 +1,10 @@
-﻿using SBCRM.Crm;
-using SBCRM.Crm;
-using SBCRM.Authorization.Users;
-using SBCRM.Crm;
-using SBCRM.Crm;
-using SBCRM.Crm;
-using SBCRM.Crm;
+﻿using SBCRM.Authorization.Users;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities.Auditing;
+using Abp.Auditing;
 using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
 using SBCRM.Legacy;
 
 namespace SBCRM.Crm
@@ -18,8 +13,10 @@ namespace SBCRM.Crm
     /// Activity table entity
     /// </summary>
     [Table("Activities")]
-    public class Activity : FullAuditedEntity<long>
+    [Audited]
+    public class Activity : FullAuditedEntity<long>, IMayHaveTenant
     {
+        public int? TenantId { get; set; }
 
         [Required]
         [StringLength(ActivityConsts.MaxTaskNameLength, MinimumLength = ActivityConsts.MinTaskNameLength)]
