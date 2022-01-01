@@ -41,7 +41,7 @@ BEGIN TRY
                0,
                0,
                0,
-               (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
+               NULL
         FROM [dbo].[secure] AS S
                  JOIN [dbo].[Person] AS P
                       ON [S].[EmployeeNo] = [P].[Number]
