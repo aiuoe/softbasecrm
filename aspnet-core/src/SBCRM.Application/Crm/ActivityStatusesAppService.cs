@@ -142,6 +142,8 @@ namespace SBCRM.Crm
 
             ActivityStatus activityStatus = ObjectMapper.Map<ActivityStatus>(input);
 
+            activityStatus.TenantId = GetTenantId();
+
             await _activityStatusRepository.InsertAsync(activityStatus);
         }
 

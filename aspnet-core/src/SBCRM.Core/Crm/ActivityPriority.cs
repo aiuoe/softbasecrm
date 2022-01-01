@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Abp.Auditing;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
@@ -10,8 +10,10 @@ namespace SBCRM.Crm
     /// Activity Priority table entity
     /// </summary>
     [Table("ActivityPriorities")]
-    public class ActivityPriority : FullAuditedEntity
+    [Audited]
+    public class ActivityPriority : FullAuditedEntity, ISilentTenant
     {
+        public int? TenantId { get; set; }
 
         [Required]
         [StringLength(ActivityPriorityConsts.MaxDescriptionLength, MinimumLength = ActivityPriorityConsts.MinDescriptionLength)]
@@ -24,6 +26,5 @@ namespace SBCRM.Crm
         public virtual int Order { get; set; }
 
         public virtual bool IsDefault { get; set; }
-
     }
 }

@@ -220,6 +220,8 @@ namespace SBCRM.Crm
                     {
                         var accountUser = ObjectMapper.Map<AccountUser>(item);
 
+                        accountUser.TenantId = GetTenantId();
+
                         await _accountUserRepository.InsertAsync(accountUser);
                     }
                     else

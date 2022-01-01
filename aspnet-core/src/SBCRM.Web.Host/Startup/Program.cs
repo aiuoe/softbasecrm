@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SBCRM.Web.Helpers;
 
@@ -24,7 +25,8 @@ namespace SBCRM.Web.Startup
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureLogging((context, logging) =>
                 {
-                    logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+                    var logLevel = context.HostingEnvironment.IsDevelopment() ? LogLevel.Debug : LogLevel.Warning;
+                    logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", logLevel);
                 })
                 .UseIIS()
                 .UseIISIntegration()

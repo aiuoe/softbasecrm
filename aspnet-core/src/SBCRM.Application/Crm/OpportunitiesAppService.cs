@@ -452,11 +452,7 @@ namespace SBCRM.Crm
         {
             var opportunity = ObjectMapper.Map<Opportunity>(input);
             opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
-
-            if (AbpSession.TenantId != null)
-            {
-                opportunity.TenantId = AbpSession.TenantId;
-            }
+            opportunity.TenantId = GetTenantId();
 
             using (_reasonProvider.Use("Opportunity created"))
             {

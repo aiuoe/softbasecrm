@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220101144301_Add_ActivityStatus_Tenant")]
+    partial class Add_ActivityStatus_Tenant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2440,9 +2442,6 @@ namespace SBCRM.Migrations
                     b.Property<int?>("LeadId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
@@ -2666,9 +2665,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("OpportunityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.Property<long>("UserId")

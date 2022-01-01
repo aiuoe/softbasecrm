@@ -541,10 +541,7 @@ namespace SBCRM.Crm
 
             lead.CreationTime = lead.CreationTime.ToUniversalTime();
 
-            if (AbpSession.TenantId != null)
-            {
-                lead.TenantId = AbpSession.TenantId;
-            }
+            lead.TenantId = GetTenantId();
 
             using (_reasonProvider.Use("Lead created"))
             {
