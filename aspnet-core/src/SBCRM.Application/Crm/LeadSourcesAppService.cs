@@ -142,6 +142,11 @@ namespace SBCRM.Crm
 
             LeadSource leadSource = ObjectMapper.Map<LeadSource>(input);
 
+            if (AbpSession.TenantId != null)
+            {
+                leadSource.TenantId = AbpSession.TenantId;
+            }
+
             await _leadSourceRepository.InsertAsync(leadSource);
         }
 

@@ -1,12 +1,17 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Abp.Auditing;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
     [Table("LeadSources")]
-    public class LeadSource : FullAuditedEntity
+    [Audited]
+    public class LeadSource : FullAuditedEntity, IMayHaveTenant
     {
+        public int? TenantId { get; set; }
+
         [Required]
         [StringLength(LeadSourceConsts.MaxDescriptionLength, MinimumLength = LeadSourceConsts.MinDescriptionLength)]
         public virtual string Description { get; set; }
