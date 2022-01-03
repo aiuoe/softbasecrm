@@ -15,6 +15,7 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { findWindows } from 'windows-iana';
 
 /***
  * Component to manage the opportunity summary grid
@@ -35,6 +36,7 @@ export class OpportunitiesComponent extends AppComponentBase {
 
     advancedFiltersAreShown = false;
     filterText = '';
+    timezone = '';
     nameFilter = '';
     maxAmountFilter: number;
     maxAmountFilterEmpty: number;
@@ -183,9 +185,13 @@ export class OpportunitiesComponent extends AppComponentBase {
     * Export to excel
     */
     exportToExcel(): void {
+
+        this.timezone =  findWindows(Intl.DateTimeFormat().resolvedOptions().timeZone).toString();
+
         this._opportunitiesServiceProxy
             .getOpportunitiesToExcel(
                 this.filterText,
+                this.timezone,
                 this.nameFilter,
                 this.maxAmountFilter == null ? this.maxAmountFilterEmpty : this.maxAmountFilter,
                 this.minAmountFilter == null ? this.minAmountFilterEmpty : this.minAmountFilter,

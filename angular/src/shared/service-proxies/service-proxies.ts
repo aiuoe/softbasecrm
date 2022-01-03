@@ -15036,6 +15036,7 @@ export class OpportunitiesServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param timeZone (optional) 
      * @param nameFilter (optional) 
      * @param maxAmountFilter (optional) 
      * @param minAmountFilter (optional) 
@@ -15055,12 +15056,16 @@ export class OpportunitiesServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, timeZone: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "timeZone=" + encodeURIComponent("" + timeZone) + "&";
         if (nameFilter === null)
             throw new Error("The parameter 'nameFilter' cannot be null.");
         else if (nameFilter !== undefined)
