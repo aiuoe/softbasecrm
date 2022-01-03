@@ -56,13 +56,13 @@ namespace SBCRM.Legacy
             {
                 var currentUser = await GetCurrentUserAsync();
 
-                var hasRestrictedLeadsPermission = await UserManager.IsGrantedAsync(
+                var hasViewAccessToAllLeads = await UserManager.IsGrantedAsync(
                     currentUser.Id, AppPermissions.Pages_Leads_ViewAllLeads__Dynamic);
 
-                var hasRestrictedActivitiesPermission = await UserManager.IsGrantedAsync(
+                var hasViewAccessToAllActivities = await UserManager.IsGrantedAsync(
                     currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
-                var hasRestrictedOpportunitiesPermission = await UserManager.IsGrantedAsync(
+                var hasViewAccessToAllOpportunities = await UserManager.IsGrantedAsync(
                     currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);
 
                 var globalSearchCategory = input.CategoryCode;
@@ -79,7 +79,7 @@ namespace SBCRM.Legacy
                 var leadsQuery = _leadRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Lead == globalSearchCategory)
                     .Include(x => x.Users)
-                    .WhereIf(hasRestrictedLeadsPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
+                    .WhereIf(!hasViewAccessToAllLeads, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
@@ -90,7 +90,7 @@ namespace SBCRM.Legacy
                 var opportunityQuery = _opportunityRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Opportunity == globalSearchCategory)
                     .Include(x => x.Users)
-                    .WhereIf(hasRestrictedOpportunitiesPermission, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
+                    .WhereIf(!hasViewAccessToAllOpportunities, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
@@ -100,7 +100,7 @@ namespace SBCRM.Legacy
 
                 var activityQuery=_activityRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Activity == globalSearchCategory)
-                    .WhereIf(hasRestrictedActivitiesPermission, x => x.UserId==currentUser.Id)
+                    .WhereIf(!hasViewAccessToAllActivities, x => x.UserId==currentUser.Id)
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
