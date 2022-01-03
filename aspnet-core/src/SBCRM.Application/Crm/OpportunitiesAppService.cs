@@ -400,7 +400,7 @@ namespace SBCRM.Crm
                     .FirstOrDefaultAsync();
             }
 
-            GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException("OpportunityNotExist"));
+            GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException(L("OpportunityNotExist")));
 
             var output = new GetOpportunityForEditOutput { Opportunity = ObjectMapper.Map<CreateOrEditOpportunityDto>(opportunity) };
 

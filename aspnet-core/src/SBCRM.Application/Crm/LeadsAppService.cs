@@ -514,7 +514,7 @@ namespace SBCRM.Crm
                     .FirstOrDefaultAsync();
             }
 
-            GuardHelper.ThrowIf(lead == null, new EntityNotFoundException("LeadNotExist"));
+            GuardHelper.ThrowIf(lead == null, new EntityNotFoundException(L("LeadNotExist")));
 
             var output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 
