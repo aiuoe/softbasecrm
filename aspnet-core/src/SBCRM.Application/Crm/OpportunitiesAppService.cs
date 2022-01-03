@@ -17,7 +17,9 @@ using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
 using SBCRM.Legacy;
 using System;
+using Abp.Domain.Entities;
 using SBCRM.Authorization.Users;
+using SBCRM.Common;
 
 namespace SBCRM.Crm
 {
@@ -382,20 +384,23 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Edit)]
         public async Task<GetOpportunityForEditOutput> GetOpportunityForEdit(EntityDto input)
         {
-            var opportunity = await _opportunityRepository.FirstOrDefaultAsync(input.Id);
+            Opportunity opportunity;
 
-            if (opportunity == null)
-                return null;
-
-            if (!CanSeeAllOpportunities())
+            if (CanSeeAllOpportunities())
             {
-                List<long> usersID = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
-                                      where user.OpportunityId == opportunity.Id
-                                      select user.UserFk.Id).ToList();
-                long userID = GetCurrentUser().Id;
-                if (!usersID.Contains(userID))
-                    return null;
+                opportunity = await _opportunityRepository.FirstOrDefaultAsync(input.Id);
             }
+            else
+            {
+                opportunity = await _opportunityUserRepository.GetAll()
+                    .Include(x => x.UserFk)
+                    .Include(x => x.OpportunityFk)
+                    .Where(x => x.UserId == GetCurrentUserAsync().Id && x.OpportunityId == input.Id)
+                    .Select(x => x.OpportunityFk)
+                    .FirstOrDefaultAsync();
+            }
+
+            GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException("OpportunityNotExist"));
 
             var output = new GetOpportunityForEditOutput { Opportunity = ObjectMapper.Map<CreateOrEditOpportunityDto>(opportunity) };
 

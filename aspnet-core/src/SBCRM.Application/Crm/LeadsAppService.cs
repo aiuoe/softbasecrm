@@ -25,6 +25,7 @@ using SBCRM.Authorization.Users;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
 using System.Net;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -97,7 +98,7 @@ namespace SBCRM.Crm
         /// The user will be shown all the leads if he has permission for it
         /// </summary>
         /// <returns></returns>
-        public bool CanSeeAllLeads()
+        public bool CurrentUserCanSeeAllLeads()
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
@@ -154,7 +155,7 @@ namespace SBCRM.Crm
                                .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
                                .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
                                .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
-                               .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                               .WhereIf(!CurrentUserCanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
                                .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                                .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
@@ -497,39 +498,42 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads_Edit)]
         public async Task<GetLeadForEditOutput> GetLeadForEdit(EntityDto input)
         {
-            var lead = await _leadRepository.FirstOrDefaultAsync(input.Id);
+            Lead lead;
 
-            if (lead == null)
-                return null;
-
-            if (!CanSeeAllLeads())
+            if (CurrentUserCanSeeAllLeads())
             {
-                List<long> usersID = (from user in _leadUserRepository.GetAll().Include(x => x.UserFk)
-                                      where user.LeadId == lead.Id
-                                      select user.UserFk.Id).ToList();
-                long userID = GetCurrentUser().Id;
-                if (!usersID.Contains(userID))
-                    return null;
+                lead = await _leadRepository.FirstOrDefaultAsync(input.Id);
             }
+            else
+            {
+                lead = await _leadUserRepository.GetAll()
+                    .Include(x => x.UserFk)
+                    .Include(x => x.LeadFk)
+                    .Where(x => x.UserId == GetCurrentUserAsync().Id && x.LeadId == input.Id)
+                    .Select(x => x.LeadFk)
+                    .FirstOrDefaultAsync();
+            }
+
+            GuardHelper.ThrowIf(lead == null, new EntityNotFoundException("LeadNotExist"));
 
             var output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 
             if (output.Lead.LeadSourceId != null)
             {
                 var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Lead.LeadSourceId);
-                output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
+                output.LeadSourceDescription = _lookupLeadSource?.Description;
             }
 
             if (output.Lead.LeadStatusId != null)
             {
                 var _lookupLeadStatus = await _lookupLeadStatusRepository.FirstOrDefaultAsync((int)output.Lead.LeadStatusId);
-                output.LeadStatusDescription = _lookupLeadStatus?.Description?.ToString();
+                output.LeadStatusDescription = _lookupLeadStatus?.Description;
             }
 
             if (output.Lead.PriorityId != null)
             {
                 var _lookupPriority = await _lookupPriorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
-                output.PriorityDescription = _lookupPriority?.Description?.ToString();
+                output.PriorityDescription = _lookupPriority?.Description;
             }
 
             return output;

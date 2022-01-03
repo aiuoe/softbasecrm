@@ -190,26 +190,22 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     OpportunityCustomerLookupTableDto[],
                     GetOpportunityForEditOutput]) => {
 
-                    if (opportunityForEdit.opportunity == null) {
-                        this.goToOpportunities();
-                    } else {
-                        this.opportunity = opportunityForEdit.opportunity;
-                        this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
-                        this.leadSourceDescription = opportunityForEdit.leadSourceDescription;
-                        this.opportunityTypeDescription = opportunityForEdit.opportunityTypeDescription;
-                        this.allOpportunityStages = opportunityStages;
-                        this.allLeadSources = leadSources;
-                        this.allOpportunityTypes = opportunityTypes;
-                        this.allCustomers = customers;
+                    this.opportunity = opportunityForEdit.opportunity;
+                    this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
+                    this.leadSourceDescription = opportunityForEdit.leadSourceDescription;
+                    this.opportunityTypeDescription = opportunityForEdit.opportunityTypeDescription;
+                    this.allOpportunityStages = opportunityStages;
+                    this.allLeadSources = leadSources;
+                    this.allOpportunityTypes = opportunityTypes;
+                    this.allCustomers = customers;
 
-                        this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
+                    this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
 
-                        this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
+                    this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
 
-                        this.showSaveButton = !this.isReadOnlyMode;
+                    this.showSaveButton = !this.isReadOnlyMode;
 
-                        this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
-                    }
+                    this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
 
                     this.isPageLoading = false;
                     this.active = true;
