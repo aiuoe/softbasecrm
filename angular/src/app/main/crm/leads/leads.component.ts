@@ -149,7 +149,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         this._leadsServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
             this.allUsers = result;
             this.noAssignedUsersOption.id = -1;
-            this.noAssignedUsersOption.displayName = AppConsts.All;
+            this.noAssignedUsersOption.displayName = AppConsts.None;
             this.allUsers.unshift(this.noAssignedUsersOption);
         });
     }

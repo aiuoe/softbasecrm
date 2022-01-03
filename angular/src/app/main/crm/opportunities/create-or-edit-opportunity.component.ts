@@ -68,6 +68,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     // Tab permissions
     isPageLoading = true;
     showEventsTab = false;
+    showOpportunity = false;
 
     // Widgets
     showAssignedUsersWidget = false;
@@ -112,6 +113,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.setPermissions();
 
         this.show(this.opportunityId);
+
+
     }
 
     /***
@@ -127,7 +130,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         forkJoin([...permissionsRequests])
             .subscribe(([getCanViewAssignedUsersWidget]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
-            });
+            });     
+
     }
 
     /**
@@ -181,7 +185,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 entityId: opportunityId.toString(),
                 entityName: 'Opportunity'
             });
-
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests])
                 .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, opportunityForEdit]: [
@@ -192,23 +195,28 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     GetOpportunityForEditOutput]) => {
                     this.isPageLoading = false;
                     this.active = true;
+                    
+                    if (opportunityForEdit.opportunity == null) {                        
+                        this.goToOpportunities();                       
+                    }
+                    else {
+                        this.opportunity = opportunityForEdit.opportunity;
+                        this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
+                        this.leadSourceDescription = opportunityForEdit.leadSourceDescription;
+                        this.opportunityTypeDescription = opportunityForEdit.opportunityTypeDescription;
+                        this.allOpportunityStages = opportunityStages;
+                        this.allLeadSources = leadSources;
+                        this.allOpportunityTypes = opportunityTypes;
+                        this.allCustomers = customers;
 
-                    this.opportunity = opportunityForEdit.opportunity;
-                    this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
-                    this.leadSourceDescription = opportunityForEdit.leadSourceDescription;
-                    this.opportunityTypeDescription = opportunityForEdit.opportunityTypeDescription;
-                    this.allOpportunityStages = opportunityStages;
-                    this.allLeadSources = leadSources;
-                    this.allOpportunityTypes = opportunityTypes;
-                    this.allCustomers = customers;
+                        this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
 
-                    this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
+                        this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
 
-                    this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
+                        this.showSaveButton = !this.isReadOnlyMode;
 
-                    this.showSaveButton = !this.isReadOnlyMode;
-
-                    this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
+                        this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
+                    }    
 
                 }, (error) => {
                     this.goToOpportunities();

@@ -384,6 +384,19 @@ namespace SBCRM.Crm
         {
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync(input.Id);
 
+            if (opportunity == null)
+                return null;
+
+            if (!CanSeeAllLeads())
+            {
+                List<long> usersID = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
+                                      where user.OpportunityId == opportunity.Id
+                                      select user.UserFk.Id).ToList();
+                long userID = GetCurrentUser().Id;
+                if (!usersID.Contains(userID))
+                    return null;
+            }
+
             var output = new GetOpportunityForEditOutput { Opportunity = ObjectMapper.Map<CreateOrEditOpportunityDto>(opportunity) };
 
             if (output.Opportunity.OpportunityStageId != null)
@@ -422,7 +435,9 @@ namespace SBCRM.Crm
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
-            return output;
+            
+             return output;      
+
         }
 
         /// <summary>
@@ -569,6 +584,8 @@ namespace SBCRM.Crm
 
             return _opportunitiesExcelExporter.ExportToFile(opportunities);
         }
+
+
 
         /// <summary>
         /// Get Opportunity Stage lookup

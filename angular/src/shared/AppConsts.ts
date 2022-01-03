@@ -37,4 +37,5 @@ export class AppConsts {
 
     static readonly SearchBarDelayMilliseconds = 500;
     static readonly All = 'All';
+    static readonly None = 'None';
 }
