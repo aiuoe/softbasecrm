@@ -57,8 +57,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
     constructor(injector: Injector, private _profileService: ProfileServiceProxy,
                 private _tokenService: TokenService,
                 private _leadsServiceProxy: LeadsServiceProxy,
-                private _fileDownloadService: FileDownloadService,
-                private _leadUserServiceProxy: LeadUsersServiceProxy) {
+                private _fileDownloadService: FileDownloadService) {
         super(injector);
     }
 
@@ -70,7 +69,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
         });
 
         // Gets all users to show on the User dropdown
-        this._leadUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+        this._leadsServiceProxy.getAllUsersForTableDropdown().subscribe(result => {
             this.allUsers = result;
         });
     }

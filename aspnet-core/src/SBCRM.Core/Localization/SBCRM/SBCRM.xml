@@ -3,6 +3,7 @@
 <localizationDictionary culture="en">
 	<texts>
 		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
+		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
@@ -99,6 +100,7 @@
 		<text name="InputDepartment">Enter Name</text>
 		<text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
 		<text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
+		<text name="CustomerNotFound">Account not found</text>
 		<text name="AccountUser">Account user</text>
 		<text name="SBCRM.Crm.AccountUser">AccountUser</text>
 		<text name="AccountUsersHeaderInfo">Account users header info</text>
