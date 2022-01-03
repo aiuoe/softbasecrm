@@ -203,6 +203,8 @@
 		<text name="Color">Color</text>
 		<text name="LeadContactName">Contact name</text>
 		<text name="LeadUser">Lead user</text>
+		<text name="LeadViewAssignUsers">View assigned users in Lead detail</text>
+		<text name="LeadViewDynamicAssignUsers">View assigned users in Lead detail in RO mode if user is assigned to the Lead</text>
 		<text name="CreateNewLeadUser">Create new lead user</text>
 		<text name="EditLeadUser">Edit lead user</text>
 		<text name="DeleteLeadUser">Delete lead user</text>
@@ -789,7 +791,6 @@
 		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
 		<text name="CustomerViewDynamicAssignUsers">View assigned users in Account detail in RO mode if user is assigned to the Account</text>
-		<text name="LeadViewDynamicAssignUsers">View assigned users in Lead detail in RO mode if user is assigned to the Lead</text>
 		<text name="ContactName">Contact Name</text>
 		<text name="EnterContactName">Enter Contact Name</text>
 		<text name="ContactPosition">Position</text>

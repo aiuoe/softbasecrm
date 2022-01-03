@@ -130,7 +130,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
 
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
-            var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadUsers"));
+            var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Edit, L("EditLeadUser"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Delete, L("DeleteLeadUser"));
