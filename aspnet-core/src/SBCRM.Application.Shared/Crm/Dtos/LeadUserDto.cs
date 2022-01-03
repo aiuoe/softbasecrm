@@ -11,7 +11,8 @@ namespace SBCRM.Crm.Dtos
 
         public int? LeadId { get; set; }
 
-        public long? UserId { get; set; } 
-    
+        public long? UserId { get; set; }
+               
+
     }
 }

@@ -57,13 +57,13 @@ namespace SBCRM.Legacy
                 var currentUser = await GetCurrentUserAsync();
 
                 var hasRestrictedLeadsPermission = await UserManager.IsGrantedAsync(
-                    currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);
+                    currentUser.Id, AppPermissions.Pages_Leads_ViewAllLeads__Dynamic);
 
                 var hasRestrictedActivitiesPermission = await UserManager.IsGrantedAsync(
                     currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
                 var hasRestrictedOpportunitiesPermission = await UserManager.IsGrantedAsync(
-                    currentUser.Id, AppPermissions.Pages_Opportunities_ViewAssignedUserFilter);
+                    currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);
 
                 var globalSearchCategory = input.CategoryCode;
 

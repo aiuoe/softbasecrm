@@ -2,8 +2,8 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
-		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
@@ -20,7 +20,7 @@
 		<text name="DeleteOpportunityUser">Delete opportunity user</text>
 		<text name="GlobalSearch">Global Search Access</text>
 		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
-		<text name="LeadViewAssignedUserFilter">Access to all Leads</text>
+		<text name="LeadViewAllLeads__Dynamic">Access to all Leads</text>
 		<text name="NewOpportunities">New Opportunities</text>
 		<text name="ProjectClose">Project Close</text>
 		<text name="IsCompletedStatus">Is completed status</text>

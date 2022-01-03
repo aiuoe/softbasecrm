@@ -271,7 +271,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadUsers_Create)]
         public async Task CreateMultipleLeadUsers(List<CreateOrEditLeadUserDto> input)
         {
-            using (_reasonProvider.Use("User wa assigned to Lead"))
+            using (_reasonProvider.Use("User was assigned to Lead"))
             {
                 foreach (var item in input)
                 {
