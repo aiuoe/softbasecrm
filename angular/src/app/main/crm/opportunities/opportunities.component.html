@@ -63,7 +63,7 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div class="col-md-2" *ngIf="isGranted('Pages.Opportunities.ViewAssignedUserFilter')">
+                                <div class="col-md-2" *ngIf="isGranted('Pages.Opportunities.ViewAllOpportunities__Dynamic')">
                                     <div class="form-group">
                                         <label for="UserAssignedFilter"></label>
                                         <div>
@@ -209,8 +209,7 @@
                                                             *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
-                                                            [queryParams]="{ id: record.opportunity.id,
-                                                                            opportunityName: record.opportunity.name }"
+                                                            [queryParams]="{ id: record.opportunity.id }"
                                                         >
                                                             {{ l('View') }}
                                                         </a>
@@ -220,8 +219,7 @@
                                                             *ngIf="permission.isGranted('Pages.Opportunities.Edit')"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
-                                                            [queryParams]="{ id: record.opportunity.id,
-                                                                            opportunityName: record.opportunity.name }"
+                                                            [queryParams]="{ id: record.opportunity.id }"
                                                         >
                                                             {{ l('Edit') }}
                                                         </a>
@@ -233,8 +231,7 @@
                                             <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
                                             <a
                                                 [routerLink]="['/app/main/crm/opportunities/view']"
-                                                [queryParams]="{ id: record.opportunity.id,
-                                                    opportunityName: record.opportunity.name }"
+                                                [queryParams]="{ id: record.opportunity.id }"
                                             >
                                                 {{ record.opportunity.name }}
                                             </a>

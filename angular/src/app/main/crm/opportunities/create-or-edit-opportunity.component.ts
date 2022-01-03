@@ -63,7 +63,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allContacts: OpportunityContactsLookupTableDto[];
 
     opportunityId: number;
-    opportunityName: string;
 
     // Tab permissions
     isPageLoading = true;
@@ -95,7 +94,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
-        this.opportunityName = this._activatedRoute.snapshot.queryParams['opportunityName'];
         this.customerNumber = this._activatedRoute.snapshot.queryParams['customerNumber'];
         if (this.customerNumber) {
             this.isExternalCreation = true;
@@ -104,8 +102,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
         this.setPermissions();
 
-        this.show(this.opportunityId);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityName));
+        this.show(this.opportunityId);        
     }
 
     /***
@@ -192,6 +189,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
 
                     this.showSaveButton = !this.isReadOnlyMode;
+
+                    this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
 
                 }, (error) => {
                     this.goToOpportunities();
