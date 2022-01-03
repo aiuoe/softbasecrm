@@ -121,6 +121,7 @@
                                             [(ngModel)]="selectedAssignedUsersFilter"
                                             optionLabel="displayName"
                                             display="chip"
+                                            [style]="{'width':'100%'}"
                                             [placeholder]="l('FilterByAssignee')"
                                             [emptyMessage]="l('NoRecordsFound')"
                                             (onChange)="getActivities()"
