@@ -789,6 +789,7 @@
 		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
 		<text name="CustomerViewDynamicAssignUsers">View assigned users in Account detail in RO mode if user is assigned to the Account</text>
+		<text name="LeadViewDynamicAssignUsers">View assigned users in Lead detail in RO mode if user is assigned to the Lead</text>
 		<text name="ContactName">Contact Name</text>
 		<text name="EnterContactName">Enter Contact Name</text>
 		<text name="ContactPosition">Position</text>

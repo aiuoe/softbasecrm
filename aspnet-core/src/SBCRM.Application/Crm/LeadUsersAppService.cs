@@ -18,7 +18,6 @@ namespace SBCRM.Crm
     /// <summary>
     /// App Service that manages the LeadUser transactions
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
     public class LeadUsersAppService : SBCRMAppServiceBase, ILeadUsersAppService
     {
         private readonly IRepository<LeadUser> _leadUserRepository;
@@ -46,13 +45,46 @@ namespace SBCRM.Crm
             _lookup_userRepository = lookup_userRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
-
         }
+
+        /// <summary>
+        /// Method to get permission to VIEW Assigned Users widget in Leads
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_LeadUsers"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_LeadUsers_View__Dynamic"/> permission and is assigned in the Lead
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<bool> GetCanViewAssignedUsersWidget(int leadId)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var hasDynamicPermission =
+                await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_LeadUsers_View__Dynamic);
+            var hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_LeadUsers);
+
+            var currentUserIsAssignedInCustomer = _leadUserRepository
+                .GetAll()
+                .Where(x => x.LeadId == leadId)
+                .Any(x => x.UserId == currentUser.Id);
+
+            var canViewAssignedUsersDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
+            return canViewAssignedUsersDynamic || hasStaticPermission;
+        }
+
         /// <summary>
         /// Gets all the lead users given a Lead Id
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_LeadUsers,
+                AppPermissions.Pages_LeadUsers_View__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         public async Task<PagedResultDto<GetLeadUserForViewDto>> GetAll(GetAllLeadUsersInput input)
         {
 

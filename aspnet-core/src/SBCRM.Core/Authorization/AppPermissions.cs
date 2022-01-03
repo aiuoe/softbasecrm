@@ -77,6 +77,7 @@
         public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
         public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
         public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";
+        public const string Pages_LeadUsers_View__Dynamic = "Pages.LeadUsers_View__Dynamic";
 
         public const string Pages_Priorities = "Pages.Priorities";
         public const string Pages_Priorities_Create = "Pages.Priorities.Create";

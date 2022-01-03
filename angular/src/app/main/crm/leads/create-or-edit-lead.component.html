@@ -384,8 +384,10 @@
             </tabset>
         </div>
         <div class="row" *ngIf="this.lead.id">
-            <div class="col-sm-12 col-lg-6">
-                <app-assigned-user [componentType]="'Lead'" [idToStore]="this.lead.id">
+            <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
+                <app-assigned-user
+                    [componentType]="'Lead'"
+                    [idToStore]="this.lead.id">
                 </app-assigned-user>
             </div>
         </div>

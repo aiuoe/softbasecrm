@@ -81,7 +81,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
         if ('Account' === this.componentType) {
             this.canAssignUser = this.isGranted('Pages.AccountUsers.Create');
         } else {
-            this.canAssignUser = true;
+            this.canAssignUser = this.isGranted('Pages.LeadUsers.Create');
         }
     }
 

@@ -15,6 +15,16 @@ namespace SBCRM.Crm
     public interface ILeadUsersAppService : IApplicationService
     {
         /// <summary>
+        /// Method to get permission to VIEW Assigned Users widget in Leads
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_LeadUsers"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_LeadUsers_View__Dynamic"/> permission and is assigned in the Lead
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        Task<bool> GetCanViewAssignedUsersWidget(int leadId);
+
+        /// <summary>
         /// Get all lead users
         /// </summary>
         /// <param name="input"></param>
