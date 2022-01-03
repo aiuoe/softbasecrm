@@ -275,7 +275,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
 
             this.activitySourceTypeFilters = Array.from(res);
             const allOption = new ActivityActivitySourceTypeLookupTableDto();
-            allOption.displayName = 'All';
+            allOption.displayName = AppConsts.All;
             this.activitySourceTypeFilters.unshift(allOption);
         });
     }
@@ -287,7 +287,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
             this.activityTaskTypes = res;
             const allOption = new ActivityActivityTaskTypeLookupTableDto();
-            allOption.displayName = 'All';
+            allOption.displayName = AppConsts.All;
             this.activityTaskTypes.unshift(allOption);
         });
     }
@@ -299,7 +299,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((res) => {
             this.activityStatuses = res;
             const allOption = new ActivityActivityStatusLookupTableDto();
-            allOption.displayName = 'All';
+            allOption.displayName = AppConsts.All;
             this.activityStatuses.unshift(allOption);
         });
     }
