@@ -10,6 +10,7 @@
         public const string Pages_OpportunityUsers_Create = "Pages.OpportunityUsers.Create";
         public const string Pages_OpportunityUsers_Edit = "Pages.OpportunityUsers.Edit";
         public const string Pages_OpportunityUsers_Delete = "Pages.OpportunityUsers.Delete";
+        public const string Pages_OpportunityUsers_View__Dynamic = "Pages.OpportunityUsers.View__Dynamic";
 
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
@@ -77,7 +78,7 @@
         public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
         public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
         public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";
-        public const string Pages_LeadUsers_View__Dynamic = "Pages.LeadUsers_View__Dynamic";
+        public const string Pages_LeadUsers_View__Dynamic = "Pages.LeadUsers.View__Dynamic";
 
         public const string Pages_Priorities = "Pages.Priorities";
         public const string Pages_Priorities_Create = "Pages.Priorities.Create";

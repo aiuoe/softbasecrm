@@ -2,7 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
-		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
+		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
@@ -14,7 +14,8 @@
 		<text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
 		<text name="List">List</text>
 		<text name="Calendar">Calendar</text>
-		<text name="OpportunityUsers">Opportunity user</text>
+		<text name="OpportunityViewAssignUsers">View assigned users in Opportunity detail</text>
+		<text name="OpportunityViewDynamicAssignUsers">View assigned users in Opportunity detail in RO mode if user is assigned to the Opportunity</text>
 		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
 		<text name="EditOpportunityUser">Edit opportunity user</text>
 		<text name="DeleteOpportunityUser">Delete opportunity user</text>
