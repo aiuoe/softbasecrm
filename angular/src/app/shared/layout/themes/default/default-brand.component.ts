@@ -12,7 +12,7 @@ import { DOCUMENT } from '@angular/common';
 export class DefaultBrandComponent extends AppComponentBase {
     defaultLogo =
         AppConsts.appBaseUrl +
-        '/assets/common/images/logo.svg';
+        '/assets/common/images/logo-default.png';
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
 
     constructor(injector: Injector, @Inject(DOCUMENT) private document: Document) {
