@@ -233,7 +233,8 @@
                                             <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
                                             <a
                                                 [routerLink]="['/app/main/crm/opportunities/view']"
-                                                [queryParams]="{ id: record.opportunity.id }"
+                                                [queryParams]="{ id: record.opportunity.id,
+                                                    opportunityName: record.opportunity.name }"
                                             >
                                                 {{ record.opportunity.name }}
                                             </a>
