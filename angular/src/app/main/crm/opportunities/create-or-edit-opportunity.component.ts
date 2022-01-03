@@ -53,7 +53,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     customerName = '';
     contactName = '';
     customerNumber = '';
-    opportunityCustomerName = '';
     formDate: Date;
 
 
@@ -68,7 +67,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     // Tab permissions
     isPageLoading = true;
     showEventsTab = false;
-    showOpportunity = false;
 
     // Widgets
     showAssignedUsersWidget = false;
@@ -80,8 +78,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @param _opportunitiesServiceProxy
      * @param _router
      * @param _dateTimeService
-     * @param location
-     * @param _opportunityUsersServiceProxy
      * @param location
      * @param _opportunityUsersServiceProxy
      */
@@ -130,7 +126,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         forkJoin([...permissionsRequests])
             .subscribe(([getCanViewAssignedUsersWidget]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
-            });     
+            });
 
     }
 
@@ -175,7 +171,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     }
 
                     this.showSaveButton = !this.isReadOnlyMode;
-                }, (error) => {
+                }, () => {
                     this.goToOpportunities();
                 });
 
@@ -193,13 +189,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     OpportunityOpportunityTypeLookupTableDto[],
                     OpportunityCustomerLookupTableDto[],
                     GetOpportunityForEditOutput]) => {
-                    this.isPageLoading = false;
-                    this.active = true;
-                    
-                    if (opportunityForEdit.opportunity == null) {                        
-                        this.goToOpportunities();                       
-                    }
-                    else {
+
+                    if (opportunityForEdit.opportunity == null) {
+                        this.goToOpportunities();
+                    } else {
                         this.opportunity = opportunityForEdit.opportunity;
                         this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
                         this.leadSourceDescription = opportunityForEdit.leadSourceDescription;
@@ -216,9 +209,12 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                         this.showSaveButton = !this.isReadOnlyMode;
 
                         this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
-                    }    
+                    }
 
-                }, (error) => {
+                    this.isPageLoading = false;
+                    this.active = true;
+
+                }, () => {
                     this.goToOpportunities();
                 });
         }
@@ -266,7 +262,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.saving = false;
                 })
             )
-            .subscribe((x) => {
+            .subscribe((_) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
                 this._router.navigate([this.routerLink]);
