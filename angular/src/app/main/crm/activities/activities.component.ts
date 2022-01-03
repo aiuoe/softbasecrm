@@ -71,6 +71,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activitySourceTypes: ActivityActivitySourceTypeLookupTableDto[];
     activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
     activityStatuses: ActivityActivityStatusLookupTableDto[];
+    activitySourceTypeFilters: ActivityActivitySourceTypeLookupTableDto[];
 
     /**
      * Used to delay the search and wait for the user to finish typing.
@@ -170,13 +171,12 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.opportunityNameFilter,
                 this.leadCompanyNameFilter,
                 this.userNameFilter,
-                this.selectedActivitySourceTypesFilter?.displayName || '',
-                this.selectedActivityTaskTypesFilter?.displayName || '',
-                this.selectedActivityStatusesFilter?.displayName || '',
-                this.activityPriorityDescriptionFilter,
                 this.customerNameFilter,
                 selectedUserIds,
                 this.excludeCompletedFilter,
+                this.selectedActivitySourceTypesFilter?.id,
+                this.selectedActivityTaskTypesFilter?.id,
+                this.selectedActivityStatusesFilter?.id,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -242,13 +242,12 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.opportunityNameFilter,
                 this.leadCompanyNameFilter,
                 this.userNameFilter,
-                this.selectedActivitySourceTypesFilter?.displayName || '',
-                this.selectedActivityTaskTypesFilter?.displayName || '',
-                this.selectedActivityStatusesFilter?.displayName || '',
-                this.activityPriorityDescriptionFilter,
                 this.customerNameFilter,
                 this.selectedAssignedUsersFilter.map((x) => x.id),
                 this.excludeCompletedFilter,
+                this.selectedActivitySourceTypesFilter?.id,
+                this.selectedActivityTaskTypesFilter?.id,
+                this.selectedActivityStatusesFilter?.id,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, null),
                 this.primengTableHelper.getMaxResultCount(this.paginator, null)
@@ -273,6 +272,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivitySourceTypes(): void {
         this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((res) => {
             this.activitySourceTypes = res;
+
+            this.activitySourceTypeFilters = Array.from(res);
+            const allOption = new ActivityActivitySourceTypeLookupTableDto();
+            allOption.displayName = 'All';
+            this.activitySourceTypeFilters.unshift(allOption);
         });
     }
 
@@ -282,6 +286,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
             this.activityTaskTypes = res;
+            const allOption = new ActivityActivityTaskTypeLookupTableDto();
+            allOption.displayName = 'All';
+            this.activityTaskTypes.unshift(allOption);
         });
     }
 
@@ -291,6 +298,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivityStatuses(): void {
         this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((res) => {
             this.activityStatuses = res;
+            const allOption = new ActivityActivityStatusLookupTableDto();
+            allOption.displayName = 'All';
+            this.activityStatuses.unshift(allOption);
         });
     }
 

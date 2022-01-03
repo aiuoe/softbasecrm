@@ -1423,19 +1423,18 @@ export class ActivitiesServiceProxy {
      * @param opportunityNameFilter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
-     * @param activitySourceTypeDescriptionFilter (optional) 
-     * @param activityTaskTypeDescriptionFilter (optional) 
-     * @param activityStatusDescriptionFilter (optional) 
-     * @param activityPriorityDescriptionFilter (optional) 
      * @param customerNameFilter (optional) 
      * @param userIds (optional) 
      * @param excludeCompleted (optional) 
+     * @param activitySourceTypeId (optional) 
+     * @param activityTaskTypeId (optional) 
+     * @param activityStatusId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1453,22 +1452,6 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
-        if (activitySourceTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
-        else if (activitySourceTypeDescriptionFilter !== undefined)
-            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
-        if (activityTaskTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
-        else if (activityTaskTypeDescriptionFilter !== undefined)
-            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
-        if (activityStatusDescriptionFilter === null)
-            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
-        else if (activityStatusDescriptionFilter !== undefined)
-            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
-        if (activityPriorityDescriptionFilter === null)
-            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
-        else if (activityPriorityDescriptionFilter !== undefined)
-            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
         if (customerNameFilter === null)
             throw new Error("The parameter 'customerNameFilter' cannot be null.");
         else if (customerNameFilter !== undefined)
@@ -1481,6 +1464,18 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'excludeCompleted' cannot be null.");
         else if (excludeCompleted !== undefined)
             url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (activitySourceTypeId === null)
+            throw new Error("The parameter 'activitySourceTypeId' cannot be null.");
+        else if (activitySourceTypeId !== undefined)
+            url_ += "ActivitySourceTypeId=" + encodeURIComponent("" + activitySourceTypeId) + "&";
+        if (activityTaskTypeId === null)
+            throw new Error("The parameter 'activityTaskTypeId' cannot be null.");
+        else if (activityTaskTypeId !== undefined)
+            url_ += "ActivityTaskTypeId=" + encodeURIComponent("" + activityTaskTypeId) + "&";
+        if (activityStatusId === null)
+            throw new Error("The parameter 'activityStatusId' cannot be null.");
+        else if (activityStatusId !== undefined)
+            url_ += "ActivityStatusId=" + encodeURIComponent("" + activityStatusId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -1760,19 +1755,18 @@ export class ActivitiesServiceProxy {
      * @param opportunityNameFilter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
-     * @param activitySourceTypeDescriptionFilter (optional) 
-     * @param activityTaskTypeDescriptionFilter (optional) 
-     * @param activityStatusDescriptionFilter (optional) 
-     * @param activityPriorityDescriptionFilter (optional) 
      * @param customerNameFilter (optional) 
      * @param userIds (optional) 
      * @param excludeCompleted (optional) 
+     * @param activitySourceTypeId (optional) 
+     * @param activityTaskTypeId (optional) 
+     * @param activityStatusId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1790,22 +1784,6 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
-        if (activitySourceTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
-        else if (activitySourceTypeDescriptionFilter !== undefined)
-            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
-        if (activityTaskTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
-        else if (activityTaskTypeDescriptionFilter !== undefined)
-            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
-        if (activityStatusDescriptionFilter === null)
-            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
-        else if (activityStatusDescriptionFilter !== undefined)
-            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
-        if (activityPriorityDescriptionFilter === null)
-            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
-        else if (activityPriorityDescriptionFilter !== undefined)
-            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
         if (customerNameFilter === null)
             throw new Error("The parameter 'customerNameFilter' cannot be null.");
         else if (customerNameFilter !== undefined)
@@ -1818,6 +1796,18 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'excludeCompleted' cannot be null.");
         else if (excludeCompleted !== undefined)
             url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (activitySourceTypeId === null)
+            throw new Error("The parameter 'activitySourceTypeId' cannot be null.");
+        else if (activitySourceTypeId !== undefined)
+            url_ += "ActivitySourceTypeId=" + encodeURIComponent("" + activitySourceTypeId) + "&";
+        if (activityTaskTypeId === null)
+            throw new Error("The parameter 'activityTaskTypeId' cannot be null.");
+        else if (activityTaskTypeId !== undefined)
+            url_ += "ActivityTaskTypeId=" + encodeURIComponent("" + activityTaskTypeId) + "&";
+        if (activityStatusId === null)
+            throw new Error("The parameter 'activityStatusId' cannot be null.");
+        else if (activityStatusId !== undefined)
+            url_ += "ActivityStatusId=" + encodeURIComponent("" + activityStatusId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)

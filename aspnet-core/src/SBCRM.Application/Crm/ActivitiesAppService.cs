@@ -106,14 +106,13 @@ namespace SBCRM.Crm
                 .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
                 .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                 .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter))
+                .WhereIf(input.ActivitySourceTypeId.HasValue, e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Id == input.ActivitySourceTypeId)
+                .WhereIf(input.ActivityTaskTypeId.HasValue, e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Id == input.ActivityTaskTypeId)
+                .WhereIf(input.ActivityStatusId.HasValue, e => e.ActivityStatusFk != null && e.ActivityStatusFk.Id == input.ActivityStatusId)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter));
 
 
             var activities = from activity in filteredActivities
@@ -381,14 +380,13 @@ namespace SBCRM.Crm
                 .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
                 .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                 .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter))
+                .WhereIf(input.ActivitySourceTypeId.HasValue, e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Id == input.ActivitySourceTypeId)
+                .WhereIf(input.ActivityTaskTypeId.HasValue, e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Id == input.ActivityTaskTypeId)
+                .WhereIf(input.ActivityStatusId.HasValue, e => e.ActivityStatusFk != null && e.ActivityStatusFk.Id == input.ActivityStatusId)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityNameFilter), e => e.OpportunityFk != null && e.OpportunityFk.Name == input.OpportunityNameFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
-                .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityPriorityDescriptionFilter), e => e.ActivityPriorityFk != null && e.ActivityPriorityFk.Description == input.ActivityPriorityDescriptionFilter);
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.CustomerFk.Name.Contains(input.Filter) || e.LeadFk.CompanyName.Contains(input.Filter) || e.OpportunityFk.CustomerFk.Name.Contains(input.Filter));
 
             var query = (from activity in filteredActivities
                          join o1 in _lookupOpportunityRepository.GetAll() on activity.OpportunityId equals o1.Id into j1
@@ -573,7 +571,7 @@ namespace SBCRM.Crm
             var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
 
             return await _lookupUserRepository.GetAll()
-                .WhereIf(!canAssignOthers,x =>  x.Id == currentUser.Id)
+                .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
                 .Select(user => new ActivityUserLookupTableDto
                 {
                     Id = user.Id,
