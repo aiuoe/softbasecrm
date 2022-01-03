@@ -2,6 +2,10 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="ScheduleCall">Schedule Call</text>
+		<text name="ScheduleMeeting">Schedule Meeting</text>
+		<text name="EmailReminder">Email Reminder</text>
+		<text name="ToDoReminder">To Do Reminder</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
 		<text name="ViewActivity">View Activity</text>

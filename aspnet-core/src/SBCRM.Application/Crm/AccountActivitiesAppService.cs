@@ -13,6 +13,7 @@ using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Authorization;
 
 namespace SBCRM.Crm
 {
@@ -198,13 +199,20 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-            var activity = ObjectMapper.Map<Activity>(input);
-            activity.StartsAt = activity.StartsAt.ToUniversalTime();
-            activity.DueDate = activity.DueDate.ToUniversalTime();
+            try
+            {
+                var activity = ObjectMapper.Map<Activity>(input);
+                activity.StartsAt = activity.StartsAt.ToUniversalTime();
+                activity.DueDate = activity.DueDate.ToUniversalTime();
 
-            activity.TenantId = GetTenantId();
+                activity.TenantId = GetTenantId();
 
-            await _activityRepository.InsertAsync(activity);
+                await _activityRepository.InsertAsync(activity);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>

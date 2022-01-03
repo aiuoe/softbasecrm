@@ -6,6 +6,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { AppSharedModule } from '@app/shared/app-shared.module';
 import { AdminSharedModule } from '@app/admin/shared/admin-shared.module';
 import { CreateActivityModalComponent } from './create-activity-modal.component';
+import { CalendarModule } from 'primeng/calendar';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 
 
 
@@ -19,8 +21,10 @@ import { CreateActivityModalComponent } from './create-activity-modal.component'
     ActivitiesWidgetRoutingModule,
     UtilsModule,
     AppSharedModule,
-    AdminSharedModule 
+    AdminSharedModule ,
+    CalendarModule
   ],
+  providers: [ActivitySharedService],
   exports: [ActivitiesWidgetComponent]
 })
 export class ActivitiesWidgetModule { }

@@ -71,6 +71,11 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     }
   }
 
+  /**
+   * 
+   * @param event 
+   * @returns 
+   */
   getAllActivitiesForAccount(event?: LazyLoadEvent){
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);

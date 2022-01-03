@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Dto used to populate data tables for Activities Widget
+    /// </summary>
     public class GetAllActivitiesForWidget: PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
