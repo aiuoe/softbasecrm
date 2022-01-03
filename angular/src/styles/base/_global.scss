@@ -150,7 +150,7 @@ a:hover {
     z-index: 50 !important;
 }
 
-.p-listbox-item:focus {
+.p-listbox-item:focus .p-multiselect-item:focus .p-sortable-column:focus {
     box-shadow: none !important;
 }
 
