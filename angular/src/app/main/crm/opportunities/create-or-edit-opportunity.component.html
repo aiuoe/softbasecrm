@@ -176,13 +176,13 @@
                                                             [style]="{'width':'100%'}"
                                                             [inputStyle]="{'width':'100%'}"
                                                             #Opportunity_CloseDate="ngModel"
-                                                            dataType="date"                                                            
+                                                            dataType="date"
                                                             dateFormat="mm/dd/yy"
                                                             [placeholder]= "l('InputCloseDate')"
                                                             [(ngModel)]="formDate"
                                                             id="Opportunity_CloseDate"
                                                             name="Opportunity_CloseDate"
-                                                            [disabled]="this.isReadOnlyMode"                                               
+                                                            [disabled]="this.isReadOnlyMode"
                                                         >
                                                         </p-calendar>
                                                         <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
@@ -319,14 +319,14 @@
         </div>
 
         <div class="row" *ngIf="this.opportunity.id">
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
                 <app-assigned-user
-                [componentType]="'Opportunity'"
-                [idToStore]="this.opportunity.id">
-            </app-assigned-user>
+                    [componentType]="'Opportunity'"
+                    [idToStore]="this.opportunity.id">
+                </app-assigned-user>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
 

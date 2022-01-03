@@ -10,6 +10,7 @@
         public const string Pages_OpportunityUsers_Create = "Pages.OpportunityUsers.Create";
         public const string Pages_OpportunityUsers_Edit = "Pages.OpportunityUsers.Edit";
         public const string Pages_OpportunityUsers_Delete = "Pages.OpportunityUsers.Delete";
+        public const string Pages_OpportunityUsers_View__Dynamic = "Pages.OpportunityUsers.View__Dynamic";
 
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
@@ -60,7 +61,7 @@
         public const string Pages_Opportunities_Edit = "Pages.Opportunities.Edit";
         public const string Pages_Opportunities_Delete = "Pages.Opportunities.Delete";
         public const string Pages_Opportunities_View_Events = "Pages.Opportunities.ViewEvents";
-        public const string Pages_Opportunities_ViewAssignedUserFilter = "Pages.Opportunities.ViewAssignedUserFilter";
+        public const string Pages_Opportunities_ViewAllOpportunities__Dynamic = "Pages.Opportunities.ViewAllOpportunities__Dynamic";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
@@ -77,6 +78,7 @@
         public const string Pages_LeadUsers_Create = "Pages.LeadUsers.Create";
         public const string Pages_LeadUsers_Edit = "Pages.LeadUsers.Edit";
         public const string Pages_LeadUsers_Delete = "Pages.LeadUsers.Delete";
+        public const string Pages_LeadUsers_View__Dynamic = "Pages.LeadUsers.View__Dynamic";
 
         public const string Pages_Priorities = "Pages.Priorities";
         public const string Pages_Priorities_Create = "Pages.Priorities.Create";
@@ -87,7 +89,7 @@
         public const string Pages_Leads_Create = "Pages.Leads.Create";
         public const string Pages_Leads_Edit = "Pages.Leads.Edit";
         public const string Pages_Leads_Delete = "Pages.Leads.Delete";
-        public const string Pages_Leads_ViewAssignedUserFilter = "Pages.Leads.ViewAssignedUserFilter";
+        public const string Pages_Leads_ViewAllLeads__Dynamic = "Pages.Leads.ViewAllLeads__Dynamic";
         public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
         public const string Pages_Leads_View_Events = "Pages.Leads.ViewEvents";
 

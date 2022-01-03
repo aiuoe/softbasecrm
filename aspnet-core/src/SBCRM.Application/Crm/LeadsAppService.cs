@@ -101,7 +101,7 @@ namespace SBCRM.Crm
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Leads_ViewAssignedUserFilter);
+                currentUser.Id, AppPermissions.Pages_Leads_ViewAllLeads__Dynamic);
         }
 
         /// <summary>
@@ -363,7 +363,12 @@ namespace SBCRM.Crm
                     if (storedLead == null)
                     {
                         var lead = ObjectMapper.Map<Lead>(leadAux);
-                        int leadId = await _leadRepository.InsertAndGetIdAsync(lead);
+                        int leadId = 0;
+                        using (_reasonProvider.Use("Lead saved from an import file"))
+                        {
+                            leadId = await _leadRepository.InsertAndGetIdAsync(lead);
+                            await _unitOfWorkManager.Current.SaveChangesAsync();
+                        }
 
                         if (assignedUserId != 0)
                         {
@@ -374,6 +379,11 @@ namespace SBCRM.Crm
                             };
 
                             await _leadUserRepository.InsertAsync(leadUser);
+                            //await _auditEventsService.AddEvent(AuditEventDto.ForCreate(
+                            //        entityType: typeof(Lead),
+                            //        entityId: leadId.ToString(),
+                            //        message: $"Added user from the import file")
+                            //);
                         }
                     }
                     else
@@ -541,10 +551,7 @@ namespace SBCRM.Crm
 
             lead.CreationTime = lead.CreationTime.ToUniversalTime();
 
-            if (AbpSession.TenantId != null)
-            {
-                lead.TenantId = AbpSession.TenantId;
-            }
+            lead.TenantId = GetTenantId();
 
             using (_reasonProvider.Use("Lead created"))
             {

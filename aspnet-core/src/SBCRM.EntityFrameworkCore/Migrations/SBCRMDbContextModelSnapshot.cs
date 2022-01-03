@@ -1782,6 +1782,9 @@ namespace SBCRM.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
@@ -1860,6 +1863,9 @@ namespace SBCRM.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
@@ -1926,6 +1932,9 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -2025,6 +2034,9 @@ namespace SBCRM.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("ActivityStatuses");
@@ -2040,6 +2052,9 @@ namespace SBCRM.Migrations
                     b.Property<string>("Code")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -2327,6 +2342,9 @@ namespace SBCRM.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("LeadSources");
@@ -2383,6 +2401,9 @@ namespace SBCRM.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("LeadStatuses");
@@ -2417,6 +2438,9 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int?>("LeadId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.Property<long?>("UserId")
@@ -2561,6 +2585,9 @@ namespace SBCRM.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("OpportunityStages");
@@ -2602,6 +2629,9 @@ namespace SBCRM.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("OpportunityTypes");
@@ -2636,6 +2666,9 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("OpportunityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.Property<long>("UserId")
@@ -2690,6 +2723,9 @@ namespace SBCRM.Migrations
 
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

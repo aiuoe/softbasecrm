@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
-using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using SBCRM.Legacy;
 using System.Collections.Generic;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
@@ -13,7 +13,7 @@ namespace SBCRM.Crm
     /// </summary>
     [Table("Leads")]
     [Audited]
-    public class Lead : FullAuditedEntity, IMayHaveTenant
+    public class Lead : FullAuditedEntity, ISilentTenant
     {
         public int? TenantId { get; set; }
 

@@ -144,6 +144,8 @@ namespace SBCRM.Crm
 
             LeadStatus leadStatus = ObjectMapper.Map<LeadStatus>(input);
 
+            leadStatus.TenantId = GetTenantId();
+
             await _leadStatusRepository.InsertAsync(leadStatus);
         }
 

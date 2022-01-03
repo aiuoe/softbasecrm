@@ -212,13 +212,15 @@ namespace SBCRM.Crm
             {
                 foreach (var item in input)
                 {
-                    var accountUserExists = _accountUserRepository.FirstOrDefault(p => p.UserId == item.UserId
+                    var accountUserExists = await _accountUserRepository.FirstOrDefaultAsync(p => p.UserId == item.UserId
                         && p.CustomerNumber == item.CustomerNumber
                         && p.IsDeleted);
 
                     if (accountUserExists == null)
                     {
                         var accountUser = ObjectMapper.Map<AccountUser>(item);
+
+                        accountUser.TenantId = GetTenantId();
 
                         await _accountUserRepository.InsertAsync(accountUser);
                     }

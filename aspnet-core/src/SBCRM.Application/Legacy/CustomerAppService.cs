@@ -364,6 +364,8 @@ namespace SBCRM.Legacy
         protected virtual async Task Update(CreateOrEditCustomerDto input)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
+            GuardHelper.ThrowIf(customer is null, new UserFriendlyException(L("CustomerNotFound")));
+
             var currentUser = await GetCurrentUserAsync();
 
             using (_reasonProvider.Use("Account updated"))

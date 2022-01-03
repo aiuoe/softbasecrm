@@ -2,7 +2,8 @@
 
 <localizationDictionary culture="en">
 	<texts>
-		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
+		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
+		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
@@ -13,13 +14,14 @@
 		<text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
 		<text name="List">List</text>
 		<text name="Calendar">Calendar</text>
-		<text name="OpportunityUsers">Opportunity user</text>
+		<text name="OpportunityViewAssignUsers">View assigned users in Opportunity detail</text>
+		<text name="OpportunityViewDynamicAssignUsers">View assigned users in Opportunity detail in RO mode if user is assigned to the Opportunity</text>
 		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
 		<text name="EditOpportunityUser">Edit opportunity user</text>
 		<text name="DeleteOpportunityUser">Delete opportunity user</text>
 		<text name="GlobalSearch">Global Search Access</text>
 		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
-		<text name="LeadViewAssignedUserFilter">Access to all Leads</text>
+		<text name="LeadViewAllLeads__Dynamic">Access to all Leads</text>
 		<text name="NewOpportunities">New Opportunities</text>
 		<text name="ProjectClose">Project Close</text>
 		<text name="IsCompletedStatus">Is completed status</text>
@@ -99,6 +101,7 @@
 		<text name="InputDepartment">Enter Name</text>
 		<text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
 		<text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
+		<text name="CustomerNotFound">Account not found</text>
 		<text name="AccountUser">Account user</text>
 		<text name="SBCRM.Crm.AccountUser">AccountUser</text>
 		<text name="AccountUsersHeaderInfo">Account users header info</text>
@@ -201,6 +204,8 @@
 		<text name="Color">Color</text>
 		<text name="LeadContactName">Contact name</text>
 		<text name="LeadUser">Lead user</text>
+		<text name="LeadViewAssignUsers">View assigned users in Lead detail</text>
+		<text name="LeadViewDynamicAssignUsers">View assigned users in Lead detail in RO mode if user is assigned to the Lead</text>
 		<text name="CreateNewLeadUser">Create new lead user</text>
 		<text name="EditLeadUser">Edit lead user</text>
 		<text name="DeleteLeadUser">Delete lead user</text>

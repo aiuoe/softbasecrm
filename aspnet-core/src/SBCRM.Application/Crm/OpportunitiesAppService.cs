@@ -94,7 +94,7 @@ namespace SBCRM.Crm
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Opportunities_ViewAssignedUserFilter);
+                currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);
         }
 
         /// <summary>
@@ -452,11 +452,7 @@ namespace SBCRM.Crm
         {
             var opportunity = ObjectMapper.Map<Opportunity>(input);
             opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
-
-            if (AbpSession.TenantId != null)
-            {
-                opportunity.TenantId = AbpSession.TenantId;
-            }
+            opportunity.TenantId = GetTenantId();
 
             using (_reasonProvider.Use("Opportunity created"))
             {

@@ -8,7 +8,8 @@ import {
     OpportunityOpportunityTypeLookupTableDto,
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
-    OpportunityContactsLookupTableDto
+    OpportunityContactsLookupTableDto,
+    OpportunityUsersServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -63,19 +64,25 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allContacts: OpportunityContactsLookupTableDto[];
 
     opportunityId: number;
-    opportunityName: string;
 
     // Tab permissions
     isPageLoading = true;
     showEventsTab = false;
 
+    // Widgets
+    showAssignedUsersWidget = false;
+
     /**
      * Main constructor
      * @param injector
      * @param _activatedRoute
-     * @param _opportunityServiceProxy
+     * @param _opportunitiesServiceProxy
      * @param _router
      * @param _dateTimeService
+     * @param location
+     * @param _opportunityUsersServiceProxy
+     * @param location
+     * @param _opportunityUsersServiceProxy
      */
     constructor(
         injector: Injector,
@@ -83,7 +90,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         private _opportunitiesServiceProxy: OpportunitiesServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService,
-        private location: Location
+        private location: Location,
+        private _opportunityUsersServiceProxy: OpportunityUsersServiceProxy
     ) {
         super(injector);
     }
@@ -95,7 +103,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
         this.isReadOnlyMode = this.pageMode === 'view';
         this.opportunityId = this._activatedRoute.snapshot.queryParams['id'];
-        this.opportunityName = this._activatedRoute.snapshot.queryParams['opportunityName'];
         this.customerNumber = this._activatedRoute.snapshot.queryParams['customerNumber'];
         if (this.customerNumber) {
             this.isExternalCreation = true;
@@ -105,7 +112,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.setPermissions();
 
         this.show(this.opportunityId);
-        this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('NewOpportunities') : this.opportunityName));
     }
 
     /***
@@ -113,6 +119,15 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      */
     setPermissions() {
         this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');
+
+        // Dynamic at runtime Permissions
+        const permissionsRequests: Observable<any>[] = [
+            this._opportunityUsersServiceProxy.getCanViewAssignedUsersWidget(this.opportunityId)
+        ];
+        forkJoin([...permissionsRequests])
+            .subscribe(([getCanViewAssignedUsersWidget]) => {
+                this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+            });
     }
 
     /**
@@ -192,6 +207,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
 
                     this.showSaveButton = !this.isReadOnlyMode;
+
+                    this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
 
                 }, (error) => {
                     this.goToOpportunities();

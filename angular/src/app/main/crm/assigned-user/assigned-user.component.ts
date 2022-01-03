@@ -49,6 +49,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
     saving = false;
     assignedUsersExists: AccountUserLookupTableDto[];
     canAssignUser = false;
+    canDeleteUser = false;
 
     leadCompanyNameFilter = '';
 
@@ -78,10 +79,22 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
      * Load permissions
      */
     private loadPermissions() {
-        if ('Account' === this.componentType) {
-            this.canAssignUser = this.isGranted('Pages.AccountUsers.Create');
-        } else {
-            this.canAssignUser = true;
+
+        switch (this.componentType) {
+            case 'Account':
+                this.canAssignUser = this.isGranted('Pages.AccountUsers.Create');
+                this.canDeleteUser = this.isGranted('Pages.AccountUsers.Delete');
+                break;
+
+            case 'Lead':
+                this.canAssignUser = this.isGranted('Pages.LeadUsers.Create');
+                this.canDeleteUser = this.isGranted('Pages.LeadUsers.Delete');
+                break;
+
+            case 'Opportunity':
+                this.canAssignUser = this.isGranted('Pages.OpportunityUsers.Create');
+                this.canDeleteUser = this.isGranted('Pages.OpportunityUsers.Delete');
+                break;
         }
     }
 
