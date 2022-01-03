@@ -121,6 +121,7 @@
                                             [(ngModel)]="selectedAssignedUsersFilter"
                                             optionLabel="displayName"
                                             display="chip"
+                                            [style]="{'width':'100%'}"
                                             [placeholder]="l('FilterByAssignee')"
                                             [emptyMessage]="l('NoRecordsFound')"
                                             (onChange)="getActivities()"
@@ -133,7 +134,7 @@
                                         <p-dropdown
                                             id="AccountTypeFilter"
                                             name="AccountTypeFilter"
-                                            [options]="activitySourceTypes"
+                                            [options]="activitySourceTypeFilters"
                                             [(ngModel)]="selectedActivitySourceTypesFilter"
                                             optionLabel="displayName"
                                             [placeholder]="l('FilterBySourceType')"

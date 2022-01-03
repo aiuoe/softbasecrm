@@ -53,10 +53,10 @@ namespace SBCRM.Authorization
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditContact"));
             //contacts.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteContact"));
 
-            var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
-            countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
-            countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
-            countries.CreateChildPermission(AppPermissions.Pages_Countries_Delete, L("DeleteCountry"));
+            //var countries = pages.CreateChildPermission(AppPermissions.Pages_Countries, L("Countries"));
+            //countries.CreateChildPermission(AppPermissions.Pages_Countries_Create, L("CreateNewCountry"));
+            //countries.CreateChildPermission(AppPermissions.Pages_Countries_Edit, L("EditCountry"));
+            //countries.CreateChildPermission(AppPermissions.Pages_Countries_Delete, L("DeleteCountry"));
 
             //var accountUsers = pages.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerAssignUsers"));
             //accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
@@ -73,9 +73,10 @@ namespace SBCRM.Authorization
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Edit, L("EditOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Delete, L("DeleteOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Events, L("OpportunityViewEvents"));
-            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_ViewAssignedUserFilter, L("OpportunityViewAssignedUserFilter"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic, L("OpportunityViewAllOpportunities__Dynamic"));
 
-            var opportunityUsers = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityUsers"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_View__Dynamic, L("OpportunityViewDynamicAssignUsers"));
+            var opportunityUsers = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityViewAssignUsers"));
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Create, L("CreateNewOpportunityUser"));
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Edit, L("EditOpportunityUser"));
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Delete, L("DeleteOpportunityUser"));
@@ -87,7 +88,8 @@ namespace SBCRM.Authorization
 
             #region Module Configuration
 
-            Permission configuration = context.GetPermissionOrNull(AppPermissions.Pages_Configuration) ?? context.CreatePermission(AppPermissions.Pages_Configuration, L("Configuration"));
+            //Permission configuration = context.GetPermissionOrNull(AppPermissions.Pages_Configuration) ?? context.CreatePermission(AppPermissions.Pages_Configuration, L("Configuration"));
+            var configuration = pages.CreateChildPermission(AppPermissions.Pages_Configuration, L("Configuration"));
 
             Permission opportunityStages = configuration.CreateChildPermission(AppPermissions.Pages_OpportunityStages, L("OpportunityStages"));
             opportunityStages.CreateChildPermission(AppPermissions.Pages_OpportunityStages_Create, L("CreateNewOpportunityStage"));
@@ -111,10 +113,10 @@ namespace SBCRM.Authorization
 
             #endregion Module Configuration
 
-            var leadUsers = pages.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadUsers"));
-            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
-            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Edit, L("EditLeadUser"));
-            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Delete, L("DeleteLeadUser"));
+            //var leadUsers = pages.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadUsers"));
+            //leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
+            //leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Edit, L("EditLeadUser"));
+            //leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Delete, L("DeleteLeadUser"));
 
             var priorities = pages.CreateChildPermission(AppPermissions.Pages_Priorities, L("Priorities"));
             priorities.CreateChildPermission(AppPermissions.Pages_Priorities_Create, L("CreateNewPriority"));
@@ -125,9 +127,15 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Create, L("CreateNewLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Edit, L("EditLead"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Delete, L("DeleteLead"));
-            leads.CreateChildPermission(AppPermissions.Pages_Leads_ViewAssignedUserFilter, L("LeadViewAssignedUserFilter"));
+            leads.CreateChildPermission(AppPermissions.Pages_Leads_ViewAllLeads__Dynamic, L("LeadViewAllLeads__Dynamic"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
+
+            leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
+            var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));
+            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
+            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Edit, L("EditLeadUser"));
+            leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Delete, L("DeleteLeadUser"));
 
             var industries = pages.CreateChildPermission(AppPermissions.Pages_Industries, L("Industries"));
             industries.CreateChildPermission(AppPermissions.Pages_Industries_Create, L("CreateNewIndustry"));
@@ -149,7 +157,6 @@ namespace SBCRM.Authorization
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
-            
 
             var accountContact = customer.CreateChildPermission(AppPermissions.Pages_Contacts, L("CustomerViewAssignContacts"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewAccountContact"));
@@ -162,15 +169,15 @@ namespace SBCRM.Authorization
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Edit, L("EditAccountType"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Delete, L("DeleteAccountType"));
 
-            var arTerms = pages.CreateChildPermission(AppPermissions.Pages_ARTerms, L("ARTerms"));
-            arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Create, L("CreateNewARTerms"));
-            arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Edit, L("EditARTerms"));
-            arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Delete, L("DeleteARTerms"));
+            //var arTerms = pages.CreateChildPermission(AppPermissions.Pages_ARTerms, L("ARTerms"));
+            //arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Create, L("CreateNewARTerms"));
+            //arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Edit, L("EditARTerms"));
+            //arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Delete, L("DeleteARTerms"));
 
-            var zipCodes = pages.CreateChildPermission(AppPermissions.Pages_ZipCodes, L("ZipCodes"));
-            zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Create, L("CreateNewZipCode"));
-            zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Edit, L("EditZipCode"));
-            zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Delete, L("DeleteZipCode"));
+            //var zipCodes = pages.CreateChildPermission(AppPermissions.Pages_ZipCodes, L("ZipCodes"));
+            //zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Create, L("CreateNewZipCode"));
+            //zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Edit, L("EditZipCode"));
+            //zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Delete, L("DeleteZipCode"));
 
             pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
@@ -190,12 +197,12 @@ namespace SBCRM.Authorization
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Impersonation, L("LoginForUsers"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Unlock, L("Unlock"));
 
-            var languages = administration.CreateChildPermission(AppPermissions.Pages_Administration_Languages, L("Languages"));
-            languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Create, L("CreatingNewLanguage"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Edit, L("EditingLanguage"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Delete, L("DeletingLanguages"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeTexts, L("ChangingTexts"));
-            languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeDefaultLanguage, L("ChangeDefaultLanguage"));
+            //var languages = administration.CreateChildPermission(AppPermissions.Pages_Administration_Languages, L("Languages"));
+            //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Create, L("CreatingNewLanguage"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
+            //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Edit, L("EditingLanguage"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
+            //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Delete, L("DeletingLanguages"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
+            //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeTexts, L("ChangingTexts"));
+            //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeDefaultLanguage, L("ChangeDefaultLanguage"));
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_AuditLogs, L("AuditLogs"));
 
@@ -206,33 +213,33 @@ namespace SBCRM.Authorization
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_UiCustomization, L("VisualSettings"));
 
-            var webhooks = administration.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription, L("Webhooks"));
-            webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_Create, L("CreatingWebhooks"));
-            webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_Edit, L("EditingWebhooks"));
-            webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_ChangeActivity, L("ChangingWebhookActivity"));
-            webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_Detail, L("DetailingSubscription"));
-            webhooks.CreateChildPermission(AppPermissions.Pages_Administration_Webhook_ListSendAttempts, L("ListingSendAttempts"));
-            webhooks.CreateChildPermission(AppPermissions.Pages_Administration_Webhook_ResendWebhook, L("ResendingWebhook"));
+            //var webhooks = administration.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription, L("Webhooks"));
+            //webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_Create, L("CreatingWebhooks"));
+            //webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_Edit, L("EditingWebhooks"));
+            //webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_ChangeActivity, L("ChangingWebhookActivity"));
+            //webhooks.CreateChildPermission(AppPermissions.Pages_Administration_WebhookSubscription_Detail, L("DetailingSubscription"));
+            //webhooks.CreateChildPermission(AppPermissions.Pages_Administration_Webhook_ListSendAttempts, L("ListingSendAttempts"));
+            //webhooks.CreateChildPermission(AppPermissions.Pages_Administration_Webhook_ResendWebhook, L("ResendingWebhook"));
 
-            var dynamicProperties = administration.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties, L("DynamicProperties"));
-            dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties_Create, L("CreatingDynamicProperties"));
-            dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties_Edit, L("EditingDynamicProperties"));
-            dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties_Delete, L("DeletingDynamicProperties"));
+            //var dynamicProperties = administration.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties, L("DynamicProperties"));
+            //dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties_Create, L("CreatingDynamicProperties"));
+            //dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties_Edit, L("EditingDynamicProperties"));
+            //dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicProperties_Delete, L("DeletingDynamicProperties"));
 
-            var dynamicPropertyValues = dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue, L("DynamicPropertyValue"));
-            dynamicPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue_Create, L("CreatingDynamicPropertyValue"));
-            dynamicPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue_Edit, L("EditingDynamicPropertyValue"));
-            dynamicPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue_Delete, L("DeletingDynamicPropertyValue"));
+            //var dynamicPropertyValues = dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue, L("DynamicPropertyValue"));
+            //dynamicPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue_Create, L("CreatingDynamicPropertyValue"));
+            //dynamicPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue_Edit, L("EditingDynamicPropertyValue"));
+            //dynamicPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicPropertyValue_Delete, L("DeletingDynamicPropertyValue"));
 
-            var dynamicEntityProperties = dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties, L("DynamicEntityProperties"));
-            dynamicEntityProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties_Create, L("CreatingDynamicEntityProperties"));
-            dynamicEntityProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties_Edit, L("EditingDynamicEntityProperties"));
-            dynamicEntityProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties_Delete, L("DeletingDynamicEntityProperties"));
+            //var dynamicEntityProperties = dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties, L("DynamicEntityProperties"));
+            //dynamicEntityProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties_Create, L("CreatingDynamicEntityProperties"));
+            //dynamicEntityProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties_Edit, L("EditingDynamicEntityProperties"));
+            //dynamicEntityProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityProperties_Delete, L("DeletingDynamicEntityProperties"));
 
-            var dynamicEntityPropertyValues = dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue, L("EntityDynamicPropertyValue"));
-            dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Create, L("CreatingDynamicEntityPropertyValue"));
-            dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Edit, L("EditingDynamicEntityPropertyValue"));
-            dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Delete, L("DeletingDynamicEntityPropertyValue"));
+            //var dynamicEntityPropertyValues = dynamicProperties.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue, L("EntityDynamicPropertyValue"));
+            //dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Create, L("CreatingDynamicEntityPropertyValue"));
+            //dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Edit, L("EditingDynamicEntityPropertyValue"));
+            //dynamicEntityPropertyValues.CreateChildPermission(AppPermissions.Pages_Administration_DynamicEntityPropertyValue_Delete, L("DeletingDynamicEntityPropertyValue"));
 
             pages.CreateChildPermission(AppPermissions.Pages_GlobalSearch, L("GlobalSearch"));
 

@@ -94,7 +94,7 @@ namespace SBCRM.Crm
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Opportunities_ViewAssignedUserFilter);
+                currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);
         }
 
         /// <summary>

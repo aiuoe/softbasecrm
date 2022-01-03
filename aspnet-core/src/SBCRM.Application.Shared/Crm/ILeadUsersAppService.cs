@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
-using System.Collections.Generic;
 using System.Collections.Generic;
 
 namespace SBCRM.Crm
@@ -14,6 +11,16 @@ namespace SBCRM.Crm
     /// </summary>
     public interface ILeadUsersAppService : IApplicationService
     {
+        /// <summary>
+        /// Method to get permission to VIEW Assigned Users widget in Leads
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_LeadUsers"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_LeadUsers_View__Dynamic"/> permission and is assigned in the Lead
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        Task<bool> GetCanViewAssignedUsersWidget(int leadId);
+
         /// <summary>
         /// Get all lead users
         /// </summary>

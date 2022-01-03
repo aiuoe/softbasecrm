@@ -18,12 +18,11 @@ namespace SBCRM.Crm
     /// <summary>
     /// App Service that manages the LeadUser transactions
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
     public class LeadUsersAppService : SBCRMAppServiceBase, ILeadUsersAppService
     {
         private readonly IRepository<LeadUser> _leadUserRepository;
-        private readonly IRepository<Lead, int> _lookup_leadRepository;
-        private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IRepository<Lead, int> _lookupLeadRepository;
+        private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
 
@@ -31,59 +30,90 @@ namespace SBCRM.Crm
         /// Constructor method
         /// </summary>
         /// <param name="leadUserRepository"></param>
-        /// <param name="lookup_leadRepository"></param>
-        /// <param name="lookup_userRepository"></param>
+        /// <param name="lookupLeadRepository"></param>
+        /// <param name="lookupUserRepository"></param>
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
-        public LeadUsersAppService(IRepository<LeadUser> leadUserRepository, 
-                                    IRepository<Lead, int> lookup_leadRepository, 
-                                    IRepository<User, long> lookup_userRepository,
-                                    IEntityChangeSetReasonProvider reasonProvider,
-                                    IUnitOfWorkManager unitOfWorkManager)
+        public LeadUsersAppService(IRepository<LeadUser> leadUserRepository,
+            IRepository<Lead, int> lookupLeadRepository,
+            IRepository<User, long> lookupUserRepository,
+            IEntityChangeSetReasonProvider reasonProvider,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _leadUserRepository = leadUserRepository;
-            _lookup_leadRepository = lookup_leadRepository;
-            _lookup_userRepository = lookup_userRepository;
+            _lookupLeadRepository = lookupLeadRepository;
+            _lookupUserRepository = lookupUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
-
         }
+
+        /// <summary>
+        /// Method to get permission to VIEW Assigned Users widget in Leads
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_LeadUsers"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_LeadUsers_View__Dynamic"/> permission and is assigned in the Lead
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<bool> GetCanViewAssignedUsersWidget(int leadId)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var hasDynamicPermission =
+                await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_LeadUsers_View__Dynamic);
+            var hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_LeadUsers);
+
+            var currentUserIsAssignedInCustomer = _leadUserRepository
+                .GetAll()
+                .Where(x => x.LeadId == leadId)
+                .Any(x => x.UserId == currentUser.Id);
+
+            var canViewAssignedUsersDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
+            return canViewAssignedUsersDynamic || hasStaticPermission;
+        }
+
         /// <summary>
         /// Gets all the lead users given a Lead Id
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_LeadUsers,
+                AppPermissions.Pages_LeadUsers_View__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         public async Task<PagedResultDto<GetLeadUserForViewDto>> GetAll(GetAllLeadUsersInput input)
         {
-
             var filteredLeadUsers = _leadUserRepository.GetAll()
-                        .Include(e => e.LeadFk)
-                        .Include(e => e.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter), e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter), e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
-                        .Where(e => e.LeadFk != null && e.LeadFk.Id == input.LeadId)
-                        .Where(p => !p.IsDeleted);
+                .Include(e => e.LeadFk)
+                .Include(e => e.UserFk)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.LeadCompanyNameFilter),
+                    e => e.LeadFk != null && e.LeadFk.CompanyName == input.LeadCompanyNameFilter)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.UserNameFilter),
+                    e => e.UserFk != null && e.UserFk.Name == input.UserNameFilter)
+                .Where(e => e.LeadFk != null && e.LeadFk.Id == input.LeadId)
+                .Where(p => !p.IsDeleted);
 
             var pagedAndFilteredLeadUsers = filteredLeadUsers
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
             var leadUsers = from o in pagedAndFilteredLeadUsers
-                            join o1 in _lookup_leadRepository.GetAll() on o.LeadId equals o1.Id into j1
-                            from s1 in j1.DefaultIfEmpty()
-
-                            join o2 in _lookup_userRepository.GetAll() on o.UserId equals o2.Id into j2
-                            from s2 in j2.DefaultIfEmpty()
-
-                            select new
-                            {
-
-                                Id = o.Id,
-                                LeadCompanyName = s1 == null || s1.CompanyName == null ? "" : s1.CompanyName.ToString(),
-                                UserName = s2 == null || s2.Name == null ? "" : s2.FullName.ToString(),
-                                UserId = o.UserId
-                            };
+                join o1 in _lookupLeadRepository.GetAll() on o.LeadId equals o1.Id into j1
+                from s1 in j1.DefaultIfEmpty()
+                join o2 in _lookupUserRepository.GetAll() on o.UserId equals o2.Id into j2
+                from s2 in j2.DefaultIfEmpty()
+                select new
+                {
+                    Id = o.Id,
+                    LeadCompanyName = s1 == null || s1.CompanyName == null ? "" : s1.CompanyName.ToString(),
+                    UserName = s2 == null || s2.Name == null ? "" : s2.FullName.ToString(),
+                    UserId = o.UserId
+                };
 
             var totalCount = await filteredLeadUsers.CountAsync();
 
@@ -96,7 +126,6 @@ namespace SBCRM.Crm
                 {
                     LeadUser = new LeadUserDto
                     {
-
                         Id = o.Id,
                         UserId = o.UserId
                     },
@@ -111,7 +140,6 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         /// <summary>
@@ -124,17 +152,17 @@ namespace SBCRM.Crm
         {
             var leadUser = await _leadUserRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetLeadUserForEditOutput { LeadUser = ObjectMapper.Map<CreateOrEditLeadUserDto>(leadUser) };
+            var output = new GetLeadUserForEditOutput {LeadUser = ObjectMapper.Map<CreateOrEditLeadUserDto>(leadUser)};
 
             if (output.LeadUser.LeadId != null)
             {
-                var _lookupLead = await _lookup_leadRepository.FirstOrDefaultAsync((int)output.LeadUser.LeadId);
+                var _lookupLead = await _lookupLeadRepository.FirstOrDefaultAsync((int) output.LeadUser.LeadId);
                 output.LeadCompanyName = _lookupLead?.CompanyName?.ToString();
             }
 
             if (output.LeadUser.UserId != null)
             {
-                var _lookupUser = await _lookup_userRepository.FirstOrDefaultAsync((long)output.LeadUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.LeadUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -168,11 +196,10 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditLeadUserDto input)
         {
             var leadUser = ObjectMapper.Map<LeadUser>(input);
-            
+
             leadUser.TenantId = GetTenantId();
 
             await _leadUserRepository.InsertAsync(leadUser);
-
         }
 
 
@@ -184,9 +211,8 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadUsers_Edit)]
         protected virtual async Task Update(CreateOrEditLeadUserDto input)
         {
-            var leadUser = await _leadUserRepository.FirstOrDefaultAsync((int)input.Id);
+            var leadUser = await _leadUserRepository.FirstOrDefaultAsync((int) input.Id);
             ObjectMapper.Map(input, leadUser);
-
         }
 
         /// <summary>
@@ -207,7 +233,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
         public async Task<List<LeadUserLeadLookupTableDto>> GetAllLeadForTableDropdown()
         {
-            return await _lookup_leadRepository.GetAll()
+            return await _lookupLeadRepository.GetAll()
                 .Select(lead => new LeadUserLeadLookupTableDto
                 {
                     Id = lead.Id,
@@ -223,7 +249,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadUsers)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            return await _lookup_userRepository.GetAll()
+            return await _lookupUserRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {
                     Id = user.Id,
@@ -265,6 +291,5 @@ namespace SBCRM.Crm
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
         }
-
     }
 }
