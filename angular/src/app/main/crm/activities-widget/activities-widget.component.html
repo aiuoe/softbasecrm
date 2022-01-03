@@ -58,10 +58,10 @@
                                             {{l('Asignee')}}
                                             <p-sortIcon field="userName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px">
+                                        <!-- <th style="width: 150px">
                                             {{l('Schedule-DueDate')}}
                                             <p-sortIcon field="userName"></p-sortIcon>
-                                        </th>
+                                        </th> -->
 
                                     </tr>
                                 </ng-template>
@@ -76,23 +76,23 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>                                                        
                                                         <a class="dropdown-item" href="javascript:;"
-                                                        (click)="deleteActivity()">{{l('Delete')}}</a>
+                                                        (click)="deleteActivity(record.activity)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
                                         <td style="width:150px" >
                                             <span class="p-column-title"> {{l('Type')}}</span>
-                                            <!-- TO DO -->
+                                            {{ record.activityTaskTypeDescription }}
                                         </td>
                                         <td style="width:150px" >
                                             <span class="p-column-title"> {{l('Asignee')}}</span>
-                                            <!-- TO DO -->
+                                            {{ record.userName }}
                                         </td>
-                                        <td style="width:150px">
-                                            <span class="p-column-title"> {{l('Schedule-DueDate')}}</span>
+                                        <!-- <td style="width:150px"> -->
+                                            <!-- <span class="p-column-title"> {{l('Schedule-DueDate')}}</span> -->
                                             <!-- TO DO -->
-                                        </td>
+                                        <!-- </td> -->
 
                                     </tr>
 
