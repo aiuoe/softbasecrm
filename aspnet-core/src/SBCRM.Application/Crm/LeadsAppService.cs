@@ -499,6 +499,19 @@ namespace SBCRM.Crm
         {
             var lead = await _leadRepository.FirstOrDefaultAsync(input.Id);
 
+            if (lead == null)
+                return null;
+
+            if (!CanSeeAllLeads())
+            {
+                List<long> usersID = (from user in _leadUserRepository.GetAll().Include(x => x.UserFk)
+                                      where user.LeadId == lead.Id
+                                      select user.UserFk.Id).ToList();
+                long userID = GetCurrentUser().Id;
+                if (!usersID.Contains(userID))
+                    return null;
+            }
+
             var output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 
             if (output.Lead.LeadSourceId != null)

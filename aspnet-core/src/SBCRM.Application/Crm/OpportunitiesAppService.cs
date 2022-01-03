@@ -90,7 +90,7 @@ namespace SBCRM.Crm
         /// The user will be shown all the leads if he has permission for it
         /// </summary>
         /// <returns></returns>
-        public bool CanSeeAllLeads()
+        public bool CanSeeAllOpportunities()
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
@@ -137,7 +137,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
-                        .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(!CanSeeAllOpportunities(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
@@ -387,7 +387,7 @@ namespace SBCRM.Crm
             if (opportunity == null)
                 return null;
 
-            if (!CanSeeAllLeads())
+            if (!CanSeeAllOpportunities())
             {
                 List<long> usersID = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
                                       where user.OpportunityId == opportunity.Id
@@ -539,7 +539,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
-                        .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(!CanSeeAllOpportunities(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 

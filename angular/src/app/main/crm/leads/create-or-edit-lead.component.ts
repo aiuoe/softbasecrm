@@ -148,14 +148,20 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
             });
             this._leadsServiceProxy.getLeadForEdit(leadId)
                 .subscribe((result) => {
-                    this.lead = result.lead;
-                    this.breadcrumbs.push(new BreadcrumbItem(result.lead.companyName || this.l('EditLead')));
-                    this.leadSourceDescription = result.leadSourceDescription;
-                    this.leadStatusDescription = result.leadStatusDescription;
-                    this.priorityDescription = result.priorityDescription;
+                                        
+                    if (result.lead == null) {                        
+                        this.goToLeads();                       
+                    }
+                    else {                    
+                        this.lead = result.lead;
+                        this.breadcrumbs.push(new BreadcrumbItem(result.lead.companyName || this.l('EditLead')));
+                        this.leadSourceDescription = result.leadSourceDescription;
+                        this.leadStatusDescription = result.leadStatusDescription;
+                        this.priorityDescription = result.priorityDescription;
 
-                    this.active = true;
-                    this.showSaveButton = !this.isReadOnlyMode;
+                        this.active = true;
+                        this.showSaveButton = !this.isReadOnlyMode;
+                    }   
                 });
         }
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
