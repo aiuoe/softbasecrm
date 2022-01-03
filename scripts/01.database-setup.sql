@@ -1,3 +1,9 @@
+UPDATE [web].[AbpLanguages] SET IsDisabled = 1 WHERE Name <> 'en';
+GO
+
+UPDATE [web].AbpUsers SET Password = 'AQAAAAEAACcQAAAAEN2zqWVIB07bQAxWs3vewH6GLxt++3TzSboByFAJDxuG9m3WNmWJ2sFcmXg0jEQMLg==' WHERE UserName = 'admin';
+
+GO
 
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('New', getdate(), '#2C4AB6', 0, 1, 1, 'NEW', 1);
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('In progress', getdate(), '#FF8900', 0, 1, 0, 'IN_PROGRESS', 2);

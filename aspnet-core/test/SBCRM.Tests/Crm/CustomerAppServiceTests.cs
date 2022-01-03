@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Abp.Domain.Repositories;
 using Abp.EntityHistory;
-using Abp.Localization;
+using Abp.Runtime.Validation;
 using Abp.UI;
+using Bogus;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using SBCRM.Base;
 using SBCRM.Crm;
 using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
@@ -18,73 +20,83 @@ using Xunit;
 namespace SBCRM.Tests.Crm
 {
     /// <summary>
-    /// Unit test for Customers Service
+    /// Tests suite for Customers(Accounts) Service
     /// </summary>
     public class CustomerAppServiceTests : AppTestBase
     {
-        private readonly ILocalizationManager _localization;
-
-        public CustomerAppServiceTests()
-        {
-            _localization = Resolve<ILocalizationManager>();
-        }
-        
         [Fact]
         [Trait("Category", "UnitTest")]
         public async Task CreateCustomer_WithNameAlreadyExist_ReturnsError()
         {
-            var customerName = "Softbase Systems";
-
             // Arrange
-            var existingCustomer = new List<Customer>
-            {
-                new()
-                {
-                    Id = 1,
-                    Name = customerName
-                }
-            };
+            var existingCustomer = new Faker<Customer>()
+                .RuleFor(u => u.Name, (f) => f.Company.CompanyName())
+                .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
+                .Generate(20);
 
-            var fakeCustomerRepository = Substitute.For<Abp.Domain.Repositories.IRepository<Customer>>();
-            (fakeCustomerRepository.GetAll()).Returns(x => existingCustomer.AsAsyncQueryable());
+            var customer = new CreateOrEditCustomerDto { Name = existingCustomer.First().Name, Phone = existingCustomer.First().Phone };
 
-            LocalIocManager.IocContainer.Register(Component.For<Abp.Domain.Repositories.IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
+            var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
+            fakeCustomerRepository.GetAll().Returns(_ => existingCustomer.AsAsyncQueryable());
+
+            Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
 
             // Act
-            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>()
-                .CreateOrEdit(new CreateOrEditCustomerDto {Name = customerName, Phone = "1234856"});
+            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
 
             // Assert
             var userFriendlyException = await Assert.ThrowsAsync<UserFriendlyException>(CustomerCreationDelegate);
-            Assert.Equal(_localization.GetString(SBCRMConsts.LocalizationSourceName, "CustomerNameAlreadyExist"),
-                userFriendlyException.Message);
+            Assert.Equal(L("CustomerNameAlreadyExist"),userFriendlyException.Message);
         }
+
+        [Fact]
+        [Trait("Category", "UnitTest")]
+        public async Task CreateCustomer_WithInvalidFields_ReturnsError()
+        {
+            // Arrange
+            var customer = new CreateOrEditCustomerDto { Name = string.Empty, Phone = string.Empty };
+
+            var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
+            fakeCustomerRepository.GetAll().Returns(_ => new List<Customer>().AsAsyncQueryable());
+
+            Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
+
+            // Act
+            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
+
+            // Assert
+            var validationException = await Assert.ThrowsAsync<AbpValidationException>(CustomerCreationDelegate);
+            Assert.NotNull(validationException);
+            Assert.NotEmpty(validationException.ValidationErrors);
+        }
+
 
         [Fact]
         [Trait("Category", "UnitTest")]
         public async Task CreateCustomer_WithValidFields_ButDefaultAccountTypeIsNotDefined_ReturnsError()
         {
-            var customerName = "Softbase Systems";
-
             // Arrange
-            var fakeCustomerRepository = Substitute.For<Abp.Domain.Repositories.IRepository<Customer>>();
-            (fakeCustomerRepository.GetAll()).Returns(x => new List<Customer>().AsAsyncQueryable());
+            var customer = new Faker<CreateOrEditCustomerDto>()
+                .RuleFor(u => u.Name, (f) => f.Company.CompanyName())
+                .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
+                .Generate(1)
+                .First();
+            
+            var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
+            fakeCustomerRepository.GetAll().Returns(_ => new List<Customer>().AsAsyncQueryable());
 
-            var fakeAccountTypeRepository = Substitute.For<Abp.Domain.Repositories.IRepository<AccountType>>();
+            var fakeAccountTypeRepository = Substitute.For<IRepository<AccountType>>();
             (fakeAccountTypeRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<AccountType, bool>>>())).ReturnsNull();
 
-            LocalIocManager.IocContainer.Register(Component.For<Abp.Domain.Repositories.IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
-            LocalIocManager.IocContainer.Register(Component.For<Abp.Domain.Repositories.IRepository<AccountType>>().Instance(fakeAccountTypeRepository).IsDefault());
-            
+            Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
+            Register(Component.For<IRepository<AccountType>>().Instance(fakeAccountTypeRepository).IsDefault());            
 
             // Act
-            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>()
-                .CreateOrEdit(new CreateOrEditCustomerDto { Name = customerName, Phone = "1234856" });
+            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
 
             // Assert
             var userFriendlyException = await Assert.ThrowsAsync<UserFriendlyException>(CustomerCreationDelegate);
-            Assert.Equal(_localization.GetString(SBCRMConsts.LocalizationSourceName, "DefaultAccountTypeNotExist"),
-                userFriendlyException.Message);
+            Assert.Equal(L("DefaultAccountTypeNotExist"), userFriendlyException.Message);
         }
 
 
@@ -92,14 +104,19 @@ namespace SBCRM.Tests.Crm
         [Trait("Category", "UnitTest")]
         public async Task CreateCustomer_WithValidFields_ReturnsSuccess()
         {
-            var customerName = "Softbase Systems";
+            // Arrange
+            var customer = new Faker<CreateOrEditCustomerDto>()
+                .RuleFor(u => u.Name, (f) => f.Company.CompanyName())
+                .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
+                .Generate(1)
+                .First();
 
             // Arrange
-            var fakeCustomerRepository = Substitute.For<Abp.Domain.Repositories.IRepository<Customer>>();
-            (fakeCustomerRepository.GetAll()).Returns(x => new List<Customer>().AsAsyncQueryable());
-            (fakeCustomerRepository.InsertAsync(Arg.Any<Customer>())).Returns(x => Task.FromResult(new Customer()));
+            var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
+            fakeCustomerRepository.GetAll().Returns(_ => new List<Customer>().AsAsyncQueryable());
+            fakeCustomerRepository.InsertAsync(Arg.Any<Customer>()).Returns(_ => Task.FromResult(new Customer()));
 
-            var fakeAccountTypeRepository = Substitute.For<Abp.Domain.Repositories.IRepository<AccountType>>();
+            var fakeAccountTypeRepository = Substitute.For<IRepository<AccountType>>();
             (fakeAccountTypeRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<AccountType, bool>>>())).Returns(new AccountType()
             {
                 Id = 1,
@@ -108,22 +125,47 @@ namespace SBCRM.Tests.Crm
             var fakeEntityChangeReasonProvider = Substitute.For<IEntityChangeSetReasonProvider>();
             fakeEntityChangeReasonProvider.Use(Arg.Any<string>()).ReturnsNull();
 
-            var fakeCustomerSequenceRepository = Substitute.For<ISoftBaseCustomerSequenceRepository>();
-            (fakeCustomerSequenceRepository.GetNextSequence()).Returns(x => 123456);
+            var fakeCustomerSequenceRepository = Substitute.For<Base.ISoftBaseCustomerSequenceRepository>();
+            fakeCustomerSequenceRepository.GetNextSequence().Returns(_ => new Random().Next(10000, 50000));
 
-            LocalIocManager.IocContainer.Register(Component.For<Abp.Domain.Repositories.IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
-            LocalIocManager.IocContainer.Register(Component.For<Abp.Domain.Repositories.IRepository<AccountType>>().Instance(fakeAccountTypeRepository).IsDefault());
-            LocalIocManager.IocContainer.Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider).IsDefault());
-            LocalIocManager.IocContainer.Register(Component.For<ISoftBaseCustomerSequenceRepository>().Instance(fakeCustomerSequenceRepository).IsDefault());
-
+            Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
+            Register(Component.For<IRepository<AccountType>>().Instance(fakeAccountTypeRepository).IsDefault());
+            Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider).IsDefault());
+            Register(Component.For<Base.ISoftBaseCustomerSequenceRepository>().Instance(fakeCustomerSequenceRepository).IsDefault());
 
             // Act
-            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>()
-                .CreateOrEdit(new CreateOrEditCustomerDto { Name = customerName, Phone = "1234856" });
+            async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
 
             // Assert
             var exception = await Record.ExceptionAsync(CustomerCreationDelegate);
             Assert.Null(exception);
+        }
+
+
+        [Fact]
+        [Trait("Category", "UnitTest")]
+        public async Task EditCustomer_WithValidFields_ButCustomerDoesNotExist_ReturnsError()
+        {
+            // Arrange
+            var customer = new Faker<CreateOrEditCustomerDto>()
+                .RuleFor(u => u.Number, (f) => f.Random.Number(1, 5).ToString())
+                .RuleFor(u => u.Name, (f) => f.Company.CompanyName())
+                .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
+                .Generate(1)
+                .First();
+
+            // Arrange
+            var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
+            fakeCustomerRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<Customer, bool>>>()).Returns(_ => (Customer)null);
+
+            Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
+
+            // Act
+            async Task CustomerEditionDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
+
+            // Assert
+            var userFriendlyException = await Assert.ThrowsAsync<UserFriendlyException>(CustomerEditionDelegate);
+            Assert.Equal(L("CustomerNotFound"), userFriendlyException.Message);
         }
     }
 }

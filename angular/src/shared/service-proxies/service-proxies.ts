@@ -28207,7 +28207,7 @@ export interface ICreateOrEditCountryDto {
 export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
     number!: string | undefined;
     billTo!: string | undefined;
-    name!: string | undefined;
+    name!: string;
     phone!: string | undefined;
     eMail!: string | undefined;
     wwwAddress!: string | undefined;
@@ -28296,7 +28296,7 @@ export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
 export interface ICreateOrEditCustomerDto {
     number: string | undefined;
     billTo: string | undefined;
-    name: string | undefined;
+    name: string;
     phone: string | undefined;
     eMail: string | undefined;
     wwwAddress: string | undefined;
