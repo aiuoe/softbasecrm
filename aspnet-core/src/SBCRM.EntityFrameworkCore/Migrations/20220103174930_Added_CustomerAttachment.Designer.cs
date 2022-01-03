@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220103174930_Added_CustomerAttachment")]
+    partial class Added_CustomerAttachment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2148,10 +2150,6 @@ namespace SBCRM.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("CustomerNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
 
@@ -2178,8 +2176,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerNumber");
 
                     b.ToTable("CustomerAttachments");
                 });
@@ -4702,17 +4698,6 @@ namespace SBCRM.Migrations
                     b.Navigation("OpportunityFk");
 
                     b.Navigation("UserFk");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.CustomerAttachment", b =>
-                {
-                    b.HasOne("SBCRM.Legacy.Customer", "CustomerFk")
-                        .WithMany()
-                        .HasForeignKey("CustomerNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CustomerFk");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.Lead", b =>

@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
+            var customerAttachments = pages.CreateChildPermission(AppPermissions.Pages_CustomerAttachments, L("CustomerAttachments"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Create, L("CreateNewCustomerAttachment"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Edit, L("EditCustomerAttachment"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Delete, L("DeleteCustomerAttachment"));
+
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             var createActivity = activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_Assign_Other_Users, L(AppPermissions.Pages_Activities_Create_Assign_Other_Users));
@@ -149,7 +154,6 @@ namespace SBCRM.Authorization
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
-            
 
             var accountContact = customer.CreateChildPermission(AppPermissions.Pages_Contacts, L("CustomerViewAssignContacts"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Create, L("CreateNewAccountContact"));
