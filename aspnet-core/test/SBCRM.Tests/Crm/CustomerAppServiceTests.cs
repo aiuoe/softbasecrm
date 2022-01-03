@@ -20,7 +20,7 @@ using Xunit;
 namespace SBCRM.Tests.Crm
 {
     /// <summary>
-    /// Unit test for Customers(Accounts) Service
+    /// Tests suite for Customers(Accounts) Service
     /// </summary>
     public class CustomerAppServiceTests : AppTestBase
     {
