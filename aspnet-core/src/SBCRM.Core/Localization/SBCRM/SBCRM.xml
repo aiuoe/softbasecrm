@@ -299,7 +299,7 @@
 		<text name="State">State/Province</text>
 		<text name="EnterState">Enter State/Province</text>
 		<text name="Country">Country</text>
-		<text name="EnterCountry">Enter Country</text>
+		<text name="SelectCountry">Select Country</text>
 		<text name="Salutation">Salutation</text>
 		<text name="Phone">Phone</text>
 		<text name="Extention">Extention</text>
