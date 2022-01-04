@@ -1,4 +1,4 @@
-﻿import { Component, Injector, ViewEncapsulation, ViewChild, Input, OnInit } from '@angular/core';
+﻿import { Component, Injector, ViewEncapsulation, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     AccountUsersServiceProxy,
@@ -42,6 +42,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
 
     @Input() componentType = '';
     @Input() idToStore: any;
+    @Output() onSaveAssignedUser: EventEmitter<any> = new EventEmitter<any>();
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -326,6 +327,8 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                     this.saveLeadAssignedUsers(usersList);
                     break;
             }
+
+            this.onSaveAssignedUser.emit(null);
         }
     }
 

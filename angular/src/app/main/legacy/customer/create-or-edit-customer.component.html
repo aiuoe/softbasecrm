@@ -55,6 +55,7 @@
                                                                 id="Customer_Name"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.name"
+                                                                [placeholder]="l('EnterCompanyName')"
                                                                 name="Name"
                                                                 minlength="0"
                                                                 maxlength="255"
@@ -74,6 +75,7 @@
                                                                 id="Customer_Phone"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.phone"
+                                                                [placeholder]="l('EnterCompanyPhone')"
                                                                 name="Phone"
                                                                 minlength="0"
                                                                 maxlength="15"
@@ -97,6 +99,7 @@
                                                                 id="Customer_EMail"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.eMail"
+                                                                [placeholder]="l('EnterCompanyEmail')"
                                                                 name="EMail"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -115,6 +118,7 @@
                                                                 id="Customer_WWWAddress"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.wwwAddress"
+                                                                [placeholder]="l('EnterWebSite')"
                                                                 name="WWWAddress"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -135,6 +139,7 @@
                                                                 id="Customer_Address"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.address"
+                                                                [placeholder]="l('EnterAddress')"
                                                                 name="Address"
                                                                 minlength="0"
                                                                 maxlength="255"
@@ -153,6 +158,7 @@
                                                                 id="Customer_POBox"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.poBox"
+                                                                [placeholder]="l('EnterPOBox')"
                                                                 name="POBox"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -174,7 +180,7 @@
                                                                         [(ngModel)]="customer.country"
                                                                         [disabled]="this.isReadOnlyMode || !this.isNew"
                                                                         optionLabel="displayName"
-                                                                        placeholder="Select Country"
+                                                                        [placeholder]="l('SelectCountry')"
                                                                         [showClear]="true"
                                                                         optionValue="code">
                                                             </p-dropdown>
@@ -190,6 +196,7 @@
                                                                 id="Customer_State"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.state"
+                                                                [placeholder]="l('EnterState')"
                                                                 name="State"
                                                                 minlength="0"
                                                                 maxlength="255"
@@ -207,6 +214,7 @@
                                                                 id="Customer_City"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.city"
+                                                                [placeholder]="l('EnterCity')"
                                                                 name="City"
                                                                 minlength="0"
                                                                 maxlength="255"
@@ -224,6 +232,7 @@
                                                                 id="Customer_ZipCode"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.zipCode"
+                                                                [placeholder]="l('EnterZipCode')"
                                                                 name="ZipCode"
                                                                 minlength="0"
                                                                 maxlength="255"
@@ -305,6 +314,7 @@
                                                                         #Customer_LeadSource="ngModel"
                                                                         [options]="allLeadSources"
                                                                         [(ngModel)]="customer.leadSourceId"
+                                                                        [placeholder]="l('SelectLeadSource')"
                                                                         [disabled]="this.isReadOnlyMode"
                                                                         optionLabel="displayName"
                                                                         optionValue="id">
@@ -321,6 +331,7 @@
                                                                 id="Customer_DunsCode"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.dunsCode"
+                                                                [placeholder]="l('EnterDuns')"
                                                                 name="DunsCode"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -341,6 +352,7 @@
                                                                 id="Customer_SICCode"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.sicCode"
+                                                                [placeholder]="l('EnterSICCode')"
                                                                 name="SICCode"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -358,6 +370,7 @@
                                                                 id="Customer_SICCode2"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.sicCode2"
+                                                                [placeholder]="l('EnterSICCode2')"
                                                                 name="SICCode2"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -375,6 +388,7 @@
                                                                 id="Customer_SICCode3"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.sicCode3"
+                                                                [placeholder]="l('EnterSICCode3')"
                                                                 name="SICCode3"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -392,6 +406,7 @@
                                                                 id="Customer_SICCode4"
                                                                 class="form-control"
                                                                 [(ngModel)]="customer.sicCode4"
+                                                                [placeholder]="l('EnterSICCode4')"
                                                                 name="SICCode4"
                                                                 minlength="0"
                                                                 maxlength="50"
@@ -1075,7 +1090,9 @@
             <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
                 <app-assigned-user
                     [componentType]="'Account'"
-                    [idToStore]="this.customer.number">
+                    [idToStore]="this.customer.number"
+                    (onSaveAssignedUser)="reloadEvents()"
+                >
                 </app-assigned-user>
             </div>
 
@@ -1087,12 +1104,12 @@
                 </app-customer-contacts>
             </div>
 
-<!--            <div class="col-sm-12 col-lg-6">-->
-<!--                <app-activities-widget-->
-<!--                    [componentType] = "'Account'"-->
-<!--                    [idToStore]="this.customer.number">-->
-<!--                </app-activities-widget>-->
-<!--            </div>-->
+            <div class="col-sm-12 col-lg-6">
+                <app-activities-widget
+                    [componentType] = "'Account'"
+                    [idToStore]="this.customer.number">
+                </app-activities-widget>
+            </div>
         </div>
 
     </div>

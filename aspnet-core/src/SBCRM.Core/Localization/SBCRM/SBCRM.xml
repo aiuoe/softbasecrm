@@ -1,17 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>		
+	<texts>
+		<text name="CustomerFreeAccessToEdit__Dynamic">Can edit all accounts</text>
+        <text name="CustomerScheduleMeeting">Schedule meeting</text>
+        <text name="CustomerHasFreeAccessToScheduleMeeting___Dynamic">Can schedule a meeting on all accounts</text>
+        <text name="CustomerScheduleCall">Schedule call</text>
+        <text name="CustomerHasFreeAccessToScheduleCall__Dynamic">Can schedule a call on all accounts</text>
+        <text name="CustomerEmailReminder">Email reminder </text>
+        <text name="CustomerHasFreeAccessToEmailReminder__Dynamic">Can schedule a email reminder on all accounts</text>
+        <text name="CustomerToDoReminder">To Do Reminder</text>
+        <text name="CustomerHasFreeAccessToDoReminder__Dynamic">Can schedule a to do reminder on all accounts</text>
+		
+		<text name="ScheduleCall">Schedule Call</text>
+		<text name="ScheduleMeeting">Schedule Meeting</text>
+		<text name="EmailReminder">Email Reminder</text>
+		<text name="ToDoReminder">To Do Reminder</text>		
 		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
 		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
 		<text name="AccountNotExist">This Account does not exist or is unavailable</text>
-		<text name="CustomerAccessToAllActions__Dyanmic">Can access to all actions on menu options</text>
-		<text name="ScheduleMeeting">Schedule Meeting</text>
-		<text name="ScheduleCall">Schedule Call</text>
-		<text name="EmailReminder">Email Reminder</text>
-		<text name="ToDoReminder">To Do Reminder</text>
-		<text name="NotAddOpportunitiesAccess">You do not have authorization to generate this opportunity</text>
-		
 		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
@@ -37,7 +44,7 @@
 		<text name="IsCompletedStatus">Is completed status</text>
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
-		<text name="AssignUsers">Assign Users</text>
+		<text name="AssignUsers">Assign User(s)</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
@@ -93,9 +100,7 @@
 		<text name="EditActivityPriority">Edit activity priority</text>
 		<text name="DeleteActivityPriority">Delete activity priority</text>
 		<text name="ActivityPriorities">Activity priorities</text>
-
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
-
 		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
 		<text name="InputPosition">Enter Position</text>
@@ -281,6 +286,7 @@
 		<text name="LeadStatusName">Status Name</text>
 		<text name="LeadSource">Lead Source</text>
 		<text name="EnterLeadSource">Enter Lead Source</text>
+		<text name="SelectLeadSource">Select Lead Source</text>
 		<text name="SBCRM.Crm.LeadSource">LeadSource</text>
 		<text name="Description">Description</text>
 		<text name="EnterDescription">Enter Description</text>
@@ -309,7 +315,7 @@
 		<text name="State">State/Province</text>
 		<text name="EnterState">Enter State/Province</text>
 		<text name="Country">Country</text>
-		<text name="EnterCountry">Enter Country</text>
+		<text name="SelectCountry">Select Country</text>
 		<text name="Salutation">Salutation</text>
 		<text name="Phone">Phone</text>
 		<text name="Extention">Extention</text>
@@ -345,6 +351,11 @@
 		<text name="FiscalEnd">Fiscal end</text>
 		<text name="DunsCode">Duns code</text>
 		<text name="Duns">Duns</text>
+		<text name="EnterDuns">Enter DUNS</text>
+		<text name="EnterSICCode">Enter SIC</text>
+		<text name="EnterSICCode2">Enter SIC 2</text>
+		<text name="EnterSICCode3">Enter SIC 3</text>
+		<text name="EnterSICCode4">Enter SIC 4</text>
 		<text name="SICCode">Sic</text>
 		<text name="MailingGroup">Mailing group</text>
 		<text name="Makes">Makes</text>
@@ -794,7 +805,7 @@
 		<text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
 		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
 		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
-		<text name="CustomerNotExist">Customer does not exist</text>
+		<text name="CustomerNotExist">This Customer does not exist or is unavailable</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
