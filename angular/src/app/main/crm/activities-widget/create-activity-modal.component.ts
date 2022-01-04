@@ -120,7 +120,7 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
 
 
   /**
-   * 
+   * Gets an activity given its id (Only for Leads module)
    * @param activityId 
    */
   getLeadActivityForViewEdit(activityId: number) {
@@ -134,7 +134,7 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   }
 
   /**
-   * 
+   * Gets an activity given its id (Only for Accounts module)
    * @param activityId 
    */
   getAccountActivityForViewEdit(activityId: number){
@@ -158,11 +158,13 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
       case 'Lead':
         this.activity.leadId = this.idToStore;
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.LEAD).id;
+        this.saveLeadActivity();
         break;
 
       case 'Account':
         this.activity.customerNumber = this.idToStore;
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.ACCOUNT).id;
+        this.saveAccountActivity();
         break;
       
       case 'Opportunity':
@@ -170,36 +172,13 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.OPPORTUNITY).id;
         break;
     }
-
-    this.saveActivity();
-  }
-
-
-  /**
-   * Saves an activity
-   */
-   saveActivity(){
-    this.processDataModel();
-
-    switch(this.componentType){
-      case 'Lead':
-        this.saveLeadActivity();
-        break;
-
-      case 'Account':
-        this.saveAccountActivity();
-        break;
-
-      case 'Opportunity':
-        //TO DO
-        break;
-    }
   }
 
   /**
-   * 
+   * Saves an activity related to an Account
    */
   saveAccountActivity(){
+    this.processDataModel();
     this._accountActivitiesServiceProxy
     .createOrEdit(this.activity)
     .pipe(
@@ -216,9 +195,10 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
 
 
   /**
-   * 
+   * Saves an activity related to a Lead
    */
   saveLeadActivity(){
+    this.processDataModel();
     this._leadActivitiesServiceProxy
     .createOrEdit(this.activity)
     .pipe(
@@ -239,9 +219,10 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    */
   processDataModel(){
     const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
-    this.activity.taskName = selectedActivityType.displayName;
-    this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
 
+    this.activity.taskName = selectedActivityType.displayName;
+
+    this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
     this.activity.startsAt = this.activity.dueDate;
   }
 
@@ -267,7 +248,7 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   }
 
   /**
-   * 
+   * Calls the data requiered to populate dropdown (Only for Leads module)
    */
   callDataForLeadsModule(){
     this._leadActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
@@ -289,7 +270,7 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
 
 
   /**
-   * 
+   * Calls the data requiered to populate dropdown (Only for Accounts module)
    */
   callDataForAccountsModule(){
     this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {

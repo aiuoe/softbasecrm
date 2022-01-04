@@ -49,6 +49,9 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     super(injector);
   }
 
+  /**
+   * NgOninit event 
+   */
   ngOnInit(): void {
   }
 
@@ -72,7 +75,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   }
 
 /**
- * 
+ * Gets all the activities connected to a specific Lead
  * @param event 
  * @returns 
  */
@@ -108,7 +111,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
 
   /**
-   * 
+   * Gets all the activities connected to an specific Account
    * @param event 
    * @returns 
    */
@@ -152,7 +155,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   }
 
   /**
-   * 
+   * Opens modal to view an activity given its activityId
    * @param activity 
    */
   viewActivity(activity: ActivityDto){
@@ -160,7 +163,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   }
 
   /**
-   * 
+   * Opens modal to edit an activity given its activityId
    * @param activity 
    */
   editActivity(activity: ActivityDto){
@@ -207,7 +210,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 }
 
   /**
-   * Refresh the table
+   * Refreshes the table
    */
   reloadPage(): void {
     this.paginator.changePage(this.paginator.getPage());
