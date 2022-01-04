@@ -271,6 +271,7 @@
 		<text name="LeadStatusName">Status Name</text>
 		<text name="LeadSource">Lead Source</text>
 		<text name="EnterLeadSource">Enter Lead Source</text>
+		<text name="SelectLeadSource">Select Lead Source</text>
 		<text name="SBCRM.Crm.LeadSource">LeadSource</text>
 		<text name="Description">Description</text>
 		<text name="EnterDescription">Enter Description</text>
@@ -299,7 +300,7 @@
 		<text name="State">State/Province</text>
 		<text name="EnterState">Enter State/Province</text>
 		<text name="Country">Country</text>
-		<text name="EnterCountry">Enter Country</text>
+		<text name="SelectCountry">Select Country</text>
 		<text name="Salutation">Salutation</text>
 		<text name="Phone">Phone</text>
 		<text name="Extention">Extention</text>
@@ -335,6 +336,11 @@
 		<text name="FiscalEnd">Fiscal end</text>
 		<text name="DunsCode">Duns code</text>
 		<text name="Duns">Duns</text>
+		<text name="EnterDuns">Enter DUNS</text>
+		<text name="EnterSICCode">Enter SIC</text>
+		<text name="EnterSICCode2">Enter SIC 2</text>
+		<text name="EnterSICCode3">Enter SIC 3</text>
+		<text name="EnterSICCode4">Enter SIC 4</text>
 		<text name="SICCode">Sic</text>
 		<text name="MailingGroup">Mailing group</text>
 		<text name="Makes">Makes</text>
