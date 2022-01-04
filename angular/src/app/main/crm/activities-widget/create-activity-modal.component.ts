@@ -1,7 +1,11 @@
 import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
+import { ActivitySourceType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto } from '@shared/service-proxies/service-proxies';
+import { DateTime } from 'luxon';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { finalize } from 'rxjs/operators';
 
 
 /**
@@ -37,6 +41,10 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   allActivityStatuss: ActivityActivityStatusLookupTableDto[];
   allActivityPrioritys: ActivityActivityPriorityLookupTableDto[];
 
+  selectedDate: Date = new Date();
+  selectedTime = '';
+  durationItems = [];
+
 
   active = false;
   saving = false;
@@ -48,10 +56,15 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    * @param _activitiesServiceProxy 
    */
   constructor( injector: Injector,
-    private _activitiesServiceProxy: ActivitiesServiceProxy) {
+    private _activitySharedService: ActivitySharedService,
+    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy) {
     super(injector);
    }
 
+
+  /***
+  * NgOninit Event
+  */
   ngOnInit(): void {
     this.callData();
   }
@@ -62,6 +75,8 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   close(){
     this.active = false;
     this.activity = new CreateOrEditActivityDto();
+    this.selectedDate = new Date();
+    this.selectedTime = '';
     this.modal.hide();
   }
 
@@ -76,54 +91,83 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   }
 
   /**
-   * Handles the savong action of an activity
+   * Handles the saving action of an activity
    */
   save(){
     this.activity.activityTaskTypeId = this.allActivityTaskTypes.find(p => p.displayName == this.activityType).id;
+    this.activity.taskName = this.activityType;
 
     switch(this.componentType){
       case 'Lead':
         this.activity.leadId = this.idToStore;
+        this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.LEAD).id;
         break;
 
       case 'Account':
         this.activity.customerNumber = this.idToStore;
+        this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.ACCOUNT).id;
         break;
       
       case 'Opportunity':
         this.activity.opportunityId = this.idToStore;
+        this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.OPPORTUNITY).id;
         break;
     }
 
-    // To do: Save activity
+    this.saveActivity();
+  }
 
-    // Refresh data table
-    this.modalSave.emit(null);
+
+  /**
+   * Saves an activity
+   */
+   saveActivity(){
+    this.processDataModel();
+    this._accountActivitiesServiceProxy
+    .createOrEdit(this.activity)
+    .pipe(
+        finalize(() => {
+            this.saving = false;
+        })
+    )
+    .subscribe(() => {
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.close();
+        this.modalSave.emit(null);
+    });
+  }
+
+
+  /**
+   * Transform data before sent to the backend
+   */
+  processDataModel(){
+    const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
+    this.activity.taskName = selectedActivityType.displayName;
+    this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
+
+    this.activity.startsAt = this.activity.dueDate;
   }
 
   /**
    * Calls the data requiered to populate dropdowns
    */
   callData(){
-    this._activitiesServiceProxy.getAllOpportunityForTableDropdown().subscribe((result) => {
-      this.allOpportunitys = result;
-    });
-    this._activitiesServiceProxy.getAllLeadForTableDropdown().subscribe((result) => {
-        this.allLeads = result;
-    });
-    this._activitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+    this.durationItems = this._activitySharedService.getActivityDurationItems();
+
+    this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
         this.allUsers = result;
     });
-    this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
     });
-    this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
         this.allActivityTaskTypes = result;
     });
-    this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
         this.allActivityStatuss = result;
     });
-    this._activitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
         this.allActivityPrioritys = result;
     });
   }

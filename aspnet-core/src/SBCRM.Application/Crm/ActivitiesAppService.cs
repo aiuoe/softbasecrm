@@ -36,6 +36,7 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IRepository<AccountUser, int> _lookupAccountUserRepository;
+        private readonly IActivitiesService _activitiesService;
 
         /// <summary>
         /// The constructor method
@@ -53,6 +54,7 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="lookupAccountUserRepository"></param>
+        /// <param name="activitiesService"></param>
         public ActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IActivitiesExcelExporter activitiesExcelExporter,
@@ -66,7 +68,8 @@ namespace SBCRM.Crm
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
             IRepository<Customer, int> lookupCustomerRepository,
-            IRepository<AccountUser, int> lookupAccountUserRepository)
+            IRepository<AccountUser, int> lookupAccountUserRepository,
+            IActivitiesService activitiesService)
         {
             _activityRepository = activityRepository;
             _activitiesExcelExporter = activitiesExcelExporter;
@@ -81,6 +84,7 @@ namespace SBCRM.Crm
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
             _lookupAccountUserRepository = lookupAccountUserRepository;
+            _activitiesService = activitiesService;
         }
 
         /// <summary>
@@ -360,7 +364,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities_Delete)]
         public async Task Delete(EntityDto<long> input)
         {
-            await _activityRepository.DeleteAsync(input.Id);
+            await _activitiesService.Delete(input);
         }
 
         /// <summary>
@@ -592,14 +596,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<List<ActivityActivitySourceTypeLookupTableDto>> GetAllActivitySourceTypeForTableDropdown()
         {
-            return await _lookupActivitySourceTypeRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activitySourceType => new ActivityActivitySourceTypeLookupTableDto
-                {
-                    Id = activitySourceType.Id,
-                    Code = activitySourceType.Code,
-                    DisplayName = activitySourceType == null || activitySourceType.Description == null ? "" : activitySourceType.Description.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivitySourceTypeForTableDropdown();
         }
 
         /// <summary>
@@ -609,16 +606,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<List<ActivityActivityTaskTypeLookupTableDto>> GetAllActivityTaskTypeForTableDropdown()
         {
-            return await _lookupActivityTaskTypeRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activityTaskType => new ActivityActivityTaskTypeLookupTableDto
-                {
-                    Id = activityTaskType.Id,
-                    IsDefault = activityTaskType.IsDefault,
-                    Code = activityTaskType.Code,
-                    DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString(),
-                    Color = activityTaskType == null || activityTaskType.Color == null ? "" : activityTaskType.Color.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivityTaskTypeForTableDropdown();
         }
 
         /// <summary>
@@ -628,14 +616,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<List<ActivityActivityStatusLookupTableDto>> GetAllActivityStatusForTableDropdown()
         {
-            return await _lookupActivityStatusRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activityStatus => new ActivityActivityStatusLookupTableDto
-                {
-                    Id = activityStatus.Id,
-                    IsDefault = activityStatus.IsDefault,
-                    DisplayName = activityStatus == null || activityStatus.Description == null ? "" : activityStatus.Description.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivityStatusForTableDropdown();
         }
 
         /// <summary>
@@ -645,14 +626,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown()
         {
-            return await _lookupActivityPriorityRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activityPriority => new ActivityActivityPriorityLookupTableDto
-                {
-                    Id = activityPriority.Id,
-                    IsDefault = activityPriority.IsDefault,
-                    DisplayName = activityPriority == null || activityPriority.Description == null ? "" : activityPriority.Description.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivityPriorityForTableDropdown();
         }
 
         /// <summary>
