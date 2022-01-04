@@ -2,7 +2,7 @@ import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } f
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 import { ActivitySourceType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
@@ -57,7 +57,8 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    */
   constructor( injector: Injector,
     private _activitySharedService: ActivitySharedService,
-    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy) {
+    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
+    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy) {
     super(injector);
    }
 
@@ -123,7 +124,46 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    */
    saveActivity(){
     this.processDataModel();
+
+    switch(this.componentType){
+      case 'Lead':
+        this.saveLeadActivity();
+        break;
+
+      case 'Account':
+        this.saveAccountActivity();
+        break;
+
+      case 'Opportunity':
+        //TO DO
+        break;
+    }
+  }
+
+  /**
+   * 
+   */
+  saveAccountActivity(){
     this._accountActivitiesServiceProxy
+    .createOrEdit(this.activity)
+    .pipe(
+        finalize(() => {
+            this.saving = false;
+        })
+    )
+    .subscribe(() => {
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.close();
+        this.modalSave.emit(null);
+    });
+  }
+
+
+  /**
+   * 
+   */
+  saveLeadActivity(){
+    this._leadActivitiesServiceProxy
     .createOrEdit(this.activity)
     .pipe(
         finalize(() => {
@@ -155,8 +195,49 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   callData(){
     this.durationItems = this._activitySharedService.getActivityDurationItems();
 
+    switch(this.componentType){
+      case 'Lead':
+        this.callDataForLeadsModule();
+        break;
+
+      case 'Account':
+        this.callDataForAccountsModule();
+        break;
+
+      case 'Opportunity':
+        //TO DO
+        break;
+    }
+  }
+
+  /**
+   * 
+   */
+  callDataForLeadsModule(){
+    this._leadActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+      this.allUsers = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
+        this.allActivitySourceTypes = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
+        this.allActivityTaskTypes = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
+        this.allActivityStatuss = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
+        this.allActivityPrioritys = result;
+    });
+  }
+
+
+  /**
+   * 
+   */
+  callDataForAccountsModule(){
     this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-        this.allUsers = result;
+      this.allUsers = result;
     });
     this._accountActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;

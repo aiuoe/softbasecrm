@@ -1,7 +1,7 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityDto } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivityDto, LeadActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -44,8 +44,8 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
    * @param injector Constructor
    */
   constructor(injector: Injector,
-    private _activitiesServiceProxy: ActivitiesServiceProxy,
-    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy) { 
+    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
+    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy) { 
     super(injector);
   }
 
@@ -58,7 +58,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   loadDataTable(event?: LazyLoadEvent){
     switch(this.componentType){
       case 'Lead':
-        // To do
+        this.getAllActivitiesForLead(event);
         break;
 
       case 'Account':
@@ -70,6 +70,42 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
         break;
     }
   }
+
+/**
+ * 
+ * @param event 
+ * @returns 
+ */
+ getAllActivitiesForLead(event?: LazyLoadEvent){
+  if (this.primengTableHelper.shouldResetPaging(event)) {
+    this.paginator.changePage(0);
+    return;
+  }
+
+  this.primengTableHelper.showLoadingIndicator();
+
+  this._leadActivitiesServiceProxy.getAll(
+    this.filterText,
+    this.opportunityNameFilter,
+    this.leadCompanyNameFilter,
+    this.userNameFilter,
+    '',
+    '',
+    '',
+    '',
+    this.customerNameFilter,
+    this.idToStore,
+    this.primengTableHelper.getSorting(this.dataTable),
+    this.primengTableHelper.getSkipCount(this.paginator, event),
+    this.primengTableHelper.getMaxResultCount(this.paginator, event)
+  ).subscribe( result =>{
+    this.primengTableHelper.totalRecordsCount = result.totalCount;
+    this.primengTableHelper.records = result.items;
+    this.primengTableHelper.hideLoadingIndicator();
+    console.log(result.items);
+  });
+}
+
 
   /**
    * 
@@ -104,7 +140,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
       this.primengTableHelper.hideLoadingIndicator();
       console.log(result.items);
     });
-
   }
 
   /**
@@ -116,11 +151,15 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     this.createActivityModal.show(activityType);
   }
 
+  viewActivity(activity: ActivityDto){
+
+  }
+
 
   /**
    * Handles de deletetion of an activity
    */
-  deleteActivity(activity: ActivityDto){
+  deleteAccountActivity(activity: ActivityDto){
     this.message.confirm(
       '',
       this.l('AreYouSure'),
@@ -133,8 +172,27 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
                   });
           }
       }
-  );
+    );
   }
+
+  /**
+ * Handles de deletetion of an activity
+ */
+  deleteLeadActivity(activity: ActivityDto){
+  this.message.confirm(
+    '',
+    this.l('AreYouSure'),
+    (isConfirmed) => {
+        if (isConfirmed) {
+            this._leadActivitiesServiceProxy.delete(activity.id)
+                .subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('SuccessfullyDeleted'));
+                });
+        }
+    }
+  );
+}
 
   /**
    * Refresh the table

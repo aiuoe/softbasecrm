@@ -75,8 +75,12 @@
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>                                                        
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                        (click)="deleteActivity(record.activity)">{{l('Delete')}}</a>
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
+                                                        (click)="viewActivity(record.activity)">{{l('View')}}</a>
+                                                    </li>
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
+                                                        (click)="viewActivity(record.activity)">{{l('View')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
