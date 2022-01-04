@@ -137,7 +137,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   }
 
   /**
-   * 
+   * Refresh the table
    */
   reloadPage(): void {
     this.paginator.changePage(this.paginator.getPage());

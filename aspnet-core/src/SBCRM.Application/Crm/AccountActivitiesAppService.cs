@@ -25,16 +25,15 @@ namespace SBCRM.Crm
 
         private readonly IRepository<Activity, long> _activityRepository;
         private readonly IRepository<Opportunity, int> _lookupOpportunityRepository;
-        private readonly IRepository<OpportunityUser, int> _lookupOpportunityUserRepository;
         private readonly IRepository<Lead, int> _lookupLeadRepository;
-        private readonly IRepository<LeadUser, int> _lookupLeadUserRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IRepository<ActivitySourceType, int> _lookupActivitySourceTypeRepository;
         private readonly IRepository<ActivityTaskType, int> _lookupActivityTaskTypeRepository;
         private readonly IRepository<ActivityStatus, int> _lookupActivityStatusRepository;
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
-        private readonly IRepository<AccountUser, int> _lookupAccountUserRepository;
+        private readonly IActivitiesService _activitiesService;
+
 
         /// <summary>
         /// Constructor
@@ -51,6 +50,7 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="lookupAccountUserRepository"></param>
+        /// <param name="activitiesService"></param>
         public AccountActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
@@ -63,20 +63,19 @@ namespace SBCRM.Crm
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
             IRepository<Customer, int> lookupCustomerRepository,
-            IRepository<AccountUser, int> lookupAccountUserRepository)
+            IRepository<AccountUser, int> lookupAccountUserRepository,
+            IActivitiesService activitiesService)
         {
             _activityRepository = activityRepository;
             _lookupOpportunityRepository = lookupOpportunityRepository;
-            _lookupOpportunityUserRepository = lookupOpportunityUserRepository;
             _lookupLeadRepository = lookupLeadRepository;
-            _lookupLeadUserRepository = lookupLeadUserRepository;
             _lookupUserRepository = lookupUserRepository;
             _lookupActivitySourceTypeRepository = lookupActivitySourceTypeRepository;
             _lookupActivityTaskTypeRepository = lookupActivityTaskTypeRepository;
             _lookupActivityStatusRepository = lookupActivityStatusRepository;
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
-            _lookupAccountUserRepository = lookupAccountUserRepository;
+            _activitiesService = activitiesService;
         }
 
         /// <summary>
@@ -199,13 +198,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-                var activity = ObjectMapper.Map<Activity>(input);
-                activity.StartsAt = activity.StartsAt.ToUniversalTime();
-                activity.DueDate = activity.DueDate.ToUniversalTime();
-
-                activity.TenantId = GetTenantId();
-
-                await _activityRepository.InsertAsync(activity);
+           await _activitiesService.CreateOrEdit(input);
         }
 
         /// <summary>
@@ -215,7 +208,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task Delete(EntityDto<long> input)
         {
-            await _activityRepository.DeleteAsync(input.Id);
+            await _activitiesService.Delete(input);
         }
 
         /// <summary>
@@ -224,16 +217,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
-
-            return await _lookupUserRepository.GetAll()
-                .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
-                .Select(user => new ActivityUserLookupTableDto
-                {
-                    Id = user.Id,
-                    DisplayName = user != null ? user.FullName : string.Empty
-                }).ToListAsync();
+            return await _activitiesService.GetAllUserForTableDropdown();
         }
 
         /// <summary>
@@ -242,14 +226,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityActivitySourceTypeLookupTableDto>> GetAllActivitySourceTypeForTableDropdown()
         {
-            return await _lookupActivitySourceTypeRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activitySourceType => new ActivityActivitySourceTypeLookupTableDto
-                {
-                    Id = activitySourceType.Id,
-                    Code = activitySourceType.Code,
-                    DisplayName = activitySourceType == null || activitySourceType.Description == null ? "" : activitySourceType.Description.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivitySourceTypeForTableDropdown();
         }
 
         /// <summary>
@@ -258,16 +235,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityActivityTaskTypeLookupTableDto>> GetAllActivityTaskTypeForTableDropdown()
         {
-            return await _lookupActivityTaskTypeRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activityTaskType => new ActivityActivityTaskTypeLookupTableDto
-                {
-                    Id = activityTaskType.Id,
-                    IsDefault = activityTaskType.IsDefault,
-                    Code = activityTaskType.Code,
-                    DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString(),
-                    Color = activityTaskType == null || activityTaskType.Color == null ? "" : activityTaskType.Color.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivityTaskTypeForTableDropdown();
         }
 
         /// <summary>
@@ -276,14 +244,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityActivityStatusLookupTableDto>> GetAllActivityStatusForTableDropdown()
         {
-            return await _lookupActivityStatusRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activityStatus => new ActivityActivityStatusLookupTableDto
-                {
-                    Id = activityStatus.Id,
-                    IsDefault = activityStatus.IsDefault,
-                    DisplayName = activityStatus == null || activityStatus.Description == null ? "" : activityStatus.Description.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivityStatusForTableDropdown();
         }
 
 
@@ -293,14 +254,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown()
         {
-            return await _lookupActivityPriorityRepository.GetAll()
-                .OrderBy(x => x.Order)
-                .Select(activityPriority => new ActivityActivityPriorityLookupTableDto
-                {
-                    Id = activityPriority.Id,
-                    IsDefault = activityPriority.IsDefault,
-                    DisplayName = activityPriority == null || activityPriority.Description == null ? "" : activityPriority.Description.ToString()
-                }).ToListAsync();
+            return await _activitiesService.GetAllActivityPriorityForTableDropdown();
         }
 
     }
