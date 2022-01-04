@@ -59,6 +59,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     advancedFiltersAreShown = false;
     filterText = '';
+    timeZone = '';
     companyOrContactNameFilter = '';
     contactNameFilter = '';
     contactPositionFilter = '';
@@ -245,9 +246,13 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Export to excel
      */
     exportToExcel(): void {
+
+        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+
         this._leadsServiceProxy
             .getLeadsToExcel(
                 this.filterText,
+                this.timeZone,
                 this.companyOrContactNameFilter,
                 this.contactNameFilter,
                 this.contactPositionFilter,

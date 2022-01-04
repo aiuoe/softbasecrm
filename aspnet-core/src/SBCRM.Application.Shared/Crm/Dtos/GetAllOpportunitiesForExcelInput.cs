@@ -11,7 +11,7 @@ namespace SBCRM.Crm.Dtos
     {
         public string Filter { get; set; }
 
-        public string timeZone { get; set; }
+        public string TimeZone { get; set; }
 
         public string NameFilter { get; set; }
 

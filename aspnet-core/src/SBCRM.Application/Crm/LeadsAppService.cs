@@ -509,7 +509,7 @@ namespace SBCRM.Crm
                 lead = await _leadUserRepository.GetAll()
                     .Include(x => x.UserFk)
                     .Include(x => x.LeadFk)
-                    .Where(x => x.UserId == GetCurrentUserAsync().Id && x.LeadId == input.Id)
+                    .Where(x => x.UserId == GetCurrentUser().Id && x.LeadId == input.Id)
                     .Select(x => x.LeadFk)
                     .FirstOrDefaultAsync();
             }
@@ -628,6 +628,9 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<FileDto> GetLeadsToExcel(GetAllLeadsForExcelInput input)
         {
+            TimeZoneInfo TimeZone =
+                    TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone);
+
             var filteredLeads = _leadRepository.GetAll()
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.LeadStatusFk)
@@ -659,7 +662,9 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.PriorityDescriptionFilter), e => e.PriorityFk != null && e.PriorityFk.Description == input.PriorityDescriptionFilter)
                         .WhereIf(input.LeadStatusId.HasValue, x => input.LeadStatusId == x.LeadStatusFk.Id)
                         .WhereIf(input.PriorityId.HasValue, x => input.PriorityId == x.PriorityFk.Id)
-                        .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)));
+                        .WhereIf(!CurrentUserCanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
+                        .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
             var query = (from o in filteredLeads
                          join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
@@ -693,7 +698,7 @@ namespace SBCRM.Crm
                              PagerNumber = o.PagerNumber,
                              ContactEmail = o.ContactEmail,
                              Id = o.Id,
-                             CreationTime = o.CreationTime,
+                             CreationTime = TimeZoneInfo.ConvertTime((DateTime)o.CreationTime, TimeZone),
                              Users = o.Users,
                              LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                              LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),

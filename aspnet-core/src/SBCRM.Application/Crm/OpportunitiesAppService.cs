@@ -395,7 +395,7 @@ namespace SBCRM.Crm
                 opportunity = await _opportunityUserRepository.GetAll()
                     .Include(x => x.UserFk)
                     .Include(x => x.OpportunityFk)
-                    .Where(x => x.UserId == GetCurrentUserAsync().Id && x.OpportunityId == input.Id)
+                    .Where(x => x.UserId == GetCurrentUser().Id && x.OpportunityId == input.Id)
                     .Select(x => x.OpportunityFk)
                     .FirstOrDefaultAsync();
             }
@@ -520,8 +520,8 @@ namespace SBCRM.Crm
 
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
-            TimeZoneInfo timeZone =
-                                TimeZoneInfo.FindSystemTimeZoneById(input.timeZone);
+            TimeZoneInfo TimeZone =
+                                TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone);
 
             var filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
@@ -570,7 +570,7 @@ namespace SBCRM.Crm
                              Name = o.Name,
                              Amount = o.Amount,
                              Probability = o.Probability,
-                             CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, timeZone) : null,
+                             CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
                              Description = o.Description,
                              Branch = o.Branch,
                              Department = o.Department,
