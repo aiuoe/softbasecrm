@@ -1,10 +1,6 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header
-            [title]="('Customers' | localize)"
-            [breadcrumbs]="breadcrumbs"
-            [hideSeparator]="true"
-        >
+        <sub-header [title]="'Customers' | localize" [breadcrumbs]="breadcrumbs" [hideSeparator]="true">
             <div role="actions">
                 <button (click)="goToAccounts()" class="btn btn-secondary float-left" [buttonBusy]="saving">
                     <span>{{ l('Close') }}</span>
@@ -21,16 +17,30 @@
                                 <div class="card-body">
                                     <div class="row" *ngIf="this.showSaveButton">
                                         <div class="col-12">
-                                            <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
-                                                    [busyText]="l('SavingWithThreeDot')">
+                                            <button
+                                                (click)="save()"
+                                                class="btn btn-primary blue float-right"
+                                                [buttonBusy]="saving"
+                                                [busyText]="l('SavingWithThreeDot')"
+                                            >
                                                 <i class="fa fa-save"></i>
                                                 <span>{{ l('Save') }}</span>
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="(!this.showSaveButton && this.isReadOnlyMode) && isGranted('Pages.Customer.Edit')">
+                                    <div
+                                        class="row"
+                                        *ngIf="
+                                            !this.showSaveButton &&
+                                            this.isReadOnlyMode &&
+                                            isGranted('Pages.Customer.Edit')
+                                        "
+                                    >
                                         <div class="col-12">
-                                            <button (click)="openEditionMode()" class="btn btn-primary blue float-right">
+                                            <button
+                                                (click)="openEditionMode()"
+                                                class="btn btn-primary blue float-right"
+                                            >
                                                 <i class="fas fa-pencil-alt"></i>
                                                 <span>{{ l('Edit') }}</span>
                                             </button>
@@ -39,7 +49,6 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <form #customerForm="ngForm" role="form" class="form-validation" novalidate>
-
                                                 <h3 class="font-size-lg text-dark font-weight-bold mb-6">
                                                     <i class="fas fa-user-alt text-dark pr-3"></i>
                                                     {{ l('GeneralInformation') }}
@@ -48,7 +57,10 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="Customer_Name">{{ l('CompanyName') }} <span class="color-red">*</span></label>
+                                                            <label for="Customer_Name">
+                                                                {{ l('CompanyName') }}
+                                                                <span class="color-red">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 #Customer_Name="ngModel"
@@ -61,7 +73,9 @@
                                                                 required
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_Name"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_Name"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
 
@@ -80,8 +94,15 @@
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                                 pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
                                                             />
-                                                            <div *ngIf="!Customer_Phone.valid && (Customer_Phone.dirty || Customer_Phone.touched)">
-                                                                <span class="form-text text-danger text-left">{{ 'CompanyPhone_Invalid' | localize }}</span>
+                                                            <div
+                                                                *ngIf="
+                                                                    !Customer_Phone.valid &&
+                                                                    (Customer_Phone.dirty || Customer_Phone.touched)
+                                                                "
+                                                            >
+                                                                <span class="form-text text-danger text-left">
+                                                                    {{ 'CompanyPhone_Invalid' | localize }}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -103,7 +124,9 @@
                                                                 email
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_EMail"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_EMail"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -120,7 +143,9 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_WWWAddress"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_WWWAddress"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -140,9 +165,10 @@
                                                                 maxlength="255"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_Address"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_Address"
+                                                            ></validation-messages>
                                                         </div>
-
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -158,7 +184,9 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_POBox"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_POBox"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -167,18 +195,21 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label for="Customer_Country">{{ l('Country') }}</label>
-                                                            <p-dropdown #Customer_Country="ngModel"
-                                                                        id="Customer_Country"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        [options]="countries"
-                                                                        [(ngModel)]="customer.country"
-                                                                        [disabled]="this.isReadOnlyMode || !this.isNew"
-                                                                        optionLabel="displayName"
-                                                                        placeholder="Select Country"
-                                                                        [showClear]="true"
-                                                                        optionValue="code">
-                                                            </p-dropdown>
-                                                            <validation-messages [formCtrl]="Customer_Country"></validation-messages>
+                                                            <p-dropdown
+                                                                #Customer_Country="ngModel"
+                                                                id="Customer_Country"
+                                                                [ngModelOptions]="{ standalone: true }"
+                                                                [options]="countries"
+                                                                [(ngModel)]="customer.country"
+                                                                [disabled]="this.isReadOnlyMode || !this.isNew"
+                                                                optionLabel="displayName"
+                                                                placeholder="Select Country"
+                                                                [showClear]="true"
+                                                                optionValue="code"
+                                                            ></p-dropdown>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_Country"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -195,7 +226,9 @@
                                                                 maxlength="255"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_State"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_State"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -212,7 +245,9 @@
                                                                 maxlength="255"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_City"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_City"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -230,12 +265,14 @@
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                                 (keyup)="getZipCode($event)"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_ZipCode"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_ZipCode"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <hr>
+                                                <hr />
                                                 <h3 class="font-size-lg text-dark font-weight-bold mb-6">
                                                     <i class="fas fa-calendar-day text-dark pr-3"></i>
                                                     {{ l('Details') }}
@@ -244,7 +281,9 @@
                                                 <div class="row" *ngIf="!this.isNew">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="Customer_Number">{{ l('CustomerNumber') }}</label>
+                                                            <label for="Customer_Number">
+                                                                {{ l('CustomerNumber') }}
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 #Customer_Number="ngModel"
@@ -257,7 +296,9 @@
                                                                 readonly
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_Number"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_Number"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -274,7 +315,9 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_BillTo"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_BillTo"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -282,34 +325,42 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group m-form__group">
-                                                            <label for="customerAccountTypeId">{{ l('AccountType') }}</label>
-                                                            <p-dropdown id="customerAccountTypeId"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        #Customer_AcountType="ngModel"
-                                                                        [options]="allAccountTypes"
-                                                                        [(ngModel)]="customer.accountTypeId"
-                                                                        [disabled]="true"
-                                                                        optionLabel="displayName"
-                                                                        optionValue="id">
-                                                            </p-dropdown>
-                                                            <validation-messages [formCtrl]="Customer_AcountType"></validation-messages>
+                                                            <label for="customerAccountTypeId">
+                                                                {{ l('AccountType') }}
+                                                            </label>
+                                                            <p-dropdown
+                                                                id="customerAccountTypeId"
+                                                                [ngModelOptions]="{ standalone: true }"
+                                                                #Customer_AcountType="ngModel"
+                                                                [options]="allAccountTypes"
+                                                                [(ngModel)]="customer.accountTypeId"
+                                                                [disabled]="true"
+                                                                optionLabel="displayName"
+                                                                optionValue="id"
+                                                            ></p-dropdown>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_AcountType"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group m-form__group">
                                                             <label for="leadSourceId">{{ l('LeadSource') }}</label>
-                                                            <p-dropdown id="leadSourceId"
-                                                                        [showClear]="true"
-                                                                        placeholder="Select"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        #Customer_LeadSource="ngModel"
-                                                                        [options]="allLeadSources"
-                                                                        [(ngModel)]="customer.leadSourceId"
-                                                                        [disabled]="this.isReadOnlyMode"
-                                                                        optionLabel="displayName"
-                                                                        optionValue="id">
-                                                            </p-dropdown>
-                                                            <validation-messages [formCtrl]="Customer_LeadSource"></validation-messages>
+                                                            <p-dropdown
+                                                                id="leadSourceId"
+                                                                [showClear]="true"
+                                                                placeholder="Select"
+                                                                [ngModelOptions]="{ standalone: true }"
+                                                                #Customer_LeadSource="ngModel"
+                                                                [options]="allLeadSources"
+                                                                [(ngModel)]="customer.leadSourceId"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                                optionLabel="displayName"
+                                                                optionValue="id"
+                                                            ></p-dropdown>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_LeadSource"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -326,7 +377,9 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_DunsCode"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_DunsCode"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -334,7 +387,9 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label for="Customer_SICCode">{{ lupper('SICCode') }}</label>
+                                                            <label for="Customer_SICCode">
+                                                                {{ lupper('SICCode') }}
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 #Customer_SICCode="ngModel"
@@ -346,12 +401,16 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_SICCode"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_SICCode"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label for="Customer_SICCode2">{{ lupper('SICCode2') }}</label>
+                                                            <label for="Customer_SICCode2">
+                                                                {{ lupper('SICCode2') }}
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 #Customer_SICCode2="ngModel"
@@ -363,12 +422,16 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_SICCode2"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_SICCode2"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label for="Customer_SICCode3">{{ lupper('SICCode3') }}</label>
+                                                            <label for="Customer_SICCode3">
+                                                                {{ lupper('SICCode3') }}
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 #Customer_SICCode3="ngModel"
@@ -380,12 +443,16 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_SICCode3"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_SICCode3"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label for="Customer_SICCode4">{{ lupper('SICCode4') }}</label>
+                                                            <label for="Customer_SICCode4">
+                                                                {{ lupper('SICCode4') }}
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 #Customer_SICCode4="ngModel"
@@ -397,7 +464,9 @@
                                                                 maxlength="50"
                                                                 [disabled]="this.isReadOnlyMode || !this.isNew"
                                                             />
-                                                            <validation-messages [formCtrl]="Customer_SICCode4"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_SICCode4"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -405,22 +474,25 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="Customer_BusinessDescription">{{ l('Description') }}</label>
-                                                            <textarea #Customer_BusinessDescription="ngModel"
-                                                                      id="Customer_BusinessDescription"
-                                                                      class="form-control"
-                                                                      [(ngModel)]="customer.businessDescription"
-                                                                      [placeholder]="l('EnterDescription')"
-                                                                      name="Description"
-                                                                      rows="10"
-                                                                      [disabled]="this.isReadOnlyMode"
-                                                            >
-                                                    </textarea>
-                                                            <validation-messages [formCtrl]="Customer_BusinessDescription"></validation-messages>
+                                                            <label for="Customer_BusinessDescription">
+                                                                {{ l('Description') }}
+                                                            </label>
+                                                            <textarea
+                                                                #Customer_BusinessDescription="ngModel"
+                                                                id="Customer_BusinessDescription"
+                                                                class="form-control"
+                                                                [(ngModel)]="customer.businessDescription"
+                                                                [placeholder]="l('EnterDescription')"
+                                                                name="Description"
+                                                                rows="10"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            ></textarea>
+                                                            <validation-messages
+                                                                [formCtrl]="Customer_BusinessDescription"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </form>
                                         </div>
                                     </div>
@@ -431,12 +503,15 @@
                 </tab>
 
                 <tab heading="{{ 'Opportunities' | localize }}" [disabled]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b"
-                         [hidden]="!showOpportunitiesTab">
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!showOpportunitiesTab">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button *ngIf="isGrantedAny('Pages.Customer.AddOpportunity')" (click)="addOpportunity()" class="btn btn-primary blue float-right">
+                                    <button
+                                        *ngIf="isGrantedAny('Pages.Customer.AddOpportunity')"
+                                        (click)="addOpportunity()"
+                                        class="btn btn-primary blue float-right"
+                                    >
                                         <i class="fa fa-plus"></i>
                                         <span>{{ l('Opportunity') }}</span>
                                     </button>
@@ -444,8 +519,10 @@
                             </div>
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <div class="primeng-datatable-container col-12"
-                                         [busyIf]="primengTableHelperOpportunities.isLoading">
+                                    <div
+                                        class="primeng-datatable-container col-12"
+                                        [busyIf]="primengTableHelperOpportunities.isLoading"
+                                    >
                                         <p-table
                                             id="opportunitiesDataTable"
                                             #opportunitiesDataTable
@@ -463,9 +540,7 @@
                                                 <tr>
                                                     <th
                                                         style="width: 80px"
-                                                        [hidden]="
-                                                !isGrantedAny('Pages.Customer.EditOpportunity')
-                                            "
+                                                        [hidden]="!isGrantedAny('Pages.Customer.EditOpportunity')"
                                                     >
                                                         {{ l('Actions') }}
                                                     </th>
@@ -473,8 +548,11 @@
                                                         {{ l('Name') }}
                                                         <p-sortIcon field="name"></p-sortIcon>
                                                     </th>
-                                                    <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
-                                                        {{ l('Stage')}}
+                                                    <th
+                                                        style="width: 150px"
+                                                        pSortableColumn="opportunityStageFk.description"
+                                                    >
+                                                        {{ l('Stage') }}
                                                         <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
                                                     </th>
                                                     <th style="width: 150px" pSortableColumn="closeDate">
@@ -494,16 +572,25 @@
                                                         [hidden]="!isGrantedAny('Pages.Customer.EditOpportunity')"
                                                     >
                                                         <div class="btn-group dropdown" dropdown container="body">
-                                                            <button class="dropdown-toggle btn btn-secondary i" dropdownToggle>
+                                                            <button
+                                                                class="dropdown-toggle btn btn-secondary i"
+                                                                dropdownToggle
+                                                            >
                                                                 <i class="fa fa-cog color-blue"></i>
                                                                 <span class="caret"></span>
                                                             </button>
                                                             <ul class="dropdown-menu" *dropdownMenu>
                                                                 <li>
                                                                     <a
-                                                                        *ngIf="permission.isGranted('Pages.Customer.EditOpportunity')"
+                                                                        *ngIf="
+                                                                            permission.isGranted(
+                                                                                'Pages.Customer.EditOpportunity'
+                                                                            )
+                                                                        "
                                                                         class="dropdown-item"
-                                                                        [routerLink]="['/app/main/crm/opportunities/view']"
+                                                                        [routerLink]="[
+                                                                            '/app/main/crm/opportunities/view'
+                                                                        ]"
                                                                         [queryParams]="{ id: record.id }"
                                                                     >
                                                                         {{ l('View') }}
@@ -511,9 +598,15 @@
                                                                 </li>
                                                                 <li>
                                                                     <a
-                                                                        *ngIf="permission.isGranted('Pages.Customer.EditOpportunity')"
+                                                                        *ngIf="
+                                                                            permission.isGranted(
+                                                                                'Pages.Customer.EditOpportunity'
+                                                                            )
+                                                                        "
                                                                         class="dropdown-item"
-                                                                        [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
+                                                                        [routerLink]="[
+                                                                            '/app/main/crm/opportunities/createOrEdit'
+                                                                        ]"
                                                                         [queryParams]="{ id: record.id }"
                                                                     >
                                                                         {{ l('Edit') }}
@@ -523,39 +616,53 @@
                                                         </div>
                                                     </td>
                                                     <td style="width: 150px">
-                                                        <span class="p-column-title">{{ l('Name') }}/{{ l('Stage') }}</span>
+                                                        <span class="p-column-title">
+                                                            {{ l('Name') }}/{{ l('Stage') }}
+                                                        </span>
                                                         <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.EditOpportunity')"
+                                                            *ngIf="
+                                                                permission.isGranted('Pages.Customer.EditOpportunity')
+                                                            "
                                                             [routerLink]="['/app/main/crm/opportunities/view']"
                                                             [queryParams]="{ id: record.id }"
                                                         >
                                                             {{ record.name }}
                                                         </a>
-                                                        <a *ngIf="!permission.isGranted('Pages.Customer.EditOpportunity')">
+                                                        <a
+                                                            *ngIf="
+                                                                !permission.isGranted('Pages.Customer.EditOpportunity')
+                                                            "
+                                                        >
                                                             {{ record.name }}
                                                         </a>
                                                     </td>
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Stage') }}</span>
-                                                        <span class="cell-span-color text-white"
-                                                            [ngStyle]="{'background-color': record.stageColor}">
+                                                        <span
+                                                            class="cell-span-color text-white"
+                                                            [ngStyle]="{ 'background-color': record.stageColor }"
+                                                        >
                                                             {{ record.stage }}
                                                         </span>
                                                     </td>
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('CloseDate') }}</span>
-                                                        <span *ngIf="record.closeDate">{{ record.closeDate | date: 'MM/dd/yyyy' }}
+                                                        <span *ngIf="record.closeDate">
+                                                            {{ record.closeDate | date: 'MM/dd/yyyy' }}
                                                         </span>
                                                         <span *ngIf="!record.closeDate">-</span>
                                                     </td>
                                                     <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Amount') }}</span>
-                                                        {{ record.amount | currency: 'USD' : true }}
+                                                        {{ record.amount | currency: 'USD':true }}
                                                     </td>
                                                 </tr>
                                             </ng-template>
                                         </p-table>
-                                        <div class="primeng-no-data" *ngIf="primengTableHelperOpportunities.totalRecordsCount == 0">
+                                        <div
+                                            class="primeng-no-data"
+                                            *ngIf="primengTableHelperOpportunities.totalRecordsCount == 0"
+                                        >
                                             {{ l('NoData') }}
                                         </div>
                                         <div class="primeng-paging-container">
@@ -564,11 +671,14 @@
                                                 #opportunitiesPaginator
                                                 (onPageChange)="getOpportunities($event)"
                                                 [totalRecords]="primengTableHelperOpportunities.totalRecordsCount"
-                                                [rowsPerPageOptions]="primengTableHelperOpportunities.predefinedRecordsCountPerPage"
+                                                [rowsPerPageOptions]="
+                                                    primengTableHelperOpportunities.predefinedRecordsCountPerPage
+                                                "
                                                 [showCurrentPageReport]="true"
                                                 [currentPageReportTemplate]="
-                                        'TotalRecordsCount' | localize: primengTableHelperOpportunities.totalRecordsCount
-                                    "
+                                                    'TotalRecordsCount'
+                                                        | localize: primengTableHelperOpportunities.totalRecordsCount
+                                                "
                                             ></p-paginator>
                                         </div>
                                     </div>
@@ -590,7 +700,7 @@
                 </tab>
 
                 <tab heading="{{ 'Invoices' | localize }}" [disabled]="this.isNew">
-                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!showInvoicesTab" >
+                    <div class="card card-custom card-in-tab gutter-b" [hidden]="!showInvoicesTab">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -610,12 +720,17 @@
                                             [(date)]="invoicesDateRange"
                                         />
                                     </div>
-                                    <label for="StartEndRange" class="float-right pr-5 line-height-30">{{ l('DateRange') }}</label>
+                                    <label for="StartEndRange" class="float-right pr-5 line-height-30">
+                                        {{ l('DateRange') }}
+                                    </label>
                                 </div>
                             </div>
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                                    <div
+                                        class="primeng-datatable-container col-12"
+                                        [busyIf]="primengTableHelper.isLoading"
+                                    >
                                         <p-table
                                             id="dataTable"
                                             #customerInvoicesDataTable
@@ -690,7 +805,7 @@
 
                                                     <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('Amount') }}</span>
-                                                        {{ record.grandTotal | number:'1.2-2' }}
+                                                        {{ record.grandTotal | number: '1.2-2' }}
                                                     </td>
                                                 </tr>
                                             </ng-template>
@@ -707,8 +822,8 @@
                                                 [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                                 [showCurrentPageReport]="true"
                                                 [currentPageReportTemplate]="
-                                        'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
-                                    "
+                                                    'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                                                "
                                             ></p-paginator>
                                         </div>
                                     </div>
@@ -732,7 +847,6 @@
                 <tab heading="{{ 'Equipment' | localize }}" [disabled]="this.isNew">
                     <div class="card card-custom card-in-tab gutter-b" [hidden]="!showEquipmentsTab">
                         <div class="card-body">
-
                             <div class="row pb-5">
                                 <div class="col-md-12">
                                     <button (click)="getCustomerEquipments()" class="btn btn-primary blue float-right">
@@ -744,7 +858,10 @@
 
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelperEquipments.isLoading">
+                                    <div
+                                        class="primeng-datatable-container col-12"
+                                        [busyIf]="primengTableHelperEquipments.isLoading"
+                                    >
                                         <p-table
                                             #customerEquipmentsDataTable
                                             (onLazyLoad)="getCustomerEquipments($event)"
@@ -829,22 +946,25 @@
 
                                                     <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('Meter') }}</span>
-                                                        {{ record.meter | number:'1.2-2' }}
+                                                        {{ record.meter | number: '1.2-2' }}
                                                     </td>
 
                                                     <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('TotalExp') }}</span>
-                                                        {{ record.totalExp | number:'1.2-2' }}
+                                                        {{ record.totalExp | number: '1.2-2' }}
                                                     </td>
 
                                                     <td style="width: 150px" class="text-right">
                                                         <span class="p-column-title">{{ l('ExpMeter') }}</span>
-                                                        {{ record.expMeter | number:'1.2-2' }}
+                                                        {{ record.expMeter | number: '1.2-2' }}
                                                     </td>
                                                 </tr>
                                             </ng-template>
                                         </p-table>
-                                        <div class="primeng-no-data" *ngIf="primengTableHelperEquipments.totalRecordsCount == 0">
+                                        <div
+                                            class="primeng-no-data"
+                                            *ngIf="primengTableHelperEquipments.totalRecordsCount == 0"
+                                        >
                                             {{ l('NoData') }}
                                         </div>
                                         <div class="primeng-paging-container">
@@ -853,11 +973,14 @@
                                                 #customerEquipmentsPaginator
                                                 (onPageChange)="getCustomerEquipments($event)"
                                                 [totalRecords]="primengTableHelperEquipments.totalRecordsCount"
-                                                [rowsPerPageOptions]="primengTableHelperEquipments.predefinedRecordsCountPerPage"
+                                                [rowsPerPageOptions]="
+                                                    primengTableHelperEquipments.predefinedRecordsCountPerPage
+                                                "
                                                 [showCurrentPageReport]="true"
                                                 [currentPageReportTemplate]="
-                                        'TotalRecordsCount' | localize: primengTableHelperEquipments.totalRecordsCount
-                                    "
+                                                    'TotalRecordsCount'
+                                                        | localize: primengTableHelperEquipments.totalRecordsCount
+                                                "
                                             ></p-paginator>
                                         </div>
                                     </div>
@@ -878,7 +1001,6 @@
                     </div>
                 </tab>
 
-
                 <tab heading="{{ 'WIP' | localize }}" [disabled]="this.isNew">
                     <div class="card card-custom card-in-tab gutter-b" [hidden]="!showWipTab">
                         <div class="card-body">
@@ -888,17 +1010,37 @@
                                         <i class="fas fa-sync-alt"></i>
                                         <span>{{ l('RefreshData') }}</span>
                                     </button>
-                                    <div class="form-group  float-right pr-5 pt-5">
-                                        <p-checkbox name="groupname" [label]="l('Quotes')" [(ngModel)]="wipQuotes" [binary]="true"></p-checkbox>
-                                        <p-checkbox class="ml-5" name="groupname" [label]="l('Accepted Quotes')" [(ngModel)]="wipAcceptedQuotes" [binary]="true"></p-checkbox>
-                                        <p-checkbox class="ml-5" name="groupname" [label]="l('Canceled Quotes')" [(ngModel)]="wipCanceledQuotes" [binary]="true"></p-checkbox>
+                                    <div class="form-group float-right pr-5 pt-5">
+                                        <p-checkbox
+                                            name="groupname"
+                                            [label]="l('Quotes')"
+                                            [(ngModel)]="wipQuotes"
+                                            [binary]="true"
+                                        ></p-checkbox>
+                                        <p-checkbox
+                                            class="ml-5"
+                                            name="groupname"
+                                            [label]="l('Accepted Quotes')"
+                                            [(ngModel)]="wipAcceptedQuotes"
+                                            [binary]="true"
+                                        ></p-checkbox>
+                                        <p-checkbox
+                                            class="ml-5"
+                                            name="groupname"
+                                            [label]="l('Canceled Quotes')"
+                                            [(ngModel)]="wipCanceledQuotes"
+                                            [binary]="true"
+                                        ></p-checkbox>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelperWip.isLoading">
+                                    <div
+                                        class="primeng-datatable-container col-12"
+                                        [busyIf]="primengTableHelperWip.isLoading"
+                                    >
                                         <p-table
                                             #customerWipDataTable
                                             (onLazyLoad)="getCustomerWip($event)"
@@ -1015,11 +1157,13 @@
                                                         <span class="p-column-title">{{ l('opened') }}</span>
                                                         {{ record.opened | date: 'MM/dd/yyyy' }}
                                                     </td>
-
                                                 </tr>
                                             </ng-template>
                                         </p-table>
-                                        <div class="primeng-no-data" *ngIf="primengTableHelperWip.totalRecordsCount == 0">
+                                        <div
+                                            class="primeng-no-data"
+                                            *ngIf="primengTableHelperWip.totalRecordsCount == 0"
+                                        >
                                             {{ l('NoData') }}
                                         </div>
                                         <div class="primeng-paging-container">
@@ -1028,11 +1172,14 @@
                                                 #customerWipPaginator
                                                 (onPageChange)="getCustomerWip($event)"
                                                 [totalRecords]="primengTableHelperWip.totalRecordsCount"
-                                                [rowsPerPageOptions]="primengTableHelperWip.predefinedRecordsCountPerPage"
+                                                [rowsPerPageOptions]="
+                                                    primengTableHelperWip.predefinedRecordsCountPerPage
+                                                "
                                                 [showCurrentPageReport]="true"
                                                 [currentPageReportTemplate]="
-                                        'TotalRecordsCount' | localize: primengTableHelperWip.totalRecordsCount
-                                    "
+                                                    'TotalRecordsCount'
+                                                        | localize: primengTableHelperWip.totalRecordsCount
+                                                "
                                             ></p-paginator>
                                         </div>
                                     </div>
@@ -1058,7 +1205,10 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <entityTypeHistory [requiredPermission]="'Pages.Customer.ViewEvents'" #entityTypeHistory></entityTypeHistory>
+                                    <entityTypeHistory
+                                        [requiredPermission]="'Pages.Customer.ViewEvents'"
+                                        #entityTypeHistory
+                                    ></entityTypeHistory>
                                     <div *ngIf="!showEventsTab">
                                         {{ l('UserDontHavePermission') }}
                                     </div>
@@ -1067,36 +1217,20 @@
                         </div>
                     </div>
                 </tab>
-
             </tabset>
         </div>
 
         <div class="row" *ngIf="this.customer.number">
             <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
-                <app-assigned-user
-                    [componentType]="'Account'"
-                    [idToStore]="this.customer.number">
-                </app-assigned-user>
+                <app-assigned-user [componentType]="'Account'" [idToStore]="this.customer.number"></app-assigned-user>
             </div>
 
             <div class="col-sm-12 col-lg-6" *ngIf="isGranted('Pages.Contacts')">
                 <app-customer-contacts
                     [customerNumber]="this.customer.number"
                     (onSaveContact)="reloadEvents()"
-                >
-                </app-customer-contacts>
+                ></app-customer-contacts>
             </div>
-
-<!--            <div class="col-sm-12 col-lg-6">-->
-<!--                <app-activities-widget-->
-<!--                    [componentType] = "'Account'"-->
-<!--                    [idToStore]="this.customer.number">-->
-<!--                </app-activities-widget>-->
-<!--            </div>-->
         </div>
-
     </div>
-
-
-
 </div>

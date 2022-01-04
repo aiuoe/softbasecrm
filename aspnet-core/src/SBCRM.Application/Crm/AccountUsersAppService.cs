@@ -1,17 +1,17 @@
-﻿using SBCRM.Authorization.Users;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Dtos;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
+using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.EntityHistory;
+using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Authorization;
+using SBCRM.Authorization.Users;
+using SBCRM.Crm.Dtos;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -24,6 +24,7 @@ namespace SBCRM.Crm
         private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IAccountAutomateAssignment _accountAutomateAssignment;
 
         /// <summary>
         /// Constructor method
@@ -32,12 +33,15 @@ namespace SBCRM.Crm
         /// <param name="lookupUserRepository"></param>
         /// <param name="unitOfWorkManager"></param>
         /// <param name="reasonProvider"></param>
+        /// <param name="accountAutomateAssignment"></param>
         public AccountUsersAppService(IRepository<AccountUser> accountUserRepository,
             IRepository<User, long> lookupUserRepository,
             IUnitOfWorkManager unitOfWorkManager,
-            IEntityChangeSetReasonProvider reasonProvider)
+            IEntityChangeSetReasonProvider reasonProvider,
+            IAccountAutomateAssignment accountAutomateAssignment)
         {
             _accountUserRepository = accountUserRepository;
+            _accountAutomateAssignment = accountAutomateAssignment;
             _lookupUserRepository = lookupUserRepository;
             _unitOfWorkManager = unitOfWorkManager;
             _reasonProvider = reasonProvider;
@@ -136,11 +140,11 @@ namespace SBCRM.Crm
         {
             var accountUser = await _accountUserRepository.GetAsync(id);
 
-            var output = new GetAccountUserForViewDto {AccountUser = ObjectMapper.Map<AccountUserDto>(accountUser)};
+            var output = new GetAccountUserForViewDto { AccountUser = ObjectMapper.Map<AccountUserDto>(accountUser) };
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -158,17 +162,16 @@ namespace SBCRM.Crm
             var accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetAccountUserForEditOutput
-                {AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser)};
+            { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.AccountUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
             return output;
         }
-
 
         /// <summary>
         /// Deletes an account user
@@ -208,34 +211,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_AccountUsers_Create)]
         public async Task CreateMultipleAccountUsers(List<CreateOrEditAccountUserDto> input)
         {
-            using (_reasonProvider.Use("User wa assigned to Account"))
-            {
-                foreach (var item in input)
-                {
-                    var accountUserExists = await _accountUserRepository.FirstOrDefaultAsync(p => p.UserId == item.UserId
-                        && p.CustomerNumber == item.CustomerNumber
-                        && p.IsDeleted);
-
-                    if (accountUserExists == null)
-                    {
-                        var accountUser = ObjectMapper.Map<AccountUser>(item);
-
-                        accountUser.TenantId = GetTenantId();
-
-                        await _accountUserRepository.InsertAsync(accountUser);
-                    }
-                    else
-                    {
-                        accountUserExists.IsDeleted = false;
-                        var accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
-                        var accountUser =
-                            await _accountUserRepository.FirstOrDefaultAsync(accountUserInDatabase.Id.Value);
-                        ObjectMapper.Map(input, accountUser);
-                    }
-                }
-
-                await _unitOfWorkManager.Current.SaveChangesAsync();
-            }
+            await _accountAutomateAssignment.AssignAccountUsersAsync(input);
         }
     }
 }

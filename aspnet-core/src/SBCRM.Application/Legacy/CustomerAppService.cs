@@ -15,6 +15,7 @@ using Abp.Authorization;
 using Abp.Domain.Uow;
 using Abp.EntityHistory;
 using Abp.UI;
+using Castle.Components.DictionaryAdapter;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
@@ -48,6 +49,7 @@ namespace SBCRM.Legacy
         private readonly ISoftBaseCustomerSequenceRepository _customerSequenceRepository;
         private readonly IContactsAppService _contactsAppService;
         private readonly IAuditEventsService _auditEventsService;
+        private readonly IAccountAutomateAssignment _accountAutomateAssignment;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -70,6 +72,7 @@ namespace SBCRM.Legacy
         /// <param name="contactsAppService"></param>
         /// <param name="lookupCountryRepository"></param>
         /// <param name="auditEventsService"></param>
+        /// <param name="accountAutomateAssignment"></param>
         public CustomerAppService(
             BaseRepo.IRepository<Customer> customerRepository,
             BaseRepo.IRepository<Country> lookupCountryRepository,
@@ -86,24 +89,26 @@ namespace SBCRM.Legacy
             ISoftBaseCustomerSequenceRepository customerSequenceRepository,
             IContactsAppService contactsAppService,
             ICustomerExcelExporter customerExcelExporter,
-            IAuditEventsService auditEventsService)
+            IAuditEventsService auditEventsService,
+            IAccountAutomateAssignment accountAutomateAssignment)
         {
-            _customerRepository = customerRepository;
-            _customerExcelExporter = customerExcelExporter;
+            _accountAutomateAssignment = accountAutomateAssignment;
+            _accountUserRepository = accountUserRepository;
             _auditEventsService = auditEventsService;
-            _lookupUserRepository = lookupUserRepository;
-            _opportunityRepository = opportunityRepository;
-            _lookupAccountTypeRepository = lookupAccountTypeRepository;
-            _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _contactsAppService = contactsAppService;
             _customerCustomerInvoiceRepository = customerCustomerInvoiceRepository;
             _customerEquipmentRepository = customerEquipmentRepository;
+            _customerExcelExporter = customerExcelExporter;
+            _customerRepository = customerRepository;
+            _customerSequenceRepository = customerSequenceRepository;
             _customerWipRepository = customerWipRepository;
-            _accountUserRepository = accountUserRepository;
+            _lookupAccountTypeRepository = lookupAccountTypeRepository;
+            _lookupCountryRepository = lookupCountryRepository;
+            _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _lookupUserRepository = lookupUserRepository;
+            _opportunityRepository = opportunityRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
-            _customerSequenceRepository = customerSequenceRepository;
-            _contactsAppService = contactsAppService;
-            _lookupCountryRepository = lookupCountryRepository;
         }
 
         /// <summary>
@@ -120,7 +125,7 @@ namespace SBCRM.Legacy
                         .Include(e => e.AccountTypeFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),e => e.Name.Contains(input.Filter))
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => e.Name.Contains(input.Filter))
                         .WhereIf(input.AccountTypeId.Any(), x => input.AccountTypeId.Contains(x.AccountTypeFk.Id))
                         .WhereIf(input.UserIds.Any(), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .Select(x => new
@@ -149,28 +154,28 @@ namespace SBCRM.Legacy
                     input.Sorting = input.Sorting.Replace(_assignedUserSortKey, $"{nameof(CustomerQueryDto.FirstUserAssignedName)}");
 
                     customer = from o in filteredCustomer
-                        join o1 in _lookupAccountTypeRepository.GetAll() on o.AccountTypeId equals o1.Id into j1
-                        from s1 in j1.DefaultIfEmpty()
-                        select new CustomerQueryDto
-                        {
-                            Number = o.Number,
-                            BillTo = o.BillTo,
-                            Name = o.Name,
-                            Address = o.Address,
-                            Phone = o.Phone,
-                            AddedBy = o.AddedBy,
-                            Added = o.Added,
-                            ChangedBy = o.ChangedBy,
-                            Changed = o.Changed,
-                            Users = o.Users,
-                            AccountTypeDescription = s1 == null || s1.Description == null ? string.Empty : s1.Description.ToString(),
-                            FirstUserAssignedName = (from s in _accountUserRepository.GetAll()
-                                        .Include(x => x.UserFk)
-                                    where s.CustomerNumber == o.Number
-                                    select s.UserFk.Name
-                                ).OrderBy(x => x).FirstOrDefault()
-                        };
-                    
+                               join o1 in _lookupAccountTypeRepository.GetAll() on o.AccountTypeId equals o1.Id into j1
+                               from s1 in j1.DefaultIfEmpty()
+                               select new CustomerQueryDto
+                               {
+                                   Number = o.Number,
+                                   BillTo = o.BillTo,
+                                   Name = o.Name,
+                                   Address = o.Address,
+                                   Phone = o.Phone,
+                                   AddedBy = o.AddedBy,
+                                   Added = o.Added,
+                                   ChangedBy = o.ChangedBy,
+                                   Changed = o.Changed,
+                                   Users = o.Users,
+                                   AccountTypeDescription = s1 == null || s1.Description == null ? string.Empty : s1.Description.ToString(),
+                                   FirstUserAssignedName = (from s in _accountUserRepository.GetAll()
+                                               .Include(x => x.UserFk)
+                                                            where s.CustomerNumber == o.Number
+                                                            select s.UserFk.Name
+                                       ).OrderBy(x => x).FirstOrDefault()
+                               };
+
                     customer = customer
                         .OrderBy(input.Sorting ?? $"{nameof(Customer.Name)} asc")
                         .PageBy(input);
@@ -180,24 +185,23 @@ namespace SBCRM.Legacy
                     customer = from o in (filteredCustomer
                             .OrderBy(input.Sorting ?? $"{nameof(Customer.Name)} asc")
                             .PageBy(input))
-                        join o1 in _lookupAccountTypeRepository.GetAll() on o.AccountTypeId equals o1.Id into j1
-                        from s1 in j1.DefaultIfEmpty()
-                        select new CustomerQueryDto
-                        {
-                            Number = o.Number,
-                            BillTo = o.BillTo,
-                            Name = o.Name,
-                            Address = o.Address,
-                            Phone = o.Phone,
-                            AddedBy = o.AddedBy,
-                            Added = o.Added,
-                            ChangedBy = o.ChangedBy,
-                            Changed = o.Changed,
-                            Users = o.Users,
-                            AccountTypeDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString()
-                        };
+                               join o1 in _lookupAccountTypeRepository.GetAll() on o.AccountTypeId equals o1.Id into j1
+                               from s1 in j1.DefaultIfEmpty()
+                               select new CustomerQueryDto
+                               {
+                                   Number = o.Number,
+                                   BillTo = o.BillTo,
+                                   Name = o.Name,
+                                   Address = o.Address,
+                                   Phone = o.Phone,
+                                   AddedBy = o.AddedBy,
+                                   Added = o.Added,
+                                   ChangedBy = o.ChangedBy,
+                                   Changed = o.Changed,
+                                   Users = o.Users,
+                                   AccountTypeDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString()
+                               };
                 }
-
 
                 var totalCount = await filteredCustomer.CountAsync();
 
@@ -214,7 +218,6 @@ namespace SBCRM.Legacy
                 Logger.Error("Error in CustomerAppService -> ", e);
                 throw;
             }
-
         }
 
         private static List<GetCustomerForViewDto> GetCustomerForViewDtos(List<CustomerQueryDto> dbList)
@@ -288,7 +291,7 @@ namespace SBCRM.Legacy
 
             return output;
         }
-        
+
         /// <summary>
         /// Get customer for edition mode
         /// </summary>
@@ -341,7 +344,7 @@ namespace SBCRM.Legacy
             customer.Terms = defaultAccountType.Description;
 
             var currentUser = await GetCurrentUserAsync();
-            
+
             using (_reasonProvider.Use("Account created"))
             {
                 // Set internal audit fields
@@ -352,6 +355,15 @@ namespace SBCRM.Legacy
                 customer.Added = DateTime.UtcNow;
                 await _customerRepository.InsertAsync(customer);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
+
+                //Assign Account Users
+                List<CreateOrEditAccountUserDto> assignAccountUsers = new EditableList<CreateOrEditAccountUserDto>();
+                assignAccountUsers.Add(new CreateOrEditAccountUserDto()
+                {
+                    CustomerNumber = customer.Number,
+                    UserId = currentUser.Id
+                });
+                await _accountAutomateAssignment.AssignAccountUsersAsync(assignAccountUsers);
             }
         }
 
@@ -442,7 +454,6 @@ namespace SBCRM.Legacy
                 }).ToListAsync();
         }
 
-
         /// <summary>
         /// Get Account type lookup
         /// </summary>
@@ -457,7 +468,6 @@ namespace SBCRM.Legacy
                     DisplayName = source == null || source.Description == null ? "" : source.Description.ToString()
                 }).ToListAsync();
         }
-
 
         /// <summary>
         /// Get Countries lookup
@@ -474,7 +484,6 @@ namespace SBCRM.Legacy
                     DisplayName = country == null || country.Name == null ? "" : country.Name.ToString()
                 }).ToListAsync(); ;
         }
-
 
         /// <summary>
         /// Get all users for table dropdown
@@ -524,7 +533,8 @@ namespace SBCRM.Legacy
 
             foreach (var o in dbList)
             {
-                var res = new CustomerOpportunityViewDto {
+                var res = new CustomerOpportunityViewDto
+                {
                     Id = o.Id,
                     Name = o.Name,
                     Stage = o.OpportunityStageFk?.Description,
@@ -608,7 +618,7 @@ namespace SBCRM.Legacy
         public async Task<string> ConvertFromLead(ConvertLeadToAccountDto input)
         {
             var currentUser = await GetCurrentUserAsync();
-            
+
             GuardHelper.ThrowIf(input.Lead is null, new UserFriendlyException(L("CustomerNotExist")));
             GuardHelper.ThrowIf(await CheckIfExistByName(input.Lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
 
@@ -662,6 +672,5 @@ namespace SBCRM.Legacy
 
             return customer.Number;
         }
-        
     }
 }
