@@ -105,7 +105,7 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
         break;
 
       case 'Account':
-        // To do
+        this.getAccountActivityForViewEdit(activityId);
         break;
 
       case 'Opportunity':
@@ -118,11 +118,27 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
     this.modal.show();
   }
 
+
   /**
    * 
+   * @param activityId 
    */
   getLeadActivityForViewEdit(activityId: number) {
     this._leadActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
+      this.activity = result.activity;
+      this.activityType = result.activityTaskTypeDescription;
+      const { dueDate } = result.activity;
+      this.selectedDate = dueDate.toJSDate();
+      this.selectedTime = dueDate.toFormat('hh:mm a');
+    });
+  }
+
+  /**
+   * 
+   * @param activityId 
+   */
+  getAccountActivityForViewEdit(activityId: number){
+    this._accountActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
       this.activity = result.activity;
       this.activityType = result.activityTaskTypeDescription;
       const { dueDate } = result.activity;
