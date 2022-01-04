@@ -685,6 +685,528 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AccountActivitiesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param opportunityNameFilter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param activitySourceTypeDescriptionFilter (optional) 
+     * @param activityTaskTypeDescriptionFilter (optional) 
+     * @param activityStatusDescriptionFilter (optional) 
+     * @param activityPriorityDescriptionFilter (optional) 
+     * @param customerNameFilter (optional) 
+     * @param idToFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (opportunityNameFilter === null)
+            throw new Error("The parameter 'opportunityNameFilter' cannot be null.");
+        else if (opportunityNameFilter !== undefined)
+            url_ += "OpportunityNameFilter=" + encodeURIComponent("" + opportunityNameFilter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
+        if (activitySourceTypeDescriptionFilter === null)
+            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
+        else if (activitySourceTypeDescriptionFilter !== undefined)
+            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
+        if (activityTaskTypeDescriptionFilter === null)
+            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
+        else if (activityTaskTypeDescriptionFilter !== undefined)
+            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
+        if (activityStatusDescriptionFilter === null)
+            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
+        else if (activityStatusDescriptionFilter !== undefined)
+            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
+        if (activityPriorityDescriptionFilter === null)
+            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
+        else if (activityPriorityDescriptionFilter !== undefined)
+            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
+        if (customerNameFilter === null)
+            throw new Error("The parameter 'customerNameFilter' cannot be null.");
+        else if (customerNameFilter !== undefined)
+            url_ += "CustomerNameFilter=" + encodeURIComponent("" + customerNameFilter) + "&";
+        if (idToFilter === null)
+            throw new Error("The parameter 'idToFilter' cannot be null.");
+        else if (idToFilter !== undefined)
+            url_ += "IdToFilter=" + encodeURIComponent("" + idToFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetActivityForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetActivityForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetActivityForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetActivityForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetActivityForViewDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditActivityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUserForTableDropdown(): Observable<ActivityUserLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllUserForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityUserLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityUserLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForTableDropdown(response: HttpResponseBase): Observable<ActivityUserLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityUserLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityUserLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivitySourceTypeForTableDropdown(): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivitySourceTypeForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivitySourceTypeForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivitySourceTypeForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivitySourceTypeLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivitySourceTypeLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivitySourceTypeForTableDropdown(response: HttpResponseBase): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivitySourceTypeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivitySourceTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityTaskTypeForTableDropdown(): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivityTaskTypeForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityTaskTypeForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityTaskTypeForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivityTaskTypeLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivityTaskTypeLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityTaskTypeForTableDropdown(response: HttpResponseBase): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivityTaskTypeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivityTaskTypeLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityStatusForTableDropdown(): Observable<ActivityActivityStatusLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivityStatusForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityStatusForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityStatusForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivityStatusLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivityStatusLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityStatusForTableDropdown(response: HttpResponseBase): Observable<ActivityActivityStatusLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivityStatusLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivityStatusLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllActivityPriorityForTableDropdown(): Observable<ActivityActivityPriorityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivityPriorityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllActivityPriorityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllActivityPriorityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityActivityPriorityLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityActivityPriorityLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllActivityPriorityForTableDropdown(response: HttpResponseBase): Observable<ActivityActivityPriorityLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityActivityPriorityLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityActivityPriorityLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class AccountTypesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -1425,19 +1947,18 @@ export class ActivitiesServiceProxy {
      * @param opportunityNameFilter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
-     * @param activitySourceTypeDescriptionFilter (optional) 
-     * @param activityTaskTypeDescriptionFilter (optional) 
-     * @param activityStatusDescriptionFilter (optional) 
-     * @param activityPriorityDescriptionFilter (optional) 
      * @param customerNameFilter (optional) 
      * @param userIds (optional) 
      * @param excludeCompleted (optional) 
+     * @param activitySourceTypeId (optional) 
+     * @param activityTaskTypeId (optional) 
+     * @param activityStatusId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1455,22 +1976,6 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
-        if (activitySourceTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
-        else if (activitySourceTypeDescriptionFilter !== undefined)
-            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
-        if (activityTaskTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
-        else if (activityTaskTypeDescriptionFilter !== undefined)
-            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
-        if (activityStatusDescriptionFilter === null)
-            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
-        else if (activityStatusDescriptionFilter !== undefined)
-            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
-        if (activityPriorityDescriptionFilter === null)
-            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
-        else if (activityPriorityDescriptionFilter !== undefined)
-            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
         if (customerNameFilter === null)
             throw new Error("The parameter 'customerNameFilter' cannot be null.");
         else if (customerNameFilter !== undefined)
@@ -1483,6 +1988,18 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'excludeCompleted' cannot be null.");
         else if (excludeCompleted !== undefined)
             url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (activitySourceTypeId === null)
+            throw new Error("The parameter 'activitySourceTypeId' cannot be null.");
+        else if (activitySourceTypeId !== undefined)
+            url_ += "ActivitySourceTypeId=" + encodeURIComponent("" + activitySourceTypeId) + "&";
+        if (activityTaskTypeId === null)
+            throw new Error("The parameter 'activityTaskTypeId' cannot be null.");
+        else if (activityTaskTypeId !== undefined)
+            url_ += "ActivityTaskTypeId=" + encodeURIComponent("" + activityTaskTypeId) + "&";
+        if (activityStatusId === null)
+            throw new Error("The parameter 'activityStatusId' cannot be null.");
+        else if (activityStatusId !== undefined)
+            url_ += "ActivityStatusId=" + encodeURIComponent("" + activityStatusId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -1762,19 +2279,18 @@ export class ActivitiesServiceProxy {
      * @param opportunityNameFilter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
-     * @param activitySourceTypeDescriptionFilter (optional) 
-     * @param activityTaskTypeDescriptionFilter (optional) 
-     * @param activityStatusDescriptionFilter (optional) 
-     * @param activityPriorityDescriptionFilter (optional) 
      * @param customerNameFilter (optional) 
      * @param userIds (optional) 
      * @param excludeCompleted (optional) 
+     * @param activitySourceTypeId (optional) 
+     * @param activityTaskTypeId (optional) 
+     * @param activityStatusId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1792,22 +2308,6 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'userNameFilter' cannot be null.");
         else if (userNameFilter !== undefined)
             url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&";
-        if (activitySourceTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activitySourceTypeDescriptionFilter' cannot be null.");
-        else if (activitySourceTypeDescriptionFilter !== undefined)
-            url_ += "ActivitySourceTypeDescriptionFilter=" + encodeURIComponent("" + activitySourceTypeDescriptionFilter) + "&";
-        if (activityTaskTypeDescriptionFilter === null)
-            throw new Error("The parameter 'activityTaskTypeDescriptionFilter' cannot be null.");
-        else if (activityTaskTypeDescriptionFilter !== undefined)
-            url_ += "ActivityTaskTypeDescriptionFilter=" + encodeURIComponent("" + activityTaskTypeDescriptionFilter) + "&";
-        if (activityStatusDescriptionFilter === null)
-            throw new Error("The parameter 'activityStatusDescriptionFilter' cannot be null.");
-        else if (activityStatusDescriptionFilter !== undefined)
-            url_ += "ActivityStatusDescriptionFilter=" + encodeURIComponent("" + activityStatusDescriptionFilter) + "&";
-        if (activityPriorityDescriptionFilter === null)
-            throw new Error("The parameter 'activityPriorityDescriptionFilter' cannot be null.");
-        else if (activityPriorityDescriptionFilter !== undefined)
-            url_ += "ActivityPriorityDescriptionFilter=" + encodeURIComponent("" + activityPriorityDescriptionFilter) + "&";
         if (customerNameFilter === null)
             throw new Error("The parameter 'customerNameFilter' cannot be null.");
         else if (customerNameFilter !== undefined)
@@ -1820,6 +2320,18 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'excludeCompleted' cannot be null.");
         else if (excludeCompleted !== undefined)
             url_ += "ExcludeCompleted=" + encodeURIComponent("" + excludeCompleted) + "&";
+        if (activitySourceTypeId === null)
+            throw new Error("The parameter 'activitySourceTypeId' cannot be null.");
+        else if (activitySourceTypeId !== undefined)
+            url_ += "ActivitySourceTypeId=" + encodeURIComponent("" + activitySourceTypeId) + "&";
+        if (activityTaskTypeId === null)
+            throw new Error("The parameter 'activityTaskTypeId' cannot be null.");
+        else if (activityTaskTypeId !== undefined)
+            url_ += "ActivityTaskTypeId=" + encodeURIComponent("" + activityTaskTypeId) + "&";
+        if (activityStatusId === null)
+            throw new Error("The parameter 'activityStatusId' cannot be null.");
+        else if (activityStatusId !== undefined)
+            url_ += "ActivityStatusId=" + encodeURIComponent("" + activityStatusId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -11750,8 +12262,8 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    canSeeAllLeads(): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Leads/CanSeeAllLeads";
+    currentUserCanSeeAllLeads(): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/CurrentUserCanSeeAllLeads";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11763,11 +12275,11 @@ export class LeadsServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCanSeeAllLeads(response_);
+            return this.processCurrentUserCanSeeAllLeads(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCanSeeAllLeads(<any>response_);
+                    return this.processCurrentUserCanSeeAllLeads(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -11776,7 +12288,7 @@ export class LeadsServiceProxy {
         }));
     }
 
-    protected processCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
+    protected processCurrentUserCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12399,6 +12911,7 @@ export class LeadsServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param timeZone (optional) 
      * @param companyOrContactNameFilter (optional) 
      * @param contactNameFilter (optional) 
      * @param contactPositionFilter (optional) 
@@ -12426,12 +12939,16 @@ export class LeadsServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, timeZone: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         if (companyOrContactNameFilter === null)
             throw new Error("The parameter 'companyOrContactNameFilter' cannot be null.");
         else if (companyOrContactNameFilter !== undefined)
@@ -14628,8 +15145,8 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    canSeeAllLeads(): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/CanSeeAllLeads";
+    canSeeAllOpportunities(): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/CanSeeAllOpportunities";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -14641,11 +15158,11 @@ export class OpportunitiesServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCanSeeAllLeads(response_);
+            return this.processCanSeeAllOpportunities(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCanSeeAllLeads(<any>response_);
+                    return this.processCanSeeAllOpportunities(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -14654,7 +15171,7 @@ export class OpportunitiesServiceProxy {
         }));
     }
 
-    protected processCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
+    protected processCanSeeAllOpportunities(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -15103,6 +15620,7 @@ export class OpportunitiesServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param timeZone (optional) 
      * @param nameFilter (optional) 
      * @param maxAmountFilter (optional) 
      * @param minAmountFilter (optional) 
@@ -15122,12 +15640,16 @@ export class OpportunitiesServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, timeZone: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         if (nameFilter === null)
             throw new Error("The parameter 'nameFilter' cannot be null.");
         else if (nameFilter !== undefined)

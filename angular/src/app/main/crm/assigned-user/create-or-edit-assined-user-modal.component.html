@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="col-md-8 offset-md-2">
+					<div class="col-md-12">
                         <p-listbox
                             [options]="this.allUsers"
                             [(ngModel)]="this.selectedUsers"
@@ -30,10 +30,10 @@
                             [multiple]="true"
                             optionLabel="displayName"
                             [filter]="true"
-                            [filterPlaceHolder]="this.l('Search')"
-                            [listStyle]="{ 'max-height': '300px' }"
-                            [style]="{ border: 'none' }"
-                        ></p-listbox>
+                            [filterPlaceHolder] = "this.l('Search')"
+                            [listStyle]="{'max-height':'300px'}"
+                            [style]="{'border':'none'}">
+                        </p-listbox>
                     </div>
                 </div>
 
