@@ -58,17 +58,17 @@ namespace SBCRM.Crm
         [AbpAllowAnonymous]
         public async Task<bool> GetCanViewAssignedUsersWidget(string customerNumber)
         {
-            var currentUser = await GetCurrentUserAsync();
-            var hasDynamicPermission =
+            User currentUser = await GetCurrentUserAsync();
+            bool hasDynamicPermission =
                 await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers_View__Dynamic);
-            var hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers);
+            bool hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_AccountUsers);
 
-            var currentUserIsAssignedInCustomer = _accountUserRepository
+            bool currentUserIsAssignedInCustomer = _accountUserRepository
                 .GetAll()
                 .Where(x => x.CustomerNumber == customerNumber)
                 .Any(x => x.UserId == currentUser.Id);
 
-            var canViewAssignedUsersDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
+            bool canViewAssignedUsersDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
             return canViewAssignedUsersDynamic || hasStaticPermission;
         }
 
@@ -77,17 +77,14 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(
-            permissions: new[]
+        [AbpAuthorize(permissions: new[]
             {
                 AppPermissions.Pages_AccountUsers,
                 AppPermissions.Pages_AccountUsers_View__Dynamic
-            },
-            RequireAllPermissions = false
-        )]
+            }, RequireAllPermissions = false)]
         public async Task<PagedResultDto<GetAccountUserForViewDto>> GetAll(GetAllAccountUsersInput input)
         {
-            var filteredAccountUsers = _accountUserRepository.GetAll()
+            IQueryable<AccountUser> filteredAccountUsers = _accountUserRepository.GetAll()
                 .Include(e => e.UserFk)
                 .Include(e => e.CustomerFk)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false)
@@ -97,18 +94,18 @@ namespace SBCRM.Crm
                     e => e.CustomerFk != null && e.CustomerFk.Number == input.CustomerNumber)
                 .Where(p => !p.IsDeleted);
 
-            var pagedAndFilteredAccountUsers = filteredAccountUsers
+            IQueryable<AccountUser> pagedAndFilteredAccountUsers = filteredAccountUsers
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
-            var totalCount = await filteredAccountUsers.CountAsync();
+            int totalCount = await filteredAccountUsers.CountAsync();
 
-            var dbList = await filteredAccountUsers.ToListAsync();
-            var results = new List<GetAccountUserForViewDto>();
+            List<AccountUser> dbList = await filteredAccountUsers.ToListAsync();
+            List<GetAccountUserForViewDto> results = new List<GetAccountUserForViewDto>();
 
-            foreach (var o in dbList)
+            foreach (AccountUser o in dbList)
             {
-                var res = new GetAccountUserForViewDto()
+                GetAccountUserForViewDto res = new GetAccountUserForViewDto()
                 {
                     AccountUser = new AccountUserDto
                     {
@@ -138,13 +135,13 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
         public async Task<GetAccountUserForViewDto> GetAccountUserForView(int id)
         {
-            var accountUser = await _accountUserRepository.GetAsync(id);
+            AccountUser accountUser = await _accountUserRepository.GetAsync(id);
 
-            var output = new GetAccountUserForViewDto { AccountUser = ObjectMapper.Map<AccountUserDto>(accountUser) };
+            GetAccountUserForViewDto output = new GetAccountUserForViewDto { AccountUser = ObjectMapper.Map<AccountUserDto>(accountUser) };
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                User _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
@@ -159,14 +156,14 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_AccountUsers)]
         public async Task<GetAccountUserForEditOutput> GetAccountUserForEdit(EntityDto input)
         {
-            var accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
+            AccountUser accountUser = await _accountUserRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetAccountUserForEditOutput
+            GetAccountUserForEditOutput output = new GetAccountUserForEditOutput
             { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
 
             if (output.AccountUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+                User _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 

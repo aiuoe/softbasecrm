@@ -1,18 +1,27 @@
 ﻿using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.EntityHistory;
 using SBCRM.Crm.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Uow;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Class containing the service that implements auto-assignment
+    /// </summary>
     public class AccountAutomateAssignmentService : SBCRMAppServiceBase, IAccountAutomateAssignment
     {
         private readonly IRepository<AccountUser> _accountUserRepository;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="reasonProvider"></param>
+        /// <param name="accountUserRepository"></param>
+        /// <param name="unitOfWorkManager"></param>
         public AccountAutomateAssignmentService(IEntityChangeSetReasonProvider reasonProvider,
             IRepository<AccountUser> accountUserRepository,
             IUnitOfWorkManager unitOfWorkManager)
@@ -22,19 +31,24 @@ namespace SBCRM.Crm
             _unitOfWorkManager = unitOfWorkManager;
         }
 
+        /// <summary>
+        /// Method that assigns a user to an account
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task AssignAccountUsersAsync(List<CreateOrEditAccountUserDto> input)
         {
             using (_reasonProvider.Use("User wa assigned to Account"))
             {
-                foreach (var item in input)
+                foreach (CreateOrEditAccountUserDto item in input)
                 {
-                    var accountUserExists = await _accountUserRepository.FirstOrDefaultAsync(p => p.UserId == item.UserId
+                    AccountUser accountUserExists = await _accountUserRepository.FirstOrDefaultAsync(p => p.UserId == item.UserId
                         && p.CustomerNumber == item.CustomerNumber
                         && p.IsDeleted);
 
                     if (accountUserExists == null)
                     {
-                        var accountUser = ObjectMapper.Map<AccountUser>(item);
+                        AccountUser accountUser = ObjectMapper.Map<AccountUser>(item);
 
                         accountUser.TenantId = GetTenantId();
 
@@ -43,8 +57,8 @@ namespace SBCRM.Crm
                     else
                     {
                         accountUserExists.IsDeleted = false;
-                        var accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
-                        var accountUser =
+                        CreateOrEditAccountUserDto accountUserInDatabase = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUserExists);
+                        AccountUser accountUser =
                             await _accountUserRepository.FirstOrDefaultAsync(accountUserInDatabase.Id.Value);
                         ObjectMapper.Map(input, accountUser);
                     }

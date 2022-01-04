@@ -5,7 +5,7 @@
 		<text name="ScheduleCall">Schedule Call</text>
 		<text name="ScheduleMeeting">Schedule Meeting</text>
 		<text name="EmailReminder">Email Reminder</text>
-		<text name="ToDoReminder">To Do Reminder</text>		
+		<text name="ToDoReminder">To Do Reminder</text>
 		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
 		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
 		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
@@ -1744,6 +1744,7 @@
 		<text name="OneHour">1 Hour (default)</text>
 		<text name="OneHourAndThirtyMinutes">1.5 Hours</text>
 		<text name="TwoHours">2 Hours</text>
+		<text name="AutomateAssignmentUser">Automate Assignment User</text>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[
 <texts>

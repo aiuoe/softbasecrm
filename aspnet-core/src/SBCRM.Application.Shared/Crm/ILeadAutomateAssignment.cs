@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// Class that handles the method of auto-assigning users to an account
+    /// Class that handles the method of auto-assigning users to a lead
     /// </summary>
-    public interface IAccountAutomateAssignment : ITransientDependency
+    public interface ILeadAutomateAssignment : ITransientDependency
     {
         /// <summary>
-        /// Method that assigns a user to an account
+        /// Method that assigns a user to a lead
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AssignAccountUsersAsync(List<CreateOrEditAccountUserDto> input);
+        Task AssignLeadUsersAsync(List<CreateOrEditLeadUserDto> input);
     }
 }
