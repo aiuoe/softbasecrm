@@ -310,6 +310,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     setUsersProfilePictureUrl(records: any[]): void {
         for (let i = 0; i < records.length; i++) {
             let record = records[i];
+
+            if (!record.activity.userId) continue;
+
             this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
                 let profilePictureUrl =
                     AppConsts.remoteServiceBaseUrl +

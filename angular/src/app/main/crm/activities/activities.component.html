@@ -345,12 +345,20 @@
                                             <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <span class="d-flex align-items-center">
-                                                <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+                                            <ng-container *ngIf="!record.activity.userId; else assignedUserLabel">
+                                                <span class="font-italic pl-10">
+                                                    {{ l('NotAssigned') }}
+                                                </span>
+                                            </ng-container>
 
-                                                {{ record.userName }}
-                                            </span>
+                                            <ng-template #assignedUserLabel>
+                                                <span class="p-column-title">{{ l('AssignedUser') }}</span>
+                                                <span class="d-flex align-items-center">
+                                                    <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+
+                                                    {{ record.userName }}
+                                                </span>
+                                            </ng-template>
                                         </td>
                                     </tr>
                                 </ng-template>

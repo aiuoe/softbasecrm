@@ -25835,7 +25835,7 @@ export class ActivityDto implements IActivityDto {
     startsAt!: DateTime;
     opportunityId!: number | undefined;
     leadId!: number | undefined;
-    userId!: number;
+    userId!: number | undefined;
     activitySourceTypeId!: number;
     activityTaskTypeId!: number;
     activityStatusId!: number;
@@ -25897,7 +25897,7 @@ export interface IActivityDto {
     startsAt: DateTime;
     opportunityId: number | undefined;
     leadId: number | undefined;
-    userId: number;
+    userId: number | undefined;
     activitySourceTypeId: number;
     activityTaskTypeId: number;
     activityStatusId: number;
@@ -27882,7 +27882,7 @@ export class CreateOrEditActivityDto implements ICreateOrEditActivityDto {
     description!: string | undefined;
     opportunityId!: number | undefined;
     leadId!: number | undefined;
-    userId!: number;
+    userId!: number | undefined;
     activitySourceTypeId!: number;
     activityTaskTypeId!: number;
     activityStatusId!: number;
@@ -27953,7 +27953,7 @@ export interface ICreateOrEditActivityDto {
     description: string | undefined;
     opportunityId: number | undefined;
     leadId: number | undefined;
-    userId: number;
+    userId: number | undefined;
     activitySourceTypeId: number;
     activityTaskTypeId: number;
     activityStatusId: number;

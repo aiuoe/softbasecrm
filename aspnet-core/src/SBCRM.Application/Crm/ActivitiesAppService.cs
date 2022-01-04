@@ -103,7 +103,7 @@ namespace SBCRM.Crm
                 .Include(e => e.ActivityStatusFk)
                 .Include(e => e.ActivityPriorityFk)
                 .Include(e => e.CustomerFk)
-                .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId.Value))
                 .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                 .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
                 .WhereIf(input.ActivitySourceTypeId.HasValue, e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Id == input.ActivitySourceTypeId)
@@ -227,8 +227,11 @@ namespace SBCRM.Crm
                 output.LeadCompanyName = _lookupLead?.CompanyName?.ToString();
             }
 
-            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
-            output.UserName = lookupUser?.Name?.ToString();
+            if (output.Activity.UserId != null)
+            {
+                var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
+                output.UserName = lookupUser?.Name;
+            }
 
             var lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
             output.ActivitySourceTypeDescription = lookupActivitySourceType?.Description?.ToString();
@@ -275,8 +278,11 @@ namespace SBCRM.Crm
                 output.LeadCompanyName = lookupLead?.CompanyName?.ToString();
             }
 
-            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
-            output.UserName = lookupUser?.Name?.ToString();
+            if (output.Activity.UserId != null)
+            {
+                var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
+                output.UserName = lookupUser?.Name;
+            }
 
             var lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
             output.ActivitySourceTypeDescription = lookupActivitySourceType?.Description?.ToString();
@@ -377,7 +383,7 @@ namespace SBCRM.Crm
                 .Include(e => e.ActivityStatusFk)
                 .Include(e => e.ActivityPriorityFk)
                 .Include(e => e.CustomerFk)
-                .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId))
+                .WhereIf(isUserCanFilterByAssignee && input.UserIds.Any(), x => input.UserIds.Contains(x.UserId.Value))
                 .WhereIf(!isUserCanFilterByAssignee, x => x.UserId == currentUser.Id)
                 .WhereIf(input.ExcludeCompleted, x => !x.ActivityStatusFk.IsCompletedStatus)
                 .WhereIf(input.ActivitySourceTypeId.HasValue, e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Id == input.ActivitySourceTypeId)
