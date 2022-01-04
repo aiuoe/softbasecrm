@@ -1,10 +1,8 @@
 ﻿using SBCRM.Authorization.Users;
-using SBCRM.Crm;
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Abp.Auditing;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
@@ -12,9 +10,10 @@ namespace SBCRM.Crm
     /// This class stores Users connected to opportunities
     /// </summary>
     [Table("OpportunityUsers")]
-    public class OpportunityUser : FullAuditedEntity
+    [Audited]
+    public class OpportunityUser : FullAuditedEntity, ISilentTenant
     {
-
+        public int? TenantId { get; set; }
         public virtual long UserId { get; set; }
 
         [ForeignKey("UserId")]
@@ -24,6 +23,5 @@ namespace SBCRM.Crm
 
         [ForeignKey("OpportunityId")]
         public Opportunity OpportunityFk { get; set; }
-
     }
 }

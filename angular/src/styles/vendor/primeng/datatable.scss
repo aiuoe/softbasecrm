@@ -28,3 +28,7 @@
     border-width: 0 0 1px 0;
     padding: 0.4rem 0.4rem;
 }
+
+.p-datatable .p-sortable-column .p-sortable-column-badge {
+    display: none !important;
+}

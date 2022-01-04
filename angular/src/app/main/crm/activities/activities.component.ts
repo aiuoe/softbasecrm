@@ -71,6 +71,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     activitySourceTypes: ActivityActivitySourceTypeLookupTableDto[];
     activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
     activityStatuses: ActivityActivityStatusLookupTableDto[];
+    activitySourceTypeFilters: ActivityActivitySourceTypeLookupTableDto[];
 
     /**
      * Used to delay the search and wait for the user to finish typing.
@@ -161,22 +162,24 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
 
         this.primengTableHelper.showLoadingIndicator();
 
+        // Check if the 'None' option is selected in the 'Assigned Users' filter
+        const isUnassignedSelected = this.selectedAssignedUsersFilter.some((x) => x.id == AppConsts.activityModule.noAssignedUserFilterId);
         const selectedUserIds = this.selectedAssignedUsersFilter.map((x) => x.id);
         const dateNow = this._dateTimeService.getDate();
-
+        
         this._activitiesServiceProxy
             .getAll(
                 this.filterText,
                 this.opportunityNameFilter,
                 this.leadCompanyNameFilter,
                 this.userNameFilter,
-                this.selectedActivitySourceTypesFilter?.displayName || '',
-                this.selectedActivityTaskTypesFilter?.displayName || '',
-                this.selectedActivityStatusesFilter?.displayName || '',
-                this.activityPriorityDescriptionFilter,
                 this.customerNameFilter,
                 selectedUserIds,
                 this.excludeCompletedFilter,
+                this.selectedActivitySourceTypesFilter?.id,
+                this.selectedActivityTaskTypesFilter?.id,
+                this.selectedActivityStatusesFilter?.id,
+                isUnassignedSelected,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -242,13 +245,13 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 this.opportunityNameFilter,
                 this.leadCompanyNameFilter,
                 this.userNameFilter,
-                this.selectedActivitySourceTypesFilter?.displayName || '',
-                this.selectedActivityTaskTypesFilter?.displayName || '',
-                this.selectedActivityStatusesFilter?.displayName || '',
-                this.activityPriorityDescriptionFilter,
                 this.customerNameFilter,
                 this.selectedAssignedUsersFilter.map((x) => x.id),
                 this.excludeCompletedFilter,
+                this.selectedActivitySourceTypesFilter?.id,
+                this.selectedActivityTaskTypesFilter?.id,
+                this.selectedActivityStatusesFilter?.id,
+                this.selectedAssignedUsersFilter.some((x) => x.id == AppConsts.activityModule.noAssignedUserFilterId),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, null),
                 this.primengTableHelper.getMaxResultCount(this.paginator, null)
@@ -264,6 +267,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadUsers(): void {
         this._activitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
             this.allUsers = result;
+            const noneOption = new ActivityUserLookupTableDto();
+            noneOption.init({ displayName: this.l('None'), id: AppConsts.activityModule.noAssignedUserFilterId });
+            this.allUsers.unshift(noneOption);
         });
     }
 
@@ -273,6 +279,11 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivitySourceTypes(): void {
         this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((res) => {
             this.activitySourceTypes = res;
+
+            this.activitySourceTypeFilters = Array.from(res);
+            const allOption = new ActivityActivitySourceTypeLookupTableDto();
+            allOption.displayName = AppConsts.All;
+            this.activitySourceTypeFilters.unshift(allOption);
         });
     }
 
@@ -282,6 +293,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
             this.activityTaskTypes = res;
+            const allOption = new ActivityActivityTaskTypeLookupTableDto();
+            allOption.displayName = AppConsts.All;
+            this.activityTaskTypes.unshift(allOption);
         });
     }
 
@@ -291,6 +305,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivityStatuses(): void {
         this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((res) => {
             this.activityStatuses = res;
+            const allOption = new ActivityActivityStatusLookupTableDto();
+            allOption.displayName = AppConsts.All;
+            this.activityStatuses.unshift(allOption);
         });
     }
 
@@ -300,6 +317,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     setUsersProfilePictureUrl(records: any[]): void {
         for (let i = 0; i < records.length; i++) {
             let record = records[i];
+
+            if (!record.activity.userId) continue;
+
             this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
                 let profilePictureUrl =
                     AppConsts.remoteServiceBaseUrl +

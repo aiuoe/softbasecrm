@@ -36,4 +36,10 @@ export class AppConsts {
     static readonly WebAppGuiVersion = '10.5.0';
 
     static readonly SearchBarDelayMilliseconds = 500;
+    static readonly All = 'All';
+    static readonly None = 'None';
+
+    static readonly activityModule = {
+        noAssignedUserFilterId: -1,
+    };
 }

@@ -13,7 +13,8 @@ import {
     ActivityActivityPriorityLookupTableDto,
     ActivityCustomerLookupTableDto,
     GetActivityForViewDto,
-    ActivityDto, GetActivityForEditOutput,
+    ActivityDto,
+    GetActivityForEditOutput,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -39,6 +40,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
     saving = false;
     isEditMode = false;
     readonly = false;
+    canAssignOtherUsers = false;
 
     sourceTypeCode: string;
 
@@ -73,6 +75,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         super(injector);
         this.item = new GetActivityForViewDto();
         this.item.activity = new ActivityDto();
+        this.durationItems = this._activitySharedService.getActivityDurationItems();
     }
 
     /**
@@ -88,66 +91,116 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Show the form dialog
      */
     async show(sourceTypeCode: string, activityId?: number, readonly: boolean = false): Promise<void> {
-        this.sourceTypeCode = sourceTypeCode;
         this.readonly = readonly;
         const isCreate = !activityId;
         this.isEditMode = !isCreate;
 
         // Common requests
         const requests: Observable<any>[] = [
-            isCreate ? of(null) : await this._activitiesServiceProxy.getActivityForEdit(activityId),
             this._activitiesServiceProxy.getAllUserForTableDropdown(),
             this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown(),
             this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown(),
             this._activitiesServiceProxy.getAllActivityStatusForTableDropdown(),
-            this._activitiesServiceProxy.getAllActivityPriorityForTableDropdown()
+            this._activitiesServiceProxy.getAllActivityPriorityForTableDropdown(),
         ];
+
         // Preset activity for creation mode
-        if (isCreate) {
-            this.activity = new CreateOrEditActivityDto();
-            this.activity.id = activityId;
-            this.activity.dueDate = this._dateTimeService.getStartOfDay();
-            this.activity.startsAt = this._dateTimeService.getStartOfDay();
-            this.activity.durationMinutes = this.durationItems.find((x) => x.enumValue === ActivityDuration.OneHour).value;
+        this.activity = new CreateOrEditActivityDto();
+        this.activity.id = activityId;
+        this.activity.dueDate = this._dateTimeService.getStartOfDay();
+        this.activity.startsAt = this._dateTimeService.getStartOfDay();
+        this.activity.durationMinutes = this.durationItems.find((x) => x.enumValue === ActivityDuration.OneHour).value;
+
+        if (!isCreate) {
+            // We needed to await this in order to get the source type of the activity we are editing or viewing.
+            await this._activitiesServiceProxy
+                .getActivityForEdit(activityId)
+                .toPromise()
+                .then((res) => {
+                    if (res && res.activity) {
+                        this.activity = res.activity;
+
+                        // Make sure that source type code has value.
+                        // This is because we cannot know the source type if coming from the global search.
+                        if (!sourceTypeCode) {
+                            sourceTypeCode = res.sourceTypeCode;
+                        }
+
+                        const { dueDate } = res.activity;
+                        this.selectedDate = dueDate.toJSDate();
+                        this.selectedTime = dueDate.toFormat('hh:mm a');
+                    }
+                });
         }
+
+        // Assign the source type code after loading the data in case we are viewing from global search.
+        this.sourceTypeCode = sourceTypeCode;
+
         switch (sourceTypeCode) {
             case ActivitySourceType.LEAD:
                 requests.push(this._activitiesServiceProxy.getAllLeadForTableDropdown());
-                forkJoin([...requests])
-                    .subscribe((
-                        [result, availableUsers, sourceTypes, activityTypes, statuses, priorities, leads]) => {
-                        this.populateCommonDataResponse(result, availableUsers, sourceTypes, activityTypes, statuses, priorities, sourceTypeCode);
+                forkJoin([...requests]).subscribe(
+                    ([availableUsers, sourceTypes, activityTypes, statuses, priorities, leads]) => {
+                        this.populateCommonDataResponse(
+                            availableUsers,
+                            sourceTypes,
+                            activityTypes,
+                            statuses,
+                            priorities,
+                            sourceTypeCode
+                        );
                         this.allLeads = isCreate ? leads : leads.filter((x) => x.id === this.activity.leadId);
                         this.showModal();
-                    });
+                    }
+                );
                 break;
             case ActivitySourceType.ACCOUNT:
                 requests.push(this._activitiesServiceProxy.getAllAccountsForTableDropdown());
-                forkJoin([...requests])
-                    .subscribe((
-                        [result, availableUsers, sourceTypes, activityTypes, statuses, priorities, accounts]) => {
-                        this.populateCommonDataResponse(result, availableUsers, sourceTypes, activityTypes, statuses, priorities, sourceTypeCode);
+                forkJoin([...requests]).subscribe(
+                    ([availableUsers, sourceTypes, activityTypes, statuses, priorities, accounts]) => {
+                        this.populateCommonDataResponse(
+                            availableUsers,
+                            sourceTypes,
+                            activityTypes,
+                            statuses,
+                            priorities,
+                            sourceTypeCode
+                        );
                         this.allAccounts = isCreate
                             ? accounts
                             : accounts.filter((x) => x.number === this.activity.customerNumber);
                         this.showModal();
-                    });
+                    }
+                );
                 break;
             case ActivitySourceType.OPPORTUNITY:
                 requests.push(this._activitiesServiceProxy.getAllOpportunityForTableDropdown());
                 requests.push(this._activitiesServiceProxy.getAllAccountRelatedToOpportunityForTableDropdown());
-                forkJoin([...requests])
-                    .subscribe((
-                        [result, availableUsers, sourceTypes, activityTypes, statuses, priorities, opportunities, accounts]) => {
-                        this.populateCommonDataResponse(result, availableUsers, sourceTypes, activityTypes, statuses, priorities, sourceTypeCode);
+                forkJoin([...requests]).subscribe(
+                    ([availableUsers, sourceTypes, activityTypes, statuses, priorities, opportunities, accounts]) => {
+                        this.populateCommonDataResponse(
+                            availableUsers,
+                            sourceTypes,
+                            activityTypes,
+                            statuses,
+                            priorities,
+                            sourceTypeCode
+                        );
                         this.allOpportunities = isCreate
                             ? opportunities
                             : opportunities.filter((x) => x.id === this.activity.opportunityId);
+
+                        // Assign the customer number based on the Opportunity id
+                        this.opportunityCustomerNumber = opportunities.find(
+                            (x: ActivityOpportunityLookupTableDto) => x.id == this.activity.opportunityId
+                        )?.customerNumber;
+
                         this.allAccounts = isCreate
                             ? accounts
                             : accounts.filter((x) => x.number === this.opportunityCustomerNumber);
                         this.showModal();
-                    });
+                    }
+                );
                 break;
         }
     }
@@ -163,7 +216,6 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
 
     /***
      * Handle the common response when load the page
-     * @param activityResult
      * @param availableUsers
      * @param sourceTypes
      * @param activityTypes
@@ -173,32 +225,25 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * @private
      */
     private populateCommonDataResponse(
-        activityResult: GetActivityForEditOutput,
         availableUsers: ActivityUserLookupTableDto[],
         sourceTypes: ActivityActivitySourceTypeLookupTableDto[],
         activityTypes: ActivityActivityTaskTypeLookupTableDto[],
         statuses: ActivityActivityStatusLookupTableDto[],
         priorities: ActivityActivityPriorityLookupTableDto[],
-        sourceTypeCode: string) {
-
+        sourceTypeCode: string
+    ) {
         this.allUsers = availableUsers;
         this.allActivitySourceTypes = sourceTypes;
         this.allActivityTaskTypes = activityTypes;
         this.allActivityStatuses = statuses;
         this.allActivityPriorities = priorities;
 
-        this.activity.userId = availableUsers.length === 1 ? availableUsers[0].id : null;
-        this.activity.activitySourceTypeId = sourceTypes.length > 0 ? sourceTypes.find((x) => x.code === sourceTypeCode)?.id : null;
-        this.activity.activityTaskTypeId = activityTypes.length > 0 ? activityTypes.find((x) => x.isDefault)?.id || activityTypes[0].id : null;
-        this.activity.activityStatusId = statuses.length > 0 ? statuses.find((x) => x.isDefault)?.id || statuses[0].id : null;
-        this.activity.activityPriorityId = priorities.length > 0 ? priorities.find((x) => x.isDefault)?.id || priorities[0].id : null;
-
-        if (activityResult && activityResult.activity) {
-            this.activity = activityResult.activity;
-            sourceTypeCode = activityResult.sourceTypeCode;
-            const { dueDate } = activityResult.activity;
-            this.selectedDate = dueDate.toJSDate();
-            this.selectedTime = dueDate.toFormat('hh:mm a');
+        if (!this.isEditMode) {
+            this.activity.userId = !this.canAssignOtherUsers ? availableUsers[0].id : null;
+            this.activity.activitySourceTypeId = sourceTypes.length > 0 ? sourceTypes.find((x) => x.code === sourceTypeCode)?.id : null;
+            this.activity.activityTaskTypeId = activityTypes.length > 0 ? activityTypes.find((x) => x.isDefault)?.id || activityTypes[0].id : null;
+            this.activity.activityStatusId = statuses.length > 0 ? statuses.find((x) => x.isDefault)?.id || statuses[0].id : null;
+            this.activity.activityPriorityId = priorities.length > 0 ? priorities.find((x) => x.isDefault)?.id || priorities[0].id : null;   
         }
     }
 
@@ -254,7 +299,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Initialize Component
      */
     ngOnInit(): void {
-        this.durationItems = this._activitySharedService.getActivityDurationItems();
+        this.canAssignOtherUsers = this.isGranted('Pages.Activities.Create.Assign_Other_Users');
     }
 
     /**

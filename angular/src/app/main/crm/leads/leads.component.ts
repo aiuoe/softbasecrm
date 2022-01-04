@@ -5,18 +5,14 @@ import {
     LeadStatusesServiceProxy,
     LeadLeadSourceLookupTableDto,
     LeadStatusDto,
-    PagedResultDtoOfGetLeadStatusForViewDto,
     ConvertLeadToAccountRequestDto,
-    PriorityDto,
     PrioritiesServiceProxy,
-    PagedResultDtoOfGetPriorityForViewDto,
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
-    GetCustomerForViewDto,
     LeadUserUserLookupTableDto,
     GetLeadForViewDto
 } from '@shared/service-proxies/service-proxies';
-import { IAjaxResponse, NotifyService, TokenService } from 'abp-ng2-module';
+import { NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 
@@ -28,11 +24,9 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { HttpClient } from '@angular/common/http';
-import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { AppConsts } from '@shared/AppConsts';
-import { forkJoin, Observable } from 'rxjs';
 
 /***
  * Component to manage the leads summary grid
@@ -51,21 +45,21 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     importLeadsModalComponent: ImportLeadsModalComponent;
     leadStatuses: LeadLeadStatusLookupTableDto[];
     selectedLeadStatus: LeadStatusDto;
-    selectedLeadStatuses: LeadStatusDto[];
     readOnlyStatus = [];
-    allStatusesFilter : LeadLeadStatusLookupTableDto = new LeadLeadStatusLookupTableDto;     
+    allStatusesFilter: LeadLeadStatusLookupTableDto = new LeadLeadStatusLookupTableDto;
 
     priorities: LeadPriorityLookupTableDto[];
     selectedPriority: LeadPriorityLookupTableDto;
     selectedPriorities: LeadPriorityLookupTableDto[];
-    allPrioritiesFilter : LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
-    
-    allUsers: LeadUserUserLookupTableDto[];   
+    allPrioritiesFilter: LeadPriorityLookupTableDto = new LeadPriorityLookupTableDto;
+
+    allUsers: LeadUserUserLookupTableDto[];
     selectedUsers: LeadUserUserLookupTableDto[];
     noAssignedUsersOption: LeadUserUserLookupTableDto = new LeadUserUserLookupTableDto;
 
     advancedFiltersAreShown = false;
     filterText = '';
+    timeZone = '';
     companyOrContactNameFilter = '';
     contactNameFilter = '';
     contactPositionFilter = '';
@@ -87,24 +81,20 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     contactEmailFilter = '';
     leadSourceDescriptionFilter = '';
     leadStatusDescriptionFilter = '';
-    priorityDescriptionFilter = ''; 
+    priorityDescriptionFilter = '';
 
     allLeadSources: LeadLeadSourceLookupTableDto[];
     leadSourceDescription = '';
     leadSourceId: number;
-    formData = new FormData();
-    importFile: File;
 
-    public uploader: FileUploader;
-    private _uploaderOptions: FileUploaderOptions = {}
     public saving = false;
-
 
     /***
      * Main constructor
      * @param injector
      * @param _leadsServiceProxy
      * @param _leadStatusesServiceProxy
+     * @param _prioritiesServiceProxy
      * @param _notifyService
      * @param _tokenAuth
      * @param _activatedRoute
@@ -118,8 +108,8 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _leadsServiceProxy: LeadsServiceProxy,
-        private _leadStatusesServiceProxy : LeadStatusesServiceProxy,
-        private _prioritiesServiceProxy : PrioritiesServiceProxy,
+        private _leadStatusesServiceProxy: LeadStatusesServiceProxy,
+        private _prioritiesServiceProxy: PrioritiesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -134,32 +124,33 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     /***
-    * Initialize component
-    */
-    ngOnInit(){
+     * Initialize component
+     */
+    ngOnInit() {
 
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {
             this.allLeadSources = result;
         });
         this._leadsServiceProxy.getAllLeadStatusForTableDropdown().subscribe((result) => {
             this.leadStatuses = result;
-            this.leadStatuses.forEach( (leadStatus) => {
-                if (!leadStatus.isLeadConversionValid)
-                    this.readOnlyStatus.push(leadStatus.displayName);                        
-            })
-            this.allStatusesFilter.displayName = "All";
-            this.leadStatuses.unshift(this.allStatusesFilter);  
+            this.leadStatuses.forEach((leadStatus) => {
+                if (!leadStatus.isLeadConversionValid) {
+                    this.readOnlyStatus.push(leadStatus.displayName);
+                }
+            });
+            this.allStatusesFilter.displayName = AppConsts.All;
+            this.leadStatuses.unshift(this.allStatusesFilter);
         });
         this._leadsServiceProxy.getAllPriorityForTableDropdown().subscribe((result) => {
             this.priorities = result;
-            this.allPrioritiesFilter.displayName = "All";
-            this.priorities.unshift(this.allPrioritiesFilter);  
+            this.allPrioritiesFilter.displayName = AppConsts.All;
+            this.priorities.unshift(this.allPrioritiesFilter);
         });
 
         this._leadsServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
-            this.allUsers = result;    
+            this.allUsers = result;
             this.noAssignedUsersOption.id = -1;
-            this.noAssignedUsersOption.displayName = "None"   
+            this.noAssignedUsersOption.displayName = AppConsts.None;
             this.allUsers.unshift(this.noAssignedUsersOption);
         });
     }
@@ -178,16 +169,16 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
 
     /***
-    * Get leads on page load/filter changes
-    * @param event
-    */
+     * Get leads on page load/filter changes
+     * @param event
+     */
     getLeads(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
         }
 
-        this.primengTableHelper.showLoadingIndicator();          
+        this.primengTableHelper.showLoadingIndicator();
 
         this._leadsServiceProxy
             .getAll(
@@ -230,34 +221,38 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     }
 
     /***
-    * Verify if a lead on 'status' can be edited or converted
-    */
-    leadCanBeEdittedOrConverted(status: any) : boolean {
+     * Verify if a lead on 'status' can be edited or converted
+     */
+    leadCanBeEdittedOrConverted(status: any): boolean {
         return !(this.readOnlyStatus.includes(status));
     }
 
 
     /***
-    * Reload page
-    */
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
     /***
-    * Go to create lead page
-    */
+     * Go to create lead page
+     */
     createLead(): void {
         this._router.navigate(['/app/main/crm/leads/createOrEdit']);
     }
 
     /***
-    * Export to excel
-    */
+     * Export to excel
+     */
     exportToExcel(): void {
+
+        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+
         this._leadsServiceProxy
             .getLeadsToExcel(
                 this.filterText,
+                this.timeZone,
                 this.companyOrContactNameFilter,
                 this.contactNameFilter,
                 this.contactPositionFilter,
@@ -315,11 +310,11 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Set user image profile reference
      * @param users
      */
-     setUsersProfilePictureUrl(users: GetLeadForViewDto[]): void {
+    setUsersProfilePictureUrl(users: GetLeadForViewDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
             if (user.firstUserAssignedId) {
-                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
+                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
                     let profilePictureUrl =
                         AppConsts.remoteServiceBaseUrl +
                         '/Profile/GetProfilePictureByUser?userId=' +

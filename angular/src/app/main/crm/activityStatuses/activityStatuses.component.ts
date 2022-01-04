@@ -1,12 +1,14 @@
-﻿import { AppConsts } from '@shared/AppConsts';
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ActivityStatusesServiceProxy, ActivityStatusDto } from '@shared/service-proxies/service-proxies';
+﻿import { Component, Injector, ViewEncapsulation, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+    ActivityStatusesServiceProxy,
+    ActivityStatusDto,
+    UpdateOrderActivityStatusDto,
+} from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditActivityStatusModalComponent } from './create-or-edit-activityStatus-modal.component';
-
 import { ViewActivityStatusModalComponent } from './view-activityStatus-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
@@ -14,8 +16,6 @@ import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
-import { DateTime } from 'luxon';
-
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 /**
@@ -38,6 +38,10 @@ export class ActivityStatusesComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
     descriptionFilter = '';
+
+    @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+    activityStatus1: UpdateOrderActivityStatusDto = new UpdateOrderActivityStatusDto();
+    activityStatus2: UpdateOrderActivityStatusDto = new UpdateOrderActivityStatusDto();
 
     /**
      * Constructor method
@@ -105,6 +109,24 @@ export class ActivityStatusesComponent extends AppComponentBase {
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });
             }
+        });
+    }
+
+    /***
+     * Method that updates the order of a row in the database
+     * @param $event
+     * @constructor
+     */
+    updateOrder($event: any): void {
+        this.activityStatus1.order = $event.dragIndex;
+        this.activityStatus2.order = $event.dropIndex;
+
+        let request: UpdateOrderActivityStatusDto[] = [this.activityStatus1, this.activityStatus2];
+
+        this._activityStatusesServiceProxy.updateOrder(request).subscribe(() => {
+            this.notify.info(this.l('UpdateSuccessfully'));
+            this.modalSave.emit(null);
+            this.getActivityStatuses();
         });
     }
 }

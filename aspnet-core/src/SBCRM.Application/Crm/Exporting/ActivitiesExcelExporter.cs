@@ -74,7 +74,7 @@ namespace SBCRM.Crm.Exporting
 
                     for (var i = 1; i <= activities.Count; i++)
                     {
-                        SetCellDataFormat(sheet.GetRow(i).Cells[1], "mm/dd/yyyy");
+                        SetCellDataFormat(sheet.GetRow(i).Cells[5], "mm/dd/yyyy");
                     }
                     sheet.AutoSizeColumn(1);
                 });

@@ -15,15 +15,17 @@ using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
+using SBCRM.Common;
+using SBCRM.Crm;
 
 namespace SBCRM.Legacy
 {
     /// <summary>
     /// App service to handle Customer-Contacts information
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_Contacts)]
     public class ContactsAppService : SBCRMAppServiceBase, IContactsAppService
     {
+        private readonly IRepository<AccountUser> _accountUserRepository;
         private readonly IRepository<Contact> _contactRepository;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
@@ -38,18 +40,46 @@ namespace SBCRM.Legacy
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
         /// <param name="auditEventsService"></param>
+        /// <param name="accountUserRepository"></param>
         public ContactsAppService(
             IRepository<Contact> contactRepository,
             IRepository<Customer> customerRepository,
             IEntityChangeSetReasonProvider reasonProvider,
             IUnitOfWorkManager unitOfWorkManager,
-            IAuditEventsService auditEventsService)
+            IAuditEventsService auditEventsService,
+            IRepository<AccountUser> accountUserRepository)
         {
             _contactRepository = contactRepository;
             _customerRepository = customerRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
             _auditEventsService = auditEventsService;
+            _accountUserRepository = accountUserRepository;
+        }
+
+        /// <summary>
+        /// Method to get permission to DELETE Contact in Accounts
+        /// The user can see the widget if meet these 2 conditions:
+        /// 1. The current user has <see cref="AppPermissions.Pages_Contacts_Delete"/>  permission, oriented for Managers
+        /// 2. The current user has <see cref="AppPermissions.Pages_Contacts_Delete__Dynamic"/> permission and is assigned in the Account/Customer
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<bool> GetCanDeleteContact(string customerNumber)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var hasDynamicPermission =
+                await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Contacts_Delete__Dynamic);
+            var hasStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Contacts_Delete);
+
+            var currentUserIsAssignedInCustomer = _accountUserRepository
+                .GetAll()
+                .Where(x => x.CustomerNumber == customerNumber)
+                .Any(x => x.UserId == currentUser.Id);
+
+            var canDeleteContactDynamic = hasDynamicPermission && currentUserIsAssignedInCustomer;
+            return canDeleteContactDynamic || hasStaticPermission;
         }
 
 
@@ -57,6 +87,7 @@ namespace SBCRM.Legacy
         /// Get all contacts types without paging
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Contacts)]
         public async Task<List<GetContactForViewDto>> GetAllWithoutPaging(GetAllNoPagedContactsInput input)
         {
             var defaultInput = new GetAllContactsInput
@@ -74,6 +105,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Contacts)]
         public async Task<PagedResultDto<GetContactForViewDto>> GetAll(GetAllContactsInput input)
         {
             var filteredContacts = from contact in _contactRepository.GetAll()
@@ -280,12 +312,19 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_Contacts_Delete)]
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_Contacts_Delete,
+                AppPermissions.Pages_Contacts_Delete__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         public async Task Delete(EntityDto input)
         {
             var contact = await _contactRepository.FirstOrDefaultAsync(x => x.ContactId == input.Id);
+            GuardHelper.ThrowIf(!(await GetCanDeleteContact(contact.CustomerNo)), new AbpAuthorizationException());
             await _contactRepository.DeleteAsync(contact);
-
             await _auditEventsService.AddEvent(AuditEventDto.ForUpdate(
                 entityType: typeof(Customer),
                 entityId: contact.CustomerNo,

@@ -26,7 +26,7 @@ BEGIN
            [P].[FirstName],
            ISNULL([P].[LastName], '') AS LastName,
            ISNULL([P].[EMailAddress], ''),
-           ISNULL([P].[EMailAddress], ''),
+           ISNULL(UPPER([P].[EMailAddress]), ''),
            P.Phone,
            '',
            GETDATE(),
@@ -79,7 +79,7 @@ BEGIN
     SET Name=@name,
         Surname=@surname,
         EmailAddress=@email,
-        NormalizedEmailAddress=@email
+        NormalizedEmailAddress=UPPER(@email)
     WHERE (
               CASE
                   WHEN ISNUMERIC([UserName]) = 1 THEN CONVERT(INT, [UserName])

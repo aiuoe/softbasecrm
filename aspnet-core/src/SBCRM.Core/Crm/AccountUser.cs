@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Auditing;
 using Abp.Domain.Entities.Auditing;
+using SBCRM.Crm.Support;
 using SBCRM.Legacy;
 
 namespace SBCRM.Crm
@@ -11,8 +12,9 @@ namespace SBCRM.Crm
     /// </summary>
     [Table("AccountUsers")]
     [Audited]
-    public class AccountUser : FullAuditedEntity
+    public class AccountUser : FullAuditedEntity, ISilentTenant
     {
+        public int? TenantId { get; set; }
 
         public virtual long UserId { get; set; }
 
@@ -23,6 +25,5 @@ namespace SBCRM.Crm
         public Customer CustomerFk { get; set; }
 
         public virtual string CustomerNumber { get; set; }
-
     }
 }

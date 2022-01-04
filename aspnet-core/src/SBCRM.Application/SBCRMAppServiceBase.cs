@@ -24,6 +24,18 @@ namespace SBCRM
             LocalizationSourceName = SBCRMConsts.LocalizationSourceName;
         }
 
+        protected virtual int? GetTenantId()
+        {
+            if (SBCRMConsts.MultiTenancyEnabled)
+            {
+                return AbpSession?.TenantId;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         protected virtual async Task<User> GetCurrentUserAsync()
         {
             var user = await UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());

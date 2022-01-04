@@ -29,7 +29,7 @@ BEGIN TRY
                [P].[FirstName],
                ISNULL([P].[LastName], '') AS LastName,
                ISNULL([P].[EMailAddress], ''),
-               ISNULL([P].[EMailAddress], ''),
+               ISNULL(UPPER([P].[EMailAddress]), ''),
                P.Phone,
                '',
                GETDATE(),
@@ -48,7 +48,7 @@ BEGIN TRY
         WHERE [S].[EmployeeNo] NOT IN (SELECT ISNULL(TRY_PARSE([UserName] AS INT), 0) FROM [web].[AbpUsers])
 
         UPDATE [web].[AbpUsers]
-        SET TenantId = 1
+        SET TenantId = (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
         WHERE UserName IN (SELECT CAST([EmployeeNo] as nvarchar(256)) FROM [dbo].[Secure])
           AND TenantId IS NULL
 

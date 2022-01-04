@@ -13,7 +13,7 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     CountriesServiceProxy,
-    CountryDto,
+    CountryDto, AccountUsersServiceProxy, LeadUsersServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,6 +23,7 @@ import { MenuItem } from 'primeng/api';
 import { NgForm } from '@angular/forms';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 import { Location } from '@angular/common';
+import { forkJoin, Observable } from '@node_modules/rxjs';
 
 /**
  * Component to create or edit leads
@@ -65,6 +66,9 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     items: MenuItem[];
     countries: CountryDto[] = [];
 
+    // Widgets
+    showAssignedUsersWidget = false;
+
     /**
      * Main constructor
      * @param injector
@@ -73,6 +77,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * @param _router
      * @param _countriesServiceProxy
      * @param location
+     * @param _leadUsersServiceProxy
      */
     constructor(
         injector: Injector,
@@ -80,7 +85,8 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         private _leadsServiceProxy: LeadsServiceProxy,
         private _router: Router,
         private _countriesServiceProxy: CountriesServiceProxy,
-        private location: Location
+        private location: Location,
+        private _leadUsersServiceProxy: LeadUsersServiceProxy
     ) {
         super(injector);
     }
@@ -103,6 +109,15 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      */
     setPermissions() {
         this.showEventsTab = this.isGrantedAny('Pages.Leads.ViewEvents');
+
+        // Dynamic at runtime Permissions
+        const permissionsRequests: Observable<any>[] = [
+            this._leadUsersServiceProxy.getCanViewAssignedUsersWidget(this.leadId)
+        ];
+        forkJoin([...permissionsRequests])
+            .subscribe(([getCanViewAssignedUsersWidget]) => {
+                this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+            });
     }
 
     /**
@@ -141,6 +156,8 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
                     this.active = true;
                     this.showSaveButton = !this.isReadOnlyMode;
+                }, () => {
+                    this.goToLeads();
                 });
         }
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {

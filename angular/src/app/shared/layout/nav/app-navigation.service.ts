@@ -40,10 +40,10 @@ export class AppNavigationService {
                         '/app/main/crm/opportunityStages'
                     ),
                     new AppMenuItem(
-                        'OpportunityTypes',
-                        'Pages.OpportunityTypes',
+                        'LeadSources',
+                        'Pages.LeadSources',
                         '',
-                        '/app/main/crm/opportunityTypes'
+                        '/app/main/crm/leadSources'
                     ),
                     new AppMenuItem(
                         'LeadStatuses',
@@ -56,12 +56,6 @@ export class AppNavigationService {
                         'Pages.ActivityStatuses',
                         '',
                         '/app/main/crm/activityStatuses'
-                    ),
-                    new AppMenuItem(
-                        'LeadSources',
-                        'Pages.LeadSources',
-                        '',
-                        '/app/main/crm/leadSources'
                     )
                 ]
             ),
@@ -137,8 +131,8 @@ export class AppNavigationService {
                 '',
                 [],
                 [
-                    new AppMenuItem('Roles', 'Pages.Administration.Roles', '', '/app/admin/roles'),
-                    new AppMenuItem('Users', 'Pages.Administration.Users', '', '/app/admin/users')
+                    new AppMenuItem('Users', 'Pages.Administration.Users', '', '/app/admin/users'),
+                    new AppMenuItem('Roles', 'Pages.Administration.Roles', '', '/app/admin/roles')
                 ]
             ),
             new AppMenuItem(

@@ -1,3 +1,9 @@
+UPDATE [web].[AbpLanguages] SET IsDisabled = 1 WHERE Name <> 'en';
+GO
+
+UPDATE [web].AbpUsers SET Password = 'AQAAAAEAACcQAAAAEN2zqWVIB07bQAxWs3vewH6GLxt++3TzSboByFAJDxuG9m3WNmWJ2sFcmXg0jEQMLg==' WHERE UserName = 'admin';
+
+GO
 
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('New', getdate(), '#2C4AB6', 0, 1, 1, 'NEW', 1);
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('In progress', getdate(), '#FF8900', 0, 1, 0, 'IN_PROGRESS', 2);
@@ -18,9 +24,9 @@ INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], Is
 INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], IsDefault) VALUES ('Prospect', getdate(), 0, 1);
 GO
 
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('Low', GETDATE(), 0, 1);
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('Medium', GETDATE(),0, 0);
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('High', GETDATE(),0, 0);
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('Low', GETDATE(), 0, 1, N'#263950');
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('Medium', GETDATE(),0, 0, N'#FF8900');
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('High', GETDATE(),0, 0, N'#FF0000');
 GO
 
 INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Email', GETDATE(), 0, 0, 1);
@@ -47,14 +53,16 @@ INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], 
 INSERT [web].[ActivitySourceTypes] ([Description], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Order], [Code]) VALUES (N'Opportunity', GETDATE(), 0, NULL, NULL, 30, 'OPPORTUNITY');
 GO
 
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Scheduled', 10, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0, 1);
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'In Process', 20, GETDATE(), 0, NULL, NULL, N'#FF8900', 0, 0);
-INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Completed', 30, GETDATE(), 0, NULL, NULL, N'#008E26', 1, 0);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Scheduled', 1, GETDATE(), 0, NULL, NULL, N'#2C4AB6', 0, 1);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'In Process', 2, GETDATE(), 0, NULL, NULL, N'#FF8900', 0, 0);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Completed', 3, GETDATE(), 0, NULL, NULL, N'#008E26', 1, 0);
+INSERT [web].[ActivityStatuses] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsCompletedStatus], [IsDefault]) VALUES (N'Due', 4, GETDATE(), 0, NULL, NULL, N'#FF0000', 0, 0);
+
 GO
 
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Schedule Meeting', 10, GETDATE(), 0, NULL, NULL, N'#008CF2', 1, 'SCHEDULE_MEETING');
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Schedule Call', 20, GETDATE(), 0, NULL, NULL, N'#0AB3C1', 0, 'SCHEDULE_CALL');
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Email Reminder', 30, GETDATE(), 0, NULL, NULL, N'#FC42C3', 0, 'EMAIL_REMINDER');
-INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'To Do Reminder', 40, GETDATE(), 0, NULL, NULL, N'#5400FF', 0, 'TODO_REMINDER');
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'To-Do Reminder', 40, GETDATE(), 0, NULL, NULL, N'#5400FF', 0, 'TODO_REMINDER');
 GO
 

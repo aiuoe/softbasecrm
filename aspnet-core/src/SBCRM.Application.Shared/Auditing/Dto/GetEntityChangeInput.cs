@@ -67,4 +67,29 @@ namespace SBCRM.Auditing.Dto
             });
         }
     }
+
+    public class GetCrmEntityTypeChangeInput : PagedAndSortedInputDto, IShouldNormalize
+    {
+        public string EntityTypeFullName { get; set; }
+
+        public string EntityId { get; set; }
+
+        public void Normalize()
+        {
+            if (Sorting.IsNullOrWhiteSpace())
+            {
+                Sorting = "entityChange.changeTime DESC";
+            }
+
+            Sorting = DtoSortingHelper.ReplaceSorting(Sorting, s =>
+            {
+                if (s.IndexOf("UserName", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    s = "User." + s;
+                }
+
+                return s;
+            });
+        }
+    }
 }

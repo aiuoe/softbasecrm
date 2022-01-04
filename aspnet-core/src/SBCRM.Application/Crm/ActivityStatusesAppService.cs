@@ -1,19 +1,14 @@
-﻿using System;
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Authorization;
+using SBCRM.Crm.Dtos;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
-using Abp.Extensions;
-using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
@@ -32,7 +27,6 @@ namespace SBCRM.Crm
         public ActivityStatusesAppService(IRepository<ActivityStatus> activityStatusRepository)
         {
             _activityStatusRepository = activityStatusRepository;
-
         }
 
         /// <summary>
@@ -42,19 +36,17 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetActivityStatusForViewDto>> GetAll(GetAllActivityStatusesInput input)
         {
-
-            var filteredActivityStatuses = _activityStatusRepository.GetAll()
+            IQueryable<ActivityStatus> filteredActivityStatuses = _activityStatusRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Description.Contains(input.Filter) || e.Color.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter);
 
-            var pagedAndFilteredActivityStatuses = filteredActivityStatuses
+            IQueryable<ActivityStatus> pagedAndFilteredActivityStatuses = filteredActivityStatuses
                 .OrderBy(input.Sorting ?? "id asc")
                 .PageBy(input);
 
             var activityStatuses = from o in pagedAndFilteredActivityStatuses
                                    select new
                                    {
-
                                        o.Description,
                                        o.Order,
                                        o.Color,
@@ -63,18 +55,17 @@ namespace SBCRM.Crm
                                        Id = o.Id
                                    };
 
-            var totalCount = await filteredActivityStatuses.CountAsync();
+            int totalCount = await filteredActivityStatuses.CountAsync();
 
-            var dbList = await activityStatuses.ToListAsync();
-            var results = new List<GetActivityStatusForViewDto>();
+            var dbList = await activityStatuses.OrderBy(x => x.Order).ToListAsync();
+            List<GetActivityStatusForViewDto> results = new List<GetActivityStatusForViewDto>();
 
             foreach (var o in dbList)
             {
-                var res = new GetActivityStatusForViewDto()
+                GetActivityStatusForViewDto res = new GetActivityStatusForViewDto()
                 {
                     ActivityStatus = new ActivityStatusDto
                     {
-
                         Description = o.Description,
                         Order = o.Order,
                         Color = o.Color,
@@ -91,7 +82,6 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         /// <summary>
@@ -101,9 +91,9 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetActivityStatusForViewDto> GetActivityStatusForView(int id)
         {
-            var activityStatus = await _activityStatusRepository.GetAsync(id);
+            ActivityStatus activityStatus = await _activityStatusRepository.GetAsync(id);
 
-            var output = new GetActivityStatusForViewDto { ActivityStatus = ObjectMapper.Map<ActivityStatusDto>(activityStatus) };
+            GetActivityStatusForViewDto output = new GetActivityStatusForViewDto { ActivityStatus = ObjectMapper.Map<ActivityStatusDto>(activityStatus) };
 
             return output;
         }
@@ -116,9 +106,9 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Edit)]
         public async Task<GetActivityStatusForEditOutput> GetActivityStatusForEdit(EntityDto input)
         {
-            var activityStatus = await _activityStatusRepository.FirstOrDefaultAsync(input.Id);
+            ActivityStatus activityStatus = await _activityStatusRepository.FirstOrDefaultAsync(input.Id);
 
-            var output = new GetActivityStatusForEditOutput { ActivityStatus = ObjectMapper.Map<CreateOrEditActivityStatusDto>(activityStatus) };
+            GetActivityStatusForEditOutput output = new GetActivityStatusForEditOutput { ActivityStatus = ObjectMapper.Map<CreateOrEditActivityStatusDto>(activityStatus) };
 
             return output;
         }
@@ -148,10 +138,13 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Create)]
         protected virtual async Task Create(CreateOrEditActivityStatusDto input)
         {
-            var activityStatus = ObjectMapper.Map<ActivityStatus>(input);
+            input.Order = _activityStatusRepository.GetAll().Count() + 1;
+
+            ActivityStatus activityStatus = ObjectMapper.Map<ActivityStatus>(input);
+
+            activityStatus.TenantId = GetTenantId();
 
             await _activityStatusRepository.InsertAsync(activityStatus);
-
         }
 
         /// <summary>
@@ -162,9 +155,37 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Edit)]
         protected virtual async Task Update(CreateOrEditActivityStatusDto input)
         {
-            var activityStatus = await _activityStatusRepository.FirstOrDefaultAsync((int)input.Id);
+            ActivityStatus activityStatus = await _activityStatusRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, activityStatus);
+        }
 
+        /// <summary>
+        /// Method that updates the order of a list
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Edit)]
+        public virtual async Task UpdateOrder(List<UpdateOrderActivityStatusDto> input)
+        {
+            int orderSrc = input[0].Order + 1;
+            int orderDst = input[1].Order + 1;
+
+            ActivityStatus activityStatusSrc = await _activityStatusRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
+            activityStatusSrc.Order = orderDst;
+
+            List<ActivityStatus> allActivityStatus = _activityStatusRepository.GetAll().OrderBy(x => x.Order).ToList();
+            allActivityStatus.Remove(activityStatusSrc);
+
+            int i = orderDst + 1;
+            foreach (ActivityStatus item in allActivityStatus)
+            {
+                if (item.Order >= orderDst && item.Order <= orderSrc)
+                {
+                    item.Order = i;
+                    await _activityStatusRepository.FirstOrDefaultAsync(item.Id);
+                    i++;
+                }
+            }
         }
 
         /// <summary>
@@ -175,8 +196,25 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {
-            await _activityStatusRepository.DeleteAsync(input.Id);
+            _activityStatusRepository.Delete(input.Id);
+
+            UpdateOrderAfterDelete();
         }
 
+        /// <summary>
+        /// Method that update order after delete an item from grid
+        /// </summary>
+        private void UpdateOrderAfterDelete()
+        {
+            List<ActivityStatus> listActivityStatus = _activityStatusRepository.GetAll().ToList();
+
+            int order = 1;
+            foreach (ActivityStatus activityStatus in listActivityStatus)
+            {
+                activityStatus.Order = order;
+                order++;
+                _activityStatusRepository.FirstOrDefault(activityStatus.Id);
+            }
+        }
     }
 }

@@ -1,19 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
@@ -147,6 +142,8 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditActivityPriorityDto input)
         {
             var activityPriority = ObjectMapper.Map<ActivityPriority>(input);
+
+            activityPriority.TenantId = GetTenantId();
 
             await _activityPriorityRepository.InsertAsync(activityPriority);
 

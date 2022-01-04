@@ -36,33 +36,33 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div style="float:right;">  
-                                                <span class="text_next_buttons text-margin">                                                                     
-                                                    {{ l('SeeAs') }}  
-                                                </span>                                                                                
-                                                <button 
-                                                    type="button" 
+                                        <div style="float:right;">
+                                                <span class="text_next_buttons text-margin">
+                                                    {{ l('SeeAs') }}
+                                                </span>
+                                                <button
+                                                    type="button"
                                                     (click)="
-                                                        summaryTableIsShown = true; 
+                                                        summaryTableIsShown = true;
                                                         summaryCalendarIsShown = false;"
-                                                    class="btn btn-secondary k button-margin btn-square-md" 
+                                                    class="btn btn-secondary k button-margin btn-square-md"
                                                     [ngClass]="{ 'j': summaryTableIsShown, 'k': summaryCalendarIsShown  }"
-                                                    aria-pressed="true" 
+                                                    aria-pressed="true"
                                                     data-toggle="button"
-                                                >   
+                                                >
                                                     <span class="button_text">
                                                         {{ l('List') }}
-                                                    </span>                                                 
-                                                        
-                                                </button>                                       
-                                            
+                                                    </span>
+
+                                                </button>
+
                                                 <button (click)="
-                                                        summaryTableIsShown = false; 
-                                                        summaryCalendarIsShown = true;  
+                                                        summaryTableIsShown = false;
+                                                        summaryCalendarIsShown = true;
                                                         initializeCalendar();"
-                                                    class="btn btn-secondary button-margin btn-square-md" 
+                                                    class="btn btn-secondary button-margin btn-square-md"
                                                     [ngClass]="{ 'j': summaryCalendarIsShown, 'k': summaryTableIsShown  }"
-                                                    aria-pressed="true" 
+                                                    aria-pressed="true"
                                                     data-toggle="button"
                                                 >
                                                     <span class="button_text">
@@ -80,7 +80,7 @@
                                                 type="text"
                                                 (input)="delaySearchActivity()"
                                             />
-                                            <span class="input-group-btn">
+                                            <span class="input-group-append">
                                                 <button (click)="getActivities()" class="btn btn-primary" type="submit">
                                                     <i class="flaticon-search-1"></i>
                                                 </button>
@@ -121,7 +121,9 @@
                                             [(ngModel)]="selectedAssignedUsersFilter"
                                             optionLabel="displayName"
                                             display="chip"
+                                            [style]="{'width':'100%'}"
                                             [placeholder]="l('FilterByAssignee')"
+                                            [filterPlaceHolder]="l('Search')"
                                             [emptyMessage]="l('NoRecordsFound')"
                                             (onChange)="getActivities()"
                                         ></p-multiSelect>
@@ -133,7 +135,7 @@
                                         <p-dropdown
                                             id="AccountTypeFilter"
                                             name="AccountTypeFilter"
-                                            [options]="activitySourceTypes"
+                                            [options]="activitySourceTypeFilters"
                                             [(ngModel)]="selectedActivitySourceTypesFilter"
                                             optionLabel="displayName"
                                             [placeholder]="l('FilterBySourceType')"
@@ -288,6 +290,11 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
+                                                    <li>
+                                                        <span class="dropdown-item">
+                                                            {{ l('Cancel') }}
+                                                        </span>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -339,12 +346,20 @@
                                             <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <span class="d-flex align-items-center">
-                                                <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+                                            <ng-container *ngIf="!record.activity.userId; else assignedUserLabel">
+                                                <span class="font-italic pl-10">
+                                                    {{ l('NotAssigned') }}
+                                                </span>
+                                            </ng-container>
 
-                                                {{ record.userName }}
-                                            </span>
+                                            <ng-template #assignedUserLabel>
+                                                <span class="p-column-title">{{ l('AssignedUser') }}</span>
+                                                <span class="d-flex align-items-center">
+                                                    <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+
+                                                    {{ record.userName }}
+                                                </span>
+                                            </ng-template>
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -368,20 +383,20 @@
                         </div>
                         <!--<Primeng-Datatable-End>-->
                     </div>
-                    <div [hidden]="!summaryCalendarIsShown" > 
+                    <div [hidden]="!summaryCalendarIsShown" >
                         <div class="row mb-2 margin-colors" >
-                            <div *ngFor="let activity of activityTaskTypes" 
-                                class='text_next_boxes'><div class='box' [ngStyle]="{'background-color': activity.color}">                                
+                            <div *ngFor="let activity of activityTaskTypes"
+                                class='text_next_boxes'><div class='box' [ngStyle]="{'background-color': activity.color}">
                             </div> {{ activity.displayName }} </div>
-                        </div>           
-                        <full-calendar                                                                
+                        </div>
+                        <full-calendar
                             contentHeight="auto"
                             *ngIf="calendarOptions"
                             #fullcalendar
                             [options]="calendarOptions"
                             deepChangeDetection="true"
                         >
-                        </full-calendar>                        
+                        </full-calendar>
                     </div>
                 </div>
             </div>

@@ -1,8 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>		
-		<text name="OpportunityViewAssignedUserFilter">Access to all Opportunities</text>
+	<texts>
+		<text name="ScheduleCall">Schedule Call</text>
+		<text name="ScheduleMeeting">Schedule Meeting</text>
+		<text name="EmailReminder">Email Reminder</text>
+		<text name="ToDoReminder">To Do Reminder</text>		
+		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
+		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
+		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
+		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
@@ -13,19 +20,20 @@
 		<text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
 		<text name="List">List</text>
 		<text name="Calendar">Calendar</text>
-		<text name="OpportunityUsers">Opportunity user</text>
+		<text name="OpportunityViewAssignUsers">View assigned users in Opportunity detail</text>
+		<text name="OpportunityViewDynamicAssignUsers">View assigned users in Opportunity detail in RO mode if user is assigned to the Opportunity</text>
 		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
 		<text name="EditOpportunityUser">Edit opportunity user</text>
 		<text name="DeleteOpportunityUser">Delete opportunity user</text>
 		<text name="GlobalSearch">Global Search Access</text>
 		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
-		<text name="LeadViewAssignedUserFilter">Access to all Leads</text>
+		<text name="LeadViewAllLeads__Dynamic">Access to all Leads</text>
 		<text name="NewOpportunities">New Opportunities</text>
 		<text name="ProjectClose">Project Close</text>
 		<text name="IsCompletedStatus">Is completed status</text>
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
-		<text name="AssignUsers">Assign Users</text>
+		<text name="AssignUsers">Assign User(s)</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
@@ -81,10 +89,7 @@
 		<text name="EditActivityPriority">Edit activity priority</text>
 		<text name="DeleteActivityPriority">Delete activity priority</text>
 		<text name="ActivityPriorities">Activity priorities</text>
-
-
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
-
 		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
 		<text name="InputPosition">Enter Position</text>
@@ -100,12 +105,13 @@
 		<text name="InputDepartment">Enter Name</text>
 		<text name="SelectAssignedUsersFormat">Select Assigned Users ({0})</text>
 		<text name="CustomerNameAlreadyExist">There is already an Account with the same name, please try another.</text>
+		<text name="CustomerNotFound">Account not found</text>
 		<text name="AccountUser">Account user</text>
 		<text name="SBCRM.Crm.AccountUser">AccountUser</text>
 		<text name="AccountUsersHeaderInfo">Account users header info</text>
-		<text name="CreateNewAccountUser">Create account user</text>
+		<text name="CreateNewAccountUser">Create assigned user</text>
 		<text name="EditAccountUser">Edit account user</text>
-		<text name="DeleteAccountUser">Delete account user</text>
+		<text name="DeleteAccountUser">Delete assigned user</text>
 		<text name="AccountUsers">Account users</text>
 		<text name="PickUser">Pick user</text>
 		<text name="Secure">Secure</text>
@@ -137,13 +143,14 @@
 		<text name="AssociatedDoc">Associated Doc</text>
 		<text name="Invoiced">Invoiced</text>
 		<text name="RefreshData">Refresh Data</text>
-		<text name="ActivityStatus">Activity status</text>
+		<text name="ActivityStatus">Activity Status</text>
+		<text name="ActivityStatusName">Status Name</text>
 		<text name="SBCRM.Crm.ActivityStatus">ActivityStatus</text>
 		<text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
-		<text name="CreateNewActivityStatus">Create new activity status</text>
+		<text name="NewActivityStatus">New Activity Status</text>
+		<text name="CreateNewActivityStatus">Create New Activity Status</text>
 		<text name="EditActivityStatus">Edit activity status</text>
 		<text name="DeleteActivityStatus">Delete activity status</text>
-		<text name="ActivityStatuses">Activity statuses</text>
 		<text name="ActivityTaskType">Activity task type</text>
 		<text name="SBCRM.Crm.ActivityTaskType">ActivityTaskType</text>
 		<text name="ActivityTaskTypesHeaderInfo">Activity task types header info</text>
@@ -201,6 +208,8 @@
 		<text name="Color">Color</text>
 		<text name="LeadContactName">Contact name</text>
 		<text name="LeadUser">Lead user</text>
+		<text name="LeadViewAssignUsers">View assigned users in Lead detail</text>
+		<text name="LeadViewDynamicAssignUsers">View assigned users in Lead detail in RO mode if user is assigned to the Lead</text>
 		<text name="CreateNewLeadUser">Create new lead user</text>
 		<text name="EditLeadUser">Edit lead user</text>
 		<text name="DeleteLeadUser">Delete lead user</text>
@@ -259,12 +268,14 @@
 		<text name="SBCRM.Crm.LeadStatus">LeadStatus</text>
 		<text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
 		<text name="NewLeadStatus">New Lead Status</text>
+		<text name="CreateNewLeadStatus">Create New Lead Status</text>
 		<text name="EditLeadStatus">Edit lead status</text>
 		<text name="DeleteLeadStatus">Delete lead status</text>
 		<text name="LeadStatuses">Lead Status</text>
 		<text name="LeadStatusName">Status Name</text>
 		<text name="LeadSource">Lead Source</text>
 		<text name="EnterLeadSource">Enter Lead Source</text>
+		<text name="SelectLeadSource">Select Lead Source</text>
 		<text name="SBCRM.Crm.LeadSource">LeadSource</text>
 		<text name="Description">Description</text>
 		<text name="EnterDescription">Enter Description</text>
@@ -273,7 +284,7 @@
 		<text name="CreateNewLeadSource">Create lead source</text>
 		<text name="EditLeadSource">Edit lead source</text>
 		<text name="DeleteLeadSource">Delete lead source</text>
-		<text name="LeadSources">Lead sources</text>
+		<text name="LeadSources">Lead Sources</text>
 		<text name="Industry">Industry</text>
 		<text name="CreateNewIndustry">Create new industry</text>
 		<text name="EditIndustry">Edit industry</text>
@@ -293,7 +304,7 @@
 		<text name="State">State/Province</text>
 		<text name="EnterState">Enter State/Province</text>
 		<text name="Country">Country</text>
-		<text name="EnterCountry">Enter Country</text>
+		<text name="SelectCountry">Select Country</text>
 		<text name="Salutation">Salutation</text>
 		<text name="Phone">Phone</text>
 		<text name="Extention">Extention</text>
@@ -329,6 +340,11 @@
 		<text name="FiscalEnd">Fiscal end</text>
 		<text name="DunsCode">Duns code</text>
 		<text name="Duns">Duns</text>
+		<text name="EnterDuns">Enter DUNS</text>
+		<text name="EnterSICCode">Enter SIC</text>
+		<text name="EnterSICCode2">Enter SIC 2</text>
+		<text name="EnterSICCode3">Enter SIC 3</text>
+		<text name="EnterSICCode4">Enter SIC 4</text>
 		<text name="SICCode">Sic</text>
 		<text name="MailingGroup">Mailing group</text>
 		<text name="Makes">Makes</text>
@@ -476,7 +492,7 @@
 		<text name="EditCustomer">Edit Account</text>
 		<text name="DeleteCustomer">Delete Account</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
-		<text name="CustomerViewAssignUsers">View assign users in Account detail</text>
+		<text name="CustomerViewAssignUsers">View assigned users in Account detail</text>
 		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
 		<text name="CustomerViewOpportunities">View Opportunities in Account detail</text>
 		<text name="CustomerEditOpportunity">Edit Opportunities in Account detail</text>
@@ -757,10 +773,11 @@
 		<text name="ClickHere">click here</text>
 		<text name="Apply">Apply</text>
 		<text name="CustomRange">Custom range</text>
-		<text name="CustomerViewAssignContacts">View assign contacts in Account detail</text>
-		<text name="CreateNewAccountContact">Create new account contact</text>
-		<text name="EditAccountContact">Edit account contact</text>
-		<text name="DeleteAccountContact">Delete account contact</text>
+		<text name="CustomerViewAssignContacts">View contacts in Account detail</text>
+		<text name="CreateNewAccountContact">Create contact</text>
+		<text name="EditAccountContact">Edit contact</text>
+		<text name="DeleteAccountContact">Delete contact</text>
+		<text name="DeleteDynamicAccountContact">Delete contact if user is assigned to the Account</text>
 		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
 		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
 		<text name="DuplicatedLeads">Duplicated leads encountered</text>
@@ -777,13 +794,13 @@
 		<text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
 		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
 		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
-		<text name="LeadNotExist">Lead does not exist</text>
-		<text name="CustomerNotExist">Customer does not exist</text>
+		<text name="CustomerNotExist">This Customer does not exist or is unavailable</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
 		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
+		<text name="CustomerViewDynamicAssignUsers">View assigned users in Account detail in RO mode if user is assigned to the Account</text>
 		<text name="ContactName">Contact Name</text>
 		<text name="EnterContactName">Enter Contact Name</text>
 		<text name="ContactPosition">Position</text>
@@ -1023,6 +1040,7 @@
 		<text name="VerifySecurityCode_Information">Please enter the verification code sent to you.</text>
 		<text name="RememberThisBrowser">Remember this browser</text>
 		<text name="InvalidSecurityCode">Invalid security code!</text>
+		<text name="GenericError">An error occurred while processing the information</text>
 		<text name="PhoneNumber">Phone number</text>
 		<text name="Unlock">Unlock</text>
 		<text name="UnlockedTheUser">Unlocked the user {0}</text>

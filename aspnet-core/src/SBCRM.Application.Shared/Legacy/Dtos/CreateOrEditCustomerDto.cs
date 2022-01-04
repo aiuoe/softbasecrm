@@ -14,6 +14,7 @@ namespace SBCRM.Legacy.Dtos
         [StringLength(CustomerConsts.MaxBillToLength, MinimumLength = CustomerConsts.MinBillToLength)]
         public string BillTo { get; set; }
 
+        [Required]
         [StringLength(CustomerConsts.MaxNameLength, MinimumLength = CustomerConsts.MinNameLength)]
         public string Name { get; set; }
 
@@ -67,14 +68,9 @@ namespace SBCRM.Legacy.Dtos
 
         public void AddValidationErrors(CustomValidationContext context)
         {
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrWhiteSpace(Name))
-            {
-                context.Results.Add(new ValidationResult("Company name should be provided"));
-            }
-
             if (string.IsNullOrWhiteSpace(Phone) && string.IsNullOrWhiteSpace(EMail))
             {
-                context.Results.Add(new ValidationResult("Email or Phone should be provided"));
+                context.Results.Add(new ValidationResult(context.GetLocalizationMessage("CreateOrEditCustomerEmailPhoneValidation")));
             }
         }
     }

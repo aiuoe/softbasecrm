@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppLocalizationService } from '@app/shared/common/localization/app-localization.service';
 import { DateTime } from 'luxon';
+import { findWindows } from 'windows-iana';
 
 @Injectable()
 export class DateTimeService {
@@ -205,5 +206,9 @@ export class DateTimeService {
         }
 
         return date.toRelative();
+    }
+
+    getLocalTimeZone() : string {
+        return findWindows(Intl.DateTimeFormat().resolvedOptions().timeZone).toString();
     }
 }

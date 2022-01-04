@@ -144,6 +144,8 @@ namespace SBCRM.Crm
 
             OpportunityStage opportunityStage = ObjectMapper.Map<OpportunityStage>(input);
 
+            opportunityStage.TenantId = GetTenantId();
+
             await _opportunityStageRepository.InsertAsync(opportunityStage);
         }
 

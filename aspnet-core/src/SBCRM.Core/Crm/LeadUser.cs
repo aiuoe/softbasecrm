@@ -1,10 +1,8 @@
-﻿using SBCRM.Crm;
-using SBCRM.Authorization.Users;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using SBCRM.Authorization.Users;
 using System.ComponentModel.DataAnnotations.Schema;
+using Abp.Auditing;
 using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
+using SBCRM.Crm.Support;
 
 namespace SBCRM.Crm
 {
@@ -12,9 +10,10 @@ namespace SBCRM.Crm
     /// This class stores Users connected to leads
     /// </summary>
     [Table("LeadUsers")]
-    public class LeadUser : FullAuditedEntity
+    [Audited]
+    public class LeadUser : FullAuditedEntity, ISilentTenant
     {
-
+        public int? TenantId { get; set; }
         public virtual int? LeadId { get; set; }
 
         [ForeignKey("LeadId")]
@@ -24,6 +23,5 @@ namespace SBCRM.Crm
 
         [ForeignKey("UserId")]
         public User UserFk { get; set; }
-
     }
 }
