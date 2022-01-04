@@ -11,10 +11,20 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ActivitiesWidgetModule } from '../activities-widget/activities-widget.module';
 
 @NgModule({
     declarations: [LeadsComponent, CreateOrEditLeadComponent, ImportLeadsModalComponent],
-    imports: [AppSharedModule, LeadRoutingModule, AdminSharedModule, InputTextareaModule, DialogModule, DropdownModule,MultiSelectModule, AssignedUserModule],
+    imports: [AppSharedModule, 
+                LeadRoutingModule, 
+                AdminSharedModule, 
+                InputTextareaModule, 
+                DialogModule, 
+                DropdownModule,
+                MultiSelectModule, 
+                AssignedUserModule,
+                ActivitiesWidgetModule],
+                
     providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })
 export class LeadModule { }

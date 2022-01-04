@@ -2,7 +2,7 @@ import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } f
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 import { ActivitySourceType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
@@ -12,10 +12,10 @@ import { finalize } from 'rxjs/operators';
  * This component manages the activities creation on Leads, Accounts and Opportunities
  */
 @Component({
-  selector: 'app-create-activity-modal',
-  templateUrl: './create-activity-modal.component.html'
+  selector: 'app-create-or-edit-activity-widget-modal',
+  templateUrl: './create-or-edit-activity-widget-modal.component.html'
 })
-export class CreateActivityModalComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createActivityModal', { static: true }) modal: ModalDirective;
 
   @Input() activityType = '';
@@ -49,6 +49,8 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   active = false;
   saving = false;
 
+  isView = false;
+
 
   /**
    * Constructor
@@ -57,7 +59,8 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    */
   constructor( injector: Injector,
     private _activitySharedService: ActivitySharedService,
-    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy) {
+    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
+    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy) {
     super(injector);
    }
 
@@ -81,13 +84,67 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   }
 
   /**
-   * Opens the modal
+   * Opens the modal for new Activities
    * @param activityType 
    */
   show(activityType?: string){
     this.activityType = activityType;
+    this.activity = new CreateOrEditActivityDto();
     this.active = true;
     this.modal.show();
+  }
+
+  /**
+   * 
+   * @param activityId 
+   */
+  showForViewEdit(activityId: number, isView: boolean){
+    switch(this.componentType){
+      case 'Lead':
+        this.getLeadActivityForViewEdit(activityId);
+        break;
+
+      case 'Account':
+        this.getAccountActivityForViewEdit(activityId);
+        break;
+
+      case 'Opportunity':
+        // To do
+        break;
+    }
+
+    this.isView = isView;
+    this.active = true;
+    this.modal.show();
+  }
+
+
+  /**
+   * Gets an activity given its id (Only for Leads module)
+   * @param activityId 
+   */
+  getLeadActivityForViewEdit(activityId: number) {
+    this._leadActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
+      this.activity = result.activity;
+      this.activityType = result.activityTaskTypeDescription;
+      const { dueDate } = result.activity;
+      this.selectedDate = dueDate.toJSDate();
+      this.selectedTime = dueDate.toFormat('hh:mm a');
+    });
+  }
+
+  /**
+   * Gets an activity given its id (Only for Accounts module)
+   * @param activityId 
+   */
+  getAccountActivityForViewEdit(activityId: number){
+    this._accountActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
+      this.activity = result.activity;
+      this.activityType = result.activityTaskTypeDescription;
+      const { dueDate } = result.activity;
+      this.selectedDate = dueDate.toJSDate();
+      this.selectedTime = dueDate.toFormat('hh:mm a');
+    });
   }
 
   /**
@@ -101,11 +158,13 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
       case 'Lead':
         this.activity.leadId = this.idToStore;
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.LEAD).id;
+        this.saveLeadActivity();
         break;
 
       case 'Account':
         this.activity.customerNumber = this.idToStore;
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.ACCOUNT).id;
+        this.saveAccountActivity();
         break;
       
       case 'Opportunity':
@@ -113,17 +172,34 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.OPPORTUNITY).id;
         break;
     }
+  }
 
-    this.saveActivity();
+  /**
+   * Saves an activity related to an Account
+   */
+  saveAccountActivity(){
+    this.processDataModel();
+    this._accountActivitiesServiceProxy
+    .createOrEdit(this.activity)
+    .pipe(
+        finalize(() => {
+            this.saving = false;
+        })
+    )
+    .subscribe(() => {
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.close();
+        this.modalSave.emit(null);
+    });
   }
 
 
   /**
-   * Saves an activity
+   * Saves an activity related to a Lead
    */
-   saveActivity(){
+  saveLeadActivity(){
     this.processDataModel();
-    this._accountActivitiesServiceProxy
+    this._leadActivitiesServiceProxy
     .createOrEdit(this.activity)
     .pipe(
         finalize(() => {
@@ -143,9 +219,10 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    */
   processDataModel(){
     const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
-    this.activity.taskName = selectedActivityType.displayName;
-    this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
 
+    this.activity.taskName = selectedActivityType.displayName;
+
+    this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
     this.activity.startsAt = this.activity.dueDate;
   }
 
@@ -155,8 +232,49 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   callData(){
     this.durationItems = this._activitySharedService.getActivityDurationItems();
 
+    switch(this.componentType){
+      case 'Lead':
+        this.callDataForLeadsModule();
+        break;
+
+      case 'Account':
+        this.callDataForAccountsModule();
+        break;
+
+      case 'Opportunity':
+        //TO DO
+        break;
+    }
+  }
+
+  /**
+   * Calls the data requiered to populate dropdown (Only for Leads module)
+   */
+  callDataForLeadsModule(){
+    this._leadActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+      this.allUsers = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
+        this.allActivitySourceTypes = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
+        this.allActivityTaskTypes = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
+        this.allActivityStatuss = result;
+    });
+    this._leadActivitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
+        this.allActivityPrioritys = result;
+    });
+  }
+
+
+  /**
+   * Calls the data requiered to populate dropdown (Only for Accounts module)
+   */
+  callDataForAccountsModule(){
     this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-        this.allUsers = result;
+      this.allUsers = result;
     });
     this._accountActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;

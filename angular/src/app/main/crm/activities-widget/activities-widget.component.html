@@ -48,7 +48,7 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th style="width: 50px"
+                                        <th style="width: 70px"
                                             [hidden]="!isGrantedAny('Pages.AccountUsers.Edit', 'Pages.AccountUsers.Delete')">{{l('Actions')}}</th>
                                         <th style="width: 150px" pSortableColumn="userFk.name">
                                             {{l('Type')}}
@@ -67,7 +67,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td style="width: 50px"
+                                        <td style="width: 70px"
                                             [hidden]="!isGrantedAny('Pages.AccountUsers.Edit', 'Pages.AccountUsers.Delete')">
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
@@ -75,8 +75,21 @@
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>                                                        
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                        (click)="deleteActivity(record.activity)">{{l('Delete')}}</a>
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
+                                                        (click)="viewActivity(record.activity)">{{l('View')}}</a>
+                                                    </li>
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
+                                                        (click)="viewActivity(record.activity)">{{l('View')}}</a>
+                                                    </li>
+
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
+                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                    </li>
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
+                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -125,14 +138,14 @@
                 </div>
             </div>
         </div>
-        <app-create-activity-modal
+        <app-create-or-edit-activity-widget-modal
             #createActivityModal
             [activityType] = "this.activityType"
             [componentType] = "this.componentType"
             [idToStore]="this.idToStore"
             (modalSave) = "loadDataTable()"
             >
-        </app-create-activity-modal>
+        </app-create-or-edit-activity-widget-modal>
 
     </div>
 </div>

@@ -400,6 +400,13 @@
                 >
                 </app-assigned-user>
             </div>
+
+            <div class="col-sm-12 col-lg-6">
+                <app-activities-widget
+                    [componentType] = "'Lead'"
+                    [idToStore]="this.lead.id">
+                </app-activities-widget>
+            </div>
         </div>
     </div>
 </div>
