@@ -53,7 +53,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     customerName = '';
     contactName = '';
     customerNumber = '';
-    opportunityCustomerName = '';
     formDate: Date;
 
 
@@ -79,8 +78,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @param _opportunitiesServiceProxy
      * @param _router
      * @param _dateTimeService
-     * @param location
-     * @param _opportunityUsersServiceProxy
      * @param location
      * @param _opportunityUsersServiceProxy
      */
@@ -112,6 +109,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.setPermissions();
 
         this.show(this.opportunityId);
+
+
     }
 
     /***
@@ -128,6 +127,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             .subscribe(([getCanViewAssignedUsersWidget]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
             });
+
     }
 
     /**
@@ -171,7 +171,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     }
 
                     this.showSaveButton = !this.isReadOnlyMode;
-                }, (error) => {
+                }, () => {
                     this.goToOpportunities();
                 });
 
@@ -181,7 +181,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 entityId: opportunityId.toString(),
                 entityName: 'Opportunity'
             });
-
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests])
                 .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, opportunityForEdit]: [
@@ -190,8 +189,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     OpportunityOpportunityTypeLookupTableDto[],
                     OpportunityCustomerLookupTableDto[],
                     GetOpportunityForEditOutput]) => {
-                    this.isPageLoading = false;
-                    this.active = true;
 
                     this.opportunity = opportunityForEdit.opportunity;
                     this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
@@ -210,7 +207,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                     this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
 
-                }, (error) => {
+                    this.isPageLoading = false;
+                    this.active = true;
+
+                }, () => {
                     this.goToOpportunities();
                 });
         }
@@ -258,7 +258,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.saving = false;
                 })
             )
-            .subscribe((x) => {
+            .subscribe((_) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
                 this._router.navigate([this.routerLink]);
@@ -282,4 +282,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this._router.navigate([this.routerLink]);
     }
 
+
+    /***
+     * Reload entity events grid
+     */
+    reloadEvents() {
+        this.entityTypeHistory.refreshTable();
+    }
 }

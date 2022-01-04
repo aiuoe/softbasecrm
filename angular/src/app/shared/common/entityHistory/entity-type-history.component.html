@@ -1,4 +1,4 @@
-<div class="modal-body" [hidden]="!isGranted(requiredPermission)">
+<div [hidden]="!isGranted(requiredPermission)">
     <div class="row">
         <div class="col-md-12">
             <button (click)="getRecords()" class="btn btn-primary blue float-right">
@@ -23,14 +23,17 @@
 <!--                    <th style="width: 15%">-->
 <!--                        {{ 'Select' | localize }}-->
 <!--                    </th>-->
-                    <th style="width: 200px">
+                    <th style="width: 200px" pSortableColumn="username">
                         {{ 'User' | localize }}
+                        <p-sortIcon field="username"></p-sortIcon>
                     </th>
-                    <th>
+                    <th pSortableColumn="entityChangeSet.reason">
                         {{ 'Action' | localize }}
+                        <p-sortIcon field="entityChangeSet.reason"></p-sortIcon>
                     </th>
-                    <th>
+                    <th pSortableColumn="entityChange.changeTime">
                         {{ 'Date' | localize }}
+                        <p-sortIcon field="entityChange.changeTime"></p-sortIcon>
                     </th>
                 </tr>
             </ng-template>
