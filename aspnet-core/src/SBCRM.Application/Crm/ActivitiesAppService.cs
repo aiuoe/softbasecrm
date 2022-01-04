@@ -94,7 +94,7 @@ namespace SBCRM.Crm
         /// <returns>True or False</returns>
         private async Task<bool> IsUserCanAssignOthers(long userId)
         {
-            return await UserManager.IsGrantedAsync(userId, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
+            return await UserManager.IsGrantedAsync(userId, AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace SBCRM.Crm
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesInput input)
         {
             var currentUser = await GetCurrentUserAsync();
-            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic);
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.OpportunityFk)
@@ -412,7 +412,7 @@ namespace SBCRM.Crm
         public async Task<FileDto> GetActivitiesToExcel(GetAllActivitiesForExcelInput input)
         {
             var currentUser = await GetCurrentUserAsync();
-            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic);
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.OpportunityFk)
@@ -505,7 +505,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities);
+            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic);
 
             var userCustomers = new List<string>();
 
@@ -555,7 +555,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities);
+            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic);
 
             var userOpportunities = new List<int>();
 
@@ -586,7 +586,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityLeadLookupTableDto>> GetAllLeadForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities);
+            var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic);
 
             var userLeads = new List<int?>();
 
