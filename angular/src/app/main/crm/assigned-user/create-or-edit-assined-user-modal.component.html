@@ -12,20 +12,20 @@
                 </div>
 
                 <div class="modal-body">
-					<div class="col-md-8 offset-md-2">                 
-                        <p-listbox 
-                            [options]="this.allUsers" 
-                            [(ngModel)]="this.selectedUsers" 
+					<div class="col-md-12">
+                        <p-listbox
+                            [options]="this.allUsers"
+                            [(ngModel)]="this.selectedUsers"
                             [metaKeySelection]="false"
                             [checkbox]="true"
-                            [multiple]="true" 
+                            [multiple]="true"
                             optionLabel="displayName"
                             [filter]="true"
                             [filterPlaceHolder] = "this.l('Search')"
-                            [listStyle]="{'max-height':'300px'}" 
+                            [listStyle]="{'max-height':'300px'}"
                             [style]="{'border':'none'}">
-                        </p-listbox>                        
-                    </div>                   
+                        </p-listbox>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

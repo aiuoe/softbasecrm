@@ -35,6 +35,7 @@ export class OpportunitiesComponent extends AppComponentBase {
 
     advancedFiltersAreShown = false;
     filterText = '';
+    timeZone = '';
     nameFilter = '';
     maxAmountFilter: number;
     maxAmountFilterEmpty: number;
@@ -183,9 +184,13 @@ export class OpportunitiesComponent extends AppComponentBase {
     * Export to excel
     */
     exportToExcel(): void {
+
+        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+
         this._opportunitiesServiceProxy
             .getOpportunitiesToExcel(
                 this.filterText,
+                this.timeZone,
                 this.nameFilter,
                 this.maxAmountFilter == null ? this.maxAmountFilterEmpty : this.maxAmountFilter,
                 this.minAmountFilter == null ? this.minAmountFilterEmpty : this.minAmountFilter,
