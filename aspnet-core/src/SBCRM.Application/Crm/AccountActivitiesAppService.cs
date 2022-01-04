@@ -2,18 +2,14 @@
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using SBCRM.Authorization;
 using SBCRM.Authorization.Users;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
-using System.Text;
 using System.Threading.Tasks;
-using Abp.Authorization;
 
 namespace SBCRM.Crm
 {
@@ -40,30 +36,24 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="activityRepository"></param>
         /// <param name="lookupOpportunityRepository"></param>
-        /// <param name="lookupOpportunityUserRepository"></param>
         /// <param name="lookupLeadRepository"></param>
-        /// <param name="lookupLeadUserRepository"></param>
         /// <param name="lookupUserRepository"></param>
         /// <param name="lookupActivitySourceTypeRepository"></param>
         /// <param name="lookupActivityTaskTypeRepository"></param>
         /// <param name="lookupActivityStatusRepository"></param>
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
-        /// <param name="lookupAccountUserRepository"></param>
         /// <param name="activitiesService"></param>
         public AccountActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
-            IRepository<OpportunityUser, int> lookupOpportunityUserRepository,
             IRepository<Lead, int> lookupLeadRepository,
-            IRepository<LeadUser, int> lookupLeadUserRepository,
             IRepository<User, long> lookupUserRepository,
             IRepository<ActivitySourceType, int> lookupActivitySourceTypeRepository,
             IRepository<ActivityTaskType, int> lookupActivityTaskTypeRepository,
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
             IRepository<Customer, int> lookupCustomerRepository,
-            IRepository<AccountUser, int> lookupAccountUserRepository,
             IActivitiesService activitiesService)
         {
             _activityRepository = activityRepository;

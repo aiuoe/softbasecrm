@@ -5,15 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using SBCRM.Authorization;
 using SBCRM.Authorization.Users;
 using SBCRM.Crm.Dtos;
-using SBCRM.Legacy;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
-using System.Text;
 using System.Threading.Tasks;
-using Abp.Authorization;
 using Abp.Application.Services;
 
 namespace SBCRM.Crm
