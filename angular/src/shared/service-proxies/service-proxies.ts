@@ -11734,8 +11734,8 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    canSeeAllLeads(): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Leads/CanSeeAllLeads";
+    currentUserCanSeeAllLeads(): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Leads/CurrentUserCanSeeAllLeads";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11747,11 +11747,11 @@ export class LeadsServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCanSeeAllLeads(response_);
+            return this.processCurrentUserCanSeeAllLeads(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCanSeeAllLeads(<any>response_);
+                    return this.processCurrentUserCanSeeAllLeads(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -11760,7 +11760,7 @@ export class LeadsServiceProxy {
         }));
     }
 
-    protected processCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
+    protected processCurrentUserCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12381,6 +12381,7 @@ export class LeadsServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param timeZone (optional) 
      * @param companyOrContactNameFilter (optional) 
      * @param contactNameFilter (optional) 
      * @param contactPositionFilter (optional) 
@@ -12408,12 +12409,16 @@ export class LeadsServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, timeZone: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         if (companyOrContactNameFilter === null)
             throw new Error("The parameter 'companyOrContactNameFilter' cannot be null.");
         else if (companyOrContactNameFilter !== undefined)
@@ -14609,8 +14614,8 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    canSeeAllLeads(): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/CanSeeAllLeads";
+    canSeeAllOpportunities(): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/CanSeeAllOpportunities";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -14622,11 +14627,11 @@ export class OpportunitiesServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCanSeeAllLeads(response_);
+            return this.processCanSeeAllOpportunities(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCanSeeAllLeads(<any>response_);
+                    return this.processCanSeeAllOpportunities(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -14635,7 +14640,7 @@ export class OpportunitiesServiceProxy {
         }));
     }
 
-    protected processCanSeeAllLeads(response: HttpResponseBase): Observable<boolean> {
+    protected processCanSeeAllOpportunities(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -15082,6 +15087,7 @@ export class OpportunitiesServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param timeZone (optional) 
      * @param nameFilter (optional) 
      * @param maxAmountFilter (optional) 
      * @param minAmountFilter (optional) 
@@ -15101,12 +15107,16 @@ export class OpportunitiesServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, timeZone: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         if (nameFilter === null)
             throw new Error("The parameter 'nameFilter' cannot be null.");
         else if (nameFilter !== undefined)

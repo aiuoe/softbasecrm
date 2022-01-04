@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>
+	<texts>		
+		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
+		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
+		
 		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
@@ -784,7 +787,6 @@
 		<text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
 		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
 		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
-		<text name="LeadNotExist">Lead does not exist</text>
 		<text name="CustomerNotExist">Customer does not exist</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
