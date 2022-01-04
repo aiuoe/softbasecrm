@@ -85,7 +85,7 @@ namespace SBCRM.Crm.Dtos
         {
             if (string.IsNullOrWhiteSpace(CompanyPhone) && string.IsNullOrWhiteSpace(CompanyEmail))
             {
-                context.Results.Add(new ValidationResult("Email or Phone should be provided"));
+                context.Results.Add(new ValidationResult(context.GetLocalizationMessage("EmailOrPhoneRequired")));
             }
         }
     }

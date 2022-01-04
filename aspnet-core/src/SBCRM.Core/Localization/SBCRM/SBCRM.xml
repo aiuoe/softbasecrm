@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="EmailOrPhoneRequired">Email or Phone should be provided</text>
 		<text name="ScheduleCall">Schedule Call</text>
 		<text name="ScheduleMeeting">Schedule Meeting</text>
 		<text name="EmailReminder">Email Reminder</text>

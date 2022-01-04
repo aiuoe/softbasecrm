@@ -22,6 +22,10 @@ namespace SBCRM.Crm.Dtos
         public string CustomerNumber { get; set; }
 
         public string ContactName { get; set; }
-        
+
+        public string BranchName { get; set; }
+
+        public string DepartmentTitle { get; set; }
+
     }
 }

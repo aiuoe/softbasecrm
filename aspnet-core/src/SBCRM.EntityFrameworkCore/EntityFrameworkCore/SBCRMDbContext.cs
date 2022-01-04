@@ -95,6 +95,10 @@ namespace SBCRM.EntityFrameworkCore
 
         public virtual DbSet<UserDelegation> UserDelegations { get; set; }
 
+        public virtual DbSet<Branch> Branch { get; set; }
+
+        public virtual DbSet<Department> Department { get; set; }
+
         public SBCRMDbContext(DbContextOptions<SBCRMDbContext> options)
             : base(options)
         {
@@ -106,6 +110,9 @@ namespace SBCRM.EntityFrameworkCore
             modelBuilder.HasDefaultSchema(SBCRMConsts.DefaultSchemaName);
 
             modelBuilder.HasSequence<int>("CustomerNumberSequence");
+
+            //modelBuilder.Entity<Department>()
+            //    .HasKey(d => d.Dept);
 
             modelBuilder
                 .Entity<InvoiceRegList>(eb =>

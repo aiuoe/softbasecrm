@@ -24,11 +24,9 @@ namespace SBCRM.Crm.Dtos
 
         public string Description { get; set; }
 
-        [StringLength(OpportunityConsts.MaxBranchLength, MinimumLength = OpportunityConsts.MinBranchLength)]
-        public string Branch { get; set; }
+        public short? BranchId { get; set; }
 
-        [StringLength(OpportunityConsts.MaxDepartmentLength, MinimumLength = OpportunityConsts.MinDepartmentLength)]
-        public string Department { get; set; }
+        public short? DepartmentId { get; set; }
 
         [Required(ErrorMessage = "A Stage is required")]
         [Range(1, int.MaxValue, ErrorMessage = "A Stage is required")]
