@@ -115,6 +115,7 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditCustomerAttachmentDto input)
         {
             var customerAttachment = ObjectMapper.Map<CustomerAttachment>(input);
+            customerAttachment.CustomerNumber = "3RD003";
 
             await _customerAttachmentRepository.InsertAsync(customerAttachment);
 
