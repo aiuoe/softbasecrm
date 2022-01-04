@@ -5,7 +5,7 @@ import { AccountActivitiesServiceProxy, ActivityDto, LeadActivitiesServiceProxy 
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-import { CreateActivityModalComponent } from './create-activity-modal.component';
+import { CreateOrEditActivityWidgetModalComponent } from './create-or-edit-activity-widget-modal.component';
 
 /**
  * This component manages the activities creation on Leads, Accounts and Opportunities
@@ -19,7 +19,7 @@ import { CreateActivityModalComponent } from './create-activity-modal.component'
 export class ActivitiesWidgetComponent extends AppComponentBase implements OnInit {
   @ViewChild('dataTable', { static: true }) dataTable: Table;
   @ViewChild('paginator', { static: true }) paginator: Paginator;
-  @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateActivityModalComponent;
+  @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
 
   @Input() componentType = '';

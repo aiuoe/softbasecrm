@@ -12,10 +12,10 @@ import { finalize } from 'rxjs/operators';
  * This component manages the activities creation on Leads, Accounts and Opportunities
  */
 @Component({
-  selector: 'app-create-activity-modal',
-  templateUrl: './create-activity-modal.component.html'
+  selector: 'app-create-or-edit-activity-widget-modal',
+  templateUrl: './create-or-edit-activity-widget-modal.component.html'
 })
-export class CreateActivityModalComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createActivityModal', { static: true }) modal: ModalDirective;
 
   @Input() activityType = '';

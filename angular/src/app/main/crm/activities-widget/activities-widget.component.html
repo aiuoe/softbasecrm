@@ -138,14 +138,14 @@
                 </div>
             </div>
         </div>
-        <app-create-activity-modal
+        <app-create-or-edit-activity-widget-modal
             #createActivityModal
             [activityType] = "this.activityType"
             [componentType] = "this.componentType"
             [idToStore]="this.idToStore"
             (modalSave) = "loadDataTable()"
             >
-        </app-create-activity-modal>
+        </app-create-or-edit-activity-widget-modal>
 
     </div>
 </div>
