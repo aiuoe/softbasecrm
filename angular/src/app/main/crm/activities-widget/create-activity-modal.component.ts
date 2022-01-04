@@ -56,7 +56,6 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
    * @param _activitiesServiceProxy 
    */
   constructor( injector: Injector,
-    private _activitiesServiceProxy: ActivitiesServiceProxy,
     private _activitySharedService: ActivitySharedService,
     private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy) {
     super(injector);
@@ -156,25 +155,19 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   callData(){
     this.durationItems = this._activitySharedService.getActivityDurationItems();
 
-    this._activitiesServiceProxy.getAllOpportunityForTableDropdown().subscribe((result) => {
-      this.allOpportunitys = result;
-    });
-    this._activitiesServiceProxy.getAllLeadForTableDropdown().subscribe((result) => {
-        this.allLeads = result;
-    });
-    this._activitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
         this.allUsers = result;
     });
-    this._activitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
     });
-    this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
         this.allActivityTaskTypes = result;
     });
-    this._activitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
         this.allActivityStatuss = result;
     });
-    this._activitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
+    this._accountActivitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
         this.allActivityPrioritys = result;
     });
   }

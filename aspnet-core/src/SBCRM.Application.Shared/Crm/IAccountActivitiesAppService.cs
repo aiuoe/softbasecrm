@@ -33,5 +33,36 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         Task Delete(EntityDto<long> input);
+
+        /// <summary>
+        /// Get all users for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown();
+
+        /// <summary>
+        /// Get all activity source type for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityActivitySourceTypeLookupTableDto>> GetAllActivitySourceTypeForTableDropdown();
+
+        /// <summary>
+        /// Get all activity task type for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityActivityTaskTypeLookupTableDto>> GetAllActivityTaskTypeForTableDropdown();
+
+        /// <summary>
+        /// Get all activity status for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityActivityStatusLookupTableDto>> GetAllActivityStatusForTableDropdown();
+
+
+        /// <summary>
+        /// Get all activity priority for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
     }
 }

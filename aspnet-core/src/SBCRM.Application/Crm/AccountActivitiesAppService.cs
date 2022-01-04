@@ -80,7 +80,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// 
+        /// Gets all activities related with an Account
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -193,14 +193,12 @@ namespace SBCRM.Crm
 
 
         /// <summary>
-        /// 
+        /// Create a new activity
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-            try
-            {
                 var activity = ObjectMapper.Map<Activity>(input);
                 activity.StartsAt = activity.StartsAt.ToUniversalTime();
                 activity.DueDate = activity.DueDate.ToUniversalTime();
@@ -208,15 +206,10 @@ namespace SBCRM.Crm
                 activity.TenantId = GetTenantId();
 
                 await _activityRepository.InsertAsync(activity);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
         }
 
         /// <summary>
-        /// 
+        /// Deletes an activity
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -224,5 +217,91 @@ namespace SBCRM.Crm
         {
             await _activityRepository.DeleteAsync(input.Id);
         }
+
+        /// <summary>
+        /// Get all users for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
+
+            return await _lookupUserRepository.GetAll()
+                .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
+                .Select(user => new ActivityUserLookupTableDto
+                {
+                    Id = user.Id,
+                    DisplayName = user != null ? user.FullName : string.Empty
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get all activity source type for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ActivityActivitySourceTypeLookupTableDto>> GetAllActivitySourceTypeForTableDropdown()
+        {
+            return await _lookupActivitySourceTypeRepository.GetAll()
+                .OrderBy(x => x.Order)
+                .Select(activitySourceType => new ActivityActivitySourceTypeLookupTableDto
+                {
+                    Id = activitySourceType.Id,
+                    Code = activitySourceType.Code,
+                    DisplayName = activitySourceType == null || activitySourceType.Description == null ? "" : activitySourceType.Description.ToString()
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get all activity task type for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ActivityActivityTaskTypeLookupTableDto>> GetAllActivityTaskTypeForTableDropdown()
+        {
+            return await _lookupActivityTaskTypeRepository.GetAll()
+                .OrderBy(x => x.Order)
+                .Select(activityTaskType => new ActivityActivityTaskTypeLookupTableDto
+                {
+                    Id = activityTaskType.Id,
+                    IsDefault = activityTaskType.IsDefault,
+                    Code = activityTaskType.Code,
+                    DisplayName = activityTaskType == null || activityTaskType.Description == null ? "" : activityTaskType.Description.ToString(),
+                    Color = activityTaskType == null || activityTaskType.Color == null ? "" : activityTaskType.Color.ToString()
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get all activity status for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ActivityActivityStatusLookupTableDto>> GetAllActivityStatusForTableDropdown()
+        {
+            return await _lookupActivityStatusRepository.GetAll()
+                .OrderBy(x => x.Order)
+                .Select(activityStatus => new ActivityActivityStatusLookupTableDto
+                {
+                    Id = activityStatus.Id,
+                    IsDefault = activityStatus.IsDefault,
+                    DisplayName = activityStatus == null || activityStatus.Description == null ? "" : activityStatus.Description.ToString()
+                }).ToListAsync();
+        }
+
+
+        /// <summary>
+        /// Get all activity priority for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown()
+        {
+            return await _lookupActivityPriorityRepository.GetAll()
+                .OrderBy(x => x.Order)
+                .Select(activityPriority => new ActivityActivityPriorityLookupTableDto
+                {
+                    Id = activityPriority.Id,
+                    IsDefault = activityPriority.IsDefault,
+                    DisplayName = activityPriority == null || activityPriority.Description == null ? "" : activityPriority.Description.ToString()
+                }).ToListAsync();
+        }
+
     }
 }
