@@ -4,14 +4,15 @@
 }
 
 .p-inputtext {
-    font-family: Poppins,Helvetica,sans-serif;
+    font-family: $font-family !important;
     border: 1px solid #e4e6ef;
     border-radius: .42rem;
     padding: .65rem 1rem;
 }
 
+
 .p-inputtext:disabled {
     background-color: #F2F6F9;
     border-color: #e4e6ef;
     color: #050505;
-}    
+}

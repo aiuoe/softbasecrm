@@ -156,6 +156,8 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
                     this.active = true;
                     this.showSaveButton = !this.isReadOnlyMode;
+                }, () => {
+                    this.goToLeads();
                 });
         }
         this._leadsServiceProxy.getAllLeadSourceForTableDropdown().subscribe((result) => {

@@ -52,6 +52,8 @@
     "localforage": "^1.7.3",
     "lodash-es": "^4.17.21",
     "luxon": "^1.27.0",
+    "moment": "^2.29.0",
+    "moment-timezone": "^0.5.31",
     "msal": "^1.4.11",
     "ng2-file-upload": "^1.4.0",
     "ngx-bootstrap": "^6.2.0",
@@ -71,9 +73,8 @@
     "text-mask-addons": "^3.8.0",
     "tslib": "^2.3.0",
     "webdriver-manager": "^12.1.8",
-    "zone.js": "~0.11.4",
-    "moment": "^2.29.0",
-    "moment-timezone": "^0.5.31"
+    "windows-iana": "^5.1.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.0",
