@@ -115,9 +115,11 @@
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
         public const string Pages_Customer_View_Events = "Pages.Customer.ViewEvents";
+        public const string Pages_Customer_View_Events__Dynamic = "Pages.Customer.ViewEvents__Dynamic";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
         public const string Pages_Customer_View_Opportunities = "Pages.Customer.ViewOpportunities";
+        public const string Pages_Customer_View_Opportunities__Dynamic = "Pages.Customer.ViewOpportunities__Dynamic";
         public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
         public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
 

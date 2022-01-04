@@ -149,6 +149,9 @@ namespace SBCRM.Authorization
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events, L("CustomerViewEvents"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events__Dynamic, L("CustomerViewEventsDynamic"));
+
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Opportunities__Dynamic, L("CustomerViewOpportunitiesDynamic"));
             var accountOpportunities = customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Opportunities, L("CustomerViewOpportunities"));
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity, L("CustomerAddOpportunity"));
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Opportunity, L("CustomerEditOpportunity"));
@@ -168,7 +171,6 @@ namespace SBCRM.Authorization
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Edit, L("EditAccountType"));
             accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Delete, L("DeleteAccountType"));
-
             //var arTerms = pages.CreateChildPermission(AppPermissions.Pages_ARTerms, L("ARTerms"));
             //arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Create, L("CreateNewARTerms"));
             //arTerms.CreateChildPermission(AppPermissions.Pages_ARTerms_Edit, L("EditARTerms"));

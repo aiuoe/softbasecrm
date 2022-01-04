@@ -16,7 +16,7 @@ import {
     GetCustomerForEditOutput,
     PagedResultDtoOfGetZipCodeForViewDto,
     ZipCodeDto,
-    CustomerCountryLookupTableDto, AccountUsersServiceProxy
+    CustomerCountryLookupTableDto, AccountUsersServiceProxy, CustomerTabsVisibilityDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -135,20 +135,19 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * Set permissions
      */
     setPermissions() {
-        // Static Permissions
-        this.showOpportunitiesTab = this.isGrantedAny('Pages.Customer.ViewOpportunities');
-        this.showInvoicesTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
-        this.showEquipmentsTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
-        this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
-        this.showEventsTab = this.isGrantedAny('Pages.Customer.ViewEvents');
-
         // Dynamic at runtime Permissions
         const permissionsRequests: Observable<any>[] = [
-            this._accountUsersServiceProxy.getCanViewAssignedUsersWidget(this.customerNumber)
+            this._accountUsersServiceProxy.getCanViewAssignedUsersWidget(this.customerNumber),
+            this._customerServiceProxy.getVisibilityTabs(this.customerNumber)
         ];
         forkJoin([...permissionsRequests])
-            .subscribe(([getCanViewAssignedUsersWidget]) => {
+            .subscribe(([getCanViewAssignedUsersWidget, getVisibility]: [boolean, CustomerTabsVisibilityDto]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+                this.showOpportunitiesTab = getVisibility.canViewOpportunitiesTab;
+                this.showEquipmentsTab = getVisibility.canViewEquipmentsTab;
+                this.showInvoicesTab = getVisibility.canViewInvoicesTab;
+                this.showWipTab = getVisibility.canViewWipTab;
+                this.showEventsTab = getVisibility.canViewEventsTab;
             });
     }
 

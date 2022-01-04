@@ -107,6 +107,40 @@ namespace SBCRM.Legacy
         }
 
         /// <summary>
+        /// Get visibility permissions for Customer Tabs
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<CustomerTabsVisibilityDto> GetVisibilityTabs(string customerNumber)
+        {
+            var visibilityTabs = new CustomerTabsVisibilityDto
+            {
+                CanViewEquipmentsTab = true,
+                CanViewInvoicesTab = true,
+                CanViewWipTab = true
+            };
+
+            var currentUser = await GetCurrentUserAsync();
+            var currentUserIsAssignedInCustomer = _accountUserRepository
+                .GetAll()
+                .Where(x => x.CustomerNumber == customerNumber)
+                .Any(x => x.UserId == currentUser.Id);
+
+            var hasViewEventsDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_View_Events__Dynamic);
+            var hasViewEventsStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_View_Events);
+            var canViewEventsAssignedUsersDynamic = hasViewEventsDynamicPermission && currentUserIsAssignedInCustomer;
+            visibilityTabs.CanViewEventsTab = canViewEventsAssignedUsersDynamic || hasViewEventsStaticPermission;
+
+            var hasViewOpportunitiesDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_View_Opportunities__Dynamic);
+            var hasViewOpportunitiesStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_View_Opportunities);
+            var canViewOpportunitiesAssignedUsersDynamic = hasViewOpportunitiesDynamicPermission && currentUserIsAssignedInCustomer;
+            visibilityTabs.CanViewOpportunitiesTab = canViewOpportunitiesAssignedUsersDynamic || hasViewOpportunitiesStaticPermission;
+
+            return visibilityTabs;
+        }
+
+        /// <summary>
         /// Get all customers
         /// </summary>
         /// <param name="input"></param>

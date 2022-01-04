@@ -14,6 +14,14 @@ namespace SBCRM.Legacy
     /// </summary>
     public interface ICustomerAppService : IApplicationService
     {
+
+        /// <summary>
+        /// Get visibility permissions for Customer Tabs
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        Task<CustomerTabsVisibilityDto> GetVisibilityTabs(string customerNumber);
+
         /// <summary>
         /// Get all customers
         /// </summary>

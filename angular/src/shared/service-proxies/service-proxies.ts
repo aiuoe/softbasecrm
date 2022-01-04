@@ -5976,6 +5976,62 @@ export class CustomerServiceProxy {
     }
 
     /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getVisibilityTabs(customerNumber: string | undefined): Observable<CustomerTabsVisibilityDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetVisibilityTabs?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVisibilityTabs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVisibilityTabs(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerTabsVisibilityDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerTabsVisibilityDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVisibilityTabs(response: HttpResponseBase): Observable<CustomerTabsVisibilityDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomerTabsVisibilityDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerTabsVisibilityDto>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param accountTypeId (optional) 
      * @param userIds (optional) 
@@ -29855,6 +29911,58 @@ export interface ICustomerOpportunityViewDto {
     stageColor: string | undefined;
     closeDate: DateTime | undefined;
     amount: number | undefined;
+}
+
+export class CustomerTabsVisibilityDto implements ICustomerTabsVisibilityDto {
+    canViewOpportunitiesTab!: boolean;
+    canViewInvoicesTab!: boolean;
+    canViewEquipmentsTab!: boolean;
+    canViewWipTab!: boolean;
+    canViewEventsTab!: boolean;
+
+    constructor(data?: ICustomerTabsVisibilityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.canViewOpportunitiesTab = _data["canViewOpportunitiesTab"];
+            this.canViewInvoicesTab = _data["canViewInvoicesTab"];
+            this.canViewEquipmentsTab = _data["canViewEquipmentsTab"];
+            this.canViewWipTab = _data["canViewWipTab"];
+            this.canViewEventsTab = _data["canViewEventsTab"];
+        }
+    }
+
+    static fromJS(data: any): CustomerTabsVisibilityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerTabsVisibilityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["canViewOpportunitiesTab"] = this.canViewOpportunitiesTab;
+        data["canViewInvoicesTab"] = this.canViewInvoicesTab;
+        data["canViewEquipmentsTab"] = this.canViewEquipmentsTab;
+        data["canViewWipTab"] = this.canViewWipTab;
+        data["canViewEventsTab"] = this.canViewEventsTab;
+        return data; 
+    }
+}
+
+export interface ICustomerTabsVisibilityDto {
+    canViewOpportunitiesTab: boolean;
+    canViewInvoicesTab: boolean;
+    canViewEquipmentsTab: boolean;
+    canViewWipTab: boolean;
+    canViewEventsTab: boolean;
 }
 
 export class CustomerWipViewDto implements ICustomerWipViewDto {
