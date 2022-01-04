@@ -24,9 +24,9 @@ INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], Is
 INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], IsDefault) VALUES ('Prospect', getdate(), 0, 1);
 GO
 
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('Low', GETDATE(), 0, 1);
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('Medium', GETDATE(),0, 0);
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('High', GETDATE(),0, 0);
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('Low', GETDATE(), 0, 1, N'#263950');
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('Medium', GETDATE(),0, 0, N'#FF8900');
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('High', GETDATE(),0, 0, N'#FF0000');
 GO
 
 INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Email', GETDATE(), 0, 0, 1);
