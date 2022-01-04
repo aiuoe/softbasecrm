@@ -703,10 +703,10 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities_View_Events)]
-        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
+        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetCrmEntityTypeChangeInput input)
         {
             input.EntityTypeFullName = typeof(Opportunity).FullName;
-            return await _auditEventsService.GetEntityTypeChanges(input);
+            return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
         }
     }
 }

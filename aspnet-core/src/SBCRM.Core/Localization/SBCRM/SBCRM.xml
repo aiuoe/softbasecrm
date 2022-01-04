@@ -4,7 +4,6 @@
 	<texts>		
 		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
 		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
-		
 		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
@@ -86,9 +85,7 @@
 		<text name="EditActivityPriority">Edit activity priority</text>
 		<text name="DeleteActivityPriority">Delete activity priority</text>
 		<text name="ActivityPriorities">Activity priorities</text>
-
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
-
 		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
 		<text name="InputPosition">Enter Position</text>
@@ -787,7 +784,7 @@
 		<text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
 		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
 		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
-		<text name="CustomerNotExist">Customer does not exist</text>
+		<text name="CustomerNotExist">This Customer does not exist or is unavailable</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
