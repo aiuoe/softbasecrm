@@ -88,6 +88,16 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Check whether a user has permission to assign an activity to other users.
+        /// </summary>
+        /// <param name="userId">The id of the user to verifty permission</param>
+        /// <returns>True or False</returns>
+        private async Task<bool> IsUserCanAssignOthers(long userId)
+        {
+            return await UserManager.IsGrantedAsync(userId, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
+        }
+
+        /// <summary>
         /// Get all activities used for list/grid
         /// </summary>
         /// <param name="input">The query of the http header</param>
@@ -215,7 +225,14 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetActivityForViewDto> GetActivityForView(long id)
         {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
+
             var activity = await _activityRepository.GetAsync(id);
+
+            // Return null if the activity doesn't exist or the current user do not have permission to view other activities.
+            if (activity is null || (!canAssignOthers && activity.UserId != currentUser.Id))
+                return null;
 
             var output = new GetActivityForViewDto { Activity = ObjectMapper.Map<ActivityDto>(activity) };
 
@@ -263,9 +280,13 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities)]
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
+
             var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
 
-            if (activity is null)
+            // Return null if the activity doesn't exist or the current user do not have permission to view other activities.
+            if (activity is null || (!canAssignOthers && activity.UserId != currentUser.Id))
                 return null;
 
             var output = new GetActivityForEditOutput { Activity = ObjectMapper.Map<CreateOrEditActivityDto>(activity) };
@@ -332,7 +353,15 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities_Create)]
         protected virtual async Task Create(CreateOrEditActivityDto input)
         {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
+
+            // Do not proceed if the current user do not have permission to assign others and is attempting to do so.
+            if (!canAssignOthers && currentUser.Id != input.UserId)
+                return;
+
             var activity = ObjectMapper.Map<Activity>(input);
+
             activity.StartsAt = activity.StartsAt.ToUniversalTime();
             activity.DueDate = activity.DueDate.ToUniversalTime();
 
@@ -349,11 +378,19 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Activities_Edit)]
         protected virtual async Task Update(CreateOrEditActivityDto input)
         {
+            var currentUser = await GetCurrentUserAsync();
+            var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
+
             var activity = await _activityRepository.FirstOrDefaultAsync((long)input.Id);
+
+            // Do not proceed if the current user do not have permission to assign others and is attempting to do so.
+            if (!canAssignOthers && currentUser.Id != activity.UserId)
+                return;
+
             input.StartsAt = input.StartsAt.ToUniversalTime();
             input.DueDate = input.DueDate.ToUniversalTime();
-            ObjectMapper.Map(input, activity);
 
+            ObjectMapper.Map(input, activity);
         }
 
         /// <summary>
@@ -578,7 +615,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
+            var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
 
             return await _lookupUserRepository.GetAll()
                 .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
