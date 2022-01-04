@@ -56,5 +56,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
+
+        /// <summary>
+        /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
+        /// </summary>
+        /// <param name="input">Input from http header query which includes the id of the activity</param>
+        /// <returns></returns>
+        Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input);
     }
 }

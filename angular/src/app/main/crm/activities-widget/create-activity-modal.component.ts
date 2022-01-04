@@ -49,6 +49,8 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   active = false;
   saving = false;
 
+  isView = false;
+
 
   /**
    * Constructor
@@ -82,13 +84,51 @@ export class CreateActivityModalComponent extends AppComponentBase implements On
   }
 
   /**
-   * Opens the modal
+   * Opens the modal for new Activities
    * @param activityType 
    */
   show(activityType?: string){
     this.activityType = activityType;
+    this.activity = new CreateOrEditActivityDto();
     this.active = true;
     this.modal.show();
+  }
+
+  /**
+   * 
+   * @param activityId 
+   */
+  showForViewEdit(activityId: number, isView: boolean){
+    switch(this.componentType){
+      case 'Lead':
+        this.getLeadActivityForViewEdit(activityId);
+        break;
+
+      case 'Account':
+        // To do
+        break;
+
+      case 'Opportunity':
+        // To do
+        break;
+    }
+
+    this.isView = isView;
+    this.active = true;
+    this.modal.show();
+  }
+
+  /**
+   * 
+   */
+  getLeadActivityForViewEdit(activityId: number) {
+    this._leadActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
+      this.activity = result.activity;
+      this.activityType = result.activityTaskTypeDescription;
+      const { dueDate } = result.activity;
+      this.selectedDate = dueDate.toJSDate();
+      this.selectedTime = dueDate.toFormat('hh:mm a');
+    });
   }
 
   /**

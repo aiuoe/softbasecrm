@@ -151,8 +151,20 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     this.createActivityModal.show(activityType);
   }
 
+  /**
+   * 
+   * @param activity 
+   */
   viewActivity(activity: ActivityDto){
+    this.createActivityModal.showForViewEdit(activity.id, true);
+  }
 
+  /**
+   * 
+   * @param activity 
+   */
+  editActivity(activity: ActivityDto){
+    this.createActivityModal.showForViewEdit(activity.id, false);
   }
 
 

@@ -82,6 +82,15 @@
                                                         <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
                                                         (click)="viewActivity(record.activity)">{{l('View')}}</a>
                                                     </li>
+
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
+                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                    </li>
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
+                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>
