@@ -24,6 +24,7 @@ using SBCRM.Common;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy.Dto;
 using BaseRepo = Abp.Domain.Repositories;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Legacy
 {
@@ -104,6 +105,18 @@ namespace SBCRM.Legacy
             _customerSequenceRepository = customerSequenceRepository;
             _contactsAppService = contactsAppService;
             _lookupCountryRepository = lookupCountryRepository;
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// The user will be shown all the actions on the menu options
+        /// </summary>
+        /// <returns></returns>
+        public bool CanSeeAllActions()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_AccessToAllActions__Dynamic);
         }
 
         /// <summary>
@@ -278,6 +291,8 @@ namespace SBCRM.Legacy
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(customerNumber));
 
+            GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
+
             var output = new GetCustomerForViewOutput { Customer = ObjectMapper.Map<CreateOrEditCustomerDto>(customer) };
 
             if (output.Customer.AccountTypeId != null)
@@ -297,6 +312,20 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
         {
+            if (!CanSeeAllActions())
+            {
+                Customer Customer;
+
+                Customer = await _accountUserRepository.GetAll()
+                .Include(x => x.UserFk)
+                .Include(x => x.CustomerFk)
+                .Where(x => x.UserId == GetCurrentUser().Id && x.CustomerNumber == input.CustomerNumber)
+                .Select(x => x.CustomerFk)
+                .FirstOrDefaultAsync();
+
+                GuardHelper.ThrowIf(Customer == null, new EntityNotFoundException(L("AccountNotExist")));
+            }
+
             return ObjectMapper.Map<GetCustomerForEditOutput>(await GetCustomerForView(input.CustomerNumber));
         }
 
@@ -325,7 +354,7 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Create)]
         protected virtual async Task Create(CreateOrEditCustomerDto input)
-        {
+        {            
             var customer = ObjectMapper.Map<Customer>(input);
 
             var customerSameName = await _customerRepository.GetAll()
@@ -424,6 +453,17 @@ namespace SBCRM.Legacy
             var customers = GetCustomerForViewDtos(dbList);
 
             return _customerExcelExporter.ExportToFile(customers);
+        }
+
+        /// <summary>
+        /// Get the current user id
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<long> GetCurrentUserId()
+        {
+            var currentUser  = await GetCurrentUserAsync();
+            return currentUser.Id;
         }
 
         /// <summary>

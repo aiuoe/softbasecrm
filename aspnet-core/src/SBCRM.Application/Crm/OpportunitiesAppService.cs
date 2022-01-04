@@ -660,7 +660,12 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
         {
+            long CurrentUserId = GetCurrentUser().Id;
+            bool UserHAsAccessToAllOpportunities = UserManager.IsGranted(
+                                        CurrentUserId, AppPermissions.Pages_Customer_AccessToAllActions__Dynamic);
             return await _lookupCustomerRepository.GetAll()
+                .Include(x => x.Users)                
+                .WhereIf(!UserHAsAccessToAllOpportunities, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
                 .Select(customer => new OpportunityCustomerLookupTableDto
                 {
                     Number = customer.Number,
@@ -707,6 +712,33 @@ namespace SBCRM.Crm
         {
             input.EntityTypeFullName = typeof(Opportunity).FullName;
             return await _auditEventsService.GetEntityTypeChanges(input);
+        }
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="CustomerNumber"></param>
+        /// <returns></returns>
+        public void verifyUserHasAccessToAccount(string CustomerNumber)
+        {
+            long CurrentUserId = GetCurrentUser().Id;
+            bool HasAccess = false;
+            if (UserManager.IsGranted(
+                CurrentUserId, AppPermissions.Pages_Customer_Add_Opportunity))
+            {
+                List<AccountUser> CustomerUsers = (from customer in _lookupCustomerRepository.GetAll()
+                                                   where customer.Number == CustomerNumber
+                                                   select customer.Users).FirstOrDefault();
+
+                foreach (AccountUser User in CustomerUsers)
+                {
+                    if (User.UserId == CurrentUserId)
+                        HasAccess = true;
+                }
+            }
+
+            GuardHelper.ThrowIf(!HasAccess, new EntityNotFoundException( L("AccountNotExist") ));
+
         }
     }
 }

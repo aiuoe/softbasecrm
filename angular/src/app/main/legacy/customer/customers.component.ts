@@ -41,6 +41,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     accountUsers: AccountUserDto[] = [];
     assignedUsersFilter: AccountUserLookupTableDto[] = [];
     allUsers: AccountUserLookupTableDto[];
+    currentUserId : number;
 
     /**
      * Used to delay the search and wait for the user to finish typing.
@@ -77,6 +78,11 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
      * Initialize component
      */
     ngOnInit(): void {
+        this._customerServiceProxy.getCurrentUserId()
+            .subscribe((result: number) => {
+                this.currentUserId = result
+            });
+
         this._customerServiceProxy.getAllAccountTypeForTableDropdown()
             .subscribe((result: CustomerAccountTypeLookupTableDto[]) => {
                 this.accountTypes = result;
@@ -86,6 +92,26 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .subscribe((result: AccountUserLookupTableDto[]) => {
                 this.allUsers = result;
             });
+    }
+
+    /***
+     * Verify if the user can't or not see all the actions available
+     * on the options menu.
+     * @param customerDto
+     */
+    currentUserIsAssigned(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.AccessToAllActions__Dynamic')) {
+            return true;
+        }
+            
+        let result = false;
+        customerDto.customer.users?.forEach((user) => {
+            if (user.id == this.currentUserId) {                
+                result = true;
+                return;
+            }    
+        });
+        return result;
     }
 
     /***

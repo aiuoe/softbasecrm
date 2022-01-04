@@ -117,7 +117,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * Set permissions
      */
     setPermissions() {
-        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');
+        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');        
 
         // Dynamic at runtime Permissions
         const permissionsRequests: Observable<any>[] = [
@@ -144,9 +144,17 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()
+            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()            
         ];
 
+        if (this.customerNumber) {
+            if (!this.permission.isGranted('Pages.Customer.AddOpportunities')) {
+                this.message.warn(this.l('NotAddOpportunitiesAccess'));
+                this.goToOpportunities();
+            }    
+            if (!this.permission.isGranted('Pages.Customer.AccessToAllActions__Dynamic'))
+            requests.push(this._opportunitiesServiceProxy.verifyUserHasAccessToAccount(this.customerNumber))
+        }    
 
         if (!opportunityId) {
             forkJoin([...requests])
@@ -164,11 +172,13 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allLeadSources = leadSources;
                     this.allOpportunityTypes = opportunityTypes;
                     this.allCustomers = customers;
-
+                  
                     if (this.customerNumber) {
                         this.opportunity.customerNumber = this.customerNumber;
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }
+
+                    this.breadcrumbs.push(new BreadcrumbItem( this.l('NewOpportunities')));
 
                     this.showSaveButton = !this.isReadOnlyMode;
                 }, () => {

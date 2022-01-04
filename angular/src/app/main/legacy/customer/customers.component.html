@@ -186,27 +186,75 @@
                                                             [routerLink]="['/app/main/business/accounts/view']"
                                                             [queryParams]="{ number: record.customer.number }"
                                                         >
+                                                        <span class = "options menu actions">
                                                             {{ l('View') }}
+                                                        </span>    
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')"
+                                                            *ngIf="permission.isGranted('Pages.Customer.Edit') && currentUserIsAssigned(record)"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/business/accounts/createOrEdit']"
                                                             [queryParams]="{ number: record.customer.number }"
                                                         >
+                                                        <span class = "options menu actions">
                                                             {{ l('Edit') }}
+                                                        </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.AddOpportunity')"
+                                                            *ngIf="permission.isGranted('Pages.Customer.AddOpportunity') && currentUserIsAssigned(record)"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
                                                             [queryParams]="{ customerNumber: record.customer.number }"
                                                         >
+                                                        <span class = "options menu actions">
                                                             {{ l('AddOpportunity') }}
+                                                        </span>    
+                                                        </a>
+                                                    </li>
+                                                    <div class="separator separator-solid"></div>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            class="dropdown-item"                                                           
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ScheduleMeeting') }}
+                                                        </span>                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            class="dropdown-item"                                                           
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ScheduleCall') }}
+                                                        </span>                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            class="dropdown-item"                                                            
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('EmailReminder') }}
+                                                        </span>
+                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            class="dropdown-item"                                                            
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ToDoReminder') }}
+                                                        </span>
                                                         </a>
                                                     </li>
                                                 </ul>
