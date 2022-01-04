@@ -22,7 +22,7 @@
                                         (click)="createActivityHandlder('Schedule Meeting')">{{l('ScheduleMeeting')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('Email Reminder')">{{l('EmailRemainder')}}</a>
+                                        (click)="createActivityHandlder('Email Reminder')">{{l('EmailReminder')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
                                         (click)="createActivityHandlder('To Do Reminder')">{{l('ToDoReminder')}}</a>
@@ -52,15 +52,15 @@
                                             [hidden]="!isGrantedAny('Pages.AccountUsers.Edit', 'Pages.AccountUsers.Delete')">{{l('Actions')}}</th>
                                         <th style="width: 150px" pSortableColumn="userFk.name">
                                             {{l('Type')}}
-                                            <p-sortIcon field="userName"></p-sortIcon>
+                                            <p-sortIcon field="activityTaskTypeDescription"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px">
                                             {{l('Asignee')}}
                                             <p-sortIcon field="userName"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px">
-                                            {{l('Schedule-DueDate')}}
-                                            <p-sortIcon field="userName"></p-sortIcon>
+                                            {{l('ScheduleAndDueDate')}}
+                                            <p-sortIcon field="startsAt"></p-sortIcon>
                                         </th>
 
                                     </tr>
@@ -76,22 +76,29 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>                                                        
                                                         <a class="dropdown-item" href="javascript:;"
-                                                        (click)="deleteActivity()">{{l('Delete')}}</a>
+                                                        (click)="deleteActivity(record.activity)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
                                         <td style="width:150px" >
                                             <span class="p-column-title"> {{l('Type')}}</span>
-                                            <!-- TO DO -->
+                                            {{ record.activityTaskTypeDescription }}
                                         </td>
                                         <td style="width:150px" >
                                             <span class="p-column-title"> {{l('Asignee')}}</span>
-                                            <!-- TO DO -->
+                                            {{ record.userName }}
                                         </td>
                                         <td style="width:150px">
-                                            <span class="p-column-title"> {{l('Schedule-DueDate')}}</span>
-                                            <!-- TO DO -->
+                                            <span class="p-column-title"> {{l('ScheduleAndDueDate')}}</span>
+                                            <span
+                                            *ngIf="record.activity.startsAt"
+                                            [ngClass]="{
+                                                'text-danger': record.isPastDue
+                                            }">
+                                            {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
+                                            </span>
+                                            <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>
 
                                     </tr>
