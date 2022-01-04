@@ -126,10 +126,9 @@
                         </ng-container>
 
                         <div class="col-sm-6">
-                            <div class="form-group m-form__group input-field required">
+                            <div class="form-group m-form__group input-field">
                                 <label for="Assigned_User">{{ l('AssignedUser') }}</label>
                                 <p-dropdown
-                                    [required]="true"
                                     id="Assigned_User"
                                     name="Assigned_User"
                                     #Assigned_User="ngModel"
@@ -137,12 +136,12 @@
                                     [(ngModel)]="activity.userId"
                                     optionValue="id"
                                     optionLabel="displayName"
-                                    placeholder="{{ l('SelectAUser') }}"
+                                    placeholder="{{ readonly && !activity.userId ? l( 'NotAssigned') : l('SelectAUser') }}"
                                     [virtualScroll]="allLeads?.length > 10"
                                     itemSize="40"
                                     [showClear]="true"
                                     [filter]="true"
-                                    [disabled]="readonly || allUsers?.length === 1"
+                                    [disabled]="readonly || !canAssignOtherUsers"
                                 >
                                 </p-dropdown>
                                 <validation-messages [formCtrl]="Assigned_User"></validation-messages>

@@ -28,5 +28,7 @@ namespace SBCRM.Crm.Dtos
         public int? ActivityTaskTypeId { get; set; }
 
         public int? ActivityStatusId { get; set; }
+
+        public bool IsUnassignedSelected { get; set; }
     }
 }

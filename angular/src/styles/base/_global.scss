@@ -158,6 +158,11 @@ a:hover {
     box-shadow: none !important;
 }
 
+span.dropdown-item {
+    cursor: pointer;
+    color: $primaryColor !important;
+}
+
 .extra-padding-for-forms-div {
     padding-top: 20px;
 }

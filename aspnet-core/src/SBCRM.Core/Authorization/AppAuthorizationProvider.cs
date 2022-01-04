@@ -32,11 +32,11 @@ namespace SBCRM.Authorization
 
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             var createActivity = activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
-            createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_Assign_Other_Users, L(AppPermissions.Pages_Activities_Create_Assign_Other_Users));
-            createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities, L(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities));
+            createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic, L(AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic));
+            createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic, L(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
             //activities.CreateChildPermission(AppPermissions.Pages_Activities_Delete, L("DeleteActivity"));
-            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter, L(AppPermissions.Pages_Activities_View_AssignedUserFilter));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic, L(AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic));
 
             var activitySourceTypes = pages.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes, L("ActivitySourceTypes"));
             activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Create, L("CreateNewActivitySourceType"));
