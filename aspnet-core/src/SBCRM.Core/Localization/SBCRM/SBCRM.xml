@@ -33,7 +33,7 @@
 		<text name="IsCompletedStatus">Is completed status</text>
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
-		<text name="AssignUsers">Assign Users</text>
+		<text name="AssignUsers">Assign User(s)</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>

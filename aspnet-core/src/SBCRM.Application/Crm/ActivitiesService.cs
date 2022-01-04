@@ -117,7 +117,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
+            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic);
 
             return await _lookupUserRepository.GetAll()
                 .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
