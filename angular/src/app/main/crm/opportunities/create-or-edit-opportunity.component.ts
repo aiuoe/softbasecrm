@@ -282,4 +282,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this._router.navigate([this.routerLink]);
     }
 
+
+    /***
+     * Reload entity events grid
+     */
+    reloadEvents() {
+        this.entityTypeHistory.refreshTable();
+    }
 }

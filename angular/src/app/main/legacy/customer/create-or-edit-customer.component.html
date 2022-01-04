@@ -1075,7 +1075,9 @@
             <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
                 <app-assigned-user
                     [componentType]="'Account'"
-                    [idToStore]="this.customer.number">
+                    [idToStore]="this.customer.number"
+                    (onSaveAssignedUser)="reloadEvents()"
+                >
                 </app-assigned-user>
             </div>
 
