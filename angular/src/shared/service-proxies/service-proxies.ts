@@ -1951,12 +1951,13 @@ export class ActivitiesServiceProxy {
      * @param activitySourceTypeId (optional) 
      * @param activityTaskTypeId (optional) 
      * @param activityStatusId (optional) 
+     * @param isUnassignedSelected (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1998,6 +1999,10 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'activityStatusId' cannot be null.");
         else if (activityStatusId !== undefined)
             url_ += "ActivityStatusId=" + encodeURIComponent("" + activityStatusId) + "&";
+        if (isUnassignedSelected === null)
+            throw new Error("The parameter 'isUnassignedSelected' cannot be null.");
+        else if (isUnassignedSelected !== undefined)
+            url_ += "IsUnassignedSelected=" + encodeURIComponent("" + isUnassignedSelected) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -2283,12 +2288,13 @@ export class ActivitiesServiceProxy {
      * @param activitySourceTypeId (optional) 
      * @param activityTaskTypeId (optional) 
      * @param activityStatusId (optional) 
+     * @param isUnassignedSelected (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -2330,6 +2336,10 @@ export class ActivitiesServiceProxy {
             throw new Error("The parameter 'activityStatusId' cannot be null.");
         else if (activityStatusId !== undefined)
             url_ += "ActivityStatusId=" + encodeURIComponent("" + activityStatusId) + "&";
+        if (isUnassignedSelected === null)
+            throw new Error("The parameter 'isUnassignedSelected' cannot be null.");
+        else if (isUnassignedSelected !== undefined)
+            url_ += "IsUnassignedSelected=" + encodeURIComponent("" + isUnassignedSelected) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -26357,7 +26367,7 @@ export class ActivityDto implements IActivityDto {
     startsAt!: DateTime;
     opportunityId!: number | undefined;
     leadId!: number | undefined;
-    userId!: number;
+    userId!: number | undefined;
     activitySourceTypeId!: number;
     activityTaskTypeId!: number;
     activityStatusId!: number;
@@ -26419,7 +26429,7 @@ export interface IActivityDto {
     startsAt: DateTime;
     opportunityId: number | undefined;
     leadId: number | undefined;
-    userId: number;
+    userId: number | undefined;
     activitySourceTypeId: number;
     activityTaskTypeId: number;
     activityStatusId: number;
@@ -28404,7 +28414,7 @@ export class CreateOrEditActivityDto implements ICreateOrEditActivityDto {
     description!: string | undefined;
     opportunityId!: number | undefined;
     leadId!: number | undefined;
-    userId!: number;
+    userId!: number | undefined;
     activitySourceTypeId!: number;
     activityTaskTypeId!: number;
     activityStatusId!: number;
@@ -28475,7 +28485,7 @@ export interface ICreateOrEditActivityDto {
     description: string | undefined;
     opportunityId: number | undefined;
     leadId: number | undefined;
-    userId: number;
+    userId: number | undefined;
     activitySourceTypeId: number;
     activityTaskTypeId: number;
     activityStatusId: number;
