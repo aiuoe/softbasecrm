@@ -95,15 +95,89 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     }
 
     /***
-     * Verify if the user can't or not see all the actions available
-     * on the options menu.
+     * Verify if the user can't or not edit the account
      * @param customerDto
      */
-    currentUserIsAssigned(customerDto : GetCustomerForViewDto) : boolean {
-        if (this.permission.isGranted('Pages.Customer.AccessToAllActions__Dynamic')) {
+    currentUserHasFreeAccessToEdit(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToEdit__Dynamic')) {
             return true;
         }
-            
+        else  
+            return this.verifyUserIsAssingedToAccount(customerDto);        
+    }
+
+    /***
+     * Verify if the user can't or not add an opportunity
+     * on the account
+     * @param customerDto
+     */
+     currentUserHasFreeAccessToAddOpportunity(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToAddOpportunity__Dynamic')) {            
+            return true;
+        }
+        else  
+            return this.verifyUserIsAssingedToAccount(customerDto);        
+    }
+    
+    /***
+     * Verify if the user can't or not schedule a meeting
+     * on the account
+     * @param customerDto
+     */
+     currentUserHasFreeAccessToScheduleMeeting(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToScheduleMeeting__Dynamic')) {
+            return true;
+        }
+        else  
+            return this.verifyUserIsAssingedToAccount(customerDto);        
+    }
+    
+    /***
+     * Verify if the user can't or not schedule a call
+     * on the account
+     * @param customerDto
+     */
+     currentUserHasFreeAccessToScheduleCall(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToScheduleCall__Dynamic')) {
+            return true;
+        }
+        else  
+            return this.verifyUserIsAssingedToAccount(customerDto);        
+    }
+    
+    /***
+     * Verify if the user can't or not create an email reminder
+     * on the account
+     * @param customerDto
+     */
+     currentUserHasFreeAccessToEmailReminder(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToEmailReminder__Dynamic')) {
+            return true;
+        }
+        else  
+            return this.verifyUserIsAssingedToAccount(customerDto);        
+    }    
+
+    /***
+     * Verify if the user can't or not to create a to do reminder
+     * on the account
+     * @param customerDto
+     */
+     currentUserHasFreeAccessToDoReminder(customerDto : GetCustomerForViewDto) : boolean {
+        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToDoReminder__Dynamic')) {
+            return true;
+        }
+        else  
+            return this.verifyUserIsAssingedToAccount(customerDto);        
+    }    
+    
+
+    /***
+     * Verify if the user is or not assigned to this account
+     * @param customerDto
+     */
+    verifyUserIsAssingedToAccount(customerDto : GetCustomerForViewDto) {
+
         let result = false;
         customerDto.customer.users?.forEach((user) => {
             if (user.id == this.currentUserId) {                

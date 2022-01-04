@@ -111,6 +111,15 @@
         public const string Pages_Customer = "Pages.Customer";
         public const string Pages_Customer_Create = "Pages.Customer.Create";
         public const string Pages_Customer_Edit = "Pages.Customer.Edit";
+        public const string Pages_Customer_HasFreeAccessToEdit__Dynamic = "Pages.Customer.HasFreeAccessToEdit__Dynamic";
+        public const string Pages_Customer_ScheduleMeeting = "Pages.Customer.ScheduleMeeting";
+        public const string Pages_Customer_HasFreeAccessToScheduleMeeting__Dynamic = "Pages.Customer.HasFreeAccessToScheduleMeeting__Dynamic";
+        public const string Pages_Customer_ScheduleCall = "Pages.Customer.ScheduleCall";
+        public const string Pages_Customer_HasFreeAccessToScheduleCall__Dynamic = "Pages.Customer.HasFreeAccessToScheduleCall__Dynamic";
+        public const string Pages_Customer_EmailReminder = "Pages.Customer.EmailReminder";
+        public const string Pages_Customer_HasFreeAccessToEmailReminder__Dynamic = "Pages.Customer.HasFreeAccessToEmailReminder__Dynamic";
+        public const string Pages_Customer_ToDoReminder = "Pages.Customer.ToDoReminder";
+        public const string Pages_Customer_HasFreeAccessToDoReminder__Dynamic = "Pages.Customer.HasFreeAccessToDoReminder__Dynamic";
         public const string Pages_Customer_Delete = "Pages.Customer.Delete";
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
@@ -119,9 +128,8 @@
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
         public const string Pages_Customer_View_Opportunities = "Pages.Customer.ViewOpportunities";
         public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
+        public const string Pages_Customer_HasFreeAccessToAddOpportunity__Dynamic = "Pages.Customer.HasFreeAccessToAddOpportunity__Dynamic";
         public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
-        public const string Pages_Customer_AccessToAllActions__Dynamic = "Pages.Customer.AccessToAllActions__Dynamic";
-
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";
         public const string Pages_AccountTypes_Edit = "Pages.AccountTypes.Edit";

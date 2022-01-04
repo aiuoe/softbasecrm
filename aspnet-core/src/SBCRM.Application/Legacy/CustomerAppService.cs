@@ -109,14 +109,14 @@ namespace SBCRM.Legacy
 
         /// <summary>
         /// Get the dynamic permission based on the current user.
-        /// The user will be shown all the actions on the menu options
+        /// The user will be able to
         /// </summary>
         /// <returns></returns>
-        public bool CanSeeAllActions()
+        public bool HasFreeAccessToEdit()
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Customer_AccessToAllActions__Dynamic);
+                currentUser.Id, AppPermissions.Pages_Customer_HasFreeAccessToEdit__Dynamic);
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
         {
-            if (!CanSeeAllActions())
+            if (!HasFreeAccessToEdit())
             {
                 Customer Customer;
 
@@ -532,6 +532,7 @@ namespace SBCRM.Legacy
         }
 
         /// <summary>
+        /// Get all customer opportunities
         /// Get all customer opportunities
         /// </summary>
         /// <param name="input"></param>

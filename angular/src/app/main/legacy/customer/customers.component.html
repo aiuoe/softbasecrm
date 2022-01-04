@@ -193,7 +193,8 @@
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.Edit') && currentUserIsAssigned(record)"
+                                                            *ngIf="permission.isGranted('Pages.Customer.Edit')
+                                                                && currentUserHasFreeAccessToEdit(record)"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/business/accounts/createOrEdit']"
                                                             [queryParams]="{ number: record.customer.number }"
@@ -205,7 +206,8 @@
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="permission.isGranted('Pages.Customer.AddOpportunity') && currentUserIsAssigned(record)"
+                                                            *ngIf="permission.isGranted('Pages.Customer.AddOpportunity')
+                                                                 && currentUserHasFreeAccessToAddOpportunity(record)"
                                                             class="dropdown-item"
                                                             [routerLink]="['/app/main/crm/opportunities/createOrEdit']"
                                                             [queryParams]="{ customerNumber: record.customer.number }"
@@ -218,7 +220,8 @@
                                                     <div class="separator separator-solid"></div>
                                                     <li>
                                                         <a
-                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            *ngIf="permission.isGranted('Pages.Customer.ScheduleMeeting')
+                                                                    && currentUserHasFreeAccessToScheduleMeeting(record)"
                                                             class="dropdown-item"                                                           
                                                         >
                                                         <span class = "options menu actions">
@@ -228,7 +231,8 @@
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            *ngIf="permission.isGranted('Pages.Customer.ScheduleCall')
+                                                                    && currentUserHasFreeAccessToScheduleCall(record)"
                                                             class="dropdown-item"                                                           
                                                         >
                                                         <span class = "options menu actions">
@@ -238,7 +242,8 @@
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            *ngIf="permission.isGranted('Pages.Customer.EmailReminder')
+                                                                    && currentUserHasFreeAccessToEmailReminder(record)"
                                                             class="dropdown-item"                                                            
                                                         >
                                                         <span class = "options menu actions">
@@ -249,7 +254,8 @@
                                                     </li>
                                                     <li>
                                                         <a
-                                                            *ngIf="currentUserIsAssigned(record)"
+                                                            *ngIf="permission.isGranted('Pages.Customer.ToDoReminder')
+                                                                    && currentUserHasFreeAccessToDoReminder(record)"
                                                             class="dropdown-item"                                                            
                                                         >
                                                         <span class = "options menu actions">

@@ -152,7 +152,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 this.message.warn(this.l('NotAddOpportunitiesAccess'));
                 this.goToOpportunities();
             }    
-            if (!this.permission.isGranted('Pages.Customer.AccessToAllActions__Dynamic'))
+            if (!this.permission.isGranted('Pages.Customer.HasFreeAccessToAddOpportunity__Dynamic'))
             requests.push(this._opportunitiesServiceProxy.verifyUserHasAccessToAccount(this.customerNumber))
         }    
 

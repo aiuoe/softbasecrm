@@ -145,13 +145,22 @@ namespace SBCRM.Authorization
             var customer = pages.CreateChildPermission(AppPermissions.Pages_Customer, L("Customer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Create, L("CreateNewCustomer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit, L("EditCustomer"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_HasFreeAccessToEdit__Dynamic, L("CustomerFreeAccessToEdit__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting, L("CustomerScheduleMeeting"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_HasFreeAccessToScheduleMeeting__Dynamic, L("CustomerHasFreeAccessToScheduleMeeting___Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall, L("CustomerScheduleCall"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_HasFreeAccessToScheduleCall__Dynamic, L("CustomerHasFreeAccessToScheduleCall__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder, L("CustomerEmailReminder"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_HasFreeAccessToEmailReminder__Dynamic, L("CustomerHasFreeAccessToEmailReminder__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder, L("CustomerToDoReminder"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_HasFreeAccessToDoReminder__Dynamic, L("CustomerHasFreeAccessToDoReminder__Dynamic"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Invoices, L("CustomerViewInvoices"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events, L("CustomerViewEvents"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_AccessToAllActions__Dynamic, L("CustomerAccessToAllActions__Dyanmic"));
             var accountOpportunities = customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Opportunities, L("CustomerViewOpportunities"));
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity, L("CustomerAddOpportunity"));
+            accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_HasFreeAccessToAddOpportunity__Dynamic, L("HasFreeAccessToAddOpportunity__Dynamic"));
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Opportunity, L("CustomerEditOpportunity"));
 
             customer.CreateChildPermission(AppPermissions.Pages_AccountUsers_View__Dynamic, L("CustomerViewDynamicAssignUsers"));

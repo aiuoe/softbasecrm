@@ -661,11 +661,13 @@ namespace SBCRM.Crm
         public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
         {
             long CurrentUserId = GetCurrentUser().Id;
-            bool UserHAsAccessToAllOpportunities = UserManager.IsGranted(
-                                        CurrentUserId, AppPermissions.Pages_Customer_AccessToAllActions__Dynamic);
+
+            bool UserHasFreeAccessToAllCustomers = UserManager.IsGranted(
+                                        CurrentUserId, AppPermissions.Pages_Customer_HasFreeAccessToAddOpportunity__Dynamic);
+
             return await _lookupCustomerRepository.GetAll()
                 .Include(x => x.Users)                
-                .WhereIf(!UserHAsAccessToAllOpportunities, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
+                .WhereIf(!UserHasFreeAccessToAllCustomers, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
                 .Select(customer => new OpportunityCustomerLookupTableDto
                 {
                     Number = customer.Number,
