@@ -1,4 +1,4 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'LeadSources' | localize">
             <div role="actions">
@@ -51,7 +51,7 @@
                                         <th class="col-1"></th>
                                         <th class="col-10" pSortableColumn="description">
                                             {{ l('LeadSource') }}
-                                            <p-sortIcon field="leadSource.description"></p-sortIcon>
+                                            <p-sortIcon field="description"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
