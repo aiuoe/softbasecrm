@@ -109,7 +109,6 @@ namespace SBCRM.Legacy
 
         /// <summary>
         /// Get the dynamic permission based on the current user.
-        /// The user will be able to
         /// </summary>
         /// <returns></returns>
         public bool HasFreeAccessToEdit()

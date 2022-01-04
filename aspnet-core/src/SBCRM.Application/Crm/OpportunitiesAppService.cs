@@ -100,6 +100,17 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasFreeAccessToAddOpportunity()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_HasFreeAccessToAddOpportunity__Dynamic);
+        }
+
+        /// <summary>
         /// Get the id of the current user.       
         /// </summary>
         /// <returns></returns>
@@ -662,8 +673,7 @@ namespace SBCRM.Crm
         {
             long CurrentUserId = GetCurrentUser().Id;
 
-            bool UserHasFreeAccessToAllCustomers = UserManager.IsGranted(
-                                        CurrentUserId, AppPermissions.Pages_Customer_HasFreeAccessToAddOpportunity__Dynamic);
+            bool UserHasFreeAccessToAllCustomers = HasFreeAccessToAddOpportunity();
 
             return await _lookupCustomerRepository.GetAll()
                 .Include(x => x.Users)                
@@ -724,22 +734,17 @@ namespace SBCRM.Crm
         public void verifyUserHasAccessToAccount(string CustomerNumber)
         {
             long CurrentUserId = GetCurrentUser().Id;
-            bool HasAccess = false;
-            if (UserManager.IsGranted(
-                CurrentUserId, AppPermissions.Pages_Customer_Add_Opportunity))
-            {
-                List<AccountUser> CustomerUsers = (from customer in _lookupCustomerRepository.GetAll()
-                                                   where customer.Number == CustomerNumber
-                                                   select customer.Users).FirstOrDefault();
 
-                foreach (AccountUser User in CustomerUsers)
-                {
-                    if (User.UserId == CurrentUserId)
-                        HasAccess = true;
-                }
-            }
+            OpportunityCustomerLookupTableDto customer =  _lookupCustomerRepository.GetAll()
+                              .Include(x => x.Users)
+                              .Where(x => x.Number != null && x.Number == CustomerNumber)
+                              .WhereIf(!HasFreeAccessToAddOpportunity(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
+                              .Select(customer => new OpportunityCustomerLookupTableDto
+                              {
+                                  Number = customer.Number               
+                              }).FirstOrDefault();
 
-            GuardHelper.ThrowIf(!HasAccess, new EntityNotFoundException( L("AccountNotExist") ));
+            GuardHelper.ThrowIf(customer == null, new EntityNotFoundException( L("AccountNotExist") ));
 
         }
     }
