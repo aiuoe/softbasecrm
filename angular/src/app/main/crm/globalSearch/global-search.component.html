@@ -67,8 +67,8 @@
                                             </a>
                                             <a
                                                 *ngIf="record.type === 'Activity'"
-                                                [routerLink]="['/app/main/crm/activities/view']"
-                                                [queryParams]="{ id: record.id }">
+                                                [routerLink]="['/app/main/crm/activities']"
+                                                [queryParams]="{ view: record.id }">
                                                 <span class="p-column-title">{{ l('Name') }}</span>
                                                 {{ record.name }}
                                             </a>
