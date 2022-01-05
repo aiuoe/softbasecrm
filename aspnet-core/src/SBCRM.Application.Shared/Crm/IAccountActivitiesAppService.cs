@@ -1,9 +1,7 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SBCRM.Crm
@@ -64,5 +62,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
+
+        /// <summary>
+        /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
+        /// </summary>
+        /// <param name="input">Input from http header query which includes the id of the activity</param>
+        /// <returns></returns>
+        Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input);
     }
 }

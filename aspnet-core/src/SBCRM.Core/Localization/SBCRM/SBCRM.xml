@@ -494,8 +494,11 @@
 		<text name="DeleteCustomer">Delete Account</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
 		<text name="CustomerViewAssignUsers">View assigned users in Account detail</text>
-		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
+		<text name="CustomerAddOpportunity">Add an Opportunity in Account detail</text>
+		<text name="CustomerAddOpportunityDynamic">Add an Opportunity in Account detail if user is assigned to the Account</text>
+		<text name="CustomerEditOpportunityDynamic">Edit an Opportunity in Account detail if user is assigned to the Account</text>
 		<text name="CustomerViewOpportunities">View Opportunities in Account detail</text>
+		<text name="CustomerViewOpportunitiesDynamic">View Opportunities in Account detail if user is assigned to the Account</text>
 		<text name="CustomerEditOpportunity">Edit Opportunities in Account detail</text>
 		<text name="{0}IsRequired">{0} is required.</text>
 		<text name="AccountTypeDescription">Account type description</text>
@@ -574,7 +577,7 @@
 		<text name="CreateNewRole">Create new role</text>
 		<text name="RoleProperties">Role properties</text>
 		<text name="Permissions">Permissions</text>
-		<text name="UserDontHavePermission">You do not have permission to see this detail.</text>
+		<text name="UserDontHavePermission">You don't have permission to see this detail.</text>
 		<text name="Save">Save</text>
 		<text name="Cancel">Cancel</text>
 		<text name="RolesHeaderInfo">Use roles to group permissions.</text>
@@ -831,6 +834,7 @@
 		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
 		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewEvents">View Events in Account detail</text>
+		<text name="CustomerViewEventsDynamic">View Events in Account detail if user is assigned to the Account</text>
 		<text name="LeadViewEvents">View Events in Lead detail</text>
 		<text name="OpportunityViewEvents">View Events in Opportunity detail</text>
 		<text name="UsersManagement">Users Management</text>

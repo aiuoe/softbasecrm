@@ -38,6 +38,7 @@ import { PasswordInputWithShowButtonComponent } from './password-input-with-show
 import { KeyValueListManagerComponent } from './key-value-list-manager/key-value-list-manager.component';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 import { TermsAndConditionsModalComponent } from '../terms-and-conditions-modal/terms-and-conditions-modal.component';
+import { CrmNotificationService } from '@app/shared/common/notification/crm-notification.service';
 
 @NgModule({
     imports: [
@@ -86,6 +87,7 @@ import { TermsAndConditionsModalComponent } from '../terms-and-conditions-modal/
         TermsAndConditionsModalComponent
     ],
     providers: [
+        CrmNotificationService,
         DateTimeService,
         AppLocalizationService,
         AppNavigationService,
