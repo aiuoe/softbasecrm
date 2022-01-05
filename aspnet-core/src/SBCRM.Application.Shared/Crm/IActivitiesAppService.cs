@@ -55,6 +55,18 @@ namespace SBCRM.Crm
         Task<FileDto> GetActivitiesToExcel(GetAllActivitiesForExcelInput input);
 
         /// <summary>
+        /// Get all accounts for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown();
+
+        /// <summary>
+        /// Get all accounts related to opportunity for table dropdown
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ActivityCustomerLookupTableDto>> GetAllAccountRelatedToOpportunityForTableDropdown();
+
+        /// <summary>
         /// Get all opportunities for table dropdown
         /// </summary>
         /// <returns></returns>
@@ -95,12 +107,6 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
-
-        /// <summary>
-        /// Get all customer for table dropdown
-        /// </summary>
-        /// <returns></returns>
-        Task<List<ActivityCustomerLookupTableDto>> GetAllActivityCustomerForTableDropdown();
 
     }
 }
