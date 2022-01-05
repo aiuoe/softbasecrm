@@ -361,22 +361,23 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
-        {
+        {           
+
             long currentUserId = GetCurrentUser().Id;
 
-            if (!UserManager.IsGranted(
-                currentUserId, AppPermissions.Pages_Customer_Edit)
-                &&
-                !UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit__Dynamic))
+            if (!UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit))
             {
-                Customer customer;
+                Customer customer = null;
 
-                customer = await _accountUserRepository.GetAll()
-                .Include(x => x.UserFk)
-                .Include(x => x.CustomerFk)
-                .Where(x => x.UserId == GetCurrentUser().Id && x.CustomerNumber == input.CustomerNumber)
-                .Select(x => x.CustomerFk)
-                .FirstOrDefaultAsync();
+                if (UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit__Dynamic))
+                {
+                    customer = await _accountUserRepository.GetAll()
+                    .Include(x => x.UserFk)
+                    .Include(x => x.CustomerFk)
+                    .Where(x => x.UserId == GetCurrentUser().Id && x.CustomerNumber == input.CustomerNumber)
+                    .Select(x => x.CustomerFk)
+                    .FirstOrDefaultAsync();                    
+                }
 
                 GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
             }
