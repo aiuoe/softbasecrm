@@ -729,6 +729,7 @@
 		<text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
 		<text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
 		<text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
+		<text name="CustomerAttachment_Warn_FileType">You can only select JPG/JPEG/PNG/GIF/DOC/PDF file. Please select another file.</text>
 		<text name="Dashboard">Dashboard</text>
 		<text name="DashboardHeaderInfo">statistics and reports</text>
 		<text name="GoToApplication">Go to application</text>
@@ -804,6 +805,7 @@
 		<text name="DeleteDynamicAccountContact">Delete contact if user is assigned to the Account</text>
 		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
 		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
+		<text name="CustomerAttachmentUploaded">Customer attachment uploaded</text>
 		<text name="DuplicatedLeads">Duplicated leads encountered</text>
 		<text name="AreYouSureToUpload">Are you sure you want to upload this file?</text>
 		<text name="LeadsNotImportedDuplicated">lead(s) was(were) not imported because of an existing lead with the same Company Name and Contact Name.  Download file to see details</text>

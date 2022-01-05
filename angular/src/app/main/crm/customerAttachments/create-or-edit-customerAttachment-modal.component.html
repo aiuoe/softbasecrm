@@ -36,21 +36,25 @@
                         />
                         <validation-messages [formCtrl]="CustomerAttachment_Name"></validation-messages>
                     </div>
-
                     <div class="form-group">
-                        <label for="CustomerAttachment_FilePath">{{ l('FilePath') }} *</label>
-                        <input
-                            type="text"
-                            #CustomerAttachment_FilePath="ngModel"
-                            id="CustomerAttachment_FilePath"
-                            class="form-control"
-                            [(ngModel)]="customerAttachment.filePath"
-                            name="FilePath"
-                            minlength="1"
-                            maxlength="512"
-                            required
-                        />
-                        <validation-messages [formCtrl]="CustomerAttachment_FilePath"></validation-messages>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input
+                                    required
+                                    type="file"
+                                    id="uploadFile"
+                                    (change)="fileChangeEvent($event)"
+                                    accept=".jpg, .jpeg, .png, .gif, .doc, .pdf"
+                                />
+                                <label
+                                    class="custom-file-label"
+                                    #uploadFileInputLabel
+                                    for="uploadFile"
+                                >
+                                    Uploaded File
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
