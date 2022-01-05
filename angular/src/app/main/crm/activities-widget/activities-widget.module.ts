@@ -8,7 +8,7 @@ import { AdminSharedModule } from '@app/admin/shared/admin-shared.module';
 import { CreateOrEditActivityWidgetModalComponent } from './create-or-edit-activity-widget-modal.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
-import { AccountActivitiesServiceProxy, LeadActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 
 
 
@@ -25,7 +25,7 @@ import { AccountActivitiesServiceProxy, LeadActivitiesServiceProxy } from '@shar
     AdminSharedModule ,
     CalendarModule
   ],
-  providers: [ActivitySharedService, LeadActivitiesServiceProxy, AccountActivitiesServiceProxy],
-  exports: [ActivitiesWidgetComponent]
+  providers: [ActivitySharedService, LeadActivitiesServiceProxy, AccountActivitiesServiceProxy, OpportunityActivitiesServiceProxy],
+  exports: [ActivitiesWidgetComponent, CreateOrEditActivityWidgetModalComponent]
 })
 export class ActivitiesWidgetModule { }

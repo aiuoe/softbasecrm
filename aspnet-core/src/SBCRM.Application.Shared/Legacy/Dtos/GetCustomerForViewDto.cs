@@ -9,6 +9,12 @@ namespace SBCRM.Legacy.Dtos
     {
         public CustomerDto Customer { get; set; }
         public string AccountTypeDescription { get; set; }
+        public bool CanViewEditOption { get; set; }
+        public bool CanViewAddOpportunityOption { get; set; }
+        public bool CanViewScheduleMeetingOption { get; set; }
+        public bool CanViewScheduleCallOption { get; set; }
+        public bool CanViewEmailReminderOption { get; set; }
+        public bool CanViewToDoReminderOption { get; set; }
         public long? FirstUserAssignedId { get; set; }
         public string FirstUserAssignedName { get; set; }
         public string FirstUserAssignedSurName { get; set; }

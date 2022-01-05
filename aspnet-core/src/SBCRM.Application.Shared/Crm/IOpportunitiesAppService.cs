@@ -78,7 +78,7 @@ namespace SBCRM.Crm
         /// Get Customer type dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown();
+        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null);
 
         /// <summary>
         /// Get Contacts type dropdown
