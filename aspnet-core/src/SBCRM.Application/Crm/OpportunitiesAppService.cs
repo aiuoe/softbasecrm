@@ -680,8 +680,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
-        public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
+        public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null)
         {
+            List<OpportunityCustomerLookupTableDto> customers = null;
+
             bool userCanSelectAllAccountsDynamic = false;
 
             long currentUserId = GetCurrentUser().Id;
@@ -692,17 +694,24 @@ namespace SBCRM.Crm
                 userCanSelectAllAccountsDynamic = HasDynamicAccessToAddOpportunity(currentUserId);
 
             if (userCanSelectAllAccountsDynamic || userCanSelectAllAccountsStatic)
-                return await _lookupCustomerRepository.GetAll()
+            {
+                customers = await _lookupCustomerRepository.GetAll()
                     .Include(x => x.Users)
+                    .WhereIf(customerNumber != null, x => x.Number != null && x.Number == customerNumber)
                     .WhereIf(!userCanSelectAllAccountsStatic, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUserId))
                     .Select(customer => new OpportunityCustomerLookupTableDto
                     {
                         Number = customer.Number,
                         Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
                     }).ToListAsync();
-            else
-                return null;
-        }
+
+                if (customerNumber != null)
+                    GuardHelper.ThrowIf(customers.Count == 0, new EntityNotFoundException(L("AccountNotExist")));
+
+                return customers;
+            }
+            return customers;
+        }        
 
         /// <summary>
         /// Get Contacts lookup
@@ -743,43 +752,6 @@ namespace SBCRM.Crm
         {
             input.EntityTypeFullName = typeof(Opportunity).FullName;
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
-        }
-
-        /// <summary>
-        /// Verify the user can create an opportunity for the given account
-        /// </summary>
-        /// <param name="CustomerNumber"></param>
-        /// <returns></returns>
-        public void VerifyUserHasAccessToAccount(string customerNumber)
-        {
-            OpportunityCustomerLookupTableDto customer = null;
-
-            bool userCanSelectAllAccountsDynamic = false;
-
-            long currentUserId = GetCurrentUser().Id;
-
-            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);
-
-            if (userCanSelectAllAccountsStatic)
-                return;
-            else
-                userCanSelectAllAccountsDynamic = HasDynamicAccessToAddOpportunity(currentUserId);
-
-            if (userCanSelectAllAccountsDynamic)
-            {
-
-                 customer = _lookupCustomerRepository.GetAll()
-                                  .Include(x => x.Users)
-                                  .Where(x => x.Number != null && x.Number == customerNumber)
-                                  .Where(x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUserId))
-                                  .Select(customer => new OpportunityCustomerLookupTableDto
-                                  {
-                                      Number = customer.Number
-                                  }).FirstOrDefault();
-                
-            }
-
-            GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
         }
 
     }

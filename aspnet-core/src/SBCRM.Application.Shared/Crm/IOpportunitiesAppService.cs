@@ -80,7 +80,7 @@ namespace SBCRM.Crm
         /// Get Customer type dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown();
+        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null);
 
         /// <summary>
         /// Get Contacts type dropdown
@@ -100,12 +100,5 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetCrmEntityTypeChangeInput input);
-
-        /// <summary>
-        /// Verify the user can create an opportunity for the given account
-        /// </summary>
-        /// <param name="CustomerNumber"></param>
-        /// <returns></returns>
-        void VerifyUserHasAccessToAccount(string customerNumber);
     }
 }

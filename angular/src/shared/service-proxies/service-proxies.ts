@@ -7659,7 +7659,7 @@ export class CustomerServiceProxy {
      * @return Success
      */
     verifyUserHasAccessToAccount(body: GetCustomerForViewDto | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/verifyUserHasAccessToAccount";
+        let url_ = this.baseUrl + "/api/services/app/Customer/VerifyUserHasAccessToAccount";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -7719,7 +7719,7 @@ export class CustomerServiceProxy {
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
         else if (isUserAssignedToCostumer !== undefined)
-            url_ += "IsUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7775,7 +7775,7 @@ export class CustomerServiceProxy {
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
         else if (isUserAssignedToCostumer !== undefined)
-            url_ += "IsUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7831,7 +7831,7 @@ export class CustomerServiceProxy {
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
         else if (isUserAssignedToCostumer !== undefined)
-            url_ += "IsUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7887,7 +7887,7 @@ export class CustomerServiceProxy {
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
         else if (isUserAssignedToCostumer !== undefined)
-            url_ += "IsUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7938,12 +7938,12 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasFreeAccessToEmailReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasFreeAccessToEmailReminder?";
+    hasAccessToEmailReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEmailReminder?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
         else if (isUserAssignedToCostumer !== undefined)
-            url_ += "IsUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7955,11 +7955,11 @@ export class CustomerServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasFreeAccessToEmailReminder(response_);
+            return this.processHasAccessToEmailReminder(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHasFreeAccessToEmailReminder(<any>response_);
+                    return this.processHasAccessToEmailReminder(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -7968,7 +7968,7 @@ export class CustomerServiceProxy {
         }));
     }
 
-    protected processHasFreeAccessToEmailReminder(response: HttpResponseBase): Observable<boolean> {
+    protected processHasAccessToEmailReminder(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -7994,12 +7994,12 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasFreeAccessToDoReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasFreeAccessToDoReminder?";
+    hasAccessToDoReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToDoReminder?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
         else if (isUserAssignedToCostumer !== undefined)
-            url_ += "IsUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8011,11 +8011,11 @@ export class CustomerServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasFreeAccessToDoReminder(response_);
+            return this.processHasAccessToDoReminder(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHasFreeAccessToDoReminder(<any>response_);
+                    return this.processHasAccessToDoReminder(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -8024,7 +8024,7 @@ export class CustomerServiceProxy {
         }));
     }
 
-    protected processHasFreeAccessToDoReminder(response: HttpResponseBase): Observable<boolean> {
+    protected processHasAccessToDoReminder(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -16328,10 +16328,15 @@ export class OpportunitiesServiceProxy {
     }
 
     /**
+     * @param userId (optional) 
      * @return Success
      */
-    hasFreeAccessToAddOpportunity(): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/HasFreeAccessToAddOpportunity";
+    hasStaticAccessToAddOpportunity(userId: number | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/HasStaticAccessToAddOpportunity?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -16343,11 +16348,11 @@ export class OpportunitiesServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasFreeAccessToAddOpportunity(response_);
+            return this.processHasStaticAccessToAddOpportunity(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processHasFreeAccessToAddOpportunity(<any>response_);
+                    return this.processHasStaticAccessToAddOpportunity(<any>response_);
                 } catch (e) {
                     return <Observable<boolean>><any>_observableThrow(e);
                 }
@@ -16356,7 +16361,63 @@ export class OpportunitiesServiceProxy {
         }));
     }
 
-    protected processHasFreeAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
+    protected processHasStaticAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param userId (optional) 
+     * @return Success
+     */
+    hasDynamicAccessToAddOpportunity(userId: number | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/HasDynamicAccessToAddOpportunity?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasDynamicAccessToAddOpportunity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasDynamicAccessToAddOpportunity(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasDynamicAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -17180,10 +17241,15 @@ export class OpportunitiesServiceProxy {
     }
 
     /**
+     * @param customerNumber (optional) 
      * @return Success
      */
-    getAllCustomerForTableDropdown(): Observable<OpportunityCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllCustomerForTableDropdown";
+    getAllCustomerForTableDropdown(customerNumber: string | undefined): Observable<OpportunityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllCustomerForTableDropdown?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17439,11 +17505,11 @@ export class OpportunitiesServiceProxy {
      * @return Success
      */
     verifyUserHasAccessToAccount(customerNumber: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/verifyUserHasAccessToAccount?";
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/VerifyUserHasAccessToAccount?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
         else if (customerNumber !== undefined)
-            url_ += "CustomerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
