@@ -84,6 +84,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.selectedDate = new Date();
     this.selectedTime = '';
     this.activityTypeCode = '';
+    this.isView = false;
     this.modal.hide();
   }
 
