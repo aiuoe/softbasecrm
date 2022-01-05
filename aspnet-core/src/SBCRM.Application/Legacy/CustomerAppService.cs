@@ -24,6 +24,7 @@ using SBCRM.Common;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy.Dto;
 using BaseRepo = Abp.Domain.Repositories;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Legacy
 {
@@ -253,7 +254,18 @@ namespace SBCRM.Legacy
                 var totalCount = await filteredCustomer.CountAsync();
 
                 var dbList = await customer.ToListAsync();
-                var results = GetCustomerForViewDtos(dbList);
+                var results = GetCustomerForViewDtos(dbList);                
+
+                foreach (GetCustomerForViewDto result in results)
+                {
+                    bool userIsAssignedToTheAccount = VerifyUserHasAccessToAccount(result);
+                    result.CanViewEditOption = HasAccessToEdit(userIsAssignedToTheAccount);
+                    result.CanViewAddOpportunityOption = HasAccessToAddOpportunity(userIsAssignedToTheAccount);
+                    result.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(userIsAssignedToTheAccount);
+                    result.CanViewScheduleCallOption = HasAccessToScheduleCall(userIsAssignedToTheAccount);
+                    result.CanViewEmailReminderOption = HasAccessToEmailReminder(userIsAssignedToTheAccount);
+                    result.CanViewToDoReminderOption = HasAccessToDoReminder(userIsAssignedToTheAccount);
+                }
 
                 return new PagedResultDto<GetCustomerForViewDto>(
                     totalCount,
@@ -288,8 +300,8 @@ namespace SBCRM.Legacy
                         Changed = o.Changed,
                         ChangedBy = o.ChangedBy,
                     },
-                    AccountTypeDescription = o.AccountTypeDescription
-                };
+                    AccountTypeDescription = o.AccountTypeDescription,
+    };
 
                 if (o.Users.Any())
                 {
@@ -329,6 +341,8 @@ namespace SBCRM.Legacy
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(customerNumber));
 
+            GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
+
             var output = new GetCustomerForViewOutput { Customer = ObjectMapper.Map<CreateOrEditCustomerDto>(customer) };
 
             if (output.Customer.AccountTypeId != null)
@@ -347,7 +361,27 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
-        {
+        {           
+
+            long currentUserId = GetCurrentUser().Id;
+
+            if (!UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit))
+            {
+                Customer customer = null;
+
+                if (UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit__Dynamic))
+                {
+                    customer = await _accountUserRepository.GetAll()
+                    .Include(x => x.UserFk)
+                    .Include(x => x.CustomerFk)
+                    .Where(x => x.UserId == GetCurrentUser().Id && x.CustomerNumber == input.CustomerNumber)
+                    .Select(x => x.CustomerFk)
+                    .FirstOrDefaultAsync();                    
+                }
+
+                GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
+            }
+
             return ObjectMapper.Map<GetCustomerForEditOutput>(await GetCustomerForView(input.CustomerNumber));
         }
 
@@ -376,7 +410,7 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Create)]
         protected virtual async Task Create(CreateOrEditCustomerDto input)
-        {
+        {            
             var customer = ObjectMapper.Map<Customer>(input);
 
             var customerSameName = await _customerRepository.GetAll()
@@ -478,6 +512,17 @@ namespace SBCRM.Legacy
         }
 
         /// <summary>
+        /// Get the current user id
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<long> GetCurrentUserId()
+        {
+            var currentUser  = await GetCurrentUserAsync();
+            return currentUser.Id;
+        }
+
+        /// <summary>
         /// Get Account type lookup
         /// </summary>
         /// <returns></returns>
@@ -543,6 +588,7 @@ namespace SBCRM.Legacy
         }
 
         /// <summary>
+        /// Get all customer opportunities
         /// Get all customer opportunities
         /// </summary>
         /// <param name="input"></param>
@@ -734,6 +780,118 @@ namespace SBCRM.Legacy
 
             return customer.Number;
         }
-        
+
+        /// <summary>
+        /// Get al events
+        /// </summary>
+        /// <param name="Customer"></param>
+        /// <returns></returns>
+        public bool VerifyUserHasAccessToAccount(GetCustomerForViewDto customer)
+        {
+            long currentUserId = GetCurrentUser().Id;
+            if (customer.Customer.Users != null)
+                foreach(AccountUserViewDto user in  customer.Customer.Users)
+                {
+                    if (user.UserId == currentUserId)
+                        return true;
+                }
+            return false;
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAccessToEdit(bool isUserAssignedToCostumer)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_Edit)
+                ||
+                (UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic)
+                &&
+                isUserAssignedToCostumer);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAccessToAddOpportunity(bool isUserAssignedToCostumer)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_Add_Opportunity)
+                ||
+                (UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic)
+                && 
+                isUserAssignedToCostumer);
+        }
+
+        /// <summary>s
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAccessToScheduleMeeting(bool isUserAssignedToCostumer)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_ScheduleMeeting)
+                ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_ScheduleMeeting__Dynamic)
+                &&
+                isUserAssignedToCostumer);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAccessToScheduleCall(bool isUserAssignedToCostumer)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_ScheduleCall)
+                ||
+                (UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_ScheduleCall__Dynamic)
+                && 
+                isUserAssignedToCostumer);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAccessToEmailReminder(bool isUserAssignedToCostumer)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_EmailReminder)
+                ||
+                (UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_EmailReminder__Dynamic)
+                &&
+                isUserAssignedToCostumer);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAccessToDoReminder(bool isUserAssignedToCostumer)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_ToDoReminder)
+                ||
+                (UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_ToDoReminder__Dynamic)
+                &&
+                isUserAssignedToCostumer);
+        }
+
     }
 }
