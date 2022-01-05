@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
-import { ActivitySourceType } from '@shared/AppEnums';
+import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon';
@@ -83,6 +83,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.activity = new CreateOrEditActivityDto();
     this.selectedDate = new Date();
     this.selectedTime = '';
+    this.activityTypeCode = '';
     this.modal.hide();
   }
 
@@ -131,6 +132,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this._leadActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
       this.activity = result.activity;
       this.activityType = result.activityTaskTypeDescription;
+      this.activityTypeCode = this.allActivityTaskTypes.find(p => p.id == result.activity.activityTaskTypeId).code;
       const { dueDate } = result.activity;
       this.selectedDate = dueDate.toJSDate();
       this.selectedTime = dueDate.toFormat('hh:mm a');
@@ -145,6 +147,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this._accountActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
       this.activity = result.activity;
       this.activityType = result.activityTaskTypeDescription;
+      this.activityTypeCode = this.allActivityTaskTypes.find(p => p.id == result.activity.activityTaskTypeId).code;
       const { dueDate } = result.activity;
       this.selectedDate = dueDate.toJSDate();
       this.selectedTime = dueDate.toFormat('hh:mm a');
@@ -159,6 +162,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this._opportunityActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
       this.activity = result.activity;
       this.activityType = result.activityTaskTypeDescription;
+      this.activityTypeCode = this.allActivityTaskTypes.find(p => p.id == result.activity.activityTaskTypeId).code;
       const { dueDate } = result.activity;
       this.selectedDate = dueDate.toJSDate();
       this.selectedTime = dueDate.toFormat('hh:mm a');
@@ -261,6 +265,16 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.activity.taskName = selectedActivityType.displayName;
 
     this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
+
+    if (this.activityTypeCode != ActivityTaskType.TODO_REMINDER &&  this.activityTypeCode != ActivityTaskType.EMAIL_REMINDER) {
+      const time = DateTime.fromFormat(this.selectedTime, 'hh:mm a');
+
+      this.activity.dueDate = this.activity.dueDate.set({
+          hour: time.hour,
+          minute: time.minute,
+      });
+    }
+
     this.activity.startsAt = this.activity.dueDate;
   }
 
