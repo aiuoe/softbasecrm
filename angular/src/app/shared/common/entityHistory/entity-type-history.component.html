@@ -1,4 +1,5 @@
-<div [hidden]="!isGranted(requiredPermission)">
+<!--<div [hidden]="!isShown">-->
+<div>
     <div class="row">
         <div class="col-md-12">
             <button (click)="getRecords()" class="btn btn-primary blue float-right">
@@ -15,7 +16,7 @@
             [value]="primengTableHelper.records"
             rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
             [paginator]="false"
-            [lazy]="isGranted(requiredPermission)"
+            [lazy]="true"
             [responsive]="primengTableHelper.isResponsive"
         >
             <ng-template pTemplate="header">

@@ -14,11 +14,11 @@
 
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
-        public const string Pages_Activities_Create_Assign_Other_Users__Dynamic = "Pages.Activities.Create.Assign_Other_Users";
-        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities";
+        public const string Pages_Activities_Create_Assign_Other_Users__Dynamic = "Pages.Activities.Create.Assign_Other_Users__Dynamic";
+        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic";
         public const string Pages_Activities_Edit = "Pages.Activities.Edit";
         public const string Pages_Activities_Delete = "Pages.Activities.Delete";
-        public const string Pages_Activities_View_AssignedUserFilter__Dynamic = "Pages.Activities.View_AssignedUserFilter";
+        public const string Pages_Activities_View_AssignedUserFilter = "Pages.Activities.View_AssignedUserFilter";
 
         public const string Pages_ActivitySourceTypes = "Pages.ActivitySourceTypes";
         public const string Pages_ActivitySourceTypes_Create = "Pages.ActivitySourceTypes.Create";
@@ -115,11 +115,15 @@
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";
         public const string Pages_Customer_View_Events = "Pages.Customer.ViewEvents";
+        public const string Pages_Customer_View_Events__Dynamic = "Pages.Customer.ViewEvents__Dynamic";
         public const string Pages_Customer_View_Wip = "Pages.Customer.ViewWip";
         public const string Pages_Customer_Assign_Users = "Pages.Customer.AssignUsers";
         public const string Pages_Customer_View_Opportunities = "Pages.Customer.ViewOpportunities";
+        public const string Pages_Customer_View_Opportunities__Dynamic = "Pages.Customer.ViewOpportunities__Dynamic";
         public const string Pages_Customer_Add_Opportunity = "Pages.Customer.AddOpportunity";
+        public const string Pages_Customer_Add_Opportunity__Dynamic = "Pages.Customer.AddOpportunity__Dynamic";
         public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
+        public const string Pages_Customer_Edit_Opportunity__Dynamic = "Pages.Customer.EditOpportunity__Dynamic";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

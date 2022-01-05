@@ -306,7 +306,9 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <entityTypeHistory [requiredPermission]="'Pages.Opportunities.ViewEvents'" #entityTypeHistory></entityTypeHistory>
+                                    <div [hidden]="!this.showEventsTab">
+                                        <entityTypeHistory #entityTypeHistory></entityTypeHistory>
+                                    </div>
                                     <div *ngIf="!showEventsTab">
                                         {{ l('UserDontHavePermission') }}
                                     </div>
