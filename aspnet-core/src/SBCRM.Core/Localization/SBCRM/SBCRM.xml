@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>		
+	<texts>
+		<text name="ScheduleCall">Schedule Call</text>
+		<text name="ScheduleMeeting">Schedule Meeting</text>
+		<text name="EmailReminder">Email Reminder</text>
+		<text name="ToDoReminder">To Do Reminder</text>		
 		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
 		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
 		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
@@ -29,7 +33,7 @@
 		<text name="IsCompletedStatus">Is completed status</text>
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
-		<text name="AssignUsers">Assign Users</text>
+		<text name="AssignUsers">Assign User(s)</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
