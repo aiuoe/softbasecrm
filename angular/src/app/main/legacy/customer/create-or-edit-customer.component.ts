@@ -16,7 +16,9 @@ import {
     GetCustomerForEditOutput,
     PagedResultDtoOfGetZipCodeForViewDto,
     ZipCodeDto,
-    CustomerCountryLookupTableDto, AccountUsersServiceProxy
+    CustomerCountryLookupTableDto,
+    AccountUsersServiceProxy,
+    CustomerVisibilityTabsDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -85,6 +87,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     isPageLoading = true;
 
     // Tab Permissions
+    canCreateOpportunities = false;
+    canEditOpportunities = false;
+    canViewOpportunities = false;
     showOpportunitiesTab = false;
     showInvoicesTab = false;
     showEquipmentsTab = false;
@@ -135,20 +140,33 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * Set permissions
      */
     setPermissions() {
-        // Static Permissions
-        this.showOpportunitiesTab = this.isGrantedAny('Pages.Customer.ViewOpportunities');
-        this.showInvoicesTab = this.isGrantedAny('Pages.Customer.ViewInvoices');
-        this.showEquipmentsTab = this.isGrantedAny('Pages.Customer.ViewEquipments');
-        this.showWipTab = this.isGrantedAny('Pages.Customer.ViewWip');
-        this.showEventsTab = this.isGrantedAny('Pages.Customer.ViewEvents');
-
         // Dynamic at runtime Permissions
         const permissionsRequests: Observable<any>[] = [
-            this._accountUsersServiceProxy.getCanViewAssignedUsersWidget(this.customerNumber)
+            this._accountUsersServiceProxy.getCanViewAssignedUsersWidget(this.customerNumber),
+            this._customerServiceProxy.getVisibilityTabsPermissions(this.customerNumber)
         ];
         forkJoin([...permissionsRequests])
-            .subscribe(([getCanViewAssignedUsersWidget]) => {
+            .subscribe(([getCanViewAssignedUsersWidget, getVisibility]: [boolean, CustomerVisibilityTabsDto]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+                this.showOpportunitiesTab = getVisibility.canViewOpportunitiesTab;
+                this.showEquipmentsTab = getVisibility.canViewEquipmentsTab;
+                this.showInvoicesTab = getVisibility.canViewInvoicesTab;
+                this.showWipTab = getVisibility.canViewWipTab;
+                this.showEventsTab = getVisibility.canViewEventsTab;
+                this.canCreateOpportunities = getVisibility.canCreateOpportunities;
+                this.canEditOpportunities = getVisibility.canEditOpportunities;
+                this.canViewOpportunities = getVisibility.canViewOpportunities;
+
+                this.getOpportunities();
+                this.getCustomerEquipments();
+                this.getCustomerInvoices();
+                this.getCustomerWip();
+
+                this.entityTypeHistory.show({
+                    entityId: this.customerNumber,
+                    entityName: 'Account',
+                    show: this.showEventsTab
+                });
             });
     }
 
@@ -190,10 +208,6 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 });
             this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.l('EditCustomer')));
         } else {
-            this.entityTypeHistory.show({
-                entityId: this.customerNumber,
-                entityName: 'Account'
-            });
             if (this.isReadOnlyMode) {
                 requests.push(this._customerServiceProxy.getCustomerForView(customerId));
             } else {
@@ -295,7 +309,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
             this.primengTableHelperOpportunities.showLoadingIndicator();
 
-            this._customerServiceProxy.getAllOpportunities(
+            this._customerServiceProxy.getCustomerOpportunities(
                 this.customerNumber,
                 this.primengTableHelperOpportunities.getSorting(this.opportunitiesDataTable),
                 this.primengTableHelperOpportunities.getSkipCount(this.opportunitiesPaginator, event),
