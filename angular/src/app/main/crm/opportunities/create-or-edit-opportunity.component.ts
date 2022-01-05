@@ -126,6 +126,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         forkJoin([...permissionsRequests])
             .subscribe(([getCanViewAssignedUsersWidget]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+                this.entityTypeHistory.show({
+                    entityId: this.opportunityId.toString(),
+                    entityName: 'Opportunity',
+                    show: this.showEventsTab
+                });
             });
 
     }
@@ -181,11 +186,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 });
 
         } else {
-
-            this.entityTypeHistory.show({
-                entityId: opportunityId.toString(),
-                entityName: 'Opportunity'
-            });
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests])
                 .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, opportunityForEdit]: [
