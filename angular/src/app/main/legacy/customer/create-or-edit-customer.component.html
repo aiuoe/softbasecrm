@@ -516,11 +516,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button
-                                        *ngIf="isGrantedAny('Pages.Customer.AddOpportunity')"
-                                        (click)="addOpportunity()"
-                                        class="btn btn-primary blue float-right"
-                                    >
+                                    <button *ngIf="canCreateOpportunities" (click)="addOpportunity()" class="btn btn-primary blue float-right">
                                         <i class="fa fa-plus"></i>
                                         <span>{{ l('Opportunity') }}</span>
                                     </button>
@@ -547,10 +543,7 @@
                                         >
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th
-                                                        style="width: 80px"
-                                                        [hidden]="!isGrantedAny('Pages.Customer.EditOpportunity')"
-                                                    >
+                                                    <th style="width: 80px" [hidden]="!canEditOpportunities">
                                                         {{ l('Actions') }}
                                                     </th>
                                                     <th style="width: 150px" pSortableColumn="name">
@@ -576,10 +569,7 @@
                                             </ng-template>
                                             <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                                 <tr>
-                                                    <td
-                                                        style="width: 80px"
-                                                        [hidden]="!isGrantedAny('Pages.Customer.EditOpportunity')"
-                                                    >
+                                                    <td style="width: 80px" [hidden]="!canEditOpportunities">
                                                         <div class="btn-group dropdown" dropdown container="body">
                                                             <button
                                                                 class="dropdown-toggle btn btn-secondary i"
@@ -591,11 +581,7 @@
                                                             <ul class="dropdown-menu" *dropdownMenu>
                                                                 <li>
                                                                     <a
-                                                                        *ngIf="
-                                                                            permission.isGranted(
-                                                                                'Pages.Customer.EditOpportunity'
-                                                                            )
-                                                                        "
+                                                                        *ngIf="canViewOpportunities"
                                                                         class="dropdown-item"
                                                                         [routerLink]="[
                                                                             '/app/main/crm/opportunities/view'
@@ -607,11 +593,7 @@
                                                                 </li>
                                                                 <li>
                                                                     <a
-                                                                        *ngIf="
-                                                                            permission.isGranted(
-                                                                                'Pages.Customer.EditOpportunity'
-                                                                            )
-                                                                        "
+                                                                        *ngIf="canEditOpportunities"
                                                                         class="dropdown-item"
                                                                         [routerLink]="[
                                                                             '/app/main/crm/opportunities/createOrEdit'
@@ -1214,10 +1196,9 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <entityTypeHistory
-                                        [requiredPermission]="'Pages.Customer.ViewEvents'"
-                                        #entityTypeHistory
-                                    ></entityTypeHistory>
+                                    <div [hidden]="!this.showEventsTab">
+                                        <entityTypeHistory #entityTypeHistory></entityTypeHistory>
+                                    </div>
                                     <div *ngIf="!showEventsTab">
                                         {{ l('UserDontHavePermission') }}
                                     </div>

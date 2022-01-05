@@ -38,6 +38,8 @@ export class AppConsts {
     static readonly SearchBarDelayMilliseconds = 500;
     static readonly All = 'All';
     static readonly None = 'None';
+    static readonly Backspace = 'Backspace';
+    static readonly UnitedStatesCountryCode = 'US';
 
     static readonly activityModule = {
         noAssignedUserFilterId: -1,

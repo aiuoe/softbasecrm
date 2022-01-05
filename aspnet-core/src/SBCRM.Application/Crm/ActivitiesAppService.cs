@@ -105,7 +105,7 @@ namespace SBCRM.Crm
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesInput input)
         {
             var currentUser = await GetCurrentUserAsync();
-            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic);
+            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.OpportunityFk)
@@ -412,7 +412,7 @@ namespace SBCRM.Crm
         public async Task<FileDto> GetActivitiesToExcel(GetAllActivitiesForExcelInput input)
         {
             var currentUser = await GetCurrentUserAsync();
-            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic);
+            var isUserCanFilterByAssignee = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.OpportunityFk)

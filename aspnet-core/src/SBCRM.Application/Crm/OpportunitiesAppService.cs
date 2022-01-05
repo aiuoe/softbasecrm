@@ -105,7 +105,29 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get the id of the current user.
+        /// Get the static permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasStaticAccessToAddOpportunity(long userId)
+        {
+            return UserManager.IsGranted(
+                userId, AppPermissions.Pages_Customer_Add_Opportunity);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasDynamicAccessToAddOpportunity(long userId)
+        {
+            
+
+            return UserManager.IsGranted(
+                userId, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic);
+        }
+
+        /// <summary>
+        /// Get the id of the current user.       
         /// </summary>
         /// <returns></returns>
         public long GetCurrentUserId()
@@ -676,15 +698,38 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
-        public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
+        public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null)
         {
-            return await _lookupCustomerRepository.GetAll()
-                .Select(customer => new OpportunityCustomerLookupTableDto
-                {
-                    Number = customer.Number,
-                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
-                }).ToListAsync();
-        }
+            List<OpportunityCustomerLookupTableDto> customers = null;
+
+            bool userCanSelectAllAccountsDynamic = false;
+
+            long currentUserId = GetCurrentUser().Id;
+
+            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);            
+
+            if (!userCanSelectAllAccountsStatic)
+                userCanSelectAllAccountsDynamic = HasDynamicAccessToAddOpportunity(currentUserId);
+
+            if (userCanSelectAllAccountsDynamic || userCanSelectAllAccountsStatic)
+            {
+                customers = await _lookupCustomerRepository.GetAll()
+                    .Include(x => x.Users)
+                    .WhereIf(customerNumber != null, x => x.Number != null && x.Number == customerNumber)
+                    .WhereIf(!userCanSelectAllAccountsStatic, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUserId))
+                    .Select(customer => new OpportunityCustomerLookupTableDto
+                    {
+                        Number = customer.Number,
+                        Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
+                    }).ToListAsync();
+
+                if (customerNumber != null)
+                    GuardHelper.ThrowIf(customers.Count == 0, new EntityNotFoundException(L("AccountNotExist")));
+
+                return customers;
+            }
+            return customers;
+        }        
 
         /// <summary>
         /// Get Contacts lookup
@@ -716,7 +761,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get al events
+        /// Get all events
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -726,5 +771,6 @@ namespace SBCRM.Crm
             input.EntityTypeFullName = typeof(Opportunity).FullName;
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
         }
+
     }
 }

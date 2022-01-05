@@ -117,6 +117,11 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         forkJoin([...permissionsRequests])
             .subscribe(([getCanViewAssignedUsersWidget]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+                this.entityTypeHistory.show({
+                    entityId: this.leadId.toString(),
+                    entityName: 'Lead',
+                    show: this.showEventsTab
+                });
             });
     }
 
@@ -142,10 +147,6 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
             this.breadcrumbs.push(new BreadcrumbItem(this.l('CreateNewLead')));
             this.showSaveButton = !this.isReadOnlyMode;
         } else {
-            this.entityTypeHistory.show({
-                entityId: leadId.toString(),
-                entityName: 'Lead'
-            });
             this._leadsServiceProxy.getLeadForEdit(leadId)
                 .subscribe((result) => {
                     this.lead = result.lead;
