@@ -51,6 +51,8 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
 
   isView = false;
 
+  activityTypeCode = '';
+
 
   /**
    * Constructor
@@ -88,8 +90,9 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    * Opens the modal for new Activities
    * @param activityType 
    */
-  show(activityType?: string){
-    this.activityType = activityType;
+  show(activityTypeCode?: string){
+    this.activityTypeCode = activityTypeCode;
+    this.activityType = this.allActivityTaskTypes.find( p => p.code == activityTypeCode).displayName;
     this.activity = new CreateOrEditActivityDto();
     this.active = true;
     this.modal.show();
@@ -166,7 +169,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    * Handles the saving action of an activity
    */
   save(){
-    this.activity.activityTaskTypeId = this.allActivityTaskTypes.find(p => p.displayName == this.activityType).id;
+    this.activity.activityTaskTypeId = this.allActivityTaskTypes.find(p => p.code == this.activityTypeCode).id;
     this.activity.taskName = this.activityType;
 
     switch(this.componentType){

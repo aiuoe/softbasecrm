@@ -1,5 +1,6 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountActivitiesServiceProxy, ActivityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
@@ -185,9 +186,9 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
    * Opens modal to create an activity given an activity type
    * @param activityType 
    */
-  createActivityHandlder(activityType: string){
+  createActivityHandlder(activityTypeCode: string){
     // Open modal
-    this.createActivityModal.show(activityType);
+    this.createActivityModal.show(activityTypeCode);
   }
 
   /**
