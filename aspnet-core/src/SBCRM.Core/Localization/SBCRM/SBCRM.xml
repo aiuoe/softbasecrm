@@ -1740,7 +1740,7 @@
 		<text name="YouAreNotLoggedInAsAHostUser">You are not logged in as a host user!</text>
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
-		<text name="Pages.Activities.View_AssignedUserFilter__Dynamic">Show Assigned Users filter in Summary Grid</text>
+		<text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
 		<text name="Pages.Activities.Create.Assign_Other_Users__Dynamic">Assign other Users</text>
 		<text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic">View All Accounts, Leads and Opportunities</text>
 		<text name="FifteenMinutes">15 Minutes</text>
