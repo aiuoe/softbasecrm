@@ -1,11 +1,12 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityDto } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-import { CreateActivityModalComponent } from './create-activity-modal.component';
+import { CreateOrEditActivityWidgetModalComponent } from './create-or-edit-activity-widget-modal.component';
 
 /**
  * This component manages the activities creation on Leads, Accounts and Opportunities
@@ -19,7 +20,7 @@ import { CreateActivityModalComponent } from './create-activity-modal.component'
 export class ActivitiesWidgetComponent extends AppComponentBase implements OnInit {
   @ViewChild('dataTable', { static: true }) dataTable: Table;
   @ViewChild('paginator', { static: true }) paginator: Paginator;
-  @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateActivityModalComponent;
+  @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
 
   @Input() componentType = '';
@@ -44,11 +45,15 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
    * @param injector Constructor
    */
   constructor(injector: Injector,
-    private _activitiesServiceProxy: ActivitiesServiceProxy,
-    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy) { 
+    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
+    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy,
+    private _opportunityActivitiesServiceProxy: OpportunityActivitiesServiceProxy) { 
     super(injector);
   }
 
+  /**
+   * NgOninit event 
+   */
   ngOnInit(): void {
   }
 
@@ -58,7 +63,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   loadDataTable(event?: LazyLoadEvent){
     switch(this.componentType){
       case 'Lead':
-        // To do
+        this.getAllActivitiesForLead(event);
         break;
 
       case 'Account':
@@ -66,13 +71,49 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
         break;
       
       case 'Opportunity':
-        //To do
+        this.getAllActivitiesForOpportunity(event);
         break;
     }
   }
 
+/**
+ * Gets all the activities connected to a specific Lead
+ * @param event 
+ * @returns 
+ */
+ getAllActivitiesForLead(event?: LazyLoadEvent){
+  if (this.primengTableHelper.shouldResetPaging(event)) {
+    this.paginator.changePage(0);
+    return;
+  }
+
+  this.primengTableHelper.showLoadingIndicator();
+
+  this._leadActivitiesServiceProxy.getAll(
+    this.filterText,
+    this.opportunityNameFilter,
+    this.leadCompanyNameFilter,
+    this.userNameFilter,
+    '',
+    '',
+    '',
+    '',
+    this.customerNameFilter,
+    this.idToStore,
+    this.primengTableHelper.getSorting(this.dataTable),
+    this.primengTableHelper.getSkipCount(this.paginator, event),
+    this.primengTableHelper.getMaxResultCount(this.paginator, event)
+  ).subscribe( result =>{
+    this.primengTableHelper.totalRecordsCount = result.totalCount;
+    this.primengTableHelper.records = result.items;
+    this.primengTableHelper.hideLoadingIndicator();
+    console.log(result.items);
+  });
+}
+
+
   /**
-   * 
+   * Gets all the activities connected to an specific Account
    * @param event 
    * @returns 
    */
@@ -104,40 +145,97 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
       this.primengTableHelper.hideLoadingIndicator();
       console.log(result.items);
     });
-
   }
 
   /**
-   * Opens modal to create an activity given an activity type
+   * Gets all the activities connected to an specific Opportunity
+   * @param event 
+   * @returns 
+   */
+   getAllActivitiesForOpportunity(event?: LazyLoadEvent){
+    if (this.primengTableHelper.shouldResetPaging(event)) {
+      this.paginator.changePage(0);
+      return;
+    }
+
+    this.primengTableHelper.showLoadingIndicator();
+
+    this._opportunityActivitiesServiceProxy.getAll(
+      this.filterText,
+      this.opportunityNameFilter,
+      this.leadCompanyNameFilter,
+      this.userNameFilter,
+      '',
+      '',
+      '',
+      '',
+      this.customerNameFilter,
+      this.idToStore,
+      this.primengTableHelper.getSorting(this.dataTable),
+      this.primengTableHelper.getSkipCount(this.paginator, event),
+      this.primengTableHelper.getMaxResultCount(this.paginator, event)
+    ).subscribe( result =>{
+      this.primengTableHelper.totalRecordsCount = result.totalCount;
+      this.primengTableHelper.records = result.items;
+      this.primengTableHelper.hideLoadingIndicator();
+      console.log(result.items);
+    });
+  }
+
+  /**
+   * Opens modal to create an activity given an activity type for Schedule Call
    * @param activityType 
    */
-  createActivityHandlder(activityType: string){
+   createActivityScheduleCallHandler(){
     // Open modal
-    this.createActivityModal.show(activityType);
+    this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
   }
 
+  /**
+ * Opens modal to create an activity given an activity type - for Schedule Meeting
+ * @param activityType 
+ */
+  createActivityScheduleMeetingHandler(){
+    // Open modal
+    this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
+  }
 
   /**
-   * Handles de deletetion of an activity
+ * Opens modal to create an activity given an activity type - for Email Reminder
+ * @param activityType 
+ */
+  createActivityEmailReminderHandler(){
+    // Open modal
+    this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
+  }
+
+  /**
+ * Opens modal to create an activity given an activity type - for To-Do Reminder
+ * @param activityType 
+ */
+  createActivityToDoReminderHandler(){
+    // Open modal
+    this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
+  }
+
+  /**
+   * Opens modal to view an activity given its activityId
+   * @param activity 
    */
-  deleteActivity(activity: ActivityDto){
-    this.message.confirm(
-      '',
-      this.l('AreYouSure'),
-      (isConfirmed) => {
-          if (isConfirmed) {
-              this._accountActivitiesServiceProxy.delete(activity.id)
-                  .subscribe(() => {
-                      this.reloadPage();
-                      this.notify.success(this.l('SuccessfullyDeleted'));
-                  });
-          }
-      }
-  );
+  viewActivity(activity: ActivityDto){
+    this.createActivityModal.showForViewEdit(activity.id, true);
   }
 
   /**
-   * Refresh the table
+   * Opens modal to edit an activity given its activityId
+   * @param activity 
+   */
+  editActivity(activity: ActivityDto){
+    this.createActivityModal.showForViewEdit(activity.id, false);
+  }
+
+  /**
+   * Refreshes the table
    */
   reloadPage(): void {
     this.paginator.changePage(this.paginator.getPage());

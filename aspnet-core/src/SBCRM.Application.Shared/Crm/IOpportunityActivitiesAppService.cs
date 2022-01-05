@@ -1,4 +1,5 @@
-﻿using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,16 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
-    /// <summary>
-    /// App service for handling CRUD operations of Activities for activities widget 
-    /// </summary>
-    public interface IActivitiesService
+    public interface IOpportunityActivitiesAppService: IApplicationService
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesForWidget input);
+
         /// <summary>
         /// Updates an activity if the id of the input has a value, otherwise creates it.
         /// </summary>
@@ -57,11 +63,13 @@ namespace SBCRM.Crm
         /// <returns></returns>
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
 
+
         /// <summary>
         /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
         /// </summary>
         /// <param name="input">Input from http header query which includes the id of the activity</param>
         /// <returns></returns>
         Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input);
+
     }
 }

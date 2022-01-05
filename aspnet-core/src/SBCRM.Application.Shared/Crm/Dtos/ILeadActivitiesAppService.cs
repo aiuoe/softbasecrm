@@ -1,17 +1,24 @@
-﻿using Abp.Application.Services.Dto;
-using SBCRM.Crm.Dtos;
+﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SBCRM.Crm
+namespace SBCRM.Crm.Dtos
 {
     /// <summary>
-    /// App service for handling CRUD operations of Activities for activities widget 
+    /// App service for handling CRUD operations of Activities in Leads module
     /// </summary>
-    public interface IActivitiesService
+    public interface ILeadActivitiesAppService: IApplicationService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesForWidget input);
+
         /// <summary>
         /// Updates an activity if the id of the input has a value, otherwise creates it.
         /// </summary>
@@ -56,6 +63,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
+
 
         /// <summary>
         /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity

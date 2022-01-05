@@ -11,6 +11,7 @@ using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using SBCRM.Legacy;
 
 namespace SBCRM.Crm
 {
@@ -26,6 +27,9 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityTaskType, int> _lookupActivityTaskTypeRepository;
         private readonly IRepository<ActivityStatus, int> _lookupActivityStatusRepository;
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
+        private readonly IRepository<Customer, int> _lookupCustomerRepository;
+        private readonly IRepository<Lead, int> _lookupLeadRepository;
+        private readonly IRepository<Opportunity, int> _lookupOpportunityRepository;
 
 
         /// <summary>
@@ -37,13 +41,19 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityTaskTypeRepository"></param>
         /// <param name="lookupActivityStatusRepository"></param>
         /// <param name="lookupActivityPriorityRepository"></param>
+        /// <param name="lookupCustomerRepository"></param>
+        /// <param name="lookupLeadRepository"></param>
+        /// <param name="lookupOpportunityRepository"></param>
         public ActivitiesService(
             IRepository<Activity, long> activityRepository,
             IRepository<User, long> lookupUserRepository,
             IRepository<ActivitySourceType, int> lookupActivitySourceTypeRepository,
             IRepository<ActivityTaskType, int> lookupActivityTaskTypeRepository,
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
-            IRepository<ActivityPriority, int> lookupActivityPriorityRepository)
+            IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
+            IRepository<Customer, int> lookupCustomerRepository,
+            IRepository<Lead, int> lookupLeadRepository,
+            IRepository<Opportunity, int> lookupOpportunityRepository)
         {
             _activityRepository = activityRepository;
             _lookupUserRepository = lookupUserRepository;
@@ -51,6 +61,9 @@ namespace SBCRM.Crm
             _lookupActivityTaskTypeRepository = lookupActivityTaskTypeRepository;
             _lookupActivityStatusRepository = lookupActivityStatusRepository;
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
+            _lookupCustomerRepository = lookupCustomerRepository;
+            _lookupLeadRepository = lookupLeadRepository;
+            _lookupOpportunityRepository = lookupOpportunityRepository;
         }
 
         /// <summary>
@@ -117,7 +130,7 @@ namespace SBCRM.Crm
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users);
+            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic);
 
             return await _lookupUserRepository.GetAll()
                 .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
@@ -194,5 +207,54 @@ namespace SBCRM.Crm
                     DisplayName = activityPriority == null || activityPriority.Description == null ? "" : activityPriority.Description.ToString()
                 }).ToListAsync();
         }
+
+        /// <summary>
+        /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
+        /// </summary>
+        /// <param name="input">Input from http header query which includes the id of the activity</param>
+        /// <returns></returns>
+        public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
+        {
+            var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
+
+            if (activity is null)
+                return null;
+
+            var output = new GetActivityForEditOutput { Activity = ObjectMapper.Map<CreateOrEditActivityDto>(activity) };
+
+            if (output.Activity.OpportunityId != null)
+            {
+                var lookupOpportunity = await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.Activity.OpportunityId);
+                output.OpportunityName = lookupOpportunity?.Name?.ToString();
+            }
+
+            if (output.Activity.LeadId != null)
+            {
+                var lookupLead = await _lookupLeadRepository.FirstOrDefaultAsync((int)output.Activity.LeadId);
+                output.LeadCompanyName = lookupLead?.CompanyName?.ToString();
+            }
+
+            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
+            output.UserName = lookupUser?.Name?.ToString();
+
+            var lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
+            output.ActivitySourceTypeDescription = lookupActivitySourceType?.Description?.ToString();
+            output.SourceTypeCode = lookupActivitySourceType.Code;
+
+            var lookupActivityTaskType = await _lookupActivityTaskTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivityTaskTypeId);
+            output.ActivityTaskTypeDescription = lookupActivityTaskType?.Description?.ToString();
+
+            var lookupActivityStatus = await _lookupActivityStatusRepository.FirstOrDefaultAsync((int)output.Activity.ActivityStatusId);
+            output.ActivityStatusDescription = lookupActivityStatus?.Description?.ToString();
+
+            var lookupActivityPriority = await _lookupActivityPriorityRepository.FirstOrDefaultAsync((int)output.Activity.ActivityPriorityId);
+            output.ActivityPriorityDescription = lookupActivityPriority?.Description?.ToString();
+
+            var lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(x => x.Number == output.Activity.CustomerNumber);
+            output.CustomerName = lookupCustomer?.Name?.ToString();
+
+            return output;
+        }
+
     }
 }

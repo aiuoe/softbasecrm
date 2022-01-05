@@ -10,6 +10,7 @@ import { InputNumberModule} from 'primeng/inputNumber';
 import { CalendarModule} from 'primeng/calendar';
 import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ActivitiesWidgetModule } from '../activities-widget/activities-widget.module';
 
 @NgModule({
     declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent],
@@ -20,7 +21,8 @@ import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/ser
         MultiSelectModule,
         InputNumberModule, 
         CalendarModule, 
-        AssignedUserModule],
+        AssignedUserModule,
+        ActivitiesWidgetModule],
         
     providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })
