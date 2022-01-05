@@ -489,7 +489,9 @@
 		<text name="DeleteCustomer">Delete Account</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
 		<text name="CustomerViewAssignUsers">View assigned users in Account detail</text>
-		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
+		<text name="CustomerAddOpportunity">Add an Opportunity in Account detail</text>
+		<text name="CustomerAddOpportunityDynamic">Add an Opportunity in Account detail if user is assigned to the Account</text>
+		<text name="CustomerEditOpportunityDynamic">Edit an Opportunity in Account detail if user is assigned to the Account</text>
 		<text name="CustomerViewOpportunities">View Opportunities in Account detail</text>
 		<text name="CustomerViewOpportunitiesDynamic">View Opportunities in Account detail if user is assigned to the Account</text>
 		<text name="CustomerEditOpportunity">Edit Opportunities in Account detail</text>
@@ -570,7 +572,7 @@
 		<text name="CreateNewRole">Create new role</text>
 		<text name="RoleProperties">Role properties</text>
 		<text name="Permissions">Permissions</text>
-		<text name="UserDontHavePermission">You do not have permission to see this detail.</text>
+		<text name="UserDontHavePermission">You don't have permission to see this detail.</text>
 		<text name="Save">Save</text>
 		<text name="Cancel">Cancel</text>
 		<text name="RolesHeaderInfo">Use roles to group permissions.</text>

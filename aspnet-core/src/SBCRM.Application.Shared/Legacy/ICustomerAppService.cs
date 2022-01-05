@@ -16,11 +16,11 @@ namespace SBCRM.Legacy
     {
 
         /// <summary>
-        /// Get visibility permissions for Customer Tabs
+        /// Get visibility for Customer Tabs based on dynamic/static permissions
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
-        Task<CustomerTabsVisibilityDto> GetVisibilityTabs(string customerNumber);
+        Task<CustomerVisibilityTabsDto> GetVisibilityTabsPermissions(string customerNumber);
 
         /// <summary>
         /// Get all customers
@@ -86,7 +86,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<CustomerOpportunityViewDto>> GetAllOpportunities(GetAllCustomerOpportunitiesInput input);
+        Task<PagedResultDto<CustomerOpportunityViewDto>> GetCustomerOpportunities(GetCustomerOpportunitiesInput input);
 
         /// <summary>
         /// Get all Customer invoices
