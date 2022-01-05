@@ -56,6 +56,7 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         public async Task<PagedResultDto<GetGlobalSearchItemDto>> GetAll(GetGlobalSearchInput input)
         {
+            string typeCustomer = Convert.ToString(L("Customer"));
             try
             {
                 var currentUser = await GetCurrentUserAsync();
@@ -78,7 +79,7 @@ namespace SBCRM.Legacy
                     {
                         Id = Convert.ToString(x.Number),
                         Name = Convert.ToString(x.Name),
-                        Type = Convert.ToString(L("Customer"))
+                        Type = typeCustomer
                     });
 
                 var contactsQuery = _contactRepository.GetAll()
@@ -88,7 +89,7 @@ namespace SBCRM.Legacy
                     {
                         Id = Convert.ToString(x.CustomerNo),
                         Name = Convert.ToString(x.ContactField),
-                        Type = Convert.ToString(L("Customer"))
+                        Type = typeCustomer
                     }); ;
 
                 var named_contacts = from contacts in contactsQuery
@@ -98,7 +99,7 @@ namespace SBCRM.Legacy
                                      {
                                          Id = Convert.ToString(contacts.Id),
                                          Name = Convert.ToString(Customer.Name),
-                                         Type = Convert.ToString(L("Customer"))
+                                         Type = typeCustomer
                                      };
 
                 var customers_contacts = customersQuery

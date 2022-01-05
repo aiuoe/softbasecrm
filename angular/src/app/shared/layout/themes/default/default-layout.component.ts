@@ -47,9 +47,9 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
     }
 
     getSearch(event: KeyboardEvent) {
-        const textFilterHasMoreThan1Characters = this.globalSearchFilter && this.globalSearchFilter?.trim().length >= 3;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
+        const textFilterHasMoreThan3Characters = this.globalSearchFilter && this.globalSearchFilter?.trim().length >= 3;
+        const keyDownIsBackspace = event && event.key === AppConsts.Backspace;
+        if (textFilterHasMoreThan3Characters || keyDownIsBackspace) {
             this.globalSearch();
         }
     }
