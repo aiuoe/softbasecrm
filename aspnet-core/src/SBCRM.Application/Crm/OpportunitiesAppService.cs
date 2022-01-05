@@ -1,25 +1,26 @@
-﻿using System.Linq;
-using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Exporting;
-using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Entities;
+using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.EntityHistory;
+using Abp.Linq.Extensions;
+using Castle.Components.DictionaryAdapter;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
-using SBCRM.Legacy;
-using System;
-using Abp.Domain.Entities;
+using SBCRM.Authorization;
 using SBCRM.Authorization.Users;
 using SBCRM.Common;
+using SBCRM.Crm.Dtos;
+using SBCRM.Crm.Exporting;
+using SBCRM.Dto;
+using SBCRM.Legacy;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -29,18 +30,19 @@ namespace SBCRM.Crm
     [AbpAuthorize(AppPermissions.Pages_Opportunities)]
     public class OpportunitiesAppService : SBCRMAppServiceBase, IOpportunitiesAppService
     {
-        private readonly IOpportunitiesExcelExporter _opportunitiesExcelExporter;
-        private readonly IRepository<Opportunity> _opportunityRepository;
-        private readonly IRepository<OpportunityStage, int> _lookupOpportunityStageRepository;
-        private readonly IRepository<LeadSource, int> _lookupLeadSourceRepository;
-        private readonly IRepository<OpportunityType, int> _lookupOpportunityTypeRepository;
-        private readonly IRepository<Customer, int> _lookupCustomerRepository;
-        private readonly IRepository<Contact, int> _lookupContactsRepository;
         private readonly IAuditEventsService _auditEventsService;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IOpportunitiesExcelExporter _opportunitiesExcelExporter;
+        private readonly IOpportunityAutomateAssignmentService _opportunityAutomateAssignment;
+        private readonly IRepository<Contact, int> _lookupContactsRepository;
+        private readonly IRepository<Customer, int> _lookupCustomerRepository;
+        private readonly IRepository<LeadSource, int> _lookupLeadSourceRepository;
+        private readonly IRepository<Opportunity> _opportunityRepository;
+        private readonly IRepository<OpportunityStage, int> _lookupOpportunityStageRepository;
+        private readonly IRepository<OpportunityType, int> _lookupOpportunityTypeRepository;
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -58,7 +60,8 @@ namespace SBCRM.Crm
         /// <param name="reasonProvider"></param>
         /// <param name="unitOfWorkManager"></param>
         /// <param name="lookupUserRepository"></param>
-        /// <param name="opportunityUserRepository"></param>    
+        /// <param name="opportunityUserRepository"></param>
+        /// <param name="opportunityAutomateAssignment"></param>
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
@@ -71,20 +74,22 @@ namespace SBCRM.Crm
             IEntityChangeSetReasonProvider reasonProvider,
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<User, long> lookupUserRepository,
-            IRepository<OpportunityUser> opportunityUserRepository)
+            IRepository<OpportunityUser> opportunityUserRepository,
+            IOpportunityAutomateAssignmentService opportunityAutomateAssignment)
         {
-            _opportunityRepository = opportunityRepository;
-            _opportunitiesExcelExporter = opportunitiesExcelExporter;
-            _lookupOpportunityStageRepository = lookupOpportunityStageRepository;
-            _lookupLeadSourceRepository = lookupLeadSourceRepository;
-            _lookupOpportunityTypeRepository = lookupOpportunityTypeRepository;
-            _lookupCustomerRepository = lookupCustomerRepository;
-            _lookupContactsRepository = lookupContactsRepository;
             _auditEventsService = auditEventsService;
+            _lookup_userRepository = lookupUserRepository;
+            _lookupContactsRepository = lookupContactsRepository;
+            _lookupCustomerRepository = lookupCustomerRepository;
+            _lookupLeadSourceRepository = lookupLeadSourceRepository;
+            _lookupOpportunityStageRepository = lookupOpportunityStageRepository;
+            _lookupOpportunityTypeRepository = lookupOpportunityTypeRepository;
+            _opportunitiesExcelExporter = opportunitiesExcelExporter;
+            _opportunityAutomateAssignment = opportunityAutomateAssignment;
+            _opportunityRepository = opportunityRepository;
+            _opportunityUserRepository = opportunityUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
-            _lookup_userRepository = lookupUserRepository;
-            _opportunityUserRepository = opportunityUserRepository;
         }
 
         /// <summary>
@@ -94,7 +99,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public bool CanSeeAllOpportunities()
         {
-            var currentUser = GetCurrentUser();
+            User currentUser = GetCurrentUser();
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);
         }
@@ -127,7 +132,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public long GetCurrentUserId()
         {
-            var currentUser = GetCurrentUser();
+            User currentUser = GetCurrentUser();
             return currentUser.Id;
         }
 
@@ -140,7 +145,7 @@ namespace SBCRM.Crm
         {
             try
             {
-                var filteredOpportunities = _opportunityRepository.GetAll()
+                IQueryable<Opportunity> filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
@@ -165,7 +170,7 @@ namespace SBCRM.Crm
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
-                var isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
+                bool isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
 
                 IQueryable<OpportunityQueryDto> opportunities;
 
@@ -208,8 +213,7 @@ namespace SBCRM.Crm
                                         ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
                                         FirstUserAssignedName = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
                                                                  where user.OpportunityId == o.Id
-                                                                  select user.UserFk.Name).FirstOrDefault()
-
+                                                                 select user.UserFk.Name).FirstOrDefault()
                                     };
 
                     opportunities = opportunities
@@ -269,10 +273,10 @@ namespace SBCRM.Crm
                                     };
                 }
 
-                var totalCount = await filteredOpportunities.CountAsync();
+                int totalCount = await filteredOpportunities.CountAsync();
 
-                var dbList = await opportunities.ToListAsync();
-                var results = GetOpportunityForViewDtos(dbList);
+                List<OpportunityQueryDto> dbList = await opportunities.ToListAsync();
+                List<GetOpportunityForViewDto> results = GetOpportunityForViewDtos(dbList);
 
                 return new PagedResultDto<GetOpportunityForViewDto>(
                     totalCount,
@@ -284,7 +288,6 @@ namespace SBCRM.Crm
                 Logger.Error("Error in OpportunitiesAppService -> ", e);
                 throw;
             }
-
         }
 
         /// <summary>
@@ -294,11 +297,11 @@ namespace SBCRM.Crm
         /// <returns></returns>
         private static List<GetOpportunityForViewDto> GetOpportunityForViewDtos(List<OpportunityQueryDto> dbList)
         {
-            var results = new List<GetOpportunityForViewDto>();
+            List<GetOpportunityForViewDto> results = new List<GetOpportunityForViewDto>();
 
-            foreach (var o in dbList)
+            foreach (OpportunityQueryDto o in dbList)
             {
-                var res = new GetOpportunityForViewDto
+                GetOpportunityForViewDto res = new GetOpportunityForViewDto
                 {
                     Opportunity = new OpportunityDto
                     {
@@ -322,7 +325,7 @@ namespace SBCRM.Crm
 
                 if (o.Users.Any())
                 {
-                    var OpportunityUsers = o.Users
+                    List<OpportunityUserViewDto> OpportunityUsers = o.Users
                         .Select(x => new OpportunityUserViewDto
                         {
                             OpportunityId = x.Id,
@@ -333,7 +336,7 @@ namespace SBCRM.Crm
                             ProfilePictureUrl = x.UserFk.ProfilePictureId
                         }).ToList();
                     res.Opportunity.Users = OpportunityUsers;
-                    var OpportunityUser = OpportunityUsers.OrderBy(x => x.Name).First();
+                    OpportunityUserViewDto OpportunityUser = OpportunityUsers.OrderBy(x => x.Name).First();
                     res.FirstUserAssignedName = OpportunityUser.Name;
                     res.FirstUserAssignedSurName = OpportunityUser.SurName;
                     res.FirstUserAssignedFullName = OpportunityUser.FullName;
@@ -355,43 +358,43 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetOpportunityForViewDto> GetOpportunityForView(int id)
         {
-            var opportunity = await _opportunityRepository.GetAsync(id);
+            Opportunity opportunity = await _opportunityRepository.GetAsync(id);
 
-            var output = new GetOpportunityForViewDto { Opportunity = ObjectMapper.Map<OpportunityDto>(opportunity) };
+            GetOpportunityForViewDto output = new GetOpportunityForViewDto { Opportunity = ObjectMapper.Map<OpportunityDto>(opportunity) };
 
             if (output.Opportunity.OpportunityStageId != null)
             {
-                var _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
+                OpportunityStage _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
                 output.OpportunityStageDescription = _lookupOpportunityStage?.Description?.ToString();
             }
 
             if (output.Opportunity.LeadSourceId != null)
             {
-                var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
+                LeadSource _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
                 output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
             }
 
             if (output.Opportunity.OpportunityTypeId != null)
             {
-                var _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
+                OpportunityType _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
                 output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerNumber = _lookupCustomer?.Number?.ToString();
             }
 
             if (output.Opportunity.ContactId != null)
             {
-                var _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
+                Contact _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
@@ -424,47 +427,45 @@ namespace SBCRM.Crm
 
             GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException(L("OpportunityNotExist")));
 
-            var output = new GetOpportunityForEditOutput { Opportunity = ObjectMapper.Map<CreateOrEditOpportunityDto>(opportunity) };
+            GetOpportunityForEditOutput output = new GetOpportunityForEditOutput { Opportunity = ObjectMapper.Map<CreateOrEditOpportunityDto>(opportunity) };
 
             if (output.Opportunity.OpportunityStageId != null)
             {
-                var _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
+                OpportunityStage _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
                 output.OpportunityStageDescription = _lookupOpportunityStage?.Description?.ToString();
             }
 
             if (output.Opportunity.LeadSourceId != null)
             {
-                var _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
+                LeadSource _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
                 output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
             }
 
             if (output.Opportunity.OpportunityTypeId != null)
             {
-                var _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
+                OpportunityType _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
                 output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
-                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
+                Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
                 output.CustomerNumber = _lookupCustomer?.Number?.ToString();
             }
 
             if (output.Opportunity.ContactId != null)
-            {        
-                var _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
+            {
+                Contact _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
-            
-             return output;      
-
+            return output;
         }
 
         /// <summary>
@@ -492,7 +493,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityDto input)
         {
-            var opportunity = ObjectMapper.Map<Opportunity>(input);
+            Opportunity opportunity = ObjectMapper.Map<Opportunity>(input);
             opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
             opportunity.TenantId = GetTenantId();
 
@@ -500,6 +501,23 @@ namespace SBCRM.Crm
             {
                 await _opportunityRepository.InsertAsync(opportunity);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
+
+                // Automate Assignment
+                User currentUser = await GetCurrentUserAsync();
+                bool hasDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_OpportunityUsers_AutomateAssignment__Dynamic);
+                if (hasDynamicPermission)
+                {
+                    List<CreateOrEditOpportunityUserDto> listCreateOrEditOpportunityUserDto = new EditableList<CreateOrEditOpportunityUserDto>
+                    {
+                        new()
+                        {
+                            OpportunityId = opportunity.Id,
+                            UserId = currentUser.Id
+                        }
+                    };
+
+                    await _opportunityAutomateAssignment.AssignOpportunityUsersAsync(listCreateOrEditOpportunityUserDto);
+                }
             }
 
             await _auditEventsService.AddEvent(AuditEventDto.ForCreate(
@@ -507,7 +525,6 @@ namespace SBCRM.Crm
                 entityId: opportunity.CustomerNumber,
                 message: $"Added opportunity, {opportunity.Name}")
             );
-
         }
 
         /// <summary>
@@ -518,7 +535,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Edit)]
         protected virtual async Task Update(CreateOrEditOpportunityDto input)
         {
-            var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
+            Opportunity opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
             input.CloseDate = input.CloseDate?.ToUniversalTime();
             ObjectMapper.Map(input, opportunity);
 
@@ -540,12 +557,17 @@ namespace SBCRM.Crm
             await _opportunityRepository.DeleteAsync(input.Id);
         }
 
+        /// <summary>
+        /// Method that you get the opportunities to export to excel file
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
             TimeZoneInfo TimeZone =
                                 TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone);
 
-            var filteredOpportunities = _opportunityRepository.GetAll()
+            IQueryable<Opportunity> filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
@@ -570,49 +592,46 @@ namespace SBCRM.Crm
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
+            IQueryable<OpportunityQueryDto> query = (from o in filteredOpportunities
+                                                     join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                                     from s1 in j1.DefaultIfEmpty()
 
-            var query = (from o in filteredOpportunities
-                         join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
-                         from s1 in j1.DefaultIfEmpty()
+                                                     join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                                     from s2 in j2.DefaultIfEmpty()
 
-                         join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
-                         from s2 in j2.DefaultIfEmpty()
+                                                     join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                                     from s3 in j3.DefaultIfEmpty()
 
-                         join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
-                         from s3 in j3.DefaultIfEmpty()
+                                                     join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                                     from s4 in j4.DefaultIfEmpty()
 
-                         join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
-                         from s4 in j4.DefaultIfEmpty()
+                                                     join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                                     from s5 in j5.DefaultIfEmpty()
 
-                         join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
-                         from s5 in j5.DefaultIfEmpty()
+                                                     select new OpportunityQueryDto
+                                                     {
+                                                         Name = o.Name,
+                                                         Amount = o.Amount,
+                                                         Probability = o.Probability,
+                                                         CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
+                                                         Description = o.Description,
+                                                         Branch = o.Branch,
+                                                         Department = o.Department,
+                                                         Id = o.Id,
+                                                         Users = o.Users,
+                                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                                         LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                                                         OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                                                         ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
+                                                     });
 
-                         select new OpportunityQueryDto
-                         {
-                             Name = o.Name,
-                             Amount = o.Amount,
-                             Probability = o.Probability,
-                             CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
-                             Description = o.Description,
-                             Branch = o.Branch,
-                             Department = o.Department,
-                             Id = o.Id,
-                             Users = o.Users,                           
-                             OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                             LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                             OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                             CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                             CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                             ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
-                         });
-
-            var dbList = await query.ToListAsync();
-            var opportunities = GetOpportunityForViewDtos(dbList);
+            List<OpportunityQueryDto> dbList = await query.ToListAsync();
+            List<GetOpportunityForViewDto> opportunities = GetOpportunityForViewDtos(dbList);
 
             return _opportunitiesExcelExporter.ExportToFile(opportunities);
         }
-
-
 
         /// <summary>
         /// Get Opportunity Stage lookup
@@ -636,7 +655,6 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
-
             return await _lookup_userRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {

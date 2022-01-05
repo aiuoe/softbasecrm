@@ -18,12 +18,13 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
     templateUrl: './create-or-edit-assined-user-modal.component.html'
 })
 export class CreateOrEditAssignedUserModalComponent extends AppComponentBase implements OnInit {
-
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
-    @Output() assignedUsers: EventEmitter<AccountUserLookupTableDto[]> = new EventEmitter<AccountUserLookupTableDto[]>();
+    @Output() assignedUsers: EventEmitter<AccountUserLookupTableDto[]> = new EventEmitter<
+        AccountUserLookupTableDto[]
+    >();
     @Input() assignedUsersExists: AccountUserLookupTableDto[] = [];
     @Input() excludeSelectedItemsInMultiSelect = false;
     @Input() componentType = '';
@@ -35,7 +36,6 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
     allUsers: AccountUserLookupTableDto[];
     selectedUsers: AccountUserLookupTableDto[];
 
-
     constructor(
         injector: Injector,
         private _accountUsersServiceProxy: AccountUsersServiceProxy,
@@ -46,10 +46,7 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
         super(injector);
     }
 
-    ngOnInit(): void {
-
-    }
-
+    ngOnInit(): void {}
 
     /**
      * This method filter ther users to be shown on the list box
@@ -64,7 +61,7 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
             this.modal.show();
         }
 
-        switch(this.componentType){
+        switch (this.componentType) {
             case 'Account':
                 this.getAllUsersForAccountModule();
                 break;
@@ -79,12 +76,11 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
         }
     }
 
-
     /***
-    * Gets all the users  to list on the popup onlt for Account module
-    */
-    getAllUsersForAccountModule(){
-        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+     * Gets all the users  to list on the popup onlt for Account module
+     */
+    getAllUsersForAccountModule() {
+        this._accountUsersServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
             this.allUsers = result;
 
             const userIdsArray = [];
@@ -95,25 +91,24 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
             if (this.excludeSelectedItemsInMultiSelect) {
                 // Filtering by users who hasn't been assigned yet
                 const arrayResult = [];
-                this.allUsers.forEach(element => {
-                    if (!userIdsArray.find(p => p === element.id)) {
+                this.allUsers.forEach((element) => {
+                    if (!userIdsArray.find((p) => p === element.id)) {
                         arrayResult.push(element);
                     }
                 });
                 this.allUsers = [];
                 this.allUsers = arrayResult;
             } else {
-                this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
+                this.selectedUsers = [...this.allUsers.filter((x) => userIdsArray.includes(x.id))];
             }
         });
     }
-
 
     /**
      * Gets all the users  to list on the popup onlt for Account module
      */
-    getAllUserForLeadsModule(){
-        this._leadUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
+    getAllUserForLeadsModule() {
+        this._leadUserServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
             this.allUsers = result;
 
             const userIdsArray = [];
@@ -124,46 +119,46 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
             if (this.excludeSelectedItemsInMultiSelect) {
                 // Filtering by users who hasn't been assigned yet
                 const arrayResult = [];
-                this.allUsers.forEach(element => {
-                    if (!userIdsArray.find(p => p === element.id)) {
+                this.allUsers.forEach((element) => {
+                    if (!userIdsArray.find((p) => p === element.id)) {
                         arrayResult.push(element);
                     }
                 });
                 this.allUsers = [];
                 this.allUsers = arrayResult;
             } else {
-                this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
+                this.selectedUsers = [...this.allUsers.filter((x) => userIdsArray.includes(x.id))];
             }
         });
     }
 
     /***
-    * Gets all the users  to list on the popup only for Opportunity module
-    */
-    getAllUsersForOpportunityModule(){
-    this._opportunityUserServiceProxy.getAllUserForTableDropdown().subscribe(result => {
-        this.allUsers = result;
+     * Gets all the users  to list on the popup only for Opportunity module
+     */
+    getAllUsersForOpportunityModule() {
+        this._opportunityUserServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+            this.allUsers = result;
 
-        const userIdsArray = [];
-        for (let i = 0; i < this.assignedUsersExists.length; i++) {
-            userIdsArray.push(this.assignedUsersExists[i].id);
-        }
+            const userIdsArray = [];
+            for (let i = 0; i < this.assignedUsersExists.length; i++) {
+                userIdsArray.push(this.assignedUsersExists[i].id);
+            }
 
-        if (this.excludeSelectedItemsInMultiSelect) {
-            // Filtering by users who hasn't been assigned yet
-            const arrayResult = [];
-            this.allUsers.forEach(element => {
-                if (!userIdsArray.find(p => p === element.id)) {
-                    arrayResult.push(element);
-                }
-            });
-            this.allUsers = [];
-            this.allUsers = arrayResult;
-        } else {
-            this.selectedUsers = [...this.allUsers.filter(x => userIdsArray.includes(x.id))];
-        }
-    });
-}
+            if (this.excludeSelectedItemsInMultiSelect) {
+                // Filtering by users who hasn't been assigned yet
+                const arrayResult = [];
+                this.allUsers.forEach((element) => {
+                    if (!userIdsArray.find((p) => p === element.id)) {
+                        arrayResult.push(element);
+                    }
+                });
+                this.allUsers = [];
+                this.allUsers = arrayResult;
+            } else {
+                this.selectedUsers = [...this.allUsers.filter((x) => userIdsArray.includes(x.id))];
+            }
+        });
+    }
 
     /**
      * This method emites the list of selected users
@@ -181,5 +176,4 @@ export class CreateOrEditAssignedUserModalComponent extends AppComponentBase imp
         this.selectedUsers = [];
         this.modal.hide();
     }
-
 }
