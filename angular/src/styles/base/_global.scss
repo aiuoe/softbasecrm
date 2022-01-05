@@ -150,8 +150,17 @@ a:hover {
     z-index: 50 !important;
 }
 
-.p-listbox-item:focus {
+.p-multiselect-panel, .p-dropdown-panel {
+    z-index: 49 !important;
+}
+
+.p-listbox-item:focus, .p-multiselect-item:focus, .p-sortable-column:focus {
     box-shadow: none !important;
+}
+
+span.dropdown-item {
+    cursor: pointer;
+    color: $primaryColor !important;
 }
 
 .extra-padding-for-forms-div {
@@ -181,8 +190,38 @@ a:hover {
     background-color: #DDE2F4 !important;
 }
 
-@media (min-width: 992px){
+@media (min-width: 992px) {
     .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
         padding: 3px 25px !important;
     }
 }
+
+
+@media (min-width: 992px) {
+    .aside-minimize:not(.aside-minimize-hover) .brand > .container-sm {
+        display: none !important;
+    }
+}
+
+.separator.separator-solid {
+    margin: auto;
+    width: 80%;
+    border-bottom: 2px solid #ebedf3  !important;
+}
+.toast-info {
+    background: #2C4AB6 !important;
+}
+.toast-success {
+    background: #008E26 !important;
+}
+.toast-warn {
+    background: #FF8900 !important;
+}
+.toast-error {
+    background: #FF0000 !important;
+}
+
+.options.menu.actions {
+    color: $black
+}
+

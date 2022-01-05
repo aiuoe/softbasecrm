@@ -1866,7 +1866,7 @@ namespace SBCRM.Migrations
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -4683,9 +4683,7 @@ namespace SBCRM.Migrations
 
                     b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ActivityPriorityFk");
 

@@ -121,7 +121,9 @@
                                             [(ngModel)]="selectedAssignedUsersFilter"
                                             optionLabel="displayName"
                                             display="chip"
+                                            [style]="{'width':'100%'}"
                                             [placeholder]="l('FilterByAssignee')"
+                                            [filterPlaceHolder]="l('Search')"
                                             [emptyMessage]="l('NoRecordsFound')"
                                             (onChange)="getActivities()"
                                         ></p-multiSelect>
@@ -133,7 +135,7 @@
                                         <p-dropdown
                                             id="AccountTypeFilter"
                                             name="AccountTypeFilter"
-                                            [options]="activitySourceTypes"
+                                            [options]="activitySourceTypeFilters"
                                             [(ngModel)]="selectedActivitySourceTypesFilter"
                                             optionLabel="displayName"
                                             [placeholder]="l('FilterBySourceType')"
@@ -288,6 +290,11 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
+                                                    <li>
+                                                        <span class="dropdown-item">
+                                                            {{ l('Cancel') }}
+                                                        </span>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -339,12 +346,20 @@
                                             <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('AssignedUser') }}</span>
-                                            <span class="d-flex align-items-center">
-                                                <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+                                            <ng-container *ngIf="!record.activity.userId; else assignedUserLabel">
+                                                <span class="font-italic pl-10">
+                                                    {{ l('NotAssigned') }}
+                                                </span>
+                                            </ng-container>
 
-                                                {{ record.userName }}
-                                            </span>
+                                            <ng-template #assignedUserLabel>
+                                                <span class="p-column-title">{{ l('AssignedUser') }}</span>
+                                                <span class="d-flex align-items-center">
+                                                    <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+
+                                                    {{ record.userName }}
+                                                </span>
+                                            </ng-template>
                                         </td>
                                     </tr>
                                 </ng-template>

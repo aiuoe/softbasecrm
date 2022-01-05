@@ -3,7 +3,7 @@
         <sub-header [title]="('Leads' | localize)" [breadcrumbs]="breadcrumbs">
             <div role="actions">
                 <button (click)="goToLeads()" class="btn btn-secondary float-left">
-                    <span>{{ l('Cancel') }}</span>
+                    <span>{{ l('Close') }}</span>
                 </button>
             </div>
         </sub-header>
@@ -35,13 +35,13 @@
                                         </div>
                                     </div>
                                     <form #LeadForm="ngForm" role="form" class="form-validation" novalidate>
-                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i
-                                                class="pi pi-user"></i>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                            <i class="fas fa-user-alt text-dark pr-3"></i>
                                             {{ l('GeneralInformation') }}</h3>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="Lead_CompanyName">{{ l('CompanyName') }} *</label>
+                                                    <label for="Lead_CompanyName">{{ l('CompanyName') }} <span class="color-red">*</span></label>
                                                     <input type="text" #Lead_CompanyName="ngModel" id="Lead_CompanyName"
                                                         class="form-control" [(ngModel)]="lead.companyName"
                                                         [placeholder]="l('EnterCompanyName')" name="CompanyName"
@@ -52,7 +52,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} *</label>
+                                                    <label for="Lead_CompanyPhone">{{ l('CompanyPhone') }} <span class="color-red">*</span></label>
                                                     <input id="Lead_CompanyPhone" #Lead_CompanyPhone="ngModel"
                                                         [placeholder]="l('EnterCompanyPhone')"
                                                         [(ngModel)]="lead.companyPhone" [required]="!lead.companyEmail"
@@ -126,11 +126,13 @@
                                                 <div class="form-group">
                                                     <label for="Lead_Country">{{ l('Country') }}</label>
                                                     <p-dropdown #Lead_Country="ngModel" id="Lead_Country"
-                                                        [ngModelOptions]="{standalone: true}" [options]="countries"
-                                                        [(ngModel)]="lead.country" optionLabel="name"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                        [placeholder]="l('EnterCountry')" [showClear]="true"
-                                                        optionValue="name">
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [options]="countries"
+                                                                [(ngModel)]="lead.country" optionLabel="name"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                                [placeholder]="l('SelectCountry')"
+                                                                [showClear]="true"
+                                                                optionValue="name">
                                                     </p-dropdown>
                                                     <validation-messages [formCtrl]="Lead_Country">
                                                     </validation-messages>
@@ -158,7 +160,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="Lead_ZipCode">{{ l('ZipCodeProvince') }}</label>
+                                                    <label for="Lead_ZipCode">{{ l('ZipCode') }}</label>
                                                     <input type="text" #Lead_ZipCode="ngModel" id="Lead_ZipCode"
                                                         class="form-control" [(ngModel)]="lead.zipCode"
                                                         [disabled]="this.isReadOnlyMode"
@@ -170,18 +172,24 @@
                                             </div>
                                         </div>
 
-                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6"><i
-                                                class="fa fa-id-card"></i>
+                                        <h3 class="font-size-lg text-dark font-weight-bold mb-6">
+                                            <i class="fa fa-id-card text-dark"></i>
                                             {{ l('ContactDetails') }}
                                         </h3>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="Lead_ContactName">{{ l('ContactName') }}</label>
-                                                    <input type="text" #Lead_ContactName="ngModel" id="Lead_ContactName"
-                                                        class="form-control" [(ngModel)]="lead.contactName"
-                                                        [placeholder]="l('EnterContactName')" name="ContactName"
-                                                        required [disabled]="this.isReadOnlyMode" maxlength="50" />
+                                                    <label for="Lead_ContactName">{{ l('ContactName') }} <span class="color-red">*</span></label>
+                                                    <input type="text"
+                                                           #Lead_ContactName="ngModel"
+                                                           id="Lead_ContactName"
+                                                           class="form-control"
+                                                           [(ngModel)]="lead.contactName"
+                                                           [placeholder]="l('EnterContactName')"
+                                                           name="ContactName"
+                                                           required
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           maxlength="50"/>
                                                     <validation-messages [formCtrl]="Lead_ContactName">
                                                     </validation-messages>
                                                 </div>
@@ -315,7 +323,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group m-form__group">
-                                                    <label for="LeadStatusDescription">{{ l('LeadStatus') }}</label>
+                                                    <label for="LeadStatusDescription">{{ l('Status') }}</label>
                                                     <p-dropdown #Lead_Status="ngModel" id="Lead_Status"
                                                         [ngModelOptions]="{standalone: true}" [options]="allLeadStatuss"
                                                         [(ngModel)]="lead.leadStatusId" optionLabel="displayName"
@@ -371,8 +379,9 @@
                         <div class="col-md-12">
                             <div class="card card-custom card-in-tab gutter-b">
                                 <div class="card-body">
-                                    <entityTypeHistory [requiredPermission]="'Pages.Leads.ViewEvents'"
-                                        #entityTypeHistory></entityTypeHistory>
+                                    <div [hidden]="!this.showEventsTab">
+                                        <entityTypeHistory #entityTypeHistory></entityTypeHistory>
+                                    </div>
                                     <div *ngIf="!showEventsTab">
                                         {{ l('UserDontHavePermission') }}
                                     </div>
@@ -384,9 +393,20 @@
             </tabset>
         </div>
         <div class="row" *ngIf="this.lead.id">
-            <div class="col-sm-12 col-lg-6">
-                <app-assigned-user [componentType]="'Lead'" [idToStore]="this.lead.id">
+            <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
+                <app-assigned-user
+                    [componentType]="'Lead'"
+                    [idToStore]="this.lead.id"
+                    (onSaveAssignedUser)="reloadEvents()"
+                >
                 </app-assigned-user>
+            </div>
+
+            <div class="col-sm-12 col-lg-6">
+                <app-activities-widget
+                    [componentType] = "'Lead'"
+                    [idToStore]="this.lead.id">
+                </app-activities-widget>
             </div>
         </div>
     </div>

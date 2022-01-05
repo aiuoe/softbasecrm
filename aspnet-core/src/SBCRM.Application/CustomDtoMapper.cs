@@ -108,6 +108,7 @@ namespace SBCRM
             configuration.CreateMap<CreateOrEditZipCodeDto, ZipCode>().ReverseMap();
             configuration.CreateMap<ZipCodeDto, ZipCode>().ReverseMap();
             //Inputs
+            configuration.CreateMap<GetCrmEntityTypeChangeInput, GetEntityTypeChangeInput>().ReverseMap();
             configuration.CreateMap<CheckboxInputType, FeatureInputTypeDto>();
             configuration.CreateMap<SingleLineStringInputType, FeatureInputTypeDto>();
             configuration.CreateMap<ComboboxInputType, FeatureInputTypeDto>();

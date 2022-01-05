@@ -24,9 +24,10 @@
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
-                                        [(date)]="activity.dueDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
+                                        [(ngModel)]="selectedDate"
+                                        [disabled] = "isView"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -34,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required>
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -45,19 +46,21 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
-                                    <label for="Activity_StartsAt">{{ l('StartsAt') }}</label>
-                                    <input
+                                    <label for="Activity_Starts_At">{{ l('StartsAt') }}</label>
+                                    <p-calendar
                                         required
-                                        class="form-control m-input"
-                                        #Activity_StartsAt
-                                        type="datetime"
-                                        bsDatepicker
-                                        datePickerLuxonModifier
-                                        [(date)]="activity.startsAt"
-                                        id="Activity_StartsAt"
-                                        name="Activity_StartsAt"
-                                    />
-                                    <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
+                                        styleClass="d-flex"
+                                        inputStyleClass="form-control m-input"
+                                        #Activity_Starts_At
+                                        [(ngModel)]="selectedTime"
+                                        [timeOnly]="true"
+                                        hourFormat="12"
+                                        dataType="string"
+                                        id="Activity_Starts_At"
+                                        name="Activity_Starts_At"
+                                        [disabled] = "isView"
+                                    ></p-calendar>
+                                    <validation-messages [formCtrl]="Activity_Starts_At"></validation-messages>
                                 </div>
                             </div>
 
@@ -69,6 +72,7 @@
                                         [(ngModel)]="activity.activityStatusId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
@@ -88,6 +92,7 @@
                                         [(ngModel)]="activity.activityPriorityId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
@@ -108,6 +113,7 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
+                                        [disabled] = "isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
@@ -117,8 +123,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
+                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
@@ -139,9 +145,10 @@
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
-                                        [(date)]="activity.dueDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
+                                        [(ngModel)]="selectedDate"
+                                        [disabled] = "isView"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -149,7 +156,7 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required>
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -160,34 +167,41 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
-                                    <label for="Activity_StartsAt">{{ l('StartsAt') }}</label>
-                                    <input
+                                    <label for="Activity_Starts_At">{{ l('StartsAt') }}</label>
+                                    <p-calendar
                                         required
-                                        class="form-control m-input"
-                                        #Activity_StartsAt
-                                        type="datetime"
-                                        bsDatepicker
-                                        datePickerLuxonModifier
-                                        [(date)]="activity.startsAt"
-                                        id="Activity_StartsAt"
-                                        name="Activity_StartsAt"
-                                    />
-                                    <validation-messages [formCtrl]="Activity_StartsAt"></validation-messages>
+                                        styleClass="d-flex"
+                                        inputStyleClass="form-control m-input"
+                                        #Activity_Starts_At
+                                        [(ngModel)]="selectedTime"
+                                        [timeOnly]="true"
+                                        hourFormat="12"
+                                        dataType="string"
+                                        id="Activity_Starts_At"
+                                        name="Activity_Starts_At"
+                                        [disabled] = "isView"
+                                    ></p-calendar>
+                                    <validation-messages [formCtrl]="Activity_Starts_At"></validation-messages>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
-                                    <label for="Activity_DurationMinutes">{{ l('Duration') }}</label>
-                                    <input
-                                        type="number"
-                                        #Activity_DurationMinutes="ngModel"
-                                        id="Activity_DurationMinutes"
-                                        class="form-control"
+                                    <label for="Activity_Duration_Minutes">{{ l('Duration') }}</label>
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="Activity_Duration_Minutes"
+                                        name="Activity_Duration_Minutes"
+                                        #Activity_Duration_Minutes="ngModel"
+                                        [options]="durationItems"
                                         [(ngModel)]="activity.durationMinutes"
-                                        name="DurationMinutes"
-                                    />
-                                    <validation-messages [formCtrl]="Activity_DurationMinutes"></validation-messages>
+                                        optionValue="value"
+                                        optionLabel="text"
+                                        placeholder="{{ l('Select') }}"
+                                        [disabled] = "isView"
+                                    >
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="Activity_Duration_Minutes"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -201,6 +215,7 @@
                                         [(ngModel)]="activity.activityStatusId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
@@ -217,7 +232,8 @@
                                         [(ngModel)]="activity.activityPriorityId"
                                         class="form-control"
                                         required
-                                    >
+                                        [disabled] = "isView"
+                                        >
                                         <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
                                             {{ item.displayName }}
@@ -237,6 +253,7 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
+                                        [disabled] = "isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
@@ -246,8 +263,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
+                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
@@ -268,9 +285,10 @@
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
-                                        [(date)]="activity.dueDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
+                                        [(ngModel)]="selectedDate"
+                                        [disabled] = "isView"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -278,7 +296,7 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required>
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -295,6 +313,7 @@
                                         [(ngModel)]="activity.activityStatusId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
@@ -311,6 +330,7 @@
                                         [(ngModel)]="activity.activityPriorityId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
@@ -331,6 +351,7 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
+                                        [disabled] = "isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
@@ -340,8 +361,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn  btn-secondary" (click)="close()">{{l("Cancel")}}</button>
+                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
@@ -363,9 +384,10 @@
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
-                                        [(date)]="activity.dueDate"
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
+                                        [(ngModel)]="selectedDate"
+                                        [disabled] = "isView"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -373,7 +395,7 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required>
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -390,6 +412,7 @@
                                         [(ngModel)]="activity.activityStatusId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
@@ -406,6 +429,7 @@
                                         [(ngModel)]="activity.activityPriorityId"
                                         class="form-control"
                                         required
+                                        [disabled] = "isView"
                                     >
                                         <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
@@ -426,6 +450,7 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
+                                        [disabled] = "isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
@@ -435,8 +460,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
+                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>

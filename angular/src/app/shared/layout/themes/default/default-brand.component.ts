@@ -6,7 +6,7 @@ import { DOCUMENT } from '@angular/common';
 @Component({
     templateUrl: './default-brand.component.html',
     selector: 'default-brand',
-    styleUrls:['./default-brand.component.less'],
+    styleUrls: ['./default-brand.component.less'],
     encapsulation: ViewEncapsulation.None,
 })
 export class DefaultBrandComponent extends AppComponentBase {

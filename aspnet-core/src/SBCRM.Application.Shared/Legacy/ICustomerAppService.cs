@@ -14,6 +14,14 @@ namespace SBCRM.Legacy
     /// </summary>
     public interface ICustomerAppService : IApplicationService
     {
+
+        /// <summary>
+        /// Get visibility for Customer Tabs based on dynamic/static permissions
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        Task<CustomerVisibilityTabsDto> GetVisibilityTabsPermissions(string customerNumber);
+
         /// <summary>
         /// Get all customers
         /// </summary>
@@ -78,7 +86,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<CustomerOpportunityViewDto>> GetAllOpportunities(GetAllCustomerOpportunitiesInput input);
+        Task<PagedResultDto<CustomerOpportunityViewDto>> GetCustomerOpportunities(GetCustomerOpportunitiesInput input);
 
         /// <summary>
         /// Get all Customer invoices
@@ -106,7 +114,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input);
+        Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetCrmEntityTypeChangeInput input);
 
         /// <summary>
         /// Check if exist customer by name

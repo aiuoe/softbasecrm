@@ -1,5 +1,5 @@
 ﻿<div bsModal #createOrEditModal="bs-modal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-md max-w-md-400px pt-15">
         <div class="modal-content">
             <div *ngIf="active">
                 <div class="modal-header">
@@ -12,20 +12,20 @@
                 </div>
 
                 <div class="modal-body">
-					<div class="col-md-8 offset-md-2">                 
-                        <p-listbox 
-                            [options]="this.allUsers" 
-                            [(ngModel)]="this.selectedUsers" 
+					<div class="col-md-12">
+                        <p-listbox
+                            [options]="this.allUsers"
+                            [(ngModel)]="this.selectedUsers"
                             [metaKeySelection]="false"
                             [checkbox]="true"
-                            [multiple]="true" 
+                            [multiple]="true"
                             optionLabel="displayName"
                             [filter]="true"
                             [filterPlaceHolder] = "this.l('Search')"
-                            [listStyle]="{'max-height':'300px'}" 
+                            [listStyle]="{'max-height':'350px'}"
                             [style]="{'border':'none'}">
-                        </p-listbox>                        
-                    </div>                   
+                        </p-listbox>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

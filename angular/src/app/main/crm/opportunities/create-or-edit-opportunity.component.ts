@@ -8,7 +8,8 @@ import {
     OpportunityOpportunityTypeLookupTableDto,
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
-    OpportunityContactsLookupTableDto
+    OpportunityContactsLookupTableDto,
+    OpportunityUsersServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -52,7 +53,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     customerName = '';
     contactName = '';
     customerNumber = '';
-    opportunityCustomerName = '';
     formDate: Date;
 
 
@@ -68,13 +68,18 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     isPageLoading = true;
     showEventsTab = false;
 
+    // Widgets
+    showAssignedUsersWidget = false;
+
     /**
      * Main constructor
      * @param injector
      * @param _activatedRoute
-     * @param _opportunityServiceProxy
+     * @param _opportunitiesServiceProxy
      * @param _router
      * @param _dateTimeService
+     * @param location
+     * @param _opportunityUsersServiceProxy
      */
     constructor(
         injector: Injector,
@@ -82,7 +87,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         private _opportunitiesServiceProxy: OpportunitiesServiceProxy,
         private _router: Router,
         private _dateTimeService: DateTimeService,
-        private location: Location
+        private location: Location,
+        private _opportunityUsersServiceProxy: OpportunityUsersServiceProxy
     ) {
         super(injector);
     }
@@ -102,14 +108,31 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
         this.setPermissions();
 
-        this.show(this.opportunityId);        
+        this.show(this.opportunityId);
+
+
     }
 
     /***
      * Set permissions
      */
     setPermissions() {
-        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');
+        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');        
+
+        // Dynamic at runtime Permissions
+        const permissionsRequests: Observable<any>[] = [
+            this._opportunityUsersServiceProxy.getCanViewAssignedUsersWidget(this.opportunityId)
+        ];
+        forkJoin([...permissionsRequests])
+            .subscribe(([getCanViewAssignedUsersWidget]) => {
+                this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+                this.entityTypeHistory.show({
+                    entityId: this.opportunityId.toString(),
+                    entityName: 'Opportunity',
+                    show: this.showEventsTab
+                });
+            });
+
     }
 
     /**
@@ -126,9 +149,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()
-        ];
-
+            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(this.customerNumber)       
+        ];   
 
         if (!opportunityId) {
             forkJoin([...requests])
@@ -146,24 +168,20 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allLeadSources = leadSources;
                     this.allOpportunityTypes = opportunityTypes;
                     this.allCustomers = customers;
-
+                  
                     if (this.customerNumber) {
                         this.opportunity.customerNumber = this.customerNumber;
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }
 
+                    this.breadcrumbs.push(new BreadcrumbItem( this.l('NewOpportunities')));
+
                     this.showSaveButton = !this.isReadOnlyMode;
-                }, (error) => {
+                }, () => {
                     this.goToOpportunities();
                 });
 
         } else {
-
-            this.entityTypeHistory.show({
-                entityId: opportunityId.toString(),
-                entityName: 'Opportunity'
-            });
-
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests])
                 .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, opportunityForEdit]: [
@@ -172,8 +190,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     OpportunityOpportunityTypeLookupTableDto[],
                     OpportunityCustomerLookupTableDto[],
                     GetOpportunityForEditOutput]) => {
-                    this.isPageLoading = false;
-                    this.active = true;
 
                     this.opportunity = opportunityForEdit.opportunity;
                     this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
@@ -192,7 +208,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                     this.breadcrumbs.push(new BreadcrumbItem(this.opportunity.name));
 
-                }, (error) => {
+                    this.isPageLoading = false;
+                    this.active = true;
+
+                }, () => {
                     this.goToOpportunities();
                 });
         }
@@ -240,7 +259,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.saving = false;
                 })
             )
-            .subscribe((x) => {
+            .subscribe((_) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
                 this._router.navigate([this.routerLink]);
@@ -264,4 +283,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this._router.navigate([this.routerLink]);
     }
 
+
+    /***
+     * Reload entity events grid
+     */
+    reloadEvents() {
+        this.entityTypeHistory.refreshTable();
+    }
 }

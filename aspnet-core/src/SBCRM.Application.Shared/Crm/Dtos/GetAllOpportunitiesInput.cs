@@ -10,7 +10,7 @@ namespace SBCRM.Crm.Dtos
     public class GetAllOpportunitiesInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
-
+        
         public string NameFilter { get; set; }
 
         public decimal? MaxAmountFilter { get; set; }

@@ -24,9 +24,9 @@ INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], Is
 INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], IsDefault) VALUES ('Prospect', getdate(), 0, 1);
 GO
 
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('Low', GETDATE(), 0, 1);
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('Medium', GETDATE(),0, 0);
-INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault]) VALUES ('High', GETDATE(),0, 0);
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('Low', GETDATE(), 0, 1, N'#263950');
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('Medium', GETDATE(),0, 0, N'#FF8900');
+INSERT INTO [web].[Priorities] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Color]) VALUES ('High', GETDATE(),0, 0, N'#FF0000');
 GO
 
 INSERT INTO [web].[LeadSources] ([Description], [CreationTime],[IsDeleted],[IsDefault], [Order]) VALUES ('Email', GETDATE(), 0, 0, 1);
@@ -63,6 +63,6 @@ GO
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Schedule Meeting', 10, GETDATE(), 0, NULL, NULL, N'#008CF2', 1, 'SCHEDULE_MEETING');
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Schedule Call', 20, GETDATE(), 0, NULL, NULL, N'#0AB3C1', 0, 'SCHEDULE_CALL');
 INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'Email Reminder', 30, GETDATE(), 0, NULL, NULL, N'#FC42C3', 0, 'EMAIL_REMINDER');
-INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'To Do Reminder', 40, GETDATE(), 0, NULL, NULL, N'#5400FF', 0, 'TODO_REMINDER');
+INSERT [web].[ActivityTaskTypes] ([Description], [Order], [CreationTime], [IsDeleted], [DeleterUserId], [DeletionTime], [Color], [IsDefault], [Code]) VALUES (N'To-Do Reminder', 40, GETDATE(), 0, NULL, NULL, N'#5400FF', 0, 'TODO_REMINDER');
 GO
 

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>    <text name="CustomerAttachment">Customer attachment</text>
+	<texts>
+    <text name="CustomerAttachment">Customer attachment</text>
     <text name="SBCRM.Crm.CustomerAttachment">CustomerAttachment</text>
     <text name="FilePath">File path</text>
     <text name="CustomerAttachmentsHeaderInfo">Customer attachments header info</text>
@@ -11,6 +12,24 @@
     <text name="CustomerAttachments">Customer attachments</text>
 
 		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
+		<text name="CustomerEdit__Dynamic">Can edit all accounts</text>
+        <text name="CustomerScheduleMeeting">Schedule meeting</text>
+        <text name="CustomerScheduleMeeting__Dynamic">Can schedule a meeting on all accounts</text>
+        <text name="CustomerScheduleCall">Schedule call</text>
+        <text name="CustomerScheduleCall__Dynamic">Can schedule a call on all accounts</text>
+        <text name="CustomerEmailReminder">Email reminder </text>
+        <text name="CustomerEmailReminder__Dynamic">Can create a email reminder on all accounts</text>
+        <text name="CustomerToDoReminder">To Do Reminder</text>
+        <text name="CustomerToDoReminder__Dynamic">Can create a to do reminder on all accounts</text>
+		
+		<text name="ScheduleCall">Schedule Call</text>
+		<text name="ScheduleMeeting">Schedule Meeting</text>
+		<text name="EmailReminder">Email Reminder</text>
+		<text name="ToDoReminder">To Do Reminder</text>		
+		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
+		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
+		<text name="AccountNotExist">This Account does not exist or is unavailable</text>
+		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
@@ -22,7 +41,8 @@
 		<text name="CreateNewActivityByOpportunity">New Activity by Opportunity</text>
 		<text name="List">List</text>
 		<text name="Calendar">Calendar</text>
-		<text name="OpportunityUsers">Opportunity user</text>
+		<text name="OpportunityViewAssignUsers">View assigned users in Opportunity detail</text>
+		<text name="OpportunityViewDynamicAssignUsers">View assigned users in Opportunity detail in RO mode if user is assigned to the Opportunity</text>
 		<text name="CreateNewOpportunityUser">Create new opportunity user</text>
 		<text name="EditOpportunityUser">Edit opportunity user</text>
 		<text name="DeleteOpportunityUser">Delete opportunity user</text>
@@ -34,7 +54,7 @@
 		<text name="IsCompletedStatus">Is completed status</text>
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
-		<text name="AssignUsers">Assign Users</text>
+		<text name="AssignUsers">Assign User(s)</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
@@ -90,9 +110,7 @@
 		<text name="EditActivityPriority">Edit activity priority</text>
 		<text name="DeleteActivityPriority">Delete activity priority</text>
 		<text name="ActivityPriorities">Activity priorities</text>
-
 		<text name="DuplicatedLead">There is a Lead with the same Company Name and Contact Name in Leads Module</text>
-
 		<text name="SeeAs">See as:</text>
 		<text name="AddOpportunity">Add Opportunity</text>
 		<text name="InputPosition">Enter Position</text>
@@ -211,6 +229,8 @@
 		<text name="Color">Color</text>
 		<text name="LeadContactName">Contact name</text>
 		<text name="LeadUser">Lead user</text>
+		<text name="LeadViewAssignUsers">View assigned users in Lead detail</text>
+		<text name="LeadViewDynamicAssignUsers">View assigned users in Lead detail in RO mode if user is assigned to the Lead</text>
 		<text name="CreateNewLeadUser">Create new lead user</text>
 		<text name="EditLeadUser">Edit lead user</text>
 		<text name="DeleteLeadUser">Delete lead user</text>
@@ -276,6 +296,7 @@
 		<text name="LeadStatusName">Status Name</text>
 		<text name="LeadSource">Lead Source</text>
 		<text name="EnterLeadSource">Enter Lead Source</text>
+		<text name="SelectLeadSource">Select Lead Source</text>
 		<text name="SBCRM.Crm.LeadSource">LeadSource</text>
 		<text name="Description">Description</text>
 		<text name="EnterDescription">Enter Description</text>
@@ -304,7 +325,7 @@
 		<text name="State">State/Province</text>
 		<text name="EnterState">Enter State/Province</text>
 		<text name="Country">Country</text>
-		<text name="EnterCountry">Enter Country</text>
+		<text name="SelectCountry">Select Country</text>
 		<text name="Salutation">Salutation</text>
 		<text name="Phone">Phone</text>
 		<text name="Extention">Extention</text>
@@ -340,6 +361,11 @@
 		<text name="FiscalEnd">Fiscal end</text>
 		<text name="DunsCode">Duns code</text>
 		<text name="Duns">Duns</text>
+		<text name="EnterDuns">Enter DUNS</text>
+		<text name="EnterSICCode">Enter SIC</text>
+		<text name="EnterSICCode2">Enter SIC 2</text>
+		<text name="EnterSICCode3">Enter SIC 3</text>
+		<text name="EnterSICCode4">Enter SIC 4</text>
 		<text name="SICCode">Sic</text>
 		<text name="MailingGroup">Mailing group</text>
 		<text name="Makes">Makes</text>
@@ -488,8 +514,11 @@
 		<text name="DeleteCustomer">Delete Account</text>
 		<text name="CustomerViewWip">View WIP in Account detail</text>
 		<text name="CustomerViewAssignUsers">View assigned users in Account detail</text>
-		<text name="CustomerAddOpportunity">Add an Opportunity to an Account</text>
+		<text name="CustomerAddOpportunity">Add an Opportunity in Account detail</text>
+		<text name="CustomerAddOpportunityDynamic">Add an Opportunity in Account detail if user is assigned to the Account</text>
+		<text name="CustomerEditOpportunityDynamic">Edit an Opportunity in Account detail if user is assigned to the Account</text>
 		<text name="CustomerViewOpportunities">View Opportunities in Account detail</text>
+		<text name="CustomerViewOpportunitiesDynamic">View Opportunities in Account detail if user is assigned to the Account</text>
 		<text name="CustomerEditOpportunity">Edit Opportunities in Account detail</text>
 		<text name="{0}IsRequired">{0} is required.</text>
 		<text name="AccountTypeDescription">Account type description</text>
@@ -568,7 +597,7 @@
 		<text name="CreateNewRole">Create new role</text>
 		<text name="RoleProperties">Role properties</text>
 		<text name="Permissions">Permissions</text>
-		<text name="UserDontHavePermission">You do not have permission to see this detail.</text>
+		<text name="UserDontHavePermission">You don't have permission to see this detail.</text>
 		<text name="Save">Save</text>
 		<text name="Cancel">Cancel</text>
 		<text name="RolesHeaderInfo">Use roles to group permissions.</text>
@@ -789,8 +818,7 @@
 		<text name="DefaultAccountTypeNotExist">Default Account type is not defined</text>
 		<text name="AccountTypeNotExist">Account type {0} does not exist</text>
 		<text name="LeadStatusNotExist">Lead status {0} does not exist</text>
-		<text name="LeadNotExist">Lead does not exist</text>
-		<text name="CustomerNotExist">Customer does not exist</text>
+		<text name="CustomerNotExist">This Customer does not exist or is unavailable</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
@@ -826,6 +854,7 @@
 		<text name="CustomerViewInvoices">View Invoices in Account detail</text>
 		<text name="CustomerViewEquipments">View Equipments in Account detail</text>
 		<text name="CustomerViewEvents">View Events in Account detail</text>
+		<text name="CustomerViewEventsDynamic">View Events in Account detail if user is assigned to the Account</text>
 		<text name="LeadViewEvents">View Events in Lead detail</text>
 		<text name="OpportunityViewEvents">View Events in Opportunity detail</text>
 		<text name="UsersManagement">Users Management</text>
@@ -1733,8 +1762,8 @@
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
 		<text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
-		<text name="Pages.Activities.Create.Assign_Other_Users">Assign other Users</text>
-		<text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities">View All Accounts, Leads and Opportunities</text>
+		<text name="Pages.Activities.Create.Assign_Other_Users__Dynamic">Assign other Users</text>
+		<text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic">View All Accounts, Leads and Opportunities</text>
 		<text name="FifteenMinutes">15 Minutes</text>
 		<text name="ThirtyMinutes">30 Minutes</text>
 		<text name="OneHour">1 Hour (default)</text>

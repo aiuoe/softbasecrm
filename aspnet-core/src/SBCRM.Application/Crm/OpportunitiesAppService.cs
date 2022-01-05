@@ -17,7 +17,9 @@ using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
 using SBCRM.Legacy;
 using System;
+using Abp.Domain.Entities;
 using SBCRM.Authorization.Users;
+using SBCRM.Common;
 
 namespace SBCRM.Crm
 {
@@ -90,11 +92,33 @@ namespace SBCRM.Crm
         /// The user will be shown all the leads if he has permission for it
         /// </summary>
         /// <returns></returns>
-        public bool CanSeeAllLeads()
+        public bool CanSeeAllOpportunities()
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);
+        }
+
+        /// <summary>
+        /// Get the static permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasStaticAccessToAddOpportunity(long userId)
+        {
+            return UserManager.IsGranted(
+                userId, AppPermissions.Pages_Customer_Add_Opportunity);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasDynamicAccessToAddOpportunity(long userId)
+        {
+            
+
+            return UserManager.IsGranted(
+                userId, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic);
         }
 
         /// <summary>
@@ -137,7 +161,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
-                        .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(!CanSeeAllOpportunities(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
@@ -382,7 +406,23 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities_Edit)]
         public async Task<GetOpportunityForEditOutput> GetOpportunityForEdit(EntityDto input)
         {
-            var opportunity = await _opportunityRepository.FirstOrDefaultAsync(input.Id);
+            Opportunity opportunity;
+
+            if (CanSeeAllOpportunities())
+            {
+                opportunity = await _opportunityRepository.FirstOrDefaultAsync(input.Id);
+            }
+            else
+            {
+                opportunity = await _opportunityUserRepository.GetAll()
+                    .Include(x => x.UserFk)
+                    .Include(x => x.OpportunityFk)
+                    .Where(x => x.UserId == GetCurrentUser().Id && x.OpportunityId == input.Id)
+                    .Select(x => x.OpportunityFk)
+                    .FirstOrDefaultAsync();
+            }
+
+            GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException(L("OpportunityNotExist")));
 
             var output = new GetOpportunityForEditOutput { Opportunity = ObjectMapper.Map<CreateOrEditOpportunityDto>(opportunity) };
 
@@ -422,7 +462,9 @@ namespace SBCRM.Crm
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
-            return output;
+            
+             return output;      
+
         }
 
         /// <summary>
@@ -500,6 +542,9 @@ namespace SBCRM.Crm
 
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
+            TimeZoneInfo TimeZone =
+                                TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone);
+
             var filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
@@ -521,7 +566,7 @@ namespace SBCRM.Crm
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
-                        .WhereIf(!CanSeeAllLeads(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
+                        .WhereIf(!CanSeeAllOpportunities(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
@@ -547,7 +592,7 @@ namespace SBCRM.Crm
                              Name = o.Name,
                              Amount = o.Amount,
                              Probability = o.Probability,
-                             CloseDate = o.CloseDate,
+                             CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
                              Description = o.Description,
                              Branch = o.Branch,
                              Department = o.Department,
@@ -566,6 +611,8 @@ namespace SBCRM.Crm
 
             return _opportunitiesExcelExporter.ExportToFile(opportunities);
         }
+
+
 
         /// <summary>
         /// Get Opportunity Stage lookup
@@ -633,15 +680,38 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
-        public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
+        public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null)
         {
-            return await _lookupCustomerRepository.GetAll()
-                .Select(customer => new OpportunityCustomerLookupTableDto
-                {
-                    Number = customer.Number,
-                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
-                }).ToListAsync();
-        }
+            List<OpportunityCustomerLookupTableDto> customers = null;
+
+            bool userCanSelectAllAccountsDynamic = false;
+
+            long currentUserId = GetCurrentUser().Id;
+
+            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);            
+
+            if (!userCanSelectAllAccountsStatic)
+                userCanSelectAllAccountsDynamic = HasDynamicAccessToAddOpportunity(currentUserId);
+
+            if (userCanSelectAllAccountsDynamic || userCanSelectAllAccountsStatic)
+            {
+                customers = await _lookupCustomerRepository.GetAll()
+                    .Include(x => x.Users)
+                    .WhereIf(customerNumber != null, x => x.Number != null && x.Number == customerNumber)
+                    .WhereIf(!userCanSelectAllAccountsStatic, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUserId))
+                    .Select(customer => new OpportunityCustomerLookupTableDto
+                    {
+                        Number = customer.Number,
+                        Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
+                    }).ToListAsync();
+
+                if (customerNumber != null)
+                    GuardHelper.ThrowIf(customers.Count == 0, new EntityNotFoundException(L("AccountNotExist")));
+
+                return customers;
+            }
+            return customers;
+        }        
 
         /// <summary>
         /// Get Contacts lookup
@@ -673,15 +743,16 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get al events
+        /// Get all events
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities_View_Events)]
-        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetEntityTypeChangeInput input)
+        public async Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetCrmEntityTypeChangeInput input)
         {
             input.EntityTypeFullName = typeof(Opportunity).FullName;
-            return await _auditEventsService.GetEntityTypeChanges(input);
+            return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
         }
+
     }
 }

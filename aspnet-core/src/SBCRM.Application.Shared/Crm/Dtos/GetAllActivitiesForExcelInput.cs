@@ -17,18 +17,18 @@ namespace SBCRM.Crm.Dtos
 
         public string UserNameFilter { get; set; }
 
-        public string ActivitySourceTypeDescriptionFilter { get; set; }
-
-        public string ActivityTaskTypeDescriptionFilter { get; set; }
-
-        public string ActivityStatusDescriptionFilter { get; set; }
-
-        public string ActivityPriorityDescriptionFilter { get; set; }
-
         public string CustomerNameFilter { get; set; }
 
         public List<long> UserIds { get; set; } = new List<long>();
 
         public bool ExcludeCompleted { get; set; }
+
+        public int? ActivitySourceTypeId { get; set; }
+
+        public int? ActivityTaskTypeId { get; set; }
+
+        public int? ActivityStatusId { get; set; }
+
+        public bool IsUnassignedSelected { get; set; }
     }
 }

@@ -16,6 +16,7 @@ import { PrimengTableHelper } from 'shared/helpers/PrimengTableHelper';
 import { UiCustomizationSettingsDto } from '@shared/service-proxies/service-proxies';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerTextService } from '@app/shared/ngx-spinner-text.service';
+import { CrmNotificationService } from '@app/shared/common/notification/crm-notification.service';
 
 interface AbpEventSubscription {
     eventName: string;
@@ -40,6 +41,7 @@ export abstract class AppComponentBase implements OnDestroy {
     ui: AppUiCustomizationService;
     appUrlService: AppUrlService;
     spinnerService: NgxSpinnerService;
+    notifyService: CrmNotificationService;
     private ngxSpinnerTextService: NgxSpinnerTextService;
 
     eventSubscriptions: AbpEventSubscription[] = [];
@@ -58,6 +60,7 @@ export abstract class AppComponentBase implements OnDestroy {
         this.primengTableHelper = new PrimengTableHelper();
         this.spinnerService = injector.get(NgxSpinnerService);
         this.ngxSpinnerTextService = injector.get(NgxSpinnerTextService);
+        this.notifyService = injector.get(CrmNotificationService);
     }
 
     flattenDeep(array) {
