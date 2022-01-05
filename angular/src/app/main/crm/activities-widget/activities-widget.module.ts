@@ -26,6 +26,6 @@ import { AccountActivitiesServiceProxy, LeadActivitiesServiceProxy } from '@shar
     CalendarModule
   ],
   providers: [ActivitySharedService, LeadActivitiesServiceProxy, AccountActivitiesServiceProxy],
-  exports: [ActivitiesWidgetComponent]
+  exports: [ActivitiesWidgetComponent, CreateOrEditActivityWidgetModalComponent]
 })
 export class ActivitiesWidgetModule { }

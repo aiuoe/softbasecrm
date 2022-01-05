@@ -807,9 +807,10 @@ namespace SBCRM.Legacy
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_Edit)
                 ||
-                UserManager.IsGranted(
+                (UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic)
-                || isUserAssignedToCostumer;
+                &&
+                isUserAssignedToCostumer);
         }
 
         /// <summary>
@@ -822,10 +823,10 @@ namespace SBCRM.Legacy
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_Add_Opportunity)
                 ||
-                UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic)
-                || 
-                isUserAssignedToCostumer;
+                (UserManager.IsGranted(
+                currentUser.Id, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic)
+                && 
+                isUserAssignedToCostumer);
         }
 
         /// <summary>s
@@ -838,9 +839,9 @@ namespace SBCRM.Legacy
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_ScheduleMeeting)
                 ||
-                UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_ScheduleMeeting__Dynamic)
-                ||
-                isUserAssignedToCostumer;
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_ScheduleMeeting__Dynamic)
+                &&
+                isUserAssignedToCostumer);
         }
 
         /// <summary>
@@ -853,10 +854,10 @@ namespace SBCRM.Legacy
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_ScheduleCall)
                 ||
-                UserManager.IsGranted(
+                (UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_ScheduleCall__Dynamic)
-                || 
-                isUserAssignedToCostumer;
+                && 
+                isUserAssignedToCostumer);
         }
 
         /// <summary>
@@ -869,10 +870,10 @@ namespace SBCRM.Legacy
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_EmailReminder)
                 ||
-                UserManager.IsGranted(
+                (UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_EmailReminder__Dynamic)
-                || 
-                isUserAssignedToCostumer;
+                &&
+                isUserAssignedToCostumer);
         }
 
         /// <summary>
@@ -885,10 +886,10 @@ namespace SBCRM.Legacy
             return UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_ToDoReminder)
                 ||
-                UserManager.IsGranted(
+                (UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_ToDoReminder__Dynamic)
-                || 
-                isUserAssignedToCostumer;
+                &&
+                isUserAssignedToCostumer);
         }
 
     }
