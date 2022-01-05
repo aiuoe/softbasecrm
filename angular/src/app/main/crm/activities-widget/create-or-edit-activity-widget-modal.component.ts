@@ -2,7 +2,7 @@ import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } f
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 import { ActivitySourceType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountActivitiesServiceProxy, ActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
@@ -60,7 +60,8 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   constructor( injector: Injector,
     private _activitySharedService: ActivitySharedService,
     private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
-    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy) {
+    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy,
+    private _opportunityActivitiesServiceProxy: OpportunityActivitiesServiceProxy) {
     super(injector);
    }
 
@@ -109,7 +110,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         break;
 
       case 'Opportunity':
-        // To do
+        this.getOpportunityActivityForViewEdit(activityId);
         break;
     }
 
@@ -148,6 +149,20 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   }
 
   /**
+ * Gets an activity given its id (Only for Opportunity module)
+ * @param activityId 
+ */
+    getOpportunityActivityForViewEdit(activityId: number) {
+    this._opportunityActivitiesServiceProxy.getActivityForEdit(activityId).subscribe( result =>{
+      this.activity = result.activity;
+      this.activityType = result.activityTaskTypeDescription;
+      const { dueDate } = result.activity;
+      this.selectedDate = dueDate.toJSDate();
+      this.selectedTime = dueDate.toFormat('hh:mm a');
+    });
+  }
+
+  /**
    * Handles the saving action of an activity
    */
   save(){
@@ -170,6 +185,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
       case 'Opportunity':
         this.activity.opportunityId = this.idToStore;
         this.activity.activitySourceTypeId = this.allActivitySourceTypes.find(x => x.code == ActivitySourceType.OPPORTUNITY).id;
+        this.saveOpportunityActivity();
         break;
     }
   }
@@ -180,6 +196,25 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   saveAccountActivity(){
     this.processDataModel();
     this._accountActivitiesServiceProxy
+    .createOrEdit(this.activity)
+    .pipe(
+        finalize(() => {
+            this.saving = false;
+        })
+    )
+    .subscribe(() => {
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.close();
+        this.modalSave.emit(null);
+    });
+  }
+
+  /**
+   * Saves an activity related to an Opportunity
+   */
+   saveOpportunityActivity(){
+    this.processDataModel();
+    this._opportunityActivitiesServiceProxy
     .createOrEdit(this.activity)
     .pipe(
         finalize(() => {
@@ -242,13 +277,13 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         break;
 
       case 'Opportunity':
-        //TO DO
+        this.callDataForOpportunitiesModule();
         break;
     }
   }
 
   /**
-   * Calls the data requiered to populate dropdown (Only for Leads module)
+   * Calls the data required to populate dropdowns (Only for Leads module)
    */
   callDataForLeadsModule(){
     this._leadActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
@@ -270,7 +305,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
 
 
   /**
-   * Calls the data requiered to populate dropdown (Only for Accounts module)
+   * Calls the data required to populate dropdowns (Only for Accounts module)
    */
   callDataForAccountsModule(){
     this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
@@ -289,5 +324,27 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         this.allActivityPrioritys = result;
     });
   }
+
+  /**
+   * Calls the data required to populate dropdowns (Only for Opportunities module)
+   */
+   callDataForOpportunitiesModule(){
+    this._opportunityActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
+      this.allUsers = result;
+    });
+    this._opportunityActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
+        this.allActivitySourceTypes = result;
+    });
+    this._opportunityActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((result) => {
+        this.allActivityTaskTypes = result;
+    });
+    this._opportunityActivitiesServiceProxy.getAllActivityStatusForTableDropdown().subscribe((result) => {
+        this.allActivityStatuss = result;
+    });
+    this._opportunityActivitiesServiceProxy.getAllActivityPriorityForTableDropdown().subscribe((result) => {
+        this.allActivityPrioritys = result;
+    });
+  }
+
 
 }
