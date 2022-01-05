@@ -2455,10 +2455,15 @@ export class ActivitiesServiceProxy {
     }
 
     /**
+     * @param isForCreate (optional) 
      * @return Success
      */
-    getAllAccountsForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown";
+    getAllAccountsForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown?";
+        if (isForCreate === null)
+            throw new Error("The parameter 'isForCreate' cannot be null.");
+        else if (isForCreate !== undefined)
+            url_ += "IsForCreate=" + encodeURIComponent("" + isForCreate) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2571,10 +2576,15 @@ export class ActivitiesServiceProxy {
     }
 
     /**
+     * @param isForCreate (optional) 
      * @return Success
      */
-    getAllOpportunityForTableDropdown(): Observable<ActivityOpportunityLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown";
+    getAllOpportunityForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityOpportunityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown?";
+        if (isForCreate === null)
+            throw new Error("The parameter 'isForCreate' cannot be null.");
+        else if (isForCreate !== undefined)
+            url_ += "IsForCreate=" + encodeURIComponent("" + isForCreate) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2629,10 +2639,15 @@ export class ActivitiesServiceProxy {
     }
 
     /**
+     * @param isForCreate (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(): Observable<ActivityLeadLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllLeadForTableDropdown";
+    getAllLeadForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllLeadForTableDropdown?";
+        if (isForCreate === null)
+            throw new Error("The parameter 'isForCreate' cannot be null.");
+        else if (isForCreate !== undefined)
+            url_ += "IsForCreate=" + encodeURIComponent("" + isForCreate) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
