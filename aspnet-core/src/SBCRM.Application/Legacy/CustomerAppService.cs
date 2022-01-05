@@ -578,8 +578,8 @@ namespace SBCRM.Legacy
                 pagedAndFilteredOpportunities = opportunities
                     .OrderByDescending(o => o.CloseDate)
                     .ThenBy(o => o.Name)
-                    .ThenBy(o => o.Branch)
-                    .ThenBy(o => o.Department)
+                    //.ThenBy(o => o.BranchFk.Name)
+                    //.ThenBy(o => o.DepartmentFk.Title)
                     .PageBy(input);
 
             var totalCount = await opportunities.CountAsync();

@@ -155,7 +155,7 @@ import { RouterModule } from '@angular/router';
                     {
                         path: 'dashboard',
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-                        data: { permission: 'Pages.Tenant.Dashboard' },
+                        data: { permission: 'Pages.Dashboard' },
                     },
                     {
                         path: 'global-search',
