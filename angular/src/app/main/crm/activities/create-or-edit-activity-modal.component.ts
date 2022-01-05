@@ -299,7 +299,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Initialize Component
      */
     ngOnInit(): void {
-        this.canAssignOtherUsers = this.isGranted('Pages.Activities.Create.Assign_Other_Users');
+        this.canAssignOtherUsers = this.isGranted('Pages.Activities.Create.Assign_Other_Users__Dynamic');
     }
 
     /**
