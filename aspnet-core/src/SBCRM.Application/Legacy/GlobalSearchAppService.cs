@@ -24,6 +24,7 @@ namespace SBCRM.Legacy
         private readonly IRepository<Lead> _leadRepository;
         private readonly IRepository<Opportunity> _opportunityRepository;
         private readonly IRepository<Activity, long> _activityRepository;
+        private readonly IRepository<Contact> _contactRepository;
 
         /// <summary>
         /// Base constructor
@@ -32,17 +33,20 @@ namespace SBCRM.Legacy
         /// <param name="leadRepository"></param>
         /// <param name="opportunityRepository"></param>
         /// <param name="activityRepository"></param>
+        /// <param name="contactRepository"></param>
         public GlobalSearchAppService(
             IRepository<Customer> customerRepository,
             IRepository<Lead> leadRepository,
             IRepository<Opportunity> opportunityRepository,
-            IRepository<Activity, long> activityRepository
+            IRepository<Activity, long> activityRepository,
+            IRepository<Contact> contactRepository
             )
         {
             _customerRepository = customerRepository;
             _leadRepository = leadRepository;
             _opportunityRepository = opportunityRepository;
             _activityRepository = activityRepository;
+            _contactRepository = contactRepository;
         }
 
         /// <summary>
@@ -69,17 +73,42 @@ namespace SBCRM.Legacy
 
                 var customersQuery = _customerRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Account == globalSearchCategory)
+                    .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter))
                     .Select(x => new GetGlobalSearchItemDto
                     {
-                        Id =Convert.ToString(x.Number),
+                        Id = Convert.ToString(x.Number),
                         Name = Convert.ToString(x.Name),
                         Type = Convert.ToString(L("Customer"))
                     });
+
+                var contactsQuery = _contactRepository.GetAll()
+                    .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Account == globalSearchCategory)
+                    .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactField.Contains(input.Filter))
+                    .Select(x => new GetGlobalSearchItemDto
+                    {
+                        Id = Convert.ToString(x.CustomerNo),
+                        Name = Convert.ToString(x.ContactField),
+                        Type = Convert.ToString(L("Customer"))
+                    }); ;
+
+                var named_contacts = from contacts in contactsQuery
+                                     join o1 in _customerRepository.GetAll() on contacts.Id equals o1.Number into j1
+                                     from Customer in j1.DefaultIfEmpty()
+                                     select new GetGlobalSearchItemDto
+                                     {
+                                         Id = Convert.ToString(contacts.Id),
+                                         Name = Convert.ToString(Customer.Name),
+                                         Type = Convert.ToString(L("Customer"))
+                                     };
+
+                var customers_contacts = customersQuery
+                    .Union(named_contacts);
 
                 var leadsQuery = _leadRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Lead == globalSearchCategory)
                     .Include(x => x.Users)
                     .WhereIf(!hasViewAccessToAllLeads, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
+                    .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter) || e.CompanyName.Contains(input.Filter))
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
@@ -91,6 +120,7 @@ namespace SBCRM.Legacy
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Opportunity == globalSearchCategory)
                     .Include(x => x.Users)
                     .WhereIf(!hasViewAccessToAllOpportunities, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUser.Id))
+                    .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter))
                     .Select(x => new GetGlobalSearchItemDto
                     {
                         Id = Convert.ToString(x.Id),
@@ -98,26 +128,27 @@ namespace SBCRM.Legacy
                         Type = Convert.ToString(L("Opportunity"))
                     });
 
-                var activityQuery=_activityRepository.GetAll()
+                var activityQuery = _activityRepository.GetAll()
                     .Where(x => GlobalSearchCategory.All == globalSearchCategory || GlobalSearchCategory.Activity == globalSearchCategory)
-                    .WhereIf(!hasViewAccessToAllActivities, x => x.UserId==currentUser.Id)
-                    .Select(x => new GetGlobalSearchItemDto
-                    {
-                        Id = Convert.ToString(x.Id),
-                        Name = Convert.ToString(x.TaskName),
-                        Type = Convert.ToString(L("Activity"))
-                    });
+                    .WhereIf(!hasViewAccessToAllActivities, x => x.UserId == currentUser.Id);
 
+                var activities = from activity in activityQuery
+                                 join o1 in _leadRepository.GetAll() on activity.LeadId equals o1.Id into j1
+                                 from lead in j1.DefaultIfEmpty()
+                                 select new GetGlobalSearchItemDto
+                                 {
+                                     Id = Convert.ToString(activity.Id),
+                                     Name = Convert.ToString(lead.CompanyName),
+                                     Type = Convert.ToString(L("Activity"))
+                                 };
 
-                var unionQuery = customersQuery
+                activities = activities.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter));
+
+                var unionQuery = customers_contacts
                     .Union(leadsQuery)
                     .Union(opportunityQuery)
-                    .Union(activityQuery)
+                    .Union(activities)
                     ;
-
-                unionQuery = unionQuery.WhereIf(!string.IsNullOrEmpty(input.Filter),
-                    x => x.Name.Contains(input.Filter));
-
 
                 var totalCount = await unionQuery.CountAsync();
 

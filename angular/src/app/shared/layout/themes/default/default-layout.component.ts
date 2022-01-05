@@ -46,6 +46,14 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
         this.installationMode = UrlHelper.isInstallUrl(location.href);
     }
 
+    getSearch(event: KeyboardEvent) {
+        const textFilterHasMoreThan1Characters = this.globalSearchFilter && this.globalSearchFilter?.trim().length >= 3;
+        const keyDownIsBackspace = event && event.key === 'Backspace';
+        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
+            this.globalSearch();
+        }
+    }
+
     globalSearch() {
         this._router.navigate(['/app/main/global-search'], { queryParams: { filter: this.globalSearchFilter }});
         this._dataService.updatedGlobalSearch(this.globalSearchFilter);
