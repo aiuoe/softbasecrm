@@ -8,7 +8,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// Class that handles the method of auto-assigning users to an account
     /// </summary>
-    public interface IAccountAutomateAssignment : ITransientDependency
+    public interface IAccountAutomateAssignmentService : ITransientDependency
     {
         /// <summary>
         /// Method that assigns a user to an account

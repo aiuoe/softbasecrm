@@ -10,7 +10,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// Class containing the service that implements auto-assignment for an opportunity
     /// </summary>
-    public class OpportunityAutomateAssignmentService : SBCRMAppServiceBase, IOpportunityAutomateAssignment
+    public class OpportunityAutomateAssignmentService : SBCRMAppServiceBase, IOpportunityAutomateAssignmentService
     {
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;

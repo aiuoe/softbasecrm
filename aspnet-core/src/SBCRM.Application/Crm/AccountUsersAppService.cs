@@ -24,7 +24,7 @@ namespace SBCRM.Crm
         private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
-        private readonly IAccountAutomateAssignment _accountAutomateAssignment;
+        private readonly IAccountAutomateAssignmentService _accountAutomateAssignment;
 
         /// <summary>
         /// Constructor method
@@ -38,7 +38,7 @@ namespace SBCRM.Crm
             IRepository<User, long> lookupUserRepository,
             IUnitOfWorkManager unitOfWorkManager,
             IEntityChangeSetReasonProvider reasonProvider,
-            IAccountAutomateAssignment accountAutomateAssignment)
+            IAccountAutomateAssignmentService accountAutomateAssignment)
         {
             _accountUserRepository = accountUserRepository;
             _accountAutomateAssignment = accountAutomateAssignment;

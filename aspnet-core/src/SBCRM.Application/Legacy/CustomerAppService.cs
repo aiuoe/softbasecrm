@@ -49,7 +49,7 @@ namespace SBCRM.Legacy
         private readonly ISoftBaseCustomerSequenceRepository _customerSequenceRepository;
         private readonly IContactsAppService _contactsAppService;
         private readonly IAuditEventsService _auditEventsService;
-        private readonly IAccountAutomateAssignment _accountAutomateAssignment;
+        private readonly IAccountAutomateAssignmentService _accountAutomateAssignment;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -90,7 +90,7 @@ namespace SBCRM.Legacy
             IContactsAppService contactsAppService,
             ICustomerExcelExporter customerExcelExporter,
             IAuditEventsService auditEventsService,
-            IAccountAutomateAssignment accountAutomateAssignment)
+            IAccountAutomateAssignmentService accountAutomateAssignment)
         {
             _accountAutomateAssignment = accountAutomateAssignment;
             _accountUserRepository = accountUserRepository;

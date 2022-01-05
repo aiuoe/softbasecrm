@@ -10,7 +10,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// Class containing the service that implements auto-assignment
     /// </summary>
-    public class AccountAutomateAssignmentService : SBCRMAppServiceBase, IAccountAutomateAssignment
+    public class AccountAutomateAssignmentService : SBCRMAppServiceBase, IAccountAutomateAssignmentService
     {
         private readonly IRepository<AccountUser> _accountUserRepository;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;

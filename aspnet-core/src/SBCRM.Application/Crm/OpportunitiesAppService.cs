@@ -33,7 +33,7 @@ namespace SBCRM.Crm
         private readonly IAuditEventsService _auditEventsService;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IOpportunitiesExcelExporter _opportunitiesExcelExporter;
-        private readonly IOpportunityAutomateAssignment _opportunityAutomateAssignment;
+        private readonly IOpportunityAutomateAssignmentService _opportunityAutomateAssignment;
         private readonly IRepository<Contact, int> _lookupContactsRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IRepository<LeadSource, int> _lookupLeadSourceRepository;
@@ -75,7 +75,7 @@ namespace SBCRM.Crm
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<User, long> lookupUserRepository,
             IRepository<OpportunityUser> opportunityUserRepository,
-            IOpportunityAutomateAssignment opportunityAutomateAssignment)
+            IOpportunityAutomateAssignmentService opportunityAutomateAssignment)
         {
             _auditEventsService = auditEventsService;
             _lookup_userRepository = lookupUserRepository;
@@ -482,7 +482,7 @@ namespace SBCRM.Crm
 
                 // Automate Assignment
                 User currentUser = await GetCurrentUserAsync();
-                bool hasDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Opportunities_AutomateAssignment__Dynamic);
+                bool hasDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_OpportunityUsers_AutomateAssignment__Dynamic);
                 if (hasDynamicPermission)
                 {
                     List<CreateOrEditOpportunityUserDto> listCreateOrEditOpportunityUserDto = new EditableList<CreateOrEditOpportunityUserDto>

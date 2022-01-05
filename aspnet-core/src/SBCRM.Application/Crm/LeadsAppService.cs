@@ -46,7 +46,7 @@ namespace SBCRM.Crm
         private readonly IRepository<LeadUser> _leadUserRepository;
         private readonly IRepository<Country> _countryRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
-        private readonly ILeadAutomateAssignment _leadAutomateAssignment;
+        private readonly ILeadAutomateAssignmentService _leadAutomateAssignment;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
         private readonly IAuditEventsService _auditEventsService;
@@ -79,7 +79,7 @@ namespace SBCRM.Crm
             IRepository<Country> countryRepository,
             IRepository<User, long> lookupUserRepository,
             IAuditEventsService auditEventsService,
-            ILeadAutomateAssignment leadAutomateAssignment)
+            ILeadAutomateAssignmentService leadAutomateAssignment)
         {
             _auditEventsService = auditEventsService;
             _countryRepository = countryRepository;
@@ -584,7 +584,7 @@ namespace SBCRM.Crm
 
                 // Automate Assignment
                 User currentUser = await GetCurrentUserAsync();
-                bool hasDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Leads_AutomateAssignment__Dynamic);
+                bool hasDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic);
                 if (hasDynamicPermission)
                 {
                     List<CreateOrEditLeadUserDto> listLeadUser = new List<CreateOrEditLeadUserDto>

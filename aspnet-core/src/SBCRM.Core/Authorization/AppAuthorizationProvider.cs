@@ -74,7 +74,7 @@ namespace SBCRM.Authorization
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Delete, L("DeleteOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Events, L("OpportunityViewEvents"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic, L("OpportunityViewAllOpportunities__Dynamic"));
-            opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
             opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_View__Dynamic, L("OpportunityViewDynamicAssignUsers"));
             var opportunityUsers = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityViewAssignUsers"));
@@ -131,7 +131,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_ViewAllLeads__Dynamic, L("LeadViewAllLeads__Dynamic"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
-            leads.CreateChildPermission(AppPermissions.Pages_Leads_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
+            leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
             var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));

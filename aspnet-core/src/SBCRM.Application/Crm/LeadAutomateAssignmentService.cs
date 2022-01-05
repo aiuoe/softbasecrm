@@ -10,7 +10,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// Class containing the service that implements auto-assignment for a lead
     /// </summary>
-    public class LeadAutomateAssignmentService : SBCRMAppServiceBase, ILeadAutomateAssignment
+    public class LeadAutomateAssignmentService : SBCRMAppServiceBase, ILeadAutomateAssignmentService
     {
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IRepository<LeadUser> _leadUserRepository;

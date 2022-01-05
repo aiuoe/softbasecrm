@@ -21,7 +21,7 @@ namespace SBCRM.Crm
         private readonly IRepository<LeadUser> _leadUserRepository;
         private readonly IRepository<Lead, int> _lookupLeadRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
-        private readonly ILeadAutomateAssignment _leadAutomateAssignment;
+        private readonly ILeadAutomateAssignmentService _leadAutomateAssignment;
 
         /// <summary>
         /// Constructor method
@@ -33,7 +33,7 @@ namespace SBCRM.Crm
         public LeadUsersAppService(IRepository<LeadUser> leadUserRepository,
             IRepository<Lead, int> lookupLeadRepository,
             IRepository<User, long> lookupUserRepository,
-            ILeadAutomateAssignment leadAutomateAssignment)
+            ILeadAutomateAssignmentService leadAutomateAssignment)
         {
             _leadAutomateAssignment = leadAutomateAssignment;
             _leadUserRepository = leadUserRepository;

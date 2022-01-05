@@ -23,7 +23,7 @@ namespace SBCRM.Crm
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IRepository<Opportunity, int> _lookupOpportunityRepository;
-        private readonly IOpportunityAutomateAssignment _opportunityAutomateAssignment;
+        private readonly IOpportunityAutomateAssignmentService _opportunityAutomateAssignment;
 
         /// <summary>
         /// Constructor
@@ -35,7 +35,7 @@ namespace SBCRM.Crm
         public OpportunityUsersAppService(IRepository<OpportunityUser> opportunityUserRepository,
             IRepository<User, long> lookupUserRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
-            IOpportunityAutomateAssignment opportunityAutomateAssignment)
+            IOpportunityAutomateAssignmentService opportunityAutomateAssignment)
         {
             _lookupOpportunityRepository = lookupOpportunityRepository;
             _lookupUserRepository = lookupUserRepository;
