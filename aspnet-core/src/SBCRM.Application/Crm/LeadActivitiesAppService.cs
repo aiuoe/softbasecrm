@@ -2,23 +2,27 @@
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Authorization;
 using SBCRM.Authorization.Users;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
+using System.Text;
 using System.Threading.Tasks;
+using Abp.Authorization;
+
 
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// App service for handling CRUD operations of Activities of an Account
+    /// App service for handling CRUD operations of Activities of a Lead
     /// </summary>
-    public class AccountActivitiesAppService : SBCRMAppServiceBase, IAccountActivitiesAppService
+    public class LeadActivitiesAppService : SBCRMAppServiceBase, ILeadActivitiesAppService
     {
-
         private readonly IRepository<Activity, long> _activityRepository;
         private readonly IRepository<Opportunity, int> _lookupOpportunityRepository;
         private readonly IRepository<Lead, int> _lookupLeadRepository;
@@ -29,7 +33,6 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IActivitiesService _activitiesService;
-
 
         /// <summary>
         /// Constructor
@@ -44,7 +47,7 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="activitiesService"></param>
-        public AccountActivitiesAppService(
+        public LeadActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
             IRepository<Lead, int> lookupLeadRepository,
@@ -77,13 +80,13 @@ namespace SBCRM.Crm
         {
 
             var filteredActivities = _activityRepository.GetAll()
-                .Include(e => e.CustomerFk)
+                .Include(e => e.LeadFk)
                 .Include(e => e.UserFk)
                 .Include(e => e.ActivitySourceTypeFk)
                 .Include(e => e.ActivityTaskTypeFk)
                 .Include(e => e.ActivityStatusFk)
                 .Include(e => e.ActivityPriorityFk)
-                .Where(e => e.CustomerFk != null && e.CustomerFk.Number == input.IdToFilter)
+                .Where(e => e.LeadFk != null && e.LeadFk.Id == int.Parse(input.IdToFilter))
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
@@ -181,6 +184,7 @@ namespace SBCRM.Crm
         }
 
 
+
         /// <summary>
         /// Create a new activity
         /// </summary>
@@ -188,7 +192,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-           await _activitiesService.CreateOrEdit(input);
+            await _activitiesService.CreateOrEdit(input);
         }
 
         /// <summary>
@@ -247,6 +251,7 @@ namespace SBCRM.Crm
             return await _activitiesService.GetAllActivityPriorityForTableDropdown();
         }
 
+
         /// <summary>
         /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
         /// </summary>
@@ -256,6 +261,5 @@ namespace SBCRM.Crm
         {
             return await _activitiesService.GetActivityForEdit(input);
         }
-
     }
 }
