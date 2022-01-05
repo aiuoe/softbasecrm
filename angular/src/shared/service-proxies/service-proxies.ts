@@ -2975,64 +2975,6 @@ export class ActivitiesServiceProxy {
         }
         return _observableOf<ActivityActivityPriorityLookupTableDto[]>(<any>null);
     }
-
-    /**
-     * @return Success
-     */
-    getAllActivityCustomerForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityCustomerForTableDropdown";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllActivityCustomerForTableDropdown(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllActivityCustomerForTableDropdown(<any>response_);
-                } catch (e) {
-                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllActivityCustomerForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
-    }
 }
 
 @Injectable()
@@ -17498,58 +17440,6 @@ export class OpportunitiesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
-    }
-
-    /**
-     * @param customerNumber (optional) 
-     * @return Success
-     */
-    verifyUserHasAccessToAccount(customerNumber: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/VerifyUserHasAccessToAccount?";
-        if (customerNumber === null)
-            throw new Error("The parameter 'customerNumber' cannot be null.");
-        else if (customerNumber !== undefined)
-            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processVerifyUserHasAccessToAccount(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processVerifyUserHasAccessToAccount(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processVerifyUserHasAccessToAccount(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
     }
 }
 
