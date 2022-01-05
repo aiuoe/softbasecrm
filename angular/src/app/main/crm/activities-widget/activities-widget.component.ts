@@ -183,12 +183,39 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   }
 
   /**
-   * Opens modal to create an activity given an activity type
+   * Opens modal to create an activity given an activity type for Schedule Call
    * @param activityType 
    */
-  createActivityHandlder(activityTypeCode: string){
+   createActivityScheduleCallHandler(){
     // Open modal
-    this.createActivityModal.show(activityTypeCode);
+    this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
+  }
+
+  /**
+ * Opens modal to create an activity given an activity type - for Schedule Meeting
+ * @param activityType 
+ */
+  createActivityScheduleMeetingHandler(){
+    // Open modal
+    this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
+  }
+
+  /**
+ * Opens modal to create an activity given an activity type - for Email Reminder
+ * @param activityType 
+ */
+  createActivityEmailReminderHandler(){
+    // Open modal
+    this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
+  }
+
+  /**
+ * Opens modal to create an activity given an activity type - for To-Do Reminder
+ * @param activityType 
+ */
+  createActivityToDoReminderHandler(){
+    // Open modal
+    this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
   }
 
   /**
