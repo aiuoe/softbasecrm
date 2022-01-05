@@ -750,7 +750,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="CustomerNumber"></param>
         /// <returns></returns>
-        public async void VerifyUserHasAccessToAccount(string CustomerNumber)
+        public void VerifyUserHasAccessToAccount(string CustomerNumber)
         {
             OpportunityCustomerLookupTableDto customer = null;
 
@@ -768,14 +768,14 @@ namespace SBCRM.Crm
             if (userCanSelectAllAccountsDynamic)
             {
 
-                 customer = await _lookupCustomerRepository.GetAll()
+                 customer = _lookupCustomerRepository.GetAll()
                                   .Include(x => x.Users)
                                   .Where(x => x.Number != null && x.Number == CustomerNumber)
                                   .Where(x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUserId))
                                   .Select(customer => new OpportunityCustomerLookupTableDto
                                   {
                                       Number = customer.Number
-                                  }).FirstOrDefaultAsync();
+                                  }).FirstOrDefault();
                 
             }
 
