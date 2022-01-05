@@ -58,7 +58,7 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
         this._dateTimeService.getStartOfMonth(),
         this._dateTimeService.getEndOfMonth(),
     ];
-    rangeDates: Date[];
+    rangeDates: DateTime[];
 
     allUsers: OpportunityUserUserLookupTableDto[];   
     selectedUsers: OpportunityUserUserLookupTableDto[];
@@ -115,11 +115,15 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
     * @param event
     */
     getOpportunities(event?: LazyLoadEvent) {
-        console.log(this.rangeDates)
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
         }
+
+        
+        this.minCloseDateFilter = this.rangeDates != null ? (this.rangeDates[0] ?? undefined) : undefined;
+        this.maxCloseDateFilter = this.rangeDates != null ? (this.rangeDates[1] ?? undefined) : undefined;
+    
 
         this.primengTableHelper.showLoadingIndicator();
 
