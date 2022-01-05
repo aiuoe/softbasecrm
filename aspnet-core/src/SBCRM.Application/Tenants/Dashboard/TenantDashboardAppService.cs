@@ -6,7 +6,7 @@ using SBCRM.Tenants.Dashboard.Dto;
 namespace SBCRM.Tenants.Dashboard
 {
     [DisableAuditing]
-    [AbpAuthorize(AppPermissions.Pages_Tenant_Dashboard)]
+    [AbpAuthorize(AppPermissions.Pages_Dashboard)]
     public class TenantDashboardAppService : SBCRMAppServiceBase, ITenantDashboardAppService
     {
         public GetMemberActivityOutput GetMemberActivity()

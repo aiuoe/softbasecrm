@@ -17058,6 +17058,324 @@ export class OpportunitiesServiceProxy {
 }
 
 @Injectable()
+export class OpportunitiesDashboardServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param fromDate (optional) 
+     * @param toDate (optional) 
+     * @param account (optional) 
+     * @param branch (optional) 
+     * @param department (optional) 
+     * @return Success
+     */
+    get(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string | undefined, branch: string | undefined, department: string | undefined): Observable<GetOpportunitiesStastsOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/Get?";
+        if (fromDate === null)
+            throw new Error("The parameter 'fromDate' cannot be null.");
+        else if (fromDate !== undefined)
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
+        if (toDate === null)
+            throw new Error("The parameter 'toDate' cannot be null.");
+        else if (toDate !== undefined)
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
+        if (account === null)
+            throw new Error("The parameter 'account' cannot be null.");
+        else if (account !== undefined)
+            url_ += "Account=" + encodeURIComponent("" + account) + "&";
+        if (branch === null)
+            throw new Error("The parameter 'branch' cannot be null.");
+        else if (branch !== undefined)
+            url_ += "Branch=" + encodeURIComponent("" + branch) + "&";
+        if (department === null)
+            throw new Error("The parameter 'department' cannot be null.");
+        else if (department !== undefined)
+            url_ += "Department=" + encodeURIComponent("" + department) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunitiesStastsOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunitiesStastsOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<GetOpportunitiesStastsOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunitiesStastsOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunitiesStastsOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllBranchForTableDropdown(): Observable<OpportunityBranchLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllBranchForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBranchForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBranchForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityBranchLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityBranchLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBranchForTableDropdown(response: HttpResponseBase): Observable<OpportunityBranchLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityBranchLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityBranchLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllCustomerForTableDropdown(): Observable<OpportunityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllCustomerForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerForTableDropdown(response: HttpResponseBase): Observable<OpportunityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllDepartmentForTableDropdown(): Observable<OpportunityDepartmentLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllDepartmentForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllDepartmentForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllDepartmentForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityDepartmentLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityDepartmentLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllDepartmentForTableDropdown(response: HttpResponseBase): Observable<OpportunityDepartmentLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityDepartmentLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityDepartmentLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param opportunityIds (optional) 
+     * @return Success
+     */
+    getOpportunitiesDashboardToExcel(opportunityIds: number[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetOpportunitiesDashboardToExcel?";
+        if (opportunityIds === null)
+            throw new Error("The parameter 'opportunityIds' cannot be null.");
+        else if (opportunityIds !== undefined)
+            opportunityIds && opportunityIds.forEach(item => { url_ += "OpportunityIds=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunitiesDashboardToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunitiesDashboardToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunitiesDashboardToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class OpportunityStagesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -36145,6 +36463,66 @@ export interface IGetNotificationsOutput {
     items: UserNotification[] | undefined;
 }
 
+export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutput {
+    opportunitiesId!: number[] | undefined;
+    averageSales!: number;
+    closeRate!: number;
+    averageDealSize!: number;
+    totalClosedSales!: number;
+
+    constructor(data?: IGetOpportunitiesStastsOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["opportunitiesId"])) {
+                this.opportunitiesId = [] as any;
+                for (let item of _data["opportunitiesId"])
+                    this.opportunitiesId!.push(item);
+            }
+            this.averageSales = _data["averageSales"];
+            this.closeRate = _data["closeRate"];
+            this.averageDealSize = _data["averageDealSize"];
+            this.totalClosedSales = _data["totalClosedSales"];
+        }
+    }
+
+    static fromJS(data: any): GetOpportunitiesStastsOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunitiesStastsOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.opportunitiesId)) {
+            data["opportunitiesId"] = [];
+            for (let item of this.opportunitiesId)
+                data["opportunitiesId"].push(item);
+        }
+        data["averageSales"] = this.averageSales;
+        data["closeRate"] = this.closeRate;
+        data["averageDealSize"] = this.averageDealSize;
+        data["totalClosedSales"] = this.totalClosedSales;
+        return data; 
+    }
+}
+
+export interface IGetOpportunitiesStastsOutput {
+    opportunitiesId: number[] | undefined;
+    averageSales: number;
+    closeRate: number;
+    averageDealSize: number;
+    totalClosedSales: number;
+}
+
 export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput {
     opportunity!: CreateOrEditOpportunityDto;
     opportunityStageDescription!: string | undefined;
@@ -40488,6 +40866,46 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
     validateIssuer: boolean;
 }
 
+export class OpportunityBranchLookupTableDto implements IOpportunityBranchLookupTableDto {
+    id!: number | undefined;
+    name!: string | undefined;
+
+    constructor(data?: IOpportunityBranchLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityBranchLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityBranchLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IOpportunityBranchLookupTableDto {
+    id: number | undefined;
+    name: string | undefined;
+}
+
 export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {
     id!: number;
     contactName!: string | undefined;
@@ -40565,6 +40983,46 @@ export class OpportunityCustomerLookupTableDto implements IOpportunityCustomerLo
 
 export interface IOpportunityCustomerLookupTableDto {
     number: string | undefined;
+    name: string | undefined;
+}
+
+export class OpportunityDepartmentLookupTableDto implements IOpportunityDepartmentLookupTableDto {
+    id!: number | undefined;
+    name!: string | undefined;
+
+    constructor(data?: IOpportunityDepartmentLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityDepartmentLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityDepartmentLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IOpportunityDepartmentLookupTableDto {
+    id: number | undefined;
     name: string | undefined;
 }
 

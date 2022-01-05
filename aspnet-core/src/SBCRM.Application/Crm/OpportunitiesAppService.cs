@@ -689,7 +689,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get Customer lookup
+        /// Get Customer lookup 
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]

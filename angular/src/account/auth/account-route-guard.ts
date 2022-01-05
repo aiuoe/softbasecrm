@@ -33,6 +33,10 @@ export class AccountRouteGuard implements CanActivate {
             return '/app/main/dashboard';
         }
 
+        if (this._permissionChecker.isGranted('Pages.Dashboard')) {
+            return '/app/main/dashboard';
+        }
+
         return '/app/notifications';
     }
 }
