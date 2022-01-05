@@ -6564,6 +6564,62 @@ export class CustomerServiceProxy {
     }
 
     /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getVisibilityTabsPermissions(customerNumber: string | undefined): Observable<CustomerVisibilityTabsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetVisibilityTabsPermissions?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVisibilityTabsPermissions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVisibilityTabsPermissions(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerVisibilityTabsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerVisibilityTabsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVisibilityTabsPermissions(response: HttpResponseBase): Observable<CustomerVisibilityTabsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomerVisibilityTabsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerVisibilityTabsDto>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param accountTypeId (optional) 
      * @param userIds (optional) 
@@ -7113,8 +7169,8 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllOpportunities(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/GetAllOpportunities?";
+    getCustomerOpportunities(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerOpportunities?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
         else if (customerNumber !== undefined)
@@ -7142,11 +7198,11 @@ export class CustomerServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllOpportunities(response_);
+            return this.processGetCustomerOpportunities(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllOpportunities(<any>response_);
+                    return this.processGetCustomerOpportunities(<any>response_);
                 } catch (e) {
                     return <Observable<PagedResultDtoOfCustomerOpportunityViewDto>><any>_observableThrow(e);
                 }
@@ -7155,7 +7211,7 @@ export class CustomerServiceProxy {
         }));
     }
 
-    protected processGetAllOpportunities(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
+    protected processGetCustomerOpportunities(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -31021,6 +31077,70 @@ export interface ICustomerOpportunityViewDto {
     stageColor: string | undefined;
     closeDate: DateTime | undefined;
     amount: number | undefined;
+}
+
+export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
+    canViewOpportunitiesTab!: boolean;
+    canCreateOpportunities!: boolean;
+    canViewOpportunities!: boolean;
+    canEditOpportunities!: boolean;
+    canViewInvoicesTab!: boolean;
+    canViewEquipmentsTab!: boolean;
+    canViewWipTab!: boolean;
+    canViewEventsTab!: boolean;
+
+    constructor(data?: ICustomerVisibilityTabsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.canViewOpportunitiesTab = _data["canViewOpportunitiesTab"];
+            this.canCreateOpportunities = _data["canCreateOpportunities"];
+            this.canViewOpportunities = _data["canViewOpportunities"];
+            this.canEditOpportunities = _data["canEditOpportunities"];
+            this.canViewInvoicesTab = _data["canViewInvoicesTab"];
+            this.canViewEquipmentsTab = _data["canViewEquipmentsTab"];
+            this.canViewWipTab = _data["canViewWipTab"];
+            this.canViewEventsTab = _data["canViewEventsTab"];
+        }
+    }
+
+    static fromJS(data: any): CustomerVisibilityTabsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerVisibilityTabsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["canViewOpportunitiesTab"] = this.canViewOpportunitiesTab;
+        data["canCreateOpportunities"] = this.canCreateOpportunities;
+        data["canViewOpportunities"] = this.canViewOpportunities;
+        data["canEditOpportunities"] = this.canEditOpportunities;
+        data["canViewInvoicesTab"] = this.canViewInvoicesTab;
+        data["canViewEquipmentsTab"] = this.canViewEquipmentsTab;
+        data["canViewWipTab"] = this.canViewWipTab;
+        data["canViewEventsTab"] = this.canViewEventsTab;
+        return data; 
+    }
+}
+
+export interface ICustomerVisibilityTabsDto {
+    canViewOpportunitiesTab: boolean;
+    canCreateOpportunities: boolean;
+    canViewOpportunities: boolean;
+    canEditOpportunities: boolean;
+    canViewInvoicesTab: boolean;
+    canViewEquipmentsTab: boolean;
+    canViewWipTab: boolean;
+    canViewEventsTab: boolean;
 }
 
 export class CustomerWipViewDto implements ICustomerWipViewDto {
