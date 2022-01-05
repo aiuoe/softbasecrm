@@ -54,15 +54,6 @@ namespace SBCRM.Test.Base.DependencyInjection
                 Component.For<ISoftBasePersonRepository>()
                     .ImplementedBy<SoftBasePersonRepository>().LifestyleTransient());
 
-            iocManager.IocContainer.Register(
-               Component.For<ISoftBaseBranchRepository>()
-                   .ImplementedBy<SoftBaseBranchRepository>().LifestyleTransient());
-
-            iocManager.IocContainer.Register(
-               Component.For<ISoftBaseDepartmentRepository>()
-                   .ImplementedBy<SoftBaseDepartmentRepository>().LifestyleTransient());
-
-
             var builder = new DbContextOptionsBuilder<SBCRMDbContext>();
             
             builder.UseSqlServer(configuration.GetConnectionString(SBCRMConsts.ConnectionStringName));
