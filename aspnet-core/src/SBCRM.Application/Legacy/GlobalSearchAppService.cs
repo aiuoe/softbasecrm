@@ -60,7 +60,7 @@ namespace SBCRM.Legacy
                     currentUser.Id, AppPermissions.Pages_Leads_ViewAllLeads__Dynamic);
 
                 var hasViewAccessToAllActivities = await UserManager.IsGrantedAsync(
-                    currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter);
+                    currentUser.Id, AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic);
 
                 var hasViewAccessToAllOpportunities = await UserManager.IsGrantedAsync(
                     currentUser.Id, AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic);

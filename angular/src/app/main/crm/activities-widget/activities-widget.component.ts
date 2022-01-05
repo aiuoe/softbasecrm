@@ -1,11 +1,11 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivityDto, LeadActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-import { CreateActivityModalComponent } from './create-activity-modal.component';
+import { CreateOrEditActivityWidgetModalComponent } from './create-or-edit-activity-widget-modal.component';
 
 /**
  * This component manages the activities creation on Leads, Accounts and Opportunities
@@ -19,7 +19,7 @@ import { CreateActivityModalComponent } from './create-activity-modal.component'
 export class ActivitiesWidgetComponent extends AppComponentBase implements OnInit {
   @ViewChild('dataTable', { static: true }) dataTable: Table;
   @ViewChild('paginator', { static: true }) paginator: Paginator;
-  @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateActivityModalComponent;
+  @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
 
   @Input() componentType = '';
@@ -31,15 +31,27 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   saving = false;
   activityType = '';
 
+  opportunityNameFilter = '';
+  leadCompanyNameFilter = '';
+  activitySourceTypeDescriptionFilter = '';
+  activityTaskTypeDescriptionFilter = '';
+  activityStatusDescriptionFilter = '';
+  activityPriorityDescriptionFilter = '';
+  customerNameFilter = '';
+
   /**
    * 
    * @param injector Constructor
    */
   constructor(injector: Injector,
-    private _activitiesServiceProxy: ActivitiesServiceProxy) { 
+    private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
+    private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy) { 
     super(injector);
   }
 
+  /**
+   * NgOninit event 
+   */
   ngOnInit(): void {
   }
 
@@ -49,17 +61,88 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   loadDataTable(event?: LazyLoadEvent){
     switch(this.componentType){
       case 'Lead':
-        // To do
+        this.getAllActivitiesForLead(event);
         break;
 
       case 'Account':
-        //To do
+        this.getAllActivitiesForAccount(event);
         break;
       
       case 'Opportunity':
         //To do
         break;
     }
+  }
+
+/**
+ * Gets all the activities connected to a specific Lead
+ * @param event 
+ * @returns 
+ */
+ getAllActivitiesForLead(event?: LazyLoadEvent){
+  if (this.primengTableHelper.shouldResetPaging(event)) {
+    this.paginator.changePage(0);
+    return;
+  }
+
+  this.primengTableHelper.showLoadingIndicator();
+
+  this._leadActivitiesServiceProxy.getAll(
+    this.filterText,
+    this.opportunityNameFilter,
+    this.leadCompanyNameFilter,
+    this.userNameFilter,
+    '',
+    '',
+    '',
+    '',
+    this.customerNameFilter,
+    this.idToStore,
+    this.primengTableHelper.getSorting(this.dataTable),
+    this.primengTableHelper.getSkipCount(this.paginator, event),
+    this.primengTableHelper.getMaxResultCount(this.paginator, event)
+  ).subscribe( result =>{
+    this.primengTableHelper.totalRecordsCount = result.totalCount;
+    this.primengTableHelper.records = result.items;
+    this.primengTableHelper.hideLoadingIndicator();
+    console.log(result.items);
+  });
+}
+
+
+  /**
+   * Gets all the activities connected to an specific Account
+   * @param event 
+   * @returns 
+   */
+  getAllActivitiesForAccount(event?: LazyLoadEvent){
+    if (this.primengTableHelper.shouldResetPaging(event)) {
+      this.paginator.changePage(0);
+      return;
+    }
+
+    this.primengTableHelper.showLoadingIndicator();
+
+    this._accountActivitiesServiceProxy.getAll(
+      this.filterText,
+      this.opportunityNameFilter,
+      this.leadCompanyNameFilter,
+      this.userNameFilter,
+      '',
+      '',
+      '',
+      '',
+      this.customerNameFilter,
+      this.idToStore,
+      this.primengTableHelper.getSorting(this.dataTable),
+      this.primengTableHelper.getSkipCount(this.paginator, event),
+      this.primengTableHelper.getMaxResultCount(this.paginator, event)
+    ).subscribe( result =>{
+      this.primengTableHelper.totalRecordsCount = result.totalCount;
+      this.primengTableHelper.records = result.items;
+      this.primengTableHelper.hideLoadingIndicator();
+      console.log(result.items);
+    });
   }
 
   /**
@@ -71,12 +154,66 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     this.createActivityModal.show(activityType);
   }
 
+  /**
+   * Opens modal to view an activity given its activityId
+   * @param activity 
+   */
+  viewActivity(activity: ActivityDto){
+    this.createActivityModal.showForViewEdit(activity.id, true);
+  }
+
+  /**
+   * Opens modal to edit an activity given its activityId
+   * @param activity 
+   */
+  editActivity(activity: ActivityDto){
+    this.createActivityModal.showForViewEdit(activity.id, false);
+  }
+
 
   /**
    * Handles de deletetion of an activity
    */
-  deleteActivity(){
-    // TO DO
+  deleteAccountActivity(activity: ActivityDto){
+    this.message.confirm(
+      '',
+      this.l('AreYouSure'),
+      (isConfirmed) => {
+          if (isConfirmed) {
+              this._accountActivitiesServiceProxy.delete(activity.id)
+                  .subscribe(() => {
+                      this.reloadPage();
+                      this.notify.success(this.l('SuccessfullyDeleted'));
+                  });
+          }
+      }
+    );
+  }
+
+  /**
+ * Handles de deletetion of an activity
+ */
+  deleteLeadActivity(activity: ActivityDto){
+  this.message.confirm(
+    '',
+    this.l('AreYouSure'),
+    (isConfirmed) => {
+        if (isConfirmed) {
+            this._leadActivitiesServiceProxy.delete(activity.id)
+                .subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('SuccessfullyDeleted'));
+                });
+        }
+    }
+  );
+}
+
+  /**
+   * Refreshes the table
+   */
+  reloadPage(): void {
+    this.paginator.changePage(this.paginator.getPage());
   }
 
 }

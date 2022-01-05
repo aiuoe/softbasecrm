@@ -40,7 +40,7 @@ namespace SBCRM.Crm
         [ForeignKey("LeadId")]
         public Lead LeadFk { get; set; }
 
-        public virtual long UserId { get; set; }
+        public virtual long? UserId { get; set; }
 
         [ForeignKey("UserId")]
         public User UserFk { get; set; }

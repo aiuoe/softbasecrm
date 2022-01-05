@@ -17,6 +17,7 @@ import { finalize } from 'rxjs/operators';
 export class EntityTypeHistoryModalOptions {
     entityId: string;
     entityName: 'Account' | 'Lead' | 'Opportunity';
+    show: boolean;
 }
 
 /***
@@ -31,13 +32,7 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    @Input() requiredPermission: string;
-
     options: EntityTypeHistoryModalOptions;
-    isShown = false;
-    isInitialized = false;
-    filterText = '';
-    tenantId?: number;
 
     /***
      * Main constructor
@@ -76,7 +71,6 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
      * Initialize component
      */
     shown(): void {
-        this.isShown = true;
         this.getRecordsIfNeeds(null);
     }
 
@@ -85,12 +79,10 @@ export class EntityTypeHistoryComponent extends AppComponentBase {
      * @param event
      */
     getRecordsIfNeeds(event?: LazyLoadEvent): void {
-        if (!this.isShown) {
+        if (!this.options?.show) {
             return;
         }
-
         this.getRecords(event);
-        this.isInitialized = true;
     }
 
     /***
