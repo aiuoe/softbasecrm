@@ -28,12 +28,16 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { AppBsModalModule } from '@shared/common/appBsModal/app-bs-modal.module';
 import { CountoModule } from 'angular2-counto';
 import { TableModule } from 'primeng/table';
+import { CalendarModule} from 'primeng/calendar';
+import { PaginatorModule } from 'primeng/paginator';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SubheaderModule } from '../sub-header/subheader.module';
 import { WidgetOpportunitiesListComponent } from './widgets/widget-opportunities-list/widget-opportunities-list.component';
 import { WidgetOpportunitiesTopStatsComponent } from './widgets/widget-opportunities-stats/widget-opportunities-stats.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { OpportunityRoutingModule } from '@app/main/crm/opportunities/opportunity-routing.module';
+
 
 @NgModule({
     imports: [
@@ -55,7 +59,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
         BsDatepickerModule,
         SubheaderModule,
         DropdownModule,
-        MultiSelectModule
+        MultiSelectModule,
+        OpportunityRoutingModule,
+        PaginatorModule,
+        CalendarModule
     ],
 
     declarations: [
