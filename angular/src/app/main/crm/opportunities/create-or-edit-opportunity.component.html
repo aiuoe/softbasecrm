@@ -258,17 +258,26 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="Opportunity_Branch">{{ l('BranchName') }}</label>
-                                                            <input
-                                                                type="text"
-                                                                #Opportunity_Branch="ngModel"
-                                                                id="Opportunity_Branch"
-                                                                class="form-control"
-                                                                [(ngModel)]="opportunity.branch"
-                                                                [placeholder]="l('InputBranch')"
-                                                                name="Branch"
-                                                                [disabled]="this.isReadOnlyMode"
-                                                                maxlength="100"
-                                                            />
+                                                            <p-dropdown #Opportunity_Branch="ngModel"
+                                                                        id="Opportunity_Branch"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [options]="allBranches"
+                                                                        [(ngModel)]="selectedBranch"
+                                                                        optionLabel="name"
+                                                                        [showClear]="true"
+                                                                        optionValue="number">
+                                                            </p-dropdown>
+<!--                                                            <input-->
+<!--                                                                type="text"-->
+<!--                                                                #Opportunity_Branch="ngModel"-->
+<!--                                                                id="Opportunity_Branch"-->
+<!--                                                                class="form-control"-->
+<!--                                                                [(ngModel)]="opportunity.branch"-->
+<!--                                                                [placeholder]="l('InputBranch')"-->
+<!--                                                                name="Branch"-->
+<!--                                                                [disabled]="this.isReadOnlyMode"-->
+<!--                                                                maxlength="100"-->
+<!--                                                            />-->
                                                             <validation-messages [formCtrl]="Opportunity_Branch"></validation-messages>
                                                         </div>
                                                     </div>
@@ -276,17 +285,25 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="Opportunity_Department">{{ l('DepartmentName') }}</label>
-                                                            <input
-                                                                type="text"
-                                                                #Opportunity_Department="ngModel"
-                                                                id="Opportunity_Department"
-                                                                class="form-control"
-                                                                [(ngModel)]="opportunity.department"
-                                                                [placeholder]="l('InputDepartment')"
-                                                                name="Department"
-                                                                [disabled]="this.isReadOnlyMode"
-                                                                maxlength="100"
-                                                            />
+                                                            <p-dropdown #Opportunity_Department="ngModel"
+                                                                        id="Opportunity_Department"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [options]="allDepartments"
+                                                                        [(ngModel)]="selectedDepartment"
+                                                                        optionLabel="title"
+                                                                        [showClear]="true">
+                                                            </p-dropdown>
+<!--                                                            <input-->
+<!--                                                                type="text"-->
+<!--                                                                #Opportunity_Department="ngModel"-->
+<!--                                                                id="Opportunity_Department"-->
+<!--                                                                class="form-control"-->
+<!--                                                                [(ngModel)]="opportunity.department"-->
+<!--                                                                [placeholder]="l('InputDepartment')"-->
+<!--                                                                name="Department"-->
+<!--                                                                [disabled]="this.isReadOnlyMode"-->
+<!--                                                                maxlength="100"-->
+<!--                                                            />-->
                                                             <validation-messages [formCtrl]="Opportunity_Department"></validation-messages>
                                                         </div>
                                                     </div>

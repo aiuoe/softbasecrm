@@ -5,6 +5,7 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using System.Collections.Generic;
 using SBCRM.Auditing.Dto;
+using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
 {
@@ -30,13 +31,13 @@ namespace SBCRM.Crm
         /// Get Branch type dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<OpportunityBranchLookupTableDto>> GetAllBranchForTableDropdown();
+        Task<List<BranchLookupTableDto>> GetAllBranchForTableDropdown();
 
         /// <summary>
         /// Get Branch type dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<OpportunityDepartmentLookupTableDto>> GetAllDepartmentForTableDropdown();
+        Task<List<DepartmentLookupTableDto>> GetAllDepartmentForTableDropdown();
         /// <summary>
         /// Gets an excel file with the opportunities selected
         /// </summary>

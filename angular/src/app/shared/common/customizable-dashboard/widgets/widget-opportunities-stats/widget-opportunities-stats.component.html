@@ -23,9 +23,9 @@
     <div class="col-md-2">
         <div class="form-group">
             <p-multiSelect id="opportunityAccount" [ngModelOptions]="{standalone: true}" [options]="accounts"
-                [(ngModel)]="accountFilter" 
-                optionLabel="name" 
-                optionValue="number" 
+                [(ngModel)]="accountFilter"
+                optionLabel="name"
+                optionValue="number"
                 [virtualScroll]="true"
                 (onChange)="onAccountChange($event)"
                 placeholder="All"
@@ -36,24 +36,24 @@
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <p-multiSelect id="opportunityBranch" 
-                [ngModelOptions]="{standalone: true}" 
+            <p-multiSelect id="opportunityBranch"
+                [ngModelOptions]="{standalone: true}"
                 [options]="branches"
-                [(ngModel)]="branchFilter" 
+                [(ngModel)]="branchFilter"
                 placeholder="All"
-                optionLabel="name" 
+                optionLabel="name"
                 optionValue="name">
             </p-multiSelect>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-             <p-multiSelect id="opportunityDepartment" 
-                [ngModelOptions]="{standalone: true}" 
+             <p-multiSelect id="opportunityDepartment"
+                [ngModelOptions]="{standalone: true}"
                 [options]="departments"
                 [(ngModel)]="departmentFilter"
-                placeholder="All" 
-                optionLabel="name" 
+                placeholder="All"
+                optionLabel="title"
                 optionValue="name">
             </p-multiSelect>
         </div>
@@ -92,7 +92,7 @@
                         {{ opportunitesdashboard.closeRate.toFixed(0) }} %
                     </span>
                 </div>
-               
+
             </div>
         </div>
     </div>
