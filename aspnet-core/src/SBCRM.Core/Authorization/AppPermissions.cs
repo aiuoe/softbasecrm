@@ -14,11 +14,11 @@
 
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
-        public const string Pages_Activities_Create_Assign_Other_Users__Dynamic = "Pages.Activities.Create.Assign_Other_Users";
-        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities";
+        public const string Pages_Activities_Create_Assign_Other_Users__Dynamic = "Pages.Activities.Create.Assign_Other_Users__Dynamic";
+        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic";
         public const string Pages_Activities_Edit = "Pages.Activities.Edit";
         public const string Pages_Activities_Delete = "Pages.Activities.Delete";
-        public const string Pages_Activities_View_AssignedUserFilter__Dynamic = "Pages.Activities.View_AssignedUserFilter";
+        public const string Pages_Activities_View_AssignedUserFilter__Dynamic = "Pages.Activities.View_AssignedUserFilter__Dynamic";
 
         public const string Pages_ActivitySourceTypes = "Pages.ActivitySourceTypes";
         public const string Pages_ActivitySourceTypes_Create = "Pages.ActivitySourceTypes.Create";
