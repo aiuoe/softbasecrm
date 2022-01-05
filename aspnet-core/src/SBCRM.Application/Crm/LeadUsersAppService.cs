@@ -240,7 +240,7 @@ namespace SBCRM.Crm
                 .Select(user => new LeadUserUserLookupTableDto
                 {
                     Id = user.Id,
-                    DisplayName = user == null || user.Name == null ? "" : user.Name.ToString()
+                    DisplayName = user == null || user.FullName == null ? "" : user.FullName.ToString()
                 }).ToListAsync();
         }
 
