@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220105050513_Remove_Branch_Department_Fields_Opportunity")]
+    partial class Remove_Branch_Department_Fields_Opportunity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2465,9 +2467,6 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<short>("Branch")
-                        .HasColumnType("smallint");
-
                     b.Property<DateTime?>("CloseDate")
                         .HasColumnType("datetime2");
 
@@ -2492,9 +2491,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<short?>("DepartmentId")
-                        .HasColumnType("smallint");
-
-                    b.Property<short>("Dept")
                         .HasColumnType("smallint");
 
                     b.Property<string>("Description")
@@ -2541,8 +2537,6 @@ namespace SBCRM.Migrations
                     b.HasIndex("OpportunityStageId");
 
                     b.HasIndex("OpportunityTypeId");
-
-                    b.HasIndex("Dept", "Branch");
 
                     b.ToTable("Opportunities");
                 });
@@ -5072,17 +5066,9 @@ namespace SBCRM.Migrations
                         .WithMany()
                         .HasForeignKey("OpportunityTypeId");
 
-                    b.HasOne("SBCRM.Legacy.Department", "DepartmentFk")
-                        .WithMany()
-                        .HasForeignKey("Dept", "Branch")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ContactFk");
 
                     b.Navigation("CustomerFk");
-
-                    b.Navigation("DepartmentFk");
 
                     b.Navigation("LeadSourceFk");
 

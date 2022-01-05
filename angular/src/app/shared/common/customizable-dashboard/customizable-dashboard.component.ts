@@ -81,7 +81,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
 
                 let savedUserDashboard = this.getUserDashboard(this.dashboardName);
 
-                this.initializeUserDashboardDefinition(savedUserDashboard, dashboardDefinitionResult);
+                this.initializeUserDashboardDefinition(savedUserDashboard ?? {}, dashboardDefinitionResult);
                 this.initializeUserDashboardFilters();
 
                 //select first page (if user delete all pages server will add default page to userDashboard.)
@@ -116,7 +116,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
         this.userDashboard = {
             dashboardName: this.dashboardName,
             filters: [],
-            pages: savedUserDashboard.Pages.map((page) => {
+            pages: savedUserDashboard?.Pages?.map((page) => {
                 //gridster should has its own options
                 this.options.push(this.getGridsterConfig());
 
