@@ -37,5 +37,11 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<OpportunityDepartmentLookupTableDto>> GetAllDepartmentForTableDropdown();
+        /// <summary>
+        /// Gets an excel file with the opportunities selected
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<FileDto> GetOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input);
     }
 }

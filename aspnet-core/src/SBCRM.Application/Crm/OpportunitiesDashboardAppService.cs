@@ -9,6 +9,7 @@ using SBCRM.Auditing;
 using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
 using SBCRM.Crm.Exporting;
+using SBCRM.Dto;
 using SBCRM.Legacy;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace SBCRM.Crm
     /// <summary>
     /// Service used to get information for the oportunities dashboard
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+    [AbpAuthorize(AppPermissions.Pages_Dashboard)]
     public class OpportunitiesDashboardAppService : SBCRMAppServiceBase, IOpportunitiesDashboardAppService
     {
         private readonly IOpportunitiesExcelExporter _opportunitiesExcelExporter;
@@ -74,7 +75,8 @@ namespace SBCRM.Crm
                       .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
                       .WhereIf(!string.IsNullOrWhiteSpace(input.Account), e => e.CustomerNumber == input.Account)
                       .WhereIf(!string.IsNullOrWhiteSpace(input.Branch), e => e.Branch == input.Branch)
-                      .WhereIf(!string.IsNullOrWhiteSpace(input.Department), e => e.Department == input.Department);
+                      .WhereIf(!string.IsNullOrWhiteSpace(input.Department), e => e.Department == input.Department)
+                      .Where(o => o.OpportunityStageId == 6 || o.OpportunityStageId == 7);//closed / won, closed / lost
 
             var opportunities = from o in filteredOpportunities
                                 join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
@@ -102,25 +104,38 @@ namespace SBCRM.Crm
                                     o.Branch,
                                     o.Department,
                                     Id = o.Id,
+                                    OpportunityStageId = s1.Id,
                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                                     OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                                     CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
                                     CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                    ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
+                                    ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                                    o.CreationTime
                                 };
 
-
-
             var dbList = opportunities.ToList();
+            var wonOpportunities = dbList.Where(o => o.OpportunityStageId == 6);
+            //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
+            var averageSalesCycle = dbList.Sum(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
+
+            //close rate
+            //Formula: won/(total won + total lost)
+            var totalWon = wonOpportunities.Count();//all won
+            var closedRate = dbList.Count > 0 ? (totalWon / dbList.Count) : 0;
+
+            // average deal size
+            var sumAmount = wonOpportunities.Sum(o => o.Amount);
+            var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
+
 
             var results = new GetOpportunitiesStastsOutput
             {
-                TotalClosedSales = 1000,
-                AverageDealSize = 50,
-                AverageSales = 20,
-                CloseRate = 10
+                TotalClosedSales = (int)sumAmount,
+                AverageDealSize = (int)averageDealSize,
+                AverageSales = (int)averageSalesCycle,
+                CloseRate = closedRate
             };
 
             results.OpportunitiesId = dbList
@@ -146,8 +161,6 @@ namespace SBCRM.Crm
                     Name = o.Branch
                 }).ToList();
 
-            branches.Add(new OpportunityBranchLookupTableDto { Name = "All", Id = null });
-
             return branches;
         }
 
@@ -157,25 +170,14 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown()
         {
-            var opportunities = _opportunityRepository.GetAll()
-                    .Include(e => e.OpportunityStageFk)
-                    .Include(e => e.LeadSourceFk)
-                    .Include(e => e.OpportunityTypeFk);
+            var accounts = await _lookupCustomerRepository.GetAll()
+                .Select(customer => new OpportunityCustomerLookupTableDto
+                {
+                    Number = customer.Number,
+                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
+                }).ToListAsync();
 
-            var accountsOnOpportunity = from o in opportunities
-                                        join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
-                                        from s4 in j4.DefaultIfEmpty()
-                                        select new OpportunityCustomerLookupTableDto
-                                        {
-                                            Name = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                                            Number = s4 == null || s4.Number == null ? "" : s4.Number.ToString()
-                                        };
-
-            var dbList = await accountsOnOpportunity.ToListAsync();
-
-            dbList.Add(new OpportunityCustomerLookupTableDto { Name = "All", Number = null });
-
-            return dbList;
+            return accounts;
         }
 
         /// <summary>
@@ -195,9 +197,128 @@ namespace SBCRM.Crm
                     Name = o.Department
                 }).ToList();
 
-            departments.Add(new OpportunityDepartmentLookupTableDto { Name = "All", Id = null });
-
             return departments;
+        }
+
+        /// <summary>
+        /// Gets an excel file with the items on the dashboard
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<FileDto> GetOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input)
+        {
+            var filteredOpportunities = _opportunityRepository.GetAll()
+                     .Include(e => e.OpportunityStageFk)
+                     .Include(e => e.LeadSourceFk)
+                     .Include(e => e.OpportunityTypeFk)
+                     .Include(x => x.Users)
+                     .ThenInclude(x => x.UserFk)
+                     .Where(o => input.OpportunityIds.Contains(o.Id));//closed / won, closed / lost
+
+            var opportunities = (from o in filteredOpportunities
+                                 join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                 from s1 in j1.DefaultIfEmpty()
+
+                                 join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                 from s2 in j2.DefaultIfEmpty()
+
+                                 join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                 from s3 in j3.DefaultIfEmpty()
+
+                                 join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                 from s4 in j4.DefaultIfEmpty()
+
+                                 join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                 from s5 in j5.DefaultIfEmpty()
+
+                                 select new OpportunityQueryDto
+                                 {
+                                     Name = o.Name,
+                                     Amount = o.Amount,
+                                     Probability = o.Probability,
+                                     CloseDate = o.CloseDate,
+                                     Description = o.Description,
+                                     Branch = o.Branch,
+                                     Department= o.Department,
+                                     Id = o.Id,
+                                     OpportunityStageId = s1.Id,
+                                     Users = o.Users,
+                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                     OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
+                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                     CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                                     CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                                     ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                                     CreationTime = o.CreationTime
+                                 });
+
+            var dbList = await opportunities.ToListAsync();
+
+            var views = GetOpportunityForViewDtos(dbList);
+
+            return _opportunitiesExcelExporter.ExportToFile(views);
+        }
+
+        /// <summary>
+        /// Get list of Opportunity Query Dtos for view
+        /// </summary>
+        /// <param name="dbList"></param>
+        /// <returns></returns>
+        private static List<GetOpportunityForViewDto> GetOpportunityForViewDtos(List<OpportunityQueryDto> dbList)
+        {
+            var results = new List<GetOpportunityForViewDto>();
+
+            foreach (var o in dbList)
+            {
+                var res = new GetOpportunityForViewDto
+                {
+                    Opportunity = new OpportunityDto
+                    {
+                        Name = o.Name,
+                        Amount = o.Amount,
+                        Probability = o.Probability,
+                        CloseDate = o.CloseDate,
+                        Description = o.Description,
+                        Branch = o.Branch,
+                        Department = o.Department,
+                        Id = o.Id,
+                    },
+                    OpportunityStageDescription = o.OpportunityStageDescription,
+                    OpportunityStageColor = o.OpportunityStageColor,
+                    LeadSourceDescription = o.LeadSourceDescription,
+                    OpportunityTypeDescription = o.OpportunityTypeDescription,
+                    CustomerName = o.CustomerName,
+                    CustomerNumber = o.CustomerNumber,
+                    ContactName = o.ContactName
+                };
+
+                if (o.Users.Any())
+                {
+                    var OpportunityUsers = o.Users
+                        .Select(x => new OpportunityUserViewDto
+                        {
+                            OpportunityId = x.Id,
+                            UserId = x.UserFk.Id,
+                            Name = x.UserFk.Name,
+                            SurName = x.UserFk.Surname,
+                            FullName = x.UserFk.FullName,
+                            ProfilePictureUrl = x.UserFk.ProfilePictureId
+                        }).ToList();
+                    res.Opportunity.Users = OpportunityUsers;
+                    var OpportunityUser = OpportunityUsers.OrderBy(x => x.Name).First();
+                    res.FirstUserAssignedName = OpportunityUser.Name;
+                    res.FirstUserAssignedSurName = OpportunityUser.SurName;
+                    res.FirstUserAssignedFullName = OpportunityUser.FullName;
+                    res.FirstUserProfilePictureUrl = OpportunityUser.ProfilePictureUrl;
+                    res.FirstUserAssignedId = OpportunityUser.UserId;
+                    res.AssignedUsers = OpportunityUsers.Count;
+                }
+
+                results.Add(res);
+            }
+
+            return results;
         }
     }
 }

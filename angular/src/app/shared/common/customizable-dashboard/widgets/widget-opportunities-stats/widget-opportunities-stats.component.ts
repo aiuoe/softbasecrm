@@ -1,5 +1,7 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { OpportunitiesDashboardServiceProxy, OpportunityBranchLookupTableDto, OpportunityCustomerLookupTableDto, OpportunityDepartmentLookupTableDto, TenantDashboardServiceProxy } from '@shared/service-proxies/service-proxies';
+import { DateTime } from 'luxon/src/datetime';
 import { DashboardChartBase } from '../dashboard-chart-base';
 import { WidgetComponentBaseComponent } from '../widget-component-base';
 
@@ -9,35 +11,32 @@ import { WidgetComponentBaseComponent } from '../widget-component-base';
     styleUrls: ['./widget-opportunities-stats.component.css'],
 })
 export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseComponent implements OnInit {
-    dashboardTopStats: OpportunitiesTopStats;
+
     opportunitesdashboard: OpportunitiesDashboardStats;
     branches: Array<OpportunityBranchLookupTableDto> = [];
     departments: Array<OpportunityDepartmentLookupTableDto> = [];
     accounts: Array<OpportunityCustomerLookupTableDto> = []; // aka customers
-    defualtValue = { name: "All", id: null };
-    accountFilter = { name: "All", number: null };
-    branchFilter = this.defualtValue;
-    departmentFilter = this.defualtValue;
+    accountFilter = null;
+    branchFilter = null;
+    departmentFilter = null;
+    date: Date;
+    selectedDateRange: DateTime[] = [
+        this._dateTimeService.getStartOfMonth(),
+        this._dateTimeService.getEndOfMonth(),
+    ]; 
+
     constructor(injector: Injector,
-        private _tenantDashboardServiceProxy: TenantDashboardServiceProxy,
-        private _opportunitiesDashboardServiceProxy: OpportunitiesDashboardServiceProxy) {
+        private _opportunitiesDashboardServiceProxy: OpportunitiesDashboardServiceProxy,
+        private _dateTimeService: DateTimeService) {
         super(injector);
-        this.dashboardTopStats = new OpportunitiesTopStats();
         this.opportunitesdashboard = new OpportunitiesDashboardStats();
     }
 
     ngOnInit() {
-        this.loadTopStatsData();
         this.loadTopOpportunitiesStatsData();
         this.loadBranches();
         this.loadDepartments();
         this.loadAccounts();
-    }
-
-    loadTopStatsData() {
-        this._tenantDashboardServiceProxy.getTopStats().subscribe((data) => {
-            this.dashboardTopStats.init(data.totalProfit, data.newFeedbacks, data.newOrders, data.newUsers);
-        });
     }
 
     loadTopOpportunitiesStatsData() {
@@ -67,33 +66,22 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
                 this.accounts = [...data];
             });
     }
-}
 
-class OpportunitiesTopStats extends DashboardChartBase {
-    totalProfit = 0;
-    totalProfitCounter = 0;
-    newFeedbacks = 0;
-    newFeedbacksCounter = 0;
-    newOrders = 0;
-    newOrdersCounter = 0;
-    newUsers = 0;
-    newUsersCounter = 0;
+    onChange(dateRange){
+        if (
+            !dateRange ||
+            dateRange.length !== 2 ||
+            (this.selectedDateRange[0] === dateRange[0] && this.selectedDateRange[1] === dateRange[1])
+        ) {
+            return;
+        }
 
-    totalProfitChange = 76;
-    totalProfitChangeCounter = 0;
-    newFeedbacksChange = 85;
-    newFeedbacksChangeCounter = 0;
-    newOrdersChange = 45;
-    newOrdersChangeCounter = 0;
-    newUsersChange = 57;
-    newUsersChangeCounter = 0;
+        this.selectedDateRange[0] = dateRange[0];
+        this.selectedDateRange[1] = dateRange[1];
+    }
 
-    init(totalProfit, newFeedbacks, newOrders, newUsers) {
-        this.totalProfit = totalProfit;
-        this.newFeedbacks = newFeedbacks;
-        this.newOrders = newOrders;
-        this.newUsers = newUsers;
-        this.hideLoading();
+    onAccountChange($event){
+        console.info(this.accountFilter);
     }
 }
 

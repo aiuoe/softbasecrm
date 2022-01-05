@@ -1,37 +1,61 @@
 <div class="row justify-content-start">
     <div class="col-md-2">
-        <div class="form-group">
-            <p-dropdown id="opoortunityDateRange">
-            </p-dropdown>
+        <div class="input-group">
+            <input
+                type="text"
+                class="form-control date-range-filter"
+                value="{{ selectedDateRange[0] | luxonFormat: 'ff' }} - {{ selectedDateRange[1] | luxonFormat: 'ff' }}"
+                disabled="disabled"
+                #dateRangePicker="bsDaterangepicker"
+                bsDaterangepicker
+                dateRangePickerLuxonModifier
+                placement="bottom"
+                [(date)]="selectedDateRange"
+                (dateChange)="onChange($event)"
+            />
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="dateRangePicker.toggle()">
+                    <i class="fa fa-calendar-day p-0" style="color: white" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <p-dropdown id="opportunityAccount" [ngModelOptions]="{standalone: true}" [options]="accounts"
-                [(ngModel)]="accountFilter" optionLabel="name" optionValue="number">
-            </p-dropdown>
+            <p-multiSelect id="opportunityAccount" [ngModelOptions]="{standalone: true}" [options]="accounts"
+                [(ngModel)]="accountFilter" 
+                optionLabel="name" 
+                optionValue="number" 
+                [virtualScroll]="true"
+                (onChange)="onAccountChange($event)"
+                placeholder="All"
+                autoWidth="false" [style]="{'width':'100%'}"
+                itemSize="40">
+            </p-multiSelect>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <p-dropdown id="opportunityBranch" 
+            <p-multiSelect id="opportunityBranch" 
                 [ngModelOptions]="{standalone: true}" 
                 [options]="branches"
                 [(ngModel)]="branchFilter" 
+                placeholder="All"
                 optionLabel="name" 
                 optionValue="name">
-            </p-dropdown>
+            </p-multiSelect>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-             <p-dropdown id="opportunityDepartment" 
+             <p-multiSelect id="opportunityDepartment" 
                 [ngModelOptions]="{standalone: true}" 
                 [options]="departments"
-                [(ngModel)]="departmentFilter" 
+                [(ngModel)]="departmentFilter"
+                placeholder="All" 
                 optionLabel="name" 
                 optionValue="name">
-            </p-dropdown>
+            </p-multiSelect>
         </div>
     </div>
 </div>
@@ -43,9 +67,12 @@
                 <a href="javascript:;"
                     class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Average Sales Cycle (Days)
+                    <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <div class="text-left text-primary font-weight-bolder font-size-h2 mr-2">
+                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                    <span class="color-blue">
                         {{ opportunitesdashboard.averageSales.toFixed(0) }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -57,26 +84,15 @@
                 <a href="javascript:;"
                     class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Close Rate
+                    <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <span class="text-muted font-weight-bold text-left float-left col-12 p-0 mb-4">Customer Review</span>
-                <div class="text-left text-info font-weight-bolder font-size-h2 mr-2">
-                    $
-                    <span counto [step]="30" [duration]="1" [countFrom]="0" [countTo]="dashboardTopStats.newFeedbacks"
-                        (countoChange)="dashboardTopStats.newFeedbacksCounter = $event">
-                        {{ opportunitesdashboard.closeRate.toFixed(0) }}
+
+                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                    <span class="color-blue">
+                        {{ opportunitesdashboard.closeRate.toFixed(0) }} %
                     </span>
                 </div>
-                <div class="progress progress-xs bg-info-o-60">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 85%" aria-valuenow="85"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="text-muted mr-2 font-size-sm font-weight-bold">Change</span>
-                    <span class="text-muted font-size-sm font-weight-bold">
-                        <span class="counterup">{{ dashboardTopStats.newFeedbacks }}</span>
-                        %
-                    </span>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -87,23 +103,11 @@
                 <a href="javascript:;"
                     class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Average Deal Size
+                    <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <span class="text-muted font-weight-bold text-left float-left col-12 p-0 mb-4">Fresh Order Amount</span>
-                <div class="text-left text-danger font-weight-bolder font-size-h2 mr-2">
-                    <span counto [step]="30" [duration]="1" [countFrom]="0" [countTo]="dashboardTopStats.newOrders"
-                        (countoChange)="dashboardTopStats.newOrdersCounter = $event">
+                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                    <span class="color-blue">
                         {{ opportunitesdashboard.averageDealSize.toFixed(0) }}
-                    </span>
-                </div>
-                <div class="progress progress-xs bg-danger-o-60">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 45%" aria-valuenow="45"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="text-muted mr-2 font-size-sm font-weight-bold">Change</span>
-                    <span class="text-muted font-size-sm font-weight-bold">
-                        <span class="counterup">{{ dashboardTopStats.newOrdersChange }}</span>
-                        %
                     </span>
                 </div>
             </div>
@@ -115,24 +119,12 @@
             <div class="card-body">
                 <a href="javascript:;"
                     class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
-                    New Users
+                    Total Closed Sales
+                    <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <span class="text-muted font-weight-bold text-left float-left col-12 p-0 mb-4">Joined New User</span>
-                <div class="text-left text-success font-weight-bolder font-size-h2 mr-2">
-                    <span counto [step]="30" [duration]="1" [countFrom]="0" [countTo]="dashboardTopStats.newUsers"
-                        (countoChange)="dashboardTopStats.newUsersCounter = $event">
-                        {{ dashboardTopStats.newUsersCounter.toFixed(0) }}
-                    </span>
-                </div>
-                <div class="progress progress-xs bg-success-o-60">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 57%" aria-valuenow="57"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="text-muted mr-2 font-size-sm font-weight-bold">Change</span>
-                    <span class="text-muted font-size-sm font-weight-bold">
-                        <span class="counterup">{{ dashboardTopStats.newUsersChange }}</span>
-                        %
+                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                    <span class="color-blue">
+                        {{ opportunitesdashboard.totalClosedSales.toFixed(0) }}
                     </span>
                 </div>
             </div>

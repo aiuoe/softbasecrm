@@ -33,7 +33,7 @@ import { SubheaderModule } from '../sub-header/subheader.module';
 import { WidgetOpportunitiesListComponent } from './widgets/widget-opportunities-list/widget-opportunities-list.component';
 import { WidgetOpportunitiesTopStatsComponent } from './widgets/widget-opportunities-stats/widget-opportunities-stats.component';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     imports: [
@@ -54,7 +54,8 @@ import { DropdownModule } from 'primeng/dropdown';
         TableModule,
         BsDatepickerModule,
         SubheaderModule,
-        DropdownModule
+        DropdownModule,
+        MultiSelectModule
     ],
 
     declarations: [
@@ -100,4 +101,4 @@ import { DropdownModule } from 'primeng/dropdown';
         WidgetOpportunitiesTopStatsComponent
     ],
 })
-export class CustomizableDashboardModule {}
+export class CustomizableDashboardModule { }
