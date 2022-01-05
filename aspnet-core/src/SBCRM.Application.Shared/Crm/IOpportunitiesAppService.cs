@@ -100,5 +100,12 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetCrmEntityTypeChangeInput input);
+
+        /// <summary>
+        /// Verify the user can create an opportunity for the given account
+        /// </summary>
+        /// <param name="CustomerNumber"></param>
+        /// <returns></returns>
+        void VerifyUserHasAccessToAccount(string customerNumber);
     }
 }
