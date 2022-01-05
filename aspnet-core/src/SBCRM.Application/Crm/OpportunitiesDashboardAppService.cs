@@ -21,7 +21,7 @@ using SBCRM.Legacy.Dtos;
 namespace SBCRM.Crm
 {
     /// <summary>
-    /// Service used to get information for the oportunities dashboard
+    /// Service used to get information for the opportunities dashboard
     /// </summary>
     [AbpAuthorize(AppPermissions.Pages_Dashboard)]
     public class OpportunitiesDashboardAppService : SBCRMAppServiceBase, IOpportunitiesDashboardAppService
@@ -73,7 +73,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public GetOpportunitiesStastsOutput Get(GetOpportunitiesStastsInput input)
         {
-
             var filteredOpportunities = _opportunityRepository.GetAll()
                       .Include(e => e.OpportunityStageFk)
                       .Include(e => e.LeadSourceFk)
@@ -136,7 +135,6 @@ namespace SBCRM.Crm
             var sumAmount = wonOpportunities.Sum(o => o.Amount);
             var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
 
-
             var results = new GetOpportunitiesStastsOutput
             {
                 TotalClosedSales = (int)sumAmount,
@@ -193,7 +191,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentForTableDropdown()
         {
-
             var opportunities = await _lookupDepartmentRepository.GetAll()
                 .ToListAsync();
 

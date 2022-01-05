@@ -1,27 +1,26 @@
-﻿using System.Linq;
-using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Exporting;
-using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Entities;
+using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.EntityHistory;
+using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
 using SBCRM.Auditing.Dto;
-using SBCRM.Legacy;
-using System;
-using Abp.Domain.Entities;
+using SBCRM.Authorization;
 using SBCRM.Authorization.Users;
-using Base = SBCRM.Base;
 using SBCRM.Common;
+using SBCRM.Crm.Dtos;
+using SBCRM.Crm.Exporting;
+using SBCRM.Dto;
+using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -64,7 +63,7 @@ namespace SBCRM.Crm
         /// <param name="lookupUserRepository"></param>
         /// <param name="opportunityUserRepository"></param>
         /// <param name="softBaseBranchRepository"></param>
-        /// <param name="softBaseDepartmentRepository"></param>    
+        /// <param name="softBaseDepartmentRepository"></param>
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
@@ -125,14 +124,12 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public bool HasDynamicAccessToAddOpportunity(long userId)
         {
-            
-
             return UserManager.IsGranted(
                 userId, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic);
         }
 
         /// <summary>
-        /// Get the id of the current user.       
+        /// Get the id of the current user.
         /// </summary>
         /// <returns></returns>
         public long GetCurrentUserId()
@@ -221,7 +218,6 @@ namespace SBCRM.Crm
                                         FirstUserAssignedName = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
                                                                  where user.OpportunityId == o.Id
                                                                  select user.UserFk.Name).FirstOrDefault()
-
                                     };
 
                     opportunities = opportunities
@@ -296,7 +292,6 @@ namespace SBCRM.Crm
                 Logger.Error("Error in OpportunitiesAppService -> ", e);
                 throw;
             }
-
         }
 
         /// <summary>
@@ -529,6 +524,10 @@ namespace SBCRM.Crm
             opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
             opportunity.TenantId = GetTenantId();
 
+            Department _dept = _lookupDepartmentRepository.GetAllList(x => x.Dept == input.Dept && x.Branch == input.Branch).First();
+
+            opportunity.DepartmentFk = _dept;
+
             using (_reasonProvider.Use("Opportunity created"))
             {
                 await _opportunityRepository.InsertAsync(opportunity);
@@ -540,7 +539,6 @@ namespace SBCRM.Crm
                 entityId: opportunity.CustomerNumber,
                 message: $"Added opportunity, {opportunity.Name}")
             );
-
         }
 
         /// <summary>
@@ -605,7 +603,6 @@ namespace SBCRM.Crm
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
                         .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
 
-
             var query = (from o in filteredOpportunities
                          join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
@@ -647,8 +644,6 @@ namespace SBCRM.Crm
             return _opportunitiesExcelExporter.ExportToFile(opportunities);
         }
 
-
-
         /// <summary>
         /// Get Opportunity Stage lookup
         /// </summary>
@@ -671,7 +666,6 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
-
             return await _lookup_userRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {
@@ -711,7 +705,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get Customer lookup 
+        /// Get Customer lookup
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
@@ -723,7 +717,7 @@ namespace SBCRM.Crm
 
             long currentUserId = GetCurrentUser().Id;
 
-            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);            
+            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);
 
             if (!userCanSelectAllAccountsStatic)
                 userCanSelectAllAccountsDynamic = HasDynamicAccessToAddOpportunity(currentUserId);
@@ -746,7 +740,7 @@ namespace SBCRM.Crm
                 return customers;
             }
             return customers;
-        }        
+        }
 
         /// <summary>
         /// Get Contacts lookup
@@ -789,5 +783,36 @@ namespace SBCRM.Crm
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
         }
 
+        /// <summary>
+        /// Get Branches lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<BranchLookupTableDto>> GetAllBranchesForTableDropdown()
+        {
+            return await _lookupBranchRepository.GetAll()
+                .Select(x => new BranchLookupTableDto
+                {
+                    Number = x.Number,
+                    Name = x.Name
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Departments lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdown()
+        {
+            var result = await _lookupDepartmentRepository.GetAll()
+                .Select(x => new DepartmentLookupTableDto
+                {
+                    Branch = x.Branch,
+                    Dept = x.Dept,
+                    Title = x.Title
+                }).ToListAsync();
+            return result;
+        }
     }
 }

@@ -9,7 +9,9 @@ import {
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
     OpportunityContactsLookupTableDto,
-    OpportunityUsersServiceProxy, DepartmentLookupTableDto, BranchLookupTableDto
+    OpportunityUsersServiceProxy,
+    DepartmentLookupTableDto,
+    BranchLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,16 +28,14 @@ import { Location } from '@angular/common';
  */
 @Component({
     templateUrl: './create-or-edit-opportunity.component.html',
-    animations: [appModuleAnimation()]
+    animations: [appModuleAnimation()],
 })
 export class CreateOrEditOpportunityComponent extends AppComponentBase implements OnInit {
     @ViewChild('opportunityForm', { static: true }) opportunityForm: NgForm;
     @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
     routerLink = '/app/main/crm/opportunities';
-    breadcrumbs: BreadcrumbItem[] = [
-        new BreadcrumbItem(this.l('Opportunity'), this.routerLink)
-    ];
+    breadcrumbs: BreadcrumbItem[] = [new BreadcrumbItem(this.l('Opportunity'), this.routerLink)];
 
     pageMode = '';
     active = false;
@@ -54,7 +54,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     contactName = '';
     customerNumber = '';
     formDate: Date;
-
 
     allOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
     allLeadSources: OpportunityLeadSourceLookupTableDto[];
@@ -113,30 +112,26 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         this.setPermissions();
 
         this.show(this.opportunityId);
-
-
     }
 
     /***
      * Set permissions
      */
     setPermissions() {
-        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');        
+        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');
 
         // Dynamic at runtime Permissions
         const permissionsRequests: Observable<any>[] = [
-            this._opportunityUsersServiceProxy.getCanViewAssignedUsersWidget(this.opportunityId)
+            this._opportunityUsersServiceProxy.getCanViewAssignedUsersWidget(this.opportunityId),
         ];
-        forkJoin([...permissionsRequests])
-            .subscribe(([getCanViewAssignedUsersWidget]) => {
-                this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
-                this.entityTypeHistory.show({
-                    entityId: this.opportunityId?.toString(),
-                    entityName: 'Opportunity',
-                    show: this.showEventsTab
-                });
+        forkJoin([...permissionsRequests]).subscribe(([getCanViewAssignedUsersWidget]) => {
+            this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+            this.entityTypeHistory.show({
+                entityId: this.opportunityId?.toString(),
+                entityName: 'Opportunity',
+                show: this.showEventsTab,
             });
-
+        });
     }
 
     /**
@@ -145,7 +140,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @param opportunityId
      */
     show(opportunityId?: number): void {
-        if ((this.pageMode === 'view') && !this.opportunityId) {
+        if (this.pageMode === 'view' && !this.opportunityId) {
             this.goToOpportunities();
         }
 
@@ -153,52 +148,67 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(this.customerNumber)       
-        ];   
+            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(this.customerNumber),
+        ];
 
         if (!opportunityId) {
-            forkJoin([...requests])
-                .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, departments, branches]: [
+            forkJoin([...requests]).subscribe(
+                ([opportunityStages, leadSources, opportunityTypes, customers, departments, branches]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
                     OpportunityCustomerLookupTableDto[],
                     DepartmentLookupTableDto[],
-                    BranchLookupTableDto[]]) => {
+                    BranchLookupTableDto[]
+                ]) => {
                     this.isPageLoading = false;
                     this.active = true;
                     this.allDepartments = departments;
                     this.allBranches = branches;
                     this.opportunity = new CreateOrEditOpportunityDto();
                     this.allOpportunityStages = opportunityStages;
-                    this.opportunity.opportunityStageId = this.allOpportunityStages[0] ? this.allOpportunityStages[0].id : null;
+                    this.opportunity.opportunityStageId = this.allOpportunityStages[0]
+                        ? this.allOpportunityStages[0].id
+                        : null;
                     this.allLeadSources = leadSources;
                     this.allOpportunityTypes = opportunityTypes;
                     this.allCustomers = customers;
-                  
+
                     if (this.customerNumber) {
                         this.opportunity.customerNumber = this.customerNumber;
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }
 
-                    this.breadcrumbs.push(new BreadcrumbItem( this.l('NewOpportunities')));
+                    this.getItemsforDropdownBranch();
+
+                    this.breadcrumbs.push(new BreadcrumbItem(this.l('NewOpportunities')));
 
                     this.showSaveButton = !this.isReadOnlyMode;
-                }, () => {
+                },
+                () => {
                     this.goToOpportunities();
-                });
-
+                }
+            );
         } else {
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
-            forkJoin([...requests])
-                .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, departments, branches, opportunityForEdit]: [
+            forkJoin([...requests]).subscribe(
+                ([
+                    opportunityStages,
+                    leadSources,
+                    opportunityTypes,
+                    customers,
+                    departments,
+                    branches,
+                    opportunityForEdit,
+                ]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
                     OpportunityCustomerLookupTableDto[],
                     DepartmentLookupTableDto[],
                     BranchLookupTableDto[],
-                    GetOpportunityForEditOutput]) => {
+                    GetOpportunityForEditOutput
+                ]) => {
                     this.allDepartments = departments;
                     this.allBranches = branches;
                     this.opportunity = opportunityForEdit.opportunity;
@@ -220,10 +230,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
                     this.isPageLoading = false;
                     this.active = true;
-
-                }, () => {
+                },
+                () => {
                     this.goToOpportunities();
-                });
+                }
+            );
         }
     }
 
@@ -232,10 +243,39 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     getContactsAccordingToCustomer(customerNumber: string): void {
-        this._opportunitiesServiceProxy.getAllContactsForTableDropdownCustomerSpecific(customerNumber).subscribe((result) => {
-            this.allContacts = result;
-            if (this.allContacts.length === 1) {
-                this.opportunity.contactId = this.allContacts[0].id;
+        this._opportunitiesServiceProxy
+            .getAllContactsForTableDropdownCustomerSpecific(customerNumber)
+            .subscribe((result) => {
+                this.allContacts = result;
+                if (this.allContacts.length === 1) {
+                    this.opportunity.contactId = this.allContacts[0].id;
+                }
+            });
+    }
+
+    /**
+     * Get the branches for the dropdown
+     * @returns void
+     */
+    getItemsforDropdownBranch(): void {
+        this._opportunitiesServiceProxy.getAllBranchesForTableDropdown().subscribe((result) => {
+            this.allBranches = result;
+            if (this.allBranches.length === 1) {
+                this.selectedBranch = this.allBranches[0];
+            }
+        });
+    }
+
+    /**
+     * Get the departments for the selected branch
+     * @returns void
+     */
+    getDepartmentAccordingToBranch(branchNumber: number): void {
+        this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdown().subscribe((result) => {
+            this.allDepartments = result;
+            this.allDepartments = this.allDepartments.filter((x) => x.branch === branchNumber);
+            if (this.allDepartments.length === 1) {
+                this.selectedDepartment = this.allDepartments[0];
             }
         });
     }
@@ -251,9 +291,13 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             return;
         }
 
-        if (this.opportunity.probability != null && (this.opportunity.probability < 1 || this.opportunity.probability > 100)) {
-            this.opportunityForm.form.controls['Opportunity_Probability'].setErrors(
-                { 'opportunityInvalidProbability': true });
+        if (
+            this.opportunity.probability != null &&
+            (this.opportunity.probability < 1 || this.opportunity.probability > 100)
+        ) {
+            this.opportunityForm.form.controls['Opportunity_Probability'].setErrors({
+                opportunityInvalidProbability: true,
+            });
             this.message.warn(this.l('InvalidFormMessage'));
             return;
         }
@@ -276,14 +320,13 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             });
     }
 
-
     /***
      * Open internal edition mode
      */
     openEditionMode() {
         this.isReadOnlyMode = false;
         this.showSaveButton = true;
-        this.location.replaceState(`${ this.routerLink }/createOrEdit?id=${ this.opportunityId }`);
+        this.location.replaceState(`${this.routerLink}/createOrEdit?id=${this.opportunityId}`);
     }
 
     /**
@@ -292,7 +335,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     goToOpportunities() {
         this._router.navigate([this.routerLink]);
     }
-
 
     /***
      * Reload entity events grid

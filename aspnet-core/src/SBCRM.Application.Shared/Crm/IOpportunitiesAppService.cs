@@ -15,7 +15,7 @@ namespace SBCRM.Crm
     public interface IOpportunitiesAppService : IApplicationService
     {
         /// <summary>
-        /// Get all opportunities 
+        /// Get all opportunities
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
