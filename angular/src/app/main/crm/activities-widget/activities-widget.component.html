@@ -16,16 +16,16 @@
                                 <ul class="dropdown-menu" *dropdownMenu>
                                     <li>                                                        
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('Schedule Call')">{{l('ScheduleCall')}}</a>
+                                        (click)="createActivityScheduleCallHandler()">{{l('ScheduleCall')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('Schedule Meeting')">{{l('ScheduleMeeting')}}</a>
+                                        (click)="createActivityScheduleMeetingHandler()">{{l('ScheduleMeeting')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('Email Reminder')">{{l('EmailReminder')}}</a>
+                                        (click)="createActivityEmailReminderHandler()">{{l('EmailReminder')}}</a>
 
                                         <a class="dropdown-item" href="javascript:;"
-                                        (click)="createActivityHandlder('To Do Reminder')">{{l('ToDoReminder')}}</a>
+                                        (click)="createActivityToDoReminderHandler()">{{l('ToDoReminder')}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -82,6 +82,10 @@
                                                         <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
                                                         (click)="viewActivity(record.activity)">{{l('View')}}</a>
                                                     </li>
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Opportunity'"
+                                                        (click)="viewActivity(record.activity)">{{l('View')}}</a>
+                                                    </li>
 
                                                     <li>                                                        
                                                         <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
@@ -89,6 +93,10 @@
                                                     </li>
                                                     <li>                                                        
                                                         <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
+                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                    </li>
+                                                    <li>                                                        
+                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Opportunity'"
                                                         (click)="editActivity(record.activity)">{{l('Edit')}}</a>
                                                     </li>
                                                 </ul>

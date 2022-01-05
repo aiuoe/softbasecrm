@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Dtos;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Authorization;
+using SBCRM.Crm.Dtos;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -27,7 +27,6 @@ namespace SBCRM.Crm
         public AccountTypesAppService(IRepository<AccountType> accountTypeRepository)
         {
             _accountTypeRepository = accountTypeRepository;
-
         }
 
         /// <summary>
@@ -52,7 +51,6 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetAccountTypeForViewDto>> GetAll(GetAllAccountTypesInput input)
         {
-
             var filteredAccountTypes = _accountTypeRepository.GetAll()
                         .WhereIf(!string.IsNullOrWhiteSpace(input?.Filter), e => false || e.Description.Contains(input.Filter));
 
@@ -90,7 +88,6 @@ namespace SBCRM.Crm
                 totalCount,
                 results
             );
-
         }
 
         /// <summary>
@@ -136,7 +133,6 @@ namespace SBCRM.Crm
             var accountType = ObjectMapper.Map<AccountType>(input);
 
             await _accountTypeRepository.InsertAsync(accountType);
-
         }
 
         /// <summary>
@@ -149,7 +145,6 @@ namespace SBCRM.Crm
         {
             var accountType = await _accountTypeRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, accountType);
-
         }
 
         /// <summary>
@@ -162,6 +157,5 @@ namespace SBCRM.Crm
         {
             await _accountTypeRepository.DeleteAsync(input.Id);
         }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SBCRM.Crm.Dtos;
@@ -78,7 +77,7 @@ namespace SBCRM.Crm
         /// Get Customer type dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown();
+        Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null);
 
         /// <summary>
         /// Get Contacts type dropdown
