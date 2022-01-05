@@ -6933,6 +6933,57 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
+    getCurrentUserId(): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/GetCurrentUserId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCurrentUserId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCurrentUserId(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCurrentUserId(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
     getAllAccountTypeForTableDropdown(): Observable<CustomerAccountTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllAccountTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
@@ -7582,6 +7633,398 @@ export class CustomerServiceProxy {
     }
 
     protected processCheckIfExistByName(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    verifyUserHasAccessToAccount(body: GetCustomerForViewDto | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/VerifyUserHasAccessToAccount";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processVerifyUserHasAccessToAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processVerifyUserHasAccessToAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processVerifyUserHasAccessToAccount(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param isUserAssignedToCostumer (optional) 
+     * @return Success
+     */
+    hasAccessToEdit(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEdit?";
+        if (isUserAssignedToCostumer === null)
+            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
+        else if (isUserAssignedToCostumer !== undefined)
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasAccessToEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasAccessToEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasAccessToEdit(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param isUserAssignedToCostumer (optional) 
+     * @return Success
+     */
+    hasAccessToAddOpportunity(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToAddOpportunity?";
+        if (isUserAssignedToCostumer === null)
+            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
+        else if (isUserAssignedToCostumer !== undefined)
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasAccessToAddOpportunity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasAccessToAddOpportunity(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param isUserAssignedToCostumer (optional) 
+     * @return Success
+     */
+    hasAccessToScheduleMeeting(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToScheduleMeeting?";
+        if (isUserAssignedToCostumer === null)
+            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
+        else if (isUserAssignedToCostumer !== undefined)
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasAccessToScheduleMeeting(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasAccessToScheduleMeeting(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasAccessToScheduleMeeting(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param isUserAssignedToCostumer (optional) 
+     * @return Success
+     */
+    hasAccessToScheduleCall(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToScheduleCall?";
+        if (isUserAssignedToCostumer === null)
+            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
+        else if (isUserAssignedToCostumer !== undefined)
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasAccessToScheduleCall(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasAccessToScheduleCall(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasAccessToScheduleCall(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param isUserAssignedToCostumer (optional) 
+     * @return Success
+     */
+    hasAccessToEmailReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEmailReminder?";
+        if (isUserAssignedToCostumer === null)
+            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
+        else if (isUserAssignedToCostumer !== undefined)
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasAccessToEmailReminder(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasAccessToEmailReminder(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasAccessToEmailReminder(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param isUserAssignedToCostumer (optional) 
+     * @return Success
+     */
+    hasAccessToDoReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToDoReminder?";
+        if (isUserAssignedToCostumer === null)
+            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
+        else if (isUserAssignedToCostumer !== undefined)
+            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasAccessToDoReminder(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasAccessToDoReminder(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasAccessToDoReminder(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -15885,6 +16328,118 @@ export class OpportunitiesServiceProxy {
     }
 
     /**
+     * @param userId (optional) 
+     * @return Success
+     */
+    hasStaticAccessToAddOpportunity(userId: number | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/HasStaticAccessToAddOpportunity?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasStaticAccessToAddOpportunity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasStaticAccessToAddOpportunity(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasStaticAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param userId (optional) 
+     * @return Success
+     */
+    hasDynamicAccessToAddOpportunity(userId: number | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/HasDynamicAccessToAddOpportunity?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHasDynamicAccessToAddOpportunity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHasDynamicAccessToAddOpportunity(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHasDynamicAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
      * @return Success
      */
     getCurrentUserId(): Observable<number> {
@@ -16686,10 +17241,15 @@ export class OpportunitiesServiceProxy {
     }
 
     /**
+     * @param customerNumber (optional) 
      * @return Success
      */
-    getAllCustomerForTableDropdown(): Observable<OpportunityCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllCustomerForTableDropdown";
+    getAllCustomerForTableDropdown(customerNumber: string | undefined): Observable<OpportunityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllCustomerForTableDropdown?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -16938,6 +17498,58 @@ export class OpportunitiesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
+    }
+
+    /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    verifyUserHasAccessToAccount(customerNumber: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/VerifyUserHasAccessToAccount?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processVerifyUserHasAccessToAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processVerifyUserHasAccessToAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processVerifyUserHasAccessToAccount(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -35198,6 +35810,12 @@ export interface IGetCustomerForEditOutput {
 export class GetCustomerForViewDto implements IGetCustomerForViewDto {
     customer!: CustomerDto;
     accountTypeDescription!: string | undefined;
+    canViewEditOption!: boolean;
+    canViewAddOpportunityOption!: boolean;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
     firstUserAssignedId!: number | undefined;
     firstUserAssignedName!: string | undefined;
     firstUserAssignedSurName!: string | undefined;
@@ -35218,6 +35836,12 @@ export class GetCustomerForViewDto implements IGetCustomerForViewDto {
         if (_data) {
             this.customer = _data["customer"] ? CustomerDto.fromJS(_data["customer"]) : <any>undefined;
             this.accountTypeDescription = _data["accountTypeDescription"];
+            this.canViewEditOption = _data["canViewEditOption"];
+            this.canViewAddOpportunityOption = _data["canViewAddOpportunityOption"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.firstUserAssignedId = _data["firstUserAssignedId"];
             this.firstUserAssignedName = _data["firstUserAssignedName"];
             this.firstUserAssignedSurName = _data["firstUserAssignedSurName"];
@@ -35238,6 +35862,12 @@ export class GetCustomerForViewDto implements IGetCustomerForViewDto {
         data = typeof data === 'object' ? data : {};
         data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
         data["accountTypeDescription"] = this.accountTypeDescription;
+        data["canViewEditOption"] = this.canViewEditOption;
+        data["canViewAddOpportunityOption"] = this.canViewAddOpportunityOption;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["firstUserAssignedId"] = this.firstUserAssignedId;
         data["firstUserAssignedName"] = this.firstUserAssignedName;
         data["firstUserAssignedSurName"] = this.firstUserAssignedSurName;
@@ -35251,6 +35881,12 @@ export class GetCustomerForViewDto implements IGetCustomerForViewDto {
 export interface IGetCustomerForViewDto {
     customer: CustomerDto;
     accountTypeDescription: string | undefined;
+    canViewEditOption: boolean;
+    canViewAddOpportunityOption: boolean;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
     firstUserAssignedId: number | undefined;
     firstUserAssignedName: string | undefined;
     firstUserAssignedSurName: string | undefined;

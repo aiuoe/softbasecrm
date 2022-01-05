@@ -26,6 +26,6 @@ import { AccountActivitiesServiceProxy, LeadActivitiesServiceProxy, OpportunityA
     CalendarModule
   ],
   providers: [ActivitySharedService, LeadActivitiesServiceProxy, AccountActivitiesServiceProxy, OpportunityActivitiesServiceProxy],
-  exports: [ActivitiesWidgetComponent]
+  exports: [ActivitiesWidgetComponent, CreateOrEditActivityWidgetModalComponent]
 })
 export class ActivitiesWidgetModule { }

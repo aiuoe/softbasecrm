@@ -203,6 +203,11 @@ span.dropdown-item {
     }
 }
 
+.separator.separator-solid {
+    margin: auto;
+    width: 80%;
+    border-bottom: 2px solid #ebedf3  !important;
+}
 .toast-info {
     background: #2C4AB6 !important;
 }
@@ -215,3 +220,8 @@ span.dropdown-item {
 .toast-error {
     background: #FF0000 !important;
 }
+
+.options.menu.actions {
+    color: $black
+}
+
