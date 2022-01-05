@@ -30,8 +30,6 @@ namespace SBCRM.Crm
 
         public virtual DateTime? CloseDate { get; set; }
 
-        public virtual short? DepartmentId { get; set; }
-
         public virtual string Description { get; set; }
 
         [Required(ErrorMessage = "An Stage is required")]

@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
 {
@@ -35,6 +36,8 @@ namespace SBCRM.Crm
         private readonly IAuditEventsService _auditEventsService;
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IRepository<Branch> _lookupBranchRepository;
+        private readonly IRepository<Department> _lookupDepartmentRepository;
 
         public OpportunitiesDashboardAppService(IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
@@ -45,7 +48,9 @@ namespace SBCRM.Crm
             IRepository<Contact, int> lookupContactsRepository,
             IAuditEventsService auditEventsService,
             IEntityChangeSetReasonProvider reasonProvider,
-            IUnitOfWorkManager unitOfWorkManager)
+            IUnitOfWorkManager unitOfWorkManager,
+            IRepository<Branch> lookupBranchRepository,
+            IRepository<Department> lookupDepartmentRepository)
         {
             _opportunityRepository = opportunityRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
@@ -57,6 +62,8 @@ namespace SBCRM.Crm
             _auditEventsService = auditEventsService;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _lookupBranchRepository = lookupBranchRepository;
+            _lookupDepartmentRepository = lookupDepartmentRepository;
         }
 
         /// <summary>
@@ -74,8 +81,8 @@ namespace SBCRM.Crm
                       .WhereIf(input.FromDate.HasValue, e => e.CloseDate >= input.FromDate)
                       .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
                       .WhereIf(!string.IsNullOrWhiteSpace(input.Account), e => e.CustomerNumber == input.Account)
-                      .WhereIf(!string.IsNullOrWhiteSpace(input.Branch), e => e.Branch == input.Branch)
-                      .WhereIf(!string.IsNullOrWhiteSpace(input.Department), e => e.Department == input.Department)
+                      //.WhereIf(!string.IsNullOrWhiteSpace(input.Branch), e => e.Branch == input.Branch)
+                      //.WhereIf(!string.IsNullOrWhiteSpace(input.Department), e => e.Department == input.Department)
                       .Where(o => o.OpportunityStageId == 6 || o.OpportunityStageId == 7);//closed / won, closed / lost
 
             var opportunities = from o in filteredOpportunities
@@ -102,7 +109,7 @@ namespace SBCRM.Crm
                                     o.CloseDate,
                                     o.Description,
                                     o.Branch,
-                                    o.Department,
+                                    //o.Department,
                                     Id = o.Id,
                                     OpportunityStageId = s1.Id,
                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
@@ -149,16 +156,16 @@ namespace SBCRM.Crm
         /// Gets all branches on the opportunity table as a dropdown
         /// </summary>
         /// <returns></returns>
-        public async Task<List<OpportunityBranchLookupTableDto>> GetAllBranchForTableDropdown()
+        public async Task<List<BranchLookupTableDto>> GetAllBranchForTableDropdown()
         {
-            var opportunities = await _opportunityRepository.GetAll()
+            var opportunities = await _lookupBranchRepository.GetAll()
                    .ToListAsync();
 
             var branches = opportunities
-                .Select((o, index) => new OpportunityBranchLookupTableDto
+                .Select((o) => new BranchLookupTableDto
                 {
-                    Id = index,
-                    Name = o.Branch
+                    Number = o.Number,
+                    Name = o.Name
                 }).ToList();
 
             return branches;
@@ -184,17 +191,18 @@ namespace SBCRM.Crm
         /// Gets all deparments on the opportunity table as a dropdown
         /// </summary>
         /// <returns></returns>
-        public async Task<List<OpportunityDepartmentLookupTableDto>> GetAllDepartmentForTableDropdown()
+        public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentForTableDropdown()
         {
 
-            var opportunities = await _opportunityRepository.GetAll()
+            var opportunities = await _lookupDepartmentRepository.GetAll()
                 .ToListAsync();
 
             var departments = opportunities
-                .Select((o, index) => new OpportunityDepartmentLookupTableDto
+                .Select((o) => new DepartmentLookupTableDto
                 {
-                    Id = index,
-                    Name = o.Department
+                    Branch = o.Branch,
+                    Dept = o.Dept,
+                    Title = o.Title
                 }).ToList();
 
             return departments;
@@ -238,8 +246,8 @@ namespace SBCRM.Crm
                                      Probability = o.Probability,
                                      CloseDate = o.CloseDate,
                                      Description = o.Description,
-                                     Branch = o.Branch,
-                                     Department= o.Department,
+                                     //Branch = o.Branch,
+                                     //Department= o.Department,
                                      Id = o.Id,
                                      OpportunityStageId = s1.Id,
                                      Users = o.Users,
@@ -280,8 +288,8 @@ namespace SBCRM.Crm
                         Probability = o.Probability,
                         CloseDate = o.CloseDate,
                         Description = o.Description,
-                        Branch = o.Branch,
-                        Department = o.Department,
+                        //Branch = o.Branch,
+                        //Department = o.Department,
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,

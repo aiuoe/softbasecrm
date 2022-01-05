@@ -17147,7 +17147,7 @@ export class OpportunitiesDashboardServiceProxy {
     /**
      * @return Success
      */
-    getAllBranchForTableDropdown(): Observable<OpportunityBranchLookupTableDto[]> {
+    getAllBranchForTableDropdown(): Observable<BranchLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllBranchForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17166,14 +17166,14 @@ export class OpportunitiesDashboardServiceProxy {
                 try {
                     return this.processGetAllBranchForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<OpportunityBranchLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<BranchLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OpportunityBranchLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<BranchLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllBranchForTableDropdown(response: HttpResponseBase): Observable<OpportunityBranchLookupTableDto[]> {
+    protected processGetAllBranchForTableDropdown(response: HttpResponseBase): Observable<BranchLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -17187,7 +17187,7 @@ export class OpportunitiesDashboardServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(OpportunityBranchLookupTableDto.fromJS(item));
+                    result200!.push(BranchLookupTableDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -17199,7 +17199,7 @@ export class OpportunitiesDashboardServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OpportunityBranchLookupTableDto[]>(<any>null);
+        return _observableOf<BranchLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -17263,7 +17263,7 @@ export class OpportunitiesDashboardServiceProxy {
     /**
      * @return Success
      */
-    getAllDepartmentForTableDropdown(): Observable<OpportunityDepartmentLookupTableDto[]> {
+    getAllDepartmentForTableDropdown(): Observable<DepartmentLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllDepartmentForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17282,14 +17282,14 @@ export class OpportunitiesDashboardServiceProxy {
                 try {
                     return this.processGetAllDepartmentForTableDropdown(<any>response_);
                 } catch (e) {
-                    return <Observable<OpportunityDepartmentLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OpportunityDepartmentLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllDepartmentForTableDropdown(response: HttpResponseBase): Observable<OpportunityDepartmentLookupTableDto[]> {
+    protected processGetAllDepartmentForTableDropdown(response: HttpResponseBase): Observable<DepartmentLookupTableDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -17303,7 +17303,7 @@ export class OpportunitiesDashboardServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(OpportunityDepartmentLookupTableDto.fromJS(item));
+                    result200!.push(DepartmentLookupTableDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -17315,7 +17315,7 @@ export class OpportunitiesDashboardServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OpportunityDepartmentLookupTableDto[]>(<any>null);
+        return _observableOf<DepartmentLookupTableDto[]>(<any>null);
     }
 
     /**
@@ -40866,46 +40866,6 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
     validateIssuer: boolean;
 }
 
-export class OpportunityBranchLookupTableDto implements IOpportunityBranchLookupTableDto {
-    id!: number | undefined;
-    name!: string | undefined;
-
-    constructor(data?: IOpportunityBranchLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-        }
-    }
-
-    static fromJS(data: any): OpportunityBranchLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new OpportunityBranchLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        return data; 
-    }
-}
-
-export interface IOpportunityBranchLookupTableDto {
-    id: number | undefined;
-    name: string | undefined;
-}
-
 export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {
     id!: number;
     contactName!: string | undefined;
@@ -40983,46 +40943,6 @@ export class OpportunityCustomerLookupTableDto implements IOpportunityCustomerLo
 
 export interface IOpportunityCustomerLookupTableDto {
     number: string | undefined;
-    name: string | undefined;
-}
-
-export class OpportunityDepartmentLookupTableDto implements IOpportunityDepartmentLookupTableDto {
-    id!: number | undefined;
-    name!: string | undefined;
-
-    constructor(data?: IOpportunityDepartmentLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-        }
-    }
-
-    static fromJS(data: any): OpportunityDepartmentLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new OpportunityDepartmentLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        return data; 
-    }
-}
-
-export interface IOpportunityDepartmentLookupTableDto {
-    id: number | undefined;
     name: string | undefined;
 }
 

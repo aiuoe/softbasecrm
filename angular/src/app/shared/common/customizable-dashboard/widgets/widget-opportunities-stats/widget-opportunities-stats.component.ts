@@ -1,6 +1,11 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-import { OpportunitiesDashboardServiceProxy, OpportunityBranchLookupTableDto, OpportunityCustomerLookupTableDto, OpportunityDepartmentLookupTableDto, TenantDashboardServiceProxy } from '@shared/service-proxies/service-proxies';
+import {
+    OpportunitiesDashboardServiceProxy,
+    BranchLookupTableDto,
+    OpportunityCustomerLookupTableDto,
+    DepartmentLookupTableDto
+} from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon/src/datetime';
 import { DashboardChartBase } from '../dashboard-chart-base';
 import { WidgetComponentBaseComponent } from '../widget-component-base';
@@ -13,8 +18,8 @@ import { WidgetComponentBaseComponent } from '../widget-component-base';
 export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseComponent implements OnInit {
 
     opportunitesdashboard: OpportunitiesDashboardStats;
-    branches: Array<OpportunityBranchLookupTableDto> = [];
-    departments: Array<OpportunityDepartmentLookupTableDto> = [];
+    branches: Array<BranchLookupTableDto> = [];
+    departments: Array<DepartmentLookupTableDto> = [];
     accounts: Array<OpportunityCustomerLookupTableDto> = []; // aka customers
     accountFilter = null;
     branchFilter = null;
@@ -23,11 +28,11 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
     selectedDateRange: DateTime[] = [
         this._dateTimeService.getStartOfMonth(),
         this._dateTimeService.getEndOfMonth(),
-    ]; 
+    ];
 
     constructor(injector: Injector,
-        private _opportunitiesDashboardServiceProxy: OpportunitiesDashboardServiceProxy,
-        private _dateTimeService: DateTimeService) {
+                private _opportunitiesDashboardServiceProxy: OpportunitiesDashboardServiceProxy,
+                private _dateTimeService: DateTimeService) {
         super(injector);
         this.opportunitesdashboard = new OpportunitiesDashboardStats();
     }
@@ -67,7 +72,7 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
             });
     }
 
-    onChange(dateRange){
+    onChange(dateRange) {
         if (
             !dateRange ||
             dateRange.length !== 2 ||
@@ -80,7 +85,7 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
         this.selectedDateRange[1] = dateRange[1];
     }
 
-    onAccountChange($event){
+    onAccountChange($event) {
         console.info(this.accountFilter);
     }
 }

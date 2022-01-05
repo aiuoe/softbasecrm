@@ -71,9 +71,7 @@ namespace SBCRM.Legacy
 		public virtual short? NoCC { get; set; }
 		public virtual string PartsRecvEmail { get; set; }
 
-        public virtual short BranchNumber { get; set; }
-
-		[ForeignKey("BranchNumber")]
+        [ForeignKey("Branch")]
         public Branch BranchFk { get; set; }
 	}
 }
