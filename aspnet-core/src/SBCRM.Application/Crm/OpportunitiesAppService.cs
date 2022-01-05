@@ -103,14 +103,14 @@ namespace SBCRM.Crm
         /// Get the dynamic permission based on the current user.
         /// </summary>
         /// <returns></returns>
-        public bool HasFreeAccessToAddOpportunity()
+        public bool HasAccessToAddOpportunity()
         {
             var CurrentUserId = GetCurrentUser().Id;
 
             return (UserManager.IsGranted(
                 CurrentUserId, AppPermissions.Pages_Customer_Add_Opportunity)
                 || UserManager.IsGranted(
-                CurrentUserId, AppPermissions.Pages_Customer_HasFreeAccessToEdit__Dynamic));
+                CurrentUserId, AppPermissions.Pages_Customer_Edit__Dynamic));
         }
 
         /// <summary>
@@ -676,11 +676,11 @@ namespace SBCRM.Crm
         {
             long CurrentUserId = GetCurrentUser().Id;
 
-            bool UserHasFreeAccessToAllCustomers = HasFreeAccessToAddOpportunity();
+            bool userCanSelectAllAccounts = HasAccessToAddOpportunity();
 
             return await _lookupCustomerRepository.GetAll()
                 .Include(x => x.Users)                
-                .WhereIf(!UserHasFreeAccessToAllCustomers, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
+                .WhereIf(!userCanSelectAllAccounts, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
                 .Select(customer => new OpportunityCustomerLookupTableDto
                 {
                     Number = customer.Number,
@@ -729,33 +729,5 @@ namespace SBCRM.Crm
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
         }
 
-        /// <summary>
-        /// Get al events
-        /// </summary>
-        /// <param name="CustomerNumber"></param>
-        /// <returns></returns>
-        public void verifyUserHasAccessToAccount(string CustomerNumber)
-        {
-            long CurrentUserId = GetCurrentUser().Id;
-
-            if(!UserManager.IsGranted(
-                CurrentUserId, AppPermissions.Pages_Customer_Add_Opportunity)
-                && !UserManager.IsGranted(
-                CurrentUserId, AppPermissions.Pages_Customer_HasFreeAccessToEdit__Dynamic))
-            {
-
-                OpportunityCustomerLookupTableDto customer = _lookupCustomerRepository.GetAll()
-                                  .Include(x => x.Users)
-                                  .Where(x => x.Number != null && x.Number == CustomerNumber)
-                                  .Where(x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
-                                  .Select(customer => new OpportunityCustomerLookupTableDto
-                                  {
-                                      Number = customer.Number
-                                  }).FirstOrDefault();
-
-                GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
-            }
-
-        }
     }
 }

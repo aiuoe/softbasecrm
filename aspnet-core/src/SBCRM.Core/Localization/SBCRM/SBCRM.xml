@@ -2,15 +2,15 @@
 
 <localizationDictionary culture="en">
 	<texts>
-		<text name="CustomerFreeAccessToEdit__Dynamic">Can edit all accounts</text>
+		<text name="CustomerEdit__Dynamic">Can edit all accounts</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
-        <text name="CustomerHasFreeAccessToScheduleMeeting___Dynamic">Can schedule a meeting on all accounts</text>
+        <text name="CustomerScheduleMeeting__Dynamic">Can schedule a meeting on all accounts</text>
         <text name="CustomerScheduleCall">Schedule call</text>
-        <text name="CustomerHasFreeAccessToScheduleCall__Dynamic">Can schedule a call on all accounts</text>
+        <text name="CustomerScheduleCall__Dynamic">Can schedule a call on all accounts</text>
         <text name="CustomerEmailReminder">Email reminder </text>
-        <text name="CustomerHasFreeAccessToEmailReminder__Dynamic">Can create a email reminder on all accounts</text>
+        <text name="CustomerEmailReminder__Dynamic">Can create a email reminder on all accounts</text>
         <text name="CustomerToDoReminder">To Do Reminder</text>
-        <text name="CustomerHasFreeAccessToDoReminder__Dynamic">Can create a to do reminder on all accounts</text>
+        <text name="CustomerToDoReminder__Dynamic">Can create a to do reminder on all accounts</text>
 		
 		<text name="ScheduleCall">Schedule Call</text>
 		<text name="ScheduleMeeting">Schedule Meeting</text>
