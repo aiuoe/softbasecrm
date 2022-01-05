@@ -255,12 +255,10 @@ namespace SBCRM.Legacy
                                };
                 }
 
-                int totalCount = await filteredCustomer.CountAsync();
-
                 var totalCount = await filteredCustomer.CountAsync();
 
                 var dbList = await customer.ToListAsync();
-                var results = GetCustomerForViewDtos(dbList);                
+                var results = GetCustomerForViewDtos(dbList);
 
                 foreach (GetCustomerForViewDto result in results)
                 {
@@ -306,7 +304,7 @@ namespace SBCRM.Legacy
                         ChangedBy = o.ChangedBy,
                     },
                     AccountTypeDescription = o.AccountTypeDescription,
-    };
+                };
 
                 if (o.Users.Any())
                 {
@@ -366,8 +364,7 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
-        {           
-
+        {
             long currentUserId = GetCurrentUser().Id;
 
             if (!UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit))
@@ -381,7 +378,7 @@ namespace SBCRM.Legacy
                     .Include(x => x.CustomerFk)
                     .Where(x => x.UserId == GetCurrentUser().Id && x.CustomerNumber == input.CustomerNumber)
                     .Select(x => x.CustomerFk)
-                    .FirstOrDefaultAsync();                    
+                    .FirstOrDefaultAsync();
                 }
 
                 GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
@@ -415,7 +412,7 @@ namespace SBCRM.Legacy
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer_Create)]
         protected virtual async Task Create(CreateOrEditCustomerDto input)
-        {            
+        {
             var customer = ObjectMapper.Map<Customer>(input);
 
             List<Customer> customerSameName = await _customerRepository.GetAll()
@@ -538,7 +535,7 @@ namespace SBCRM.Legacy
         [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<long> GetCurrentUserId()
         {
-            var currentUser  = await GetCurrentUserAsync();
+            var currentUser = await GetCurrentUserAsync();
             return currentUser.Id;
         }
 
@@ -808,7 +805,7 @@ namespace SBCRM.Legacy
         {
             long currentUserId = GetCurrentUser().Id;
             if (customer.Customer.Users != null)
-                foreach(AccountUserViewDto user in  customer.Customer.Users)
+                foreach (AccountUserViewDto user in customer.Customer.Users)
                 {
                     if (user.UserId == currentUserId)
                         return true;
@@ -844,7 +841,7 @@ namespace SBCRM.Legacy
                 ||
                 (UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic)
-                && 
+                &&
                 isUserAssignedToCostumer);
         }
 
@@ -875,7 +872,7 @@ namespace SBCRM.Legacy
                 ||
                 (UserManager.IsGranted(
                 currentUser.Id, AppPermissions.Pages_Customer_ScheduleCall__Dynamic)
-                && 
+                &&
                 isUserAssignedToCostumer);
         }
 
@@ -910,6 +907,5 @@ namespace SBCRM.Legacy
                 &&
                 isUserAssignedToCostumer);
         }
-
     }
 }
