@@ -105,9 +105,12 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public bool HasFreeAccessToAddOpportunity()
         {
-            var currentUser = GetCurrentUser();
-            return UserManager.IsGranted(
-                currentUser.Id, AppPermissions.Pages_Customer_HasFreeAccessToAddOpportunity__Dynamic);
+            var CurrentUserId = GetCurrentUser().Id;
+
+            return (UserManager.IsGranted(
+                CurrentUserId, AppPermissions.Pages_Customer_Add_Opportunity)
+                || UserManager.IsGranted(
+                CurrentUserId, AppPermissions.Pages_Customer_HasFreeAccessToEdit__Dynamic));
         }
 
         /// <summary>
@@ -735,16 +738,23 @@ namespace SBCRM.Crm
         {
             long CurrentUserId = GetCurrentUser().Id;
 
-            OpportunityCustomerLookupTableDto customer =  _lookupCustomerRepository.GetAll()
-                              .Include(x => x.Users)
-                              .Where(x => x.Number != null && x.Number == CustomerNumber)
-                              .WhereIf(!HasFreeAccessToAddOpportunity(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
-                              .Select(customer => new OpportunityCustomerLookupTableDto
-                              {
-                                  Number = customer.Number               
-                              }).FirstOrDefault();
+            if(!UserManager.IsGranted(
+                CurrentUserId, AppPermissions.Pages_Customer_Add_Opportunity)
+                && !UserManager.IsGranted(
+                CurrentUserId, AppPermissions.Pages_Customer_HasFreeAccessToEdit__Dynamic))
+            {
 
-            GuardHelper.ThrowIf(customer == null, new EntityNotFoundException( L("AccountNotExist") ));
+                OpportunityCustomerLookupTableDto customer = _lookupCustomerRepository.GetAll()
+                                  .Include(x => x.Users)
+                                  .Where(x => x.Number != null && x.Number == CustomerNumber)
+                                  .Where(x => x.Users != null && x.Users.Select(y => y.UserId).Contains(CurrentUserId))
+                                  .Select(customer => new OpportunityCustomerLookupTableDto
+                                  {
+                                      Number = customer.Number
+                                  }).FirstOrDefault();
+
+                GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
+            }
 
         }
     }

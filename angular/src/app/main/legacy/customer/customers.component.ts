@@ -95,18 +95,6 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     }
 
     /***
-     * Verify if the user can't or not edit the account
-     * @param customerDto
-     */
-    currentUserHasFreeAccessToEdit(customerDto : GetCustomerForViewDto) : boolean {
-        if (this.permission.isGranted('Pages.Customer.HasFreeAccessToEdit__Dynamic')) {
-            return true;
-        }
-        else  
-            return this.verifyUserIsAssingedToAccount(customerDto);        
-    }
-
-    /***
      * Verify if the user can't or not add an opportunity
      * on the account
      * @param customerDto
