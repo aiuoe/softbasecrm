@@ -1,10 +1,7 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
-using SBCRM.Crm;
+﻿using SBCRM.Crm;
 using SBCRM.Legacy;
 using Abp.IdentityServer4vNext;
 using Abp.Zero.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Authorization.Delegation;
 using SBCRM.Authorization.Roles;
@@ -111,8 +108,7 @@ namespace SBCRM.EntityFrameworkCore
 
             modelBuilder.HasSequence<int>("CustomerNumberSequence");
 
-            //modelBuilder.Entity<Department>()
-            //    .HasKey(d => d.Dept);
+            modelBuilder.Entity<Department>().HasKey(p => new { p.Branch, p.Dept });
 
             modelBuilder
                 .Entity<InvoiceRegList>(eb =>
@@ -128,6 +124,8 @@ namespace SBCRM.EntityFrameworkCore
                     eb.ToView("WIPList", "dbo");
                 });
 
+            modelBuilder.Entity<Department>().Ignore(c => c.Id);
+            modelBuilder.Entity<Branch>().Ignore(c => c.Id);
             modelBuilder.Entity<Customer>().Ignore(c => c.Id);
             modelBuilder.Entity<Contact>().Ignore(c => c.Id);
 

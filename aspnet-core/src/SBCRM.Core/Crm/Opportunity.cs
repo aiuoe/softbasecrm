@@ -30,8 +30,6 @@ namespace SBCRM.Crm
 
         public virtual DateTime? CloseDate { get; set; }
 
-        public virtual short? BranchId { get; set; }
-
         public virtual short? DepartmentId { get; set; }
 
         public virtual string Description { get; set; }
@@ -64,10 +62,10 @@ namespace SBCRM.Crm
         [ForeignKey("CustomerNumber")]
         public Customer CustomerFk { get; set; }
 
-        [ForeignKey("BranchId")]
-        public Branch BranchFk { get; set; }
+        public virtual short Dept { get; set; }
+        public virtual short Branch { get; set; }
 
-        [ForeignKey("DepartmentId")]
+        [ForeignKey("Dept, Branch")]
         public Department DepartmentFk { get; set; }
 
         public List<OpportunityUser> Users { get; set; }

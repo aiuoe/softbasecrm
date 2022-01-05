@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Legacy
 {
@@ -12,59 +9,58 @@ namespace SBCRM.Legacy
     /// Branch entity from legacy schema
     /// </summary>
     [Table("Branch", Schema = "dbo")]
-    public class Branch
+    public class Branch : Entity
     {
-
         [Key]
-        public short Number { get; set; }
-        public string Name { get; set; }
-        public string SubName { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string ZipCode { get; set; }
-        public string Phone { get; set; }
-        public string Fax { get; set; }
-        public string Receivable { get; set; }
-        public string FinanceCharge { get; set; }
-        public Single? FinanceRate { get; set; }
-        public short? FinanceDays { get; set; }
-        public string StateTaxLabel { get; set; }
-        public string CountyTaxLabel { get; set; }
-        public short? ShowSplitSalesTax { get; set; }
-        public string CityTaxLabel { get; set; }
-        public string LocalTaxLabel { get; set; }
-        public string DefaultWarehouse { get; set; }
-        public string ClarkPartsCode { get; set; }
-        public string ClarkDealerAccessCode { get; set; }
-        public short? UseStateTaxCodeDescription { get; set; }
-        public short? UseCountyTaxCodeDescription { get; set; }
-        public short? UseCityTaxCodeDescription { get; set; }
-        public short? UseLocalTaxCodeDescription { get; set; }
-        public DateTime? RentalDeliveryDefaultTime { get; set; }
-        public string StateTaxCode { get; set; }
-        public string CountyTaxCode { get; set; }
-        public string CityTaxCode { get; set; }
-        public string LocalTaxCode { get; set; }
-        public string TaxCode { get; set; }
-        public bool? UseAbsoluteTaxCodes { get; set; }
-        public string SmallSubName { get; set; }
-        public string AddedBy { get; set; }
-        public string ChangedBy { get; set; }
-        public DateTime? DateAdded { get; set; }
-        public DateTime? DateChanged { get; set; }
-        public string ShopID { get; set; }
-        public byte[] Image { get; set; }
-        public short? UseImage { get; set; }
-        public string LogoFile { get; set; }
-        public string VendorID { get; set; }
-        public string PrintFinalCC { get; set; }
-        public string PrintFinalBCC { get; set; }
-        public string StoreName { get; set; }
-        public string CreditCardAccountNo { get; set; }
-        public string TVHAccountNo { get; set; }
-        public string TVHKey { get; set; }
-        public string TVHCountry { get; set; }
-        public string TVHWarehouse { get; set; }
+        public virtual short Number { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string SubName { get; set; }
+        public virtual string Address { get; set; }
+        public virtual string City { get; set; }
+        public virtual string State { get; set; }
+        public virtual string ZipCode { get; set; }
+        public virtual string Phone { get; set; }
+        public virtual string Fax { get; set; }
+        public virtual string Receivable { get; set; }
+        public virtual string FinanceCharge { get; set; }
+        public virtual Single? FinanceRate { get; set; }
+        public virtual short? FinanceDays { get; set; }
+        public virtual string StateTaxLabel { get; set; }
+        public virtual string CountyTaxLabel { get; set; }
+        public virtual short? ShowSplitSalesTax { get; set; }
+        public virtual string CityTaxLabel { get; set; }
+        public virtual string LocalTaxLabel { get; set; }
+        public virtual string DefaultWarehouse { get; set; }
+        public virtual string ClarkPartsCode { get; set; }
+        public virtual string ClarkDealerAccessCode { get; set; }
+        public virtual short? UseStateTaxCodeDescription { get; set; }
+        public virtual short? UseCountyTaxCodeDescription { get; set; }
+        public virtual short? UseCityTaxCodeDescription { get; set; }
+        public virtual short? UseLocalTaxCodeDescription { get; set; }
+        public virtual DateTime? RentalDeliveryDefaultTime { get; set; }
+        public virtual string StateTaxCode { get; set; }
+        public virtual string CountyTaxCode { get; set; }
+        public virtual string CityTaxCode { get; set; }
+        public virtual string LocalTaxCode { get; set; }
+        public virtual string TaxCode { get; set; }
+        public virtual bool? UseAbsoluteTaxCodes { get; set; }
+        public virtual string SmallSubName { get; set; }
+        public virtual string AddedBy { get; set; }
+        public virtual string ChangedBy { get; set; }
+        public virtual DateTime? DateAdded { get; set; }
+        public virtual DateTime? DateChanged { get; set; }
+        public virtual string ShopID { get; set; }
+        public virtual byte[] Image { get; set; }
+        public virtual short? UseImage { get; set; }
+        public virtual string LogoFile { get; set; }
+        public virtual string VendorID { get; set; }
+        public virtual string PrintFinalCC { get; set; }
+        public virtual string PrintFinalBCC { get; set; }
+        public virtual string StoreName { get; set; }
+        public virtual string CreditCardAccountNo { get; set; }
+        public virtual string TVHAccountNo { get; set; }
+        public virtual string TVHKey { get; set; }
+        public virtual string TVHCountry { get; set; }
+        public virtual string TVHWarehouse { get; set; }
     }
 }

@@ -21,6 +21,7 @@ using Abp.Domain.Entities;
 using SBCRM.Authorization.Users;
 using Base = SBCRM.Base;
 using SBCRM.Common;
+using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
 {
@@ -42,8 +43,8 @@ namespace SBCRM.Crm
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
-        private readonly Base.ISoftBaseBranchRepository _softBaseBranchRepository;
-        private readonly Base.ISoftBaseDepartmentRepository _softBaseDepartmentRepository;
+        private readonly IRepository<Branch> _lookupBranchRepository;
+        private readonly IRepository<Department> _lookupDepartmentRepository;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -77,8 +78,8 @@ namespace SBCRM.Crm
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<User, long> lookupUserRepository,
             IRepository<OpportunityUser> opportunityUserRepository,
-            Base.ISoftBaseBranchRepository softBaseBranchRepository,
-            Base.ISoftBaseDepartmentRepository softBaseDepartmentRepository)
+            IRepository<Branch> lookupBranchRepository,
+            IRepository<Department> lookupDepartmentRepository)
         {
             _opportunityRepository = opportunityRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
@@ -92,8 +93,8 @@ namespace SBCRM.Crm
             _unitOfWorkManager = unitOfWorkManager;
             _lookup_userRepository = lookupUserRepository;
             _opportunityUserRepository = opportunityUserRepository;
-            _softBaseBranchRepository = softBaseBranchRepository;
-            _softBaseDepartmentRepository = softBaseDepartmentRepository;
+            _lookupBranchRepository = lookupBranchRepository;
+            _lookupDepartmentRepository = lookupDepartmentRepository;
         }
 
         /// <summary>
@@ -131,11 +132,11 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
-                        .Include(e => e.BranchFk)
-                        .Include(e => e.DepartmentFk)
+                        //.Include(e => e.BranchFk)
+                        //.Include(e => e.DepartmentFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || (e.BranchFk != null && e.BranchFk.Name.Contains(input.Filter)) || (e.DepartmentFk != null && e.DepartmentFk.Title.Contains(input.Filter)))
+                        //.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || (e.BranchFk != null && e.BranchFk.Name.Contains(input.Filter)) || (e.DepartmentFk != null && e.DepartmentFk.Title.Contains(input.Filter)))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
@@ -144,8 +145,8 @@ namespace SBCRM.Crm
                         .WhereIf(input.MinCloseDateFilter != null, e => e.CloseDate >= input.MinCloseDateFilter)
                         .WhereIf(input.MaxCloseDateFilter != null, e => e.CloseDate <= input.MaxCloseDateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.BranchFilter), e => e.BranchFk != null && e.BranchFk.Name == input.BranchFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.DepartmentFk != null && e.DepartmentFk.Title == input.DepartmentFilter)
+                        //.WhereIf(!string.IsNullOrWhiteSpace(input.BranchFilter), e => e.BranchFk != null && e.BranchFk.Name == input.BranchFilter)
+                        //.WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.DepartmentFk != null && e.DepartmentFk.Title == input.DepartmentFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
@@ -184,8 +185,8 @@ namespace SBCRM.Crm
                                         Probability = o.Probability,
                                         CloseDate = o.CloseDate,
                                         Description = o.Description,
-                                        BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
-                                        DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
+                                        //BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
+                                        //DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
                                         Id = o.Id,
                                         Users = o.Users,
                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
@@ -217,8 +218,8 @@ namespace SBCRM.Crm
                         pagedAndFilteredOpportunities = filteredOpportunities
                             .OrderByDescending(o => o.CloseDate)
                             .ThenBy(o => o.Name)
-                            .ThenBy(o => o.BranchFk.Name)
-                            .ThenBy(o => o.DepartmentFk.Title)
+                            //.ThenBy(o => o.BranchFk.Name)
+                            //.ThenBy(o => o.DepartmentFk.Title)
                             .PageBy(input);
 
                     opportunities = from o in pagedAndFilteredOpportunities
@@ -244,8 +245,8 @@ namespace SBCRM.Crm
                                         Probability = o.Probability,
                                         CloseDate = o.CloseDate,
                                         Description = o.Description,
-                                        BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
-                                        DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
+                                        //BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
+                                        //DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
                                         Id = o.Id,
                                         Users = o.Users,
                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
@@ -383,17 +384,17 @@ namespace SBCRM.Crm
                 var _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
-            if (output.Opportunity.BranchId.HasValue)
-            {
-                var branch = await _softBaseBranchRepository.GetByBranchNumberAsync(output.Opportunity.BranchId.Value);
-                output.BranchName = branch.Name;
-            }
+            //if (output.Opportunity.BranchId.HasValue)
+            //{
+            //    var branch = await _softBaseBranchRepository.GetByBranchNumberAsync(output.Opportunity.BranchId.Value);
+            //    output.BranchName = branch.Name;
+            //}
 
-            if (output.Opportunity.DepartmentId.HasValue)
-            {
-                var dept = await _softBaseDepartmentRepository.GetByDeptNumberAsync(output.Opportunity.DepartmentId.Value);
-                output.DepartmentTitle = dept.Title;
-            }
+            //if (output.Opportunity.DepartmentId.HasValue)
+            //{
+            //    var dept = await _softBaseDepartmentRepository.GetByDeptNumberAsync(output.Opportunity.DepartmentId.Value);
+            //    output.DepartmentTitle = dept.Title;
+            //}
 
             return output;
         }
@@ -462,17 +463,17 @@ namespace SBCRM.Crm
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
-            if (output.Opportunity.BranchId.HasValue)
-            {
-                var branch = await _softBaseBranchRepository.GetByBranchNumberAsync(output.Opportunity.BranchId.Value);
-                output.BranchName = branch.Name;
-            }
+            //if (output.Opportunity.Branch.HasValue)
+            //{
+            //    var branch = await _softBaseBranchRepository.GetByBranchNumberAsync(output.Opportunity.Branch.Value);
+            //    output.BranchName = branch.Name;
+            //}
 
-            if (output.Opportunity.DepartmentId.HasValue)
-            {
-                var dept = await _softBaseDepartmentRepository.GetByDeptNumberAsync(output.Opportunity.DepartmentId.Value);
-                output.DepartmentTitle = dept.Title;
-            }
+            //if (output.Opportunity.Dept.HasValue)
+            //{
+            //    var dept = await _softBaseDepartmentRepository.GetByDeptNumberAsync(output.Opportunity.Dept.Value);
+            //    output.DepartmentTitle = dept.Title;
+            //}
 
             return output;
         }
@@ -559,11 +560,11 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
-                        .Include(e => e.BranchFk)
-                        .Include(e => e.DepartmentFk)
+                        //.Include(e => e.BranchFk)
+                        //.Include(e => e.DepartmentFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || (e.BranchFk != null && e.BranchFk.Name.Contains(input.Filter)) || (e.DepartmentFk != null && e.DepartmentFk.Title.Contains(input.Filter)))
+                        //.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || (e.BranchFk != null && e.BranchFk.Name.Contains(input.Filter)) || (e.DepartmentFk != null && e.DepartmentFk.Title.Contains(input.Filter)))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
@@ -572,8 +573,8 @@ namespace SBCRM.Crm
                         .WhereIf(input.MinCloseDateFilter != null, e => e.CloseDate >= input.MinCloseDateFilter)
                         .WhereIf(input.MaxCloseDateFilter != null, e => e.CloseDate <= input.MaxCloseDateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.BranchFilter), e => e.BranchFk != null && e.BranchFk.Name == input.BranchFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.DepartmentFk != null && e.DepartmentFk.Title == input.DepartmentFilter)
+                        //.WhereIf(!string.IsNullOrWhiteSpace(input.BranchFilter), e => e.BranchFk != null && e.BranchFk.Name == input.BranchFilter)
+                        //.WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.DepartmentFk != null && e.DepartmentFk.Title == input.DepartmentFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
@@ -606,8 +607,8 @@ namespace SBCRM.Crm
                              Probability = o.Probability,
                              CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
                              Description = o.Description,
-                             BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
-                             DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
+                             //BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
+                             //DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
                              Id = o.Id,
                              Users = o.Users,
                              OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
@@ -741,6 +742,37 @@ namespace SBCRM.Crm
         {
             input.EntityTypeFullName = typeof(Opportunity).FullName;
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
+        }
+
+        /// <summary>
+        /// Get Branches lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<BranchLookupTableDto>> GetAllBranchesForTableDropdown()
+        {
+            return await _lookupBranchRepository.GetAll()
+                .Select(x => new BranchLookupTableDto
+                {
+                    Number = x.Number,
+                    Name = x.Name
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Departments lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdown()
+        {
+            return await _lookupDepartmentRepository.GetAll()
+                .Select(x => new DepartmentLookupTableDto
+                {
+                    Branch = x.Branch,
+                    Dept = x.Dept,
+                    Title = x.Title
+                }).ToListAsync();
         }
     }
 }

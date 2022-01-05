@@ -9,7 +9,7 @@ import {
     GetOpportunityForEditOutput,
     OpportunityCustomerLookupTableDto,
     OpportunityContactsLookupTableDto,
-    OpportunityUsersServiceProxy
+    OpportunityUsersServiceProxy, DepartmentLookupTableDto, BranchLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -61,6 +61,10 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
     allOpportunityTypes: OpportunityOpportunityTypeLookupTableDto[];
     allCustomers: OpportunityCustomerLookupTableDto[];
     allContacts: OpportunityContactsLookupTableDto[];
+    allDepartments: DepartmentLookupTableDto[];
+    allBranches: BranchLookupTableDto[];
+    selectedDepartment: DepartmentLookupTableDto;
+    selectedBranch: BranchLookupTableDto;
 
     opportunityId: number;
 
@@ -127,7 +131,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             .subscribe(([getCanViewAssignedUsersWidget]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
                 this.entityTypeHistory.show({
-                    entityId: this.opportunityId.toString(),
+                    entityId: this.opportunityId?.toString(),
                     entityName: 'Opportunity',
                     show: this.showEventsTab
                 });
@@ -149,19 +153,24 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown()
+            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(),
+            this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdown(),
+            this._opportunitiesServiceProxy.getAllBranchesForTableDropdown(),
         ];
 
         if (!opportunityId) {
             forkJoin([...requests])
-                .subscribe(([opportunityStages, leadSources, opportunityTypes, customers]: [
+                .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, departments, branches]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
-                    OpportunityCustomerLookupTableDto[]]) => {
+                    OpportunityCustomerLookupTableDto[],
+                    DepartmentLookupTableDto[],
+                    BranchLookupTableDto[]]) => {
                     this.isPageLoading = false;
                     this.active = true;
-
+                    this.allDepartments = departments;
+                    this.allBranches = branches;
                     this.opportunity = new CreateOrEditOpportunityDto();
                     this.allOpportunityStages = opportunityStages;
                     this.opportunity.opportunityStageId = this.allOpportunityStages[0] ? this.allOpportunityStages[0].id : null;
@@ -182,13 +191,16 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         } else {
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests])
-                .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, opportunityForEdit]: [
+                .subscribe(([opportunityStages, leadSources, opportunityTypes, customers, departments, branches, opportunityForEdit]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
                     OpportunityCustomerLookupTableDto[],
+                    DepartmentLookupTableDto[],
+                    BranchLookupTableDto[],
                     GetOpportunityForEditOutput]) => {
-
+                    this.allDepartments = departments;
+                    this.allBranches = branches;
                     this.opportunity = opportunityForEdit.opportunity;
                     this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
                     this.leadSourceDescription = opportunityForEdit.leadSourceDescription;

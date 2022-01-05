@@ -10,8 +10,8 @@ using SBCRM.EntityFrameworkCore;
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    [Migration("20220104230454_Update_Branch_And_Dept_On_Opportunity")]
-    partial class Update_Branch_And_Dept_On_Opportunity
+    [Migration("20220105050513_Remove_Branch_Department_Fields_Opportunity")]
+    partial class Remove_Branch_Department_Fields_Opportunity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1868,7 +1868,7 @@ namespace SBCRM.Migrations
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -2467,9 +2467,6 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<short?>("BranchId")
-                        .HasColumnType("smallint");
-
                     b.Property<DateTime?>("CloseDate")
                         .HasColumnType("datetime2");
 
@@ -2531,13 +2528,9 @@ namespace SBCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchId");
-
                     b.HasIndex("ContactId");
 
                     b.HasIndex("CustomerNumber");
-
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("LeadSourceId");
 
@@ -3200,10 +3193,11 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Legacy.Department", b =>
                 {
+                    b.Property<short>("Branch")
+                        .HasColumnType("smallint");
+
                     b.Property<short>("Dept")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("smallint");
 
                     b.Property<string>("AddedBy")
                         .HasColumnType("nvarchar(max)");
@@ -3218,9 +3212,6 @@ namespace SBCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<short?>("BOPriority")
-                        .HasColumnType("smallint");
-
-                    b.Property<short>("Branch")
                         .HasColumnType("smallint");
 
                     b.Property<string>("CashAccount")
@@ -3382,7 +3373,7 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("ToDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Dept");
+                    b.HasKey("Branch", "Dept");
 
                     b.ToTable("Dept", "dbo");
                 });
@@ -4986,9 +4977,7 @@ namespace SBCRM.Migrations
 
                     b.HasOne("SBCRM.Authorization.Users.User", "UserFk")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ActivityPriorityFk");
 
@@ -5051,10 +5040,6 @@ namespace SBCRM.Migrations
 
             modelBuilder.Entity("SBCRM.Crm.Opportunity", b =>
                 {
-                    b.HasOne("SBCRM.Legacy.Branch", "BranchFk")
-                        .WithMany()
-                        .HasForeignKey("BranchId");
-
                     b.HasOne("SBCRM.Legacy.Contact", "ContactFk")
                         .WithMany()
                         .HasForeignKey("ContactId")
@@ -5066,10 +5051,6 @@ namespace SBCRM.Migrations
                         .HasForeignKey("CustomerNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("SBCRM.Legacy.Department", "DepartmentFk")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId");
 
                     b.HasOne("SBCRM.Crm.LeadSource", "LeadSourceFk")
                         .WithMany()
@@ -5085,13 +5066,9 @@ namespace SBCRM.Migrations
                         .WithMany()
                         .HasForeignKey("OpportunityTypeId");
 
-                    b.Navigation("BranchFk");
-
                     b.Navigation("ContactFk");
 
                     b.Navigation("CustomerFk");
-
-                    b.Navigation("DepartmentFk");
 
                     b.Navigation("LeadSourceFk");
 
