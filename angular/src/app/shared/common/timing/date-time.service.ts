@@ -90,6 +90,14 @@ export class DateTimeService {
         return this.getStartOfDayForDate(newDate);
     }
 
+    getStartOfMonth(): DateTime {
+        return this.getDate().startOf('month')
+    }
+
+    getEndOfMonth(): DateTime {
+        return this.getDate().endOf('month')
+    }
+
     getEndOfDay(): DateTime {
         return this.getDate().endOf('day');
     }

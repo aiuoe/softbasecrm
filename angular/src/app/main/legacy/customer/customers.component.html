@@ -1,6 +1,6 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Customer' | localize">
+        <sub-header [title]="'Customers' | localize">
 
             <div role="actions" class="d-flex flex-row align-items-center">
 
@@ -215,11 +215,12 @@
                                                         </span>    
                                                         </a>
                                                     </li>
-                                                    <div class="separator separator-solid"></div>
+                                                    <hr>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleMeetingOption"
-                                                            class="dropdown-item"                                                           
+                                                            class="dropdown-item" 
+                                                            (click) = "createActivityScheduleMeetingHandler(record.customer.number)"                                                          
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ScheduleMeeting') }}
@@ -229,7 +230,8 @@
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleCallOption"
-                                                            class="dropdown-item"                                                           
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityScheduleCallHandler(record.customer.number)"                                                            
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ScheduleCall') }}
@@ -239,7 +241,8 @@
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewEmailReminderOption"
-                                                            class="dropdown-item"                                                            
+                                                            class="dropdown-item" 
+                                                            (click) = "createActivityEmailReminderHandler(record.customer.number)"                                                            
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('EmailReminder') }}
@@ -250,7 +253,8 @@
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewToDoReminderOption"
-                                                            class="dropdown-item"                                                            
+                                                            class="dropdown-item"    
+                                                            (click) = "createActivityToDoReminderHandler(record.customer.number)"                                                         
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ToDoReminder') }}
@@ -323,8 +327,10 @@
             </div>
         </div>
         <app-create-or-edit-activity-widget-modal
-            #createActivityModal           
-        >
+            #createActivityModal
+            [componentType] = "'Account'"
+            [idToStore]="this.idAccountToStore"
+            >
         </app-create-or-edit-activity-widget-modal>
     </div>
 </div>

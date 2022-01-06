@@ -28,14 +28,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div
-                                        class="row"
-                                        *ngIf="
-                                            !this.showSaveButton &&
-                                            this.isReadOnlyMode &&
-                                            isGranted('Pages.Customer.Edit')
-                                        "
-                                    >
+                                    <div class="row" *ngIf="!this.showSaveButton && this.showEditButton">
                                         <div class="col-12">
                                             <button
                                                 (click)="openEditionMode()"
@@ -1225,6 +1218,10 @@
                     [customerNumber]="this.customer.number"
                     (onSaveContact)="reloadEvents()"
                 ></app-customer-contacts>
+            </div>
+
+            <div class="col-sm-12 col-lg-6">
+                <!-- To Do - Attachments widget -->
             </div>
 
             <div class="col-sm-12 col-lg-6">

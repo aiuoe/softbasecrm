@@ -11,12 +11,12 @@
                     </button>
                 </div>
                 <!-- SCHEDULE CALL FORM -->
-                <form  *ngIf="activityType == 'Schedule Call'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_CALL" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
-                                    <label for="Activity_DueDate">{{ l('DueDate') }}</label>
+                                    <label for="Activity_DueDate">{{ l('Date') }}</label>
                                     <input
                                         required
                                         class="form-control m-input"
@@ -66,6 +66,28 @@
 
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
+                                    <label for="Activity_Duration_Minutes">{{ l('Duration') }}</label>
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="Activity_Duration_Minutes"
+                                        name="Activity_Duration_Minutes"
+                                        #Activity_Duration_Minutes="ngModel"
+                                        [options]="durationItems"
+                                        [(ngModel)]="activity.durationMinutes"
+                                        optionValue="value"
+                                        optionLabel="text"
+                                        placeholder="{{ l('Select') }}"
+                                        [disabled] = "isView"
+                                    >
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="Activity_Duration_Minutes"></validation-messages>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group input-field required">
                                     <label for="ActivityStatusDescription">{{ l('Status') }}</label>
                                     <select
                                         name="activity.activityStatusId"
@@ -81,9 +103,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
@@ -132,7 +151,7 @@
                 </form>
 
                 <!-- SCHEDULE MEETING FORM -->
-                <form  *ngIf="activityType == 'Schedule Meeting'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_MEETING" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -272,7 +291,7 @@
                 </form>
 
                 <!-- EMAIL REMINDER FORM -->
-                <form  *ngIf="activityType == 'Email Reminder'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.EMAIL_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -371,7 +390,7 @@
 
 
                 <!-- TO DO REMINDER FORM -->
-                <form  *ngIf="activityType == 'To Do Reminder'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.TODO_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">

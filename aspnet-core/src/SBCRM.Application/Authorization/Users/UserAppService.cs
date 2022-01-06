@@ -132,7 +132,7 @@ namespace SBCRM.Authorization.Users
             return _userListExcelExporter.ExportToFile(userListDtos);
         }
 
-        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Create, AppPermissions.Pages_Administration_Users_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_Administration_Users_Edit)]
         public async Task<GetUserForEditOutput> GetUserForEdit(NullableIdDto<long> input)
         {
             //Getting all available roles

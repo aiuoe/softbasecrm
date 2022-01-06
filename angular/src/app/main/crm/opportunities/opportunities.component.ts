@@ -1,11 +1,19 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetOpportunityForViewDto, OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, OpportunityUserUserLookupTableDto, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
+import {
+    GetOpportunityForViewDto,
+    OpportunitiesServiceProxy,
+    OpportunityDto,
+    OpportunityOpportunityStageLookupTableDto,
+    OpportunityStageDto,
+    OpportunityStagesServiceProxy,
+    OpportunityUserUserLookupTableDto,
+    PagedResultDtoOfGetOpportunityStageForViewDto,
+} from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
@@ -15,6 +23,8 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { CreateOrEditActivityWidgetModalComponent } from '../activities-widget/create-or-edit-activity-widget-modal.component';
+import { ActivityTaskType } from '@shared/AppEnums';
 
 /***
  * Component to manage the opportunity summary grid
@@ -31,7 +41,9 @@ export class OpportunitiesComponent extends AppComponentBase {
     opportunityStages: OpportunityOpportunityStageLookupTableDto[];
     selectedOpportunityStage: OpportunityOpportunityStageLookupTableDto;
     selectedOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
-    allStagesFilter : OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto;
+    allStagesFilter: OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto();
+
+    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -56,10 +68,12 @@ export class OpportunitiesComponent extends AppComponentBase {
     customerName = '';
     contactName = '';
 
-    allUsers: OpportunityUserUserLookupTableDto[];   
+    idOpportunityToStore = 0;
+
+    allUsers: OpportunityUserUserLookupTableDto[];
     selectedUsers: OpportunityUserUserLookupTableDto[];
-    noAssignedUsersOption: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto;
-    defaultUser: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto    
+    noAssignedUsersOption: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto();
+    defaultUser: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto();
 
     /***
      * Main constructor
@@ -86,30 +100,28 @@ export class OpportunitiesComponent extends AppComponentBase {
         super(injector);
     }
 
-
     /***
-    * Initialize component
-    */
-     ngOnInit(){
-        this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown()
-        .subscribe((result) => {
+     * Initialize component
+     */
+    ngOnInit() {
+        this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown().subscribe((result) => {
             this.opportunityStages = result;
             this.allStagesFilter.displayName = 'All';
             this.opportunityStages.unshift(this.allStagesFilter);
         });
 
         this._opportunitiesServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
-            this.allUsers = result;    
+            this.allUsers = result;
             this.noAssignedUsersOption.id = -1;
-            this.noAssignedUsersOption.displayName = "None"   
+            this.noAssignedUsersOption.displayName = 'None';
             this.allUsers.unshift(this.noAssignedUsersOption);
         });
     }
 
     /***
-    * Get opportunities on page load/filter changes
-    * @param event
-    */
+     * Get opportunities on page load/filter changes
+     * @param event
+     */
     getOpportunities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -141,7 +153,7 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.customerName,
                 this.contactName,
                 this.selectedOpportunityStage?.id,
-                this.selectedUsers?.map(x => x.id),
+                this.selectedUsers?.map((x) => x.id),
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -167,25 +179,24 @@ export class OpportunitiesComponent extends AppComponentBase {
     }
 
     /***
-    * Reload page
-    */
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
     /***
-    * Go to create lead page
-    */
+     * Go to create lead page
+     */
     createOpportunity(): void {
         this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }
 
     /***
-    * Export to excel
-    */
+     * Export to excel
+     */
     exportToExcel(): void {
-
-        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+        this.timeZone = this._dateTimeService.getLocalTimeZone();
 
         this._opportunitiesServiceProxy
             .getOpportunitiesToExcel(
@@ -211,22 +222,22 @@ export class OpportunitiesComponent extends AppComponentBase {
                 this.customerName,
                 this.contactName,
                 this.selectedOpportunityStage?.id,
-                this.selectedUsers?.map(x => x.id),
+                this.selectedUsers?.map((x) => x.id)
             )
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
     }
 
-     /***
+    /***
      * Set user image profile reference
      * @param users
      */
-      setUsersProfilePictureUrl(users: GetOpportunityForViewDto[]): void {
+    setUsersProfilePictureUrl(users: GetOpportunityForViewDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
             if (user.firstUserAssignedId) {
-                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
+                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
                     let profilePictureUrl =
                         AppConsts.remoteServiceBaseUrl +
                         '/Profile/GetProfilePictureByUser?userId=' +
@@ -239,5 +250,45 @@ export class OpportunitiesComponent extends AppComponentBase {
                 });
             }
         }
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type for Schedule Call
+     * @param activityType
+     */
+    createActivityScheduleCallHandler(idOpportunityToStore: number) {
+        this.idOpportunityToStore = idOpportunityToStore;
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Schedule Meeting
+     * @param activityType
+     */
+    createActivityScheduleMeetingHandler(idOpportunityToStore: number) {
+        this.idOpportunityToStore = idOpportunityToStore;
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Email Reminder
+     * @param activityType
+     */
+    createActivityEmailReminderHandler(idOpportunityToStore: number) {
+        this.idOpportunityToStore = idOpportunityToStore;
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for To-Do Reminder
+     * @param activityType
+     */
+    createActivityToDoReminderHandler(idOpportunityToStore: number) {
+        this.idOpportunityToStore = idOpportunityToStore;
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
     }
 }

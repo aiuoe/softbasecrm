@@ -27,6 +27,8 @@ import { HttpClient } from '@angular/common/http';
 import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-modal.component';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { AppConsts } from '@shared/AppConsts';
+import { CreateOrEditActivityWidgetModalComponent } from '../activities-widget/create-or-edit-activity-widget-modal.component';
+import { ActivityTaskType } from '@shared/AppEnums';
 
 /***
  * Component to manage the leads summary grid
@@ -40,9 +42,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-    @ViewChild('importLeadsModalComponent', { static: true })
+    @ViewChild('importLeadsModalComponent', { static: true }) importLeadsModalComponent: ImportLeadsModalComponent;
+    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
-    importLeadsModalComponent: ImportLeadsModalComponent;
     leadStatuses: LeadLeadStatusLookupTableDto[];
     selectedLeadStatus: LeadStatusDto;
     readOnlyStatus = [];
@@ -86,6 +88,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     allLeadSources: LeadLeadSourceLookupTableDto[];
     leadSourceDescription = '';
     leadSourceId: number;
+
+    idLeadToStore = '';
+
 
     public saving = false;
 
@@ -345,5 +350,45 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
             }, _ => {
                 this.spinnerService.hide();
             });
+    }
+
+    /**
+   * Opens modal to create an activity given an activity type for Schedule Call
+   * @param activityType 
+   */
+    createActivityScheduleCallHandler(idLeadToStore: string){
+        this.idLeadToStore = idLeadToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Schedule Meeting
+     * @param activityType 
+     */
+    createActivityScheduleMeetingHandler(idLeadToStore: string){
+        this.idLeadToStore = idLeadToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Email Reminder
+     * @param activityType 
+     */
+    createActivityEmailReminderHandler(idLeadToStore: string){
+        this.idLeadToStore = idLeadToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for To-Do Reminder
+     * @param activityType 
+     */
+    createActivityToDoReminderHandler(idLeadToStore: string){
+        this.idLeadToStore = idLeadToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
     }
 }

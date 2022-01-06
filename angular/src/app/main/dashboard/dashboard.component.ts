@@ -8,7 +8,7 @@ import { DashboardCustomizationConst } from '@app/shared/common/customizable-das
     encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent extends AppComponentBase {
-    dashboardName = DashboardCustomizationConst.dashboardNames.defaultTenantDashboard;
+    dashboardName = DashboardCustomizationConst.dashboardNames.defaultCrmDashboard;
 
     constructor(injector: Injector) {
         super(injector);
