@@ -60,10 +60,10 @@ namespace SBCRM.Crm
         [ForeignKey("CustomerNumber")]
         public Customer CustomerFk { get; set; }
 
-        public virtual short Dept { get; set; }
         public virtual short Branch { get; set; }
+        public virtual short Dept { get; set; }
 
-        [ForeignKey("Dept, Branch")]
+        [ForeignKey("Branch, Dept")]
         public Department DepartmentFk { get; set; }
 
         public List<OpportunityUser> Users { get; set; }

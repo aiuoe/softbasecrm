@@ -10,13 +10,13 @@ namespace SBCRM.Migrations
                 name: "IX_Opportunities_Dept_Branch",
                 schema: "web",
                 table: "Opportunities",
-                columns: new[] { "Dept", "Branch" });
+                columns: new[] { "Branch", "Dept" });
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Opportunities_Dept_Dept_Branch",
                 schema: "web",
                 table: "Opportunities",
-                columns: new[] { "Dept", "Branch" },
+                columns: new[] { "Branch", "Dept" },
                 principalSchema: "dbo",
                 principalTable: "Dept",
                 principalColumns: new[] { "Branch", "Dept" },
