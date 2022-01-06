@@ -599,7 +599,7 @@ namespace SBCRM.Configuration
                                 {
                                     WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Crm
                                         .OpportunitiesStats, // Top Stats
-                                    Height = 7,
+                                    Height = 5,
                                     Width = 12,
                                     PositionX = 0,
                                     PositionY = 0
@@ -608,10 +608,10 @@ namespace SBCRM.Configuration
                                 {
                                     WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Crm
                                         .OpportunitiesList, // Summary
-                                    Height = 12,
+                                    Height = 8,
                                     Width = 12,
                                     PositionX = 0,
-                                    PositionY = 7
+                                    PositionY = 6
                                 },
                             }
                         }

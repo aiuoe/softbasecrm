@@ -35,6 +35,7 @@ namespace SBCRM.Crm
         private readonly IEntityChangeSetReasonProvider _reasonProvider;
         private readonly IOpportunitiesExcelExporter _opportunitiesExcelExporter;
         private readonly IOpportunityAutomateAssignmentService _opportunityAutomateAssignment;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<Contact, int> _lookupContactsRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IRepository<LeadSource, int> _lookupLeadSourceRepository;
@@ -42,8 +43,7 @@ namespace SBCRM.Crm
         private readonly IRepository<OpportunityStage, int> _lookupOpportunityStageRepository;
         private readonly IRepository<OpportunityType, int> _lookupOpportunityTypeRepository;
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
-        private readonly IRepository<User, long> _lookup_userRepository;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IRepository<Branch> _lookupBranchRepository;
         private readonly IRepository<Department> _lookupDepartmentRepository;
 
@@ -64,6 +64,8 @@ namespace SBCRM.Crm
         /// <param name="unitOfWorkManager"></param>
         /// <param name="lookupUserRepository"></param>
         /// <param name="opportunityUserRepository"></param>
+        /// <param name="lookupBranchRepository"></param>
+        /// <param name="lookupDepartmentRepository"></param>
         /// <param name="opportunityAutomateAssignment"></param>
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
@@ -83,20 +85,20 @@ namespace SBCRM.Crm
             IOpportunityAutomateAssignmentService opportunityAutomateAssignment)
         {
             _auditEventsService = auditEventsService;
-            _lookup_userRepository = lookupUserRepository;
+            _lookupUserRepository = lookupUserRepository;
             _lookupContactsRepository = lookupContactsRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
             _lookupLeadSourceRepository = lookupLeadSourceRepository;
             _lookupOpportunityStageRepository = lookupOpportunityStageRepository;
             _lookupOpportunityTypeRepository = lookupOpportunityTypeRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
-            _opportunityAutomateAssignment = opportunityAutomateAssignment;
             _opportunityRepository = opportunityRepository;
             _opportunityUserRepository = opportunityUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
             _lookupBranchRepository = lookupBranchRepository;
             _lookupDepartmentRepository = lookupDepartmentRepository;
+            _opportunityAutomateAssignment = opportunityAutomateAssignment;
         }
 
         /// <summary>
@@ -780,7 +782,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<LeadUserUserLookupTableDto>> GetAllUsersForTableDropdown()
         {
-            return await _lookup_userRepository.GetAll()
+            return await _lookupUserRepository.GetAll()
                 .Select(user => new LeadUserUserLookupTableDto
                 {
                     Id = user.Id,

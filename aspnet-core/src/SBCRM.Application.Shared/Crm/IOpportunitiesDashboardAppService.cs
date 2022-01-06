@@ -43,6 +43,6 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<FileDto> GetOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input);
+        FileDto GetOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input);
     }
 }

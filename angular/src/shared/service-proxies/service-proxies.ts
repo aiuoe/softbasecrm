@@ -17724,11 +17724,11 @@ export class OpportunitiesDashboardServiceProxy {
      * @param fromDate (optional) 
      * @param toDate (optional) 
      * @param account (optional) 
-     * @param branch (optional) 
-     * @param department (optional) 
+     * @param branches (optional) 
+     * @param departments (optional) 
      * @return Success
      */
-    get(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string | undefined, branch: string | undefined, department: string | undefined): Observable<GetOpportunitiesStastsOutput> {
+    get(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<GetOpportunitiesStastsOutput> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/Get?";
         if (fromDate === null)
             throw new Error("The parameter 'fromDate' cannot be null.");
@@ -17741,15 +17741,15 @@ export class OpportunitiesDashboardServiceProxy {
         if (account === null)
             throw new Error("The parameter 'account' cannot be null.");
         else if (account !== undefined)
-            url_ += "Account=" + encodeURIComponent("" + account) + "&";
-        if (branch === null)
-            throw new Error("The parameter 'branch' cannot be null.");
-        else if (branch !== undefined)
-            url_ += "Branch=" + encodeURIComponent("" + branch) + "&";
-        if (department === null)
-            throw new Error("The parameter 'department' cannot be null.");
-        else if (department !== undefined)
-            url_ += "Department=" + encodeURIComponent("" + department) + "&";
+            account && account.forEach(item => { url_ += "Account=" + encodeURIComponent("" + item) + "&"; });
+        if (branches === null)
+            throw new Error("The parameter 'branches' cannot be null.");
+        else if (branches !== undefined)
+            branches && branches.forEach(item => { url_ += "Branches=" + encodeURIComponent("" + item) + "&"; });
+        if (departments === null)
+            throw new Error("The parameter 'departments' cannot be null.");
+        else if (departments !== undefined)
+            departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17971,15 +17971,35 @@ export class OpportunitiesDashboardServiceProxy {
     }
 
     /**
-     * @param opportunityIds (optional) 
+     * @param fromDate (optional) 
+     * @param toDate (optional) 
+     * @param account (optional) 
+     * @param branches (optional) 
+     * @param departments (optional) 
      * @return Success
      */
-    getOpportunitiesDashboardToExcel(opportunityIds: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetOpportunitiesDashboardToExcel?";
-        if (opportunityIds === null)
-            throw new Error("The parameter 'opportunityIds' cannot be null.");
-        else if (opportunityIds !== undefined)
-            opportunityIds && opportunityIds.forEach(item => { url_ += "OpportunityIds=" + encodeURIComponent("" + item) + "&"; });
+        if (fromDate === null)
+            throw new Error("The parameter 'fromDate' cannot be null.");
+        else if (fromDate !== undefined)
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
+        if (toDate === null)
+            throw new Error("The parameter 'toDate' cannot be null.");
+        else if (toDate !== undefined)
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
+        if (account === null)
+            throw new Error("The parameter 'account' cannot be null.");
+        else if (account !== undefined)
+            account && account.forEach(item => { url_ += "Account=" + encodeURIComponent("" + item) + "&"; });
+        if (branches === null)
+            throw new Error("The parameter 'branches' cannot be null.");
+        else if (branches !== undefined)
+            branches && branches.forEach(item => { url_ += "Branches=" + encodeURIComponent("" + item) + "&"; });
+        if (departments === null)
+            throw new Error("The parameter 'departments' cannot be null.");
+        else if (departments !== undefined)
+            departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -37786,7 +37806,6 @@ export interface IGetNotificationsOutput {
 }
 
 export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutput {
-    opportunitiesId!: number[] | undefined;
     averageSales!: number;
     closeRate!: number;
     averageDealSize!: number;
@@ -37803,11 +37822,6 @@ export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutp
 
     init(_data?: any) {
         if (_data) {
-            if (Array.isArray(_data["opportunitiesId"])) {
-                this.opportunitiesId = [] as any;
-                for (let item of _data["opportunitiesId"])
-                    this.opportunitiesId!.push(item);
-            }
             this.averageSales = _data["averageSales"];
             this.closeRate = _data["closeRate"];
             this.averageDealSize = _data["averageDealSize"];
@@ -37824,11 +37838,6 @@ export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.opportunitiesId)) {
-            data["opportunitiesId"] = [];
-            for (let item of this.opportunitiesId)
-                data["opportunitiesId"].push(item);
-        }
         data["averageSales"] = this.averageSales;
         data["closeRate"] = this.closeRate;
         data["averageDealSize"] = this.averageDealSize;
@@ -37838,7 +37847,6 @@ export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutp
 }
 
 export interface IGetOpportunitiesStastsOutput {
-    opportunitiesId: number[] | undefined;
     averageSales: number;
     closeRate: number;
     averageDealSize: number;
