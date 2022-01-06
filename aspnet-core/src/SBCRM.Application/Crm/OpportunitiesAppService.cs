@@ -65,8 +65,9 @@ namespace SBCRM.Crm
         /// <param name="unitOfWorkManager"></param>
         /// <param name="lookupUserRepository"></param>
         /// <param name="opportunityUserRepository"></param>
-        /// <param name="softBaseBranchRepository"></param>
-        /// <param name="softBaseDepartmentRepository"></param>    
+        /// <param name="lookupBranchRepository"></param>
+        /// <param name="lookupDepartmentRepository"></param>
+
         public OpportunitiesAppService(
             IOpportunitiesExcelExporter opportunitiesExcelExporter,
             IRepository<Opportunity> opportunityRepository,
@@ -91,13 +92,11 @@ namespace SBCRM.Crm
             _lookupOpportunityStageRepository = lookupOpportunityStageRepository;
             _lookupOpportunityTypeRepository = lookupOpportunityTypeRepository;
             _opportunitiesExcelExporter = opportunitiesExcelExporter;
-            _opportunityAutomateAssignment = opportunityAutomateAssignment;
             _opportunityRepository = opportunityRepository;
             _opportunityUserRepository = opportunityUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
             _lookup_userRepository = lookupUserRepository;
-            _opportunityUserRepository = opportunityUserRepository;
             _lookupBranchRepository = lookupBranchRepository;
             _lookupDepartmentRepository = lookupDepartmentRepository;
         }

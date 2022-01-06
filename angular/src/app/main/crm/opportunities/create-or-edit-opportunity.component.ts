@@ -153,7 +153,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(),
+            // this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(),
             this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdown(),
             this._opportunitiesServiceProxy.getAllBranchesForTableDropdown(),
         ];

@@ -10,10 +10,10 @@ namespace SBCRM.Crm.Dtos
 
         public DateTime? ToDate { get; set; }
 
-        public string Account { get; set; }
+        public string[] Account { get; set; }
 
-        public string Branch { get; set; }
+        public short[] Branches { get; set; }
 
-        public string Department { get; set; }
+        public short[] Departments { get; set; }
     }
 }
