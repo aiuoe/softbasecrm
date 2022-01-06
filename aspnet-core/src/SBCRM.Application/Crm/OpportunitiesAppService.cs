@@ -151,8 +151,7 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
-                        //.Include(e => e.BranchFk)
-                        //.Include(e => e.DepartmentFk)
+                        .Include(e => e.DepartmentFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
                         //.WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || (e.BranchFk != null && e.BranchFk.Name.Contains(input.Filter)) || (e.DepartmentFk != null && e.DepartmentFk.Title.Contains(input.Filter)))
@@ -197,15 +196,27 @@ namespace SBCRM.Crm
                                     join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                                     from s5 in j5.DefaultIfEmpty()
 
+                                    join o6 in _lookupDepartmentRepository.GetAll() on new {
+                                                                                        Key1 = o.Dept,
+                                                                                        Key2 = o.Branch
+                                                                                        }
+                                                                                        equals
+                                                                                        new {
+                                                                                        Key1 = o6.Dept,
+                                                                                        Key2 = o6.Branch}
+                                                                                        into j6
+                                    from s6 in j6.DefaultIfEmpty()
+
+                                    join o7 in _lookupBranchRepository.GetAll() on s6.Branch equals o7.Number into j7
+                                    from s7 in j7.DefaultIfEmpty()
+
                                     select new OpportunityQueryDto
                                     {
                                         Name = o.Name,
                                         Amount = o.Amount,
                                         Probability = o.Probability,
                                         CloseDate = o.CloseDate,
-                                        Description = o.Description,
-                                        //BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
-                                        //DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
+                                        Description = o.Description,                                        
                                         Id = o.Id,
                                         Users = o.Users,
                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
@@ -214,7 +225,9 @@ namespace SBCRM.Crm
                                         OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),                                        
+                                        DepartmentTitle = s6 == null | s6.Title == null ? "" : s6.Title.ToString(),
+                                        BranchName = s7 != null ? s7.Name == null ? "" : s7.Name.ToString(),
                                         FirstUserAssignedName = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
                                                                  where user.OpportunityId == o.Id
                                                                  select user.UserFk.Name).FirstOrDefault()
@@ -236,8 +249,8 @@ namespace SBCRM.Crm
                         pagedAndFilteredOpportunities = filteredOpportunities
                             .OrderByDescending(o => o.CloseDate)
                             .ThenBy(o => o.Name)
-                            //.ThenBy(o => o.BranchFk.Name)
-                            //.ThenBy(o => o.DepartmentFk.Title)
+                            .ThenBy(o => o.BranchName)
+                            .ThenBy(o => o.DepartmentTitle)
                             .PageBy(input);
 
                     opportunities = from o in pagedAndFilteredOpportunities
@@ -256,15 +269,27 @@ namespace SBCRM.Crm
                                     join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                                     from s5 in j5.DefaultIfEmpty()
 
+                                    join o6 in _lookupDepartmentRepository.GetAll() on new {
+                                                                                        Key1 = o.Dept,
+                                                                                        Key2 = o.Branch
+                                                                                        }
+                                                                                        equals
+                                                                                        new {
+                                                                                        Key1 = o6.Dept,
+                                                                                        Key2 = o6.Branch}
+                                                                                        into j6
+                                    from s6 in j6.DefaultIfEmpty()
+
+                                    join o7 in _lookupBranchRepository.GetAll() on s6.Branch equals o7.Number into j7
+                                    from s7 in j7.DefaultIfEmpty()
+
                                     select new OpportunityQueryDto
                                     {
                                         Name = o.Name,
                                         Amount = o.Amount,
                                         Probability = o.Probability,
                                         CloseDate = o.CloseDate,
-                                        Description = o.Description,
-                                        //BranchName = o.BranchFk != null ? o.BranchFk.Name : string.Empty,
-                                        //DepartmentTitle = o.DepartmentFk != null ? o.DepartmentFk.Title : string.Empty,
+                                        Description = o.Description,                                        
                                         Id = o.Id,
                                         Users = o.Users,
                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
@@ -273,7 +298,9 @@ namespace SBCRM.Crm
                                         OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
+                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                                        DepartmentTitle = s6 == null | s6.Title == null ? "" : s6.Title.ToString(),
+                                        BranchName = s7 != null ? s7.Name == null ? "" : s7.Name.ToString()
                                     };
                 }
 
