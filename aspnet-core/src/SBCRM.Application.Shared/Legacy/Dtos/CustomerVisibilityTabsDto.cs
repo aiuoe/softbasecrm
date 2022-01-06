@@ -2,6 +2,7 @@
 {
     public class CustomerVisibilityTabsDto
     {
+        public bool CanEditOverviewTab { get; set; }
         public bool CanViewOpportunitiesTab { get; set; }
         public bool CanCreateOpportunities { get; set; }
         public bool CanViewOpportunities { get; set; }
