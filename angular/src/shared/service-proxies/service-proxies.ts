@@ -31,7 +31,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    isTenantAvailable(body: IsTenantAvailableInput | undefined) : Observable<IsTenantAvailableOutput> {
+    isTenantAvailable(body: IsTenantAvailableInput | undefined): Observable<IsTenantAvailableOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/IsTenantAvailable";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -87,7 +87,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    resolveTenantId(body: ResolveTenantIdInput | undefined) : Observable<number> {
+    resolveTenantId(body: ResolveTenantIdInput | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Account/ResolveTenantId";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -144,7 +144,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    register(body: RegisterInput | undefined) : Observable<RegisterOutput> {
+    register(body: RegisterInput | undefined): Observable<RegisterOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/Register";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -200,7 +200,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendPasswordResetCode(body: SendPasswordResetCodeInput | undefined) : Observable<void> {
+    sendPasswordResetCode(body: SendPasswordResetCodeInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/SendPasswordResetCode";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -252,7 +252,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    resetPassword(body: ResetPasswordInput | undefined) : Observable<ResetPasswordOutput> {
+    resetPassword(body: ResetPasswordInput | undefined): Observable<ResetPasswordOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/ResetPassword";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -308,7 +308,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendEmailActivationLink(body: SendEmailActivationLinkInput | undefined) : Observable<void> {
+    sendEmailActivationLink(body: SendEmailActivationLinkInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/SendEmailActivationLink";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -360,7 +360,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    activateEmail(body: ActivateEmailInput | undefined) : Observable<void> {
+    activateEmail(body: ActivateEmailInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/ActivateEmail";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -412,7 +412,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    impersonateUser(body: ImpersonateUserInput | undefined) : Observable<ImpersonateOutput> {
+    impersonateUser(body: ImpersonateUserInput | undefined): Observable<ImpersonateOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/ImpersonateUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -468,7 +468,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    impersonateTenant(body: ImpersonateTenantInput | undefined) : Observable<ImpersonateOutput> {
+    impersonateTenant(body: ImpersonateTenantInput | undefined): Observable<ImpersonateOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/ImpersonateTenant";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -524,7 +524,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    delegatedImpersonate(body: DelegatedImpersonateInput | undefined) : Observable<ImpersonateOutput> {
+    delegatedImpersonate(body: DelegatedImpersonateInput | undefined): Observable<ImpersonateOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/DelegatedImpersonate";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -579,7 +579,7 @@ export class AccountServiceProxy {
     /**
      * @return Success
      */
-    backToImpersonator() : Observable<ImpersonateOutput> {
+    backToImpersonator(): Observable<ImpersonateOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/BackToImpersonator";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -631,7 +631,7 @@ export class AccountServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    switchToLinkedAccount(body: SwitchToLinkedAccountInput | undefined) : Observable<SwitchToLinkedAccountOutput> {
+    switchToLinkedAccount(body: SwitchToLinkedAccountInput | undefined): Observable<SwitchToLinkedAccountOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/SwitchToLinkedAccount";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -711,7 +711,7 @@ export class AccountActivitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -815,7 +815,7 @@ export class AccountActivitiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -867,7 +867,7 @@ export class AccountActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -918,7 +918,7 @@ export class AccountActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<ActivityUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<ActivityUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -976,7 +976,7 @@ export class AccountActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivitySourceTypeForTableDropdown() : Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+    getAllActivitySourceTypeForTableDropdown(): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivitySourceTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1034,7 +1034,7 @@ export class AccountActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityTaskTypeForTableDropdown() : Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+    getAllActivityTaskTypeForTableDropdown(): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivityTaskTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1092,7 +1092,7 @@ export class AccountActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityStatusForTableDropdown() : Observable<ActivityActivityStatusLookupTableDto[]> {
+    getAllActivityStatusForTableDropdown(): Observable<ActivityActivityStatusLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivityStatusForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1150,7 +1150,7 @@ export class AccountActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityPriorityForTableDropdown() : Observable<ActivityActivityPriorityLookupTableDto[]> {
+    getAllActivityPriorityForTableDropdown(): Observable<ActivityActivityPriorityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetAllActivityPriorityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1209,7 +1209,7 @@ export class AccountActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityForEdit(id: number | undefined) : Observable<GetActivityForEditOutput> {
+    getActivityForEdit(id: number | undefined): Observable<GetActivityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/AccountActivities/GetActivityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1277,7 +1277,7 @@ export class AccountAutomateAssignmentServiceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    assignAccountUsers(body: CreateOrEditAccountUserDto[] | undefined) : Observable<void> {
+    assignAccountUsers(body: CreateOrEditAccountUserDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountAutomateAssignmentService/AssignAccountUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1340,7 +1340,7 @@ export class AccountTypesServiceProxy {
     /**
      * @return Success
      */
-    getAllWithoutPaging() : Observable<GetAccountTypeForViewDto[]> {
+    getAllWithoutPaging(): Observable<GetAccountTypeForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountTypes/GetAllWithoutPaging";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1402,7 +1402,7 @@ export class AccountTypesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetAccountTypeForViewDto> {
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetAccountTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AccountTypes/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1470,7 +1470,7 @@ export class AccountTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAccountTypeForEdit(id: number | undefined) : Observable<GetAccountTypeForEditOutput> {
+    getAccountTypeForEdit(id: number | undefined): Observable<GetAccountTypeForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/AccountTypes/GetAccountTypeForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1526,7 +1526,7 @@ export class AccountTypesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditAccountTypeDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditAccountTypeDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountTypes/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1578,7 +1578,7 @@ export class AccountTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountTypes/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1642,7 +1642,7 @@ export class AccountUsersServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCanViewAssignedUsersWidget(customerNumber: string | undefined) : Observable<boolean> {
+    getCanViewAssignedUsersWidget(customerNumber: string | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetCanViewAssignedUsersWidget?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -1704,7 +1704,7 @@ export class AccountUsersServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, userNameFilter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetAccountUserForViewDto> {
+    getAll(filter: string | undefined, userNameFilter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetAccountUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1780,7 +1780,7 @@ export class AccountUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAccountUserForView(id: number | undefined) : Observable<GetAccountUserForViewDto> {
+    getAccountUserForView(id: number | undefined): Observable<GetAccountUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAccountUserForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1836,7 +1836,7 @@ export class AccountUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAccountUserForEdit(id: number | undefined) : Observable<GetAccountUserForEditOutput> {
+    getAccountUserForEdit(id: number | undefined): Observable<GetAccountUserForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAccountUserForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1892,7 +1892,7 @@ export class AccountUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1943,7 +1943,7 @@ export class AccountUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<AccountUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<AccountUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2002,7 +2002,7 @@ export class AccountUsersServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createMultipleAccountUsers(body: CreateOrEditAccountUserDto[] | undefined) : Observable<void> {
+    createMultipleAccountUsers(body: CreateOrEditAccountUserDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AccountUsers/CreateMultipleAccountUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2079,7 +2079,7 @@ export class ActivitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -2187,7 +2187,7 @@ export class ActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityForView(id: number | undefined) : Observable<GetActivityForViewDto> {
+    getActivityForView(id: number | undefined): Observable<GetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivityForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -2243,7 +2243,7 @@ export class ActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityForEdit(id: number | undefined) : Observable<GetActivityForEditOutput> {
+    getActivityForEdit(id: number | undefined): Observable<GetActivityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -2299,7 +2299,7 @@ export class ActivitiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Activities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2351,7 +2351,7 @@ export class ActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Activities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -2416,7 +2416,7 @@ export class ActivitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -2524,7 +2524,7 @@ export class ActivitiesServiceProxy {
      * @param isForCreate (optional) 
      * @return Success
      */
-    getAllAccountsForTableDropdown(isForCreate: boolean | undefined) : Observable<ActivityCustomerLookupTableDto[]> {
+    getAllAccountsForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityCustomerLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown?";
         if (isForCreate === null)
             throw new Error("The parameter 'isForCreate' cannot be null.");
@@ -2586,7 +2586,7 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllAccountRelatedToOpportunityForTableDropdown() : Observable<ActivityCustomerLookupTableDto[]> {
+    getAllAccountRelatedToOpportunityForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountRelatedToOpportunityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2645,7 +2645,7 @@ export class ActivitiesServiceProxy {
      * @param isForCreate (optional) 
      * @return Success
      */
-    getAllOpportunityForTableDropdown(isForCreate: boolean | undefined) : Observable<ActivityOpportunityLookupTableDto[]> {
+    getAllOpportunityForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityOpportunityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown?";
         if (isForCreate === null)
             throw new Error("The parameter 'isForCreate' cannot be null.");
@@ -2708,7 +2708,7 @@ export class ActivitiesServiceProxy {
      * @param isForCreate (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(isForCreate: boolean | undefined) : Observable<ActivityLeadLookupTableDto[]> {
+    getAllLeadForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityLeadLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllLeadForTableDropdown?";
         if (isForCreate === null)
             throw new Error("The parameter 'isForCreate' cannot be null.");
@@ -2770,7 +2770,7 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<ActivityUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<ActivityUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2828,7 +2828,7 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivitySourceTypeForTableDropdown() : Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+    getAllActivitySourceTypeForTableDropdown(): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivitySourceTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2886,7 +2886,7 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityTaskTypeForTableDropdown() : Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+    getAllActivityTaskTypeForTableDropdown(): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityTaskTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2944,7 +2944,7 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityStatusForTableDropdown() : Observable<ActivityActivityStatusLookupTableDto[]> {
+    getAllActivityStatusForTableDropdown(): Observable<ActivityActivityStatusLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityStatusForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3002,7 +3002,7 @@ export class ActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityPriorityForTableDropdown() : Observable<ActivityActivityPriorityLookupTableDto[]> {
+    getAllActivityPriorityForTableDropdown(): Observable<ActivityActivityPriorityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityPriorityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3077,7 +3077,7 @@ export class ActivityPrioritiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityPriorityForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3149,7 +3149,7 @@ export class ActivityPrioritiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityPriorityForView(id: number | undefined) : Observable<GetActivityPriorityForViewDto> {
+    getActivityPriorityForView(id: number | undefined): Observable<GetActivityPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPriorityForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3205,7 +3205,7 @@ export class ActivityPrioritiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityPriorityForEdit(id: number | undefined) : Observable<GetActivityPriorityForEditOutput> {
+    getActivityPriorityForEdit(id: number | undefined): Observable<GetActivityPriorityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/GetActivityPriorityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3261,7 +3261,7 @@ export class ActivityPrioritiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityPriorityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityPriorityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3313,7 +3313,7 @@ export class ActivityPrioritiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityPriorities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3381,7 +3381,7 @@ export class ActivitySourceTypesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivitySourceTypeForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivitySourceTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3453,7 +3453,7 @@ export class ActivitySourceTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivitySourceTypeForView(id: number | undefined) : Observable<GetActivitySourceTypeForViewDto> {
+    getActivitySourceTypeForView(id: number | undefined): Observable<GetActivitySourceTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/GetActivitySourceTypeForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3509,7 +3509,7 @@ export class ActivitySourceTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivitySourceTypeForEdit(id: number | undefined) : Observable<GetActivitySourceTypeForEditOutput> {
+    getActivitySourceTypeForEdit(id: number | undefined): Observable<GetActivitySourceTypeForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/GetActivitySourceTypeForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3565,7 +3565,7 @@ export class ActivitySourceTypesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivitySourceTypeDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivitySourceTypeDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3617,7 +3617,7 @@ export class ActivitySourceTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivitySourceTypes/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3685,7 +3685,7 @@ export class ActivityStatusesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityStatusForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3757,7 +3757,7 @@ export class ActivityStatusesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityStatusForView(id: number | undefined) : Observable<GetActivityStatusForViewDto> {
+    getActivityStatusForView(id: number | undefined): Observable<GetActivityStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetActivityStatusForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3813,7 +3813,7 @@ export class ActivityStatusesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityStatusForEdit(id: number | undefined) : Observable<GetActivityStatusForEditOutput> {
+    getActivityStatusForEdit(id: number | undefined): Observable<GetActivityStatusForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/GetActivityStatusForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -3869,7 +3869,7 @@ export class ActivityStatusesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityStatusDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityStatusDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3921,7 +3921,7 @@ export class ActivityStatusesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateOrder(body: UpdateOrderActivityStatusDto[] | undefined) : Observable<void> {
+    updateOrder(body: UpdateOrderActivityStatusDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/UpdateOrder";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3973,7 +3973,7 @@ export class ActivityStatusesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityStatuses/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -4041,7 +4041,7 @@ export class ActivityTaskTypesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityTaskTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -4113,7 +4113,7 @@ export class ActivityTaskTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityTaskTypeForView(id: number | undefined) : Observable<GetActivityTaskTypeForViewDto> {
+    getActivityTaskTypeForView(id: number | undefined): Observable<GetActivityTaskTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetActivityTaskTypeForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -4169,7 +4169,7 @@ export class ActivityTaskTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityTaskTypeForEdit(id: number | undefined) : Observable<GetActivityTaskTypeForEditOutput> {
+    getActivityTaskTypeForEdit(id: number | undefined): Observable<GetActivityTaskTypeForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/GetActivityTaskTypeForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -4225,7 +4225,7 @@ export class ActivityTaskTypesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityTaskTypeDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityTaskTypeDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4277,7 +4277,7 @@ export class ActivityTaskTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ActivityTaskTypes/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -4365,7 +4365,7 @@ export class ARTermsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, termsFilter: string | undefined, maxCODFilter: number | undefined, minCODFilter: number | undefined, maxDaysDueFilter: number | undefined, minDaysDueFilter: number | undefined, maxDaysFilter: number | undefined, minDaysFilter: number | undefined, maxDayOfMonthFilter: number | undefined, minDayOfMonthFilter: number | undefined, maxDayFilter: number | undefined, minDayFilter: number | undefined, maxPrintWaterMarkFilter: number | undefined, minPrintWaterMarkFilter: number | undefined, addedByFilter: string | undefined, maxDateAddedFilter: DateTime | undefined, minDateAddedFilter: DateTime | undefined, changedByFilter: string | undefined, maxDateChangedFilter: DateTime | undefined, minDateChangedFilter: DateTime | undefined, maxCreditCardFilter: number | undefined, minCreditCardFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetARTermsForViewDto> {
+    getAll(filter: string | undefined, termsFilter: string | undefined, maxCODFilter: number | undefined, minCODFilter: number | undefined, maxDaysDueFilter: number | undefined, minDaysDueFilter: number | undefined, maxDaysFilter: number | undefined, minDaysFilter: number | undefined, maxDayOfMonthFilter: number | undefined, minDayOfMonthFilter: number | undefined, maxDayFilter: number | undefined, minDayFilter: number | undefined, maxPrintWaterMarkFilter: number | undefined, minPrintWaterMarkFilter: number | undefined, addedByFilter: string | undefined, maxDateAddedFilter: DateTime | undefined, minDateAddedFilter: DateTime | undefined, changedByFilter: string | undefined, maxDateChangedFilter: DateTime | undefined, minDateChangedFilter: DateTime | undefined, maxCreditCardFilter: number | undefined, minCreditCardFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetARTermsForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ARTerms/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -4430,11 +4430,11 @@ export class ARTermsServiceProxy {
         if (maxDateAddedFilter === null)
             throw new Error("The parameter 'maxDateAddedFilter' cannot be null.");
         else if (maxDateAddedFilter !== undefined)
-            url_ += "MaxDateAddedFilter=" + encodeURIComponent(maxDateAddedFilter ? "" + maxDateAddedFilter.toString() : "") + "&";
+            url_ += "MaxDateAddedFilter=" + encodeURIComponent(maxDateAddedFilter ? "" + maxDateAddedFilter.toJSON() : "") + "&";
         if (minDateAddedFilter === null)
             throw new Error("The parameter 'minDateAddedFilter' cannot be null.");
         else if (minDateAddedFilter !== undefined)
-            url_ += "MinDateAddedFilter=" + encodeURIComponent(minDateAddedFilter ? "" + minDateAddedFilter.toString() : "") + "&";
+            url_ += "MinDateAddedFilter=" + encodeURIComponent(minDateAddedFilter ? "" + minDateAddedFilter.toJSON() : "") + "&";
         if (changedByFilter === null)
             throw new Error("The parameter 'changedByFilter' cannot be null.");
         else if (changedByFilter !== undefined)
@@ -4442,11 +4442,11 @@ export class ARTermsServiceProxy {
         if (maxDateChangedFilter === null)
             throw new Error("The parameter 'maxDateChangedFilter' cannot be null.");
         else if (maxDateChangedFilter !== undefined)
-            url_ += "MaxDateChangedFilter=" + encodeURIComponent(maxDateChangedFilter ? "" + maxDateChangedFilter.toString() : "") + "&";
+            url_ += "MaxDateChangedFilter=" + encodeURIComponent(maxDateChangedFilter ? "" + maxDateChangedFilter.toJSON() : "") + "&";
         if (minDateChangedFilter === null)
             throw new Error("The parameter 'minDateChangedFilter' cannot be null.");
         else if (minDateChangedFilter !== undefined)
-            url_ += "MinDateChangedFilter=" + encodeURIComponent(minDateChangedFilter ? "" + minDateChangedFilter.toString() : "") + "&";
+            url_ += "MinDateChangedFilter=" + encodeURIComponent(minDateChangedFilter ? "" + minDateChangedFilter.toJSON() : "") + "&";
         if (maxCreditCardFilter === null)
             throw new Error("The parameter 'maxCreditCardFilter' cannot be null.");
         else if (maxCreditCardFilter !== undefined)
@@ -4529,7 +4529,7 @@ export class AuditEventsServiceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addEvent(body: AuditEventDto | undefined) : Observable<void> {
+    addEvent(body: AuditEventDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/AuditEventsService/AddEvent";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4585,7 +4585,7 @@ export class AuditEventsServiceServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditEventsService/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -4680,16 +4680,16 @@ export class AuditLogServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getAuditLogs(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, serviceName: string | undefined, methodName: string | undefined, browserInfo: string | undefined, hasException: boolean | undefined, minExecutionDuration: number | undefined, maxExecutionDuration: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfAuditLogListDto> {
+    getAuditLogs(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, serviceName: string | undefined, methodName: string | undefined, browserInfo: string | undefined, hasException: boolean | undefined, minExecutionDuration: number | undefined, maxExecutionDuration: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfAuditLogListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAuditLogs?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (userName === null)
             throw new Error("The parameter 'userName' cannot be null.");
         else if (userName !== undefined)
@@ -4791,16 +4791,16 @@ export class AuditLogServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getAuditLogsToExcel(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, serviceName: string | undefined, methodName: string | undefined, browserInfo: string | undefined, hasException: boolean | undefined, minExecutionDuration: number | undefined, maxExecutionDuration: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<FileDto> {
+    getAuditLogsToExcel(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, serviceName: string | undefined, methodName: string | undefined, browserInfo: string | undefined, hasException: boolean | undefined, minExecutionDuration: number | undefined, maxExecutionDuration: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAuditLogsToExcel?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (userName === null)
             throw new Error("The parameter 'userName' cannot be null.");
         else if (userName !== undefined)
@@ -4890,7 +4890,7 @@ export class AuditLogServiceProxy {
     /**
      * @return Success
      */
-    getEntityHistoryObjectTypes() : Observable<NameValueDto[]> {
+    getEntityHistoryObjectTypes(): Observable<NameValueDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetEntityHistoryObjectTypes";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -4955,16 +4955,16 @@ export class AuditLogServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityChanges(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, entityTypeFullName: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityChanges(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, entityTypeFullName: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetEntityChanges?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (userName === null)
             throw new Error("The parameter 'userName' cannot be null.");
         else if (userName !== undefined)
@@ -5039,7 +5039,7 @@ export class AuditLogServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -5117,16 +5117,16 @@ export class AuditLogServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityChangesToExcel(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, entityTypeFullName: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<FileDto> {
+    getEntityChangesToExcel(startDate: DateTime | undefined, endDate: DateTime | undefined, userName: string | undefined, entityTypeFullName: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetEntityChangesToExcel?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (userName === null)
             throw new Error("The parameter 'userName' cannot be null.");
         else if (userName !== undefined)
@@ -5197,7 +5197,7 @@ export class AuditLogServiceProxy {
      * @param entityChangeId (optional) 
      * @return Success
      */
-    getEntityPropertyChanges(entityChangeId: number | undefined) : Observable<EntityPropertyChangeDto[]> {
+    getEntityPropertyChanges(entityChangeId: number | undefined): Observable<EntityPropertyChangeDto[]> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetEntityPropertyChanges?";
         if (entityChangeId === null)
             throw new Error("The parameter 'entityChangeId' cannot be null.");
@@ -5271,7 +5271,7 @@ export class CachingServiceProxy {
     /**
      * @return Success
      */
-    getAllCaches() : Observable<ListResultDtoOfCacheDto> {
+    getAllCaches(): Observable<ListResultDtoOfCacheDto> {
         let url_ = this.baseUrl + "/api/services/app/Caching/GetAllCaches";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5323,7 +5323,7 @@ export class CachingServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    clearCache(body: EntityDtoOfString | undefined) : Observable<void> {
+    clearCache(body: EntityDtoOfString | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Caching/ClearCache";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5374,7 +5374,7 @@ export class CachingServiceProxy {
     /**
      * @return Success
      */
-    clearAllCaches() : Observable<void> {
+    clearAllCaches(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Caching/ClearAllCaches";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5433,7 +5433,7 @@ export class ChatServiceProxy {
     /**
      * @return Success
      */
-    getUserChatFriendsWithSettings() : Observable<GetUserChatFriendsWithSettingsOutput> {
+    getUserChatFriendsWithSettings(): Observable<GetUserChatFriendsWithSettingsOutput> {
         let url_ = this.baseUrl + "/api/services/app/Chat/GetUserChatFriendsWithSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5487,7 +5487,7 @@ export class ChatServiceProxy {
      * @param minMessageId (optional) 
      * @return Success
      */
-    getUserChatMessages(tenantId: number | undefined, userId: number | undefined, minMessageId: number | undefined) : Observable<ListResultDtoOfChatMessageDto> {
+    getUserChatMessages(tenantId: number | undefined, userId: number | undefined, minMessageId: number | undefined): Observable<ListResultDtoOfChatMessageDto> {
         let url_ = this.baseUrl + "/api/services/app/Chat/GetUserChatMessages?";
         if (tenantId === null)
             throw new Error("The parameter 'tenantId' cannot be null.");
@@ -5551,7 +5551,7 @@ export class ChatServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    markAllUnreadMessagesOfUserAsRead(body: MarkAllUnreadMessagesOfUserAsReadInput | undefined) : Observable<void> {
+    markAllUnreadMessagesOfUserAsRead(body: MarkAllUnreadMessagesOfUserAsReadInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Chat/MarkAllUnreadMessagesOfUserAsRead";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5615,7 +5615,7 @@ export class CommonLookupServiceProxy {
      * @param onlyFreeItems (optional) 
      * @return Success
      */
-    getEditionsForCombobox(onlyFreeItems: boolean | undefined) : Observable<ListResultDtoOfSubscribableEditionComboboxItemDto> {
+    getEditionsForCombobox(onlyFreeItems: boolean | undefined): Observable<ListResultDtoOfSubscribableEditionComboboxItemDto> {
         let url_ = this.baseUrl + "/api/services/app/CommonLookup/GetEditionsForCombobox?";
         if (onlyFreeItems === null)
             throw new Error("The parameter 'onlyFreeItems' cannot be null.");
@@ -5671,7 +5671,7 @@ export class CommonLookupServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    findUsers(body: FindUsersInput | undefined) : Observable<PagedResultDtoOfNameValueDto> {
+    findUsers(body: FindUsersInput | undefined): Observable<PagedResultDtoOfNameValueDto> {
         let url_ = this.baseUrl + "/api/services/app/CommonLookup/FindUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5726,7 +5726,7 @@ export class CommonLookupServiceProxy {
     /**
      * @return Success
      */
-    getDefaultEditionName() : Observable<GetDefaultEditionNameOutput> {
+    getDefaultEditionName(): Observable<GetDefaultEditionNameOutput> {
         let url_ = this.baseUrl + "/api/services/app/CommonLookup/GetDefaultEditionName";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5790,7 +5790,7 @@ export class ContactsServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCanDeleteContact(customerNumber: string | undefined) : Observable<boolean> {
+    getCanDeleteContact(customerNumber: string | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetCanDeleteContact?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -5847,7 +5847,7 @@ export class ContactsServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getAllWithoutPaging(customerNumber: string | undefined) : Observable<GetContactForViewDto[]> {
+    getAllWithoutPaging(customerNumber: string | undefined): Observable<GetContactForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetAllWithoutPaging?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -5914,7 +5914,7 @@ export class ContactsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetContactForViewDto> {
+    getAll(filter: string | undefined, customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetContactForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -5986,7 +5986,7 @@ export class ContactsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getContactForEdit(id: number | undefined) : Observable<GetContactForEditOutput> {
+    getContactForEdit(id: number | undefined): Observable<GetContactForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/GetContactForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -6042,7 +6042,7 @@ export class ContactsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditContactDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditContactDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6094,7 +6094,7 @@ export class ContactsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Contacts/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -6163,7 +6163,7 @@ export class CountriesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetCountryForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCountryForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -6238,7 +6238,7 @@ export class CountriesServiceProxy {
     /**
      * @return Success
      */
-    getAllForTableDropdown() : Observable<GetCountryForViewDto[]> {
+    getAllForTableDropdown(): Observable<GetCountryForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetAllForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6297,7 +6297,7 @@ export class CountriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getCountryForView(id: number | undefined) : Observable<GetCountryForViewDto> {
+    getCountryForView(id: number | undefined): Observable<GetCountryForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetCountryForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -6353,7 +6353,7 @@ export class CountriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getCountryForEdit(id: number | undefined) : Observable<GetCountryForEditOutput> {
+    getCountryForEdit(id: number | undefined): Observable<GetCountryForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetCountryForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -6409,7 +6409,7 @@ export class CountriesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditCountryDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditCountryDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Countries/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6461,7 +6461,7 @@ export class CountriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Countries/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -6515,7 +6515,7 @@ export class CountriesServiceProxy {
      * @param codeFilter (optional) 
      * @return Success
      */
-    getCountriesToExcel(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined) : Observable<FileDto> {
+    getCountriesToExcel(filter: string | undefined, nameFilter: string | undefined, codeFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Countries/GetCountriesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -6591,7 +6591,7 @@ export class CustomerServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getVisibilityTabsPermissions(customerNumber: string | undefined) : Observable<CustomerVisibilityTabsDto> {
+    getVisibilityTabsPermissions(customerNumber: string | undefined): Observable<CustomerVisibilityTabsDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetVisibilityTabsPermissions?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -6652,7 +6652,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, accountTypeId: number[] | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetCustomerForViewDto> {
+    getAll(filter: string | undefined, accountTypeId: number[] | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -6728,7 +6728,7 @@ export class CustomerServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCustomerForView(customerNumber: string | undefined) : Observable<GetCustomerForViewOutput> {
+    getCustomerForView(customerNumber: string | undefined): Observable<GetCustomerForViewOutput> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerForView?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -6784,7 +6784,7 @@ export class CustomerServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCustomerForEdit(customerNumber: string | undefined) : Observable<GetCustomerForEditOutput> {
+    getCustomerForEdit(customerNumber: string | undefined): Observable<GetCustomerForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerForEdit?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -6840,7 +6840,7 @@ export class CustomerServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditCustomerDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditCustomerDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Customer/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6894,7 +6894,7 @@ export class CustomerServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getCustomerToExcel(filter: string | undefined, accountTypeId: number[] | undefined, userIds: number[] | undefined) : Observable<FileDto> {
+    getCustomerToExcel(filter: string | undefined, accountTypeId: number[] | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -6957,7 +6957,7 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
-    getCurrentUserId() : Observable<number> {
+    getCurrentUserId(): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCurrentUserId";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7009,7 +7009,7 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
-    getAllAccountTypeForTableDropdown() : Observable<CustomerAccountTypeLookupTableDto[]> {
+    getAllAccountTypeForTableDropdown(): Observable<CustomerAccountTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllAccountTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7067,7 +7067,7 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
-    getAllLeadSourceForTableDropdown() : Observable<CustomerLeadSourceLookupTableDto[]> {
+    getAllLeadSourceForTableDropdown(): Observable<CustomerLeadSourceLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllLeadSourceForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7125,7 +7125,7 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
-    getAllCountriesForTableDropdown() : Observable<CustomerCountryLookupTableDto[]> {
+    getAllCountriesForTableDropdown(): Observable<CustomerCountryLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCountriesForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7183,7 +7183,7 @@ export class CustomerServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<AccountUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<AccountUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7245,7 +7245,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getCustomerOpportunities(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
+    getCustomerOpportunities(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerOpportunityViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetCustomerOpportunities?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -7318,7 +7318,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllCustomerInvoices(billTo: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerInvoiceViewDto> {
+    getAllCustomerInvoices(billTo: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerInvoiceViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerInvoices?";
         if (billTo === null)
             throw new Error("The parameter 'billTo' cannot be null.");
@@ -7327,11 +7327,11 @@ export class CustomerServiceProxy {
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -7397,7 +7397,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllCustomerEquipments(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
+    getAllCustomerEquipments(customerNumber: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerEquipmentViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerEquipments?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -7471,7 +7471,7 @@ export class CustomerServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAllCustomerWip(customerNumber: string | undefined, quotes: boolean | undefined, acceptedQuotes: boolean | undefined, canceledQuotes: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfCustomerWipViewDto> {
+    getAllCustomerWip(customerNumber: string | undefined, quotes: boolean | undefined, acceptedQuotes: boolean | undefined, canceledQuotes: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfCustomerWipViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetAllCustomerWip?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -7555,7 +7555,7 @@ export class CustomerServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/Customer/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -7627,7 +7627,7 @@ export class CustomerServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    checkIfExistByName(input: string | undefined) : Observable<boolean> {
+    checkIfExistByName(input: string | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/CheckIfExistByName?";
         if (input === null)
             throw new Error("The parameter 'input' cannot be null.");
@@ -7684,7 +7684,7 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasAccessToEdit(isUserAssignedToCostumer: boolean | undefined) : Observable<boolean> {
+    hasAccessToEdit(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEdit?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
@@ -7741,7 +7741,7 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasAccessToAddOpportunity(isUserAssignedToCostumer: boolean | undefined) : Observable<boolean> {
+    hasAccessToAddOpportunity(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToAddOpportunity?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
@@ -7798,7 +7798,7 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasAccessToScheduleMeeting(isUserAssignedToCostumer: boolean | undefined) : Observable<boolean> {
+    hasAccessToScheduleMeeting(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToScheduleMeeting?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
@@ -7855,7 +7855,7 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasAccessToScheduleCall(isUserAssignedToCostumer: boolean | undefined) : Observable<boolean> {
+    hasAccessToScheduleCall(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToScheduleCall?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
@@ -7912,7 +7912,7 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasAccessToEmailReminder(isUserAssignedToCostumer: boolean | undefined) : Observable<boolean> {
+    hasAccessToEmailReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEmailReminder?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
@@ -7969,7 +7969,7 @@ export class CustomerServiceProxy {
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
-    hasAccessToDoReminder(isUserAssignedToCostumer: boolean | undefined) : Observable<boolean> {
+    hasAccessToDoReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToDoReminder?";
         if (isUserAssignedToCostumer === null)
             throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
@@ -8039,7 +8039,7 @@ export class DashboardCustomizationServiceProxy {
      * @param application (optional) 
      * @return Success
      */
-    getUserDashboard(dashboardName: string | undefined, application: string | undefined) : Observable<Dashboard> {
+    getUserDashboard(dashboardName: string | undefined, application: string | undefined): Observable<Dashboard> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/GetUserDashboard?";
         if (dashboardName === null)
             throw new Error("The parameter 'dashboardName' cannot be null.");
@@ -8099,7 +8099,7 @@ export class DashboardCustomizationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    savePage(body: SavePageInput | undefined) : Observable<void> {
+    savePage(body: SavePageInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/SavePage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8151,7 +8151,7 @@ export class DashboardCustomizationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    renamePage(body: RenamePageInput | undefined) : Observable<void> {
+    renamePage(body: RenamePageInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/RenamePage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8203,7 +8203,7 @@ export class DashboardCustomizationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addNewPage(body: AddNewPageInput | undefined) : Observable<AddNewPageOutput> {
+    addNewPage(body: AddNewPageInput | undefined): Observable<AddNewPageOutput> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/AddNewPage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8261,7 +8261,7 @@ export class DashboardCustomizationServiceProxy {
      * @param application (optional) 
      * @return Success
      */
-    deletePage(id: string | undefined, dashboardName: string | undefined, application: string | undefined) : Observable<void> {
+    deletePage(id: string | undefined, dashboardName: string | undefined, application: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/DeletePage?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -8321,7 +8321,7 @@ export class DashboardCustomizationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addWidget(body: AddWidgetInput | undefined) : Observable<Widget> {
+    addWidget(body: AddWidgetInput | undefined): Observable<Widget> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/AddWidget";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8378,7 +8378,7 @@ export class DashboardCustomizationServiceProxy {
      * @param application (optional) 
      * @return Success
      */
-    getDashboardDefinition(dashboardName: string | undefined, application: string | undefined) : Observable<DashboardOutput> {
+    getDashboardDefinition(dashboardName: string | undefined, application: string | undefined): Observable<DashboardOutput> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/GetDashboardDefinition?";
         if (dashboardName === null)
             throw new Error("The parameter 'dashboardName' cannot be null.");
@@ -8439,7 +8439,7 @@ export class DashboardCustomizationServiceProxy {
      * @param application (optional) 
      * @return Success
      */
-    getAllWidgetDefinitions(dashboardName: string | undefined, application: string | undefined) : Observable<WidgetOutput[]> {
+    getAllWidgetDefinitions(dashboardName: string | undefined, application: string | undefined): Observable<WidgetOutput[]> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/GetAllWidgetDefinitions?";
         if (dashboardName === null)
             throw new Error("The parameter 'dashboardName' cannot be null.");
@@ -8506,7 +8506,7 @@ export class DashboardCustomizationServiceProxy {
      * @param application (optional) 
      * @return Success
      */
-    getSettingName(application: string | undefined) : Observable<string> {
+    getSettingName(application: string | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/DashboardCustomization/GetSettingName?";
         if (application === null)
             throw new Error("The parameter 'application' cannot be null.");
@@ -8575,12 +8575,12 @@ export class DemoUiComponentsServiceProxy {
      * @param date (optional) 
      * @return Success
      */
-    sendAndGetDate(date: DateTime | undefined) : Observable<DateToStringOutput> {
+    sendAndGetDate(date: DateTime | undefined): Observable<DateToStringOutput> {
         let url_ = this.baseUrl + "/api/services/app/DemoUiComponents/SendAndGetDate?";
         if (date === null)
             throw new Error("The parameter 'date' cannot be null.");
         else if (date !== undefined)
-            url_ += "date=" + encodeURIComponent(date ? "" + date.toString() : "") + "&";
+            url_ += "date=" + encodeURIComponent(date ? "" + date.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8631,12 +8631,12 @@ export class DemoUiComponentsServiceProxy {
      * @param date (optional) 
      * @return Success
      */
-    sendAndGetDateTime(date: DateTime | undefined) : Observable<DateToStringOutput> {
+    sendAndGetDateTime(date: DateTime | undefined): Observable<DateToStringOutput> {
         let url_ = this.baseUrl + "/api/services/app/DemoUiComponents/SendAndGetDateTime?";
         if (date === null)
             throw new Error("The parameter 'date' cannot be null.");
         else if (date !== undefined)
-            url_ += "date=" + encodeURIComponent(date ? "" + date.toString() : "") + "&";
+            url_ += "date=" + encodeURIComponent(date ? "" + date.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8688,16 +8688,16 @@ export class DemoUiComponentsServiceProxy {
      * @param endDate (optional) 
      * @return Success
      */
-    sendAndGetDateRange(startDate: DateTime | undefined, endDate: DateTime | undefined) : Observable<DateToStringOutput> {
+    sendAndGetDateRange(startDate: DateTime | undefined, endDate: DateTime | undefined): Observable<DateToStringOutput> {
         let url_ = this.baseUrl + "/api/services/app/DemoUiComponents/SendAndGetDateRange?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "startDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "startDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "endDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "endDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8748,7 +8748,7 @@ export class DemoUiComponentsServiceProxy {
      * @param searchTerm (optional) 
      * @return Success
      */
-    getCountries(searchTerm: string | undefined) : Observable<NameValueOfString[]> {
+    getCountries(searchTerm: string | undefined): Observable<NameValueOfString[]> {
         let url_ = this.baseUrl + "/api/services/app/DemoUiComponents/GetCountries?";
         if (searchTerm === null)
             throw new Error("The parameter 'searchTerm' cannot be null.");
@@ -8811,7 +8811,7 @@ export class DemoUiComponentsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendAndGetSelectedCountries(body: NameValueOfString[] | undefined) : Observable<NameValueOfString[]> {
+    sendAndGetSelectedCountries(body: NameValueOfString[] | undefined): Observable<NameValueOfString[]> {
         let url_ = this.baseUrl + "/api/services/app/DemoUiComponents/SendAndGetSelectedCountries";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8874,7 +8874,7 @@ export class DemoUiComponentsServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    sendAndGetValue(input: string | undefined) : Observable<StringOutput> {
+    sendAndGetValue(input: string | undefined): Observable<StringOutput> {
         let url_ = this.baseUrl + "/api/services/app/DemoUiComponents/SendAndGetValue?";
         if (input === null)
             throw new Error("The parameter 'input' cannot be null.");
@@ -8942,7 +8942,7 @@ export class DynamicEntityPropertyServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | undefined) : Observable<DynamicEntityPropertyDto> {
+    get(id: number | undefined): Observable<DynamicEntityPropertyDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -8998,7 +8998,7 @@ export class DynamicEntityPropertyServiceProxy {
      * @param entityFullName (optional) 
      * @return Success
      */
-    getAllPropertiesOfAnEntity(entityFullName: string | undefined) : Observable<ListResultDtoOfDynamicEntityPropertyDto> {
+    getAllPropertiesOfAnEntity(entityFullName: string | undefined): Observable<ListResultDtoOfDynamicEntityPropertyDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/GetAllPropertiesOfAnEntity?";
         if (entityFullName === null)
             throw new Error("The parameter 'entityFullName' cannot be null.");
@@ -9053,7 +9053,7 @@ export class DynamicEntityPropertyServiceProxy {
     /**
      * @return Success
      */
-    getAll() : Observable<ListResultDtoOfDynamicEntityPropertyDto> {
+    getAll(): Observable<ListResultDtoOfDynamicEntityPropertyDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9105,7 +9105,7 @@ export class DynamicEntityPropertyServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    add(body: DynamicEntityPropertyDto | undefined) : Observable<void> {
+    add(body: DynamicEntityPropertyDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/Add";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9157,7 +9157,7 @@ export class DynamicEntityPropertyServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    update(body: DynamicEntityPropertyDto | undefined) : Observable<void> {
+    update(body: DynamicEntityPropertyDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/Update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9209,7 +9209,7 @@ export class DynamicEntityPropertyServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -9260,7 +9260,7 @@ export class DynamicEntityPropertyServiceProxy {
     /**
      * @return Success
      */
-    getAllEntitiesHasDynamicProperty() : Observable<ListResultDtoOfGetAllEntitiesHasDynamicPropertyOutput> {
+    getAllEntitiesHasDynamicProperty(): Observable<ListResultDtoOfGetAllEntitiesHasDynamicPropertyOutput> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityProperty/GetAllEntitiesHasDynamicProperty";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9323,7 +9323,7 @@ export class DynamicEntityPropertyDefinitionServiceProxy {
     /**
      * @return Success
      */
-    getAllAllowedInputTypeNames() : Observable<string[]> {
+    getAllAllowedInputTypeNames(): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyDefinition/GetAllAllowedInputTypeNames";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9381,7 +9381,7 @@ export class DynamicEntityPropertyDefinitionServiceProxy {
     /**
      * @return Success
      */
-    getAllEntities() : Observable<string[]> {
+    getAllEntities(): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyDefinition/GetAllEntities";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9452,7 +9452,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | undefined) : Observable<DynamicEntityPropertyValueDto> {
+    get(id: number | undefined): Observable<DynamicEntityPropertyValueDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -9509,7 +9509,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param propertyId (optional) 
      * @return Success
      */
-    getAll(entityId: string | undefined, propertyId: number | undefined) : Observable<ListResultDtoOfDynamicEntityPropertyValueDto> {
+    getAll(entityId: string | undefined, propertyId: number | undefined): Observable<ListResultDtoOfDynamicEntityPropertyValueDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/GetAll?";
         if (entityId === null)
             throw new Error("The parameter 'entityId' cannot be null.");
@@ -9569,7 +9569,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    add(body: DynamicEntityPropertyValueDto | undefined) : Observable<void> {
+    add(body: DynamicEntityPropertyValueDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/Add";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9621,7 +9621,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    update(body: DynamicEntityPropertyValueDto | undefined) : Observable<void> {
+    update(body: DynamicEntityPropertyValueDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/Update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9673,7 +9673,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -9724,7 +9724,7 @@ export class DynamicEntityPropertyValueServiceProxy {
     /**
      * @return Success
      */
-    getAllDynamicEntityPropertyValues(entityFullName: string, entityId: string) : Observable<GetAllDynamicEntityPropertyValuesOutput> {
+    getAllDynamicEntityPropertyValues(entityFullName: string, entityId: string): Observable<GetAllDynamicEntityPropertyValuesOutput> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/GetAllDynamicEntityPropertyValues?";
         if (entityFullName === undefined || entityFullName === null)
             throw new Error("The parameter 'entityFullName' must be defined and cannot be null.");
@@ -9784,7 +9784,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateAllValues(body: InsertOrUpdateAllValuesInput | undefined) : Observable<void> {
+    insertOrUpdateAllValues(body: InsertOrUpdateAllValuesInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/InsertOrUpdateAllValues";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9836,7 +9836,7 @@ export class DynamicEntityPropertyValueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    cleanValues(body: CleanValuesInput | undefined) : Observable<void> {
+    cleanValues(body: CleanValuesInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicEntityPropertyValue/CleanValues";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -9900,7 +9900,7 @@ export class DynamicPropertyServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | undefined) : Observable<DynamicPropertyDto> {
+    get(id: number | undefined): Observable<DynamicPropertyDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicProperty/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -9955,7 +9955,7 @@ export class DynamicPropertyServiceProxy {
     /**
      * @return Success
      */
-    getAll() : Observable<ListResultDtoOfDynamicPropertyDto> {
+    getAll(): Observable<ListResultDtoOfDynamicPropertyDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicProperty/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10007,7 +10007,7 @@ export class DynamicPropertyServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    add(body: DynamicPropertyDto | undefined) : Observable<void> {
+    add(body: DynamicPropertyDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicProperty/Add";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10059,7 +10059,7 @@ export class DynamicPropertyServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    update(body: DynamicPropertyDto | undefined) : Observable<void> {
+    update(body: DynamicPropertyDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicProperty/Update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10111,7 +10111,7 @@ export class DynamicPropertyServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicProperty/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -10163,7 +10163,7 @@ export class DynamicPropertyServiceProxy {
      * @param name (optional) 
      * @return Success
      */
-    findAllowedInputType(name: string | undefined) : Observable<IInputType> {
+    findAllowedInputType(name: string | undefined): Observable<IInputType> {
         let url_ = this.baseUrl + "/api/services/app/DynamicProperty/FindAllowedInputType?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -10231,7 +10231,7 @@ export class DynamicPropertyValueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | undefined) : Observable<DynamicPropertyValueDto> {
+    get(id: number | undefined): Observable<DynamicPropertyValueDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicPropertyValue/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -10287,7 +10287,7 @@ export class DynamicPropertyValueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAllValuesOfDynamicProperty(id: number | undefined) : Observable<ListResultDtoOfDynamicPropertyValueDto> {
+    getAllValuesOfDynamicProperty(id: number | undefined): Observable<ListResultDtoOfDynamicPropertyValueDto> {
         let url_ = this.baseUrl + "/api/services/app/DynamicPropertyValue/GetAllValuesOfDynamicProperty?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -10343,7 +10343,7 @@ export class DynamicPropertyValueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    add(body: DynamicPropertyValueDto | undefined) : Observable<void> {
+    add(body: DynamicPropertyValueDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicPropertyValue/Add";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10395,7 +10395,7 @@ export class DynamicPropertyValueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    update(body: DynamicPropertyValueDto | undefined) : Observable<void> {
+    update(body: DynamicPropertyValueDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicPropertyValue/Update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10447,7 +10447,7 @@ export class DynamicPropertyValueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/DynamicPropertyValue/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -10510,7 +10510,7 @@ export class EditionServiceProxy {
     /**
      * @return Success
      */
-    getEditions() : Observable<ListResultDtoOfEditionListDto> {
+    getEditions(): Observable<ListResultDtoOfEditionListDto> {
         let url_ = this.baseUrl + "/api/services/app/Edition/GetEditions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10562,7 +10562,7 @@ export class EditionServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getEditionForEdit(id: number | undefined) : Observable<GetEditionEditOutput> {
+    getEditionForEdit(id: number | undefined): Observable<GetEditionEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Edition/GetEditionForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -10618,7 +10618,7 @@ export class EditionServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createEdition(body: CreateEditionDto | undefined) : Observable<void> {
+    createEdition(body: CreateEditionDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Edition/CreateEdition";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10670,7 +10670,7 @@ export class EditionServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateEdition(body: UpdateEditionDto | undefined) : Observable<void> {
+    updateEdition(body: UpdateEditionDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Edition/UpdateEdition";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10722,7 +10722,7 @@ export class EditionServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteEdition(id: number | undefined) : Observable<void> {
+    deleteEdition(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Edition/DeleteEdition?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -10774,7 +10774,7 @@ export class EditionServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    moveTenantsToAnotherEdition(body: MoveTenantsToAnotherEditionDto | undefined) : Observable<void> {
+    moveTenantsToAnotherEdition(body: MoveTenantsToAnotherEditionDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Edition/MoveTenantsToAnotherEdition";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10828,7 +10828,7 @@ export class EditionServiceProxy {
      * @param onlyFreeItems (optional) 
      * @return Success
      */
-    getEditionComboboxItems(selectedEditionId: number | undefined, addAllItem: boolean | undefined, onlyFreeItems: boolean | undefined) : Observable<SubscribableEditionComboboxItemDto[]> {
+    getEditionComboboxItems(selectedEditionId: number | undefined, addAllItem: boolean | undefined, onlyFreeItems: boolean | undefined): Observable<SubscribableEditionComboboxItemDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Edition/GetEditionComboboxItems?";
         if (selectedEditionId === null)
             throw new Error("The parameter 'selectedEditionId' cannot be null.");
@@ -10899,7 +10899,7 @@ export class EditionServiceProxy {
      * @param editionId (optional) 
      * @return Success
      */
-    getTenantCount(editionId: number | undefined) : Observable<number> {
+    getTenantCount(editionId: number | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Edition/GetTenantCount?";
         if (editionId === null)
             throw new Error("The parameter 'editionId' cannot be null.");
@@ -10968,7 +10968,7 @@ export class FriendshipServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createFriendshipRequest(body: CreateFriendshipRequestInput | undefined) : Observable<FriendDto> {
+    createFriendshipRequest(body: CreateFriendshipRequestInput | undefined): Observable<FriendDto> {
         let url_ = this.baseUrl + "/api/services/app/Friendship/CreateFriendshipRequest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11024,7 +11024,7 @@ export class FriendshipServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createFriendshipRequestByUserName(body: CreateFriendshipRequestByUserNameInput | undefined) : Observable<FriendDto> {
+    createFriendshipRequestByUserName(body: CreateFriendshipRequestByUserNameInput | undefined): Observable<FriendDto> {
         let url_ = this.baseUrl + "/api/services/app/Friendship/CreateFriendshipRequestByUserName";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11080,7 +11080,7 @@ export class FriendshipServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    blockUser(body: BlockUserInput | undefined) : Observable<void> {
+    blockUser(body: BlockUserInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Friendship/BlockUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11132,7 +11132,7 @@ export class FriendshipServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    unblockUser(body: UnblockUserInput | undefined) : Observable<void> {
+    unblockUser(body: UnblockUserInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Friendship/UnblockUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11184,7 +11184,7 @@ export class FriendshipServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    acceptFriendshipRequest(body: AcceptFriendshipRequestInput | undefined) : Observable<void> {
+    acceptFriendshipRequest(body: AcceptFriendshipRequestInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Friendship/AcceptFriendshipRequest";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11252,7 +11252,7 @@ export class GlobalSearchServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, categoryCode: GlobalSearchCategory | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetGlobalSearchItemDto> {
+    getAll(filter: string | undefined, categoryCode: GlobalSearchCategory | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetGlobalSearchItemDto> {
         let url_ = this.baseUrl + "/api/services/app/GlobalSearch/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11337,16 +11337,16 @@ export class HostDashboardServiceProxy {
      * @param endDate (optional) 
      * @return Success
      */
-    getTopStatsData(startDate: DateTime | undefined, endDate: DateTime | undefined) : Observable<TopStatsData> {
+    getTopStatsData(startDate: DateTime | undefined, endDate: DateTime | undefined): Observable<TopStatsData> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetTopStatsData?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11396,7 +11396,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getRecentTenantsData() : Observable<GetRecentTenantsOutput> {
+    getRecentTenantsData(): Observable<GetRecentTenantsOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetRecentTenantsData";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11447,7 +11447,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getSubscriptionExpiringTenantsData() : Observable<GetExpiringTenantsOutput> {
+    getSubscriptionExpiringTenantsData(): Observable<GetExpiringTenantsOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetSubscriptionExpiringTenantsData";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11500,7 +11500,7 @@ export class HostDashboardServiceProxy {
      * @param endDate (optional) 
      * @return Success
      */
-    getIncomeStatistics(incomeStatisticsDateInterval: ChartDateInterval, startDate: DateTime | undefined, endDate: DateTime | undefined) : Observable<GetIncomeStatisticsDataOutput> {
+    getIncomeStatistics(incomeStatisticsDateInterval: ChartDateInterval, startDate: DateTime | undefined, endDate: DateTime | undefined): Observable<GetIncomeStatisticsDataOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetIncomeStatistics?";
         if (incomeStatisticsDateInterval === undefined || incomeStatisticsDateInterval === null)
             throw new Error("The parameter 'incomeStatisticsDateInterval' must be defined and cannot be null.");
@@ -11509,11 +11509,11 @@ export class HostDashboardServiceProxy {
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11565,16 +11565,16 @@ export class HostDashboardServiceProxy {
      * @param endDate (optional) 
      * @return Success
      */
-    getEditionTenantStatistics(startDate: DateTime | undefined, endDate: DateTime | undefined) : Observable<GetEditionTenantStatisticsOutput> {
+    getEditionTenantStatistics(startDate: DateTime | undefined, endDate: DateTime | undefined): Observable<GetEditionTenantStatisticsOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetEditionTenantStatistics?";
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11636,7 +11636,7 @@ export class HostSettingsServiceProxy {
     /**
      * @return Success
      */
-    getAllSettings() : Observable<HostSettingsEditDto> {
+    getAllSettings(): Observable<HostSettingsEditDto> {
         let url_ = this.baseUrl + "/api/services/app/HostSettings/GetAllSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11688,7 +11688,7 @@ export class HostSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateAllSettings(body: HostSettingsEditDto | undefined) : Observable<void> {
+    updateAllSettings(body: HostSettingsEditDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/HostSettings/UpdateAllSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11740,7 +11740,7 @@ export class HostSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendTestEmail(body: SendTestEmailInput | undefined) : Observable<void> {
+    sendTestEmail(body: SendTestEmailInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/HostSettings/SendTestEmail";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11791,7 +11791,7 @@ export class HostSettingsServiceProxy {
     /**
      * @return Success
      */
-    getEnabledSocialLoginSettings() : Observable<ExternalLoginSettingsDto> {
+    getEnabledSocialLoginSettings(): Observable<ExternalLoginSettingsDto> {
         let url_ = this.baseUrl + "/api/services/app/HostSettings/GetEnabledSocialLoginSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11858,7 +11858,7 @@ export class IndustriesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetIndustryForViewDto> {
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetIndustryForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Industries/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -11926,7 +11926,7 @@ export class IndustriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getIndustryForEdit(id: number | undefined) : Observable<GetIndustryForEditOutput> {
+    getIndustryForEdit(id: number | undefined): Observable<GetIndustryForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Industries/GetIndustryForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -11982,7 +11982,7 @@ export class IndustriesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditIndustryDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditIndustryDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Industries/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12034,7 +12034,7 @@ export class IndustriesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Industries/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -12098,7 +12098,7 @@ export class InstallServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    setup(body: InstallDto | undefined) : Observable<void> {
+    setup(body: InstallDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Install/Setup";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12149,7 +12149,7 @@ export class InstallServiceProxy {
     /**
      * @return Success
      */
-    getAppSettingsJson() : Observable<AppSettingsJsonDto> {
+    getAppSettingsJson(): Observable<AppSettingsJsonDto> {
         let url_ = this.baseUrl + "/api/services/app/Install/GetAppSettingsJson";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12200,7 +12200,7 @@ export class InstallServiceProxy {
     /**
      * @return Success
      */
-    checkDatabase() : Observable<CheckDatabaseOutput> {
+    checkDatabase(): Observable<CheckDatabaseOutput> {
         let url_ = this.baseUrl + "/api/services/app/Install/CheckDatabase";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12264,7 +12264,7 @@ export class InvoiceServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getInvoiceInfo(id: number | undefined) : Observable<InvoiceDto> {
+    getInvoiceInfo(id: number | undefined): Observable<InvoiceDto> {
         let url_ = this.baseUrl + "/api/services/app/Invoice/GetInvoiceInfo?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -12320,7 +12320,7 @@ export class InvoiceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createInvoice(body: CreateInvoiceDto | undefined) : Observable<void> {
+    createInvoice(body: CreateInvoiceDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Invoice/CreateInvoice";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12383,7 +12383,7 @@ export class LanguageServiceProxy {
     /**
      * @return Success
      */
-    getLanguages() : Observable<GetLanguagesOutput> {
+    getLanguages(): Observable<GetLanguagesOutput> {
         let url_ = this.baseUrl + "/api/services/app/Language/GetLanguages";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12435,7 +12435,7 @@ export class LanguageServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLanguageForEdit(id: number | undefined) : Observable<GetLanguageForEditOutput> {
+    getLanguageForEdit(id: number | undefined): Observable<GetLanguageForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Language/GetLanguageForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -12491,7 +12491,7 @@ export class LanguageServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrUpdateLanguage(body: CreateOrUpdateLanguageInput | undefined) : Observable<void> {
+    createOrUpdateLanguage(body: CreateOrUpdateLanguageInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Language/CreateOrUpdateLanguage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12543,7 +12543,7 @@ export class LanguageServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteLanguage(id: number | undefined) : Observable<void> {
+    deleteLanguage(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Language/DeleteLanguage?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -12595,7 +12595,7 @@ export class LanguageServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    setDefaultLanguage(body: SetDefaultLanguageInput | undefined) : Observable<void> {
+    setDefaultLanguage(body: SetDefaultLanguageInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Language/SetDefaultLanguage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12652,7 +12652,7 @@ export class LanguageServiceProxy {
      * @param filterText (optional) 
      * @return Success
      */
-    getLanguageTexts(maxResultCount: number | undefined, skipCount: number | undefined, sorting: string | undefined, sourceName: string, baseLanguageName: string | undefined, targetLanguageName: string, targetValueFilter: string | undefined, filterText: string | undefined) : Observable<PagedResultDtoOfLanguageTextListDto> {
+    getLanguageTexts(maxResultCount: number | undefined, skipCount: number | undefined, sorting: string | undefined, sourceName: string, baseLanguageName: string | undefined, targetLanguageName: string, targetValueFilter: string | undefined, filterText: string | undefined): Observable<PagedResultDtoOfLanguageTextListDto> {
         let url_ = this.baseUrl + "/api/services/app/Language/GetLanguageTexts?";
         if (maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' cannot be null.");
@@ -12736,7 +12736,7 @@ export class LanguageServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateLanguageText(body: UpdateLanguageTextInput | undefined) : Observable<void> {
+    updateLanguageText(body: UpdateLanguageTextInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Language/UpdateLanguageText";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12812,7 +12812,7 @@ export class LeadActivitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -12916,7 +12916,7 @@ export class LeadActivitiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12968,7 +12968,7 @@ export class LeadActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -13019,7 +13019,7 @@ export class LeadActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<ActivityUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<ActivityUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13077,7 +13077,7 @@ export class LeadActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivitySourceTypeForTableDropdown() : Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+    getAllActivitySourceTypeForTableDropdown(): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetAllActivitySourceTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13135,7 +13135,7 @@ export class LeadActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityTaskTypeForTableDropdown() : Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+    getAllActivityTaskTypeForTableDropdown(): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetAllActivityTaskTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13193,7 +13193,7 @@ export class LeadActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityStatusForTableDropdown() : Observable<ActivityActivityStatusLookupTableDto[]> {
+    getAllActivityStatusForTableDropdown(): Observable<ActivityActivityStatusLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetAllActivityStatusForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13251,7 +13251,7 @@ export class LeadActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityPriorityForTableDropdown() : Observable<ActivityActivityPriorityLookupTableDto[]> {
+    getAllActivityPriorityForTableDropdown(): Observable<ActivityActivityPriorityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetAllActivityPriorityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13310,7 +13310,7 @@ export class LeadActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityForEdit(id: number | undefined) : Observable<GetActivityForEditOutput> {
+    getActivityForEdit(id: number | undefined): Observable<GetActivityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/LeadActivities/GetActivityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -13378,7 +13378,7 @@ export class LeadAutomateAssignmentServiceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    assignLeadUsers(body: CreateOrEditLeadUserDto[] | undefined) : Observable<void> {
+    assignLeadUsers(body: CreateOrEditLeadUserDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadAutomateAssignmentService/AssignLeadUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13441,7 +13441,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    currentUserCanSeeAllLeads() : Observable<boolean> {
+    currentUserCanSeeAllLeads(): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Leads/CurrentUserCanSeeAllLeads";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13493,7 +13493,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getCurrentUserId() : Observable<number> {
+    getCurrentUserId(): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetCurrentUserId";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13574,7 +13574,7 @@ export class LeadsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadForViewDto> {
+    getAll(filter: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13742,7 +13742,7 @@ export class LeadsServiceProxy {
      * @param leads (optional) 
      * @return Success
      */
-    getDuplicatedLeadsToExcel(leads: LeadDto[] | undefined) : Observable<FileDto> {
+    getDuplicatedLeadsToExcel(leads: LeadDto[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetDuplicatedLeadsToExcel?";
         if (leads === null)
             throw new Error("The parameter 'leads' cannot be null.");
@@ -13805,7 +13805,7 @@ export class LeadsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined) : Observable<CreateOrEditLeadDto[]> {
+    importLeadsFromFile(leadSourceId: number | undefined, assignedUserId: number | undefined, body: string | undefined): Observable<CreateOrEditLeadDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/ImportLeadsFromFile?";
         if (leadSourceId === null)
             throw new Error("The parameter 'leadSourceId' cannot be null.");
@@ -13876,7 +13876,7 @@ export class LeadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadForView(id: number | undefined) : Observable<GetLeadForViewDto> {
+    getLeadForView(id: number | undefined): Observable<GetLeadForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -13932,7 +13932,7 @@ export class LeadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadForEdit(id: number | undefined) : Observable<GetLeadForEditOutput> {
+    getLeadForEdit(id: number | undefined): Observable<GetLeadForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -13988,7 +13988,7 @@ export class LeadsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditLeadDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditLeadDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Leads/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14040,7 +14040,7 @@ export class LeadsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Leads/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -14118,7 +14118,7 @@ export class LeadsServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getLeadsToExcel(filter: string | undefined, timeZone: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined) : Observable<FileDto> {
+    getLeadsToExcel(filter: string | undefined, timeZone: string | undefined, companyOrContactNameFilter: string | undefined, contactNameFilter: string | undefined, contactPositionFilter: string | undefined, webSiteFilter: string | undefined, addressFilter: string | undefined, countryFilter: string | undefined, stateFilter: string | undefined, cityFilter: string | undefined, descriptionFilter: string | undefined, companyPhoneFilter: string | undefined, companyEmailFilter: string | undefined, poBoxFilter: string | undefined, zipCodeFilter: string | undefined, contactPhoneFilter: string | undefined, contactPhoneExtensionFilter: string | undefined, contactCellPhoneFilter: string | undefined, contactFaxNumberFilter: string | undefined, pagerNumberFilter: string | undefined, contactEmailFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, leadStatusDescriptionFilter: string | undefined, priorityDescriptionFilter: string | undefined, leadStatusId: number | undefined, priorityId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetLeadsToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14277,7 +14277,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getAllLeadSourceForTableDropdown() : Observable<LeadLeadSourceLookupTableDto[]> {
+    getAllLeadSourceForTableDropdown(): Observable<LeadLeadSourceLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAllLeadSourceForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14335,7 +14335,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getAllUsersForTableDropdown() : Observable<LeadUserUserLookupTableDto[]> {
+    getAllUsersForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAllUsersForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14393,7 +14393,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getAllLeadStatusForTableDropdown() : Observable<LeadLeadStatusLookupTableDto[]> {
+    getAllLeadStatusForTableDropdown(): Observable<LeadLeadStatusLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAllLeadStatusForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14451,7 +14451,7 @@ export class LeadsServiceProxy {
     /**
      * @return Success
      */
-    getAllPriorityForTableDropdown() : Observable<LeadPriorityLookupTableDto[]> {
+    getAllPriorityForTableDropdown(): Observable<LeadPriorityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetAllPriorityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14510,7 +14510,7 @@ export class LeadsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    convertToAccount(body: ConvertLeadToAccountRequestDto | undefined) : Observable<void> {
+    convertToAccount(body: ConvertLeadToAccountRequestDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Leads/ConvertToAccount";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14566,7 +14566,7 @@ export class LeadsServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/Leads/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -14654,7 +14654,7 @@ export class LeadSourcesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadSourceForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14726,7 +14726,7 @@ export class LeadSourcesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadSourceForView(id: number | undefined) : Observable<GetLeadSourceForViewDto> {
+    getLeadSourceForView(id: number | undefined): Observable<GetLeadSourceForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourceForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -14782,7 +14782,7 @@ export class LeadSourcesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadSourceForEdit(id: number | undefined) : Observable<GetLeadSourceForEditOutput> {
+    getLeadSourceForEdit(id: number | undefined): Observable<GetLeadSourceForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourceForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -14838,7 +14838,7 @@ export class LeadSourcesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditLeadSourceDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditLeadSourceDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14890,7 +14890,7 @@ export class LeadSourcesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateOrder(body: UpdateOrderleadSourceDto[] | undefined) : Observable<void> {
+    updateOrder(body: UpdateOrderleadSourceDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/UpdateOrder";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14942,7 +14942,7 @@ export class LeadSourcesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -14995,7 +14995,7 @@ export class LeadSourcesServiceProxy {
      * @param descriptionFilter (optional) 
      * @return Success
      */
-    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined) : Observable<FileDto> {
+    getLeadSourcesToExcel(filter: string | undefined, descriptionFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadSources/GetLeadSourcesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15074,7 +15074,7 @@ export class LeadStatusesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, isLeadConversionValidFilter: number | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15158,7 +15158,7 @@ export class LeadStatusesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadStatusForView(id: number | undefined) : Observable<GetLeadStatusForViewDto> {
+    getLeadStatusForView(id: number | undefined): Observable<GetLeadStatusForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetLeadStatusForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -15214,7 +15214,7 @@ export class LeadStatusesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadStatusForEdit(id: number | undefined) : Observable<GetLeadStatusForEditOutput> {
+    getLeadStatusForEdit(id: number | undefined): Observable<GetLeadStatusForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/GetLeadStatusForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -15270,7 +15270,7 @@ export class LeadStatusesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditLeadStatusDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditLeadStatusDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15322,7 +15322,7 @@ export class LeadStatusesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateOrder(body: UpdateOrderLeadStatusDto[] | undefined) : Observable<void> {
+    updateOrder(body: UpdateOrderLeadStatusDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/UpdateOrder";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15374,7 +15374,7 @@ export class LeadStatusesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadStatuses/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -15438,7 +15438,7 @@ export class LeadUsersServiceProxy {
      * @param leadId (optional) 
      * @return Success
      */
-    getCanViewAssignedUsersWidget(leadId: number | undefined) : Observable<boolean> {
+    getCanViewAssignedUsersWidget(leadId: number | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetCanViewAssignedUsersWidget?";
         if (leadId === null)
             throw new Error("The parameter 'leadId' cannot be null.");
@@ -15501,7 +15501,7 @@ export class LeadUsersServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, leadId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetLeadUserForViewDto> {
+    getAll(filter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, leadId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -15581,7 +15581,7 @@ export class LeadUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getLeadUserForEdit(id: number | undefined) : Observable<GetLeadUserForEditOutput> {
+    getLeadUserForEdit(id: number | undefined): Observable<GetLeadUserForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetLeadUserForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -15637,7 +15637,7 @@ export class LeadUsersServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditLeadUserDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditLeadUserDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15689,7 +15689,7 @@ export class LeadUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -15740,7 +15740,7 @@ export class LeadUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllLeadForTableDropdown() : Observable<LeadUserLeadLookupTableDto[]> {
+    getAllLeadForTableDropdown(): Observable<LeadUserLeadLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAllLeadForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15798,7 +15798,7 @@ export class LeadUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<LeadUserUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15857,7 +15857,7 @@ export class LeadUsersServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createMultipleLeadUsers(body: CreateOrEditLeadUserDto[] | undefined) : Observable<void> {
+    createMultipleLeadUsers(body: CreateOrEditLeadUserDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LeadUsers/CreateMultipleLeadUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15925,7 +15925,7 @@ export class NotificationServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getUserNotifications(state: UserNotificationState | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<GetNotificationsOutput> {
+    getUserNotifications(state: UserNotificationState | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<GetNotificationsOutput> {
         let url_ = this.baseUrl + "/api/services/app/Notification/GetUserNotifications?";
         if (state === null)
             throw new Error("The parameter 'state' cannot be null.");
@@ -15934,11 +15934,11 @@ export class NotificationServiceProxy {
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' cannot be null.");
         else if (maxResultCount !== undefined)
@@ -15996,7 +15996,7 @@ export class NotificationServiceProxy {
     /**
      * @return Success
      */
-    setAllNotificationsAsRead() : Observable<void> {
+    setAllNotificationsAsRead(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Notification/SetAllNotificationsAsRead";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16044,7 +16044,7 @@ export class NotificationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    setNotificationAsRead(body: EntityDtoOfGuid | undefined) : Observable<void> {
+    setNotificationAsRead(body: EntityDtoOfGuid | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Notification/SetNotificationAsRead";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16095,7 +16095,7 @@ export class NotificationServiceProxy {
     /**
      * @return Success
      */
-    getNotificationSettings() : Observable<GetNotificationSettingsOutput> {
+    getNotificationSettings(): Observable<GetNotificationSettingsOutput> {
         let url_ = this.baseUrl + "/api/services/app/Notification/GetNotificationSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16147,7 +16147,7 @@ export class NotificationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateNotificationSettings(body: UpdateNotificationSettingsInput | undefined) : Observable<void> {
+    updateNotificationSettings(body: UpdateNotificationSettingsInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Notification/UpdateNotificationSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16199,7 +16199,7 @@ export class NotificationServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteNotification(id: string | undefined) : Observable<void> {
+    deleteNotification(id: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Notification/DeleteNotification?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -16253,7 +16253,7 @@ export class NotificationServiceProxy {
      * @param endDate (optional) 
      * @return Success
      */
-    deleteAllUserNotifications(state: UserNotificationState | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined) : Observable<void> {
+    deleteAllUserNotifications(state: UserNotificationState | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Notification/DeleteAllUserNotifications?";
         if (state === null)
             throw new Error("The parameter 'state' cannot be null.");
@@ -16262,11 +16262,11 @@ export class NotificationServiceProxy {
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -16324,7 +16324,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    canSeeAllOpportunities() : Observable<boolean> {
+    canSeeAllOpportunities(): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/CanSeeAllOpportunities";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16377,7 +16377,7 @@ export class OpportunitiesServiceProxy {
      * @param userId (optional) 
      * @return Success
      */
-    hasStaticAccessToAddOpportunity(userId: number | undefined) : Observable<boolean> {
+    hasStaticAccessToAddOpportunity(userId: number | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/HasStaticAccessToAddOpportunity?";
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
@@ -16434,7 +16434,7 @@ export class OpportunitiesServiceProxy {
      * @param userId (optional) 
      * @return Success
      */
-    hasDynamicAccessToAddOpportunity(userId: number | undefined) : Observable<boolean> {
+    hasDynamicAccessToAddOpportunity(userId: number | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/HasDynamicAccessToAddOpportunity?";
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
@@ -16490,7 +16490,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getCurrentUserId() : Observable<number> {
+    getCurrentUserId(): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetCurrentUserId";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16563,7 +16563,7 @@ export class OpportunitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -16592,11 +16592,11 @@ export class OpportunitiesServiceProxy {
         if (maxCloseDateFilter === null)
             throw new Error("The parameter 'maxCloseDateFilter' cannot be null.");
         else if (maxCloseDateFilter !== undefined)
-            url_ += "MaxCloseDateFilter=" + encodeURIComponent(maxCloseDateFilter ? "" + maxCloseDateFilter.toString() : "") + "&";
+            url_ += "MaxCloseDateFilter=" + encodeURIComponent(maxCloseDateFilter ? "" + maxCloseDateFilter.toJSON() : "") + "&";
         if (minCloseDateFilter === null)
             throw new Error("The parameter 'minCloseDateFilter' cannot be null.");
         else if (minCloseDateFilter !== undefined)
-            url_ += "MinCloseDateFilter=" + encodeURIComponent(minCloseDateFilter ? "" + minCloseDateFilter.toString() : "") + "&";
+            url_ += "MinCloseDateFilter=" + encodeURIComponent(minCloseDateFilter ? "" + minCloseDateFilter.toJSON() : "") + "&";
         if (descriptionFilter === null)
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
@@ -16699,7 +16699,7 @@ export class OpportunitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityForView(id: number | undefined) : Observable<GetOpportunityForViewDto> {
+    getOpportunityForView(id: number | undefined): Observable<GetOpportunityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunityForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -16755,7 +16755,7 @@ export class OpportunitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityForEdit(id: number | undefined) : Observable<GetOpportunityForEditOutput> {
+    getOpportunityForEdit(id: number | undefined): Observable<GetOpportunityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -16811,7 +16811,7 @@ export class OpportunitiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditOpportunityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditOpportunityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16863,7 +16863,7 @@ export class OpportunitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -16933,7 +16933,7 @@ export class OpportunitiesServiceProxy {
      * @param userIds (optional) 
      * @return Success
      */
-    getOpportunitiesToExcel(filter: string | undefined, timeZone: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined) : Observable<FileDto> {
+    getOpportunitiesToExcel(filter: string | undefined, timeZone: string | undefined, nameFilter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, maxProbabilityFilter: number | undefined, minProbabilityFilter: number | undefined, maxCloseDateFilter: DateTime | undefined, minCloseDateFilter: DateTime | undefined, descriptionFilter: string | undefined, branchFilter: string | undefined, departmentFilter: string | undefined, opportunityStageDescriptionFilter: string | undefined, leadSourceDescriptionFilter: string | undefined, opportunityTypeDescriptionFilter: string | undefined, customerName: string | undefined, contactName: string | undefined, opportunityStageId: number | undefined, userIds: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetOpportunitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -16966,11 +16966,11 @@ export class OpportunitiesServiceProxy {
         if (maxCloseDateFilter === null)
             throw new Error("The parameter 'maxCloseDateFilter' cannot be null.");
         else if (maxCloseDateFilter !== undefined)
-            url_ += "MaxCloseDateFilter=" + encodeURIComponent(maxCloseDateFilter ? "" + maxCloseDateFilter.toString() : "") + "&";
+            url_ += "MaxCloseDateFilter=" + encodeURIComponent(maxCloseDateFilter ? "" + maxCloseDateFilter.toJSON() : "") + "&";
         if (minCloseDateFilter === null)
             throw new Error("The parameter 'minCloseDateFilter' cannot be null.");
         else if (minCloseDateFilter !== undefined)
-            url_ += "MinCloseDateFilter=" + encodeURIComponent(minCloseDateFilter ? "" + minCloseDateFilter.toString() : "") + "&";
+            url_ += "MinCloseDateFilter=" + encodeURIComponent(minCloseDateFilter ? "" + minCloseDateFilter.toJSON() : "") + "&";
         if (descriptionFilter === null)
             throw new Error("The parameter 'descriptionFilter' cannot be null.");
         else if (descriptionFilter !== undefined)
@@ -17060,7 +17060,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllOpportunityStageForTableDropdown() : Observable<OpportunityOpportunityStageLookupTableDto[]> {
+    getAllOpportunityStageForTableDropdown(): Observable<OpportunityOpportunityStageLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityStageForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17118,7 +17118,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllUsersForTableDropdown() : Observable<LeadUserUserLookupTableDto[]> {
+    getAllUsersForTableDropdown(): Observable<LeadUserUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllUsersForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17176,7 +17176,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllLeadSourceForTableDropdown() : Observable<OpportunityLeadSourceLookupTableDto[]> {
+    getAllLeadSourceForTableDropdown(): Observable<OpportunityLeadSourceLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllLeadSourceForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17234,7 +17234,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllOpportunityTypeForTableDropdown() : Observable<OpportunityOpportunityTypeLookupTableDto[]> {
+    getAllOpportunityTypeForTableDropdown(): Observable<OpportunityOpportunityTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllOpportunityTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17293,7 +17293,7 @@ export class OpportunitiesServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getAllCustomerForTableDropdown(customerNumber: string | undefined) : Observable<OpportunityCustomerLookupTableDto[]> {
+    getAllCustomerForTableDropdown(customerNumber: string | undefined): Observable<OpportunityCustomerLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllCustomerForTableDropdown?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -17355,7 +17355,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllContactsForTableDropdown() : Observable<OpportunityContactsLookupTableDto[]> {
+    getAllContactsForTableDropdown(): Observable<OpportunityContactsLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllContactsForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17414,7 +17414,7 @@ export class OpportunitiesServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getAllContactsForTableDropdownCustomerSpecific(customerNumber: string | undefined) : Observable<OpportunityContactsLookupTableDto[]> {
+    getAllContactsForTableDropdownCustomerSpecific(customerNumber: string | undefined): Observable<OpportunityContactsLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllContactsForTableDropdownCustomerSpecific?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
@@ -17481,7 +17481,7 @@ export class OpportunitiesServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfEntityChangeListDto> {
+    getEntityTypeChanges(entityTypeFullName: string | undefined, entityId: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfEntityChangeListDto> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetEntityTypeChanges?";
         if (entityTypeFullName === null)
             throw new Error("The parameter 'entityTypeFullName' cannot be null.");
@@ -17552,7 +17552,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllBranchesForTableDropdown() : Observable<BranchLookupTableDto[]> {
+    getAllBranchesForTableDropdown(): Observable<BranchLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllBranchesForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17610,7 +17610,7 @@ export class OpportunitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllDepartmentsForTableDropdown() : Observable<DepartmentLookupTableDto[]> {
+    getAllDepartmentsForTableDropdown(): Observable<DepartmentLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllDepartmentsForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17748,16 +17748,16 @@ export class OpportunitiesDashboardServiceProxy {
      * @param departments (optional) 
      * @return Success
      */
-    get(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined) : Observable<GetOpportunitiesStastsOutput> {
+    get(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<GetOpportunitiesStastsOutput> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/Get?";
         if (fromDate === null)
             throw new Error("The parameter 'fromDate' cannot be null.");
         else if (fromDate !== undefined)
-            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toString() : "") + "&";
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
         if (toDate === null)
             throw new Error("The parameter 'toDate' cannot be null.");
         else if (toDate !== undefined)
-            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toString() : "") + "&";
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
         if (account === null)
             throw new Error("The parameter 'account' cannot be null.");
         else if (account !== undefined)
@@ -17819,7 +17819,7 @@ export class OpportunitiesDashboardServiceProxy {
     /**
      * @return Success
      */
-    getAllBranchForTableDropdown() : Observable<BranchLookupTableDto[]> {
+    getAllBranchForTableDropdown(): Observable<BranchLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllBranchForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17877,7 +17877,7 @@ export class OpportunitiesDashboardServiceProxy {
     /**
      * @return Success
      */
-    getAllCustomerForTableDropdown() : Observable<OpportunityCustomerLookupTableDto[]> {
+    getAllCustomerForTableDropdown(): Observable<OpportunityCustomerLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllCustomerForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17935,7 +17935,7 @@ export class OpportunitiesDashboardServiceProxy {
     /**
      * @return Success
      */
-    getAllDepartmentForTableDropdown() : Observable<DepartmentLookupTableDto[]> {
+    getAllDepartmentForTableDropdown(): Observable<DepartmentLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllDepartmentForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -17998,16 +17998,16 @@ export class OpportunitiesDashboardServiceProxy {
      * @param departments (optional) 
      * @return Success
      */
-    getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined) : Observable<FileDto> {
+    getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetOpportunitiesDashboardToExcel?";
         if (fromDate === null)
             throw new Error("The parameter 'fromDate' cannot be null.");
         else if (fromDate !== undefined)
-            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toString() : "") + "&";
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
         if (toDate === null)
             throw new Error("The parameter 'toDate' cannot be null.");
         else if (toDate !== undefined)
-            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toString() : "") + "&";
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
         if (account === null)
             throw new Error("The parameter 'account' cannot be null.");
         else if (account !== undefined)
@@ -18094,7 +18094,7 @@ export class OpportunityActivitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetActivityForViewDto> {
+    getAll(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, activitySourceTypeDescriptionFilter: string | undefined, activityTaskTypeDescriptionFilter: string | undefined, activityStatusDescriptionFilter: string | undefined, activityPriorityDescriptionFilter: string | undefined, customerNameFilter: string | undefined, idToFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetActivityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -18198,7 +18198,7 @@ export class OpportunityActivitiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditActivityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditActivityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18250,7 +18250,7 @@ export class OpportunityActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -18301,7 +18301,7 @@ export class OpportunityActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<ActivityUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<ActivityUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18359,7 +18359,7 @@ export class OpportunityActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivitySourceTypeForTableDropdown() : Observable<ActivityActivitySourceTypeLookupTableDto[]> {
+    getAllActivitySourceTypeForTableDropdown(): Observable<ActivityActivitySourceTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetAllActivitySourceTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18417,7 +18417,7 @@ export class OpportunityActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityTaskTypeForTableDropdown() : Observable<ActivityActivityTaskTypeLookupTableDto[]> {
+    getAllActivityTaskTypeForTableDropdown(): Observable<ActivityActivityTaskTypeLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetAllActivityTaskTypeForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18475,7 +18475,7 @@ export class OpportunityActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityStatusForTableDropdown() : Observable<ActivityActivityStatusLookupTableDto[]> {
+    getAllActivityStatusForTableDropdown(): Observable<ActivityActivityStatusLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetAllActivityStatusForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18533,7 +18533,7 @@ export class OpportunityActivitiesServiceProxy {
     /**
      * @return Success
      */
-    getAllActivityPriorityForTableDropdown() : Observable<ActivityActivityPriorityLookupTableDto[]> {
+    getAllActivityPriorityForTableDropdown(): Observable<ActivityActivityPriorityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetAllActivityPriorityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18592,7 +18592,7 @@ export class OpportunityActivitiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getActivityForEdit(id: number | undefined) : Observable<GetActivityForEditOutput> {
+    getActivityForEdit(id: number | undefined): Observable<GetActivityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityActivities/GetActivityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -18660,7 +18660,7 @@ export class OpportunityAutomateAssignmentServiceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    assignOpportunityUsers(body: CreateOrEditOpportunityUserDto[] | undefined) : Observable<void> {
+    assignOpportunityUsers(body: CreateOrEditOpportunityUserDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityAutomateAssignmentService/AssignOpportunityUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18729,7 +18729,7 @@ export class OpportunityStagesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityStageForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -18805,7 +18805,7 @@ export class OpportunityStagesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityStageForView(id: number | undefined) : Observable<GetOpportunityStageForViewDto> {
+    getOpportunityStageForView(id: number | undefined): Observable<GetOpportunityStageForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStageForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -18861,7 +18861,7 @@ export class OpportunityStagesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityStageForEdit(id: number | undefined) : Observable<GetOpportunityStageForEditOutput> {
+    getOpportunityStageForEdit(id: number | undefined): Observable<GetOpportunityStageForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStageForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -18917,7 +18917,7 @@ export class OpportunityStagesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditOpportunityStageDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditOpportunityStageDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -18969,7 +18969,7 @@ export class OpportunityStagesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateOrder(body: UpdateOrderOpportunityStageDto[] | undefined) : Observable<void> {
+    updateOrder(body: UpdateOrderOpportunityStageDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/UpdateOrder";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19021,7 +19021,7 @@ export class OpportunityStagesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19075,7 +19075,7 @@ export class OpportunityStagesServiceProxy {
      * @param colorFilter (optional) 
      * @return Success
      */
-    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined) : Observable<FileDto> {
+    getOpportunityStagesToExcel(filter: string | undefined, descriptionFilter: string | undefined, colorFilter: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityStages/GetOpportunityStagesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -19155,7 +19155,7 @@ export class OpportunityTypesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityTypeForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -19227,7 +19227,7 @@ export class OpportunityTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityTypeForView(id: number | undefined) : Observable<GetOpportunityTypeForViewDto> {
+    getOpportunityTypeForView(id: number | undefined): Observable<GetOpportunityTypeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetOpportunityTypeForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19283,7 +19283,7 @@ export class OpportunityTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityTypeForEdit(id: number | undefined) : Observable<GetOpportunityTypeForEditOutput> {
+    getOpportunityTypeForEdit(id: number | undefined): Observable<GetOpportunityTypeForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/GetOpportunityTypeForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19339,7 +19339,7 @@ export class OpportunityTypesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditOpportunityTypeDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditOpportunityTypeDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19391,7 +19391,7 @@ export class OpportunityTypesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityTypes/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19455,7 +19455,7 @@ export class OpportunityUsersServiceProxy {
      * @param opportunityId (optional) 
      * @return Success
      */
-    getCanViewAssignedUsersWidget(opportunityId: number | undefined) : Observable<boolean> {
+    getCanViewAssignedUsersWidget(opportunityId: number | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/GetCanViewAssignedUsersWidget?";
         if (opportunityId === null)
             throw new Error("The parameter 'opportunityId' cannot be null.");
@@ -19518,7 +19518,7 @@ export class OpportunityUsersServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, userNameFilter: string | undefined, opportunityNameFilter: string | undefined, opportunityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetOpportunityUserForViewDto> {
+    getAll(filter: string | undefined, userNameFilter: string | undefined, opportunityNameFilter: string | undefined, opportunityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -19598,7 +19598,7 @@ export class OpportunityUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityUserForView(id: number | undefined) : Observable<GetOpportunityUserForViewDto> {
+    getOpportunityUserForView(id: number | undefined): Observable<GetOpportunityUserForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/GetOpportunityUserForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19654,7 +19654,7 @@ export class OpportunityUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getOpportunityUserForEdit(id: number | undefined) : Observable<GetOpportunityUserForEditOutput> {
+    getOpportunityUserForEdit(id: number | undefined): Observable<GetOpportunityUserForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/GetOpportunityUserForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19710,7 +19710,7 @@ export class OpportunityUsersServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditOpportunityUserDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditOpportunityUserDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19762,7 +19762,7 @@ export class OpportunityUsersServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -19813,7 +19813,7 @@ export class OpportunityUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllUserForTableDropdown() : Observable<OpportunityUserUserLookupTableDto[]> {
+    getAllUserForTableDropdown(): Observable<OpportunityUserUserLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/GetAllUserForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19871,7 +19871,7 @@ export class OpportunityUsersServiceProxy {
     /**
      * @return Success
      */
-    getAllOpportunityForTableDropdown() : Observable<OpportunityUserOpportunityLookupTableDto[]> {
+    getAllOpportunityForTableDropdown(): Observable<OpportunityUserOpportunityLookupTableDto[]> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/GetAllOpportunityForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19930,7 +19930,7 @@ export class OpportunityUsersServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createMultipleOpportunityUsers(body: CreateOrEditOpportunityUserDto[] | undefined) : Observable<void> {
+    createMultipleOpportunityUsers(body: CreateOrEditOpportunityUserDto[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OpportunityUsers/CreateMultipleOpportunityUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19993,7 +19993,7 @@ export class OrganizationUnitServiceProxy {
     /**
      * @return Success
      */
-    getOrganizationUnits() : Observable<ListResultDtoOfOrganizationUnitDto> {
+    getOrganizationUnits(): Observable<ListResultDtoOfOrganizationUnitDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/GetOrganizationUnits";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20048,7 +20048,7 @@ export class OrganizationUnitServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getOrganizationUnitUsers(id: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfOrganizationUnitUserListDto> {
+    getOrganizationUnitUsers(id: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfOrganizationUnitUserListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/GetOrganizationUnitUsers?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -20119,7 +20119,7 @@ export class OrganizationUnitServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getOrganizationUnitRoles(id: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfOrganizationUnitRoleListDto> {
+    getOrganizationUnitRoles(id: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfOrganizationUnitRoleListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/GetOrganizationUnitRoles?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -20187,7 +20187,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrganizationUnit(body: CreateOrganizationUnitInput | undefined) : Observable<OrganizationUnitDto> {
+    createOrganizationUnit(body: CreateOrganizationUnitInput | undefined): Observable<OrganizationUnitDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/CreateOrganizationUnit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20243,7 +20243,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateOrganizationUnit(body: UpdateOrganizationUnitInput | undefined) : Observable<OrganizationUnitDto> {
+    updateOrganizationUnit(body: UpdateOrganizationUnitInput | undefined): Observable<OrganizationUnitDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/UpdateOrganizationUnit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20299,7 +20299,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    moveOrganizationUnit(body: MoveOrganizationUnitInput | undefined) : Observable<OrganizationUnitDto> {
+    moveOrganizationUnit(body: MoveOrganizationUnitInput | undefined): Observable<OrganizationUnitDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/MoveOrganizationUnit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20355,7 +20355,7 @@ export class OrganizationUnitServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteOrganizationUnit(id: number | undefined) : Observable<void> {
+    deleteOrganizationUnit(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/DeleteOrganizationUnit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -20408,7 +20408,7 @@ export class OrganizationUnitServiceProxy {
      * @param organizationUnitId (optional) 
      * @return Success
      */
-    removeUserFromOrganizationUnit(userId: number | undefined, organizationUnitId: number | undefined) : Observable<void> {
+    removeUserFromOrganizationUnit(userId: number | undefined, organizationUnitId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/RemoveUserFromOrganizationUnit?";
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
@@ -20465,7 +20465,7 @@ export class OrganizationUnitServiceProxy {
      * @param organizationUnitId (optional) 
      * @return Success
      */
-    removeRoleFromOrganizationUnit(roleId: number | undefined, organizationUnitId: number | undefined) : Observable<void> {
+    removeRoleFromOrganizationUnit(roleId: number | undefined, organizationUnitId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/RemoveRoleFromOrganizationUnit?";
         if (roleId === null)
             throw new Error("The parameter 'roleId' cannot be null.");
@@ -20521,7 +20521,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addUsersToOrganizationUnit(body: UsersToOrganizationUnitInput | undefined) : Observable<void> {
+    addUsersToOrganizationUnit(body: UsersToOrganizationUnitInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/AddUsersToOrganizationUnit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20573,7 +20573,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addRolesToOrganizationUnit(body: RolesToOrganizationUnitInput | undefined) : Observable<void> {
+    addRolesToOrganizationUnit(body: RolesToOrganizationUnitInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/AddRolesToOrganizationUnit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20625,7 +20625,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    findUsers(body: FindOrganizationUnitUsersInput | undefined) : Observable<PagedResultDtoOfNameValueDto> {
+    findUsers(body: FindOrganizationUnitUsersInput | undefined): Observable<PagedResultDtoOfNameValueDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/FindUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20681,7 +20681,7 @@ export class OrganizationUnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    findRoles(body: FindOrganizationUnitRolesInput | undefined) : Observable<PagedResultDtoOfNameValueDto> {
+    findRoles(body: FindOrganizationUnitRolesInput | undefined): Observable<PagedResultDtoOfNameValueDto> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/FindRoles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20749,7 +20749,7 @@ export class PaymentServiceProxy {
      * @param upgradeEditionId (optional) 
      * @return Success
      */
-    getPaymentInfo(upgradeEditionId: number | undefined) : Observable<PaymentInfoDto> {
+    getPaymentInfo(upgradeEditionId: number | undefined): Observable<PaymentInfoDto> {
         let url_ = this.baseUrl + "/api/services/app/Payment/GetPaymentInfo?";
         if (upgradeEditionId === null)
             throw new Error("The parameter 'upgradeEditionId' cannot be null.");
@@ -20805,7 +20805,7 @@ export class PaymentServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createPayment(body: CreatePaymentDto | undefined) : Observable<number> {
+    createPayment(body: CreatePaymentDto | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Payment/CreatePayment";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20862,7 +20862,7 @@ export class PaymentServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    cancelPayment(body: CancelPaymentDto | undefined) : Observable<void> {
+    cancelPayment(body: CancelPaymentDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/CancelPayment";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -20916,7 +20916,7 @@ export class PaymentServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getPaymentHistory(sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfSubscriptionPaymentListDto> {
+    getPaymentHistory(sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfSubscriptionPaymentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Payment/GetPaymentHistory?";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
@@ -20980,7 +20980,7 @@ export class PaymentServiceProxy {
      * @param recurringPaymentsEnabled (optional) 
      * @return Success
      */
-    getActiveGateways(recurringPaymentsEnabled: boolean | undefined) : Observable<PaymentGatewayModel[]> {
+    getActiveGateways(recurringPaymentsEnabled: boolean | undefined): Observable<PaymentGatewayModel[]> {
         let url_ = this.baseUrl + "/api/services/app/Payment/GetActiveGateways?";
         if (recurringPaymentsEnabled === null)
             throw new Error("The parameter 'recurringPaymentsEnabled' cannot be null.");
@@ -21043,7 +21043,7 @@ export class PaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    getPayment(paymentId: number | undefined) : Observable<SubscriptionPaymentDto> {
+    getPayment(paymentId: number | undefined): Observable<SubscriptionPaymentDto> {
         let url_ = this.baseUrl + "/api/services/app/Payment/GetPayment?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21098,7 +21098,7 @@ export class PaymentServiceProxy {
     /**
      * @return Success
      */
-    getLastCompletedPayment() : Observable<SubscriptionPaymentDto> {
+    getLastCompletedPayment(): Observable<SubscriptionPaymentDto> {
         let url_ = this.baseUrl + "/api/services/app/Payment/GetLastCompletedPayment";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -21150,7 +21150,7 @@ export class PaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    buyNowSucceed(paymentId: number | undefined) : Observable<void> {
+    buyNowSucceed(paymentId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/BuyNowSucceed?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21202,7 +21202,7 @@ export class PaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    newRegistrationSucceed(paymentId: number | undefined) : Observable<void> {
+    newRegistrationSucceed(paymentId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/NewRegistrationSucceed?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21254,7 +21254,7 @@ export class PaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    upgradeSucceed(paymentId: number | undefined) : Observable<void> {
+    upgradeSucceed(paymentId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/UpgradeSucceed?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21306,7 +21306,7 @@ export class PaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    extendSucceed(paymentId: number | undefined) : Observable<void> {
+    extendSucceed(paymentId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/ExtendSucceed?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21358,7 +21358,7 @@ export class PaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    paymentFailed(paymentId: number | undefined) : Observable<void> {
+    paymentFailed(paymentId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/PaymentFailed?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21410,7 +21410,7 @@ export class PaymentServiceProxy {
      * @param upgradeEditionId (optional) 
      * @return Success
      */
-    switchBetweenFreeEditions(upgradeEditionId: number | undefined) : Observable<void> {
+    switchBetweenFreeEditions(upgradeEditionId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/SwitchBetweenFreeEditions?";
         if (upgradeEditionId === null)
             throw new Error("The parameter 'upgradeEditionId' cannot be null.");
@@ -21462,7 +21462,7 @@ export class PaymentServiceProxy {
      * @param editionId (optional) 
      * @return Success
      */
-    upgradeSubscriptionCostsLessThenMinAmount(editionId: number | undefined) : Observable<void> {
+    upgradeSubscriptionCostsLessThenMinAmount(editionId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Payment/UpgradeSubscriptionCostsLessThenMinAmount?";
         if (editionId === null)
             throw new Error("The parameter 'editionId' cannot be null.");
@@ -21513,7 +21513,7 @@ export class PaymentServiceProxy {
     /**
      * @return Success
      */
-    hasAnyPayment() : Observable<boolean> {
+    hasAnyPayment(): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/Payment/HasAnyPayment";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -21579,7 +21579,7 @@ export class PayPalPaymentServiceProxy {
      * @param paypalOrderId (optional) 
      * @return Success
      */
-    confirmPayment(paymentId: number | undefined, paypalOrderId: string | undefined) : Observable<void> {
+    confirmPayment(paymentId: number | undefined, paypalOrderId: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/PayPalPayment/ConfirmPayment?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -21634,7 +21634,7 @@ export class PayPalPaymentServiceProxy {
     /**
      * @return Success
      */
-    getConfiguration() : Observable<PayPalConfigurationDto> {
+    getConfiguration(): Observable<PayPalConfigurationDto> {
         let url_ = this.baseUrl + "/api/services/app/PayPalPayment/GetConfiguration";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -21697,7 +21697,7 @@ export class PermissionServiceProxy {
     /**
      * @return Success
      */
-    getAllPermissions() : Observable<ListResultDtoOfFlatPermissionWithLevelDto> {
+    getAllPermissions(): Observable<ListResultDtoOfFlatPermissionWithLevelDto> {
         let url_ = this.baseUrl + "/api/services/app/Permission/GetAllPermissions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -21766,7 +21766,7 @@ export class PrioritiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetPriorityForViewDto> {
+    getAll(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -21842,7 +21842,7 @@ export class PrioritiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getPriorityForView(id: number | undefined) : Observable<GetPriorityForViewDto> {
+    getPriorityForView(id: number | undefined): Observable<GetPriorityForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetPriorityForView?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -21898,7 +21898,7 @@ export class PrioritiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getPriorityForEdit(id: number | undefined) : Observable<GetPriorityForEditOutput> {
+    getPriorityForEdit(id: number | undefined): Observable<GetPriorityForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetPriorityForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -21954,7 +21954,7 @@ export class PrioritiesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditPriorityDto | undefined) : Observable<void> {
+    createOrEdit(body: CreateOrEditPriorityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22006,7 +22006,7 @@ export class PrioritiesServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | undefined) : Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -22060,7 +22060,7 @@ export class PrioritiesServiceProxy {
      * @param isDefaultFilter (optional) 
      * @return Success
      */
-    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined) : Observable<FileDto> {
+    getPrioritiesToExcel(filter: string | undefined, descriptionFilter: string | undefined, isDefaultFilter: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Priorities/GetPrioritiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -22135,7 +22135,7 @@ export class ProfileServiceProxy {
     /**
      * @return Success
      */
-    getCurrentUserProfileForEdit() : Observable<CurrentUserProfileEditDto> {
+    getCurrentUserProfileForEdit(): Observable<CurrentUserProfileEditDto> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetCurrentUserProfileForEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22186,7 +22186,7 @@ export class ProfileServiceProxy {
     /**
      * @return Success
      */
-    disableGoogleAuthenticator() : Observable<void> {
+    disableGoogleAuthenticator(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/DisableGoogleAuthenticator";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22233,7 +22233,7 @@ export class ProfileServiceProxy {
     /**
      * @return Success
      */
-    updateGoogleAuthenticatorKey() : Observable<UpdateGoogleAuthenticatorKeyOutput> {
+    updateGoogleAuthenticatorKey(): Observable<UpdateGoogleAuthenticatorKeyOutput> {
         let url_ = this.baseUrl + "/api/services/app/Profile/UpdateGoogleAuthenticatorKey";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22285,7 +22285,7 @@ export class ProfileServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendVerificationSms(body: SendVerificationSmsInputDto | undefined) : Observable<void> {
+    sendVerificationSms(body: SendVerificationSmsInputDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/SendVerificationSms";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22337,7 +22337,7 @@ export class ProfileServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    verifySmsCode(body: VerifySmsCodeInputDto | undefined) : Observable<void> {
+    verifySmsCode(body: VerifySmsCodeInputDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/VerifySmsCode";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22388,7 +22388,7 @@ export class ProfileServiceProxy {
     /**
      * @return Success
      */
-    prepareCollectedData() : Observable<void> {
+    prepareCollectedData(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/PrepareCollectedData";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22436,7 +22436,7 @@ export class ProfileServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateCurrentUserProfile(body: CurrentUserProfileEditDto | undefined) : Observable<void> {
+    updateCurrentUserProfile(body: CurrentUserProfileEditDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/UpdateCurrentUserProfile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22488,7 +22488,7 @@ export class ProfileServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    changePassword(body: ChangePasswordInput | undefined) : Observable<void> {
+    changePassword(body: ChangePasswordInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/ChangePassword";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22540,7 +22540,7 @@ export class ProfileServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateProfilePicture(body: UpdateProfilePictureInput | undefined) : Observable<void> {
+    updateProfilePicture(body: UpdateProfilePictureInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/UpdateProfilePicture";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22591,7 +22591,7 @@ export class ProfileServiceProxy {
     /**
      * @return Success
      */
-    getPasswordComplexitySetting() : Observable<GetPasswordComplexitySettingOutput> {
+    getPasswordComplexitySetting(): Observable<GetPasswordComplexitySettingOutput> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetPasswordComplexitySetting";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22642,7 +22642,7 @@ export class ProfileServiceProxy {
     /**
      * @return Success
      */
-    getProfilePicture() : Observable<GetProfilePictureOutput> {
+    getProfilePicture(): Observable<GetProfilePictureOutput> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetProfilePicture";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22694,7 +22694,7 @@ export class ProfileServiceProxy {
      * @param username (optional) 
      * @return Success
      */
-    getProfilePictureByUserName(username: string | undefined) : Observable<GetProfilePictureOutput> {
+    getProfilePictureByUserName(username: string | undefined): Observable<GetProfilePictureOutput> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetProfilePictureByUserName?";
         if (username === null)
             throw new Error("The parameter 'username' cannot be null.");
@@ -22751,7 +22751,7 @@ export class ProfileServiceProxy {
      * @param tenantId (optional) 
      * @return Success
      */
-    getFriendProfilePicture(userId: number | undefined, tenantId: number | undefined) : Observable<GetProfilePictureOutput> {
+    getFriendProfilePicture(userId: number | undefined, tenantId: number | undefined): Observable<GetProfilePictureOutput> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetFriendProfilePicture?";
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
@@ -22811,7 +22811,7 @@ export class ProfileServiceProxy {
      * @param userId (optional) 
      * @return Success
      */
-    getProfilePictureByUser(userId: number | undefined) : Observable<GetProfilePictureOutput> {
+    getProfilePictureByUser(userId: number | undefined): Observable<GetProfilePictureOutput> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetProfilePictureByUser?";
         if (userId === null)
             throw new Error("The parameter 'userId' cannot be null.");
@@ -22867,7 +22867,7 @@ export class ProfileServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    changeLanguage(body: ChangeUserLanguageDto | undefined) : Observable<void> {
+    changeLanguage(body: ChangeUserLanguageDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Profile/ChangeLanguage";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22931,7 +22931,7 @@ export class RoleServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    getRoles(body: GetRolesInput | undefined) : Observable<ListResultDtoOfRoleListDto> {
+    getRoles(body: GetRolesInput | undefined): Observable<ListResultDtoOfRoleListDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetRoles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -22987,7 +22987,7 @@ export class RoleServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getRoleForEdit(id: number | undefined) : Observable<GetRoleForEditOutput> {
+    getRoleForEdit(id: number | undefined): Observable<GetRoleForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetRoleForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -23043,7 +23043,7 @@ export class RoleServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrUpdateRole(body: CreateOrUpdateRoleInput | undefined) : Observable<void> {
+    createOrUpdateRole(body: CreateOrUpdateRoleInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Role/CreateOrUpdateRole";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23095,7 +23095,7 @@ export class RoleServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteRole(id: number | undefined) : Observable<void> {
+    deleteRole(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Role/DeleteRole?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -23158,7 +23158,7 @@ export class SessionServiceProxy {
     /**
      * @return Success
      */
-    getCurrentLoginInformations() : Observable<GetCurrentLoginInformationsOutput> {
+    getCurrentLoginInformations(): Observable<GetCurrentLoginInformationsOutput> {
         let url_ = this.baseUrl + "/api/services/app/Session/GetCurrentLoginInformations";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23209,7 +23209,7 @@ export class SessionServiceProxy {
     /**
      * @return Success
      */
-    updateUserSignInToken() : Observable<UpdateUserSignInTokenOutput> {
+    updateUserSignInToken(): Observable<UpdateUserSignInTokenOutput> {
         let url_ = this.baseUrl + "/api/services/app/Session/UpdateUserSignInToken";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23272,7 +23272,7 @@ export class StripePaymentServiceProxy {
     /**
      * @return Success
      */
-    getConfiguration() : Observable<StripeConfigurationDto> {
+    getConfiguration(): Observable<StripeConfigurationDto> {
         let url_ = this.baseUrl + "/api/services/app/StripePayment/GetConfiguration";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23324,7 +23324,7 @@ export class StripePaymentServiceProxy {
      * @param stripeSessionId (optional) 
      * @return Success
      */
-    getPayment(stripeSessionId: string | undefined) : Observable<SubscriptionPaymentDto> {
+    getPayment(stripeSessionId: string | undefined): Observable<SubscriptionPaymentDto> {
         let url_ = this.baseUrl + "/api/services/app/StripePayment/GetPayment?";
         if (stripeSessionId === null)
             throw new Error("The parameter 'stripeSessionId' cannot be null.");
@@ -23380,7 +23380,7 @@ export class StripePaymentServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createPaymentSession(body: StripeCreatePaymentSessionInput | undefined) : Observable<string> {
+    createPaymentSession(body: StripeCreatePaymentSessionInput | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/StripePayment/CreatePaymentSession";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23437,7 +23437,7 @@ export class StripePaymentServiceProxy {
      * @param paymentId (optional) 
      * @return Success
      */
-    getPaymentResult(paymentId: number | undefined) : Observable<StripePaymentResultOutput> {
+    getPaymentResult(paymentId: number | undefined): Observable<StripePaymentResultOutput> {
         let url_ = this.baseUrl + "/api/services/app/StripePayment/GetPaymentResult?";
         if (paymentId === null)
             throw new Error("The parameter 'paymentId' cannot be null.");
@@ -23504,7 +23504,7 @@ export class SubscriptionServiceProxy {
     /**
      * @return Success
      */
-    disableRecurringPayments() : Observable<void> {
+    disableRecurringPayments(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Subscription/DisableRecurringPayments";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23551,7 +23551,7 @@ export class SubscriptionServiceProxy {
     /**
      * @return Success
      */
-    enableRecurringPayments() : Observable<void> {
+    enableRecurringPayments(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Subscription/EnableRecurringPayments";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23620,7 +23620,7 @@ export class TenantServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getTenants(filter: string | undefined, subscriptionEndDateStart: DateTime | undefined, subscriptionEndDateEnd: DateTime | undefined, creationDateStart: DateTime | undefined, creationDateEnd: DateTime | undefined, editionId: number | undefined, editionIdSpecified: boolean | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfTenantListDto> {
+    getTenants(filter: string | undefined, subscriptionEndDateStart: DateTime | undefined, subscriptionEndDateEnd: DateTime | undefined, creationDateStart: DateTime | undefined, creationDateEnd: DateTime | undefined, editionId: number | undefined, editionIdSpecified: boolean | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfTenantListDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetTenants?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -23629,19 +23629,19 @@ export class TenantServiceProxy {
         if (subscriptionEndDateStart === null)
             throw new Error("The parameter 'subscriptionEndDateStart' cannot be null.");
         else if (subscriptionEndDateStart !== undefined)
-            url_ += "SubscriptionEndDateStart=" + encodeURIComponent(subscriptionEndDateStart ? "" + subscriptionEndDateStart.toString() : "") + "&";
+            url_ += "SubscriptionEndDateStart=" + encodeURIComponent(subscriptionEndDateStart ? "" + subscriptionEndDateStart.toJSON() : "") + "&";
         if (subscriptionEndDateEnd === null)
             throw new Error("The parameter 'subscriptionEndDateEnd' cannot be null.");
         else if (subscriptionEndDateEnd !== undefined)
-            url_ += "SubscriptionEndDateEnd=" + encodeURIComponent(subscriptionEndDateEnd ? "" + subscriptionEndDateEnd.toString() : "") + "&";
+            url_ += "SubscriptionEndDateEnd=" + encodeURIComponent(subscriptionEndDateEnd ? "" + subscriptionEndDateEnd.toJSON() : "") + "&";
         if (creationDateStart === null)
             throw new Error("The parameter 'creationDateStart' cannot be null.");
         else if (creationDateStart !== undefined)
-            url_ += "CreationDateStart=" + encodeURIComponent(creationDateStart ? "" + creationDateStart.toString() : "") + "&";
+            url_ += "CreationDateStart=" + encodeURIComponent(creationDateStart ? "" + creationDateStart.toJSON() : "") + "&";
         if (creationDateEnd === null)
             throw new Error("The parameter 'creationDateEnd' cannot be null.");
         else if (creationDateEnd !== undefined)
-            url_ += "CreationDateEnd=" + encodeURIComponent(creationDateEnd ? "" + creationDateEnd.toString() : "") + "&";
+            url_ += "CreationDateEnd=" + encodeURIComponent(creationDateEnd ? "" + creationDateEnd.toJSON() : "") + "&";
         if (editionId === null)
             throw new Error("The parameter 'editionId' cannot be null.");
         else if (editionId !== undefined)
@@ -23712,7 +23712,7 @@ export class TenantServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createTenant(body: CreateTenantInput | undefined) : Observable<void> {
+    createTenant(body: CreateTenantInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/CreateTenant";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23764,7 +23764,7 @@ export class TenantServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getTenantForEdit(id: number | undefined) : Observable<TenantEditDto> {
+    getTenantForEdit(id: number | undefined): Observable<TenantEditDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetTenantForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -23820,7 +23820,7 @@ export class TenantServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateTenant(body: TenantEditDto | undefined) : Observable<void> {
+    updateTenant(body: TenantEditDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/UpdateTenant";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23872,7 +23872,7 @@ export class TenantServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteTenant(id: number | undefined) : Observable<void> {
+    deleteTenant(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/DeleteTenant?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -23924,7 +23924,7 @@ export class TenantServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getTenantFeaturesForEdit(id: number | undefined) : Observable<GetTenantFeaturesEditOutput> {
+    getTenantFeaturesForEdit(id: number | undefined): Observable<GetTenantFeaturesEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetTenantFeaturesForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -23980,7 +23980,7 @@ export class TenantServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateTenantFeatures(body: UpdateTenantFeaturesInput | undefined) : Observable<void> {
+    updateTenantFeatures(body: UpdateTenantFeaturesInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/UpdateTenantFeatures";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24032,7 +24032,7 @@ export class TenantServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    resetTenantSpecificFeatures(body: EntityDto | undefined) : Observable<void> {
+    resetTenantSpecificFeatures(body: EntityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/ResetTenantSpecificFeatures";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24084,7 +24084,7 @@ export class TenantServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    unlockTenantAdmin(body: EntityDto | undefined) : Observable<void> {
+    unlockTenantAdmin(body: EntityDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/UnlockTenantAdmin";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24148,7 +24148,7 @@ export class TenantCustomizationServiceProxy {
      * @param tenantId (optional) 
      * @return Success
      */
-    getTenantLogo(skin: string, tenantId: number | undefined) : Observable<void> {
+    getTenantLogo(skin: string, tenantId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/TenantCustomization/GetTenantLogo/{skin}/{tenantId}?";
         if (skin === undefined || skin === null)
             throw new Error("The parameter 'skin' must be defined.");
@@ -24214,7 +24214,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getMemberActivity() : Observable<GetMemberActivityOutput> {
+    getMemberActivity(): Observable<GetMemberActivityOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetMemberActivity";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24265,7 +24265,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getDashboardData(salesSummaryDatePeriod: SalesSummaryDatePeriod) : Observable<GetDashboardDataOutput> {
+    getDashboardData(salesSummaryDatePeriod: SalesSummaryDatePeriod): Observable<GetDashboardDataOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetDashboardData?";
         if (salesSummaryDatePeriod === undefined || salesSummaryDatePeriod === null)
             throw new Error("The parameter 'salesSummaryDatePeriod' must be defined and cannot be null.");
@@ -24320,7 +24320,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getTopStats() : Observable<GetTopStatsOutput> {
+    getTopStats(): Observable<GetTopStatsOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetTopStats";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24371,7 +24371,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getProfitShare() : Observable<GetProfitShareOutput> {
+    getProfitShare(): Observable<GetProfitShareOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetProfitShare";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24422,7 +24422,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getDailySales() : Observable<GetDailySalesOutput> {
+    getDailySales(): Observable<GetDailySalesOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetDailySales";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24473,7 +24473,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getSalesSummary(salesSummaryDatePeriod: SalesSummaryDatePeriod) : Observable<GetSalesSummaryOutput> {
+    getSalesSummary(salesSummaryDatePeriod: SalesSummaryDatePeriod): Observable<GetSalesSummaryOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetSalesSummary?";
         if (salesSummaryDatePeriod === undefined || salesSummaryDatePeriod === null)
             throw new Error("The parameter 'salesSummaryDatePeriod' must be defined and cannot be null.");
@@ -24528,7 +24528,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getRegionalStats() : Observable<GetRegionalStatsOutput> {
+    getRegionalStats(): Observable<GetRegionalStatsOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetRegionalStats";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24579,7 +24579,7 @@ export class TenantDashboardServiceProxy {
     /**
      * @return Success
      */
-    getGeneralStats() : Observable<GetGeneralStatsOutput> {
+    getGeneralStats(): Observable<GetGeneralStatsOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantDashboard/GetGeneralStats";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24643,7 +24643,7 @@ export class TenantRegistrationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    registerTenant(body: RegisterTenantInput | undefined) : Observable<RegisterTenantOutput> {
+    registerTenant(body: RegisterTenantInput | undefined): Observable<RegisterTenantOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantRegistration/RegisterTenant";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24698,7 +24698,7 @@ export class TenantRegistrationServiceProxy {
     /**
      * @return Success
      */
-    getEditionsForSelect() : Observable<EditionsSelectOutput> {
+    getEditionsForSelect(): Observable<EditionsSelectOutput> {
         let url_ = this.baseUrl + "/api/services/app/TenantRegistration/GetEditionsForSelect";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24750,7 +24750,7 @@ export class TenantRegistrationServiceProxy {
      * @param editionId (optional) 
      * @return Success
      */
-    getEdition(editionId: number | undefined) : Observable<EditionSelectDto> {
+    getEdition(editionId: number | undefined): Observable<EditionSelectDto> {
         let url_ = this.baseUrl + "/api/services/app/TenantRegistration/GetEdition?";
         if (editionId === null)
             throw new Error("The parameter 'editionId' cannot be null.");
@@ -24817,7 +24817,7 @@ export class TenantSettingsServiceProxy {
     /**
      * @return Success
      */
-    getAllSettings() : Observable<TenantSettingsEditDto> {
+    getAllSettings(): Observable<TenantSettingsEditDto> {
         let url_ = this.baseUrl + "/api/services/app/TenantSettings/GetAllSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24869,7 +24869,7 @@ export class TenantSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateAllSettings(body: TenantSettingsEditDto | undefined) : Observable<void> {
+    updateAllSettings(body: TenantSettingsEditDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/TenantSettings/UpdateAllSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24920,7 +24920,7 @@ export class TenantSettingsServiceProxy {
     /**
      * @return Success
      */
-    clearLogo() : Observable<void> {
+    clearLogo(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/TenantSettings/ClearLogo";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -24967,7 +24967,7 @@ export class TenantSettingsServiceProxy {
     /**
      * @return Success
      */
-    clearCustomCss() : Observable<void> {
+    clearCustomCss(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/TenantSettings/ClearCustomCss";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25015,7 +25015,7 @@ export class TenantSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendTestEmail(body: SendTestEmailInput | undefined) : Observable<void> {
+    sendTestEmail(body: SendTestEmailInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/TenantSettings/SendTestEmail";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25066,7 +25066,7 @@ export class TenantSettingsServiceProxy {
     /**
      * @return Success
      */
-    getEnabledSocialLoginSettings() : Observable<ExternalLoginSettingsDto> {
+    getEnabledSocialLoginSettings(): Observable<ExternalLoginSettingsDto> {
         let url_ = this.baseUrl + "/api/services/app/TenantSettings/GetEnabledSocialLoginSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25129,7 +25129,7 @@ export class TimingServiceProxy {
     /**
      * @return Success
      */
-    getTimezones(defaultTimezoneScope: SettingScopes) : Observable<ListResultDtoOfNameValueDto> {
+    getTimezones(defaultTimezoneScope: SettingScopes): Observable<ListResultDtoOfNameValueDto> {
         let url_ = this.baseUrl + "/api/services/app/Timing/GetTimezones?";
         if (defaultTimezoneScope === undefined || defaultTimezoneScope === null)
             throw new Error("The parameter 'defaultTimezoneScope' must be defined and cannot be null.");
@@ -25185,7 +25185,7 @@ export class TimingServiceProxy {
      * @param selectedTimezoneId (optional) 
      * @return Success
      */
-    getTimezoneComboboxItems(selectedTimezoneId: string | undefined) : Observable<ComboboxItemDto[]> {
+    getTimezoneComboboxItems(selectedTimezoneId: string | undefined): Observable<ComboboxItemDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Timing/GetTimezoneComboboxItems?";
         if (selectedTimezoneId === null)
             throw new Error("The parameter 'selectedTimezoneId' cannot be null.");
@@ -25260,7 +25260,7 @@ export class TokenAuthServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    authenticate(body: AuthenticateModel | undefined) : Observable<AuthenticateResultModel> {
+    authenticate(body: AuthenticateModel | undefined): Observable<AuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/Authenticate";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25316,7 +25316,7 @@ export class TokenAuthServiceProxy {
      * @param refreshToken (optional) 
      * @return Success
      */
-    refreshToken(refreshToken: string | undefined) : Observable<RefreshTokenResult> {
+    refreshToken(refreshToken: string | undefined): Observable<RefreshTokenResult> {
         let url_ = this.baseUrl + "/api/TokenAuth/RefreshToken?";
         if (refreshToken === null)
             throw new Error("The parameter 'refreshToken' cannot be null.");
@@ -25371,7 +25371,7 @@ export class TokenAuthServiceProxy {
     /**
      * @return Success
      */
-    logOut() : Observable<void> {
+    logOut(): Observable<void> {
         let url_ = this.baseUrl + "/api/TokenAuth/LogOut";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25419,7 +25419,7 @@ export class TokenAuthServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendTwoFactorAuthCode(body: SendTwoFactorAuthCodeModel | undefined) : Observable<void> {
+    sendTwoFactorAuthCode(body: SendTwoFactorAuthCodeModel | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/TokenAuth/SendTwoFactorAuthCode";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25471,7 +25471,7 @@ export class TokenAuthServiceProxy {
      * @param impersonationToken (optional) 
      * @return Success
      */
-    impersonatedAuthenticate(impersonationToken: string | undefined) : Observable<ImpersonatedAuthenticateResultModel> {
+    impersonatedAuthenticate(impersonationToken: string | undefined): Observable<ImpersonatedAuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/ImpersonatedAuthenticate?";
         if (impersonationToken === null)
             throw new Error("The parameter 'impersonationToken' cannot be null.");
@@ -25528,7 +25528,7 @@ export class TokenAuthServiceProxy {
      * @param impersonationToken (optional) 
      * @return Success
      */
-    delegatedImpersonatedAuthenticate(userDelegationId: number | undefined, impersonationToken: string | undefined) : Observable<ImpersonatedAuthenticateResultModel> {
+    delegatedImpersonatedAuthenticate(userDelegationId: number | undefined, impersonationToken: string | undefined): Observable<ImpersonatedAuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/DelegatedImpersonatedAuthenticate?";
         if (userDelegationId === null)
             throw new Error("The parameter 'userDelegationId' cannot be null.");
@@ -25588,7 +25588,7 @@ export class TokenAuthServiceProxy {
      * @param switchAccountToken (optional) 
      * @return Success
      */
-    linkedAccountAuthenticate(switchAccountToken: string | undefined) : Observable<SwitchedAccountAuthenticateResultModel> {
+    linkedAccountAuthenticate(switchAccountToken: string | undefined): Observable<SwitchedAccountAuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/LinkedAccountAuthenticate?";
         if (switchAccountToken === null)
             throw new Error("The parameter 'switchAccountToken' cannot be null.");
@@ -25643,7 +25643,7 @@ export class TokenAuthServiceProxy {
     /**
      * @return Success
      */
-    getExternalAuthenticationProviders() : Observable<ExternalLoginProviderInfoModel[]> {
+    getExternalAuthenticationProviders(): Observable<ExternalLoginProviderInfoModel[]> {
         let url_ = this.baseUrl + "/api/TokenAuth/GetExternalAuthenticationProviders";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25702,7 +25702,7 @@ export class TokenAuthServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    externalAuthenticate(body: ExternalAuthenticateModel | undefined) : Observable<ExternalAuthenticateResultModel> {
+    externalAuthenticate(body: ExternalAuthenticateModel | undefined): Observable<ExternalAuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/ExternalAuthenticate";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25759,7 +25759,7 @@ export class TokenAuthServiceProxy {
      * @param severity (optional) 
      * @return Success
      */
-    testNotification(message: string | undefined, severity: string | undefined) : Observable<void> {
+    testNotification(message: string | undefined, severity: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/TokenAuth/TestNotification?";
         if (message === null)
             throw new Error("The parameter 'message' cannot be null.");
@@ -25826,7 +25826,7 @@ export class TwitterServiceProxy {
     /**
      * @return Success
      */
-    getRequestToken() : Observable<TwitterGetRequestTokenResponse> {
+    getRequestToken(): Observable<TwitterGetRequestTokenResponse> {
         let url_ = this.baseUrl + "/api/Twitter/GetRequestToken";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -25879,7 +25879,7 @@ export class TwitterServiceProxy {
      * @param verifier (optional) 
      * @return Success
      */
-    getAccessToken(token: string | undefined, verifier: string | undefined) : Observable<TwitterGetAccessTokenResponse> {
+    getAccessToken(token: string | undefined, verifier: string | undefined): Observable<TwitterGetAccessTokenResponse> {
         let url_ = this.baseUrl + "/api/Twitter/GetAccessToken?";
         if (token === null)
             throw new Error("The parameter 'token' cannot be null.");
@@ -25950,7 +25950,7 @@ export class UiCustomizationSettingsServiceProxy {
     /**
      * @return Success
      */
-    getUiManagementSettings() : Observable<ThemeSettingsDto[]> {
+    getUiManagementSettings(): Observable<ThemeSettingsDto[]> {
         let url_ = this.baseUrl + "/api/services/app/UiCustomizationSettings/GetUiManagementSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26009,7 +26009,7 @@ export class UiCustomizationSettingsServiceProxy {
      * @param themeName (optional) 
      * @return Success
      */
-    changeThemeWithDefaultValues(themeName: string | undefined) : Observable<void> {
+    changeThemeWithDefaultValues(themeName: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UiCustomizationSettings/ChangeThemeWithDefaultValues?";
         if (themeName === null)
             throw new Error("The parameter 'themeName' cannot be null.");
@@ -26061,7 +26061,7 @@ export class UiCustomizationSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateUiManagementSettings(body: ThemeSettingsDto | undefined) : Observable<void> {
+    updateUiManagementSettings(body: ThemeSettingsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UiCustomizationSettings/UpdateUiManagementSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26113,7 +26113,7 @@ export class UiCustomizationSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateDefaultUiManagementSettings(body: ThemeSettingsDto | undefined) : Observable<void> {
+    updateDefaultUiManagementSettings(body: ThemeSettingsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UiCustomizationSettings/UpdateDefaultUiManagementSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26164,7 +26164,7 @@ export class UiCustomizationSettingsServiceProxy {
     /**
      * @return Success
      */
-    useSystemDefaultSettings() : Observable<void> {
+    useSystemDefaultSettings(): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UiCustomizationSettings/UseSystemDefaultSettings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26224,7 +26224,7 @@ export class UserServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    getUsers(body: GetUsersInput | undefined) : Observable<PagedResultDtoOfUserListDto> {
+    getUsers(body: GetUsersInput | undefined): Observable<PagedResultDtoOfUserListDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26284,7 +26284,7 @@ export class UserServiceProxy {
      * @param sorting (optional) 
      * @return Success
      */
-    getUsersToExcel(filter: string | undefined, permissions: string[] | undefined, role: number | undefined, onlyLockedUsers: boolean | undefined, sorting: string | undefined) : Observable<FileDto> {
+    getUsersToExcel(filter: string | undefined, permissions: string[] | undefined, role: number | undefined, onlyLockedUsers: boolean | undefined, sorting: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetUsersToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -26356,7 +26356,7 @@ export class UserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getUserForEdit(id: number | undefined) : Observable<GetUserForEditOutput> {
+    getUserForEdit(id: number | undefined): Observable<GetUserForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/User/GetUserForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -26412,7 +26412,7 @@ export class UserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getUserPermissionsForEdit(id: number | undefined) : Observable<GetUserPermissionsForEditOutput> {
+    getUserPermissionsForEdit(id: number | undefined): Observable<GetUserPermissionsForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/User/GetUserPermissionsForEdit?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -26468,7 +26468,7 @@ export class UserServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    resetUserSpecificPermissions(body: EntityDtoOfInt64 | undefined) : Observable<void> {
+    resetUserSpecificPermissions(body: EntityDtoOfInt64 | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/ResetUserSpecificPermissions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26520,7 +26520,7 @@ export class UserServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateUserPermissions(body: UpdateUserPermissionsInput | undefined) : Observable<void> {
+    updateUserPermissions(body: UpdateUserPermissionsInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/UpdateUserPermissions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26572,7 +26572,7 @@ export class UserServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrUpdateUser(body: CreateOrUpdateUserInput | undefined) : Observable<void> {
+    createOrUpdateUser(body: CreateOrUpdateUserInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/CreateOrUpdateUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26624,7 +26624,7 @@ export class UserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    deleteUser(id: number | undefined) : Observable<void> {
+    deleteUser(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/DeleteUser?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -26676,7 +26676,7 @@ export class UserServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    unlockUser(body: EntityDtoOfInt64 | undefined) : Observable<void> {
+    unlockUser(body: EntityDtoOfInt64 | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/UnlockUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26742,7 +26742,7 @@ export class UserDelegationServiceProxy {
      * @param sorting (optional) 
      * @return Success
      */
-    getDelegatedUsers(maxResultCount: number | undefined, skipCount: number | undefined, sorting: string | undefined) : Observable<PagedResultDtoOfUserDelegationDto> {
+    getDelegatedUsers(maxResultCount: number | undefined, skipCount: number | undefined, sorting: string | undefined): Observable<PagedResultDtoOfUserDelegationDto> {
         let url_ = this.baseUrl + "/api/services/app/UserDelegation/GetDelegatedUsers?";
         if (maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' cannot be null.");
@@ -26806,7 +26806,7 @@ export class UserDelegationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    delegateNewUser(body: CreateUserDelegationDto | undefined) : Observable<void> {
+    delegateNewUser(body: CreateUserDelegationDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UserDelegation/DelegateNewUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26858,7 +26858,7 @@ export class UserDelegationServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    removeDelegation(id: number | undefined) : Observable<void> {
+    removeDelegation(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UserDelegation/RemoveDelegation?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -26909,7 +26909,7 @@ export class UserDelegationServiceProxy {
     /**
      * @return Success
      */
-    getActiveUserDelegations() : Observable<UserDelegationDto[]> {
+    getActiveUserDelegations(): Observable<UserDelegationDto[]> {
         let url_ = this.baseUrl + "/api/services/app/UserDelegation/GetActiveUserDelegations";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -26980,7 +26980,7 @@ export class UserLinkServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    linkToUser(body: LinkToUserInput | undefined) : Observable<void> {
+    linkToUser(body: LinkToUserInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UserLink/LinkToUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27034,7 +27034,7 @@ export class UserLinkServiceProxy {
      * @param sorting (optional) 
      * @return Success
      */
-    getLinkedUsers(maxResultCount: number | undefined, skipCount: number | undefined, sorting: string | undefined) : Observable<PagedResultDtoOfLinkedUserDto> {
+    getLinkedUsers(maxResultCount: number | undefined, skipCount: number | undefined, sorting: string | undefined): Observable<PagedResultDtoOfLinkedUserDto> {
         let url_ = this.baseUrl + "/api/services/app/UserLink/GetLinkedUsers?";
         if (maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' cannot be null.");
@@ -27097,7 +27097,7 @@ export class UserLinkServiceProxy {
     /**
      * @return Success
      */
-    getRecentlyUsedLinkedUsers() : Observable<ListResultDtoOfLinkedUserDto> {
+    getRecentlyUsedLinkedUsers(): Observable<ListResultDtoOfLinkedUserDto> {
         let url_ = this.baseUrl + "/api/services/app/UserLink/GetRecentlyUsedLinkedUsers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27149,7 +27149,7 @@ export class UserLinkServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    unlinkUser(body: UnlinkUserInput | undefined) : Observable<void> {
+    unlinkUser(body: UnlinkUserInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/UserLink/UnlinkUser";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27219,7 +27219,7 @@ export class UserLoginServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getUserLoginAttempts(filter: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, result: AbpLoginResultType | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfUserLoginAttemptDto> {
+    getUserLoginAttempts(filter: string | undefined, startDate: DateTime | undefined, endDate: DateTime | undefined, result: AbpLoginResultType | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfUserLoginAttemptDto> {
         let url_ = this.baseUrl + "/api/services/app/UserLogin/GetUserLoginAttempts?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -27228,11 +27228,11 @@ export class UserLoginServiceProxy {
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
-            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toString() : "") + "&";
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&";
         if (endDate === null)
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
-            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toString() : "") + "&";
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&";
         if (result === null)
             throw new Error("The parameter 'result' cannot be null.");
         else if (result !== undefined)
@@ -27311,7 +27311,7 @@ export class WebhookEventServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: string | undefined) : Observable<WebhookEvent> {
+    get(id: string | undefined): Observable<WebhookEvent> {
         let url_ = this.baseUrl + "/api/services/app/WebhookEvent/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -27381,7 +27381,7 @@ export class WebhookSendAttemptServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getAllSendAttempts(subscriptionId: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined) : Observable<PagedResultDtoOfGetAllSendAttemptsOutput> {
+    getAllSendAttempts(subscriptionId: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfGetAllSendAttemptsOutput> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSendAttempt/GetAllSendAttempts?";
         if (subscriptionId === null)
             throw new Error("The parameter 'subscriptionId' cannot be null.");
@@ -27445,7 +27445,7 @@ export class WebhookSendAttemptServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getAllSendAttemptsOfWebhookEvent(id: string | undefined) : Observable<ListResultDtoOfGetAllSendAttemptsOfWebhookEventOutput> {
+    getAllSendAttemptsOfWebhookEvent(id: string | undefined): Observable<ListResultDtoOfGetAllSendAttemptsOfWebhookEventOutput> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSendAttempt/GetAllSendAttemptsOfWebhookEvent?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -27501,7 +27501,7 @@ export class WebhookSendAttemptServiceProxy {
      * @param sendAttemptId (optional) 
      * @return Success
      */
-    resend(sendAttemptId: string | undefined) : Observable<void> {
+    resend(sendAttemptId: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSendAttempt/Resend?";
         if (sendAttemptId === null)
             throw new Error("The parameter 'sendAttemptId' cannot be null.");
@@ -27564,7 +27564,7 @@ export class WebhookSubscriptionServiceProxy {
     /**
      * @return Success
      */
-    publishTestWebhook() : Observable<string> {
+    publishTestWebhook(): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/PublishTestWebhook";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27616,7 +27616,7 @@ export class WebhookSubscriptionServiceProxy {
     /**
      * @return Success
      */
-    getAllSubscriptions() : Observable<ListResultDtoOfGetAllSubscriptionsOutput> {
+    getAllSubscriptions(): Observable<ListResultDtoOfGetAllSubscriptionsOutput> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/GetAllSubscriptions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27668,7 +27668,7 @@ export class WebhookSubscriptionServiceProxy {
      * @param subscriptionId (optional) 
      * @return Success
      */
-    getSubscription(subscriptionId: string | undefined) : Observable<WebhookSubscription> {
+    getSubscription(subscriptionId: string | undefined): Observable<WebhookSubscription> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/GetSubscription?";
         if (subscriptionId === null)
             throw new Error("The parameter 'subscriptionId' cannot be null.");
@@ -27724,7 +27724,7 @@ export class WebhookSubscriptionServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    addSubscription(body: WebhookSubscription | undefined) : Observable<void> {
+    addSubscription(body: WebhookSubscription | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/AddSubscription";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27776,7 +27776,7 @@ export class WebhookSubscriptionServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateSubscription(body: WebhookSubscription | undefined) : Observable<void> {
+    updateSubscription(body: WebhookSubscription | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/UpdateSubscription";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27828,7 +27828,7 @@ export class WebhookSubscriptionServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    activateWebhookSubscription(body: ActivateWebhookSubscriptionInput | undefined) : Observable<void> {
+    activateWebhookSubscription(body: ActivateWebhookSubscriptionInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/ActivateWebhookSubscription";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27880,7 +27880,7 @@ export class WebhookSubscriptionServiceProxy {
      * @param webhookName (optional) 
      * @return Success
      */
-    isSubscribed(webhookName: string | undefined) : Observable<boolean> {
+    isSubscribed(webhookName: string | undefined): Observable<boolean> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/IsSubscribed?";
         if (webhookName === null)
             throw new Error("The parameter 'webhookName' cannot be null.");
@@ -27937,7 +27937,7 @@ export class WebhookSubscriptionServiceProxy {
      * @param webhookName (optional) 
      * @return Success
      */
-    getAllSubscriptionsIfFeaturesGranted(webhookName: string | undefined) : Observable<ListResultDtoOfGetAllSubscriptionsOutput> {
+    getAllSubscriptionsIfFeaturesGranted(webhookName: string | undefined): Observable<ListResultDtoOfGetAllSubscriptionsOutput> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/GetAllSubscriptionsIfFeaturesGranted?";
         if (webhookName === null)
             throw new Error("The parameter 'webhookName' cannot be null.");
@@ -27992,7 +27992,7 @@ export class WebhookSubscriptionServiceProxy {
     /**
      * @return Success
      */
-    getAllAvailableWebhooks() : Observable<ListResultDtoOfGetAllAvailableWebhooksOutput> {
+    getAllAvailableWebhooks(): Observable<ListResultDtoOfGetAllAvailableWebhooksOutput> {
         let url_ = this.baseUrl + "/api/services/app/WebhookSubscription/GetAllAvailableWebhooks";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -28055,7 +28055,7 @@ export class WebLogServiceProxy {
     /**
      * @return Success
      */
-    getLatestWebLogs() : Observable<GetLatestWebLogsOutput> {
+    getLatestWebLogs(): Observable<GetLatestWebLogsOutput> {
         let url_ = this.baseUrl + "/api/services/app/WebLog/GetLatestWebLogs";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -28106,7 +28106,7 @@ export class WebLogServiceProxy {
     /**
      * @return Success
      */
-    downloadWebLogs() : Observable<FileDto> {
+    downloadWebLogs(): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/WebLog/DownloadWebLogs";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -28169,7 +28169,7 @@ export class ZipCodesServiceProxy {
     /**
      * @return Success
      */
-    getAllZipCodesForTableDropdown() : Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+    getAllZipCodesForTableDropdown(): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAllZipCodesForTableDropdown";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -28224,7 +28224,7 @@ export class ZipCodesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(zipCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined) : Observable<PagedResultDtoOfGetZipCodeForViewDto> {
+    getAll(zipCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetZipCodeForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ZipCodes/GetAll?";
         if (zipCodeFilter === null)
             throw new Error("The parameter 'zipCodeFilter' cannot be null.");
