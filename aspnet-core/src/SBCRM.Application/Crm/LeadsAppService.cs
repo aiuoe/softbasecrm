@@ -127,7 +127,7 @@ namespace SBCRM.Crm
         {
             try
             {
-                IQueryable<Lead> filteredLeads = _leadRepository.GetAll()
+                var filteredLeads = _leadRepository.GetAll()
                                .Include(e => e.LeadSourceFk)
                                .Include(e => e.LeadStatusFk)
                                .Include(e => e.PriorityFk)

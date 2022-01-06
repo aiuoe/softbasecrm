@@ -91,7 +91,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         private _fileDownloadService: FileDownloadService,
         private _localStorageService: LocalStorageService,
         private _profileService: ProfileServiceProxy,
-        private _dateTimeService: DateTimeService,
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
