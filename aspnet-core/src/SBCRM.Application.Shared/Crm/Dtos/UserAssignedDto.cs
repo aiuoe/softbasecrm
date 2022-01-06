@@ -2,6 +2,9 @@
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// DTO to manage the object the user assigned dto
+    /// </summary>
     public class UserAssignedDto
     {
 
