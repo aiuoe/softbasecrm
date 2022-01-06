@@ -277,6 +277,7 @@
                                                                 (onChange)="
                                                                     getDepartmentAccordingToBranch($event.value)
                                                                 "
+                                                                [disabled]="this.isReadOnlyMode"
                                                             ></p-dropdown>
                                                             
                                                             <validation-messages
@@ -304,6 +305,7 @@
                                                                 itemSize="40"
                                                                 [showClear]="true"
                                                                 [filter]="true"
+                                                                [disabled]="this.isReadOnlyMode"
                                                             ></p-dropdown>
 
                                                             <validation-messages
