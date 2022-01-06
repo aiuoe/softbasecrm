@@ -14,11 +14,11 @@
 
         public const string Pages_Activities = "Pages.Activities";
         public const string Pages_Activities_Create = "Pages.Activities.Create";
-        public const string Pages_Activities_Create_Assign_Other_Users__Dynamic = "Pages.Activities.Create.Assign_Other_Users";
-        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities";
+        public const string Pages_Activities_Create_Assign_Other_Users__Dynamic = "Pages.Activities.Create.Assign_Other_Users__Dynamic";
+        public const string Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic = "Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic";
         public const string Pages_Activities_Edit = "Pages.Activities.Edit";
         public const string Pages_Activities_Delete = "Pages.Activities.Delete";
-        public const string Pages_Activities_View_AssignedUserFilter__Dynamic = "Pages.Activities.View_AssignedUserFilter";
+        public const string Pages_Activities_View_AssignedUserFilter = "Pages.Activities.View_AssignedUserFilter";
 
         public const string Pages_ActivitySourceTypes = "Pages.ActivitySourceTypes";
         public const string Pages_ActivitySourceTypes_Create = "Pages.ActivitySourceTypes.Create";
@@ -39,6 +39,7 @@
         public const string Pages_AccountUsers = "Pages.AccountUsers";
         public const string Pages_AccountUsers_Create = "Pages.AccountUsers.Create";
         public const string Pages_AccountUsers_View__Dynamic = "Pages.AccountUsers.View__Dynamic";
+        public const string Pages_AccountUsers_AutomateAssignment__Dynamic = "Pages.AccountUsers.AutomateAssignment__Dynamic";
         public const string Pages_AccountUsers_Delete = "Pages.AccountUsers.Delete";
 
         public const string Pages_Countries = "Pages.Countries";
@@ -62,6 +63,7 @@
         public const string Pages_Opportunities_Delete = "Pages.Opportunities.Delete";
         public const string Pages_Opportunities_View_Events = "Pages.Opportunities.ViewEvents";
         public const string Pages_Opportunities_ViewAllOpportunities__Dynamic = "Pages.Opportunities.ViewAllOpportunities__Dynamic";
+        public const string Pages_OpportunityUsers_AutomateAssignment__Dynamic = "Pages.OpportunitiesUsers.AutomateAssignment__Dynamic";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
@@ -92,6 +94,7 @@
         public const string Pages_Leads_ViewAllLeads__Dynamic = "Pages.Leads.ViewAllLeads__Dynamic";
         public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
         public const string Pages_Leads_View_Events = "Pages.Leads.ViewEvents";
+        public const string Pages_LeadUsers_AutomateAssignment__Dynamic = "Pages_LeadUsers.AutomateAssignment__Dynamic";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";
@@ -111,6 +114,15 @@
         public const string Pages_Customer = "Pages.Customer";
         public const string Pages_Customer_Create = "Pages.Customer.Create";
         public const string Pages_Customer_Edit = "Pages.Customer.Edit";
+        public const string Pages_Customer_Edit__Dynamic = "Pages.Customer.Edit__Dynamic";
+        public const string Pages_Customer_ScheduleMeeting = "Pages.Customer.ScheduleMeeting";
+        public const string Pages_Customer_ScheduleMeeting__Dynamic = "Pages.Customer.ScheduleMeeting__Dynamic";
+        public const string Pages_Customer_ScheduleCall = "Pages.Customer.ScheduleCall";
+        public const string Pages_Customer_ScheduleCall__Dynamic = "Pages.Customer.ScheduleCall__Dynamic";
+        public const string Pages_Customer_EmailReminder = "Pages.Customer.EmailReminder";
+        public const string Pages_Customer_EmailReminder__Dynamic = "Pages.Customer.EmailReminder__Dynamic";
+        public const string Pages_Customer_ToDoReminder = "Pages.Customer.ToDoReminder";
+        public const string Pages_Customer_ToDoReminder__Dynamic = "Pages.Customer.ToDoReminder__Dynamic";
         public const string Pages_Customer_Delete = "Pages.Customer.Delete";
         public const string Pages_Customer_View_Invoices = "Pages.Customer.ViewInvoices";
         public const string Pages_Customer_View_Equipments = "Pages.Customer.ViewEquipments";

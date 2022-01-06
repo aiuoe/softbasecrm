@@ -29,11 +29,20 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" (click)="confirm()" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><span>Assign</span></button>
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
+                        {{ l('Cancel') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        (click)="confirm()"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <span>Assign</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

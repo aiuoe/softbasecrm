@@ -121,7 +121,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * Set permissions
      */
     setPermissions() {
-        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');
+        this.showEventsTab = this.isGrantedAny('Pages.Opportunities.ViewEvents');        
 
         // Dynamic at runtime Permissions
         const permissionsRequests: Observable<any>[] = [
@@ -153,7 +153,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown(),
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
-            this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(),
+            // this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(),
             this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdown(),
             this._opportunitiesServiceProxy.getAllBranchesForTableDropdown(),
         ];
@@ -177,11 +177,13 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allLeadSources = leadSources;
                     this.allOpportunityTypes = opportunityTypes;
                     this.allCustomers = customers;
-
+                  
                     if (this.customerNumber) {
                         this.opportunity.customerNumber = this.customerNumber;
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }
+
+                    this.breadcrumbs.push(new BreadcrumbItem( this.l('NewOpportunities')));
 
                     this.showSaveButton = !this.isReadOnlyMode;
                 }, () => {

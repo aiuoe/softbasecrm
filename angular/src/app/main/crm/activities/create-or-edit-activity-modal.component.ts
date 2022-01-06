@@ -138,7 +138,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
 
         switch (sourceTypeCode) {
             case ActivitySourceType.LEAD:
-                requests.push(this._activitiesServiceProxy.getAllLeadForTableDropdown());
+                requests.push(this._activitiesServiceProxy.getAllLeadForTableDropdown(isCreate));
                 forkJoin([...requests]).subscribe(
                     ([availableUsers, sourceTypes, activityTypes, statuses, priorities, leads]) => {
                         this.populateCommonDataResponse(
@@ -155,7 +155,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
                 );
                 break;
             case ActivitySourceType.ACCOUNT:
-                requests.push(this._activitiesServiceProxy.getAllAccountsForTableDropdown());
+                requests.push(this._activitiesServiceProxy.getAllAccountsForTableDropdown(isCreate));
                 forkJoin([...requests]).subscribe(
                     ([availableUsers, sourceTypes, activityTypes, statuses, priorities, accounts]) => {
                         this.populateCommonDataResponse(
@@ -174,7 +174,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
                 );
                 break;
             case ActivitySourceType.OPPORTUNITY:
-                requests.push(this._activitiesServiceProxy.getAllOpportunityForTableDropdown());
+                requests.push(this._activitiesServiceProxy.getAllOpportunityForTableDropdown(isCreate));
                 requests.push(this._activitiesServiceProxy.getAllAccountRelatedToOpportunityForTableDropdown());
                 forkJoin([...requests]).subscribe(
                     ([availableUsers, sourceTypes, activityTypes, statuses, priorities, opportunities, accounts]) => {
@@ -299,7 +299,7 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
      * Initialize Component
      */
     ngOnInit(): void {
-        this.canAssignOtherUsers = this.isGranted('Pages.Activities.Create.Assign_Other_Users');
+        this.canAssignOtherUsers = this.isGranted('Pages.Activities.Create.Assign_Other_Users__Dynamic');
     }
 
     /**

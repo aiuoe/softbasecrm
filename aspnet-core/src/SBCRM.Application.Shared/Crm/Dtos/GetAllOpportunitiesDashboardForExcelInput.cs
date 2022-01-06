@@ -9,6 +9,14 @@ namespace SBCRM.Crm.Dtos
     /// </summary>
     public class GetAllOpportunitiesDashboardForExcelInput
     {
-        public List<int> OpportunityIds { get; set; } = new List<int>();
+        public DateTime? FromDate { get; set; }
+
+        public DateTime? ToDate { get; set; }
+
+        public string[] Account { get; set; }
+
+        public short[] Branches { get; set; }
+
+        public short[] Departments { get; set; }
     }
 }

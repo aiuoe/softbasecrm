@@ -55,16 +55,31 @@ namespace SBCRM.Crm
         Task<FileDto> GetActivitiesToExcel(GetAllActivitiesForExcelInput input);
 
         /// <summary>
-        /// Get all opportunities for table dropdown
+        /// Get all accounts for table dropdown
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown(GetActivityTableDropdownsCommonInput input);
+
+        /// <summary>
+        /// Get all accounts related to opportunity for table dropdown
         /// </summary>
         /// <returns></returns>
-        Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown();
+        Task<List<ActivityCustomerLookupTableDto>> GetAllAccountRelatedToOpportunityForTableDropdown();
+
+        /// <summary>
+        /// Get all opportunities for table dropdown
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown(GetActivityTableDropdownsCommonInput input);
 
         /// <summary>
         /// Get all leads for table dropdown
         /// </summary>
+        /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<ActivityLeadLookupTableDto>> GetAllLeadForTableDropdown();
+        Task<List<ActivityLeadLookupTableDto>> GetAllLeadForTableDropdown(GetActivityTableDropdownsCommonInput input);
 
         /// <summary>
         /// Get all users for table dropdown
@@ -95,12 +110,6 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown();
-
-        /// <summary>
-        /// Get all customer for table dropdown
-        /// </summary>
-        /// <returns></returns>
-        Task<List<ActivityCustomerLookupTableDto>> GetAllActivityCustomerForTableDropdown();
 
     }
 }

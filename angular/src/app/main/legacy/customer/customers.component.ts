@@ -20,6 +20,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { last } from 'rxjs/internal/operators';
 import { debounce } from 'lodash-es';
+import { CreateOrEditActivityWidgetModalComponent } from '@app/main/crm/activities-widget/create-or-edit-activity-widget-modal.component';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -32,6 +33,7 @@ import { debounce } from 'lodash-es';
 export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -77,6 +79,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
      * Initialize component
      */
     ngOnInit(): void {
+
         this._customerServiceProxy.getAllAccountTypeForTableDropdown()
             .subscribe((result: CustomerAccountTypeLookupTableDto[]) => {
                 this.accountTypes = result;
@@ -87,7 +90,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
                 this.allUsers = result;
             });
     }
-
+     
     /***
      * Get customers
      * @param event

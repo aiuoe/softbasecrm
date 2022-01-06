@@ -29,7 +29,7 @@ import { ActivitiesWidgetModule } from '@app/main/crm/activities-widget/activiti
     declarations: [
         CustomersComponent,
         CreateOrEditCustomerComponent,
-        ViewCustomerComponent
+        ViewCustomerComponent,            
     ],
     imports: [
         AppSharedModule,
@@ -39,7 +39,7 @@ import { ActivitiesWidgetModule } from '@app/main/crm/activities-widget/activiti
         CheckboxModule,
         AssignedUserModule,
         CustomerContactsModule,
-        ActivitiesWidgetModule
+        ActivitiesWidgetModule,                
     ]
 })
 

@@ -36,7 +36,7 @@ namespace SBCRM.Authorization
             createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic, L(AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic));
             activities.CreateChildPermission(AppPermissions.Pages_Activities_Edit, L("EditActivity"));
             //activities.CreateChildPermission(AppPermissions.Pages_Activities_Delete, L("DeleteActivity"));
-            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic, L(AppPermissions.Pages_Activities_View_AssignedUserFilter__Dynamic));
+            activities.CreateChildPermission(AppPermissions.Pages_Activities_View_AssignedUserFilter, L(AppPermissions.Pages_Activities_View_AssignedUserFilter));
 
             //var activitySourceTypes = pages.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes, L("ActivitySourceTypes"));
             //activitySourceTypes.CreateChildPermission(AppPermissions.Pages_ActivitySourceTypes_Create, L("CreateNewActivitySourceType"));
@@ -74,6 +74,7 @@ namespace SBCRM.Authorization
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_Delete, L("DeleteOpportunity"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Events, L("OpportunityViewEvents"));
             opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_ViewAllOpportunities__Dynamic, L("OpportunityViewAllOpportunities__Dynamic"));
+            opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
             opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_View__Dynamic, L("OpportunityViewDynamicAssignUsers"));
             var opportunityUsers = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityUsers, L("OpportunityViewAssignUsers"));
@@ -130,6 +131,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_ViewAllLeads__Dynamic, L("LeadViewAllLeads__Dynamic"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_Convert_Account, L("LeadConvertToAccount"));
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
+            leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
             var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));
@@ -145,6 +147,15 @@ namespace SBCRM.Authorization
             var customer = pages.CreateChildPermission(AppPermissions.Pages_Customer, L("Customer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Create, L("CreateNewCustomer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit, L("EditCustomer"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit__Dynamic, L("CustomerEdit__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting, L("CustomerScheduleMeeting"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting__Dynamic, L("CustomerScheduleMeeting__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall, L("CustomerScheduleCall"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall__Dynamic, L("CustomerScheduleCall__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder, L("CustomerEmailReminder"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder__Dynamic, L("CustomerEmailReminder__Dynamic"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder, L("CustomerToDoReminder"));
+            customer.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder__Dynamic, L("CustomerToDoReminder__Dynamic"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Invoices, L("CustomerViewInvoices"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
@@ -160,6 +171,8 @@ namespace SBCRM.Authorization
             accountOpportunities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Opportunity, L("CustomerEditOpportunity"));
 
             customer.CreateChildPermission(AppPermissions.Pages_AccountUsers_View__Dynamic, L("CustomerViewDynamicAssignUsers"));
+            customer.CreateChildPermission(AppPermissions.Pages_AccountUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
+
             var accountUsers = customer.CreateChildPermission(AppPermissions.Pages_AccountUsers, L("CustomerViewAssignUsers"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Create, L("CreateNewAccountUser"));
             accountUsers.CreateChildPermission(AppPermissions.Pages_AccountUsers_Delete, L("DeleteAccountUser"));
