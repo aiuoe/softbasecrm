@@ -207,7 +207,7 @@ namespace SBCRM.Crm
                                                                                         into j6
                                     from s6 in j6.DefaultIfEmpty()
 
-                                    join o7 in _lookupBranchRepository.GetAll() on s6.Branch equals o7.Number into j7
+                                    join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
                                     from s7 in j7.DefaultIfEmpty()
 
                                     select new OpportunityQueryDto
@@ -227,7 +227,7 @@ namespace SBCRM.Crm
                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
                                         ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),                                        
                                         DepartmentTitle = s6 == null | s6.Title == null ? "" : s6.Title.ToString(),
-                                        BranchName = s7 != null ? s7.Name == null ? "" : s7.Name.ToString(),
+                                        BranchName = s7 == null | s7.Name == null ? "" : s7.Name.ToString(),
                                         FirstUserAssignedName = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
                                                                  where user.OpportunityId == o.Id
                                                                  select user.UserFk.Name).FirstOrDefault()
@@ -239,21 +239,7 @@ namespace SBCRM.Crm
                 }
                 else
                 {
-                    IQueryable<Opportunity> pagedAndFilteredOpportunities;
-
-                    if (input.Sorting != null)
-                        pagedAndFilteredOpportunities = filteredOpportunities
-                            .OrderBy(input.Sorting)
-                            .PageBy(input);
-                    else
-                        pagedAndFilteredOpportunities = filteredOpportunities
-                            .OrderByDescending(o => o.CloseDate)
-                            .ThenBy(o => o.Name)
-                            .ThenBy(o => o.BranchName)
-                            .ThenBy(o => o.DepartmentTitle)
-                            .PageBy(input);
-
-                    opportunities = from o in pagedAndFilteredOpportunities
+                    opportunities = from o in filteredOpportunities
                                     join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
                                     from s1 in j1.DefaultIfEmpty()
 
@@ -280,7 +266,7 @@ namespace SBCRM.Crm
                                                                                         into j6
                                     from s6 in j6.DefaultIfEmpty()
 
-                                    join o7 in _lookupBranchRepository.GetAll() on s6.Branch equals o7.Number into j7
+                                    join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
                                     from s7 in j7.DefaultIfEmpty()
 
                                     select new OpportunityQueryDto
@@ -299,10 +285,22 @@ namespace SBCRM.Crm
                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
                                         ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
-                                        DepartmentTitle = s6 == null | s6.Title == null ? "" : s6.Title.ToString(),
-                                        BranchName = s7 != null ? s7.Name == null ? "" : s7.Name.ToString()
+                                        DepartmentTitle = s6 == null || s6.Title == null ? "" : s6.Title.ToString(),
+                                        BranchName = s7 == null || s7.Name == null ? "" : s7.Name.ToString()
                                     };
-                }
+
+                    if (input.Sorting != null)
+                        opportunities = opportunities
+                            .OrderBy(input.Sorting)
+                            .PageBy(input);
+                    else
+                        opportunities = opportunities
+                            .OrderByDescending(o => o.CloseDate)
+                            .ThenBy(o => o.Name)
+                            //.ThenBy(o => o.DepartmentTitle)
+                            //.ThenBy(o => o.BranchName)
+                            .PageBy(input);
+                }                
 
                 var totalCount = await filteredOpportunities.CountAsync();
 
