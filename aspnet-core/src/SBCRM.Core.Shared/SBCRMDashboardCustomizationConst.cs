@@ -13,6 +13,8 @@
         {
             public class Tenant
             {
+                public const string OpportunitiesStats = "Widgets_Opportunities_Stats";
+                public const string OpportunitiesList = "Widgets_Opportunities_List";
                 public const string GeneralStats = "Widgets_Tenant_GeneralStats";
                 public const string DailySales = "Widgets_Tenant_DailySales";
                 public const string ProfitShare = "Widgets_Tenant_ProfitShare";
@@ -24,11 +26,19 @@
 
             public class Host
             {
+                public const string OpportunitiesStats = "Widgets_Opportunities_Stats";
+                public const string OpportunitiesList = "Widgets_Opportunities_List";
                 public const string TopStats = "Widgets_Host_TopStats";
                 public const string IncomeStatistics = "Widgets_Host_IncomeStatistics";
                 public const string EditionStatistics = "Widgets_Host_EditionStatistics";
                 public const string SubscriptionExpiringTenants = "Widgets_Host_SubscriptionExpiringTenants";
                 public const string RecentTenants = "Widgets_Host_RecentTenants";
+            }
+
+            public class Crm
+            {
+                public const string OpportunitiesStats = "Widgets_Opportunities_Stats";
+                public const string OpportunitiesList = "Widgets_Opportunities_List";
             }
         }
 
@@ -42,6 +52,8 @@
             public const string DefaultTenantDashboard = "TenantDashboard";
 
             public const string DefaultHostDashboard = "HostDashboard";
+
+            public const string DefaultCrmDashboard = "DefaultCrmDashboard";
         }
 
         public class Applications

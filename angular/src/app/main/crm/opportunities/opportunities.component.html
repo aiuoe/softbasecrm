@@ -1,19 +1,15 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Opportunities'">
-            <div role="actions" class="d-flex flex-row align-items-center" >
-
-                <div class = padding-left-5>
-                    <button
-                        (click)="exportToExcel()"
-                        class="btn btn btn-primary blue"
-                    >
+            <div role="actions" class="d-flex flex-row align-items-center">
+                <div class="padding-left-5">
+                    <button (click)="exportToExcel()" class="btn btn btn-primary blue">
                         <i class="fa fa-download fa-lg"></i>
                         {{ l('Export') }}
                     </button>
                 </div>
 
-                <div class = padding-left-5>
+                <div class="padding-left-5">
                     <button
                         *ngIf="isGranted('Pages.Opportunities.Create')"
                         (click)="createOpportunity()"
@@ -23,7 +19,6 @@
                         {{ l('Opportunity') }}
                     </button>
                 </div>
-
             </div>
         </sub-header>
 
@@ -75,8 +70,7 @@
                                                 optionLabel="displayName"
                                                 [placeholder]="l('FilterByStage')"
                                                 (onChange)="getOpportunities($event)"
-                                            >
-                                            </p-dropdown>
+                                            ></p-dropdown>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +115,6 @@
                                     </span>
                                 </div>
                             </div>
-
                         </div>
                     </form>
 
@@ -154,23 +147,17 @@
                                             {{ l('Name') }}
                                             <p-sortIcon field="name"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="opportunityStageFk.description">
-                                            {{ l('Stage')}}
-                                            <p-sortIcon field="opportunityStageFk.description"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="opportunityStageDescription">
+                                            {{ l('Stage') }}
+                                            <p-sortIcon field="opportunityStageDescription"></p-sortIcon>
                                         </th>
-                                        <th
-                                            style="width: 150px"
-                                            pSortableColumn="customerFk.name"
-                                        >
+                                        <th style="width: 150px" pSortableColumn="customerName">
                                             {{ l('Account') }}
-                                            <p-sortIcon field="customerFk.name"></p-sortIcon>
+                                            <p-sortIcon field="customerName"></p-sortIcon>
                                         </th>
-                                        <th
-                                            style="width: 150px"
-                                            pSortableColumn="users.userFk.name"
-                                         >
+                                        <th style="width: 150px" pSortableColumn="users.userFk.name">
                                             {{ l('AssignedUser') }}
-                                        <p-sortIcon field="users.userFk.name"></p-sortIcon>
+                                            <p-sortIcon field="users.userFk.name"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="closeDate">
                                             {{ l('ProjectClose') }}
@@ -180,24 +167,19 @@
                                             {{ l('Amount') }}
                                             <p-sortIcon field="amount"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="branch">
+                                        <th style="width: 150px" pSortableColumn="branchName">
                                             {{ l('Branch') }}
-                                            <p-sortIcon field="branch"></p-sortIcon>
+                                            <p-sortIcon field="branchName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="department">
+                                        <th style="width: 150px" pSortableColumn="departmentTitle">
                                             {{ l('Department') }}
-                                            <p-sortIcon field="department"></p-sortIcon>
+                                            <p-sortIcon field="departmentTitle"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td
-                                            style="width: 80px"
-                                            [hidden]="
-                                                !isGrantedAny('Pages.Opportunities.Edit')
-                                            "
-                                        >
+                                        <td style="width: 80px" [hidden]="!isGrantedAny('Pages.Opportunities.Edit')">
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-secondary i" dropdownToggle>
                                                     <i class="fa fa-cog color-blue"></i>
@@ -224,46 +206,57 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
-                                                    <hr>
+                                                    <hr />
                                                     <li>
                                                         <a
-                                                            class="dropdown-item" 
-                                                            (click) = "createActivityScheduleMeetingHandler(record.opportunity.id)"                                                          
+                                                            class="dropdown-item"
+                                                            (click)="
+                                                                createActivityScheduleMeetingHandler(
+                                                                    record.opportunity.id
+                                                                )
+                                                            "
                                                         >
-                                                        <span class = "options menu actions">
-                                                            {{ l('ScheduleMeeting') }}
-                                                        </span>                                                            
+                                                            <span class="options menu actions">
+                                                                {{ l('ScheduleMeeting') }}
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             class="dropdown-item"
-                                                            (click) = "createActivityScheduleCallHandler(record.opportunity.id)"                                                            
+                                                            (click)="
+                                                                createActivityScheduleCallHandler(record.opportunity.id)
+                                                            "
                                                         >
-                                                        <span class = "options menu actions">
-                                                            {{ l('ScheduleCall') }}
-                                                        </span>                                                            
+                                                            <span class="options menu actions">
+                                                                {{ l('ScheduleCall') }}
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            class="dropdown-item" 
-                                                            (click) = "createActivityEmailReminderHandler(record.opportunity.id)"                                                            
+                                                            class="dropdown-item"
+                                                            (click)="
+                                                                createActivityEmailReminderHandler(
+                                                                    record.opportunity.id
+                                                                )
+                                                            "
                                                         >
-                                                        <span class = "options menu actions">
-                                                            {{ l('EmailReminder') }}
-                                                        </span>
-                                                            
+                                                            <span class="options menu actions">
+                                                                {{ l('EmailReminder') }}
+                                                            </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            class="dropdown-item"    
-                                                            (click) = "createActivityToDoReminderHandler(record.opportunity.id)"                                                         
+                                                            class="dropdown-item"
+                                                            (click)="
+                                                                createActivityToDoReminderHandler(record.opportunity.id)
+                                                            "
                                                         >
-                                                        <span class = "options menu actions">
-                                                            {{ l('ToDoReminder') }}
-                                                        </span>
+                                                            <span class="options menu actions">
+                                                                {{ l('ToDoReminder') }}
+                                                            </span>
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -304,21 +297,21 @@
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('ProjectClose') }}</span>
                                             <span *ngIf="record.opportunity.closeDate">
-                                                {{ record.opportunity.closeDate | momentFormat: "MM/DD/yyyy"}}
+                                                {{ record.opportunity.closeDate | momentFormat: 'MM/DD/yyyy' }}
                                             </span>
                                             <span *ngIf="!record.opportunity.closeDate">-</span>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Amount') }}</span>
-                                                {{ record.opportunity.amount | currency: 'USD' : true }}
+                                            {{ record.opportunity.amount | currency: 'USD':true }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Branch') }}}</span>
-                                                {{ record.opportunity.branch }}
+                                            {{ record.branchName }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Department') }</span>
-                                                {{ record.opportunity.department }}
+                                            {{ record.departmentTitle }}
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -347,9 +340,8 @@
         </div>
         <app-create-or-edit-activity-widget-modal
             #createActivityModal
-            [componentType] = "'Opportunity'"
+            [componentType]="'Opportunity'"
             [idToStore]="this.idOpportunityToStore"
-        >
-        </app-create-or-edit-activity-widget-modal>
+        ></app-create-or-edit-activity-widget-modal>
     </div>
 </div>
