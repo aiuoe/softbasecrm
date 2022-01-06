@@ -2,9 +2,10 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="LatestOpportunities">Latest Opportunities</text>
+		<text name="EmailOrPhoneRequired">Email or Phone should be provided</text>
 		<text name="FilterByPriority">Filter by Priority</text>
 		<text name="FilterByStage">Filter by Stage</text>
-		
 		<text name="NewOpportunity">New Opportunity</text>
 		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
