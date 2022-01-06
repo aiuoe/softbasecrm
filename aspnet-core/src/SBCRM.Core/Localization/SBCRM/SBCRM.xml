@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
     <text name="CustomerAttachment">Customer attachment</text>
     <text name="SBCRM.Crm.CustomerAttachment">CustomerAttachment</text>
     <text name="FilePath">File path</text>
@@ -14,18 +15,18 @@
 		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
 		<text name="CustomerEdit__Dynamic">Can edit all accounts</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
-        <text name="CustomerScheduleMeeting__Dynamic">Can schedule a meeting on all accounts</text>
+        <text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>
         <text name="CustomerScheduleCall">Schedule call</text>
-        <text name="CustomerScheduleCall__Dynamic">Can schedule a call on all accounts</text>
+        <text name="CustomerScheduleCall__Dynamic">Schedule Call if user is assigned to the Account</text>
         <text name="CustomerEmailReminder">Email reminder </text>
-        <text name="CustomerEmailReminder__Dynamic">Can create a email reminder on all accounts</text>
+        <text name="CustomerEmailReminder__Dynamic">Create Email Reminder if user is assigned to the Account</text>
         <text name="CustomerToDoReminder">To Do Reminder</text>
-        <text name="CustomerToDoReminder__Dynamic">Can create a to do reminder on all accounts</text>
+        <text name="CustomerToDoReminder__Dynamic">Create To Do Reminder if user is assigned to the Account</text>
 		
 		<text name="ScheduleCall">Schedule Call</text>
 		<text name="ScheduleMeeting">Schedule Meeting</text>
 		<text name="EmailReminder">Email Reminder</text>
-		<text name="ToDoReminder">To Do Reminder</text>		
+		<text name="ToDoReminder">To Do Reminder</text>
 		<text name="LeadNotExist">This Lead does not exist or is unavailable</text>
 		<text name="OpportunityNotExist">This Opportunity does not exist or is unavailable</text>
 		<text name="AccountNotExist">This Account does not exist or is unavailable</text>
@@ -1772,6 +1773,7 @@
 		<text name="OneHour">1 Hour (default)</text>
 		<text name="OneHourAndThirtyMinutes">1.5 Hours</text>
 		<text name="TwoHours">2 Hours</text>
+		<text name="AutomateAssignmentUser">Automate Assignment User</text>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[
 <texts>

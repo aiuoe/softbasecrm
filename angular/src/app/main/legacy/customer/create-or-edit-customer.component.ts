@@ -34,6 +34,7 @@ import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 import { Observable, forkJoin, of } from 'rxjs';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 import { Location } from '@angular/common';
+import { AppConsts } from '@shared/AppConsts';
 
 /***
  * Component to manage the customers/accounts create/edit mode
@@ -407,13 +408,13 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
     getZipCode(event: KeyboardEvent) {
         const zipCodeHasMoreThan5Characters = this.customer.zipCode?.trim().length >= 5 && this.customer.zipCode;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
+        const keyDownIsBackspace = event && event.key === AppConsts.Backspace;
         if (zipCodeHasMoreThan5Characters || keyDownIsBackspace) {
             const zipCodeFound: ZipCodeDto = this.usZipCodes.map(x => x.zipCode).find(x => x.zipCode === this.customer.zipCode);
             if (zipCodeFound) {
                 this.customer.city = zipCodeFound.city;
                 this.customer.state = zipCodeFound.state;
-                this.customer.country = 'US';
+                this.customer.country = AppConsts.UnitedStatesCountryCode;
             }
         }
     }
