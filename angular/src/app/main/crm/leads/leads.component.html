@@ -281,6 +281,48 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
+                                                    <hr>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item" 
+                                                            (click) = "createActivityScheduleMeetingHandler(record.lead.id)"                                                          
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ScheduleMeeting') }}
+                                                        </span>                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityScheduleCallHandler(record.lead.id)"                                                            
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ScheduleCall') }}
+                                                        </span>                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item" 
+                                                            (click) = "createActivityEmailReminderHandler(record.lead.id)"                                                            
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('EmailReminder') }}
+                                                        </span>
+                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"    
+                                                            (click) = "createActivityToDoReminderHandler(record.lead.id)"                                                         
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ToDoReminder') }}
+                                                        </span>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -372,5 +414,12 @@
     </div>
 
     <importLeadsModal (modalUpload)="getLeads()" #importLeadsModalComponent></importLeadsModal>
+
+    <app-create-or-edit-activity-widget-modal
+        #createActivityModal
+        [componentType] = "'Lead'"
+        [idToStore]="this.idLeadToStore"
+    >
+    </app-create-or-edit-activity-widget-modal>
 
 </div>
