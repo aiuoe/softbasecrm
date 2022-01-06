@@ -665,21 +665,5 @@ namespace SBCRM.Crm
         {
             return await _activitiesService.GetAllActivityPriorityForTableDropdown();
         }
-
-        /// <summary>
-        /// Get all customer for table dropdown
-        /// </summary>
-        /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_Activities)]
-        public async Task<List<ActivityCustomerLookupTableDto>> GetAllActivityCustomerForTableDropdown()
-        {
-            return await _lookupCustomerRepository.GetAll()
-                .Select(customer => new ActivityCustomerLookupTableDto
-                {
-                    Number = customer.Number,
-                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
-                }).ToListAsync();
-        }
-
     }
 }
