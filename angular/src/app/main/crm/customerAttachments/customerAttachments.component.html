@@ -207,8 +207,10 @@
                                             {{ record.customerAttachment.name }}
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('FilePath') }}</span>
-                                            {{ record.customerAttachment.filePath }}
+                                            <button type="button" (click)="downloadAttachment(record.customerAttachment)" class="btn btn-link">
+                                                <span class="p-column-title">{{ l('FilePath') }}</span>
+                                                {{ record.customerAttachment.filePath }}
+                                            </button>
                                         </td>
                                     </tr>
                                 </ng-template>

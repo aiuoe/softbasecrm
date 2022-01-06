@@ -99,4 +99,27 @@ export class CustomerAttachmentsComponent extends AppComponentBase {
                 this._fileDownloadService.downloadTempFile(result);
             });
     }
+
+    downloadAttachment(customerAttachment: CustomerAttachmentDto) {
+
+        const url = AppConsts.remoteServiceBaseUrl + `/CustomerImport/getAttachment?filePath=${customerAttachment.filePath}`;
+        fetch(url, {
+            headers: new Headers({
+                Origin: location.origin,
+                }),
+                mode: "cors",
+            })
+            .then((response) => response.blob())
+            .then((blob) => {
+                const a = document.createElement("a");
+                a.download = customerAttachment.filePath;
+                a.href = window.URL.createObjectURL(blob);
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch((error) => {
+                this.notify.error(this.l('DownloadErrorMessage'));
+            });
+    }
 }

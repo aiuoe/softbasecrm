@@ -43,7 +43,7 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
     show(customerAttachmentId?: number): void {
         if (!customerAttachmentId) {
             this.customerAttachment = new CreateOrEditCustomerAttachmentDto();
-            this.customerAttachment.id = customerAttachmentId;
+            this.customerAttachment.id = 0;
 
             this.active = true;
             this.initFileUploader();
@@ -76,7 +76,6 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
         this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
             form.append('Id', this.customerAttachment.id);
             form.append('Name', this.customerAttachment.name);
-            form.append('FilePath', this.customerAttachment.filePath);
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {
@@ -85,7 +84,7 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
         };
 
         this.uploader.onErrorItem = () => {
-            //this.message.error(this.l('ErrorUploadingMessage'));
+            this.message.error(this.l('ErrorUploadingMessage'));
             this.close();
         };
 
@@ -93,18 +92,13 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
 
         this.uploader.response.subscribe(res => {
             this.modalSave.emit(null);
+            this.saving = false;
         });
     }
 
     save(): void {
         this.saving = true;
-
-        this.message.confirm('', this.l('AreYouSureToUpload'), (isConfirmed) => {
-            if (isConfirmed) {
-                this.uploader.uploadAll();
-                this.saving = false;
-            }
-        });
+        this.uploader.uploadAll();
     }
 
     close(): void {
