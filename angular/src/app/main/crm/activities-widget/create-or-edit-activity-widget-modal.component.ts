@@ -21,6 +21,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   @Input() activityType = '';
   @Input() componentType = '';
   @Input() idToStore: any;
+  @Input() canAssignAnyUser = false;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
   activity: CreateOrEditActivityDto = new CreateOrEditActivityDto();
@@ -84,6 +85,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.selectedDate = new Date();
     this.selectedTime = '';
     this.activityTypeCode = '';
+    this.activityType = '';
     this.isView = false;
     this.modal.hide();
   }
@@ -305,7 +307,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    */
   callDataForLeadsModule(){
     this._leadActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-      this.allUsers = result;
+      this.allUsers = this.processUsersForTableDropdown(result);
     });
     this._leadActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
@@ -327,7 +329,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    */
   callDataForAccountsModule(){
     this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-      this.allUsers = result;
+      this.allUsers = this.processUsersForTableDropdown(result);
     });
     this._accountActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
@@ -348,7 +350,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    */
    callDataForOpportunitiesModule(){
     this._opportunityActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-      this.allUsers = result;
+      this.allUsers = this.processUsersForTableDropdown(result);
     });
     this._opportunityActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
@@ -364,5 +366,21 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     });
   }
 
+  /**
+   * Remove other users in the list if the current user is not allowed to assign others.
+   * @param users The list of users that needs to be filtered.
+   * @returns List of users
+   */
+  processUsersForTableDropdown(users: ActivityUserLookupTableDto[]): ActivityUserLookupTableDto[] {
+    if (!users || users.length === 0) return [];
+    return this.canAssignAnyUser ? users : users.filter((x) => x.id == this.appSession.userId);
+  }
+
+  /**
+  * Get ActivityTaskType enum for html access
+  */
+  get getActivityTaskType(): typeof ActivityTaskType {
+    return ActivityTaskType;
+  }
 
 }

@@ -25,6 +25,14 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
   @Input() componentType = '';
   @Input() idToStore: any;
+  
+  @Input() allowCreate = false;
+  @Input() showScheduleMeetingOption = false;
+  @Input() showScheduleCallOption = false;
+  @Input() showEmailReminderOption = false;
+  @Input() showToDoReminderOption = false;
+  @Input() allowEdit = false;
+  @Input() canAssignAnyUser = false;
 
   advancedFiltersAreShown = false;
   filterText = '';
@@ -184,7 +192,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
   /**
    * Opens modal to create an activity given an activity type for Schedule Call
-   * @param activityType 
    */
    createActivityScheduleCallHandler(){
     // Open modal
@@ -193,7 +200,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
   /**
  * Opens modal to create an activity given an activity type - for Schedule Meeting
- * @param activityType 
  */
   createActivityScheduleMeetingHandler(){
     // Open modal
@@ -202,7 +208,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
   /**
  * Opens modal to create an activity given an activity type - for Email Reminder
- * @param activityType 
  */
   createActivityEmailReminderHandler(){
     // Open modal
@@ -211,7 +216,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
   /**
  * Opens modal to create an activity given an activity type - for To-Do Reminder
- * @param activityType 
  */
   createActivityToDoReminderHandler(){
     // Open modal

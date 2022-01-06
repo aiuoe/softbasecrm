@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <!-- SCHEDULE CALL FORM -->
-                <form  *ngIf="activityType == 'Schedule Call'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="activityTypeCode == getActivityTaskType.SCHEDULE_CALL" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -33,9 +33,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -132,7 +132,7 @@
                 </form>
 
                 <!-- SCHEDULE MEETING FORM -->
-                <form  *ngIf="activityType == 'Schedule Meeting'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="activityTypeCode == getActivityTaskType.SCHEDULE_MEETING" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -154,9 +154,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -272,7 +272,7 @@
                 </form>
 
                 <!-- EMAIL REMINDER FORM -->
-                <form  *ngIf="activityType == 'Email Reminder'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="activityTypeCode == getActivityTaskType.EMAIL_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -294,9 +294,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -371,7 +371,7 @@
 
 
                 <!-- TO DO REMINDER FORM -->
-                <form  *ngIf="activityType == 'To Do Reminder'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="activityTypeCode == getActivityTaskType.TODO_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -393,9 +393,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
