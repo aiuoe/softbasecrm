@@ -15,6 +15,8 @@ import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { CreateOrEditActivityWidgetModalComponent } from '../activities-widget/create-or-edit-activity-widget-modal.component';
+import { ActivityTaskType } from '@shared/AppEnums';
 
 /***
  * Component to manage the opportunity summary grid
@@ -32,6 +34,8 @@ export class OpportunitiesComponent extends AppComponentBase {
     selectedOpportunityStage: OpportunityOpportunityStageLookupTableDto;
     selectedOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
     allStagesFilter : OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto;
+
+    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -55,6 +59,8 @@ export class OpportunitiesComponent extends AppComponentBase {
     opportunityTypeDescriptionFilter = '';
     customerName = '';
     contactName = '';
+
+    idOpportunityToStore = 0;
 
     allUsers: OpportunityUserUserLookupTableDto[];   
     selectedUsers: OpportunityUserUserLookupTableDto[];
@@ -239,5 +245,45 @@ export class OpportunitiesComponent extends AppComponentBase {
                 });
             }
         }
+    }
+
+       /**
+   * Opens modal to create an activity given an activity type for Schedule Call
+   * @param activityType 
+   */
+    createActivityScheduleCallHandler(idOpportunityToStore: number){
+        this.idOpportunityToStore = idOpportunityToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Schedule Meeting
+     * @param activityType 
+     */
+    createActivityScheduleMeetingHandler(idOpportunityToStore: number){
+        this.idOpportunityToStore = idOpportunityToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Email Reminder
+     * @param activityType 
+     */
+    createActivityEmailReminderHandler(idOpportunityToStore: number){
+        this.idOpportunityToStore = idOpportunityToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for To-Do Reminder
+     * @param activityType 
+     */
+    createActivityToDoReminderHandler(idOpportunityToStore: number){
+        this.idOpportunityToStore = idOpportunityToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
     }
 }

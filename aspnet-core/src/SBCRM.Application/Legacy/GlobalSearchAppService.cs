@@ -136,10 +136,20 @@ namespace SBCRM.Legacy
                 var activities = from activity in activityQuery
                                  join o1 in _leadRepository.GetAll() on activity.LeadId equals o1.Id into j1
                                  from lead in j1.DefaultIfEmpty()
+                                 join o2 in _customerRepository.GetAll() on activity.CustomerNumber equals o2.Number into j2
+                                 from customer in j2.DefaultIfEmpty()
+                                 join o3 in _opportunityRepository.GetAll() on activity.OpportunityId equals o3.Id into j3
+                                 from opportunity in j3.DefaultIfEmpty()
                                  select new GetGlobalSearchItemDto
                                  {
                                      Id = Convert.ToString(activity.Id),
-                                     Name = Convert.ToString(lead.CompanyName),
+                                     Name = lead != null
+                                     ? Convert.ToString(lead.CompanyName)
+                                     : customer != null
+                                         ? Convert.ToString(customer.Name)
+                                         : opportunity != null && opportunity.CustomerFk != null
+                                             ? Convert.ToString(opportunity.CustomerFk.Name)
+                                             : string.Empty,
                                      Type = Convert.ToString(L("Activity"))
                                  };
 

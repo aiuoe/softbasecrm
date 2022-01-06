@@ -106,7 +106,7 @@ namespace SBCRM.Crm
                                    select new
                                    {
                                        Id = o.Id,
-                                       UserName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
+                                       UserName = s1 == null || s1.FullName == null ? "" : s1.FullName.ToString(),
                                        OpportunityName = s2 == null || s2.Name == null ? "" : s2.Name.ToString(),
                                        UserId = o.UserId
                                    };
