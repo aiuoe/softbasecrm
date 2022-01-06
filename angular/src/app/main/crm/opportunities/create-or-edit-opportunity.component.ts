@@ -149,7 +149,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
             this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(this.customerNumber),
-            this._opportunitiesServiceProxy.getAllBranchesForTableDropdown()
+            this._opportunitiesServiceProxy.getAllBranchesForTableDropdown(),
         ];
 
         if (!opportunityId) {
@@ -158,7 +158,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
-                    OpportunityCustomerLookupTableDto[],                    
+                    OpportunityCustomerLookupTableDto[],
                     BranchLookupTableDto[]
                 ]) => {
                     this.isPageLoading = false;
@@ -178,7 +178,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }
 
-                    this.breadcrumbs.push(new BreadcrumbItem( this.l('NewOpportunity')));
+                    this.breadcrumbs.push(new BreadcrumbItem(this.l('NewOpportunity')));
 
                     this.showSaveButton = !this.isReadOnlyMode;
                 },
@@ -189,18 +189,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
         } else {
             requests.push(this._opportunitiesServiceProxy.getOpportunityForEdit(opportunityId));
             forkJoin([...requests]).subscribe(
-                ([
-                    opportunityStages,
-                    leadSources,
-                    opportunityTypes,
-                    customers,
-                    branches,
-                    opportunityForEdit,
-                ]: [
+                ([opportunityStages, leadSources, opportunityTypes, customers, branches, opportunityForEdit]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
-                    OpportunityCustomerLookupTableDto[],                   
+                    OpportunityCustomerLookupTableDto[],
                     BranchLookupTableDto[],
                     GetOpportunityForEditOutput
                 ]) => {
@@ -266,13 +259,14 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     getDepartmentAccordingToBranch(branchNumber: number): void {
-        this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdownBranchSpecific(branchNumber)
-        .subscribe((result) => {
-            this.allDepartments = result;
-            if (this.allDepartments.length === 1) {
-                this.opportunity.dept = this.allDepartments[0].dept;
-            }
-        });
+        this._opportunitiesServiceProxy
+            .getAllDepartmentsForTableDropdownBranchSpecific(branchNumber)
+            .subscribe((result) => {
+                this.allDepartments = result;
+                if (this.allDepartments.length === 1) {
+                    this.opportunity.dept = this.allDepartments[0].dept;
+                }
+            });
     }
 
     /**
@@ -280,8 +274,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     save(): void {
-        debugger
-        if (!this.opportunityForm.form.valid) {            
+        debugger;
+        if (!this.opportunityForm.form.valid) {
             this.opportunityForm.form.markAllAsTouched();
             this.message.warn(this.l('InvalidFormMessage'));
             return;
