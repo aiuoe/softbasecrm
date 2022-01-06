@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <!-- SCHEDULE CALL FORM -->
-                <form  *ngIf="activityType == 'Schedule Call'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_CALL" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -132,7 +132,7 @@
                 </form>
 
                 <!-- SCHEDULE MEETING FORM -->
-                <form  *ngIf="activityType == 'Schedule Meeting'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_MEETING" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -272,7 +272,7 @@
                 </form>
 
                 <!-- EMAIL REMINDER FORM -->
-                <form  *ngIf="activityType == 'Email Reminder'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.EMAIL_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -371,7 +371,7 @@
 
 
                 <!-- TO DO REMINDER FORM -->
-                <form  *ngIf="activityType == 'To Do Reminder'" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form  *ngIf="this.activityTypeCode == activityTypeEnum.TODO_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">

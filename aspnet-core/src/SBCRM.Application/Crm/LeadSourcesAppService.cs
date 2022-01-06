@@ -171,19 +171,22 @@ namespace SBCRM.Crm
             int orderDst = input[1].Order + 1;
 
             var leadSourceSrc = await _leadSourceRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
-            leadSourceSrc.Order = orderDst;
-
-            List<LeadSource> allLeadSource = _leadSourceRepository.GetAll().OrderBy(x => x.Order).ToList();
-            allLeadSource.Remove(leadSourceSrc);
-
-            int i = orderDst + 1;
-            foreach (LeadSource item in allLeadSource)
+            if (leadSourceSrc != null)
             {
-                if (item.Order >= orderDst && item.Order <= orderSrc)
+                leadSourceSrc.Order = orderDst;
+
+                List<LeadSource> allLeadSource = _leadSourceRepository.GetAll().OrderBy(x => x.Order).ToList();
+                allLeadSource.Remove(leadSourceSrc);
+
+                int i = orderDst + 1;
+                foreach (LeadSource item in allLeadSource)
                 {
-                    item.Order = i;
-                    await _leadSourceRepository.FirstOrDefaultAsync(item.Id);
-                    i++;
+                    if (item.Order >= orderDst && item.Order <= orderSrc)
+                    {
+                        item.Order = i;
+                        await _leadSourceRepository.FirstOrDefaultAsync(item.Id);
+                        i++;
+                    }
                 }
             }
         }

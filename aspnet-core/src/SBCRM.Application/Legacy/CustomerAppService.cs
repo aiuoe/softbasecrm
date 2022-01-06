@@ -262,7 +262,7 @@ namespace SBCRM.Legacy
 
                 foreach (GetCustomerForViewDto result in results)
                 {
-                    bool userIsAssignedToTheAccount = VerifyUserHasAccessToAccount(result);
+                    bool userIsAssignedToTheAccount = VerifyUserIsAssignedToAccount(result);
                     result.CanViewEditOption = HasAccessToEdit(userIsAssignedToTheAccount);
                     result.CanViewAddOpportunityOption = HasAccessToAddOpportunity(userIsAssignedToTheAccount);
                     result.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(userIsAssignedToTheAccount);
@@ -801,7 +801,7 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="Customer"></param>
         /// <returns></returns>
-        public bool VerifyUserHasAccessToAccount(GetCustomerForViewDto customer)
+        private bool VerifyUserIsAssignedToAccount(GetCustomerForViewDto customer)
         {
             long currentUserId = GetCurrentUser().Id;
             if (customer.Customer.Users != null)

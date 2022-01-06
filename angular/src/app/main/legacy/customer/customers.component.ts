@@ -21,6 +21,7 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { last } from 'rxjs/internal/operators';
 import { debounce } from 'lodash-es';
 import { CreateOrEditActivityWidgetModalComponent } from '@app/main/crm/activities-widget/create-or-edit-activity-widget-modal.component';
+import { ActivityTaskType } from '@shared/AppEnums';
 
 /***
  * Component to manage the customers/accounts summary grid
@@ -43,6 +44,8 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
     accountUsers: AccountUserDto[] = [];
     assignedUsersFilter: AccountUserLookupTableDto[] = [];
     allUsers: AccountUserLookupTableDto[];
+
+    idAccountToStore = '';
 
     /**
      * Used to delay the search and wait for the user to finish typing.
@@ -171,5 +174,45 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
+    }
+
+    /**
+   * Opens modal to create an activity given an activity type for Schedule Call
+   * @param activityType 
+   */
+    createActivityScheduleCallHandler(idAccountToStore: string){
+        this.idAccountToStore = idAccountToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Schedule Meeting
+     * @param activityType 
+     */
+    createActivityScheduleMeetingHandler(idAccountToStore: string){
+        this.idAccountToStore = idAccountToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for Email Reminder
+     * @param activityType 
+     */
+    createActivityEmailReminderHandler(idAccountToStore: string){
+        this.idAccountToStore = idAccountToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
+    }
+
+    /**
+     * Opens modal to create an activity given an activity type - for To-Do Reminder
+     * @param activityType 
+     */
+    createActivityToDoReminderHandler(idAccountToStore: string){
+        this.idAccountToStore = idAccountToStore
+        // Open modal
+        this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
     }
 }
