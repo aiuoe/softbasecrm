@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using SBCRM.Auditing.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
-using System.Collections.Generic;
-using SBCRM.Auditing.Dto;
 using SBCRM.Legacy.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -110,7 +110,6 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdown();
-
 
         /// <summary>
         /// Get Departments lookup for an specific branch

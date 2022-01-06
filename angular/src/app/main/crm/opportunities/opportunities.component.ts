@@ -154,8 +154,7 @@ export class OpportunitiesComponent extends AppComponentBase {
             )
             .subscribe((result) => {
                 this.primengTableHelper.totalRecordsCount = result.totalCount;
-                this.primengTableHelper.records = result.items;
-                console.log(result.items)
+                this.primengTableHelper.records = result.items; 
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.primengTableHelper.hideLoadingIndicator();
             });
