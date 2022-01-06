@@ -468,29 +468,24 @@ namespace SBCRM.Crm
                 output.CustomerName = _lookupCustomer?.Name?.ToString();
             }
 
-            if (output.Opportunity.CustomerNumber != null)
-            {
-                var _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
-                output.CustomerNumber = _lookupCustomer?.Number?.ToString();
-            }
-
             if (output.Opportunity.ContactId != null)
             {
                 var _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField?.ToString();
             }
 
-            //if (output.Opportunity.Branch.HasValue)
-            //{
-            //    var branch = await _softBaseBranchRepository.GetByBranchNumberAsync(output.Opportunity.Branch.Value);
-            //    output.BranchName = branch.Name;
-            //}
+            if (output.Opportunity.Branch.HasValue)
+            {
+                var _lookupBranch = await _lookupBranchRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.Branch);
+                output.BranchName = _lookupBranch?.Name;
+            }
 
-            //if (output.Opportunity.Dept.HasValue)
-            //{
-            //    var dept = await _softBaseDepartmentRepository.GetByDeptNumberAsync(output.Opportunity.Dept.Value);
-            //    output.DepartmentTitle = dept.Title;
-            //}
+            if (output.Opportunity.Dept.HasValue)
+            {
+                var _lookupDept = await _lookupDepartmentRepository.FirstOrDefaultAsync(e => (e.Dept == output.Opportunity.Dept)
+                                                                        && (e.Branch == output.Opportunity.Branch));
+                output.DepartmentTitle = _lookupDept?.Title;
+            }
 
             return output;
         }
@@ -552,6 +547,10 @@ namespace SBCRM.Crm
             var opportunity = await _opportunityRepository.FirstOrDefaultAsync((int)input.Id);
             input.CloseDate = input.CloseDate?.ToUniversalTime();
             ObjectMapper.Map(input, opportunity);
+
+            Department _dept = _lookupDepartmentRepository.GetAllList(x => x.Dept == input.Dept && x.Branch == input.Branch).First();
+
+            opportunity.DepartmentFk = _dept;
 
             using (_reasonProvider.Use("Opportunity updated"))
             {
@@ -763,7 +762,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdownCustomerSpecific(string customerNumber)
         {
-            return await _lookupContactsRepository.GetAll().WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
+            return await _lookupContactsRepository.GetAll()
+                .WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
                 .Select(contact => new OpportunityContactsLookupTableDto
                 {
                     Id = contact.ContactId,
@@ -814,5 +814,24 @@ namespace SBCRM.Crm
                 }).ToListAsync();
             return result;
         }
+
+        /// <summary>
+        /// Get Departments lookup for an specific branch
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdownBranchSpecific(short branchNumber)
+        {
+            var result = await _lookupDepartmentRepository.GetAll()
+                .Where(e => e.Branch == branchNumber)
+                .Select(x => new DepartmentLookupTableDto
+                {
+                    Branch = x.Branch,
+                    Dept = x.Dept,
+                    Title = x.Title
+                }).ToListAsync();
+            return result;
+        }
+
     }
 }

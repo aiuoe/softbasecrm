@@ -149,21 +149,20 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             this._opportunitiesServiceProxy.getAllLeadSourceForTableDropdown(),
             this._opportunitiesServiceProxy.getAllOpportunityTypeForTableDropdown(),
             this._opportunitiesServiceProxy.getAllCustomerForTableDropdown(this.customerNumber),
+            this._opportunitiesServiceProxy.getAllBranchesForTableDropdown()
         ];
 
         if (!opportunityId) {
             forkJoin([...requests]).subscribe(
-                ([opportunityStages, leadSources, opportunityTypes, customers, departments, branches]: [
+                ([opportunityStages, leadSources, opportunityTypes, customers, branches]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
-                    OpportunityCustomerLookupTableDto[],
-                    DepartmentLookupTableDto[],
+                    OpportunityCustomerLookupTableDto[],                    
                     BranchLookupTableDto[]
                 ]) => {
                     this.isPageLoading = false;
                     this.active = true;
-                    this.allDepartments = departments;
                     this.allBranches = branches;
                     this.opportunity = new CreateOrEditOpportunityDto();
                     this.allOpportunityStages = opportunityStages;
@@ -197,19 +196,16 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     leadSources,
                     opportunityTypes,
                     customers,
-                    departments,
                     branches,
                     opportunityForEdit,
                 ]: [
                     OpportunityOpportunityStageLookupTableDto[],
                     OpportunityLeadSourceLookupTableDto[],
                     OpportunityOpportunityTypeLookupTableDto[],
-                    OpportunityCustomerLookupTableDto[],
-                    DepartmentLookupTableDto[],
+                    OpportunityCustomerLookupTableDto[],                   
                     BranchLookupTableDto[],
                     GetOpportunityForEditOutput
                 ]) => {
-                    this.allDepartments = departments;
                     this.allBranches = branches;
                     this.opportunity = opportunityForEdit.opportunity;
                     this.opportunityStageDescription = opportunityForEdit.opportunityStageDescription;
@@ -220,7 +216,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allOpportunityTypes = opportunityTypes;
                     this.allCustomers = customers;
 
-                    this.getContactsAccordingToCustomer(opportunityForEdit.customerNumber);
+                    this.getContactsAccordingToCustomer(opportunityForEdit.opportunity.customerNumber);
+                    this.getDepartmentAccordingToBranch(opportunityForEdit.opportunity.branch);
 
                     this.formDate = this.opportunity.closeDate ? new Date(this.opportunity.closeDate.toString()) : null;
 
@@ -271,11 +268,11 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     getDepartmentAccordingToBranch(branchNumber: number): void {
-        this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdown().subscribe((result) => {
+        this._opportunitiesServiceProxy.getAllDepartmentsForTableDropdownBranchSpecific(branchNumber)
+        .subscribe((result) => {
             this.allDepartments = result;
-            this.allDepartments = this.allDepartments.filter((x) => x.branch === branchNumber);
             if (this.allDepartments.length === 1) {
-                this.selectedDepartment = this.allDepartments[0];
+                this.opportunity.dept = this.allDepartments[0].dept;
             }
         });
     }
@@ -285,7 +282,8 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     save(): void {
-        if (!this.opportunityForm.form.valid) {
+        debugger
+        if (!this.opportunityForm.form.valid) {            
             this.opportunityForm.form.markAllAsTouched();
             this.message.warn(this.l('InvalidFormMessage'));
             return;

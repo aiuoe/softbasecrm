@@ -110,5 +110,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdown();
+
+
+        /// <summary>
+        /// Get Departments lookup for an specific branch
+        /// </summary>
+        /// <returns></returns>
+        Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdownBranchSpecific(short branchNumber);
     }
 }
