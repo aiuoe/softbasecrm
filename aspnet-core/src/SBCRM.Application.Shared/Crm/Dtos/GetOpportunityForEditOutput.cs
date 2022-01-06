@@ -1,8 +1,4 @@
-﻿using System;
-using Abp.Application.Services.Dto;
-using System.ComponentModel.DataAnnotations;
-
-namespace SBCRM.Crm.Dtos
+﻿namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// DTO to manage the object opportunity for edit purposes
@@ -22,6 +18,11 @@ namespace SBCRM.Crm.Dtos
         public string CustomerNumber { get; set; }
 
         public string ContactName { get; set; }
-        
+
+        public string BranchName { get; set; }
+
+        public string DepartmentTitle { get; set; }
+
+
     }
 }

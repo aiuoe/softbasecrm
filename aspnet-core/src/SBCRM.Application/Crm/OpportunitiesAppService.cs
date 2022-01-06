@@ -16,6 +16,7 @@ using SBCRM.Crm.Dtos;
 using SBCRM.Crm.Exporting;
 using SBCRM.Dto;
 using SBCRM.Legacy;
+using SBCRM.Legacy.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,8 @@ namespace SBCRM.Crm
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IRepository<User, long> _lookup_userRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IRepository<Branch> _lookupBranchRepository;
+        private readonly IRepository<Department> _lookupDepartmentRepository;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
 
@@ -75,6 +78,8 @@ namespace SBCRM.Crm
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<User, long> lookupUserRepository,
             IRepository<OpportunityUser> opportunityUserRepository,
+            IRepository<Branch> lookupBranchRepository,
+            IRepository<Department> lookupDepartmentRepository,
             IOpportunityAutomateAssignmentService opportunityAutomateAssignment)
         {
             _auditEventsService = auditEventsService;
@@ -90,6 +95,8 @@ namespace SBCRM.Crm
             _opportunityUserRepository = opportunityUserRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+            _lookupBranchRepository = lookupBranchRepository;
+            _lookupDepartmentRepository = lookupDepartmentRepository;
         }
 
         /// <summary>
@@ -120,14 +127,12 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public bool HasDynamicAccessToAddOpportunity(long userId)
         {
-            
-
             return UserManager.IsGranted(
                 userId, AppPermissions.Pages_Customer_Add_Opportunity__Dynamic);
         }
 
         /// <summary>
-        /// Get the id of the current user.       
+        /// Get the id of the current user.
         /// </summary>
         /// <returns></returns>
         public long GetCurrentUserId()
@@ -145,13 +150,13 @@ namespace SBCRM.Crm
         {
             try
             {
-                IQueryable<Opportunity> filteredOpportunities = _opportunityRepository.GetAll()
+                var filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
                         .Include(e => e.LeadSourceFk)
                         .Include(e => e.OpportunityTypeFk)
+                        .Include(e => e.DepartmentFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
@@ -160,15 +165,38 @@ namespace SBCRM.Crm
                         .WhereIf(input.MinCloseDateFilter != null, e => e.CloseDate >= input.MinCloseDateFilter)
                         .WhereIf(input.MaxCloseDateFilter != null, e => e.CloseDate <= input.MaxCloseDateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.BranchFilter), e => e.Branch == input.BranchFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.Department == input.DepartmentFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
                         .WhereIf(input.OpportunityStageId.HasValue, x => input.OpportunityStageId == x.OpportunityStageFk.Id)
                         .WhereIf(!CanSeeAllOpportunities(), x => x.Users != null && x.Users.Select(y => y.UserId).Contains(GetCurrentUserId()))
                         .WhereIf(input.UserIds.Any() && !input.UserIds.Contains(-1), x => x.Users.Any(y => input.UserIds.Contains(y.UserId)))
-                        .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any());
+                        .WhereIf(input.UserIds.Contains(-1), x => !x.Users.Any())
+                        .Select(x => new
+                        {
+                            x.Id,
+                            x.Name,
+                            x.Amount,
+                            x.CloseDate,
+                            x.Description,
+                            x.Probability,
+                            x.Users,
+                            x.CustomerNumber,
+                            x.ContactId,
+                            x.Dept,
+                            x.Branch,
+                            x.OpportunityStageId,
+                            x.LeadSourceId,
+                            x.OpportunityTypeId,
+                            OpportunityTypeDescription = x.OpportunityTypeFk.Description,
+                            LeadSourceDescription = x.LeadSourceFk.Description,
+                            OpportunityStageColor = x.OpportunityStageFk.Color,
+                            ContactName = x.ContactFk.ContactField,
+                            DepartmentTitle = x.DepartmentFk.Title,
+                            BranchName = x.DepartmentFk.BranchFk.Name,
+                            OpportunityStageDescription = x.OpportunityStageFk.Description,
+                            CustomerName = x.CustomerFk.Name,
+                        });
 
                 bool isAssignedUserSorting = input.Sorting != null && input.Sorting.StartsWith(_assignedUserSortKey);
 
@@ -193,6 +221,23 @@ namespace SBCRM.Crm
                                     join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
                                     from s5 in j5.DefaultIfEmpty()
 
+                                    join o6 in _lookupDepartmentRepository.GetAll() on new
+                                    {
+                                        Key1 = o.Dept,
+                                        Key2 = o.Branch
+                                    }
+                                                                                        equals
+                                                                                        new
+                                                                                        {
+                                                                                            Key1 = o6.Dept,
+                                                                                            Key2 = o6.Branch
+                                                                                        }
+                                                                                        into j6
+                                    from s6 in j6.DefaultIfEmpty()
+
+                                    join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
+                                    from s7 in j7.DefaultIfEmpty()
+
                                     select new OpportunityQueryDto
                                     {
                                         Name = o.Name,
@@ -200,17 +245,17 @@ namespace SBCRM.Crm
                                         Probability = o.Probability,
                                         CloseDate = o.CloseDate,
                                         Description = o.Description,
-                                        Branch = o.Branch,
-                                        Department = o.Department,
                                         Id = o.Id,
                                         Users = o.Users,
-                                        OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                        OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                         OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
-                                        LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                                        OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                                        CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                                        CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                                        LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                        OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description,
+                                        CustomerName = s4 == null || s4.Name == null ? "" : s4.Name,
+                                        CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number,
+                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField,
+                                        DepartmentTitle = s6 == null | s6.Title == null ? "" : s6.Title,
+                                        BranchName = s7 == null | s7.Name == null ? "" : s7.Name.ToString(),
                                         FirstUserAssignedName = (from user in _opportunityUserRepository.GetAll().Include(x => x.UserFk)
                                                                  where user.OpportunityId == o.Id
                                                                  select user.UserFk.Name).FirstOrDefault()
@@ -222,55 +267,119 @@ namespace SBCRM.Crm
                 }
                 else
                 {
-                    IQueryable<Opportunity> pagedAndFilteredOpportunities;
-
                     if (input.Sorting != null)
-                        pagedAndFilteredOpportunities = filteredOpportunities
-                            .OrderBy(input.Sorting)
-                            .PageBy(input);
+                        opportunities = from o in (filteredOpportunities
+                                .OrderBy(input.Sorting)
+                                .PageBy(input))
+                                        join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                        from s1 in j1.DefaultIfEmpty()
+
+                                        join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                        from s2 in j2.DefaultIfEmpty()
+
+                                        join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                        from s3 in j3.DefaultIfEmpty()
+
+                                        join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                        from s4 in j4.DefaultIfEmpty()
+
+                                        join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                        from s5 in j5.DefaultIfEmpty()
+
+                                        join o6 in _lookupDepartmentRepository.GetAll() on new
+                                        {
+                                            Key1 = o.Dept,
+                                            Key2 = o.Branch
+                                        }
+                                                                                            equals
+                                                                                            new
+                                                                                            {
+                                                                                                Key1 = o6.Dept,
+                                                                                                Key2 = o6.Branch
+                                                                                            }
+                                                                                            into j6
+                                        from s6 in j6.DefaultIfEmpty()
+
+                                        join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
+                                        from s7 in j7.DefaultIfEmpty()
+
+                                        select new OpportunityQueryDto
+                                        {
+                                            Name = o.Name,
+                                            Amount = o.Amount,
+                                            Probability = o.Probability,
+                                            CloseDate = o.CloseDate,
+                                            Description = o.Description,
+                                            Id = o.Id,
+                                            Users = o.Users,
+                                            OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                                            OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
+                                            LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                            OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description,
+                                            CustomerName = s4 == null || s4.Name == null ? "" : s4.Name,
+                                            CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number,
+                                            ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField,
+                                            DepartmentTitle = s6 == null || s6.Title == null ? "" : s6.Title,
+                                            BranchName = s7 == null || s7.Name == null ? "" : s7.Name.ToString()
+                                        };
                     else
-                        pagedAndFilteredOpportunities = filteredOpportunities
-                            .OrderByDescending(o => o.CloseDate)
-                            .ThenBy(o => o.Name)
-                            .ThenBy(o => o.Branch)
-                            .ThenBy(o => o.Department)
-                            .PageBy(input);
+                        opportunities = from o in (filteredOpportunities
+                                .OrderByDescending(o => o.CloseDate)
+                                .ThenBy(o => o.Name)
+                                .ThenBy(o => o.DepartmentTitle)
+                                .ThenBy(o => o.BranchName)
+                                .PageBy(input))
+                                        join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                                        from s1 in j1.DefaultIfEmpty()
 
-                    opportunities = from o in pagedAndFilteredOpportunities
-                                    join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
-                                    from s1 in j1.DefaultIfEmpty()
+                                        join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                                        from s2 in j2.DefaultIfEmpty()
 
-                                    join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
-                                    from s2 in j2.DefaultIfEmpty()
+                                        join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                                        from s3 in j3.DefaultIfEmpty()
 
-                                    join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
-                                    from s3 in j3.DefaultIfEmpty()
+                                        join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                                        from s4 in j4.DefaultIfEmpty()
 
-                                    join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
-                                    from s4 in j4.DefaultIfEmpty()
+                                        join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                                        from s5 in j5.DefaultIfEmpty()
 
-                                    join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
-                                    from s5 in j5.DefaultIfEmpty()
+                                        join o6 in _lookupDepartmentRepository.GetAll() on new
+                                        {
+                                            Key1 = o.Dept,
+                                            Key2 = o.Branch
+                                        }
+                                                                                            equals
+                                                                                            new
+                                                                                            {
+                                                                                                Key1 = o6.Dept,
+                                                                                                Key2 = o6.Branch
+                                                                                            }
+                                                                                            into j6
+                                        from s6 in j6.DefaultIfEmpty()
 
-                                    select new OpportunityQueryDto
-                                    {
-                                        Name = o.Name,
-                                        Amount = o.Amount,
-                                        Probability = o.Probability,
-                                        CloseDate = o.CloseDate,
-                                        Description = o.Description,
-                                        Branch = o.Branch,
-                                        Department = o.Department,
-                                        Id = o.Id,
-                                        Users = o.Users,
-                                        OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                                        OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
-                                        LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                                        OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                                        CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                                        CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                        ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
-                                    };
+                                        join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
+                                        from s7 in j7.DefaultIfEmpty()
+
+                                        select new OpportunityQueryDto
+                                        {
+                                            Name = o.Name,
+                                            Amount = o.Amount,
+                                            Probability = o.Probability,
+                                            CloseDate = o.CloseDate,
+                                            Description = o.Description,
+                                            Id = o.Id,
+                                            Users = o.Users,
+                                            OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                                            OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
+                                            LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                            OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description,
+                                            CustomerName = s4 == null || s4.Name == null ? "" : s4.Name,
+                                            CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number,
+                                            ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField,
+                                            DepartmentTitle = s6 == null || s6.Title == null ? "" : s6.Title,
+                                            BranchName = s7 == null || s7.Name == null ? "" : s7.Name.ToString()
+                                        };
                 }
 
                 int totalCount = await filteredOpportunities.CountAsync();
@@ -310,8 +419,6 @@ namespace SBCRM.Crm
                         Probability = o.Probability,
                         CloseDate = o.CloseDate,
                         Description = o.Description,
-                        Branch = o.Branch,
-                        Department = o.Department,
                         Id = o.Id,
                     },
                     OpportunityStageDescription = o.OpportunityStageDescription,
@@ -320,7 +427,9 @@ namespace SBCRM.Crm
                     OpportunityTypeDescription = o.OpportunityTypeDescription,
                     CustomerName = o.CustomerName,
                     CustomerNumber = o.CustomerNumber,
-                    ContactName = o.ContactName
+                    ContactName = o.ContactName,
+                    BranchName = o.BranchName,
+                    DepartmentTitle = o.DepartmentTitle
                 };
 
                 if (o.Users.Any())
@@ -365,38 +474,49 @@ namespace SBCRM.Crm
             if (output.Opportunity.OpportunityStageId != null)
             {
                 OpportunityStage _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
-                output.OpportunityStageDescription = _lookupOpportunityStage?.Description?.ToString();
+                output.OpportunityStageDescription = _lookupOpportunityStage?.Description;
             }
 
             if (output.Opportunity.LeadSourceId != null)
             {
                 LeadSource _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
-                output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
+                output.LeadSourceDescription = _lookupLeadSource?.Description;
             }
 
             if (output.Opportunity.OpportunityTypeId != null)
             {
                 OpportunityType _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
-                output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
+                output.OpportunityTypeDescription = _lookupOpportunityType?.Description;
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
                 Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
-                output.CustomerName = _lookupCustomer?.Name?.ToString();
+                output.CustomerName = _lookupCustomer?.Name;
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
                 Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
-                output.CustomerNumber = _lookupCustomer?.Number?.ToString();
+                output.CustomerNumber = _lookupCustomer?.Number;
             }
 
             if (output.Opportunity.ContactId != null)
             {
                 Contact _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync((int)output.Opportunity.ContactId);
-                output.ContactName = _lookupContact?.ContactField?.ToString();
+                output.ContactName = _lookupContact?.ContactField;
             }
+            //if (output.Opportunity.BranchId.HasValue)
+            //{
+            //    var branch = await _softBaseBranchRepository.GetByBranchNumberAsync(output.Opportunity.BranchId.Value);
+            //    output.BranchName = branch.Name;
+            //}
+
+            //if (output.Opportunity.DepartmentId.HasValue)
+            //{
+            //    var dept = await _softBaseDepartmentRepository.GetByDeptNumberAsync(output.Opportunity.DepartmentId.Value);
+            //    output.DepartmentTitle = dept.Title;
+            //}
 
             return output;
         }
@@ -432,37 +552,37 @@ namespace SBCRM.Crm
             if (output.Opportunity.OpportunityStageId != null)
             {
                 OpportunityStage _lookupOpportunityStage = await _lookupOpportunityStageRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityStageId);
-                output.OpportunityStageDescription = _lookupOpportunityStage?.Description?.ToString();
+                output.OpportunityStageDescription = _lookupOpportunityStage?.Description;
             }
 
             if (output.Opportunity.LeadSourceId != null)
             {
                 LeadSource _lookupLeadSource = await _lookupLeadSourceRepository.FirstOrDefaultAsync((int)output.Opportunity.LeadSourceId);
-                output.LeadSourceDescription = _lookupLeadSource?.Description?.ToString();
+                output.LeadSourceDescription = _lookupLeadSource?.Description;
             }
 
             if (output.Opportunity.OpportunityTypeId != null)
             {
                 OpportunityType _lookupOpportunityType = await _lookupOpportunityTypeRepository.FirstOrDefaultAsync((int)output.Opportunity.OpportunityTypeId);
-                output.OpportunityTypeDescription = _lookupOpportunityType?.Description?.ToString();
+                output.OpportunityTypeDescription = _lookupOpportunityType?.Description;
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
                 Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
-                output.CustomerName = _lookupCustomer?.Name?.ToString();
+                output.CustomerName = _lookupCustomer?.Name;
             }
 
             if (output.Opportunity.CustomerNumber != null)
             {
                 Customer _lookupCustomer = await _lookupCustomerRepository.FirstOrDefaultAsync(e => e.Number == output.Opportunity.CustomerNumber);
-                output.CustomerNumber = _lookupCustomer?.Number?.ToString();
+                output.CustomerNumber = _lookupCustomer?.Number;
             }
 
             if (output.Opportunity.ContactId != null)
             {
                 Contact _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
-                output.ContactName = _lookupContact?.ContactField?.ToString();
+                output.ContactName = _lookupContact?.ContactField;
             }
 
             return output;
@@ -496,6 +616,10 @@ namespace SBCRM.Crm
             Opportunity opportunity = ObjectMapper.Map<Opportunity>(input);
             opportunity.CloseDate = opportunity.CloseDate?.ToUniversalTime();
             opportunity.TenantId = GetTenantId();
+
+            Department _dept = _lookupDepartmentRepository.GetAllList(x => x.Dept == input.Dept && x.Branch == input.Branch).First();
+
+            opportunity.DepartmentFk = _dept;
 
             using (_reasonProvider.Use("Opportunity created"))
             {
@@ -539,6 +663,10 @@ namespace SBCRM.Crm
             input.CloseDate = input.CloseDate?.ToUniversalTime();
             ObjectMapper.Map(input, opportunity);
 
+            Department _dept = _lookupDepartmentRepository.GetAllList(x => x.Dept == input.Dept && x.Branch == input.Branch).First();
+
+            opportunity.DepartmentFk = _dept;
+
             using (_reasonProvider.Use("Opportunity updated"))
             {
                 ObjectMapper.Map(input, opportunity);
@@ -573,7 +701,6 @@ namespace SBCRM.Crm
                         .Include(e => e.OpportunityTypeFk)
                         .Include(x => x.Users)
                         .ThenInclude(x => x.UserFk)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.Description.Contains(input.Filter) || e.Branch.Contains(input.Filter) || e.Department.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name.Contains(input.NameFilter))
                         .WhereIf(input.MinAmountFilter != null, e => e.Amount >= input.MinAmountFilter)
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
@@ -582,8 +709,6 @@ namespace SBCRM.Crm
                         .WhereIf(input.MinCloseDateFilter != null, e => e.CloseDate >= input.MinCloseDateFilter)
                         .WhereIf(input.MaxCloseDateFilter != null, e => e.CloseDate <= input.MaxCloseDateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.BranchFilter), e => e.Branch == input.BranchFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.DepartmentFilter), e => e.Department == input.DepartmentFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityTypeDescriptionFilter), e => e.OpportunityTypeFk != null && e.OpportunityTypeFk.Description == input.OpportunityTypeDescriptionFilter)
@@ -615,15 +740,15 @@ namespace SBCRM.Crm
                                                          Probability = o.Probability,
                                                          CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
                                                          Description = o.Description,
-                                                         Branch = o.Branch,
-                                                         Department = o.Department,
+                                                         BranchName = o.Name,
+                                                         DepartmentTitle = o.Name,
                                                          Id = o.Id,
                                                          Users = o.Users,
-                                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                                                         LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                                                         OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
+                                                         LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
+                                                         OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description,
+                                                         CustomerName = s4 == null || s4.Name == null ? "" : s4.Name,
+                                                         CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number,
                                                          ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString()
                                                      });
 
@@ -700,20 +825,18 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<List<OpportunityCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null)
         {
-            List<OpportunityCustomerLookupTableDto> customers = null;
-
             bool userCanSelectAllAccountsDynamic = false;
 
             long currentUserId = GetCurrentUser().Id;
 
-            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);            
+            bool userCanSelectAllAccountsStatic = HasStaticAccessToAddOpportunity(currentUserId);
 
             if (!userCanSelectAllAccountsStatic)
                 userCanSelectAllAccountsDynamic = HasDynamicAccessToAddOpportunity(currentUserId);
 
             if (userCanSelectAllAccountsDynamic || userCanSelectAllAccountsStatic)
             {
-                customers = await _lookupCustomerRepository.GetAll()
+                List<OpportunityCustomerLookupTableDto> customers = await _lookupCustomerRepository.GetAll()
                     .Include(x => x.Users)
                     .WhereIf(customerNumber != null, x => x.Number != null && x.Number == customerNumber)
                     .WhereIf(!userCanSelectAllAccountsStatic, x => x.Users != null && x.Users.Select(y => y.UserId).Contains(currentUserId))
@@ -728,8 +851,9 @@ namespace SBCRM.Crm
 
                 return customers;
             }
-            return customers;
-        }        
+
+            return null;
+        }
 
         /// <summary>
         /// Get Contacts lookup
@@ -752,7 +876,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<OpportunityContactsLookupTableDto>> GetAllContactsForTableDropdownCustomerSpecific(string customerNumber)
         {
-            return await _lookupContactsRepository.GetAll().WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
+            return await _lookupContactsRepository.GetAll()
+                .WhereIf(!string.IsNullOrWhiteSpace(customerNumber), e => e.CustomerNo == customerNumber)
                 .Select(contact => new OpportunityContactsLookupTableDto
                 {
                     Id = contact.ContactId,
@@ -772,5 +897,54 @@ namespace SBCRM.Crm
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
         }
 
+        /// <summary>
+        /// Get Branches lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<BranchLookupTableDto>> GetAllBranchesForTableDropdown()
+        {
+            return await _lookupBranchRepository.GetAll()
+                .Select(x => new BranchLookupTableDto
+                {
+                    Number = x.Number,
+                    Name = x.Name
+                }).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get Departments lookup
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdown()
+        {
+            List<DepartmentLookupTableDto> result = await _lookupDepartmentRepository.GetAll()
+                .Select(x => new DepartmentLookupTableDto
+                {
+                    Branch = x.Branch,
+                    Dept = x.Dept,
+                    Title = x.Title
+                }).ToListAsync();
+            return result;
+        }
+
+        /// <summary>
+        /// Get Departments lookup for an specific branch
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdownBranchSpecific(short branchNumber)
+        {
+            List<DepartmentLookupTableDto> result = await _lookupDepartmentRepository.GetAll()
+                .Where(e => e.Branch == branchNumber)
+                .Select(x => new DepartmentLookupTableDto
+                {
+                    Branch = x.Branch,
+                    Dept = x.Dept,
+                    Title = x.Title
+                }).ToListAsync();
+            return result;
+        }
     }
 }

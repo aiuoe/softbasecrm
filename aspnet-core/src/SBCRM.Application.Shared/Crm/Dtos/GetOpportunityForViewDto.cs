@@ -34,5 +34,9 @@ namespace SBCRM.Crm.Dtos
         public Guid? FirstUserProfilePictureUrl { get; set; }
 
         public int AssignedUsers { get; set; }
+
+        public string BranchName { get; set; }
+
+        public string DepartmentTitle { get; set; }
     }
 }
