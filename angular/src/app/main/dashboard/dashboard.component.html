@@ -1,1 +1,9 @@
-<customizable-dashboard [dashboardName]="dashboardName"></customizable-dashboard>
+<!-- <customizable-dashboard [dashboardName]="dashboardName"></customizable-dashboard> -->
+<div [@routerTransition]>
+    <div [class]="containerClass">
+        <app-opportunities-widget-top-stats></app-opportunities-widget-top-stats>
+    </div>
+    <div [class]="containerClass">
+        <app-opportunities-widget-list></app-opportunities-widget-list>
+    </div>
+</div>
