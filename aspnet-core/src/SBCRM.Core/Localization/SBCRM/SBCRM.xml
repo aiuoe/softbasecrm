@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="NewOpportunity">New Opportunity</text>
 		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
         <text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>

@@ -224,6 +224,48 @@
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
+                                                    <hr>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item" 
+                                                            (click) = "createActivityScheduleMeetingHandler(record.opportunity.id)"                                                          
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ScheduleMeeting') }}
+                                                        </span>                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityScheduleCallHandler(record.opportunity.id)"                                                            
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ScheduleCall') }}
+                                                        </span>                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item" 
+                                                            (click) = "createActivityEmailReminderHandler(record.opportunity.id)"                                                            
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('EmailReminder') }}
+                                                        </span>
+                                                            
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"    
+                                                            (click) = "createActivityToDoReminderHandler(record.opportunity.id)"                                                         
+                                                        >
+                                                        <span class = "options menu actions">
+                                                            {{ l('ToDoReminder') }}
+                                                        </span>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -303,5 +345,11 @@
                 </div>
             </div>
         </div>
+        <app-create-or-edit-activity-widget-modal
+            #createActivityModal
+            [componentType] = "'Opportunity'"
+            [idToStore]="this.idOpportunityToStore"
+        >
+        </app-create-or-edit-activity-widget-modal>
     </div>
 </div>
