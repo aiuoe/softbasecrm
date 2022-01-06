@@ -1263,6 +1263,70 @@ export class AccountActivitiesServiceProxy {
 }
 
 @Injectable()
+export class AccountAutomateAssignmentServiceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    assignAccountUsers(body: CreateOrEditAccountUserDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/AccountAutomateAssignmentService/AssignAccountUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAssignAccountUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAssignAccountUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAssignAccountUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class AccountTypesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -2457,10 +2521,15 @@ export class ActivitiesServiceProxy {
     }
 
     /**
+     * @param isForCreate (optional) 
      * @return Success
      */
-    getAllAccountsForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown";
+    getAllAccountsForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllAccountsForTableDropdown?";
+        if (isForCreate === null)
+            throw new Error("The parameter 'isForCreate' cannot be null.");
+        else if (isForCreate !== undefined)
+            url_ += "IsForCreate=" + encodeURIComponent("" + isForCreate) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2573,10 +2642,15 @@ export class ActivitiesServiceProxy {
     }
 
     /**
+     * @param isForCreate (optional) 
      * @return Success
      */
-    getAllOpportunityForTableDropdown(): Observable<ActivityOpportunityLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown";
+    getAllOpportunityForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityOpportunityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllOpportunityForTableDropdown?";
+        if (isForCreate === null)
+            throw new Error("The parameter 'isForCreate' cannot be null.");
+        else if (isForCreate !== undefined)
+            url_ += "IsForCreate=" + encodeURIComponent("" + isForCreate) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2631,10 +2705,15 @@ export class ActivitiesServiceProxy {
     }
 
     /**
+     * @param isForCreate (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(): Observable<ActivityLeadLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllLeadForTableDropdown";
+    getAllLeadForTableDropdown(isForCreate: boolean | undefined): Observable<ActivityLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllLeadForTableDropdown?";
+        if (isForCreate === null)
+            throw new Error("The parameter 'isForCreate' cannot be null.");
+        else if (isForCreate !== undefined)
+            url_ += "IsForCreate=" + encodeURIComponent("" + isForCreate) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2976,64 +3055,6 @@ export class ActivitiesServiceProxy {
             }));
         }
         return _observableOf<ActivityActivityPriorityLookupTableDto[]>(<any>null);
-    }
-
-    /**
-     * @return Success
-     */
-    getAllActivityCustomerForTableDropdown(): Observable<ActivityCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Activities/GetAllActivityCustomerForTableDropdown";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllActivityCustomerForTableDropdown(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAllActivityCustomerForTableDropdown(<any>response_);
-                } catch (e) {
-                    return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ActivityCustomerLookupTableDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAllActivityCustomerForTableDropdown(response: HttpResponseBase): Observable<ActivityCustomerLookupTableDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ActivityCustomerLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ActivityCustomerLookupTableDto[]>(<any>null);
     }
 }
 
@@ -7637,63 +7658,6 @@ export class CustomerServiceProxy {
     }
 
     protected processCheckIfExistByName(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    verifyUserHasAccessToAccount(body: GetCustomerForViewDto | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/VerifyUserHasAccessToAccount";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processVerifyUserHasAccessToAccount(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processVerifyUserHasAccessToAccount(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processVerifyUserHasAccessToAccount(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -13400,6 +13364,70 @@ export class LeadActivitiesServiceProxy {
 }
 
 @Injectable()
+export class LeadAutomateAssignmentServiceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    assignLeadUsers(body: CreateOrEditLeadUserDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAutomateAssignmentService/AssignLeadUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAssignLeadUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAssignLeadUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAssignLeadUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class LeadsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -18594,6 +18622,70 @@ export class OpportunityActivitiesServiceProxy {
             }));
         }
         return _observableOf<GetActivityForEditOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class OpportunityAutomateAssignmentServiceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    assignOpportunityUsers(body: CreateOrEditOpportunityUserDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAutomateAssignmentService/AssignOpportunityUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAssignOpportunityUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAssignOpportunityUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAssignOpportunityUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -32782,6 +32874,7 @@ export interface ICustomerOpportunityViewDto {
 }
 
 export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
+    canEditOverviewTab!: boolean;
     canViewOpportunitiesTab!: boolean;
     canCreateOpportunities!: boolean;
     canViewOpportunities!: boolean;
@@ -32802,6 +32895,7 @@ export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
 
     init(_data?: any) {
         if (_data) {
+            this.canEditOverviewTab = _data["canEditOverviewTab"];
             this.canViewOpportunitiesTab = _data["canViewOpportunitiesTab"];
             this.canCreateOpportunities = _data["canCreateOpportunities"];
             this.canViewOpportunities = _data["canViewOpportunities"];
@@ -32822,6 +32916,7 @@ export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["canEditOverviewTab"] = this.canEditOverviewTab;
         data["canViewOpportunitiesTab"] = this.canViewOpportunitiesTab;
         data["canCreateOpportunities"] = this.canCreateOpportunities;
         data["canViewOpportunities"] = this.canViewOpportunities;
@@ -32835,6 +32930,7 @@ export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
 }
 
 export interface ICustomerVisibilityTabsDto {
+    canEditOverviewTab: boolean;
     canViewOpportunitiesTab: boolean;
     canCreateOpportunities: boolean;
     canViewOpportunities: boolean;

@@ -500,9 +500,10 @@ namespace SBCRM.Crm
         /// <summary>
         /// Get all accounts for table dropdown
         /// </summary>
+        /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Activities)]
-        public async Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown()
+        public async Task<List<ActivityCustomerLookupTableDto>> GetAllAccountsForTableDropdown(GetActivityTableDropdownsCommonInput input)
         {
             var currentUser = await GetCurrentUserAsync();
             var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic);
@@ -515,6 +516,15 @@ namespace SBCRM.Crm
                     .Where(x => x.UserId == currentUser.Id)
                     .Select(x => x.CustomerNumber)
                     .ToListAsync();
+
+                if (!input.IsForCreate)
+                {
+                    // Include the accounts related to the activities assigned to the user
+                    userCustomers.AddRange(await _activityRepository.GetAll()
+                        .Where(x => x.CustomerNumber != null && x.UserId == currentUser.Id)
+                        .Select(x => x.CustomerNumber)
+                        .ToListAsync());
+                }
             }
 
             return await _lookupCustomerRepository.GetAll()
@@ -550,9 +560,10 @@ namespace SBCRM.Crm
         /// <summary>
         /// Get all opportunities or assigned opportunities for table dropdown
         /// </summary>
+        /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Activities)]
-        public async Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown()
+        public async Task<List<ActivityOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown(GetActivityTableDropdownsCommonInput input)
         {
             var currentUser = await GetCurrentUserAsync();
             var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic);
@@ -566,6 +577,15 @@ namespace SBCRM.Crm
                     .Where(x => x.UserId == currentUser.Id)
                     .Select(x => x.OpportunityId)
                     .ToListAsync();
+
+                if (!input.IsForCreate)
+                {
+                    // Include the opportunities related to the activities assigned to the user
+                    userOpportunities.AddRange(await _activityRepository.GetAll()
+                        .Where(x => x.OpportunityId != null && x.UserId == currentUser.Id)
+                        .Select(x => x.OpportunityId.Value)
+                        .ToListAsync());
+                }
             }
 
             return await _lookupOpportunityRepository.GetAll()
@@ -581,9 +601,10 @@ namespace SBCRM.Crm
         /// <summary>
         /// Get all leads or assigned leads based on permission for table dropdown
         /// </summary>
+        /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Activities)]
-        public async Task<List<ActivityLeadLookupTableDto>> GetAllLeadForTableDropdown()
+        public async Task<List<ActivityLeadLookupTableDto>> GetAllLeadForTableDropdown(GetActivityTableDropdownsCommonInput input)
         {
             var currentUser = await GetCurrentUserAsync();
             var canViewAll = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_View_All_Accounts_Leads_Opportunities__Dynamic);
@@ -596,6 +617,15 @@ namespace SBCRM.Crm
                     .Where(x => x.UserId == currentUser.Id)
                     .Select(x => x.LeadId)
                     .ToListAsync();
+
+                if (!input.IsForCreate)
+                {
+                    // Include the lead related to the activities assigned to the user
+                    userLeads.AddRange(await _activityRepository.GetAll()
+                        .Where(x => x.LeadId != null && x.UserId == currentUser.Id)
+                        .Select(x => x.LeadId)
+                        .ToListAsync());
+                }
             }
 
             return await _lookupLeadRepository.GetAll()
@@ -665,21 +695,5 @@ namespace SBCRM.Crm
         {
             return await _activitiesService.GetAllActivityPriorityForTableDropdown();
         }
-
-        /// <summary>
-        /// Get all customer for table dropdown
-        /// </summary>
-        /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_Activities)]
-        public async Task<List<ActivityCustomerLookupTableDto>> GetAllActivityCustomerForTableDropdown()
-        {
-            return await _lookupCustomerRepository.GetAll()
-                .Select(customer => new ActivityCustomerLookupTableDto
-                {
-                    Number = customer.Number,
-                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString()
-                }).ToListAsync();
-        }
-
     }
 }

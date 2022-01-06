@@ -1,17 +1,17 @@
-﻿using SBCRM.Authorization.Users;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using SBCRM.Crm.Dtos;
-using Abp.Application.Services.Dto;
-using SBCRM.Authorization;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
+using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.EntityHistory;
+using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
+using SBCRM.Authorization;
+using SBCRM.Authorization.Users;
+using SBCRM.Crm.Dtos;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -23,8 +23,7 @@ namespace SBCRM.Crm
         private readonly IRepository<OpportunityUser> _opportunityUserRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
         private readonly IRepository<Opportunity, int> _lookupOpportunityRepository;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
-        private readonly IEntityChangeSetReasonProvider _reasonProvider;
+        private readonly IOpportunityAutomateAssignmentService _opportunityAutomateAssignment;
 
         /// <summary>
         /// Constructor
@@ -32,19 +31,16 @@ namespace SBCRM.Crm
         /// <param name="opportunityUserRepository"></param>
         /// <param name="lookupUserRepository"></param>
         /// <param name="lookupOpportunityRepository"></param>
-        /// <param name="unitOfWorkManager"></param>
-        /// <param name="reasonProvider"></param>
+        /// <param name="opportunityAutomateAssignment"></param>
         public OpportunityUsersAppService(IRepository<OpportunityUser> opportunityUserRepository,
             IRepository<User, long> lookupUserRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
-            IUnitOfWorkManager unitOfWorkManager,
-            IEntityChangeSetReasonProvider reasonProvider)
+            IOpportunityAutomateAssignmentService opportunityAutomateAssignment)
         {
-            _opportunityUserRepository = opportunityUserRepository;
-            _lookupUserRepository = lookupUserRepository;
             _lookupOpportunityRepository = lookupOpportunityRepository;
-            _unitOfWorkManager = unitOfWorkManager;
-            _reasonProvider = reasonProvider;
+            _lookupUserRepository = lookupUserRepository;
+            _opportunityAutomateAssignment = opportunityAutomateAssignment;
+            _opportunityUserRepository = opportunityUserRepository;
         }
 
         /// <summary>
@@ -103,17 +99,17 @@ namespace SBCRM.Crm
                 .PageBy(input);
 
             var opportunityUsers = from o in pagedAndFilteredOpportunityUsers
-                join o1 in _lookupUserRepository.GetAll() on o.UserId equals o1.Id into j1
-                from s1 in j1.DefaultIfEmpty()
-                join o2 in _lookupOpportunityRepository.GetAll() on o.OpportunityId equals o2.Id into j2
-                from s2 in j2.DefaultIfEmpty()
-                select new
-                {
-                    Id = o.Id,
-                    UserName = s1 == null || s1.Name == null ? "" : s1.Name.ToString(),
-                    OpportunityName = s2 == null || s2.Name == null ? "" : s2.Name.ToString(),
-                    UserId = o.UserId
-                };
+                                   join o1 in _lookupUserRepository.GetAll() on o.UserId equals o1.Id into j1
+                                   from s1 in j1.DefaultIfEmpty()
+                                   join o2 in _lookupOpportunityRepository.GetAll() on o.OpportunityId equals o2.Id into j2
+                                   from s2 in j2.DefaultIfEmpty()
+                                   select new
+                                   {
+                                       Id = o.Id,
+                                       UserName = s1 == null || s1.FullName == null ? "" : s1.FullName.ToString(),
+                                       OpportunityName = s2 == null || s2.Name == null ? "" : s2.Name.ToString(),
+                                       UserId = o.UserId
+                                   };
 
             var totalCount = await filteredOpportunityUsers.CountAsync();
 
@@ -153,24 +149,23 @@ namespace SBCRM.Crm
             var opportunityUser = await _opportunityUserRepository.GetAsync(id);
 
             var output = new GetOpportunityUserForViewDto
-                {OpportunityUser = ObjectMapper.Map<OpportunityUserDto>(opportunityUser)};
+            { OpportunityUser = ObjectMapper.Map<OpportunityUserDto>(opportunityUser) };
 
             if (output.OpportunityUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.OpportunityUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.OpportunityUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
             if (output.OpportunityUser.OpportunityId != null)
             {
                 var _lookupOpportunity =
-                    await _lookupOpportunityRepository.FirstOrDefaultAsync((int) output.OpportunityUser.OpportunityId);
+                    await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.OpportunityUser.OpportunityId);
                 output.OpportunityName = _lookupOpportunity?.Name?.ToString();
             }
 
             return output;
         }
-
 
         /// <summary>
         /// Get opportunity user for view mode
@@ -183,24 +178,23 @@ namespace SBCRM.Crm
             var opportunityUser = await _opportunityUserRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetOpportunityUserForEditOutput
-                {OpportunityUser = ObjectMapper.Map<CreateOrEditOpportunityUserDto>(opportunityUser)};
+            { OpportunityUser = ObjectMapper.Map<CreateOrEditOpportunityUserDto>(opportunityUser) };
 
             if (output.OpportunityUser.UserId != null)
             {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long) output.OpportunityUser.UserId);
+                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.OpportunityUser.UserId);
                 output.UserName = _lookupUser?.Name?.ToString();
             }
 
             if (output.OpportunityUser.OpportunityId != null)
             {
                 var _lookupOpportunity =
-                    await _lookupOpportunityRepository.FirstOrDefaultAsync((int) output.OpportunityUser.OpportunityId);
+                    await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.OpportunityUser.OpportunityId);
                 output.OpportunityName = _lookupOpportunity?.Name?.ToString();
             }
 
             return output;
         }
-
 
         /// <summary>
         /// Create or edit opportunity user
@@ -219,7 +213,6 @@ namespace SBCRM.Crm
             }
         }
 
-
         /// <summary>
         /// Creates opportunity user
         /// </summary>
@@ -235,7 +228,6 @@ namespace SBCRM.Crm
             await _opportunityUserRepository.InsertAsync(opportunityUser);
         }
 
-
         /// <summary>
         /// Updates a opportunity user
         /// </summary>
@@ -244,7 +236,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityUsers_Edit)]
         protected virtual async Task Update(CreateOrEditOpportunityUserDto input)
         {
-            var opportunityUser = await _opportunityUserRepository.FirstOrDefaultAsync((int) input.Id);
+            var opportunityUser = await _opportunityUserRepository.FirstOrDefaultAsync((int)input.Id);
             ObjectMapper.Map(input, opportunityUser);
         }
 
@@ -270,10 +262,9 @@ namespace SBCRM.Crm
                 .Select(user => new OpportunityUserUserLookupTableDto
                 {
                     Id = user.Id,
-                    DisplayName = user == null || user.Name == null ? "" : user.Name.ToString()
+                    DisplayName = user == null || user.FullName == null ? "" : user.FullName.ToString()
                 }).ToListAsync();
         }
-
 
         /// <summary>
         /// Get Opportunity User User for table
@@ -290,7 +281,6 @@ namespace SBCRM.Crm
                 }).ToListAsync();
         }
 
-
         /// <summary>
         /// This method save a list of users connected with an specific Opportunity
         /// </summary>
@@ -299,32 +289,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityUsers_Create)]
         public async Task CreateMultipleOpportunityUsers(List<CreateOrEditOpportunityUserDto> input)
         {
-            using (_reasonProvider.Use("Users were assigned to Opportunity"))
-            {
-                foreach (var item in input)
-                {
-                    var opportunityUserExists = _opportunityUserRepository.FirstOrDefault(p => p.UserId == item.UserId
-                        && p.OpportunityId == item.OpportunityId
-                        && p.IsDeleted);
-
-                    if (opportunityUserExists == null)
-                    {
-                        var opportunityUser = ObjectMapper.Map<OpportunityUser>(item);
-
-                        await _opportunityUserRepository.InsertAsync(opportunityUser);
-                    }
-                    else
-                    {
-                        opportunityUserExists.IsDeleted = false;
-                        var leadUserInDatabase = ObjectMapper.Map<CreateOrEditLeadUserDto>(opportunityUserExists);
-                        var accountUser =
-                            await _opportunityUserRepository.FirstOrDefaultAsync(leadUserInDatabase.Id.Value);
-                        ObjectMapper.Map(input, accountUser);
-                    }
-                }
-
-                await _unitOfWorkManager.Current.SaveChangesAsync();
-            }
+            await _opportunityAutomateAssignment.AssignOpportunityUsersAsync(input);
         }
     }
 }

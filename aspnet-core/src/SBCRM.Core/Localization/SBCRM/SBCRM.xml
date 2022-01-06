@@ -2,16 +2,17 @@
 
 <localizationDictionary culture="en">
 	<texts>
-		<text name="CustomerEdit__Dynamic">Can edit all accounts</text>
-		<text name="CustomerScheduleMeeting">Schedule meeting</text>
-		<text name="CustomerScheduleMeeting__Dynamic">Can schedule a meeting on all accounts</text>
-		<text name="CustomerScheduleCall">Schedule call</text>
-		<text name="CustomerScheduleCall__Dynamic">Can schedule a call on all accounts</text>
-		<text name="CustomerEmailReminder">Email reminder </text>
-		<text name="CustomerEmailReminder__Dynamic">Can create a email reminder on all accounts</text>
-		<text name="CustomerToDoReminder">To Do Reminder</text>
-		<text name="CustomerToDoReminder__Dynamic">Can create a to do reminder on all accounts</text>
-
+		<text name="NewOpportunity">New Opportunity</text>
+		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
+        <text name="CustomerScheduleMeeting">Schedule meeting</text>
+        <text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>
+        <text name="CustomerScheduleCall">Schedule call</text>
+        <text name="CustomerScheduleCall__Dynamic">Schedule Call if user is assigned to the Account</text>
+        <text name="CustomerEmailReminder">Email reminder </text>
+        <text name="CustomerEmailReminder__Dynamic">Create Email Reminder if user is assigned to the Account</text>
+        <text name="CustomerToDoReminder">To Do Reminder</text>
+        <text name="CustomerToDoReminder__Dynamic">Create To Do Reminder if user is assigned to the Account</text>
+		
 		<text name="ScheduleCall">Schedule Call</text>
 		<text name="ScheduleMeeting">Schedule Meeting</text>
 		<text name="EmailReminder">Email Reminder</text>
@@ -160,7 +161,7 @@
 		<text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
 		<text name="NewActivityStatus">New Activity Status</text>
 		<text name="CreateNewActivityStatus">Create New Activity Status</text>
-		<text name="EditActivityStatus">Edit activity status</text>
+		<text name="EditActivityStatus">Edit Activity Status</text>
 		<text name="DeleteActivityStatus">Delete activity status</text>
 		<text name="ActivityTaskType">Activity task type</text>
 		<text name="SBCRM.Crm.ActivityTaskType">ActivityTaskType</text>
@@ -1761,6 +1762,7 @@
 		<text name="TwoHours">2 Hours</text>
 		<text name="SelectBranch">Select Branch</text>
 		<text name="SelectDepartment">Select Department</text>
+		<text name="AutomateAssignmentUser">Automate Assignment User</text>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[
 <texts>

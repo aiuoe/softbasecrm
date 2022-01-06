@@ -178,9 +178,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                         this.getContactsAccordingToCustomer(this.customerNumber);
                     }
 
-                    this.getItemsforDropdownBranch();
-
-                    this.breadcrumbs.push(new BreadcrumbItem(this.l('NewOpportunities')));
+                    this.breadcrumbs.push(new BreadcrumbItem( this.l('NewOpportunity')));
 
                     this.showSaveButton = !this.isReadOnlyMode;
                 },
