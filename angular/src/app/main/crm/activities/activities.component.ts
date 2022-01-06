@@ -27,6 +27,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { debounce } from 'lodash-es';
+import { MomentFormatPipe } from '@shared/utils/moment-format.pipe';
 
 /***
  * Component to manage the activities summary grid
@@ -90,7 +91,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         private _fileDownloadService: FileDownloadService,
         private _localStorageService: LocalStorageService,
         private _profileService: ProfileServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
     ) {
         super(injector);
     }
@@ -192,11 +193,12 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 }));
                 this.setUsersProfilePictureUrl(this.primengTableHelper.records);
                 this.fullcalendar.getApi().removeAllEvents();
+                let momentPipe = new MomentFormatPipe(window.navigator.language);
                 result.items.forEach((result, i) => {
                     const eventObject = {
                         title: result.userName,
                         allDay: true,
-                        start: result.activity.startsAt.toString(),
+                        start: momentPipe.transform(result.activity.startsAt),
                         // end: result.activity.dueDate.toString(),
                         color: result.activityTaskTypeColor ?? '#263950',
                         id: i.toString()

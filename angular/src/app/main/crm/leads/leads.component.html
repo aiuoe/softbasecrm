@@ -85,7 +85,7 @@
                                                 [options]="allUsers"
                                                 [(ngModel)]="selectedUsers"
                                                 optionLabel="displayName"
-                                                placeholder="Filter by Users"
+                                                [placeholder]="l('FilterByAssignee')"
                                                 (onChange)="getLeads($event)"
                                             >
                                             </p-multiSelect>
@@ -103,7 +103,7 @@
                                                 [options]="leadStatuses"
                                                 [(ngModel)]="selectedLeadStatus"
                                                 optionLabel="displayName"
-                                                placeholder="Filter by Status"
+                                                [placeholder]="l('FilterByStatus')"
                                                 (onChange)="getLeads($event)"
                                             >
                                             </p-dropdown>
@@ -121,7 +121,7 @@
                                                 [options]="priorities"
                                                 [(ngModel)]="selectedPriority"
                                                 optionLabel="displayName"
-                                                placeholder="Filter by Priorities"
+                                                [placeholder]="l('FilterByPriority')"
                                                 (onChange)="getLeads($event)"
                                                 [virtualScroll]="true"
                                             >
