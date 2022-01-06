@@ -23,5 +23,6 @@
 
         public string DepartmentTitle { get; set; }
 
+
     }
 }

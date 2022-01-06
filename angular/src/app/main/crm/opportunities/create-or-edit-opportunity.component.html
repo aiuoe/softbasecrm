@@ -1,16 +1,8 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-
-        <sub-header
-            [title]="('Opportunities' | localize)"
-            [breadcrumbs]="breadcrumbs"
-            [hideSeparator]="true"
-        >
+        <sub-header [title]="'Opportunities' | localize" [breadcrumbs]="breadcrumbs" [hideSeparator]="true">
             <div role="actions">
-                <button
-                    (click)="goToOpportunities()"
-                    class="btn btn-secondary float-left"
-                >
+                <button (click)="goToOpportunities()" class="btn btn-secondary float-left">
                     <span>{{ l('Close') }}</span>
                 </button>
             </div>
@@ -48,10 +40,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <form #opportunityForm="ngForm" role="form" class="form-validation" novalidate>
-                                                <h3
-                                                    class="font-size-lg text-dark font-weight-bold mb-6"
-                                                >
+                                            <form
+                                                #opportunityForm="ngForm"
+                                                role="form"
+                                                class="form-validation"
+                                                novalidate
+                                            >
+                                                <h3 class="font-size-lg text-dark font-weight-bold mb-6">
                                                     <i class="pi pi-user"></i>
                                                     {{ l('GeneralInformation') }}
                                                 </h3>
@@ -71,7 +66,9 @@
                                                                 required
                                                                 [disabled]="this.isReadOnlyMode"
                                                             />
-                                                            <validation-messages [formCtrl]="Opportunity_Name"></validation-messages>
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_Name"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
 
@@ -92,15 +89,18 @@
                                                             [showClear]="true"
                                                             [filter]="true"
                                                             (onChange)="getContactsAccordingToCustomer($event.value)"
-                                                            [disabled]="this.isReadOnlyMode || !this.isNew || this.isExternalCreation"
-                                                        >
-                                                        </p-dropdown>
-                                                        <validation-messages [formCtrl]="Opportunity_Account"></validation-messages>
+                                                            [disabled]="
+                                                                this.isReadOnlyMode ||
+                                                                !this.isNew ||
+                                                                this.isExternalCreation
+                                                            "
+                                                        ></p-dropdown>
+                                                        <validation-messages
+                                                            [formCtrl]="Opportunity_Account"
+                                                        ></validation-messages>
                                                     </div>
-
                                                 </div>
                                                 <div class="row">
-
                                                     <div class="col-md-6 input-field required">
                                                         <label for="OpportunityStageId">{{ l('Stage') }}</label>
                                                         <p-dropdown
@@ -108,7 +108,6 @@
                                                             id="OpportunityStageId"
                                                             name="OpportunityStageId"
                                                             #OpportunityStageId="ngModel"
-
                                                             [options]="allOpportunityStages"
                                                             [(ngModel)]="opportunity.opportunityStageId"
                                                             optionValue="id"
@@ -117,17 +116,18 @@
                                                             [disabled]="this.isReadOnlyMode"
                                                             [showClear]="true"
                                                             [filter]="true"
-                                                        >
-                                                        </p-dropdown>
-                                                        <validation-messages [formCtrl]="OpportunityStageId"></validation-messages>
+                                                        ></p-dropdown>
+                                                        <validation-messages
+                                                            [formCtrl]="OpportunityStageId"
+                                                        ></validation-messages>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="Opportunity_Amount">{{ l('Amount') }}</label>
                                                             <p-inputNumber
-                                                                [style]="{'width':'100%'}"
-                                                                [inputStyle]="{'width':'100%'}"
+                                                                [style]="{ width: '100%' }"
+                                                                [inputStyle]="{ width: '100%' }"
                                                                 mode="currency"
                                                                 currency="USD"
                                                                 locale="en-US"
@@ -137,61 +137,62 @@
                                                                 [placeholder]="l('OpportunityAmmountFormat')"
                                                                 name="Amount"
                                                                 [disabled]="this.isReadOnlyMode"
-                                                            >
-                                                            </p-inputNumber>
-                                                            <validation-messages [formCtrl]="Opportunity_Amount"></validation-messages>
+                                                            ></p-inputNumber>
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_Amount"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="row">
-
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="Opportunity_Probability">{{ l('Probability%') }}</label>
+                                                            <label for="Opportunity_Probability">
+                                                                {{ l('Probability%') }}
+                                                            </label>
                                                             <p-inputNumber
-                                                                [style]="{'width':'100%'}"
-                                                                [inputStyle]="{'width':'100%'}"
+                                                                [style]="{ width: '100%' }"
+                                                                [inputStyle]="{ width: '100%' }"
                                                                 suffix="%"
                                                                 #Opportunity_Probability="ngModel"
                                                                 id="Opportunity_Probability"
                                                                 name="Opportunity_Probability"
                                                                 [(ngModel)]="opportunity.probability"
-                                                                [placeholder]= "l('InputProbability')"
+                                                                [placeholder]="l('InputProbability')"
                                                                 name="Opportunity_Probability"
-                                                                min = 0
-                                                                max = 100
+                                                                min="0"
+                                                                max="100"
                                                                 oninvalid="this.setCustomValidity('Enter User Name Here')"
                                                                 [disabled]="this.isReadOnlyMode"
-                                                            >
-                                                            </p-inputNumber>
-                                                            <validation-messages [formCtrl]="Opportunity_Probability"></validation-messages>
+                                                            ></p-inputNumber>
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_Probability"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 input-field">
                                                         <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
                                                         <p-calendar
-                                                            [style]="{'width':'100%'}"
-                                                            [inputStyle]="{'width':'100%'}"
+                                                            [style]="{ width: '100%' }"
+                                                            [inputStyle]="{ width: '100%' }"
                                                             #Opportunity_CloseDate="ngModel"
                                                             dataType="date"
                                                             dateFormat="mm/dd/yy"
-                                                            [placeholder]= "l('InputCloseDate')"
+                                                            [placeholder]="l('InputCloseDate')"
                                                             [(ngModel)]="formDate"
                                                             id="Opportunity_CloseDate"
                                                             name="Opportunity_CloseDate"
                                                             [disabled]="this.isReadOnlyMode"
-                                                        >
-                                                        </p-calendar>
-                                                        <validation-messages [formCtrl]="Opportunity_CloseDate"></validation-messages>
+                                                        ></p-calendar>
+                                                        <validation-messages
+                                                            [formCtrl]="Opportunity_CloseDate"
+                                                        ></validation-messages>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="row">
-
                                                     <div class="col-md-6 input-field required">
                                                         <label for="Opportunity_Contact">{{ l('Contact') }}</label>
                                                         <p-dropdown
@@ -207,9 +208,10 @@
                                                             [showClear]="true"
                                                             [filter]="true"
                                                             [disabled]="this.isReadOnlyMode"
-                                                        >
-                                                        </p-dropdown>
-                                                        <validation-messages [formCtrl]="Opportunity_Contact"></validation-messages>
+                                                        ></p-dropdown>
+                                                        <validation-messages
+                                                            [formCtrl]="Opportunity_Contact"
+                                                        ></validation-messages>
                                                     </div>
 
                                                     <div class="col-md-6">
@@ -225,17 +227,16 @@
                                                             [disabled]="this.isReadOnlyMode"
                                                             [showClear]="true"
                                                             [filter]="true"
-                                                        >
-                                                        </p-dropdown>
+                                                        ></p-dropdown>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="row extra-padding-for-forms-div">
-
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="Opportunity_Description">{{ l('Description') }}</label>
+                                                            <label for="Opportunity_Description">
+                                                                {{ l('Description') }}
+                                                            </label>
                                                             <textarea
                                                                 #Opportunity_Description="ngModel"
                                                                 id="Opportunity_Description"
@@ -245,70 +246,74 @@
                                                                 name="Description"
                                                                 rows="5"
                                                                 [disabled]="this.isReadOnlyMode"
-                                                            >
-                                                            </textarea>
-                                                            <validation-messages [formCtrl]="Opportunity_Description"></validation-messages>
+                                                            ></textarea>
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_Description"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="row">
-
                                                     <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="Opportunity_Branch">{{ l('BranchName') }}</label>
-                                                            <p-dropdown #Opportunity_Branch="ngModel"
-                                                                        id="Opportunity_Branch"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        [options]="allBranches"
-                                                                        [(ngModel)]="selectedBranch"
-                                                                        optionLabel="name"
-                                                                        [showClear]="true"
-                                                                        optionValue="number">
-                                                            </p-dropdown>
-<!--                                                            <input-->
-<!--                                                                type="text"-->
-<!--                                                                #Opportunity_Branch="ngModel"-->
-<!--                                                                id="Opportunity_Branch"-->
-<!--                                                                class="form-control"-->
-<!--                                                                [(ngModel)]="opportunity.branch"-->
-<!--                                                                [placeholder]="l('InputBranch')"-->
-<!--                                                                name="Branch"-->
-<!--                                                                [disabled]="this.isReadOnlyMode"-->
-<!--                                                                maxlength="100"-->
-<!--                                                            />-->
-                                                            <validation-messages [formCtrl]="Opportunity_Branch"></validation-messages>
+                                                        <div class="form-group input-field required">
+                                                            <label for="Opportunity_Branch">
+                                                                {{ l('BranchName') }}
+                                                            </label>
+                                                            <p-dropdown
+                                                                [required]="true"
+                                                                id="Opportunity_Branch"
+                                                                name="Opportunity_Branch"
+                                                                #Opportunity_Branch="ngModel"
+                                                                [options]="allBranches"
+                                                                [(ngModel)]="opportunity.branch"
+                                                                optionValue="number"
+                                                                optionLabel="name"
+                                                                placeholder="{{ l('SelectBranch') }}"
+                                                                [virtualScroll]="true"
+                                                                itemSize="40"
+                                                                [showClear]="true"
+                                                                [filter]="true"
+                                                                (onChange)="
+                                                                    getDepartmentAccordingToBranch($event.value)
+                                                                "
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            ></p-dropdown>
+
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_Branch"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="Opportunity_Department">{{ l('DepartmentName') }}</label>
-                                                            <p-dropdown #Opportunity_Department="ngModel"
-                                                                        id="Opportunity_Department"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        [options]="allDepartments"
-                                                                        [(ngModel)]="selectedDepartment"
-                                                                        optionLabel="title"
-                                                                        [showClear]="true">
-                                                            </p-dropdown>
-<!--                                                            <input-->
-<!--                                                                type="text"-->
-<!--                                                                #Opportunity_Department="ngModel"-->
-<!--                                                                id="Opportunity_Department"-->
-<!--                                                                class="form-control"-->
-<!--                                                                [(ngModel)]="opportunity.department"-->
-<!--                                                                [placeholder]="l('InputDepartment')"-->
-<!--                                                                name="Department"-->
-<!--                                                                [disabled]="this.isReadOnlyMode"-->
-<!--                                                                maxlength="100"-->
-<!--                                                            />-->
-                                                            <validation-messages [formCtrl]="Opportunity_Department"></validation-messages>
+                                                        <div class="form-group input-field required">
+                                                            <label for="Opportunity_Department">
+                                                                {{ l('DepartmentName') }}
+                                                            </label>
+                                                            <p-dropdown
+                                                                [required]="true"
+                                                                id="Opportunity_Department"
+                                                                name="Opportunity_Department"
+                                                                #Opportunity_Department="ngModel"
+                                                                [options]="allDepartments"
+                                                                [(ngModel)]="opportunity.dept"
+                                                                optionValue="dept"
+                                                                optionLabel="title"
+                                                                placeholder="{{ l('SelectDepartment') }}"
+                                                                [virtualScroll]="true"
+                                                                itemSize="40"
+                                                                [showClear]="true"
+                                                                [filter]="true"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                            ></p-dropdown>
+
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_Department"
+                                                            ></validation-messages>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </form>
                                         </div>
                                     </div>
@@ -343,18 +348,15 @@
                     [componentType]="'Opportunity'"
                     [idToStore]="this.opportunity.id"
                     (onSaveAssignedUser)="reloadEvents()"
-                >
-                </app-assigned-user>
+                ></app-assigned-user>
             </div>
 
             <div class="col-sm-12 col-lg-6">
                 <app-activities-widget
-                    [componentType] = "'Opportunity'"
-                    [idToStore]="this.opportunity.id">
-                </app-activities-widget>
+                    [componentType]="'Opportunity'"
+                    [idToStore]="this.opportunity.id"
+                ></app-activities-widget>
             </div>
         </div>
     </div>
 </div>
-
-
