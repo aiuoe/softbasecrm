@@ -1,19 +1,20 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetOpportunityForViewDto, OpportunitiesServiceProxy, OpportunityDto, OpportunityOpportunityStageLookupTableDto, OpportunityStageDto, OpportunityStagesServiceProxy, OpportunityUserUserLookupTableDto, PagedResultDtoOfGetOpportunityStageForViewDto } from '@shared/service-proxies/service-proxies';
+import {
+    GetOpportunityForViewDto,
+    OpportunitiesServiceProxy,
+    OpportunityOpportunityStageLookupTableDto,
+    OpportunityUserUserLookupTableDto
+} from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
-import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
-import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { Table } from 'primeng/table';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
-import {CustomizableDashboardModule} from '@app/shared/common/customizable-dashboard/customizable-dashboard.module';
 import { WidgetComponentBaseComponent } from '../widget-component-base';
 import { AppConsts } from '@shared/AppConsts';
 
@@ -30,7 +31,7 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
     opportunityStages: OpportunityOpportunityStageLookupTableDto[];
     selectedOpportunityStage: OpportunityOpportunityStageLookupTableDto;
     selectedOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
-    allStagesFilter : OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto;
+    allStagesFilter: OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -58,12 +59,11 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
         this._dateTimeService.getStartOfMonth(),
         this._dateTimeService.getEndOfMonth(),
     ];
-    rangeDates: DateTime[];
+    // rangeDates: DateTime[];
 
-    allUsers: OpportunityUserUserLookupTableDto[];   
+    allUsers: OpportunityUserUserLookupTableDto[];
     selectedUsers: OpportunityUserUserLookupTableDto[];
     noAssignedUsersOption: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto;
-    defaultUser: OpportunityUserUserLookupTableDto = new OpportunityUserUserLookupTableDto    
 
     /***
      * Main constructor
@@ -92,38 +92,37 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
 
 
     /***
-    * Initialize component
-    */
-     ngOnInit(){
+     * Initialize component
+     */
+    ngOnInit() {
         this._opportunitiesServiceProxy.getAllOpportunityStageForTableDropdown()
-        .subscribe((result) => {
-            this.opportunityStages = result;
-            this.allStagesFilter.displayName = 'All';
-            this.opportunityStages.unshift(this.allStagesFilter);
-        });
+            .subscribe((result) => {
+                this.opportunityStages = result;
+                this.allStagesFilter.displayName = 'All';
+                this.opportunityStages.unshift(this.allStagesFilter);
+            });
 
         this._opportunitiesServiceProxy.getAllUsersForTableDropdown().subscribe((result) => {
-            this.allUsers = result;    
+            this.allUsers = result;
             this.noAssignedUsersOption.id = -1;
-            this.noAssignedUsersOption.displayName = "None"   
+            this.noAssignedUsersOption.displayName = 'None';
             this.allUsers.unshift(this.noAssignedUsersOption);
         });
     }
 
     /***
-    * Get opportunities on page load/filter changes
-    * @param event
-    */
+     * Get opportunities on page load/filter changes
+     * @param event
+     */
     getOpportunities(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
         }
 
-        
-        this.minCloseDateFilter = this.rangeDates != null ? (this.rangeDates[0] ?? undefined) : undefined;
-        this.maxCloseDateFilter = this.rangeDates != null ? (this.rangeDates[1] ?? undefined) : undefined;
-    
+        this.minCloseDateFilter = this.selectedDateRange != null ? (this.selectedDateRange[0] ?? undefined) : undefined;
+        this.maxCloseDateFilter = this.selectedDateRange != null ? (this.selectedDateRange[1] ?? undefined) : undefined;
+
 
         this.primengTableHelper.showLoadingIndicator();
 
@@ -176,25 +175,25 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
     }
 
     /***
-    * Reload page
-    */
+     * Reload page
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
     /***
-    * Go to create lead page
-    */
+     * Go to create lead page
+     */
     createOpportunity(): void {
         this._router.navigate(['/app/main/crm/opportunities/createOrEdit']);
     }
 
     /***
-    * Export to excel
-    */
+     * Export to excel
+     */
     exportToExcel(): void {
 
-        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+        this.timeZone = this._dateTimeService.getLocalTimeZone();
 
         this._opportunitiesServiceProxy
             .getOpportunitiesToExcel(
@@ -227,15 +226,15 @@ export class WidgetOpportunitiesListComponent extends WidgetComponentBaseCompone
             });
     }
 
-     /***
+    /***
      * Set user image profile reference
      * @param users
      */
-      setUsersProfilePictureUrl(users: GetOpportunityForViewDto[]): void {
+    setUsersProfilePictureUrl(users: GetOpportunityForViewDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
             if (user.firstUserAssignedId) {
-                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function(err, value) {
+                this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
                     let profilePictureUrl =
                         AppConsts.remoteServiceBaseUrl +
                         '/Profile/GetProfilePictureByUser?userId=' +

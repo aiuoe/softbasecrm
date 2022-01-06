@@ -14,30 +14,51 @@
                                 <div class="separator separator-dashed"></div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="CloseDateFilter"></label>
                                     <div>
-                                        <p-calendar
-                                            [style]="{'width':'100%'}"
-                                            [inputStyle]="{'width':'100%'}"
-                                            #CloseDateFilter="ngModel"
-                                            [(ngModel)]="rangeDates"
-                                            selectionMode="range"
-                                            icon="fa fa-calendar"
-                                            [clearButtonStyleClass]="'showClearButton'"
-                                            [showIcon]="true"
-                                            inputId="range"
-                                            id="CloseDateFilter"
-                                            name="CloseDateFilter"
-                                            (ngModelChange)="getOpportunities($event)"
-                                        >
-                                        </p-calendar>
+<!--                                        <p-calendar-->
+<!--                                            [style]="{'width':'100%'}"-->
+<!--                                            [inputStyle]="{'width':'100%'}"-->
+<!--                                            #CloseDateFilter="ngModel"-->
+<!--                                            [(ngModel)]="rangeDates"-->
+<!--                                            selectionMode="range"-->
+<!--                                            icon="fa fa-calendar"-->
+<!--                                            [clearButtonStyleClass]="'showClearButton'"-->
+<!--                                            [showIcon]="true"-->
+<!--                                            inputId="range"-->
+<!--                                            id="CloseDateFilter"-->
+<!--                                            name="CloseDateFilter"-->
+<!--                                            (ngModelChange)="getOpportunities($event)"-->
+<!--                                        >-->
+<!--                                        </p-calendar>-->
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control date-range-filter"
+                                                value="{{ selectedDateRange[0] | luxonFormat: 'ff' }} - {{ selectedDateRange[1] | luxonFormat: 'ff' }}"
+                                                disabled="disabled"
+                                                #CloseDateFilter="bsDaterangepicker"
+                                                bsDaterangepicker
+                                                dateRangePickerLuxonModifier
+                                                placement="bottom"
+                                                id="CloseDateFilter"
+                                                name="CloseDateFilter"
+                                                [(date)]="selectedDateRange"
+                                                (dateChange)="getOpportunities($event)"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" (click)="CloseDateFilter.toggle()">
+                                                    <i class="fa fa-calendar-day p-0" style="color: white" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-2" *ngIf="isGranted('Pages.Opportunities.ViewAllOpportunities__Dynamic')">
+                            <div class="col-md-3" *ngIf="isGranted('Pages.Opportunities.ViewAllOpportunities__Dynamic')">
                                 <div class="form-group">
                                     <label for="UserAssignedFilter"></label>
                                     <div>
@@ -47,7 +68,7 @@
                                             [options]="allUsers"
                                             [(ngModel)]="selectedUsers"
                                             optionLabel="displayName"
-                                            placeholder="Filter by Users"
+                                            [placeholder]="l('FilterByAssignee')"
                                             (onChange)="getOpportunities($event)"
                                         >
                                         </p-multiSelect>
@@ -55,9 +76,9 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="LeadStatusFilter"></label>
+                                    <label for="OpportunityStagesFilter"></label>
                                     <div>
                                         <p-dropdown
                                             id="OpportunityStageFilter"
