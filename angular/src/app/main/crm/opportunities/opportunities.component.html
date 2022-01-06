@@ -58,26 +58,6 @@
                                     <div class="separator separator-dashed"></div>
                                 </div>
 
-                                <div
-                                    class="col-md-2"
-                                    *ngIf="isGranted('Pages.Opportunities.ViewAllOpportunities__Dynamic')"
-                                >
-                                    <div class="form-group">
-                                        <label for="UserAssignedFilter"></label>
-                                        <div>
-                                            <p-multiSelect
-                                                id="UserAssignedFilter"
-                                                name="UserAssignedFilter"
-                                                [options]="allUsers"
-                                                [(ngModel)]="selectedUsers"
-                                                optionLabel="displayName"
-                                                placeholder="Filter by Users"
-                                                (onChange)="getOpportunities($event)"
-                                            ></p-multiSelect>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="LeadStatusFilter"></label>
@@ -88,12 +68,31 @@
                                                 [options]="opportunityStages"
                                                 [(ngModel)]="selectedOpportunityStage"
                                                 optionLabel="displayName"
-                                                placeholder="Filter by Stage"
+                                                [placeholder]="l('FilterByStage')"
                                                 (onChange)="getOpportunities($event)"
                                             ></p-dropdown>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-2" *ngIf="isGranted('Pages.Opportunities.ViewAllOpportunities__Dynamic')">
+                                    <div class="form-group">
+                                        <label for="UserAssignedFilter"></label>
+                                        <div>
+                                            <p-multiSelect
+                                                id="UserAssignedFilter"
+                                                name="UserAssignedFilter"
+                                                [options]="allUsers"
+                                                [(ngModel)]="selectedUsers"
+                                                optionLabel="displayName"
+                                                [placeholder]="l('FilterByAssignee')"
+                                                (onChange)="getOpportunities($event)"
+                                            >
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>                               
+
                             </div>
 
                             <div class="row mb-2">
