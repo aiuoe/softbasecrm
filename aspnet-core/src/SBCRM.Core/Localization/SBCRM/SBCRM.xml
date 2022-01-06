@@ -160,7 +160,7 @@
 		<text name="ActivityStatusesHeaderInfo">Activity statuses header info</text>
 		<text name="NewActivityStatus">New Activity Status</text>
 		<text name="CreateNewActivityStatus">Create New Activity Status</text>
-		<text name="EditActivityStatus">Edit activity status</text>
+		<text name="EditActivityStatus">Edit Activity Status</text>
 		<text name="DeleteActivityStatus">Delete activity status</text>
 		<text name="ActivityTaskType">Activity task type</text>
 		<text name="SBCRM.Crm.ActivityTaskType">ActivityTaskType</text>
