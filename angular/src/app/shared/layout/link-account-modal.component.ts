@@ -43,7 +43,7 @@ export class LinkAccountModalComponent extends AppComponentBase {
                 })
             )
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

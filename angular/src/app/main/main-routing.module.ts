@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
+                                    
                     {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),

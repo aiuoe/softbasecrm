@@ -68,7 +68,7 @@ export class CreateOrEditDynamicPropertyModalComponent extends AppComponentBase 
         this.showMainSpinner();
         observable.subscribe(
             () => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.hideMainSpinner();
                 this.modalSave.emit(null);
                 this.modal.hide();

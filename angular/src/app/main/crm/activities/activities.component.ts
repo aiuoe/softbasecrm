@@ -231,7 +231,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
             if (isConfirmed) {
                 this._activitiesServiceProxy.delete(activity.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });

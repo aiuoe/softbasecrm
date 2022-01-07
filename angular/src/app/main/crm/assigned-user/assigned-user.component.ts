@@ -254,7 +254,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                     this._accountUsersServiceProxy.delete(accountUser.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -274,7 +274,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                     this._leadUserServiceProxy.delete(leadUser.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -294,7 +294,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this._opportunityUserServiceProxy.delete(opportunityUser.id)
                     .subscribe(() => {
                         this.reloadPage();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
+                        this.notifyService.success(this.l('SuccessfullyDeleted'));
                     });
             }
         }
@@ -352,7 +352,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.saving = false;
             }))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.getAccountUsers();
             });
     }
@@ -378,7 +378,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.saving = false;
             }))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.getLeadUsers();
             });
     }
@@ -404,7 +404,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.saving = false;
             }))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.getLeadUsers();
             });
     }

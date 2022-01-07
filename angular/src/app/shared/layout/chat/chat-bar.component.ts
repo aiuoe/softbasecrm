@@ -262,7 +262,7 @@ export class ChatBarComponent extends AppComponentBase implements OnInit, AfterV
         blockUserInput.userId = user.friendUserId;
 
         this._friendshipService.blockUser(blockUserInput).subscribe(() => {
-            this.notify.info(this.l('UserBlocked'));
+            this.notifyService.info(this.l('UserBlocked'));
         });
     }
 
@@ -272,7 +272,7 @@ export class ChatBarComponent extends AppComponentBase implements OnInit, AfterV
         unblockUserInput.userId = user.friendUserId;
 
         this._friendshipService.unblockUser(unblockUserInput).subscribe(() => {
-            this.notify.info(this.l('UserUnblocked'));
+            this.notifyService.info(this.l('UserUnblocked'));
         });
     }
 
@@ -602,7 +602,7 @@ export class ChatBarComponent extends AppComponentBase implements OnInit, AfterV
                 ) {
                     self.markAllUnreadMessagesOfUserAsRead(user);
                 } else {
-                    self.notify.info(
+                    this.notifyService.info(
                         abp.utils.formatString(
                             '{0}: {1}',
                             user.friendUserName,
@@ -635,7 +635,7 @@ export class ChatBarComponent extends AppComponentBase implements OnInit, AfterV
 
         function onFriendshipRequestReceived(data, isOwnRequest) {
             if (!isOwnRequest) {
-                abp.notify.info(self.l('UserSendYouAFriendshipRequest', data.friendUserName));
+                this.notifyService.info(self.l('UserSendYouAFriendshipRequest', data.friendUserName));
             }
 
             if (

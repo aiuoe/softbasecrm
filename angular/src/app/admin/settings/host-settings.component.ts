@@ -109,13 +109,13 @@ export class HostSettingsComponent extends AppComponentBase implements OnInit {
             this.message.confirm(this.l('SendEmailWithSavedSettingsWarning'), this.l('AreYouSure'), (isConfirmed) => {
                 if (isConfirmed) {
                     self._hostSettingService.sendTestEmail(input).subscribe((result) => {
-                        self.notify.info(self.l('TestEmailSentSuccessfully'));
+                        this.notifyService.info(self.l('TestEmailSentSuccessfully'));
                     });
                 }
             });
         } else {
             self._hostSettingService.sendTestEmail(input).subscribe((result) => {
-                self.notify.info(self.l('TestEmailSentSuccessfully'));
+                this.notifyService.info(self.l('TestEmailSentSuccessfully'));
             });
         }
     }
@@ -160,7 +160,7 @@ export class HostSettingsComponent extends AppComponentBase implements OnInit {
         }
 
         self._hostSettingService.updateAllSettings(self.hostSettings).subscribe((result) => {
-            self.notify.info(self.l('SavedSuccessfully'));
+            this.notifyService.info(self.l('SavedSuccessfully'));
 
             if (
                 abp.clock.provider.supportsMultipleTimezone &&

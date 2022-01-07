@@ -60,7 +60,7 @@ export class PermissionTreeModalComponent extends AppComponentBase implements On
         this.onModalclose.emit(selections);
         this.permissionTreeModal.hide();
 
-        abp.notify.success(this.l('XCountPermissionFiltered', this.NumberOfFilteredPermission));
+        this.notifyService.success(this.l('XCountPermissionFiltered', this.NumberOfFilteredPermission));
     }
 
     getSelectedPermissions(): string[] {

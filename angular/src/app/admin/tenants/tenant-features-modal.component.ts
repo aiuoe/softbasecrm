@@ -55,7 +55,7 @@ export class TenantFeaturesModalComponent extends AppComponentBase {
             .updateTenantFeatures(input)
             .pipe(finalize(() => (this.saving = false)))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
             });
     }
@@ -69,7 +69,7 @@ export class TenantFeaturesModalComponent extends AppComponentBase {
             .resetTenantSpecificFeatures(input)
             .pipe(finalize(() => (this.resettingFeatures = false)))
             .subscribe(() => {
-                this.notify.info(this.l('ResetSuccessfully'));
+                this.notifyService.info(this.l('ResetSuccessfully'));
                 this.loadFeatures();
             });
     }

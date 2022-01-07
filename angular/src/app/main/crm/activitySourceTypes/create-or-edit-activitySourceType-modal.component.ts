@@ -74,7 +74,7 @@ export class CreateOrEditActivitySourceTypeModalComponent extends AppComponentBa
                 })
             )
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
