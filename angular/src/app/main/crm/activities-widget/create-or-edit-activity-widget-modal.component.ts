@@ -100,9 +100,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.activityTypeCode = activityTypeCode;
     this.activityType = this.allActivityTaskTypes.find( p => p.code == activityTypeCode).displayName;
     this.activity = new CreateOrEditActivityDto();
-    if (this.activityTypeCode != ActivityTaskType.TODO_REMINDER &&  this.activityTypeCode != ActivityTaskType.EMAIL_REMINDER){
-      this.activity.durationMinutes = this.durationItems.find((x) => x.enumValue === ActivityDuration.OneHour).value;
-    }
+    this.activity.durationMinutes = this._activitySharedService.getDefaultDuration(this.activityTypeCode);
     this.activity.activityPriorityId = this.allActivityPrioritys.find( x => x.isDefault).id;
     this.active = true;
     this.modal.show();
