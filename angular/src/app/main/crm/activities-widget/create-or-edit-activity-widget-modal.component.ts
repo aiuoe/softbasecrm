@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
-import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
+import { ActivityDuration, ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon';
@@ -98,6 +98,10 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.activityTypeCode = activityTypeCode;
     this.activityType = this.allActivityTaskTypes.find( p => p.code == activityTypeCode).displayName;
     this.activity = new CreateOrEditActivityDto();
+    if (this.activityTypeCode != ActivityTaskType.TODO_REMINDER &&  this.activityTypeCode != ActivityTaskType.EMAIL_REMINDER){
+      this.activity.durationMinutes = this.durationItems.find((x) => x.enumValue === ActivityDuration.OneHour).value;
+    }
+    this.activity.activityPriorityId = this.allActivityPrioritys.find( x => x.isDefault).id;
     this.active = true;
     this.modal.show();
   }
