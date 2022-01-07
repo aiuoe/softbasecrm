@@ -20,7 +20,7 @@ namespace SBCRM.Configuration
     {
         private readonly IConfigurationRoot _appConfiguration;
         VisibleSettingClientVisibilityProvider _visibleSettingClientVisibilityProvider;
-        
+
         public AppSettingProvider(IAppConfigurationAccessor configurationAccessor)
         {
             _appConfiguration = configurationAccessor.Configuration;
@@ -103,7 +103,7 @@ namespace SBCRM.Configuration
                 new SettingDefinition(AppSettings.Recaptcha.SiteKey, GetFromSettings("Recaptcha:SiteKey"),
                     clientVisibilityProvider: _visibleSettingClientVisibilityProvider),
                 new SettingDefinition(AppSettings.UiManagement.Theme,
-                    GetFromAppSettings(AppSettings.UiManagement.Theme, "default"), 
+                    GetFromAppSettings(AppSettings.UiManagement.Theme, "default"),
                     clientVisibilityProvider: _visibleSettingClientVisibilityProvider,
                     scopes: SettingScopes.All),
             };
@@ -226,8 +226,8 @@ namespace SBCRM.Configuration
                 new SettingDefinition(themeName + "." + AppSettings.UiManagement.LeftAside.HoverableAside,
                     GetFromAppSettings(themeName + "." + AppSettings.UiManagement.LeftAside.HoverableAside,
                         "false"), clientVisibilityProvider: _visibleSettingClientVisibilityProvider, scopes: SettingScopes.All),
-                
-                
+
+
                 new SettingDefinition(themeName + "." + AppSettings.UiManagement.Footer.FixedFooter,
                     GetFromAppSettings(themeName + "." + AppSettings.UiManagement.Footer.FixedFooter, "false"),
                     clientVisibilityProvider: _visibleSettingClientVisibilityProvider, scopes: SettingScopes.All),
@@ -547,7 +547,7 @@ namespace SBCRM.Configuration
             {
                 new Dashboard
                 {
-                    DashboardName = SBCRMDashboardCustomizationConsts.DashboardNames.DefaultTenantDashboard,
+                    DashboardName = SBCRMDashboardCustomizationConsts.DashboardNames.DefaultCrmDashboard,
                     Pages = new List<Page>
                     {
                         new Page
@@ -557,128 +557,22 @@ namespace SBCRM.Configuration
                             {
                                 new Widget
                                 {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .GeneralStats, // General Stats
-                                    Height = 9,
-                                    Width = 6,
-                                    PositionX = 0,
-                                    PositionY = 19
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .ProfitShare, // Profit Share
-                                    Height = 13,
-                                    Width = 6,
-                                    PositionX = 0,
-                                    PositionY = 28
-                                },
-                                new Widget
-                                {
-                                    WidgetId =
-                                        SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                            .MemberActivity, // Memeber Activity
-                                    Height = 13,
-                                    Width = 6,
-                                    PositionX = 6,
-                                    PositionY = 28
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .RegionalStats, // Regional Stats
-                                    Height = 14,
-                                    Width = 6,
-                                    PositionX = 6,
-                                    PositionY = 5
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .DailySales, // Daily Sales
-                                    Height = 9,
-                                    Width = 6,
-                                    PositionX = 6,
-                                    PositionY = 19
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .TopStats, // Top Stats
-                                    Height = 5,
+                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Crm
+                                        .OpportunitiesStats, // Top Stats
+                                    Height = 8,
                                     Width = 12,
                                     PositionX = 0,
                                     PositionY = 0
                                 },
                                 new Widget
                                 {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .SalesSummary, // Sales Summary
-                                    Height = 14,
-                                    Width = 6,
-                                    PositionX = 0,
-                                    PositionY = 5
-                                }
-                            }
-                        }
-                    }
-                },
-                new Dashboard
-                {
-                    DashboardName = SBCRMDashboardCustomizationConsts.DashboardNames.DefaultHostDashboard,
-                    Pages = new List<Page>
-                    {
-                        new Page
-                        {
-                            Name = SBCRMDashboardCustomizationConsts.DefaultPageName,
-                            Widgets = new List<Widget>
-                            {
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .TopStats, // Top Stats
-                                    Height = 6,
+                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Crm
+                                        .OpportunitiesList, // Summary
+                                    Height = 12,
                                     Width = 12,
                                     PositionX = 0,
-                                    PositionY = 0
+                                    PositionY = 7
                                 },
-                                new Widget
-                                {
-                                    WidgetId =
-                                        SBCRMDashboardCustomizationConsts.Widgets.Host
-                                            .IncomeStatistics, // Income Statistics
-                                    Height = 11,
-                                    Width = 7,
-                                    PositionX = 0,
-                                    PositionY = 6
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .RecentTenants, // Recent tenants
-                                    Height = 10,
-                                    Width = 5,
-                                    PositionX = 7,
-                                    PositionY = 17
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .SubscriptionExpiringTenants, // Subscription expiring tenants
-                                    Height = 10,
-                                    Width = 7,
-                                    PositionX = 0,
-                                    PositionY = 17
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .EditionStatistics, // Edition statistics
-                                    Height = 11,
-                                    Width = 5,
-                                    PositionX = 7,
-                                    PositionY = 6
-                                }
                             }
                         }
                     }
@@ -693,7 +587,7 @@ namespace SBCRM.Configuration
             {
                 new Dashboard
                 {
-                    DashboardName = SBCRMDashboardCustomizationConsts.DashboardNames.DefaultTenantDashboard,
+                    DashboardName = SBCRMDashboardCustomizationConsts.DashboardNames.DefaultCrmDashboard,
                     Pages = new List<Page>
                     {
                         new Page
@@ -703,129 +597,22 @@ namespace SBCRM.Configuration
                             {
                                 new Widget
                                 {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .TopStats, // Top Stats
-                                    Height = 4,
+                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Crm
+                                        .OpportunitiesStats, // Top Stats
+                                    Height = 5,
                                     Width = 12,
                                     PositionX = 0,
                                     PositionY = 0
                                 },
                                 new Widget
                                 {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .SalesSummary, // Sales Summary
-                                    Height = 12,
-                                    Width = 6,
-                                    PositionX = 0,
-                                    PositionY = 4
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .RegionalStats, // Regional Stats
-                                    Height = 12,
-                                    Width = 6,
-                                    PositionX = 6,
-                                    PositionY = 4
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .GeneralStats, // General Stats
+                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Crm
+                                        .OpportunitiesList, // Summary
                                     Height = 8,
-                                    Width = 6,
-                                    PositionX = 0,
-                                    PositionY = 16
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .DailySales, // Daily Sales
-                                    Height = 8,
-                                    Width = 6,
-                                    PositionX = 6,
-                                    PositionY = 16
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                        .ProfitShare, // Profit Share
-                                    Height = 11,
-                                    Width = 6,
-                                    PositionX = 0,
-                                    PositionY = 24
-                                },
-                                new Widget
-                                {
-                                    WidgetId =
-                                        SBCRMDashboardCustomizationConsts.Widgets.Tenant
-                                            .MemberActivity, // Member Activity
-                                    Height = 11,
-                                    Width = 6,
-                                    PositionX = 6,
-                                    PositionY = 24
-                                }
-                            }
-                        }
-                    }
-                },
-                new Dashboard
-                {
-                    DashboardName = SBCRMDashboardCustomizationConsts.DashboardNames.DefaultHostDashboard,
-                    Pages = new List<Page>
-                    {
-                        new Page
-                        {
-                            Name = SBCRMDashboardCustomizationConsts.DefaultPageName,
-                            Widgets = new List<Widget>
-                            {
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .TopStats, // Top Stats
-                                    Height = 4,
                                     Width = 12,
                                     PositionX = 0,
-                                    PositionY = 0
+                                    PositionY = 6
                                 },
-                                new Widget
-                                {
-                                    WidgetId =
-                                        SBCRMDashboardCustomizationConsts.Widgets.Host
-                                            .IncomeStatistics, // Income Statistics
-                                    Height = 8,
-                                    Width = 7,
-                                    PositionX = 0,
-                                    PositionY = 4
-                                },
-                                new Widget
-                                {
-                                    WidgetId =
-                                        SBCRMDashboardCustomizationConsts.Widgets.Host
-                                            .RecentTenants, // Recent tenants
-                                    Height = 9,
-                                    Width = 5,
-                                    PositionX = 7,
-                                    PositionY = 12
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .SubscriptionExpiringTenants, // Subscription expiring tenants
-                                    Height = 9,
-                                    Width = 7,
-                                    PositionX = 0,
-                                    PositionY = 12
-                                },
-                                new Widget
-                                {
-                                    WidgetId = SBCRMDashboardCustomizationConsts.Widgets.Host
-                                        .EditionStatistics, // Edition statistics
-                                    Height = 8,
-                                    Width = 5,
-                                    PositionX = 7,
-                                    PositionY = 4
-                                }
                             }
                         }
                     }
@@ -927,7 +714,7 @@ namespace SBCRM.Configuration
                 ConsumerKey = consumerKey,
                 ConsumerSecret = consumerSecret
             };
-            
+
             return new[]
             {
                 new SettingDefinition(

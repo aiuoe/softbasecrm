@@ -19,9 +19,9 @@ namespace SBCRM.Crm
 
         public string Description { get; set; }
 
-        public string Branch { get; set; }
+        public int? BranchId { get; set; }
 
-        public string Department { get; set; }
+        public string? DepartmentId { get; set; }
 
         public int? OpportunityStageId { get; set; }
 
@@ -30,6 +30,10 @@ namespace SBCRM.Crm
         public int? OpportunityTypeId { get; set; }
 
         public int? ContactId { get; set; }
+
+        public string DepartmentTitle { get; set; }
+
+        public string BranchName { get; set; }
 
         public string OpportunityStageDescription { get; set; }
 
