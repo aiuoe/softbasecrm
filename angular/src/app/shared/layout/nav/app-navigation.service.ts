@@ -19,7 +19,6 @@ export class AppNavigationService {
                 'flaticon-line-graph',
                 '/app/admin/hostDashboard'
             ),
-            new AppMenuItem('CustomerAttachments', 'Pages.CustomerAttachments', 'flaticon-more', '/app/main/crm/customerAttachments'),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'fas fa-chart-pie', '/app/main/dashboard', ['/app/main/dashboard']),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants', ['/app/admin/tenants']),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions', ['/app/admin/editions']),

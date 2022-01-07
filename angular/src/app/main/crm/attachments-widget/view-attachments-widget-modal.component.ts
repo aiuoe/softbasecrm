@@ -1,29 +1,28 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { GetCustomerAttachmentForViewDto, CustomerAttachmentDto } from '@shared/service-proxies/service-proxies';
+import { IAttachment } from './attachment.model';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
-    selector: 'viewCustomerAttachmentModal',
-    templateUrl: './view-customerAttachment-modal.component.html',
+    selector: 'view-attachments-widget-modal',
+    templateUrl: './view-attachments-widget-modal.component.html',
 })
-export class ViewCustomerAttachmentModalComponent extends AppComponentBase {
+export class ViewAttachmentsWidgetModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
     saving = false;
 
-    item: GetCustomerAttachmentForViewDto;
+    item: IAttachment;
 
     constructor(injector: Injector) {
         super(injector);
-        this.item = new GetCustomerAttachmentForViewDto();
-        this.item.customerAttachment = new CustomerAttachmentDto();
+        this.item = {} as IAttachment;
     }
 
-    show(item: GetCustomerAttachmentForViewDto): void {
+    show(item: IAttachment): void {
         this.item = item;
         this.active = true;
         this.modal.show();

@@ -66,7 +66,8 @@ namespace SBCRM.Web.Controllers
                 {
                     Id = input.Id,
                     Name = input.Name,
-                    FilePath = attachment.FileName
+                    FilePath = attachment.FileName,
+                    CustomerNumber = input.CustomerNumber
                 };
 
                 var filePath = Path.Combine(dir, attachment.FileName);
@@ -89,6 +90,8 @@ namespace SBCRM.Web.Controllers
         /// <returns></returns>
         public async Task<FileResult> GetAttachment(string filePath)
         {
+            var attachments = await _customerAttachmentsAppService.GetCustomerAttachmentForView(5);
+
             var dir = Path.Combine(_env.ContentRootPath, "Attachments");
             var path = Path.Combine(dir, filePath);
             if (System.IO.File.Exists(path))

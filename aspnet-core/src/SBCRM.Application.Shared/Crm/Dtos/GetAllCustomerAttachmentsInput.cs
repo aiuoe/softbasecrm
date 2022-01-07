@@ -11,5 +11,6 @@ namespace SBCRM.Crm.Dtos
 
         public string FilePathFilter { get; set; }
 
+        public string CustomerNumberFilter { get; set; }
     }
 }

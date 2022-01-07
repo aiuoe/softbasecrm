@@ -1,12 +1,13 @@
 ﻿import { TokenService } from 'abp-ng2-module';
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, Injector, Output, Input, EventEmitter, OnInit, ElementRef } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
 import { finalize } from 'rxjs/operators';
+import { IAttachment } from './attachment.model';
 import {
     CustomerAttachmentsServiceProxy,
-    CreateOrEditCustomerAttachmentDto,
+    ICustomerAttachmentDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
@@ -14,13 +15,15 @@ import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
-    selector: 'createOrEditCustomerAttachmentModal',
-    templateUrl: './create-or-edit-customerAttachment-modal.component.html',
+    selector: 'create-or-edit-attachments-widget-modal',
+    templateUrl: './create-or-edit-attachments-widget-modal.component.html',
 })
-export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @ViewChild('uploadFileInputLabel') uploadFileInputLabel: ElementRef;
 
+    @Input() componentType = '';
+    @Input() idToStore: any;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
@@ -29,7 +32,7 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
 
     private _uploaderOptions: FileUploaderOptions = {};
 
-    customerAttachment: CreateOrEditCustomerAttachmentDto = new CreateOrEditCustomerAttachmentDto();
+    attachment: IAttachment = {} as IAttachment;
 
     constructor(
         injector: Injector,
@@ -40,32 +43,58 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
         super(injector);
     }
 
-    show(customerAttachmentId?: number): void {
-        if (!customerAttachmentId) {
-            this.customerAttachment = new CreateOrEditCustomerAttachmentDto();
-            this.customerAttachment.id = 0;
+    show(attachment?: IAttachment): void {
 
+        this.attachment = {} as IAttachment;
+
+        switch (this.componentType) {
+            case 'Account':
+                if (attachment) {
+                    this._customerAttachmentsServiceProxy
+                        .getCustomerAttachmentForEdit(attachment.id)
+                        .subscribe((result) => {
+                            this.attachment = result.customerAttachment;
+
+                            this.active = true;
+                            this.initFileUploader();
+                            this.modal.show();
+                        });
+                }
+                else {
+                    (<ICustomerAttachmentDto>this.attachment).customerNumber = this.idToStore;
+                }
+                break;
+            default:
+                return;
+        }
+        if (!attachment) {
             this.active = true;
             this.initFileUploader();
             this.modal.show();
-        } else {
-            this._customerAttachmentsServiceProxy
-                .getCustomerAttachmentForEdit(customerAttachmentId)
-                .subscribe((result) => {
-                    this.customerAttachment = result.customerAttachment;
-
-                    this.active = true;
-                    this.initFileUploader();
-                    this.modal.show();
-                });
         }
+    }
+
+    isCustomer(attachment: IAttachment): attachment is ICustomerAttachmentDto {
+        return (<ICustomerAttachmentDto>attachment).customerNumber !== undefined;
     }
 
     /**
      * This method manages the upload of the excel file
      */
      initFileUploader(): void {
-        this.uploader = new FileUploader({url: AppConsts.remoteServiceBaseUrl + '/CustomerImport/UploadAttachments'});
+        
+        let url = AppConsts.remoteServiceBaseUrl;
+        switch (this.componentType) {
+            case 'Account':
+                url += '/CustomerImport/UploadAttachments';
+
+                break;
+            default:
+                this.close();
+                return;
+        }
+
+        this.uploader = new FileUploader({url});
         this._uploaderOptions.autoUpload = false;
         this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
         this._uploaderOptions.removeAfterUpload = true;
@@ -74,8 +103,15 @@ export class CreateOrEditCustomerAttachmentModalComponent extends AppComponentBa
         };
 
         this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
-            form.append('Id', this.customerAttachment.id);
-            form.append('Name', this.customerAttachment.name);
+            if(this.attachment.id !== undefined) {
+                form.append('Id', this.attachment.id);
+                console.log("no id");
+            }
+            form.append('Name', this.attachment.name);
+            if (this.isCustomer(this.attachment)) {
+                form.append('CustomerNumber', (<ICustomerAttachmentDto>this.attachment).customerNumber);
+            }
+            console.log(this.attachment);
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {

@@ -10,11 +10,11 @@
 >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #customerAttachmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active" #attachmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="customerAttachment.id">{{ l('EditCustomerAttachment') }}</span>
-                        <span *ngIf="!customerAttachment.id">{{ l('CreateNewCustomerAttachment') }}</span>
+                        <span *ngIf="attachment.id">{{ l('EditCustomerAttachment') }}</span>
+                        <span *ngIf="!attachment.id">{{ l('CreateNewCustomerAttachment') }}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -22,19 +22,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="CustomerAttachment_Name">{{ l('Name') }} *</label>
+                        <label for="Attachment_Name">{{ l('Name') }} *</label>
                         <input
                             type="text"
-                            #CustomerAttachment_Name="ngModel"
-                            id="CustomerAttachment_Name"
+                            #Attachment_Name="ngModel"
+                            id="Attachment_Name"
                             class="form-control"
-                            [(ngModel)]="customerAttachment.name"
+                            [(ngModel)]="attachment.name"
                             name="Name"
                             minlength="1"
                             maxlength="100"
                             required
                         />
-                        <validation-messages [formCtrl]="CustomerAttachment_Name"></validation-messages>
+                        <validation-messages [formCtrl]="Attachment_Name"></validation-messages>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
@@ -64,10 +64,9 @@
                     <button
                         type="submit"
                         class="btn btn-primary blue"
-                        [disabled]="!customerAttachmentForm.form.valid"
+                        [disabled]="!attachmentForm.form.valid"
                         [buttonBusy]="saving"
-                        [busyText]="l('SavingWithThreeDot')"
-                    >
+                        [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
                         <span>{{ l('Save') }}</span>
                     </button>

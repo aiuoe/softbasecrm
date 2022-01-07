@@ -15,5 +15,6 @@ namespace SBCRM.Crm.Dtos
         [StringLength(CustomerAttachmentConsts.MaxFilePathLength, MinimumLength = CustomerAttachmentConsts.MinFilePathLength)]
         public string FilePath { get; set; }
 
+        public string CustomerNumber { get; set; }
     }
 }

@@ -7,13 +7,7 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
-                    
-                    {
-                        path: 'crm/customerAttachments',
-                        loadChildren: () => import('./crm/customerAttachments/customerAttachment.module').then(m => m.CustomerAttachmentModule),
-                        data: { permission: 'Pages.CustomerAttachments' }
-                    },
-                
+                                    
                     {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),

@@ -35,9 +35,11 @@ namespace SBCRM.Crm
         {
 
             var filteredCustomerAttachments = _customerAttachmentRepository.GetAll()
+                        .Include(e => e.CustomerFk)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.FilePath.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name == input.NameFilter)
-                        .WhereIf(!string.IsNullOrWhiteSpace(input.FilePathFilter), e => e.FilePath == input.FilePathFilter);
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.FilePathFilter), e => e.FilePath == input.FilePathFilter)
+                        .WhereIf(!string.IsNullOrWhiteSpace(input.CustomerNumberFilter), e => e.CustomerNumber == input.CustomerNumberFilter);
 
             var pagedAndFilteredCustomerAttachments = filteredCustomerAttachments
                 .OrderBy(input.Sorting ?? "id asc")
@@ -49,7 +51,8 @@ namespace SBCRM.Crm
 
                                           o.Name,
                                           o.FilePath,
-                                          Id = o.Id
+                                          Id = o.Id,
+                                          o.CustomerNumber
                                       };
 
             var totalCount = await filteredCustomerAttachments.CountAsync();
@@ -67,6 +70,7 @@ namespace SBCRM.Crm
                         Name = o.Name,
                         FilePath = o.FilePath,
                         Id = o.Id,
+                        CustomerNumber = o.CustomerNumber
                     }
                 };
 
@@ -115,7 +119,6 @@ namespace SBCRM.Crm
         protected virtual async Task Create(CreateOrEditCustomerAttachmentDto input)
         {
             var customerAttachment = ObjectMapper.Map<CustomerAttachment>(input);
-            customerAttachment.CustomerNumber = "3RD003";
 
             await _customerAttachmentRepository.InsertAsync(customerAttachment);
 
