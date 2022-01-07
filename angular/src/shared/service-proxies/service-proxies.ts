@@ -7681,63 +7681,6 @@ export class CustomerServiceProxy {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
-     */
-    verifyUserHasAccessToAccount(body: GetCustomerForViewDto | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/VerifyUserHasAccessToAccount";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processVerifyUserHasAccessToAccount(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processVerifyUserHasAccessToAccount(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processVerifyUserHasAccessToAccount(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
      * @param isUserAssignedToCostumer (optional) 
      * @return Success
      */
@@ -17920,6 +17863,523 @@ export class OpportunitiesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfEntityChangeListDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllBranchesForTableDropdown(): Observable<BranchLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllBranchesForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBranchesForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBranchesForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBranchesForTableDropdown(response: HttpResponseBase): Observable<BranchLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BranchLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllDepartmentsForTableDropdown(): Observable<DepartmentLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllDepartmentsForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllDepartmentsForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllDepartmentsForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllDepartmentsForTableDropdown(response: HttpResponseBase): Observable<DepartmentLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(DepartmentLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DepartmentLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param branchNumber (optional) 
+     * @return Success
+     */
+    getAllDepartmentsForTableDropdownBranchSpecific(branchNumber: number | undefined): Observable<DepartmentLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Opportunities/GetAllDepartmentsForTableDropdownBranchSpecific?";
+        if (branchNumber === null)
+            throw new Error("The parameter 'branchNumber' cannot be null.");
+        else if (branchNumber !== undefined)
+            url_ += "branchNumber=" + encodeURIComponent("" + branchNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllDepartmentsForTableDropdownBranchSpecific(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllDepartmentsForTableDropdownBranchSpecific(<any>response_);
+                } catch (e) {
+                    return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllDepartmentsForTableDropdownBranchSpecific(response: HttpResponseBase): Observable<DepartmentLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(DepartmentLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DepartmentLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class OpportunitiesDashboardServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param fromDate (optional) 
+     * @param toDate (optional) 
+     * @param account (optional) 
+     * @param branches (optional) 
+     * @param departments (optional) 
+     * @return Success
+     */
+    get(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<GetOpportunitiesStastsOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/Get?";
+        if (fromDate === null)
+            throw new Error("The parameter 'fromDate' cannot be null.");
+        else if (fromDate !== undefined)
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
+        if (toDate === null)
+            throw new Error("The parameter 'toDate' cannot be null.");
+        else if (toDate !== undefined)
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
+        if (account === null)
+            throw new Error("The parameter 'account' cannot be null.");
+        else if (account !== undefined)
+            account && account.forEach(item => { url_ += "Account=" + encodeURIComponent("" + item) + "&"; });
+        if (branches === null)
+            throw new Error("The parameter 'branches' cannot be null.");
+        else if (branches !== undefined)
+            branches && branches.forEach(item => { url_ += "Branches=" + encodeURIComponent("" + item) + "&"; });
+        if (departments === null)
+            throw new Error("The parameter 'departments' cannot be null.");
+        else if (departments !== undefined)
+            departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunitiesStastsOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunitiesStastsOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<GetOpportunitiesStastsOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunitiesStastsOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunitiesStastsOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllBranchForTableDropdown(): Observable<BranchLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllBranchForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBranchForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBranchForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBranchForTableDropdown(response: HttpResponseBase): Observable<BranchLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BranchLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllCustomerForTableDropdown(): Observable<OpportunityCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllCustomerForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerForTableDropdown(response: HttpResponseBase): Observable<OpportunityCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityCustomerLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllDepartmentForTableDropdown(): Observable<DepartmentLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetAllDepartmentForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllDepartmentForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllDepartmentForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DepartmentLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllDepartmentForTableDropdown(response: HttpResponseBase): Observable<DepartmentLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(DepartmentLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DepartmentLookupTableDto[]>(<any>null);
+    }
+
+    /**
+     * @param fromDate (optional) 
+     * @param toDate (optional) 
+     * @param account (optional) 
+     * @param branches (optional) 
+     * @param departments (optional) 
+     * @return Success
+     */
+    getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetOpportunitiesDashboardToExcel?";
+        if (fromDate === null)
+            throw new Error("The parameter 'fromDate' cannot be null.");
+        else if (fromDate !== undefined)
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
+        if (toDate === null)
+            throw new Error("The parameter 'toDate' cannot be null.");
+        else if (toDate !== undefined)
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
+        if (account === null)
+            throw new Error("The parameter 'account' cannot be null.");
+        else if (account !== undefined)
+            account && account.forEach(item => { url_ += "Account=" + encodeURIComponent("" + item) + "&"; });
+        if (branches === null)
+            throw new Error("The parameter 'branches' cannot be null.");
+        else if (branches !== undefined)
+            branches && branches.forEach(item => { url_ += "Branches=" + encodeURIComponent("" + item) + "&"; });
+        if (departments === null)
+            throw new Error("The parameter 'departments' cannot be null.");
+        else if (departments !== undefined)
+            departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunitiesDashboardToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunitiesDashboardToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunitiesDashboardToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
     }
 }
 
@@ -29902,6 +30362,46 @@ export interface IBlockUserInput {
     tenantId: number | undefined;
 }
 
+export class BranchLookupTableDto implements IBranchLookupTableDto {
+    number!: number;
+    name!: string | undefined;
+
+    constructor(data?: IBranchLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): BranchLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IBranchLookupTableDto {
+    number: number;
+    name: string | undefined;
+}
+
 export class CacheDto implements ICacheDto {
     name!: string | undefined;
 
@@ -31700,8 +32200,8 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
     probability!: number | undefined;
     closeDate!: DateTime | undefined;
     description!: string | undefined;
-    branch!: string | undefined;
-    department!: string | undefined;
+    branch!: number | undefined;
+    dept!: number | undefined;
     opportunityStageId!: number;
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
@@ -31726,7 +32226,7 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
             this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
             this.description = _data["description"];
             this.branch = _data["branch"];
-            this.department = _data["department"];
+            this.dept = _data["dept"];
             this.opportunityStageId = _data["opportunityStageId"];
             this.leadSourceId = _data["leadSourceId"];
             this.opportunityTypeId = _data["opportunityTypeId"];
@@ -31751,7 +32251,7 @@ export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
         data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
         data["description"] = this.description;
         data["branch"] = this.branch;
-        data["department"] = this.department;
+        data["dept"] = this.dept;
         data["opportunityStageId"] = this.opportunityStageId;
         data["leadSourceId"] = this.leadSourceId;
         data["opportunityTypeId"] = this.opportunityTypeId;
@@ -31768,8 +32268,8 @@ export interface ICreateOrEditOpportunityDto {
     probability: number | undefined;
     closeDate: DateTime | undefined;
     description: string | undefined;
-    branch: string | undefined;
-    department: string | undefined;
+    branch: number | undefined;
+    dept: number | undefined;
     opportunityStageId: number;
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
@@ -32854,6 +33354,7 @@ export interface ICustomerOpportunityViewDto {
 }
 
 export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
+    canEditOverviewTab!: boolean;
     canViewOpportunitiesTab!: boolean;
     canCreateOpportunities!: boolean;
     canViewOpportunities!: boolean;
@@ -32874,6 +33375,7 @@ export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
 
     init(_data?: any) {
         if (_data) {
+            this.canEditOverviewTab = _data["canEditOverviewTab"];
             this.canViewOpportunitiesTab = _data["canViewOpportunitiesTab"];
             this.canCreateOpportunities = _data["canCreateOpportunities"];
             this.canViewOpportunities = _data["canViewOpportunities"];
@@ -32894,6 +33396,7 @@ export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["canEditOverviewTab"] = this.canEditOverviewTab;
         data["canViewOpportunitiesTab"] = this.canViewOpportunitiesTab;
         data["canCreateOpportunities"] = this.canCreateOpportunities;
         data["canViewOpportunities"] = this.canViewOpportunities;
@@ -32907,6 +33410,7 @@ export class CustomerVisibilityTabsDto implements ICustomerVisibilityTabsDto {
 }
 
 export interface ICustomerVisibilityTabsDto {
+    canEditOverviewTab: boolean;
     canViewOpportunitiesTab: boolean;
     canCreateOpportunities: boolean;
     canViewOpportunities: boolean;
@@ -33167,6 +33671,50 @@ export class DelegatedImpersonateInput implements IDelegatedImpersonateInput {
 
 export interface IDelegatedImpersonateInput {
     userDelegationId: number;
+}
+
+export class DepartmentLookupTableDto implements IDepartmentLookupTableDto {
+    dept!: number;
+    branch!: number;
+    title!: string | undefined;
+
+    constructor(data?: IDepartmentLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dept = _data["dept"];
+            this.branch = _data["branch"];
+            this.title = _data["title"];
+        }
+    }
+
+    static fromJS(data: any): DepartmentLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DepartmentLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dept"] = this.dept;
+        data["branch"] = this.branch;
+        data["title"] = this.title;
+        return data; 
+    }
+}
+
+export interface IDepartmentLookupTableDto {
+    dept: number;
+    branch: number;
+    title: string | undefined;
 }
 
 export class DynamicEntityPropertyDto implements IDynamicEntityPropertyDto {
@@ -37895,6 +38443,54 @@ export interface IGetNotificationsOutput {
     items: UserNotification[] | undefined;
 }
 
+export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutput {
+    averageSales!: number;
+    closeRate!: number;
+    averageDealSize!: number;
+    totalClosedSales!: number;
+
+    constructor(data?: IGetOpportunitiesStastsOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.averageSales = _data["averageSales"];
+            this.closeRate = _data["closeRate"];
+            this.averageDealSize = _data["averageDealSize"];
+            this.totalClosedSales = _data["totalClosedSales"];
+        }
+    }
+
+    static fromJS(data: any): GetOpportunitiesStastsOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunitiesStastsOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["averageSales"] = this.averageSales;
+        data["closeRate"] = this.closeRate;
+        data["averageDealSize"] = this.averageDealSize;
+        data["totalClosedSales"] = this.totalClosedSales;
+        return data; 
+    }
+}
+
+export interface IGetOpportunitiesStastsOutput {
+    averageSales: number;
+    closeRate: number;
+    averageDealSize: number;
+    totalClosedSales: number;
+}
+
 export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput {
     opportunity!: CreateOrEditOpportunityDto;
     opportunityStageDescription!: string | undefined;
@@ -37903,6 +38499,8 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
     customerName!: string | undefined;
     customerNumber!: string | undefined;
     contactName!: string | undefined;
+    branchName!: string | undefined;
+    departmentTitle!: string | undefined;
 
     constructor(data?: IGetOpportunityForEditOutput) {
         if (data) {
@@ -37922,6 +38520,8 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
             this.customerName = _data["customerName"];
             this.customerNumber = _data["customerNumber"];
             this.contactName = _data["contactName"];
+            this.branchName = _data["branchName"];
+            this.departmentTitle = _data["departmentTitle"];
         }
     }
 
@@ -37941,7 +38541,9 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
         data["customerName"] = this.customerName;
         data["customerNumber"] = this.customerNumber;
         data["contactName"] = this.contactName;
-        return data;
+        data["branchName"] = this.branchName;
+        data["departmentTitle"] = this.departmentTitle;
+        return data; 
     }
 }
 
@@ -37953,6 +38555,8 @@ export interface IGetOpportunityForEditOutput {
     customerName: string | undefined;
     customerNumber: string | undefined;
     contactName: string | undefined;
+    branchName: string | undefined;
+    departmentTitle: string | undefined;
 }
 
 export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
@@ -37970,6 +38574,8 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     firstUserAssignedFullName!: string | undefined;
     firstUserProfilePictureUrl!: string | undefined;
     assignedUsers!: number;
+    branchName!: string | undefined;
+    departmentTitle!: string | undefined;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -37996,6 +38602,8 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
             this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
             this.assignedUsers = _data["assignedUsers"];
+            this.branchName = _data["branchName"];
+            this.departmentTitle = _data["departmentTitle"];
         }
     }
 
@@ -38022,7 +38630,9 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
         data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
         data["assignedUsers"] = this.assignedUsers;
-        return data;
+        data["branchName"] = this.branchName;
+        data["departmentTitle"] = this.departmentTitle;
+        return data; 
     }
 }
 
@@ -38041,6 +38651,8 @@ export interface IGetOpportunityForViewDto {
     firstUserAssignedFullName: string | undefined;
     firstUserProfilePictureUrl: string | undefined;
     assignedUsers: number;
+    branchName: string | undefined;
+    departmentTitle: string | undefined;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
@@ -40677,6 +41289,7 @@ export interface ILeadStatusDto {
 export class LeadUserDto implements ILeadUserDto {
     leadId!: number | undefined;
     userId!: number | undefined;
+    userFk!: UserAssignedDto;
     id!: number;
 
     constructor(data?: ILeadUserDto) {
@@ -40692,6 +41305,7 @@ export class LeadUserDto implements ILeadUserDto {
         if (_data) {
             this.leadId = _data["leadId"];
             this.userId = _data["userId"];
+            this.userFk = _data["userFk"] ? UserAssignedDto.fromJS(_data["userFk"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -40707,6 +41321,7 @@ export class LeadUserDto implements ILeadUserDto {
         data = typeof data === 'object' ? data : {};
         data["leadId"] = this.leadId;
         data["userId"] = this.userId;
+        data["userFk"] = this.userFk ? this.userFk.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data;
     }
@@ -40715,6 +41330,7 @@ export class LeadUserDto implements ILeadUserDto {
 export interface ILeadUserDto {
     leadId: number | undefined;
     userId: number | undefined;
+    userFk: UserAssignedDto;
     id: number;
 }
 
@@ -42396,8 +43012,8 @@ export class OpportunityDto implements IOpportunityDto {
     probability!: number | undefined;
     closeDate!: DateTime | undefined;
     description!: string | undefined;
-    branch!: string | undefined;
-    department!: string | undefined;
+    branchId!: number | undefined;
+    departmentId!: number | undefined;
     opportunityStageId!: number | undefined;
     leadSourceId!: number | undefined;
     opportunityTypeId!: number | undefined;
@@ -42422,8 +43038,8 @@ export class OpportunityDto implements IOpportunityDto {
             this.probability = _data["probability"];
             this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
             this.description = _data["description"];
-            this.branch = _data["branch"];
-            this.department = _data["department"];
+            this.branchId = _data["branchId"];
+            this.departmentId = _data["departmentId"];
             this.opportunityStageId = _data["opportunityStageId"];
             this.leadSourceId = _data["leadSourceId"];
             this.opportunityTypeId = _data["opportunityTypeId"];
@@ -42452,8 +43068,8 @@ export class OpportunityDto implements IOpportunityDto {
         data["probability"] = this.probability;
         data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
         data["description"] = this.description;
-        data["branch"] = this.branch;
-        data["department"] = this.department;
+        data["branchId"] = this.branchId;
+        data["departmentId"] = this.departmentId;
         data["opportunityStageId"] = this.opportunityStageId;
         data["leadSourceId"] = this.leadSourceId;
         data["opportunityTypeId"] = this.opportunityTypeId;
@@ -42475,8 +43091,8 @@ export interface IOpportunityDto {
     probability: number | undefined;
     closeDate: DateTime | undefined;
     description: string | undefined;
-    branch: string | undefined;
-    department: string | undefined;
+    branchId: number | undefined;
+    departmentId: number | undefined;
     opportunityStageId: number | undefined;
     leadSourceId: number | undefined;
     opportunityTypeId: number | undefined;
@@ -49017,6 +49633,54 @@ export interface IUpdateUserSignInTokenOutput {
     signInToken: string | undefined;
     encodedUserId: string | undefined;
     encodedTenantId: string | undefined;
+}
+
+export class UserAssignedDto implements IUserAssignedDto {
+    name!: string | undefined;
+    surname!: string | undefined;
+    fullName!: string | undefined;
+    profilePictureId!: string | undefined;
+
+    constructor(data?: IUserAssignedDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.surname = _data["surname"];
+            this.fullName = _data["fullName"];
+            this.profilePictureId = _data["profilePictureId"];
+        }
+    }
+
+    static fromJS(data: any): UserAssignedDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserAssignedDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["fullName"] = this.fullName;
+        data["profilePictureId"] = this.profilePictureId;
+        return data; 
+    }
+}
+
+export interface IUserAssignedDto {
+    name: string | undefined;
+    surname: string | undefined;
+    fullName: string | undefined;
+    profilePictureId: string | undefined;
 }
 
 export class UserDelegationDto implements IUserDelegationDto {

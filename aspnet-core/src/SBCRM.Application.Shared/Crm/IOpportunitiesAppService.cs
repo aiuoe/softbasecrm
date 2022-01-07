@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
-using Abp.Application.Services;
+﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using SBCRM.Auditing.Dto;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
+using SBCRM.Legacy.Dtos;
 using System.Collections.Generic;
-using SBCRM.Auditing.Dto;
+using System.Threading.Tasks;
 
 namespace SBCRM.Crm
 {
@@ -14,7 +15,7 @@ namespace SBCRM.Crm
     public interface IOpportunitiesAppService : IApplicationService
     {
         /// <summary>
-        /// Get all opportunities 
+        /// Get all opportunities
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -97,5 +98,23 @@ namespace SBCRM.Crm
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<EntityChangeListDto>> GetEntityTypeChanges(GetCrmEntityTypeChangeInput input);
+
+        /// <summary>
+        /// Get Branches lookup
+        /// </summary>
+        /// <returns></returns>
+        Task<List<BranchLookupTableDto>> GetAllBranchesForTableDropdown();
+
+        /// <summary>
+        /// Get Departments lookup
+        /// </summary>
+        /// <returns></returns>
+        Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdown();
+
+        /// <summary>
+        /// Get Departments lookup for an specific branch
+        /// </summary>
+        /// <returns></returns>
+        Task<List<DepartmentLookupTableDto>> GetAllDepartmentsForTableDropdownBranchSpecific(short branchNumber);
     }
 }

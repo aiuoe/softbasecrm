@@ -2514,9 +2514,8 @@ namespace SBCRM.Migrations
                     b.Property<decimal?>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Branch")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<short>("Branch")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("CloseDate")
                         .HasColumnType("datetime2");
@@ -2541,9 +2540,11 @@ namespace SBCRM.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Department")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<short?>("DepartmentId")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("Dept")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -2589,6 +2590,8 @@ namespace SBCRM.Migrations
                     b.HasIndex("OpportunityStageId");
 
                     b.HasIndex("OpportunityTypeId");
+
+                    b.HasIndex("Dept", "Branch");
 
                     b.ToTable("Opportunities");
                 });
@@ -2876,6 +2879,165 @@ namespace SBCRM.Migrations
                     b.ToTable("ARTerms", "dbo");
                 });
 
+            modelBuilder.Entity("SBCRM.Legacy.Branch", b =>
+                {
+                    b.Property<short>("Number")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CityTaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CityTaxLabel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClarkDealerAccessCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClarkPartsCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountyTaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountyTaxLabel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreditCardAccountNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateChanged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DefaultWarehouse")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FinanceCharge")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("FinanceDays")
+                        .HasColumnType("smallint");
+
+                    b.Property<float?>("FinanceRate")
+                        .HasColumnType("real");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("LocalTaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocalTaxLabel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrintFinalBCC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrintFinalCC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Receivable")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RentalDeliveryDefaultTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ShopID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("ShowSplitSalesTax")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("SmallSubName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateTaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateTaxLabel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StoreName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TVHAccountNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TVHCountry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TVHKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TVHWarehouse")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("UseAbsoluteTaxCodes")
+                        .HasColumnType("bit");
+
+                    b.Property<short?>("UseCityTaxCodeDescription")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("UseCountyTaxCodeDescription")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("UseImage")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("UseLocalTaxCodeDescription")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("UseStateTaxCodeDescription")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("VendorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Number");
+
+                    b.ToTable("Branch", "dbo");
+                });
+
             modelBuilder.Entity("SBCRM.Legacy.Contact", b =>
                 {
                     b.Property<int>("ContactId")
@@ -3082,6 +3244,193 @@ namespace SBCRM.Migrations
                     b.HasIndex("LeadSourceId");
 
                     b.ToTable("Customer", "dbo");
+                });
+
+            modelBuilder.Entity("SBCRM.Legacy.Department", b =>
+                {
+                    b.Property<short>("Branch")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("Dept")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("AddedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdditionalLaborAccountNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("AdditionalLaborHours")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("AdditionalLaborMech")
+                        .HasColumnType("int");
+
+                    b.Property<short?>("BOPriority")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("CashAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreditCardAccountNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateChanged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("DaysIn4Week")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("DaysInMonth")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("DaysInQuarter")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("DaysInWeek")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("DeptGroup")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("EmergencyCostPriority")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("EquipmentAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float?>("HoursInDay")
+                        .HasColumnType("real");
+
+                    b.Property<short?>("InitialComments")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("InternalCustomer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InternalTopText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvoiceComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvoiceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvoiceNameFrench")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvoiceType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LaborAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("MechGroup")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MiscDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("MiscLaborOnly")
+                        .HasColumnType("smallint");
+
+                    b.Property<decimal?>("MiscLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<short?>("MiscPartsOnly")
+                        .HasColumnType("smallint");
+
+                    b.Property<float?>("MiscPercent")
+                        .HasColumnType("real");
+
+                    b.Property<string>("MiscSaleAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileDisclaimer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MobileSignatureDisclaimer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NextInvoice")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NextPONo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NextQuote")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NextRentalContract")
+                        .HasColumnType("int");
+
+                    b.Property<short?>("NoCC")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("NoCreditOnQuote")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("OpenWOWatermark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("PartsPricing")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("PartsRecvEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuoteComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("QuoteExpirationDays")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("QuoteVerbiage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuoteVerbiageFrench")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RentalReturnStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("SaleGroup")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("StockPriority")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("SuppressLaborHours")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("SuppressPartsPricing")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("TaxAtDealer")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TermsOverRide")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Branch", "Dept");
+
+                    b.ToTable("Dept", "dbo");
                 });
 
             modelBuilder.Entity("SBCRM.Legacy.EQCustomFields", b =>
@@ -4783,9 +5132,17 @@ namespace SBCRM.Migrations
                         .WithMany()
                         .HasForeignKey("OpportunityTypeId");
 
+                    b.HasOne("SBCRM.Legacy.Department", "DepartmentFk")
+                        .WithMany()
+                        .HasForeignKey("Dept", "Branch")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ContactFk");
 
                     b.Navigation("CustomerFk");
+
+                    b.Navigation("DepartmentFk");
 
                     b.Navigation("LeadSourceFk");
 

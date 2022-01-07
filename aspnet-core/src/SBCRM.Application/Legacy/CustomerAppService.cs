@@ -133,6 +133,12 @@ namespace SBCRM.Legacy
                 .Where(x => x.CustomerNumber == customerNumber)
                 .Any(x => x.UserId == currentUser.Id);
 
+            // Analyze dynamic permission for Visibility of Overview Tab
+            var hasEditOverviewDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic);
+            var hasEditOverviewStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_Edit);
+            var canEditOverviewAssignedUsersDynamic = hasEditOverviewDynamicPermission && currentUserIsAssignedInCustomer;
+            visibilityTabs.CanEditOverviewTab = canEditOverviewAssignedUsersDynamic || hasEditOverviewStaticPermission;
+
             // Analyze dynamic permission for Visibility of Events Tab
             var hasViewEventsDynamicPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_View_Events__Dynamic);
             var hasViewEventsStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Customer_View_Events);
@@ -362,25 +368,22 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_Customer_Edit,
+                AppPermissions.Pages_Customer_Edit__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         public async Task<GetCustomerForEditOutput> GetCustomerForEdit(GetCustomerForEditInput input)
         {
             long currentUserId = GetCurrentUser().Id;
 
-            if (!UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit))
+            if (!UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit)
+                && UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit__Dynamic))
             {
-                Customer customer = null;
-
-                if (UserManager.IsGranted(currentUserId, AppPermissions.Pages_Customer_Edit__Dynamic))
-                {
-                    customer = await _accountUserRepository.GetAll()
-                    .Include(x => x.UserFk)
-                    .Include(x => x.CustomerFk)
-                    .Where(x => x.UserId == GetCurrentUser().Id && x.CustomerNumber == input.CustomerNumber)
-                    .Select(x => x.CustomerFk)
-                    .FirstOrDefaultAsync();
-                }
-
+                var customer = await GetCustomerAndUser(input.CustomerNumber, currentUserId);
                 GuardHelper.ThrowIf(customer == null, new EntityNotFoundException(L("AccountNotExist")));
             }
 
@@ -462,13 +465,26 @@ namespace SBCRM.Legacy
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_Customer_Edit)]
+        [AbpAuthorize(
+            permissions: new[]
+            {
+                AppPermissions.Pages_Customer_Edit,
+                AppPermissions.Pages_Customer_Edit__Dynamic
+            },
+            RequireAllPermissions = false
+        )]
         protected virtual async Task Update(CreateOrEditCustomerDto input)
         {
-            Customer customer = await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
-            GuardHelper.ThrowIf(customer is null, new UserFriendlyException(L("CustomerNotFound")));
-
+            Customer customer;
             User currentUser = await GetCurrentUserAsync();
+
+            // If the user only has the dynamic edit permission, then it needs to be assigned to the account.
+            customer = !UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit)
+                       && UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic)
+                ? await GetCustomerAndUser(input.Number, currentUser.Id)
+                : await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
+
+            GuardHelper.ThrowIf(customer is null, new UserFriendlyException(L("AccountNotExist")));
 
             using (_reasonProvider.Use("Account updated"))
             {
@@ -479,6 +495,17 @@ namespace SBCRM.Legacy
                 ObjectMapper.Map(input, customer);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
+        }
+
+        private async Task<Customer> GetCustomerAndUser(string customerNumber, long userId)
+        {
+            var customer = await _accountUserRepository.GetAll()
+                .Include(x => x.UserFk)
+                .Include(x => x.CustomerFk)
+                .Where(x => x.UserId == userId && x.CustomerNumber == customerNumber)
+                .Select(x => x.CustomerFk)
+                .FirstOrDefaultAsync();
+            return customer;
         }
 
         /// <summary>
@@ -638,8 +665,8 @@ namespace SBCRM.Legacy
                 pagedAndFilteredOpportunities = opportunities
                     .OrderByDescending(o => o.CloseDate)
                     .ThenBy(o => o.Name)
-                    .ThenBy(o => o.Branch)
-                    .ThenBy(o => o.Department)
+                    //.ThenBy(o => o.BranchFk.Name)
+                    //.ThenBy(o => o.DepartmentFk.Title)
                     .PageBy(input);
 
             int totalCount = await opportunities.CountAsync();
