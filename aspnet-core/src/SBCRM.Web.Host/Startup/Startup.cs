@@ -74,7 +74,7 @@ namespace SBCRM.Web.Startup
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
             }).AddNewtonsoftJson();
 
-
+            services.AddSingleton<IConfiguration>(_appConfiguration);
             services.AddSignalR();
 
             //Configure CORS for angular2 UI

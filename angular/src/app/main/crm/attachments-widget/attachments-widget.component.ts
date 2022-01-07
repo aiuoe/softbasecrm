@@ -196,12 +196,17 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
             })
             .then((response) => response.blob())
             .then((blob) => {
+
                 const a = document.createElement("a");
+                let url = window.URL.createObjectURL(blob);
+
                 a.download = attachment.filePath;
-                a.href = window.URL.createObjectURL(blob);
+                a.href = url;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
+
+                setTimeout(() => window.URL.revokeObjectURL(url), 100);
             })
             .catch((error) => {
                 this.notify.error(this.l('DownloadErrorMessage'));

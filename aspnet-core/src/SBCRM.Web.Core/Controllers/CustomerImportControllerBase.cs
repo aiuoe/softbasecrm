@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using MimeKit;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace SBCRM.Web.Controllers
 {
@@ -20,6 +21,7 @@ namespace SBCRM.Web.Controllers
     {
         private ICustomerAttachmentsAppService _customerAttachmentsAppService;
         private readonly IHostEnvironment _env;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Base constructor
@@ -28,9 +30,11 @@ namespace SBCRM.Web.Controllers
         /// <param name="env"></param>
         public CustomerImportControllerBase(
             ICustomerAttachmentsAppService customerAttachmentAppService,
-            IHostEnvironment env)
+            IHostEnvironment env,
+            IConfiguration configuration)
         {
             _customerAttachmentsAppService = customerAttachmentAppService;
+            _configuration = configuration;
             _env = env;
         }
 
@@ -56,7 +60,8 @@ namespace SBCRM.Web.Controllers
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
 
-                var dir = Path.Combine(_env.ContentRootPath, "Attachments");
+                var path = _configuration["Configuration:AttachmentsFolder"];
+                var dir = Path.Combine(path, "Accounts");
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
@@ -71,7 +76,8 @@ namespace SBCRM.Web.Controllers
                 };
 
                 var filePath = Path.Combine(dir, attachment.FileName);
-                await attachment.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                using var stream = new FileStream(filePath, FileMode.Create);
+                await attachment.CopyToAsync(stream);
                 await _customerAttachmentsAppService.CreateOrEdit(dto);
 
                 return dto.Id;
@@ -90,14 +96,12 @@ namespace SBCRM.Web.Controllers
         /// <returns></returns>
         public async Task<FileResult> GetAttachment(string filePath)
         {
-            var attachments = await _customerAttachmentsAppService.GetCustomerAttachmentForView(5);
-
-            var dir = Path.Combine(_env.ContentRootPath, "Attachments");
+            var dir = Path.Combine(_configuration["Configuration:AttachmentsFolder"], "Accounts");
             var path = Path.Combine(dir, filePath);
             if (System.IO.File.Exists(path))
             {
                 var memory = new MemoryStream();
-                using var stream = new FileStream(filePath, FileMode.Open);
+                using var stream = new FileStream(path, FileMode.Open);
                 await stream.CopyToAsync(memory);
                 memory.Position = 0;
                 return File(memory, MimeTypes.GetMimeType(filePath), filePath);
