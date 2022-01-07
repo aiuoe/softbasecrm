@@ -17,6 +17,7 @@ import { CheckboxModule } from '@node_modules/primeng/checkbox';
 import { AssignedUserModule } from '@app/main/crm/assigned-user/assigned-user.module';
 import { CustomerContactsModule } from '@app/main/legacy/customerContacts/customer-contacts.module';
 import { ActivitiesWidgetModule } from '@app/main/crm/activities-widget/activities-widget.module';
+import { AttachmentsWidgetModule } from '@app/main/crm/attachments-widget/attachments-widget.module'
 
 @NgModule({
     providers: [
@@ -38,8 +39,9 @@ import { ActivitiesWidgetModule } from '@app/main/crm/activities-widget/activiti
         MultiSelectModule,
         CheckboxModule,
         AssignedUserModule,
+        AttachmentsWidgetModule,                
         CustomerContactsModule,
-        ActivitiesWidgetModule,                
+        ActivitiesWidgetModule,
     ]
 })
 
