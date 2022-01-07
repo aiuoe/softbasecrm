@@ -170,7 +170,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         uploader.onSuccessItem = (item, response, status) => {
             const ajaxResponse = <IAjaxResponse>JSON.parse(response);
             if (ajaxResponse.success) {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 if (success) {
                     success(ajaxResponse.result);
                 }
@@ -198,7 +198,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         this._tenantSettingsService.clearLogo().subscribe(() => {
             this.appSession.tenant.logoFileType = null;
             this.appSession.tenant.logoId = null;
-            this.notify.info(this.l('ClearedSuccessfully'));
+            this.notifyService.info(this.l('ClearedSuccessfully'));
         });
     }
 
@@ -211,7 +211,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
                 oldTenantCustomCss.remove();
             }
 
-            this.notify.info(this.l('ClearedSuccessfully'));
+            this.notifyService.info(this.l('ClearedSuccessfully'));
         });
     }
 
@@ -246,7 +246,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
 
         this.mapClaims();
         this._tenantSettingsService.updateAllSettings(this.settings).subscribe(() => {
-            this.notify.info(this.l('SavedSuccessfully'));
+            this.notifyService.info(this.l('SavedSuccessfully'));
 
             if (
                 abp.clock.provider.supportsMultipleTimezone &&
@@ -269,13 +269,13 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
             this.message.confirm(this.l('SendEmailWithSavedSettingsWarning'), this.l('AreYouSure'), (isConfirmed) => {
                 if (isConfirmed) {
                     this._tenantSettingsService.sendTestEmail(input).subscribe((result) => {
-                        this.notify.info(this.l('TestEmailSentSuccessfully'));
+                        this.notifyService.info(this.l('TestEmailSentSuccessfully'));
                     });
                 }
             });
         } else {
             this._tenantSettingsService.sendTestEmail(input).subscribe((result) => {
-                this.notify.info(this.l('TestEmailSentSuccessfully'));
+                this.notifyService.info(this.l('TestEmailSentSuccessfully'));
             });
         }
     }

@@ -33,9 +33,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -173,9 +173,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -313,9 +313,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
@@ -412,9 +412,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group input-field required">
+                                <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" required [disabled] = "isView">
+                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
                                         <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>

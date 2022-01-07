@@ -50,7 +50,7 @@ export class UserDelegationsModalComponent extends AppComponentBase {
                 if (isConfirmed) {
                     this._userDelegationService.removeDelegation(userDelegation.id).subscribe(() => {
                         this.reloadPage();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
+                        this.notifyService.success(this.l('SuccessfullyDeleted'));
                     });
                 }
             }

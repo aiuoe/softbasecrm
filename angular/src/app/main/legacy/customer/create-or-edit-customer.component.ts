@@ -100,6 +100,16 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
     // Widgets
     showAssignedUsersWidget = false;
+    showActivityWidget = false;
+
+    // Activity Widget Permissions
+    canCreateActivity = false;
+    canViewScheduleMeetingOption = false;
+    canViewScheduleCallOption = false;
+    canViewEmailReminderOption = false;
+    canViewToDoReminderOption = false;
+    canEditActivity = false;
+    canAssignAnyUserInActivity = false;
 
     /***
      * Main constructor
@@ -232,6 +242,15 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.allLeadSources = leadSources;
                     this.countries = countries;
 
+                    this.showActivityWidget = customerForEdit.canViewActivityWidget;
+                    this.canCreateActivity = customerForEdit.canCreateActivity;
+                    this.canViewScheduleMeetingOption = customerForEdit.canViewScheduleMeetingOption;
+                    this.canViewScheduleCallOption = customerForEdit.canViewScheduleCallOption;
+                    this.canViewEmailReminderOption = customerForEdit.canViewEmailReminderOption;
+                    this.canViewToDoReminderOption = customerForEdit.canViewToDoReminderOption;
+                    this.canEditActivity = customerForEdit.canEditActivity;
+                    this.canAssignAnyUserInActivity = customerForEdit.canAssignAnyUserInActivity;
+
                     this.showSaveButton = !this.isReadOnlyMode;
                     this.breadcrumbs.push(new BreadcrumbItem(this.isNew ? this.l('CreateNewCustomer') : this.customer?.name));
                 }, (_) => {
@@ -271,7 +290,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             )
             .subscribe((_) => {
                 this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.goToAccounts();
             });
     }

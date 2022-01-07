@@ -138,7 +138,7 @@ export class CustomerContactsComponent extends AppComponentBase implements OnIni
                     this._contactServiceProxy.delete(contact.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                             this.onSaveContact.emit();
                         });
                 }
