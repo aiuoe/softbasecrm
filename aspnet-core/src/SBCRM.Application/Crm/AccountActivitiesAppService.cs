@@ -29,6 +29,7 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IActivitiesService _activitiesService;
+        private readonly CustomerAppService _customerAppService;
 
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="activitiesService"></param>
+        /// <param name="customerAppService"></param>
         public AccountActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
@@ -54,7 +56,8 @@ namespace SBCRM.Crm
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
             IRepository<Customer, int> lookupCustomerRepository,
-            IActivitiesService activitiesService)
+            IActivitiesService activitiesService,
+            ICustomerAppService customerAppService)
         {
             _activityRepository = activityRepository;
             _lookupOpportunityRepository = lookupOpportunityRepository;
@@ -66,6 +69,7 @@ namespace SBCRM.Crm
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
             _activitiesService = activitiesService;
+            _customerAppService = (CustomerAppService) customerAppService;
         }
 
         /// <summary>
@@ -75,6 +79,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesForWidget input)
         {
+            var currentUserId = GetCurrentUser().Id;
+            var canViewAllActivities = _customerAppService.CanViewAllActivitiesOfAllUsers();
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.CustomerFk)
@@ -84,6 +90,7 @@ namespace SBCRM.Crm
                 .Include(e => e.ActivityStatusFk)
                 .Include(e => e.ActivityPriorityFk)
                 .Where(e => e.CustomerFk != null && e.CustomerFk.Number == input.IdToFilter)
+                .WhereIf(!canViewAllActivities, e => e.UserId == currentUserId)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
@@ -188,7 +195,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-           await _activitiesService.CreateOrEdit(input);
+            var canAssignOthers = _customerAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            await _activitiesService.CreateOrEdit(input, canAssignOthers);
         }
 
         /// <summary>
@@ -207,7 +215,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            return await _activitiesService.GetAllUserForTableDropdown();
+            var canAssignOthers = _customerAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            return await _activitiesService.GetAllUserForTableDropdown(!canAssignOthers);
         }
 
         /// <summary>
@@ -254,7 +263,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
-            return await _activitiesService.GetActivityForEdit(input);
+            var canViewOthers = _customerAppService.CanViewAllActivitiesOfAllUsers();
+            return await _activitiesService.GetActivityForEdit(input, canViewOthers);
         }
 
     }
