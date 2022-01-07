@@ -30,6 +30,9 @@
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
     <text name="ViewActivities">View Activities</text>
+    <text name="ActivityNotExist">This Activity does not exist or is unavailable</text>
+    <text name="ActivityAssignOthersNotAllowed">You do not have permission to assign other users</text>
+    <text name="ActivityViewNotAllowed">You do not have permission to view this activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
 		<text name="Notes">Notes</text>

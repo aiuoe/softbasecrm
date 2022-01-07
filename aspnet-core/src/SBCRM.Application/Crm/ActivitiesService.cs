@@ -12,6 +12,8 @@ using Abp.Linq.Extensions;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using SBCRM.Legacy;
+using SBCRM.Common;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -19,7 +21,7 @@ namespace SBCRM.Crm
     /// App service for handling CRUD operations of Activities
     /// </summary>
     [RemoteService(false)]
-    public class ActivitiesService: SBCRMAppServiceBase, IActivitiesService
+    public class ActivitiesService : SBCRMAppServiceBase, IActivitiesService
     {
         private readonly IRepository<Activity, long> _activityRepository;
         private readonly IRepository<User, long> _lookupUserRepository;
@@ -70,16 +72,17 @@ namespace SBCRM.Crm
         /// Updates an activity if the id of the input has a value, otherwise creates it.
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="canAssignOthers">If false, it will only allow to create or edit activities assigned to current user.</param>
         /// <returns></returns>
-        public async Task CreateOrEdit(CreateOrEditActivityDto input)
+        public async Task CreateOrEdit(CreateOrEditActivityDto input, bool canAssignOthers)
         {
             if (input.Id == null)
             {
-                await Create(input);
+                await Create(input, canAssignOthers);
             }
             else
             {
-                await Update(input);
+                await Update(input, canAssignOthers);
             }
         }
 
@@ -87,10 +90,14 @@ namespace SBCRM.Crm
         /// Creates a new activity
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="canAssignOthers">Whether the current user can assign others.</param>
         /// <returns></returns>
-        protected virtual async Task Create(CreateOrEditActivityDto input)
+        protected virtual async Task Create(CreateOrEditActivityDto input, bool canAssignOthers)
         {
             var activity = ObjectMapper.Map<Activity>(input);
+
+            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != GetCurrentUser().Id, new EntityNotFoundException(L("ActivityAssignOthersNotAllowed")));
+
             activity.StartsAt = activity.StartsAt.ToUniversalTime();
             activity.DueDate = activity.DueDate.ToUniversalTime();
 
@@ -103,10 +110,15 @@ namespace SBCRM.Crm
         /// Updates an existing activity
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="canAssignOthers">Whether the current user can assign others.</param>
         /// <returns></returns>
-        protected virtual async Task Update(CreateOrEditActivityDto input)
+        protected virtual async Task Update(CreateOrEditActivityDto input, bool canAssignOthers)
         {
             var activity = await _activityRepository.FirstOrDefaultAsync((long)input.Id);
+
+            GuardHelper.ThrowIf(activity is null, new EntityNotFoundException(L("ActivityNotExist")));
+            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != activity.UserId, new EntityNotFoundException(L("ActivityAssignOthersNotAllowed")));
+
             input.StartsAt = input.StartsAt.ToUniversalTime();
             input.DueDate = input.DueDate.ToUniversalTime();
             ObjectMapper.Map(input, activity);
@@ -126,14 +138,14 @@ namespace SBCRM.Crm
         /// <summary>
         /// Get all users for table dropdown
         /// </summary>
+        /// <param name="viewRestricted">If true, it will only include the current user in the list.</param>
         /// <returns></returns>
-        public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
+        public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown(bool viewRestricted)
         {
             var currentUser = await GetCurrentUserAsync();
-            var canAssignOthers = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic);
 
             return await _lookupUserRepository.GetAll()
-                .WhereIf(!canAssignOthers, x => x.Id == currentUser.Id)
+                .WhereIf(viewRestricted, x => x.Id == currentUser.Id)
                 .Select(user => new ActivityUserLookupTableDto
                 {
                     Id = user.Id,
@@ -212,13 +224,14 @@ namespace SBCRM.Crm
         /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
         /// </summary>
         /// <param name="input">Input from http header query which includes the id of the activity</param>
+        /// <param name="canViewOthers">Whether the user can view other activities of other users</param>
         /// <returns></returns>
-        public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
+        public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input, bool canViewOthers)
         {
             var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
 
-            if (activity is null)
-                return null;
+            GuardHelper.ThrowIf(activity is null, new EntityNotFoundException(L("ActivityNotExist")));
+            GuardHelper.ThrowIf(!canViewOthers && activity.UserId != GetCurrentUser().Id, new EntityNotFoundException(L("ActivityViewNotAllowed")));
 
             var output = new GetActivityForEditOutput { Activity = ObjectMapper.Map<CreateOrEditActivityDto>(activity) };
 
@@ -234,8 +247,11 @@ namespace SBCRM.Crm
                 output.LeadCompanyName = lookupLead?.CompanyName?.ToString();
             }
 
-            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
-            output.UserName = lookupUser?.Name?.ToString();
+            if (output.Activity.UserId != null)
+            {
+                var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.Activity.UserId);
+                output.UserName = lookupUser?.Name;
+            }
 
             var lookupActivitySourceType = await _lookupActivitySourceTypeRepository.FirstOrDefaultAsync((int)output.Activity.ActivitySourceTypeId);
             output.ActivitySourceTypeDescription = lookupActivitySourceType?.Description?.ToString();
