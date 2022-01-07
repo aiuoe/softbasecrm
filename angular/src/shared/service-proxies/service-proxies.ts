@@ -13744,6 +13744,70 @@ export class LeadActivitiesServiceProxy {
 }
 
 @Injectable()
+export class LeadAutomateAssignmentServiceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    assignLeadUsers(body: CreateOrEditLeadUserDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAutomateAssignmentService/AssignLeadUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAssignLeadUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAssignLeadUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAssignLeadUsers(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class LeadsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -30393,7 +30457,7 @@ export class BranchLookupTableDto implements IBranchLookupTableDto {
         data = typeof data === 'object' ? data : {};
         data["number"] = this.number;
         data["name"] = this.name;
-        return data; 
+        return data;
     }
 }
 
@@ -31871,54 +31935,6 @@ export class CreateOrEditIndustryDto implements ICreateOrEditIndustryDto {
 }
 
 export interface ICreateOrEditIndustryDto {
-    id: number | undefined;
-}
-
-export class CreateOrEditLeadAttachmentDto implements ICreateOrEditLeadAttachmentDto {
-    name!: string;
-    filePath!: string;
-    leadId!: number | undefined;
-    id!: number | undefined;
-
-    constructor(data?: ICreateOrEditLeadAttachmentDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"];
-            this.filePath = _data["filePath"];
-            this.leadId = _data["leadId"];
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditLeadAttachmentDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditLeadAttachmentDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["filePath"] = this.filePath;
-        data["leadId"] = this.leadId;
-        data["id"] = this.id;
-        return data;
-    }
-}
-
-export interface ICreateOrEditLeadAttachmentDto {
-    name: string;
-    filePath: string;
-    leadId: number | undefined;
     id: number | undefined;
 }
 
@@ -33707,7 +33723,7 @@ export class DepartmentLookupTableDto implements IDepartmentLookupTableDto {
         data["dept"] = this.dept;
         data["branch"] = this.branch;
         data["title"] = this.title;
-        return data; 
+        return data;
     }
 }
 
@@ -37851,86 +37867,6 @@ export interface IGetLatestWebLogsOutput {
     latestWebLogLines: string[] | undefined;
 }
 
-export class GetLeadAttachmentForEditOutput implements IGetLeadAttachmentForEditOutput {
-    leadAttachment!: CreateOrEditLeadAttachmentDto;
-    leadCompanyName!: string | undefined;
-
-    constructor(data?: IGetLeadAttachmentForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.leadAttachment = _data["leadAttachment"] ? CreateOrEditLeadAttachmentDto.fromJS(_data["leadAttachment"]) : <any>undefined;
-            this.leadCompanyName = _data["leadCompanyName"];
-        }
-    }
-
-    static fromJS(data: any): GetLeadAttachmentForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetLeadAttachmentForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["leadAttachment"] = this.leadAttachment ? this.leadAttachment.toJSON() : <any>undefined;
-        data["leadCompanyName"] = this.leadCompanyName;
-        return data;
-    }
-}
-
-export interface IGetLeadAttachmentForEditOutput {
-    leadAttachment: CreateOrEditLeadAttachmentDto;
-    leadCompanyName: string | undefined;
-}
-
-export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto {
-    leadAttachment!: LeadAttachmentDto;
-    leadCompanyName!: string | undefined;
-
-    constructor(data?: IGetLeadAttachmentForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.leadAttachment = _data["leadAttachment"] ? LeadAttachmentDto.fromJS(_data["leadAttachment"]) : <any>undefined;
-            this.leadCompanyName = _data["leadCompanyName"];
-        }
-    }
-
-    static fromJS(data: any): GetLeadAttachmentForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetLeadAttachmentForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["leadAttachment"] = this.leadAttachment ? this.leadAttachment.toJSON() : <any>undefined;
-        data["leadCompanyName"] = this.leadCompanyName;
-        return data;
-    }
-}
-
-export interface IGetLeadAttachmentForViewDto {
-    leadAttachment: LeadAttachmentDto;
-    leadCompanyName: string | undefined;
-}
-
 export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     lead!: CreateOrEditLeadDto;
     leadSourceDescription!: string | undefined;
@@ -38480,7 +38416,7 @@ export class GetOpportunitiesStastsOutput implements IGetOpportunitiesStastsOutp
         data["closeRate"] = this.closeRate;
         data["averageDealSize"] = this.averageDealSize;
         data["totalClosedSales"] = this.totalClosedSales;
-        return data; 
+        return data;
     }
 }
 
@@ -38543,7 +38479,7 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
         data["contactName"] = this.contactName;
         data["branchName"] = this.branchName;
         data["departmentTitle"] = this.departmentTitle;
-        return data; 
+        return data;
     }
 }
 
@@ -38632,7 +38568,7 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["assignedUsers"] = this.assignedUsers;
         data["branchName"] = this.branchName;
         data["departmentTitle"] = this.departmentTitle;
-        return data; 
+        return data;
     }
 }
 
@@ -40820,94 +40756,6 @@ export interface ILdapSettingsEditDto {
     domain: string | undefined;
     userName: string | undefined;
     password: string | undefined;
-}
-
-export class LeadAttachmentDto implements ILeadAttachmentDto {
-    name!: string | undefined;
-    filePath!: string | undefined;
-    leadId!: number | undefined;
-    id!: number;
-
-    constructor(data?: ILeadAttachmentDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"];
-            this.filePath = _data["filePath"];
-            this.leadId = _data["leadId"];
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): LeadAttachmentDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new LeadAttachmentDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["filePath"] = this.filePath;
-        data["leadId"] = this.leadId;
-        data["id"] = this.id;
-        return data;
-    }
-}
-
-export interface ILeadAttachmentDto {
-    name: string | undefined;
-    filePath: string | undefined;
-    leadId: number | undefined;
-    id: number;
-}
-
-export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLookupTableDto {
-    id!: number;
-    displayName!: string | undefined;
-
-    constructor(data?: ILeadAttachmentLeadLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.displayName = _data["displayName"];
-        }
-    }
-
-    static fromJS(data: any): LeadAttachmentLeadLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new LeadAttachmentLeadLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["displayName"] = this.displayName;
-        return data;
-    }
-}
-
-export interface ILeadAttachmentLeadLookupTableDto {
-    id: number;
-    displayName: string | undefined;
 }
 
 export class LeadDto implements ILeadDto {
@@ -44768,54 +44616,6 @@ export class PagedResultDtoOfGetIndustryForViewDto implements IPagedResultDtoOfG
 export interface IPagedResultDtoOfGetIndustryForViewDto {
     totalCount: number;
     items: GetIndustryForViewDto[] | undefined;
-}
-
-export class PagedResultDtoOfGetLeadAttachmentForViewDto implements IPagedResultDtoOfGetLeadAttachmentForViewDto {
-    totalCount!: number;
-    items!: GetLeadAttachmentForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetLeadAttachmentForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.totalCount = _data["totalCount"];
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(GetLeadAttachmentForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetLeadAttachmentForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetLeadAttachmentForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IPagedResultDtoOfGetLeadAttachmentForViewDto {
-    totalCount: number;
-    items: GetLeadAttachmentForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetLeadForViewDto implements IPagedResultDtoOfGetLeadForViewDto {
@@ -49672,7 +49472,7 @@ export class UserAssignedDto implements IUserAssignedDto {
         data["surname"] = this.surname;
         data["fullName"] = this.fullName;
         data["profilePictureId"] = this.profilePictureId;
-        return data; 
+        return data;
     }
 }
 
