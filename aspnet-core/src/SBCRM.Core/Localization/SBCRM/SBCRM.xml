@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>
+	<texts>		
+		<text name="DashboardKPIWidget">KPI Widget</text>
+		
+		<text name="LatestOpportunities">Latest Opportunities</text>
+		<text name="EmailOrPhoneRequired">Email or Phone should be provided</text>
+		<text name="FilterByPriority">Filter by Priority</text>
+		<text name="FilterByStage">Filter by Stage</text>
 		<text name="NewOpportunity">New Opportunity</text>
 		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
@@ -1760,6 +1766,8 @@
 		<text name="OneHour">1 Hour (default)</text>
 		<text name="OneHourAndThirtyMinutes">1.5 Hours</text>
 		<text name="TwoHours">2 Hours</text>
+		<text name="SelectBranch">Select Branch</text>
+		<text name="SelectDepartment">Select Department</text>
 		<text name="AutomateAssignmentUser">Automate Assignment User</text>
 		<text name="DashboardNoteForMpaVersion">
 			<![CDATA[

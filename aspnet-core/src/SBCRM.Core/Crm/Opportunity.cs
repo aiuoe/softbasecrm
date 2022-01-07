@@ -32,12 +32,6 @@ namespace SBCRM.Crm
 
         public virtual string Description { get; set; }
 
-        [StringLength(OpportunityConsts.MaxBranchLength, MinimumLength = OpportunityConsts.MinBranchLength)]
-        public virtual string Branch { get; set; }
-
-        [StringLength(OpportunityConsts.MaxDepartmentLength, MinimumLength = OpportunityConsts.MinDepartmentLength)]
-        public virtual string Department { get; set; }
-
         [Required(ErrorMessage = "An Stage is required")]
         public virtual int? OpportunityStageId { get; set; }
 
@@ -65,6 +59,12 @@ namespace SBCRM.Crm
 
         [ForeignKey("CustomerNumber")]
         public Customer CustomerFk { get; set; }
+
+        public virtual short Branch { get; set; }
+        public virtual short Dept { get; set; }
+
+        [ForeignKey("Branch, Dept")]
+        public Department DepartmentFk { get; set; }
 
         public List<OpportunityUser> Users { get; set; }
     }

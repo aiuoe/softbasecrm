@@ -1,7 +1,7 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Dashboard' | localize" [description]="'DashboardHeaderInfo' | localize">
-            <div role="actions">
+            <!-- <div role="actions">
                 <button
                     type="button"
                     *ngIf="!loading && userDashboard && userDashboard.filters && userDashboard.filters.length > 0"
@@ -22,7 +22,7 @@
                 <strong class="p-2 pt-4 dashboard-header-text-edit-mode">
                     {{ 'EditMode' | localize }}
                 </strong>
-            </div>
+            </div> -->
         </sub-header>
 
         <div [class]="containerClass" *ngIf="!loading">

@@ -19,10 +19,10 @@ namespace SBCRM.Crm.Dtos
 
         public string Description { get; set; }
 
-        public string Branch { get; set; }
-
-        public string Department { get; set; }
-
+        public short? BranchId { get; set; }
+   
+        public short? DepartmentId { get; set; }
+ 
         public int? OpportunityStageId { get; set; }
 
         public int? LeadSourceId { get; set; }
