@@ -16,8 +16,9 @@ namespace SBCRM.Crm
         /// Updates an activity if the id of the input has a value, otherwise creates it.
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="canAssignOthers">If false, it will only allow to create or edit activities assigned to current user.</param>
         /// <returns></returns>
-        Task CreateOrEdit(CreateOrEditActivityDto input);
+        Task CreateOrEdit(CreateOrEditActivityDto input, bool canAssignOthers);
 
         /// <summary>
         /// Deletes an activity
@@ -29,8 +30,9 @@ namespace SBCRM.Crm
         /// <summary>
         /// Get all users for table dropdown
         /// </summary>
+        /// <param name="viewRestricted">If true, it will only include the current user in the list.</param>
         /// <returns></returns>
-        Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown();
+        Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown(bool viewRestricted);
 
         /// <summary>
         /// Get all activity source type for table dropdown
@@ -61,7 +63,8 @@ namespace SBCRM.Crm
         /// View details of an activity used for editing/updating based on the provided input which includes the id of the activity
         /// </summary>
         /// <param name="input">Input from http header query which includes the id of the activity</param>
+        /// /// <param name="canViewOthers">Whether the user can view other activities of other users</param>
         /// <returns></returns>
-        Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input);
+        Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input, bool canViewOthers);
     }
 }
