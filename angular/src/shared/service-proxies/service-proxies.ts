@@ -40563,6 +40563,7 @@ export interface ILeadStatusDto {
 export class LeadUserDto implements ILeadUserDto {
     leadId!: number | undefined;
     userId!: number | undefined;
+    userFk!: UserAssignedDto;
     id!: number;
 
     constructor(data?: ILeadUserDto) {
@@ -40578,6 +40579,7 @@ export class LeadUserDto implements ILeadUserDto {
         if (_data) {
             this.leadId = _data["leadId"];
             this.userId = _data["userId"];
+            this.userFk = _data["userFk"] ? UserAssignedDto.fromJS(_data["userFk"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -40593,6 +40595,7 @@ export class LeadUserDto implements ILeadUserDto {
         data = typeof data === 'object' ? data : {};
         data["leadId"] = this.leadId;
         data["userId"] = this.userId;
+        data["userFk"] = this.userFk ? this.userFk.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -40601,6 +40604,7 @@ export class LeadUserDto implements ILeadUserDto {
 export interface ILeadUserDto {
     leadId: number | undefined;
     userId: number | undefined;
+    userFk: UserAssignedDto;
     id: number;
 }
 
@@ -48807,6 +48811,54 @@ export interface IUpdateUserSignInTokenOutput {
     signInToken: string | undefined;
     encodedUserId: string | undefined;
     encodedTenantId: string | undefined;
+}
+
+export class UserAssignedDto implements IUserAssignedDto {
+    name!: string | undefined;
+    surname!: string | undefined;
+    fullName!: string | undefined;
+    profilePictureId!: string | undefined;
+
+    constructor(data?: IUserAssignedDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.surname = _data["surname"];
+            this.fullName = _data["fullName"];
+            this.profilePictureId = _data["profilePictureId"];
+        }
+    }
+
+    static fromJS(data: any): UserAssignedDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserAssignedDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["fullName"] = this.fullName;
+        data["profilePictureId"] = this.profilePictureId;
+        return data; 
+    }
+}
+
+export interface IUserAssignedDto {
+    name: string | undefined;
+    surname: string | undefined;
+    fullName: string | undefined;
+    profilePictureId: string | undefined;
 }
 
 export class UserDelegationDto implements IUserDelegationDto {
