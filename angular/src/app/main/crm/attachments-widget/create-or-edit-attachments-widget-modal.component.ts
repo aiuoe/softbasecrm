@@ -3,18 +3,19 @@ import { Component, ViewChild, Injector, Output, Input, EventEmitter, OnInit, El
 import { AppConsts } from '@shared/AppConsts';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { finalize } from 'rxjs/operators';
-import { IAttachment } from './attachment.model';
+import { IAttachment, CustomerAttachment } from './attachment.model';
 import {
     CustomerAttachmentsServiceProxy,
     ICustomerAttachmentDto
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
-@Component({
+/***
+ * Component to manage creation and modification of an attachment.
+ */
+ @Component({
     selector: 'create-or-edit-attachments-widget-modal',
     templateUrl: './create-or-edit-attachments-widget-modal.component.html',
 })
@@ -43,7 +44,11 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         super(injector);
     }
 
-    show(attachment?: IAttachment): void {
+    /**
+     * Displays this component
+     * @param attachment    An attachment to modify, otherwise a null to create a new attachment.
+     */
+     show(attachment?: IAttachment): void {
 
         this.attachment = {} as IAttachment;
 
@@ -59,23 +64,29 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                             this.initFileUploader();
                             this.modal.show();
                         });
+                    return;
                 }
-                else {
-                    (<ICustomerAttachmentDto>this.attachment).customerNumber = this.idToStore;
-                }
+
+                let customerAttachment = new CustomerAttachment();
+                customerAttachment.customerNumber = this.idToStore;
+                this.attachment = customerAttachment;
+
                 break;
             default:
                 return;
         }
-        if (!attachment) {
-            this.active = true;
-            this.initFileUploader();
-            this.modal.show();
-        }
+        this.active = true;
+        this.initFileUploader();
+        this.modal.show();
     }
 
-    isCustomer(attachment: IAttachment): attachment is ICustomerAttachmentDto {
-        return (<ICustomerAttachmentDto>attachment).customerNumber !== undefined;
+    /**
+     * Determines whether the attachment is a customer attachment.
+     * @param attachment    An attachment to check.
+     * @returns true    If the attachment is a customer attachment; false, otherwise.
+     */
+    isCustomer(attachment: IAttachment): attachment is CustomerAttachment {
+        return (<CustomerAttachment>attachment).customerNumber !== undefined;
     }
 
     /**
@@ -105,13 +116,11 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
             if(this.attachment.id !== undefined) {
                 form.append('Id', this.attachment.id);
-                console.log("no id");
             }
             form.append('Name', this.attachment.name);
             if (this.isCustomer(this.attachment)) {
-                form.append('CustomerNumber', (<ICustomerAttachmentDto>this.attachment).customerNumber);
+                form.append('CustomerNumber', (<CustomerAttachment>this.attachment).customerNumber);
             }
-            console.log(this.attachment);
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {
@@ -132,16 +141,27 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         });
     }
 
+    /**
+     * Uploads the attachment
+     */
     save(): void {
         this.saving = true;
         this.uploader.uploadAll();
     }
 
+    /**
+     * Closes this component
+     */
     close(): void {
         this.active = false;
         this.modal.hide();
     }
 
+    /**
+     * An event trigged when an attachment had changed
+     * @param event 
+     * @returns 
+     */
     fileChangeEvent(event: any): void {
         const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf'];
         const selectedFile = event.target.files[0];
@@ -159,5 +179,8 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         this.uploader.addToQueue([event.target.files[0]]);
     }
 
+    /**
+     * An init function
+     */
     ngOnInit(): void {}
 }

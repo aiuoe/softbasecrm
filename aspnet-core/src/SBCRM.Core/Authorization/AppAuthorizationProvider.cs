@@ -30,11 +30,6 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
-            var customerAttachments = pages.CreateChildPermission(AppPermissions.Pages_CustomerAttachments, L("CustomerAttachments"));
-            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Create, L("CreateNewCustomerAttachment"));
-            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Edit, L("EditCustomerAttachment"));
-            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Delete, L("DeleteCustomerAttachment"));
-
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             var createActivity = activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic, L(AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic));
@@ -187,6 +182,11 @@ namespace SBCRM.Authorization
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete__Dynamic, L("DeleteDynamicAccountContact"));
+
+            var customerAttachments = customer.CreateChildPermission(AppPermissions.Pages_CustomerAttachments, L("CustomerAttachments"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Create, L("CreateNewCustomerAttachment"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Edit, L("EditCustomerAttachment"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Delete, L("DeleteCustomerAttachment"));
 
             //var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
             //accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));

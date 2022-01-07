@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Crm
 {
+    /// <summary>
+    /// A customer attachment constant values.
+    /// </summary>
     public class CustomerAttachmentConsts
     {
 

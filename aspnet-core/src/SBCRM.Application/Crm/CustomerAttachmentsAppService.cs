@@ -18,12 +18,20 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// A service for customer attachments.
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_CustomerAttachments)]
     public class CustomerAttachmentsAppService : SBCRMAppServiceBase, ICustomerAttachmentsAppService
     {
         private readonly IRepository<CustomerAttachment> _customerAttachmentRepository;
         private readonly ICustomerAttachmentsExcelExporter _customerAttachmentsExcelExporter;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="customerAttachmentRepository"></param>
+        /// <param name="customerAttachmentsExcelExporter"></param>
         public CustomerAttachmentsAppService(IRepository<CustomerAttachment> customerAttachmentRepository, ICustomerAttachmentsExcelExporter customerAttachmentsExcelExporter)
         {
             _customerAttachmentRepository = customerAttachmentRepository;
@@ -31,6 +39,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get all customer attachments filtered by an input
+        /// </summary>
+        /// <param name="input">An input filter</param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetCustomerAttachmentForViewDto>> GetAll(GetAllCustomerAttachmentsInput input)
         {
 
@@ -84,6 +97,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets a customer attachment for viewing
+        /// </summary>
+        /// <param name="id">An Id of the customer attachment to be viewed.</param>
+        /// <returns></returns>
         public async Task<GetCustomerAttachmentForViewDto> GetCustomerAttachmentForView(int id)
         {
             var customerAttachment = await _customerAttachmentRepository.GetAsync(id);
@@ -93,6 +111,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Gets a customer attachment for editing
+        /// </summary>
+        /// <param name="id">An Id of the customer attachment to be edited.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Edit)]
         public async Task<GetCustomerAttachmentForEditOutput> GetCustomerAttachmentForEdit(EntityDto input)
         {
@@ -103,6 +126,11 @@ namespace SBCRM.Crm
             return output;
         }
 
+        /// <summary>
+        /// Creates or edits an attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be created or edited.</param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditCustomerAttachmentDto input)
         {
             if (input.Id == null)
@@ -115,6 +143,11 @@ namespace SBCRM.Crm
             }
         }
 
+        /// <summary>
+        /// Creates an attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be created.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Create)]
         protected virtual async Task Create(CreateOrEditCustomerAttachmentDto input)
         {
@@ -124,6 +157,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Updates an exiting attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be updated.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Edit)]
         protected virtual async Task Update(CreateOrEditCustomerAttachmentDto input)
         {
@@ -132,12 +170,22 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Deletes an attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be deleted.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _customerAttachmentRepository.DeleteAsync(input.Id);
         }
 
+        /// <summary>
+        /// Lists the customer atttachments on an Excel file.
+        /// </summary>
+        /// <param name="input">An input filter</param>
+        /// <returns>The excel file</returns>
         public async Task<FileDto> GetCustomerAttachmentsToExcel(GetAllCustomerAttachmentsForExcelInput input)
         {
 

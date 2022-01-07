@@ -8,12 +8,21 @@ using SBCRM.Storage;
 
 namespace SBCRM.Crm.Exporting
 {
+    /// <summary>
+    /// Exports a customer attachment list to Excel.
+    /// </summary>
     public class CustomerAttachmentsExcelExporter : NpoiExcelExporterBase, ICustomerAttachmentsExcelExporter
     {
 
         private readonly ITimeZoneConverter _timeZoneConverter;
         private readonly IAbpSession _abpSession;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="timeZoneConverter"></param>
+        /// <param name="abpSession"></param>
+        /// <param name="tempFileCacheManager"></param>
         public CustomerAttachmentsExcelExporter(
             ITimeZoneConverter timeZoneConverter,
             IAbpSession abpSession,
@@ -24,6 +33,11 @@ namespace SBCRM.Crm.Exporting
             _abpSession = abpSession;
         }
 
+        /// <summary>
+        /// Exports attachments to Excel.
+        /// </summary>
+        /// <param name="customerAttachments">A list of customer attachments to be exported.</param>
+        /// <returns>The Excel file.</returns>
         public FileDto ExportToFile(List<GetCustomerAttachmentForViewDto> customerAttachments)
         {
             return CreateExcelPackage(

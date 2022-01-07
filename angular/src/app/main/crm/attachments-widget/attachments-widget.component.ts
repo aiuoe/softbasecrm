@@ -1,7 +1,8 @@
-﻿import { AppConsts } from '@shared/AppConsts';
+﻿import { TokenService } from 'abp-ng2-module';
+import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CustomerAttachmentsServiceProxy, CustomerAttachmentDto } from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute } from '@angular/router';
+import { CustomerAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -14,12 +15,14 @@ import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
-import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { IAttachment } from './attachment.model';
 
-@Component({
+/***
+ * Component to manage the list of attachments.
+ */
+ @Component({
     templateUrl: './attachments-widget.component.html',
     selector: 'attachments-widget',
     encapsulation: ViewEncapsulation.None,
@@ -51,7 +54,8 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private _tokenService: TokenService,
     ) {
         super(injector);
     }
@@ -109,6 +113,10 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
         }
     }
     
+    /**
+     * Populates the customer attachments list.
+     * @param event 
+     */
     getCustomerAttachments(event?: LazyLoadEvent) {
 
         this.primengTableHelper.showLoadingIndicator();
@@ -130,14 +138,25 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
             });
     }
 
-    reloadPage(): void {
+    /**
+     * Refresh the table
+     */
+     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /**
+     * Creates new attachment
+     */
     createAttachment(): void {
         this.createOrEditAttachmentsWidgetModal.show();
     }
 
+    /**
+     * Deletes existing attachment
+     * @param attachment An attachment to be removed
+     * @returns 
+     */
     deleteAttachment(attachment: IAttachment): void {
 
         switch (this.componentType) {
@@ -161,20 +180,17 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
         });
     }
 
-    exportToExcel(): void {
-        this._customerAttachmentsServiceProxy
-            .getCustomerAttachmentsToExcel(this.filterText, this.nameFilter, this.filePathFilter)
-            .subscribe((result) => {
-                this._fileDownloadService.downloadTempFile(result);
-            });
-    }
-
+    /**
+     * Downloads existing attachment
+     * @param attachment An attachment to download
+     */
     downloadAttachment(attachment: IAttachment) {
 
         const url = AppConsts.remoteServiceBaseUrl + `/CustomerImport/getAttachment?filePath=${attachment.filePath}`;
         fetch(url, {
             headers: new Headers({
-                Origin: location.origin,
+                    Origin: location.origin,
+                    Authorization: 'Bearer ' + this._tokenService.getToken()
                 }),
                 mode: "cors",
             })

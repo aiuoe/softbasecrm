@@ -49,10 +49,8 @@
                                         <td style="width: 130px"
                                             [hidden]="(!(canAddAttachments && canDeleteAttachments))">
                                             <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i>
-                                                    <span class="caret"></span>
-                                                    {{ l('Actions') }}
+                                                <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i><span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
@@ -86,7 +84,7 @@
                                             {{ record.name }}
                                         </td>
                                         <td style="width: 150px">
-                                            <button type="button" (click)="downloadAttachment(record)" class="btn btn-link">
+                                            <button type="button" (click)="downloadAttachment(record)" class="btn btn-link text-left">
                                                 <span class="p-column-title">{{ l('FilePath') }}</span>
                                                 {{ record.filePath }}
                                             </button>
