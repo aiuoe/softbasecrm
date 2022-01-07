@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NotifyService } from '@node_modules/abp-ng2-module';
+import { AppConsts } from '@shared/AppConsts';
 
 /***
  * Service for global search component
@@ -13,8 +14,8 @@ export class CrmNotificationService {
         if (!options) {
             options = {};
         }
+        options.timer = AppConsts.notifyToastTimer;
         options.showClass = { popup: 'toast-info' };
-        options.hideClass = { popup: 'toast-info' };
         this.notifyService.info(message, title, options);
     }
 
@@ -22,8 +23,8 @@ export class CrmNotificationService {
         if (!options) {
             options = {};
         }
+        options.timer = AppConsts.notifyToastTimer;
         options.showClass = { popup: 'toast-error' };
-        options.hideClass = { popup: 'toast-error' };
         this.notifyService.error(message, title, options);
     }
 
@@ -31,17 +32,17 @@ export class CrmNotificationService {
         if (!options) {
             options = {};
         }
+        options.timer = AppConsts.notifyToastTimer;
         options.showClass = { popup: 'toast-warn' };
-        options.hideClass = { popup: 'toast-warn' };
         this.notifyService.warn(message, title, options);
     }
 
     success(message: string, title?: string, options?: any): void {
         if (!options) {
             options = {};
-        }
+        }  
+        options.timer = AppConsts.notifyToastTimer;      
         options.showClass = { popup: 'toast-success' };
-        options.hideClass = { popup: 'toast-success' };
         this.notifyService.success(message, title, options);
     }
 }

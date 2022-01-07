@@ -113,7 +113,7 @@ export class PrioritiesComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._prioritiesServiceProxy.delete(priority.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });

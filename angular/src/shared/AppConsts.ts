@@ -46,4 +46,9 @@ export class AppConsts {
     static readonly activityModule = {
         noAssignedUserFilterId: -1,
     };
+
+    /// <summary>
+    /// Timer for the action result notify toast 
+    /// </summary>
+    static readonly notifyToastTimer = 3000;
 }

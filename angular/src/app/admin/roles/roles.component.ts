@@ -82,7 +82,7 @@ export class RolesComponent extends AppComponentBase implements OnInit {
                 if (isConfirmed) {
                     this._roleService.deleteRole(role.id).subscribe(() => {
                         this.getRoles();
-                        abp.notify.success(this.l('SuccessfullyDeleted'));
+                        this.notifyService.success(this.l('SuccessfullyDeleted'));
                     });
                 }
             }

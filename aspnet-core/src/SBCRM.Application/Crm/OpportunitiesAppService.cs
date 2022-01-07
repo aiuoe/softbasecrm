@@ -164,8 +164,8 @@ namespace SBCRM.Crm
                         .WhereIf(input.MaxAmountFilter != null, e => e.Amount <= input.MaxAmountFilter)
                         .WhereIf(input.MinProbabilityFilter != null, e => e.Probability >= input.MinProbabilityFilter)
                         .WhereIf(input.MaxProbabilityFilter != null, e => e.Probability <= input.MaxProbabilityFilter)
-                        .WhereIf(input.MinCloseDateFilter != null, e => e.CloseDate >= input.MinCloseDateFilter)
-                        .WhereIf(input.MaxCloseDateFilter != null, e => e.CloseDate <= input.MaxCloseDateFilter)
+                        .WhereIf(input.MinCloseDateFilter != null, e => e.CreationTime >= input.MinCloseDateFilter)
+                        .WhereIf(input.MaxCloseDateFilter != null, e => e.CreationTime <= input.MaxCloseDateFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.DescriptionFilter), e => e.Description == input.DescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.OpportunityStageDescriptionFilter), e => e.OpportunityStageFk != null && e.OpportunityStageFk.Description == input.OpportunityStageDescriptionFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.LeadSourceDescriptionFilter), e => e.LeadSourceFk != null && e.LeadSourceFk.Description == input.LeadSourceDescriptionFilter)
@@ -248,7 +248,7 @@ namespace SBCRM.Crm
                                         CloseDate = o.CloseDate,
                                         Description = o.Description,
                                         Id = o.Id,
-                                        Users = o.Users,
+                                        Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
                                         OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                         OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
                                         LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
@@ -293,13 +293,13 @@ namespace SBCRM.Crm
                                             Key1 = o.Dept,
                                             Key2 = o.Branch
                                         }
-                                                                                            equals
-                                                                                            new
-                                                                                            {
-                                                                                                Key1 = o6.Dept,
-                                                                                                Key2 = o6.Branch
-                                                                                            }
-                                                                                            into j6
+                                        equals
+                                        new
+                                        {
+                                        Key1 = o6.Dept,
+                                        Key2 = o6.Branch
+                                        }
+                                        into j6
                                         from s6 in j6.DefaultIfEmpty()
 
                                         join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
@@ -313,7 +313,7 @@ namespace SBCRM.Crm
                                             CloseDate = o.CloseDate,
                                             Description = o.Description,
                                             Id = o.Id,
-                                            Users = o.Users,
+                                            Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
                                             OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                             OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
                                             LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
@@ -351,13 +351,13 @@ namespace SBCRM.Crm
                                             Key1 = o.Dept,
                                             Key2 = o.Branch
                                         }
-                                                                                            equals
-                                                                                            new
-                                                                                            {
-                                                                                                Key1 = o6.Dept,
-                                                                                                Key2 = o6.Branch
-                                                                                            }
-                                                                                            into j6
+                                        equals
+                                        new
+                                        {
+                                        Key1 = o6.Dept,
+                                        Key2 = o6.Branch
+                                        }
+                                        into j6
                                         from s6 in j6.DefaultIfEmpty()
 
                                         join o7 in _lookupBranchRepository.GetAll() on o.Branch equals o7.Number into j7
@@ -371,7 +371,7 @@ namespace SBCRM.Crm
                                             CloseDate = o.CloseDate,
                                             Description = o.Description,
                                             Id = o.Id,
-                                            Users = o.Users,
+                                            Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
                                             OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                             OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
                                             LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
@@ -440,7 +440,7 @@ namespace SBCRM.Crm
                         .Select(x => new OpportunityUserViewDto
                         {
                             OpportunityId = x.Id,
-                            UserId = x.UserFk.Id,
+                            UserId = x.UserId,
                             Name = x.UserFk.Name,
                             SurName = x.UserFk.Surname,
                             FullName = x.UserFk.FullName,
@@ -745,7 +745,7 @@ namespace SBCRM.Crm
                                                          BranchName = o.Name,
                                                          DepartmentTitle = o.Name,
                                                          Id = o.Id,
-                                                         Users = o.Users,
+                                                         Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
                                                          OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description,
                                                          LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description,
                                                          OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description,

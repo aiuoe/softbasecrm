@@ -105,7 +105,7 @@ export class ManagerComponent extends AppComponentBase implements OnInit {
                             })
                         )
                         .subscribe(() => {
-                            abp.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                             this.initialize();
                         });
                 }
@@ -138,7 +138,7 @@ export class ManagerComponent extends AppComponentBase implements OnInit {
             )
             .subscribe(
                 () => {
-                    abp.notify.success(this.l('SavedSuccessfully'));
+                    this.notifyService.success(this.l('SavedSuccessfully'));
                     this.initialize();
                     this.hideMainSpinner();
 

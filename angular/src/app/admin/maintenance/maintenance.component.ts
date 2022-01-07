@@ -46,14 +46,14 @@ export class MaintenanceComponent extends AppComponentBase implements OnInit {
         input.id = cacheName;
 
         self._cacheService.clearCache(input).subscribe(() => {
-            self.notify.success(self.l('CacheSuccessfullyCleared'));
+            this.notifyService.success(self.l('CacheSuccessfullyCleared'));
         });
     }
 
     clearAllCaches(): void {
         const self = this;
         self._cacheService.clearAllCaches().subscribe(() => {
-            self.notify.success(self.l('AllCachesSuccessfullyCleared'));
+            this.notifyService.success(self.l('AllCachesSuccessfullyCleared'));
         });
     }
 

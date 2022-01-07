@@ -120,7 +120,7 @@ export class LeadStatusesComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._leadStatusesServiceProxy.delete(leadStatus.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });
@@ -138,7 +138,7 @@ export class LeadStatusesComponent extends AppComponentBase {
         let request: UpdateOrderLeadStatusDto[] = [this.leadStatus1, this.leadStatus2];
 
         this._leadStatusesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notify.info(this.l('UpdateSuccessfully'));
+            this.notifyService.info(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getLeadStatuses();
         });

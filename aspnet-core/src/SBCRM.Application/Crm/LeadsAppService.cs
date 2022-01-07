@@ -66,6 +66,7 @@ namespace SBCRM.Crm
         /// <param name="countryRepository"></param>
         /// <param name="lookupUserRepository"></param>
         /// <param name="auditEventsService"></param>
+        /// <param name="leadAutomateAssignment"></param>
         public LeadsAppService(
             IRepository<Lead> leadRepository,
             ILeadsExcelExporter leadsExcelExporter,

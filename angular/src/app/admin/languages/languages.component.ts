@@ -59,7 +59,7 @@ export class LanguagesComponent extends AppComponentBase {
         input.name = language.name;
         this._languageService.setDefaultLanguage(input).subscribe(() => {
             this.getLanguages();
-            this.notify.success(this.l('SuccessfullySaved'));
+            this.notifyService.success(this.l('SuccessfullySaved'));
         });
     }
 
@@ -71,7 +71,7 @@ export class LanguagesComponent extends AppComponentBase {
                 if (isConfirmed) {
                     this._languageService.deleteLanguage(language.id).subscribe(() => {
                         this.getLanguages();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
+                        this.notifyService.success(this.l('SuccessfullyDeleted'));
                     });
                 }
             }

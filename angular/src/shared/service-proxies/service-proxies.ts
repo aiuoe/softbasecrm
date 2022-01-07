@@ -7674,342 +7674,6 @@ export class CustomerServiceProxy {
         }
         return _observableOf<boolean>(<any>null);
     }
-
-    /**
-     * @param isUserAssignedToCostumer (optional) 
-     * @return Success
-     */
-    hasAccessToEdit(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEdit?";
-        if (isUserAssignedToCostumer === null)
-            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
-        else if (isUserAssignedToCostumer !== undefined)
-            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasAccessToEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHasAccessToEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHasAccessToEdit(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * @param isUserAssignedToCostumer (optional) 
-     * @return Success
-     */
-    hasAccessToAddOpportunity(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToAddOpportunity?";
-        if (isUserAssignedToCostumer === null)
-            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
-        else if (isUserAssignedToCostumer !== undefined)
-            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasAccessToAddOpportunity(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHasAccessToAddOpportunity(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHasAccessToAddOpportunity(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * @param isUserAssignedToCostumer (optional) 
-     * @return Success
-     */
-    hasAccessToScheduleMeeting(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToScheduleMeeting?";
-        if (isUserAssignedToCostumer === null)
-            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
-        else if (isUserAssignedToCostumer !== undefined)
-            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasAccessToScheduleMeeting(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHasAccessToScheduleMeeting(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHasAccessToScheduleMeeting(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * @param isUserAssignedToCostumer (optional) 
-     * @return Success
-     */
-    hasAccessToScheduleCall(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToScheduleCall?";
-        if (isUserAssignedToCostumer === null)
-            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
-        else if (isUserAssignedToCostumer !== undefined)
-            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasAccessToScheduleCall(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHasAccessToScheduleCall(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHasAccessToScheduleCall(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * @param isUserAssignedToCostumer (optional) 
-     * @return Success
-     */
-    hasAccessToEmailReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToEmailReminder?";
-        if (isUserAssignedToCostumer === null)
-            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
-        else if (isUserAssignedToCostumer !== undefined)
-            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasAccessToEmailReminder(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHasAccessToEmailReminder(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHasAccessToEmailReminder(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * @param isUserAssignedToCostumer (optional) 
-     * @return Success
-     */
-    hasAccessToDoReminder(isUserAssignedToCostumer: boolean | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/services/app/Customer/HasAccessToDoReminder?";
-        if (isUserAssignedToCostumer === null)
-            throw new Error("The parameter 'isUserAssignedToCostumer' cannot be null.");
-        else if (isUserAssignedToCostumer !== undefined)
-            url_ += "isUserAssignedToCostumer=" + encodeURIComponent("" + isUserAssignedToCostumer) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHasAccessToDoReminder(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHasAccessToDoReminder(<any>response_);
-                } catch (e) {
-                    return <Observable<boolean>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<boolean>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHasAccessToDoReminder(response: HttpResponseBase): Observable<boolean> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<boolean>(<any>null);
-    }
 }
 
 @Injectable()
@@ -36416,6 +36080,14 @@ export interface IGetCurrentLoginInformationsOutput {
 export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
     customer!: CreateOrEditCustomerDto;
     accountTypeDescription!: string | undefined;
+    canViewActivityWidget!: boolean;
+    canCreateActivity!: boolean;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
+    canEditActivity!: boolean;
+    canAssignAnyUserInActivity!: boolean;
 
     constructor(data?: IGetCustomerForEditOutput) {
         if (data) {
@@ -36430,6 +36102,14 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         if (_data) {
             this.customer = _data["customer"] ? CreateOrEditCustomerDto.fromJS(_data["customer"]) : <any>undefined;
             this.accountTypeDescription = _data["accountTypeDescription"];
+            this.canViewActivityWidget = _data["canViewActivityWidget"];
+            this.canCreateActivity = _data["canCreateActivity"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
+            this.canEditActivity = _data["canEditActivity"];
+            this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
         }
     }
 
@@ -36444,6 +36124,14 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         data = typeof data === 'object' ? data : {};
         data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
         data["accountTypeDescription"] = this.accountTypeDescription;
+        data["canViewActivityWidget"] = this.canViewActivityWidget;
+        data["canCreateActivity"] = this.canCreateActivity;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
+        data["canEditActivity"] = this.canEditActivity;
+        data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
         return data; 
     }
 }
@@ -36451,6 +36139,14 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
 export interface IGetCustomerForEditOutput {
     customer: CreateOrEditCustomerDto;
     accountTypeDescription: string | undefined;
+    canViewActivityWidget: boolean;
+    canCreateActivity: boolean;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
+    canEditActivity: boolean;
+    canAssignAnyUserInActivity: boolean;
 }
 
 export class GetCustomerForViewDto implements IGetCustomerForViewDto {
@@ -36544,6 +36240,14 @@ export interface IGetCustomerForViewDto {
 export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
     customer!: CreateOrEditCustomerDto;
     accountTypeDescription!: string | undefined;
+    canViewActivityWidget!: boolean;
+    canCreateActivity!: boolean;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
+    canEditActivity!: boolean;
+    canAssignAnyUserInActivity!: boolean;
 
     constructor(data?: IGetCustomerForViewOutput) {
         if (data) {
@@ -36558,6 +36262,14 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
         if (_data) {
             this.customer = _data["customer"] ? CreateOrEditCustomerDto.fromJS(_data["customer"]) : <any>undefined;
             this.accountTypeDescription = _data["accountTypeDescription"];
+            this.canViewActivityWidget = _data["canViewActivityWidget"];
+            this.canCreateActivity = _data["canCreateActivity"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
+            this.canEditActivity = _data["canEditActivity"];
+            this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
         }
     }
 
@@ -36572,6 +36284,14 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
         data = typeof data === 'object' ? data : {};
         data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
         data["accountTypeDescription"] = this.accountTypeDescription;
+        data["canViewActivityWidget"] = this.canViewActivityWidget;
+        data["canCreateActivity"] = this.canCreateActivity;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
+        data["canEditActivity"] = this.canEditActivity;
+        data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
         return data; 
     }
 }
@@ -36579,6 +36299,14 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
 export interface IGetCustomerForViewOutput {
     customer: CreateOrEditCustomerDto;
     accountTypeDescription: string | undefined;
+    canViewActivityWidget: boolean;
+    canCreateActivity: boolean;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
+    canEditActivity: boolean;
+    canAssignAnyUserInActivity: boolean;
 }
 
 export class GetDailySalesOutput implements IGetDailySalesOutput {
@@ -42591,6 +42319,7 @@ export interface IOpportunityTypeDto {
 export class OpportunityUserDto implements IOpportunityUserDto {
     userId!: number;
     opportunityId!: number;
+    userFk!: UserAssignedDto;
     id!: number;
 
     constructor(data?: IOpportunityUserDto) {
@@ -42606,6 +42335,7 @@ export class OpportunityUserDto implements IOpportunityUserDto {
         if (_data) {
             this.userId = _data["userId"];
             this.opportunityId = _data["opportunityId"];
+            this.userFk = _data["userFk"] ? UserAssignedDto.fromJS(_data["userFk"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -42621,6 +42351,7 @@ export class OpportunityUserDto implements IOpportunityUserDto {
         data = typeof data === 'object' ? data : {};
         data["userId"] = this.userId;
         data["opportunityId"] = this.opportunityId;
+        data["userFk"] = this.userFk ? this.userFk.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -42629,6 +42360,7 @@ export class OpportunityUserDto implements IOpportunityUserDto {
 export interface IOpportunityUserDto {
     userId: number;
     opportunityId: number;
+    userFk: UserAssignedDto;
     id: number;
 }
 

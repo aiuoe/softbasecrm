@@ -233,7 +233,7 @@ namespace SBCRM.Crm
                                      DepartmentTitle = s7 == null || s7.Title == null ? "" : s7.Title,
                                      Id = o.Id,
                                      OpportunityStageId = s1.Id,
-                                     Users = o.Users,
+                                     Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
                                      OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                                      OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
                                      LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
@@ -288,7 +288,7 @@ namespace SBCRM.Crm
                         .Select(x => new OpportunityUserViewDto
                         {
                             OpportunityId = x.Id,
-                            UserId = x.UserFk.Id,
+                            UserId = x.UserId,
                             Name = x.UserFk.Name,
                             SurName = x.UserFk.Surname,
                             FullName = x.UserFk.FullName,
