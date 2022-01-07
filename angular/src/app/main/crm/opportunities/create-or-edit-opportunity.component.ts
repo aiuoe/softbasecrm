@@ -274,7 +274,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     save(): void {
-        debugger;
         if (!this.opportunityForm.form.valid) {
             this.opportunityForm.form.markAllAsTouched();
             this.message.warn(this.l('InvalidFormMessage'));

@@ -10,5 +10,7 @@ namespace SBCRM.Crm.Dtos
 
         public int OpportunityId { get; set; }
 
+        public UserAssignedDto UserFk { get; set; }
+
     }
 }
