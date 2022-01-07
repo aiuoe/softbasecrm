@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>
+	<texts>		
+		<text name="DashboardKPIWidget">KPI Widget</text>
+		
 		<text name="LatestOpportunities">Latest Opportunities</text>
 		<text name="EmailOrPhoneRequired">Email or Phone should be provided</text>
 		<text name="FilterByPriority">Filter by Priority</text>
