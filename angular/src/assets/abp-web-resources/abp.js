@@ -271,16 +271,16 @@ var abp = abp || {};
     abp.notifications.getUiNotifyFuncBySeverity = function (severity) {
         switch (severity) {
             case abp.notifications.severity.SUCCESS:
-                return abp.notify.success;
+                return this.notifyService.success;
             case abp.notifications.severity.WARN:
-                return abp.notify.warn;
+                return this.notifyService.warn;
             case abp.notifications.severity.ERROR:
-                return abp.notify.error;
+                return this.notifyService.error;
             case abp.notifications.severity.FATAL:
-                return abp.notify.error;
+                return this.notifyService.error;
             case abp.notifications.severity.INFO:
             default:
-                return abp.notify.info;
+                return this.notifyService.info;
         }
     };
 

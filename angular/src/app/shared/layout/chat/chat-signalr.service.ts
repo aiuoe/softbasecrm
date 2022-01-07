@@ -107,7 +107,7 @@ export class ChatSignalrService extends AppComponentBase {
                 callback();
             }
 
-            abp.notify.warn(this.l('ChatIsNotConnectedWarning'));
+            this.notifyService.warn(this.l('ChatIsNotConnectedWarning'));
             return;
         }
 
@@ -115,7 +115,7 @@ export class ChatSignalrService extends AppComponentBase {
             .invoke('sendMessage', messageData)
             .then((result) => {
                 if (result) {
-                    abp.notify.warn(result);
+                    this.notifyService.warn(result);
                 }
 
                 if (callback) {

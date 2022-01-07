@@ -103,7 +103,7 @@ export class CreateOrEditWebhookSubscriptionModalComponent extends AppComponentB
 
         observable.subscribe(
             () => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.hideMainSpinner();
                 this.modalSave.emit(null);
                 this.close();

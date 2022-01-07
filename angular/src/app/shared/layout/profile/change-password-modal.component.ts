@@ -64,7 +64,7 @@ export class ChangePasswordModalComponent extends AppComponentBase {
                 })
             )
             .subscribe(() => {
-                this.notify.info(this.l('YourPasswordHasChangedSuccessfully'));
+                this.notifyService.info(this.l('YourPasswordHasChangedSuccessfully'));
                 this.close();
             });
     }

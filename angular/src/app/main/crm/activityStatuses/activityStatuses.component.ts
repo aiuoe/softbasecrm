@@ -106,7 +106,7 @@ export class ActivityStatusesComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._activityStatusesServiceProxy.delete(activityStatus.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });
@@ -124,7 +124,7 @@ export class ActivityStatusesComponent extends AppComponentBase {
         let request: UpdateOrderActivityStatusDto[] = [this.activityStatus1, this.activityStatus2];
 
         this._activityStatusesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notify.info(this.l('UpdateSuccessfully'));
+            this.notifyService.info(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getActivityStatuses();
         });

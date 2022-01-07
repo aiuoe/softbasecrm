@@ -65,7 +65,7 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
                 })
             )
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
