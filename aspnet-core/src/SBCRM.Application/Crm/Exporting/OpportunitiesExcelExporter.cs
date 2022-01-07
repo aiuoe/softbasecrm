@@ -67,8 +67,8 @@ namespace SBCRM.Crm.Exporting
                             : string.Empty,
                         _ => _.Opportunity.CloseDate.HasValue ? _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy") : null,
                         _ => _.Opportunity.Amount,
-                        _ => _.Opportunity.Branch,
-                        _ => _.Opportunity.Department
+                        _ => _.BranchName,
+                        _ => _.DepartmentTitle
                         );
 
                     int numberOfColumns = sheet.GetRow(0).LastCellNum;

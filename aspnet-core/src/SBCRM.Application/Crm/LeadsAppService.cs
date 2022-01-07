@@ -127,7 +127,7 @@ namespace SBCRM.Crm
         {
             try
             {
-                IQueryable<Lead> filteredLeads = _leadRepository.GetAll()
+                var filteredLeads = _leadRepository.GetAll()
                                .Include(e => e.LeadSourceFk)
                                .Include(e => e.LeadStatusFk)
                                .Include(e => e.PriorityFk)
@@ -202,7 +202,7 @@ namespace SBCRM.Crm
                                 ContactEmail = o.ContactEmail,
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
-                                Users = o.Users,
+                                Users = ObjectMapper.Map<List<LeadUserDto>>(o.Users),
                                 LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                                 LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
@@ -222,22 +222,10 @@ namespace SBCRM.Crm
                 }
                 else
                 {
-                    IQueryable<Lead> pagedAndFilteredLeads;
-
                     if (input.Sorting != null)
-                        pagedAndFilteredLeads = filteredLeads
+                        leads = from o in (filteredLeads
                             .OrderBy(input.Sorting)
-                            .PageBy(input);
-                    else
-                        pagedAndFilteredLeads = filteredLeads
-                            .OrderByDescending(o => o.CreationTime)
-                            .ThenByDescending(s1 => s1.Description)
-                            .ThenBy(s2 => s2.Description)
-                            .ThenBy(o => o.CompanyName)
-                            .ThenBy(o => o.ContactName)
-                            .PageBy(input);
-
-                    leads = from o in pagedAndFilteredLeads
+                            .PageBy(input))
                             join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
                             from s1 in j1.DefaultIfEmpty()
 
@@ -270,7 +258,7 @@ namespace SBCRM.Crm
                                 ContactEmail = o.ContactEmail,
                                 Id = o.Id,
                                 CreationTime = o.CreationTime,
-                                Users = o.Users,
+                                Users = ObjectMapper.Map<List<LeadUserDto>>(o.Users),
                                 LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                                 LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                 LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
@@ -278,6 +266,57 @@ namespace SBCRM.Crm
                                 PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
                                 PriorityColor = s3 == null || s3.Color == null ? "" : s3.Color
                             };
+
+                    else
+                        leads = from o in (filteredLeads
+                            .OrderByDescending(o => o.CreationTime)
+                            .ThenByDescending(o => o.LeadSourceFk.Description)
+                            .ThenBy(o => o.LeadStatusFk.Description)
+                            .ThenBy(o => o.CompanyName)
+                            .ThenBy(o => o.ContactName)
+                            .PageBy(input))   
+                            join o1 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o1.Id into j1
+                            from s1 in j1.DefaultIfEmpty()
+
+                            join o2 in _lookupLeadStatusRepository.GetAll() on o.LeadStatusId equals o2.Id into j2
+                            from s2 in j2.DefaultIfEmpty()
+
+                            join o3 in _lookupPriorityRepository.GetAll() on o.PriorityId equals o3.Id into j3
+                            from s3 in j3.DefaultIfEmpty()
+
+                            select new LeadQueryDto
+                            {
+                                CompanyName = o.CompanyName,
+                                ContactName = o.ContactName,
+                                ContactPosition = o.ContactPosition,
+                                WebSite = o.WebSite,
+                                Address = o.Address,
+                                Country = o.Country,
+                                State = o.State,
+                                City = o.City,
+                                Description = o.Description,
+                                CompanyPhone = o.CompanyPhone,
+                                CompanyEmail = o.CompanyEmail,
+                                PoBox = o.PoBox,
+                                ZipCode = o.ZipCode,
+                                ContactPhone = o.ContactPhone,
+                                ContactPhoneExtension = o.ContactPhoneExtension,
+                                ContactCellPhone = o.ContactCellPhone,
+                                ContactFaxNumber = o.ContactFaxNumber,
+                                PagerNumber = o.PagerNumber,
+                                ContactEmail = o.ContactEmail,
+                                Id = o.Id,
+                                CreationTime = o.CreationTime,
+                                Users = ObjectMapper.Map<List<LeadUserDto>>(o.Users),
+                                LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                                LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                                LeadCanBeConvert = s2 != null && s2.IsLeadConversionValid,
+                                LeadStatusColor = s2 == null || s2.Color == null ? "" : s2.Color,
+                                PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                                PriorityColor = s3 == null || s3.Color == null ? "" : s3.Color
+                            };
+
+
                 }
 
                 int totalCount = await filteredLeads.CountAsync();
@@ -716,7 +755,7 @@ namespace SBCRM.Crm
                                                   ContactEmail = o.ContactEmail,
                                                   Id = o.Id,
                                                   CreationTime = TimeZoneInfo.ConvertTime((DateTime)o.CreationTime, TimeZone),
-                                                  Users = o.Users,
+                                                  Users = ObjectMapper.Map<List<LeadUserDto>>(o.Users),
                                                   LeadSourceDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
                                                   LeadStatusDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
                                                   PriorityDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
@@ -779,8 +818,8 @@ namespace SBCRM.Crm
                     List<LeadUserViewDto> leadUsers = o.Users
                         .Select(x => new LeadUserViewDto
                         {
-                            LeadId = x.Id,
-                            UserId = x.UserFk.Id,
+                            LeadId = x.LeadId,
+                            UserId = x.UserId,
                             Name = x.UserFk.Name,
                             SurName = x.UserFk.Surname,
                             FullName = x.UserFk.FullName,

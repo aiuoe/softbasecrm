@@ -115,7 +115,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     this.primengTableHelper.totalRecordsCount = result.totalCount;
     this.primengTableHelper.records = result.items;
     this.primengTableHelper.hideLoadingIndicator();
-    console.log(result.items);
   });
 }
 
@@ -151,7 +150,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
       this.primengTableHelper.totalRecordsCount = result.totalCount;
       this.primengTableHelper.records = result.items;
       this.primengTableHelper.hideLoadingIndicator();
-      console.log(result.items);
     });
   }
 
@@ -186,7 +184,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
       this.primengTableHelper.totalRecordsCount = result.totalCount;
       this.primengTableHelper.records = result.items;
       this.primengTableHelper.hideLoadingIndicator();
-      console.log(result.items);
     });
   }
 

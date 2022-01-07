@@ -46,6 +46,8 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   selectedTime = '';
   durationItems = [];
 
+  activityTypeEnum: typeof ActivityTaskType = ActivityTaskType;
+
 
   active = false;
   saving = false;

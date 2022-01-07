@@ -67,6 +67,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     saving = false;
     isNew = true;
     showSaveButton = false;
+    showEditButton = false;
     isReadOnlyMode = false;
     customer: CreateOrEditCustomerDto = new CreateOrEditCustomerDto();
     accountTypeDescription = '';
@@ -167,6 +168,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                 this.canCreateOpportunities = getVisibility.canCreateOpportunities;
                 this.canEditOpportunities = getVisibility.canEditOpportunities;
                 this.canViewOpportunities = getVisibility.canViewOpportunities;
+                this.showEditButton = getVisibility.canEditOverviewTab;
 
                 this.getOpportunities();
                 this.getCustomerEquipments();
@@ -175,7 +177,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
 
                 this.entityTypeHistory.show({
                     entityId: this.customerNumber,
-                    entityName: 'Account',
+                    entityName: AppConsts.Account,
                     show: this.showEventsTab
                 });
             });
@@ -187,7 +189,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      */
     show(customerId?: string): void {
 
-        if ((this.pageMode === 'view') && !this.customerNumber) {
+        if ((this.pageMode === AppConsts.ViewMode) && !this.customerNumber) {
             this.goToAccounts();
         }
 
@@ -297,6 +299,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
      * Open internal edition mode
      */
     openEditionMode() {
+        this.showEditButton = false;
         this.isReadOnlyMode = false;
         this.showSaveButton = true;
         this.location.replaceState(`${ this.routerLink }/createOrEdit?number=${ this.customerNumber }`);

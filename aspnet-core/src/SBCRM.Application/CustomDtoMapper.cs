@@ -171,6 +171,7 @@ namespace SBCRM
             configuration.CreateMap<CurrentTenantInfoDto, Tenant>().ReverseMap();
 
             //User
+            configuration.CreateMap<User, UserAssignedDto>();
             configuration.CreateMap<User, UserEditDto>()
                 .ForMember(dto => dto.Password, options => options.Ignore())
                 .ReverseMap()
