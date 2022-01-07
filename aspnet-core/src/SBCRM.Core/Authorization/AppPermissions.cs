@@ -222,6 +222,7 @@
         public const string Pages_Administration_DynamicEntityPropertyValue_Delete = "Pages.Administration.DynamicEntityPropertyValue.Delete";
 
         public const string Pages_Dashboard = "Pages.Dashboard";
+        public const string Pages_Dashboard_KPI_Widget = "Pages.Dashboard.KPI.Widget";
         //TENANT-SPECIFIC PERMISSIONS
 
         public const string Pages_Tenant_Dashboard = "Pages.Tenant.Dashboard";
