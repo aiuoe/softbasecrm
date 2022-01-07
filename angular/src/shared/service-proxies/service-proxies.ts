@@ -37084,6 +37084,10 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     firstUserAssignedFullName!: string | undefined;
     firstUserProfilePictureUrl!: string | undefined;
     assignedUsers!: number;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -37110,6 +37114,10 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
             this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
             this.assignedUsers = _data["assignedUsers"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
         }
     }
 
@@ -37136,6 +37144,10 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
         data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
         data["assignedUsers"] = this.assignedUsers;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         return data; 
     }
 }
@@ -37155,6 +37167,10 @@ export interface IGetLeadForViewDto {
     firstUserAssignedFullName: string | undefined;
     firstUserProfilePictureUrl: string | undefined;
     assignedUsers: number;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -37666,6 +37682,10 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     assignedUsers!: number;
     branchName!: string | undefined;
     departmentTitle!: string | undefined;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -37694,6 +37714,10 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.assignedUsers = _data["assignedUsers"];
             this.branchName = _data["branchName"];
             this.departmentTitle = _data["departmentTitle"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
         }
     }
 
@@ -37722,6 +37746,10 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["assignedUsers"] = this.assignedUsers;
         data["branchName"] = this.branchName;
         data["departmentTitle"] = this.departmentTitle;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         return data; 
     }
 }
@@ -37743,6 +37771,10 @@ export interface IGetOpportunityForViewDto {
     assignedUsers: number;
     branchName: string | undefined;
     departmentTitle: string | undefined;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
