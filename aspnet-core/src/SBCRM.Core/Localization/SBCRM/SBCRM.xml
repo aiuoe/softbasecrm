@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>		
+		<text name="UpdateSuccessfully">Successfully updated.</text>
 		<text name="DashboardKPIWidget">KPI Widget</text>
 		
 		<text name="LatestOpportunities">Latest Opportunities</text>
