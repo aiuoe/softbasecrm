@@ -9,22 +9,32 @@
                             <strong>{{l("Activities")}}</strong>
                         </div>
                         <div>
-                            <div class="btn-group dropdown" dropdown container="body">
+                            <div
+                                *ngIf="
+                                    showScheduleMeetingOption ||
+                                    showScheduleCallOption ||
+                                    showEmailReminderOption ||
+                                    showToDoReminderOption
+                                "
+                                class="btn-group dropdown"
+                                dropdown
+                                container="body"
+                            >
                                 <button class="btn btn-primary blue" dropdownToggle>
                                     <i class="fa fa-plus"></i><span class="caret">{{l("Activity")}}</span>
                                 </button>
                                 <ul class="dropdown-menu" *dropdownMenu>
                                     <li>                                                        
-                                        <a class="dropdown-item" href="javascript:;"
+                                        <a *ngIf="showScheduleMeetingOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityScheduleCallHandler()">{{l('ScheduleCall')}}</a>
 
-                                        <a class="dropdown-item" href="javascript:;"
+                                        <a *ngIf="showScheduleCallOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityScheduleMeetingHandler()">{{l('ScheduleMeeting')}}</a>
 
-                                        <a class="dropdown-item" href="javascript:;"
+                                        <a *ngIf="showEmailReminderOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityEmailReminderHandler()">{{l('EmailReminder')}}</a>
 
-                                        <a class="dropdown-item" href="javascript:;"
+                                        <a *ngIf="showToDoReminderOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityToDoReminderHandler()">{{l('ToDoReminder')}}</a>
                                     </li>
                                 </ul>
@@ -67,8 +77,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td style="width: 70px"
-                                            [hidden]="!isGrantedAny('Pages.AccountUsers.Edit', 'Pages.AccountUsers.Delete')">
+                                        <td style="width: 70px">
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
                                                     <i class="fa fa-cog"></i><span class="caret"></span>
@@ -87,18 +96,20 @@
                                                         (click)="viewActivity(record.activity)">{{l('View')}}</a>
                                                     </li>
 
-                                                    <li>                                                        
-                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
-                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
-                                                    </li>
-                                                    <li>                                                        
-                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
-                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
-                                                    </li>
-                                                    <li>                                                        
-                                                        <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Opportunity'"
-                                                        (click)="editActivity(record.activity)">{{l('Edit')}}</a>
-                                                    </li>
+                                                    <ng-container *ngIf="allowEdit">
+                                                        <li>                                                        
+                                                            <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Account'"
+                                                            (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                        </li>
+                                                        <li>                                                        
+                                                            <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Lead'"
+                                                            (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                        </li>
+                                                        <li>                                                        
+                                                            <a class="dropdown-item" href="javascript:;" *ngIf="this.componentType == 'Opportunity'"
+                                                            (click)="editActivity(record.activity)">{{l('Edit')}}</a>
+                                                        </li>
+                                                    </ng-container>
                                                 </ul>
                                             </div>
                                         </td>
@@ -150,6 +161,7 @@
             #createActivityModal
             [activityType] = "this.activityType"
             [componentType] = "this.componentType"
+            [canAssignAnyUser]="canAssignAnyUser"
             [idToStore]="this.idToStore"
             (modalSave) = "loadDataTable()"
             >

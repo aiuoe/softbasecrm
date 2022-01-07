@@ -189,7 +189,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-            await _activitiesService.CreateOrEdit(input);
+            // TODO: Validate user permission here if activity permissions for Opportunities are implemented.
+            await _activitiesService.CreateOrEdit(input, true);
         }
 
         /// <summary>
@@ -208,7 +209,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            return await _activitiesService.GetAllUserForTableDropdown();
+            // TODO: Validate user permission here if activity permissions for Opportunities are implemented.
+            return await _activitiesService.GetAllUserForTableDropdown(false);
         }
 
         /// <summary>
@@ -256,7 +258,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
-            return await _activitiesService.GetActivityForEdit(input);
+            // TODO: Validate user permission here if activity permissions for Opportunities are implemented.
+            return await _activitiesService.GetActivityForEdit(input, true);
         }
     }
 }
