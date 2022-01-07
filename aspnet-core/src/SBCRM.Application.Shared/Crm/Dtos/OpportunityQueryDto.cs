@@ -1,8 +1,9 @@
 ﻿using Abp.Domain.Entities.Auditing;
+using SBCRM.Crm.Dtos;
 using System;
 using System.Collections.Generic;
 
-namespace SBCRM.Crm
+namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// DTO to manage the object query opportunity information
@@ -19,9 +20,9 @@ namespace SBCRM.Crm
 
         public string Description { get; set; }
 
-        public int? BranchId { get; set; }
+        public short? BranchId { get; set; }
 
-        public string? DepartmentId { get; set; }
+        public short? DepartmentId { get; set; }
 
         public int? OpportunityStageId { get; set; }
 
@@ -51,6 +52,6 @@ namespace SBCRM.Crm
 
         public string FirstUserAssignedName { get; set; }
 
-        public List<OpportunityUser> Users { get; set; }
+        public List<OpportunityUserDto> Users { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
-import { ActivityDuration } from '@shared/AppEnums';
+import { ActivityDuration, ActivityTaskType } from '@shared/AppEnums';
 import { LocalizationService } from 'abp-ng2-module';
 import { ActivityDurationItemDto } from '../dto/activity-duration-item.dto';
 
@@ -34,5 +34,20 @@ export class ActivitySharedService {
             new ActivityDurationItemDto(this.localize('OneHourAndThirtyMinutes'), 90, ActivityDuration.OneHourAndThirtyMinutes),
             new ActivityDurationItemDto(this.localize('TwoHours'), 120, ActivityDuration.TwoHours),
         ];
+    }
+
+
+    /**
+     * Gets the default duration item
+     * @param activityTypeCode 
+     * @returns 
+     */
+    getDefaultDuration(activityTypeCode: string){
+        let durationItems = this.getActivityDurationItems();
+        if (activityTypeCode != ActivityTaskType.TODO_REMINDER &&  activityTypeCode != ActivityTaskType.EMAIL_REMINDER){
+            return durationItems.find((x) => x.enumValue === ActivityDuration.OneHour).value;
+        } else{
+            return 0;
+        }
     }
 }
