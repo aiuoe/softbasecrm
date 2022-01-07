@@ -131,6 +131,9 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
                         this.selectedTime = dueDate.toFormat('hh:mm a');
                     }
                 });
+        } else {
+            this.selectedDate = new Date();
+            this.selectedTime = '';
         }
 
         // Assign the source type code after loading the data in case we are viewing from global search.
