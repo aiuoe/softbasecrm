@@ -20,7 +20,6 @@
     <text name="CustomerAttachments">Customer attachments</text>
 
 		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
-		<text name="CustomerEdit__Dynamic">Can edit all accounts</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
         <text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>
         <text name="CustomerScheduleCall">Schedule call</text>
