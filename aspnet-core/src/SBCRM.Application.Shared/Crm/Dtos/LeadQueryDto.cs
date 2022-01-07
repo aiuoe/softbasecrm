@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SBCRM.Crm
+namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// DTO to manage the object query lead information
@@ -70,7 +70,7 @@ namespace SBCRM.Crm
 
         public string FirstUserAssignedName { get; set; }
 
-        public List<LeadUser> Users { get; set; }
+        public List<LeadUserDto> Users { get; set; }
 
     }
 }

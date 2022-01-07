@@ -1,6 +1,6 @@
-<div class="row justify-content-start mt-2">
+<div class="row justify-content-start mt-2" *ngIf="isGranted('Pages.Dashboard.KPI.Widget')">
     <div class="col-md-2">
-        <div class="form-group input-group">
+        <div class="form-group input-group ">
             <input type="text" class="form-control date-range-filter"
                 value="{{ selectedDateRange[0] | luxonFormat: 'ff' }} - {{ selectedDateRange[1] | luxonFormat: 'ff' }}"
                 disabled="disabled" #dateRangePicker="bsDaterangepicker" bsDaterangepicker dateRangePickerLuxonModifier
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="row justify-content-start">
+<div class="row justify-content-start" *ngIf="isGranted('Pages.Dashboard.KPI.Widget')">
     <div class="col pr-0">
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">

@@ -261,7 +261,8 @@ namespace SBCRM.Authorization
 
             pages.CreateChildPermission(AppPermissions.Pages_GlobalSearch, L("GlobalSearch"));
 
-            pages.CreateChildPermission(AppPermissions.Pages_Dashboard, L("Dashboard"));
+            var dashboard = pages.CreateChildPermission(AppPermissions.Pages_Dashboard, L("Dashboard"));
+            dashboard.CreateChildPermission(AppPermissions.Pages_Dashboard_KPI_Widget, L("DashboardKPIWidget"));
             //TENANT-SPECIFIC PERMISSIONS
 
             //pages.CreateChildPermission(AppPermissions.Pages_Tenant_Dashboard, L("Tenant Dashboard"), multiTenancySides: MultiTenancySides.Tenant);
