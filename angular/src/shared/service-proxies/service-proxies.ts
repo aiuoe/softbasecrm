@@ -42591,6 +42591,7 @@ export interface IOpportunityTypeDto {
 export class OpportunityUserDto implements IOpportunityUserDto {
     userId!: number;
     opportunityId!: number;
+    userFk!: UserAssignedDto;
     id!: number;
 
     constructor(data?: IOpportunityUserDto) {
@@ -42606,6 +42607,7 @@ export class OpportunityUserDto implements IOpportunityUserDto {
         if (_data) {
             this.userId = _data["userId"];
             this.opportunityId = _data["opportunityId"];
+            this.userFk = _data["userFk"] ? UserAssignedDto.fromJS(_data["userFk"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -42621,6 +42623,7 @@ export class OpportunityUserDto implements IOpportunityUserDto {
         data = typeof data === 'object' ? data : {};
         data["userId"] = this.userId;
         data["opportunityId"] = this.opportunityId;
+        data["userFk"] = this.userFk ? this.userFk.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -42629,6 +42632,7 @@ export class OpportunityUserDto implements IOpportunityUserDto {
 export interface IOpportunityUserDto {
     userId: number;
     opportunityId: number;
+    userFk: UserAssignedDto;
     id: number;
 }
 

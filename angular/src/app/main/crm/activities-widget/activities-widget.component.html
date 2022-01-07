@@ -50,15 +50,15 @@
                                     <tr>
                                         <th style="width: 70px"
                                             [hidden]="!isGrantedAny('Pages.AccountUsers.Edit', 'Pages.AccountUsers.Delete')">{{l('Actions')}}</th>
-                                        <th style="width: 150px" pSortableColumn="userFk.name">
+                                        <th style="width: 150px" pSortableColumn="activityTaskTypeDescription">
                                             {{l('Type')}}
                                             <p-sortIcon field="activityTaskTypeDescription"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px">
+                                        <th style="width: 150px" pSortableColumn="userName">
                                             {{l('Asignee')}}
                                             <p-sortIcon field="userName"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px">
+                                        <th style="width: 150px" pSortableColumn="startsAt">
                                             {{l('ScheduleAndDueDate')}}
                                             <p-sortIcon field="startsAt"></p-sortIcon>
                                         </th>
