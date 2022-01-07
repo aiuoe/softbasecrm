@@ -141,6 +141,13 @@
         public const string Pages_Customer_Add_Opportunity__Dynamic = "Pages.Customer.AddOpportunity__Dynamic";
         public const string Pages_Customer_Edit_Opportunity = "Pages.Customer.EditOpportunity";
         public const string Pages_Customer_Edit_Opportunity__Dynamic = "Pages.Customer.EditOpportunity__Dynamic";
+        public const string Pages_Customer_View_Activities = "Pages.Customer.ViewActivities";
+        public const string Pages_Customer_View_Activities_Of_All_Users = "Pages.Customer.ViewActivitiesOfAllUsers";
+        public const string Pages_Customer_Assign_Activity_To_Any_Users = "Pages.Customer.AssignActivityToAnyUsers";
+        public const string Pages_Customer_Create_Activities = "Pages.Customer.CreateActivities";
+        public const string Pages_Customer_Create_Activities__Dynamic = "Pages.Customer.CreateActivities__Dynamic";
+        public const string Pages_Customer_Edit_Activities = "Pages.Customer.EditActivities";
+        public const string Pages_Customer_Edit_Activities__Dynamic = "Pages.Customer.EditActivities__Dynamic";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

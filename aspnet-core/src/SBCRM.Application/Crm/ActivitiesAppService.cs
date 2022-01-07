@@ -14,6 +14,8 @@ using SBCRM.Authorization;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Legacy;
+using SBCRM.Common;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -285,9 +287,8 @@ namespace SBCRM.Crm
 
             var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
 
-            // Return null if the activity doesn't exist or the current user do not have permission to view other activities.
-            if (activity is null || (!canAssignOthers && activity.UserId != currentUser.Id))
-                return null;
+            GuardHelper.ThrowIf(activity is null, new EntityNotFoundException(L("ActivityNotExist")));
+            GuardHelper.ThrowIf(!canAssignOthers && activity.UserId != currentUser.Id, new EntityNotFoundException(L("ActivityViewNotAllowed")));
 
             var output = new GetActivityForEditOutput { Activity = ObjectMapper.Map<CreateOrEditActivityDto>(activity) };
 
@@ -356,9 +357,7 @@ namespace SBCRM.Crm
             var currentUser = await GetCurrentUserAsync();
             var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
 
-            // Do not proceed if the current user do not have permission to assign others and is attempting to do so.
-            if (!canAssignOthers && currentUser.Id != input.UserId)
-                return;
+            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != currentUser.Id, new EntityNotFoundException(L("ActivityAssignOthersNotAllowed")));
 
             var activity = ObjectMapper.Map<Activity>(input);
 
@@ -383,9 +382,8 @@ namespace SBCRM.Crm
 
             var activity = await _activityRepository.FirstOrDefaultAsync((long)input.Id);
 
-            // Do not proceed if the current user do not have permission to assign others and is attempting to do so.
-            if (!canAssignOthers && currentUser.Id != activity.UserId)
-                return;
+            GuardHelper.ThrowIf(activity is null, new EntityNotFoundException(L("ActivityNotExist")));
+            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != activity.UserId, new EntityNotFoundException(L("ActivityAssignOthersNotAllowed")));
 
             input.StartsAt = input.StartsAt.ToUniversalTime();
             input.DueDate = input.DueDate.ToUniversalTime();

@@ -93,7 +93,7 @@ export class AddRoleModalComponent extends AppComponentBase {
         input.roleIds = _map(this.selectedRoles, (selectedRole) => Number(selectedRole.value));
         this.saving = true;
         this._organizationUnitService.addRolesToOrganizationUnit(input).subscribe(() => {
-            this.notify.success(this.l('SuccessfullyAdded'));
+            this.notifyService.success(this.l('SuccessfullyAdded'));
             this.rolesAdded.emit({
                 roleIds: input.roleIds,
                 ouId: input.organizationUnitId,

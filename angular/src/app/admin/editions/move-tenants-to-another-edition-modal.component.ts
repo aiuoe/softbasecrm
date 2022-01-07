@@ -55,7 +55,7 @@ export class MoveTenantsToAnotherEditionModalComponent extends AppComponentBase 
             .moveTenantsToAnotherEdition(this.moveTenantsInput)
             .pipe(finalize(() => (this.saving = false)))
             .subscribe(() => {
-                this.notify.info(this.l('MoveTenantsToAnotherEditionStartedNotification'));
+                this.notifyService.info(this.l('MoveTenantsToAnotherEditionStartedNotification'));
                 this.close();
             });
     }

@@ -115,7 +115,7 @@ export class EditTenantModalComponent extends AppComponentBase {
             .updateTenant(this.tenant)
             .pipe(finalize(() => (this.saving = false)))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

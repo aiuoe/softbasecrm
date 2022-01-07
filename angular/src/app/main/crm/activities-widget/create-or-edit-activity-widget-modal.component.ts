@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
-import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
+import { ActivityDuration, ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountActivitiesServiceProxy, ActivityActivityPriorityLookupTableDto, ActivityActivitySourceTypeLookupTableDto, ActivityActivityStatusLookupTableDto, ActivityActivityTaskTypeLookupTableDto, ActivityLeadLookupTableDto, ActivityOpportunityLookupTableDto, ActivityUserLookupTableDto, CreateOrEditActivityDto, CreateOrEditOpportunityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { DateTime } from 'luxon';
@@ -21,6 +21,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   @Input() activityType = '';
   @Input() componentType = '';
   @Input() idToStore: any;
+  @Input() canAssignAnyUser = false;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
   activity: CreateOrEditActivityDto = new CreateOrEditActivityDto();
@@ -86,6 +87,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.selectedDate = new Date();
     this.selectedTime = '';
     this.activityTypeCode = '';
+    this.activityType = '';
     this.isView = false;
     this.modal.hide();
   }
@@ -98,6 +100,8 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     this.activityTypeCode = activityTypeCode;
     this.activityType = this.allActivityTaskTypes.find( p => p.code == activityTypeCode).displayName;
     this.activity = new CreateOrEditActivityDto();
+    this.activity.durationMinutes = this._activitySharedService.getDefaultDuration(this.activityTypeCode);
+    this.activity.activityPriorityId = this.allActivityPrioritys.find( x => x.isDefault).id;
     this.active = true;
     this.modal.show();
   }
@@ -213,7 +217,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         })
     )
     .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notifyService.info(this.l('SavedSuccessfully'));
         this.close();
         this.modalSave.emit(null);
     });
@@ -232,7 +236,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         })
     )
     .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notifyService.info(this.l('SavedSuccessfully'));
         this.close();
         this.modalSave.emit(null);
     });
@@ -252,7 +256,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         })
     )
     .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notifyService.info(this.l('SavedSuccessfully'));
         this.close();
         this.modalSave.emit(null);
     });
@@ -307,7 +311,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    */
   callDataForLeadsModule(){
     this._leadActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-      this.allUsers = result;
+      this.allUsers = this.processUsersForTableDropdown(result);
     });
     this._leadActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
@@ -329,7 +333,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    */
   callDataForAccountsModule(){
     this._accountActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-      this.allUsers = result;
+      this.allUsers = this.processUsersForTableDropdown(result);
     });
     this._accountActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
@@ -350,7 +354,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
    */
    callDataForOpportunitiesModule(){
     this._opportunityActivitiesServiceProxy.getAllUserForTableDropdown().subscribe((result) => {
-      this.allUsers = result;
+      this.allUsers = this.processUsersForTableDropdown(result);
     });
     this._opportunityActivitiesServiceProxy.getAllActivitySourceTypeForTableDropdown().subscribe((result) => {
         this.allActivitySourceTypes = result;
@@ -366,5 +370,21 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     });
   }
 
+  /**
+   * Remove other users in the list if the current user is not allowed to assign others.
+   * @param users The list of users that needs to be filtered.
+   * @returns List of users
+   */
+  processUsersForTableDropdown(users: ActivityUserLookupTableDto[]): ActivityUserLookupTableDto[] {
+    if (!users || users.length === 0) return [];
+    return this.canAssignAnyUser ? users : users.filter((x) => x.id == this.appSession.userId);
+  }
+
+  /**
+  * Get ActivityTaskType enum for html access
+  */
+  get getActivityTaskType(): typeof ActivityTaskType {
+    return ActivityTaskType;
+  }
 
 }

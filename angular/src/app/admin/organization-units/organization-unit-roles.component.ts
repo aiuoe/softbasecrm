@@ -103,7 +103,7 @@ export class OrganizationUnitRolesComponent extends AppComponentBase implements 
                     this._organizationUnitService
                         .removeRoleFromOrganizationUnit(role.id, this.organizationUnit.id)
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyRemoved'));
+                            this.notifyService.success(this.l('SuccessfullyRemoved'));
                             this.roleRemoved.emit({
                                 roleId: role.id,
                                 ouId: this.organizationUnit.id,

@@ -72,7 +72,7 @@ export class CreateOrEditOpportunityStageComponent extends AppComponentBase impl
             )
             .subscribe((x) => {
                 this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/crm/opportunityStages']);
             });
     }
@@ -90,7 +90,7 @@ export class CreateOrEditOpportunityStageComponent extends AppComponentBase impl
             )
             .subscribe((x) => {
                 this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.opportunityStage = new CreateOrEditOpportunityStageDto();
             });
     }

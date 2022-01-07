@@ -274,7 +274,6 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
      * @returns void
      */
     save(): void {
-        debugger;
         if (!this.opportunityForm.form.valid) {
             this.opportunityForm.form.markAllAsTouched();
             this.message.warn(this.l('InvalidFormMessage'));
@@ -305,7 +304,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             )
             .subscribe((_) => {
                 this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this._router.navigate([this.routerLink]);
             });
     }

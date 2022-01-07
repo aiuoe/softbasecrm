@@ -39,6 +39,10 @@
 		<text name="OpportunityViewAllOpportunities__Dynamic">Access to all Opportunities</text>
 		<text name="CreateOrEditCustomerEmailPhoneValidation">Email or Phone should be provided</text>
 		<text name="ViewActivity">View Activity</text>
+    <text name="ViewActivities">View Activities</text>
+    <text name="ActivityNotExist">This Activity does not exist or is unavailable</text>
+    <text name="ActivityAssignOthersNotAllowed">You do not have permission to assign other users</text>
+    <text name="ActivityViewNotAllowed">You do not have permission to view this activity</text>
 		<text name="SelectAnAccount">Select an Account</text>
 		<text name="SelectACustomer">Select a Customer</text>
 		<text name="Notes">Notes</text>
@@ -1774,6 +1778,10 @@
 		<text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
 		<text name="Pages.Activities.Create.Assign_Other_Users__Dynamic">Assign other Users</text>
 		<text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic">View All Accounts, Leads and Opportunities</text>
+    <text name="Pages.Customer.ViewActivitiesOfAllUsers">View activities of all users</text>
+    <text name="Pages.Customer.AssignActivityToAnyUsers">Assign activities to any user</text>
+    <text name="Pages.Customer.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
+    <text name="Pages.Customer.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
 		<text name="FifteenMinutes">15 Minutes</text>
 		<text name="ThirtyMinutes">30 Minutes</text>
 		<text name="OneHour">1 Hour (default)</text>

@@ -125,7 +125,7 @@ export class WebhookSubscriptionDetailComponent extends AppComponentBase impleme
                     this.showMainSpinner();
                     this._webhookSendAttemptService.resend(id).subscribe(
                         () => {
-                            abp.notify.success(this.l('WebhookSendAttemptInQueue'));
+                            this.notifyService.success(this.l('WebhookSendAttemptInQueue'));
                             this.hideMainSpinner();
                         },
                         (e) => {

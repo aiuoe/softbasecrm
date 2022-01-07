@@ -148,14 +148,6 @@ namespace SBCRM.Authorization
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Create, L("CreateNewCustomer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit, L("EditCustomer"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_Edit__Dynamic, L("CustomerEdit__Dynamic"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting, L("CustomerScheduleMeeting"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting__Dynamic, L("CustomerScheduleMeeting__Dynamic"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall, L("CustomerScheduleCall"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall__Dynamic, L("CustomerScheduleCall__Dynamic"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder, L("CustomerEmailReminder"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder__Dynamic, L("CustomerEmailReminder__Dynamic"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder, L("CustomerToDoReminder"));
-            customer.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder__Dynamic, L("CustomerToDoReminder__Dynamic"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Invoices, L("CustomerViewInvoices"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Equipments, L("CustomerViewEquipments"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Wip, L("CustomerViewWip"));
@@ -182,6 +174,24 @@ namespace SBCRM.Authorization
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Edit, L("EditAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete, L("DeleteAccountContact"));
             accountContact.CreateChildPermission(AppPermissions.Pages_Contacts_Delete__Dynamic, L("DeleteDynamicAccountContact"));
+
+            var accountActivities = customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Activities, L("ViewActivities"));
+            accountActivities.CreateChildPermission(AppPermissions.Pages_Customer_View_Activities_Of_All_Users, L(AppPermissions.Pages_Customer_View_Activities_Of_All_Users));
+            accountActivities.CreateChildPermission(AppPermissions.Pages_Customer_Assign_Activity_To_Any_Users, L(AppPermissions.Pages_Customer_Assign_Activity_To_Any_Users));
+            accountActivities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Activities, L("EditActivity"));
+            accountActivities.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Activities__Dynamic, L(AppPermissions.Pages_Customer_Edit_Activities__Dynamic));
+
+            var accountCreateActivity = accountActivities.CreateChildPermission(AppPermissions.Pages_Customer_Create_Activities, L("CreateNewActivity"));
+            accountCreateActivity.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting, L("CustomerScheduleMeeting"));
+            accountCreateActivity.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall, L("CustomerScheduleCall"));
+            accountCreateActivity.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder, L("CustomerEmailReminder"));
+            accountCreateActivity.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder, L("CustomerToDoReminder"));
+
+            var accountCreateActivityDynamic = accountActivities.CreateChildPermission(AppPermissions.Pages_Customer_Create_Activities__Dynamic, L(AppPermissions.Pages_Customer_Create_Activities__Dynamic));
+            accountCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleMeeting__Dynamic, L("CustomerScheduleMeeting"));
+            accountCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Customer_ScheduleCall__Dynamic, L("CustomerScheduleCall"));
+            accountCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder__Dynamic, L("CustomerEmailReminder"));
+            accountCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder__Dynamic, L("CustomerToDoReminder"));
 
             var customerAttachments = customer.CreateChildPermission(AppPermissions.Pages_CustomerAttachments, L("CustomerAttachments"));
             customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Create, L("CreateNewCustomerAttachment"));
