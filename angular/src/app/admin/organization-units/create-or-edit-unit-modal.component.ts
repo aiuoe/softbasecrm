@@ -68,7 +68,7 @@ export class CreateOrEditUnitModalComponent extends AppComponentBase {
             .createOrganizationUnit(createInput)
             .pipe(finalize(() => (this.saving = false)))
             .subscribe((result: OrganizationUnitDto) => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.unitCreated.emit(result);
             });
@@ -84,7 +84,7 @@ export class CreateOrEditUnitModalComponent extends AppComponentBase {
             .updateOrganizationUnit(updateInput)
             .pipe(finalize(() => (this.saving = false)))
             .subscribe((result: OrganizationUnitDto) => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.unitUpdated.emit(result);
             });

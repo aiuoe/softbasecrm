@@ -53,7 +53,7 @@ export class DynamicPropertyComponent extends AppComponentBase {
         this.message.confirm(this.l('DeleteDynamicPropertyMessage'), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 this._dynamicPropertyService.delete(dynamicPropertyId).subscribe(() => {
-                    abp.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                     this.getDynamicProperties();
                 });
             }

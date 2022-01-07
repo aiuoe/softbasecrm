@@ -207,7 +207,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
             )
             .subscribe((_) => {
                 this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.goToLeads();
             });
     }

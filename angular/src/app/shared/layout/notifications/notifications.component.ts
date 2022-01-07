@@ -125,7 +125,7 @@ export class NotificationsComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._notificationService.deleteNotification(userNotification.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });
@@ -142,7 +142,7 @@ export class NotificationsComponent extends AppComponentBase {
                     )
                     .subscribe(() => {
                         this.reloadPage();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
+                        this.notifyService.success(this.l('SuccessfullyDeleted'));
                     });
             }
         });
