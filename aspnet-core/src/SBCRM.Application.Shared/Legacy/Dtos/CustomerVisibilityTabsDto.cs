@@ -1,5 +1,8 @@
 ﻿namespace SBCRM.Legacy.Dtos
 {
+    /// <summary>
+    /// DTO representing the access level for the Account tabs
+    /// </summary>
     public class CustomerVisibilityTabsDto
     {
         public bool CanEditOverviewTab { get; set; }

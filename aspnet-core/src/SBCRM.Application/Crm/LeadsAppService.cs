@@ -98,6 +98,29 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
+        /// Get visibility for Lead Tabs based on permissions
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<LeadVisibilityTabDto> GetVisibilityTabsPermissions(int leadId)
+        {
+            var visibilityTabs = new LeadVisibilityTabDto();
+
+            var currentUser = await GetCurrentUserAsync();
+            var currentUserIsAssignedInLead = _leadUserRepository
+                .GetAll()
+                .Where(x => x.LeadId == leadId)
+                .Any(x => x.UserId == currentUser.Id);
+
+            // Analyze permission for Edit of Overview Tab
+            var hasEditOverviewStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Leads_Edit);
+            visibilityTabs.CanEditOverviewTab = hasEditOverviewStaticPermission || currentUserIsAssignedInLead;
+
+            return visibilityTabs;
+        }
+
+        /// <summary>
         /// Get the dynamic permission based on the current user.
         /// The user will be shown all the leads if he has permission for it
         /// </summary>
@@ -576,9 +599,8 @@ namespace SBCRM.Crm
                     .FirstOrDefaultAsync();
             }
 
-            await _leadRepository.EnsureCollectionLoadedAsync(lead, x => x.Users);
-
             GuardHelper.ThrowIf(lead == null, new EntityNotFoundException(L("LeadNotExist")));
+            await _leadRepository.EnsureCollectionLoadedAsync(lead, x => x.Users);
 
             GetLeadForEditOutput output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 

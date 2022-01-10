@@ -24,8 +24,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="row"
-                                        *ngIf="(!this.showSaveButton && this.isReadOnlyMode) && isGranted('Pages.Customer.Edit')">
+                                    <div class="row" *ngIf="!this.showSaveButton && this.showEditButton">
                                         <div class="col-12">
                                             <button (click)="openEditionMode()"
                                                 class="btn btn-primary blue float-right">

@@ -13,7 +13,10 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     CountriesServiceProxy,
-    CountryDto, AccountUsersServiceProxy, LeadUsersServiceProxy, GetLeadForEditOutput,
+    CountryDto,
+    LeadUsersServiceProxy,
+    GetLeadForEditOutput,
+    LeadVisibilityTabDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -43,6 +46,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     active = false;
     saving = false;
     showSaveButton = false;
+    showEditButton = false;
     leadId: number;
 
     routerLink = '/app/main/crm/leads';
@@ -122,11 +126,13 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
         // Dynamic at runtime Permissions
         const permissionsRequests: Observable<any>[] = [
-            this._leadUsersServiceProxy.getCanViewAssignedUsersWidget(this.leadId)
+            this._leadUsersServiceProxy.getCanViewAssignedUsersWidget(this.leadId),
+            this._leadsServiceProxy.getVisibilityTabsPermissions(this.leadId)
         ];
         forkJoin([...permissionsRequests])
-            .subscribe(([getCanViewAssignedUsersWidget]) => {
+            .subscribe(([getCanViewAssignedUsersWidget, getVisibility]: [boolean, LeadVisibilityTabDto]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
+                this.showEditButton = getVisibility.canEditOverviewTab;
                 this.entityTypeHistory.show({
                     entityId: this.leadId.toString(),
                     entityName: 'Lead',
@@ -139,7 +145,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * Redirects to leads page
      */
     goToLeads() {
-        this._router.navigate(['/app/main/crm/leads']);
+        this._router.navigate([this.routerLink]);
     }
 
     /**
@@ -244,6 +250,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * Open internal edition mode
      */
     openEditionMode() {
+        this.showEditButton = false;
         this.isReadOnlyMode = false;
         this.isNew = false;
         this.showSaveButton = true;
