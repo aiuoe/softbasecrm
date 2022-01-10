@@ -99,10 +99,15 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
   show(activityTypeCode?: string){
     this.activityTypeCode = activityTypeCode;
     this.activityType = this.allActivityTaskTypes.find( p => p.code == activityTypeCode).displayName;
+
+    // Preset activity for creation mode
     this.activity = new CreateOrEditActivityDto();
     this.activity.durationMinutes = this._activitySharedService.getDefaultDuration(this.activityTypeCode);
     this.activity.activityPriorityId = this.allActivityPrioritys.find( x => x.isDefault).id;
+    this.activity.activityStatusId = this.allActivityStatuss.find(x => x.isDefault).id;
+
     this.active = true;
+    //Showing the modal
     this.modal.show();
   }
 
