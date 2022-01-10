@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_CustomerAttachments = "Pages.CustomerAttachments";
+        public const string Pages_CustomerAttachments_Create = "Pages.CustomerAttachments.Create";
+        public const string Pages_CustomerAttachments_Edit = "Pages.CustomerAttachments.Edit";
+        public const string Pages_CustomerAttachments_Delete = "Pages.CustomerAttachments.Delete";
+
         public const string Pages_OpportunityUsers = "Pages.OpportunityUsers";
         public const string Pages_OpportunityUsers_Create = "Pages.OpportunityUsers.Create";
         public const string Pages_OpportunityUsers_Edit = "Pages.OpportunityUsers.Edit";

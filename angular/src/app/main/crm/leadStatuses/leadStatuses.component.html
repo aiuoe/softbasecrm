@@ -44,11 +44,10 @@
                                             {{ l('Actions') }}
                                         </th>
                                         <th class="col-1"></th>
-                                        <th class="col-5" pSortableColumn="description">
+                                        <th class="col-5">
                                             {{ l('LeadStatusName') }}
-                                            <p-sortIcon field="leadStatus.description"></p-sortIcon>
                                         </th>
-                                        <th class="col-5" pSortableColumn="color">
+                                        <th class="col-5">
                                             {{ l('Color') }}
                                         </th>
                                     </tr>
@@ -62,7 +61,7 @@
                                             "
                                         >
                                             <div class="btn-group dropdown" dropdown container="body" *ngIf="(record.leadStatus.description !== 'New' && record.leadStatus.description !== 'Converted')">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
                                                 </button>

@@ -46,11 +46,10 @@
                                             {{ l('Actions') }}
                                         </th>
                                         <th class="col-1"></th>
-                                        <th class="col-5" pSortableColumn="description">
+                                        <th class="col-5">
                                             {{ l('ActivityStatusName') }}
-                                            <p-sortIcon field="activityStatus.description"></p-sortIcon>
                                         </th>
-                                        <th class="col-5" pSortableColumn="color">
+                                        <th class="col-5">
                                             {{ l('Color') }}
                                         </th>
                                     </tr>
@@ -72,7 +71,7 @@
                                                 container="body"
                                                 *ngIf="!record.activityStatus.isCompletedStatus"
                                             >
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <button class="dropdown-toggle btn btn-sm btn-secondary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
                                                     <span class="caret"></span>
                                                 </button>
