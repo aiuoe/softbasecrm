@@ -948,5 +948,115 @@ namespace SBCRM.Crm
                 }).ToListAsync();
             return result;
         }
+
+        /// <summary>s
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToScheduleMeeting(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ScheduleMeeting) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ScheduleMeeting__Dynamic) && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToScheduleCall(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ScheduleCall) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ScheduleCall__Dynamic) && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToEmailReminder(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_EmailReminder) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_EmailReminder__Dynamic) && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToDoReminder(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ToDoReminder) || 
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ToDoReminder__Dynamic) && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can view the Opportunity Activity widget.
+        /// The user can see the widget if any of these conditions are met:
+        /// 1. The current user has <see cref="AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users"/> permission, which is oriented for Managers., OR...
+        /// 2. The current user has <see cref="AppPermissions.Pages_Opportunities_View_Activities"/> permission and also assigned to the Opportunity
+        /// </summary>
+        /// <param name="isUserAssignedToOpportunity">Is the current user assigned to the Account/Customer?</param>
+        /// <returns>True or False</returns>
+        internal bool HasAccessActivityWidget(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAllActivities = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users);
+            var canViewActivities = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_View_Activities);
+
+            return canViewAllActivities || (canViewActivities && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can create an activity for the Opportunity.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessCreateActivity(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canCreateActivities = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Create_Activities);
+            var canCreateActivitiesDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Create_Activities__Dynamic);
+
+            return canCreateActivities || (canCreateActivitiesDynamic && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can edit an activity of Opportunity.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessEditActivity(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canEditActivity = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Edit_Activities);
+            var canEditActivityDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Edit_Activities__Dynamic);
+
+            return canEditActivity || (canEditActivityDynamic && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can view all activities of all users in Opportunities.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool CanViewAllActivitiesOfAllUsers()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users);
+        }
+
+        /// <summary>
+        /// Check whether the current user can assign any user.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool CanAssignAnyUserWhenCreatingOrUpdatingAnActivity()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Assign_Activity_To_Any_Users);
+        }
     }
 }

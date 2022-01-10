@@ -82,6 +82,24 @@ namespace SBCRM.Authorization
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Edit, L("EditOpportunityUser"));
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Delete, L("DeleteOpportunityUser"));
 
+            var opportunityActivities = opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Activities, L("ViewActivities"));
+            opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users, L(AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users));
+            opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_Assign_Activity_To_Any_Users, L(AppPermissions.Pages_Opportunities_Assign_Activity_To_Any_Users));
+            opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_Edit_Activities, L("EditActivity"));
+            opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_Edit_Activities__Dynamic, L(AppPermissions.Pages_Opportunities_Edit_Activities__Dynamic));
+
+            var opportunityCreateActivity = opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_Create_Activities, L("CreateNewActivity"));
+            opportunityCreateActivity.CreateChildPermission(AppPermissions.Pages_Opportunities_ScheduleMeeting, L("ScheduleMeeting"));
+            opportunityCreateActivity.CreateChildPermission(AppPermissions.Pages_Opportunities_ScheduleCall, L("ScheduleCall"));
+            opportunityCreateActivity.CreateChildPermission(AppPermissions.Pages_Opportunities_EmailReminder, L("EmailReminder"));
+            opportunityCreateActivity.CreateChildPermission(AppPermissions.Pages_Opportunities_ToDoReminder, L("ToDoReminder"));
+
+            var opportunityCreateActivityDynamic = opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_Create_Activities__Dynamic, L(AppPermissions.Pages_Opportunities_Create_Activities__Dynamic));
+            opportunityCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Opportunities_ScheduleMeeting__Dynamic, L("ScheduleMeeting"));
+            opportunityCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Opportunities_ScheduleCall__Dynamic, L("ScheduleCall"));
+            opportunityCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Opportunities_EmailReminder__Dynamic, L("EmailReminder"));
+            opportunityCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Opportunities_ToDoReminder__Dynamic, L("ToDoReminder"));
+
             //var opportunityTypes = pages.CreateChildPermission(AppPermissions.Pages_OpportunityTypes, L("OpportunityTypes"));
             //opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Create, L("CreateNewOpportunityType"));
             //opportunityTypes.CreateChildPermission(AppPermissions.Pages_OpportunityTypes_Edit, L("EditOpportunityType"));
