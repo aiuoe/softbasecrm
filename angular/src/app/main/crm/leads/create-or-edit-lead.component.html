@@ -404,6 +404,14 @@
 
             <div class="col-sm-12 col-lg-6">
                 <app-activities-widget
+                    *ngIf="showActivityWidget"
+                    [allowCreate]="canCreateActivity"
+                    [showScheduleMeetingOption]="canViewScheduleMeetingOption"
+                    [showScheduleCallOption]="canViewScheduleCallOption"
+                    [showEmailReminderOption]="canViewEmailReminderOption"
+                    [showToDoReminderOption]="canViewToDoReminderOption"
+                    [allowEdit]="canEditActivity"
+                    [canAssignAnyUser]="canAssignAnyUserInActivity"
                     [componentType] = "'Lead'"
                     [idToStore]="this.lead.id">
                 </app-activities-widget>
