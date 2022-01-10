@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>		
+	<texts>	    <text name="LeadAttachment">Lead attachment</text>
+    <text name="CreateNewLeadAttachment">Create new lead attachment</text>
+    <text name="EditLeadAttachment">Edit lead attachment</text>
+    <text name="DeleteLeadAttachment">Delete lead attachment</text>
+	
 		<text name="UpdateSuccessfully">Successfully updated.</text>
 		<text name="DashboardKPIWidget">KPI Widget</text>
 		

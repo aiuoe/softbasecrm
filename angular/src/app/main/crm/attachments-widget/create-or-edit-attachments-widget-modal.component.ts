@@ -3,10 +3,11 @@ import { Component, ViewChild, Injector, Output, Input, EventEmitter, OnInit, El
 import { AppConsts } from '@shared/AppConsts';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { IAttachment, CustomerAttachment } from './attachment.model';
+import { IAttachment, CustomerAttachment, LeadAttachment } from './attachment.model';
 import {
     CustomerAttachmentsServiceProxy,
-    ICustomerAttachmentDto
+    ICustomerAttachmentDto,
+    LeadAttachmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
@@ -39,6 +40,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         injector: Injector,
         private _tokenService: TokenService,
         private _customerAttachmentsServiceProxy: CustomerAttachmentsServiceProxy,
+        private _leadAttachmentsServiceProxy: LeadAttachmentsServiceProxy,
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
@@ -72,6 +74,27 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 this.attachment = customerAttachment;
 
                 break;
+
+            case 'Lead':
+                if (attachment) {
+                    this._leadAttachmentsServiceProxy
+                        .getLeadAttachmentForEdit(attachment.id)
+                        .subscribe((result) => {
+                            this.attachment = result.leadAttachment;
+
+                            this.active = true;
+                            this.initFileUploader();
+                            this.modal.show();
+                        });
+                    return;
+                }
+
+                let leadAttachment = new LeadAttachment();
+                leadAttachment.leadId = this.idToStore;
+                this.attachment = leadAttachment;
+                break;
+
+
             default:
                 return;
         }
@@ -99,7 +122,10 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
             case 'Account':
                 url += '/CustomerImport/UploadAttachments';
 
+            case 'Lead':
+                url += '/LeadImportAttachment/UploadAttachments';
                 break;
+
             default:
                 this.close();
                 return;

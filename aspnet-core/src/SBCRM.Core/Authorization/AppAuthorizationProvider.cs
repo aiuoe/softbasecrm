@@ -30,6 +30,11 @@ namespace SBCRM.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Modules"));
 
+            var leadAttachments = pages.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
+            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Create, L("CreateNewLeadAttachment"));
+            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Edit, L("EditLeadAttachment"));
+            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Delete, L("DeleteLeadAttachment"));
+
             var activities = pages.CreateChildPermission(AppPermissions.Pages_Activities, L("Activities"));
             var createActivity = activities.CreateChildPermission(AppPermissions.Pages_Activities_Create, L("CreateNewActivity"));
             createActivity.CreateChildPermission(AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic, L(AppPermissions.Pages_Activities_Create_Assign_Other_Users__Dynamic));
