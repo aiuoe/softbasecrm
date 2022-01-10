@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Lead attachment data transfer model for creating and editing attachment.
+    /// </summary>
     public class CreateOrEditLeadAttachmentDto : EntityDto<int?>
     {
 

@@ -3,6 +3,9 @@ using System;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// A Lead attachment excel filter model.
+    /// </summary>
     public class GetAllLeadAttachmentsForExcelInput
     {
         public string Filter { get; set; }

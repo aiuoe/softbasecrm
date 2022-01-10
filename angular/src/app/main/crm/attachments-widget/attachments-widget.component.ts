@@ -249,6 +249,10 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
             case 'Lead':
                 return `/LeadImportAttachment/getAttachment?id=${attachment.id}`
                 break;
+
+            case 'Opportunity':
+                // To Do
+                break;
         }
     }
 }
