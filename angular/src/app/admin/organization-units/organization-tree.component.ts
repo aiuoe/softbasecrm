@@ -109,7 +109,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                             })
                         )
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyMoved'));
+                            this.notifyService.success(this.l('SuccessfullyMoved'));
                             this.reload();
                         });
                 } else {
@@ -221,7 +221,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                                     .deleteOrganizationUnit(this.selectedOu.data.id)
                                     .subscribe(() => {
                                         this.deleteUnit(this.selectedOu.data.id);
-                                        this.notify.success(this.l('SuccessfullyDeleted'));
+                                        this.notifyService.success(this.l('SuccessfullyDeleted'));
                                         this.selectedOu = null;
                                         this.reload();
                                         this.ouSelected.emit(null);

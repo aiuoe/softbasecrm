@@ -92,7 +92,7 @@ export class OpportunityTypesComponent extends AppComponentBase {
                     this._opportunityTypesServiceProxy.delete(opportunityType.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

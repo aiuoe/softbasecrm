@@ -39,7 +39,7 @@ export class ConfirmEmailComponent extends AppComponentBase implements OnInit {
             }
 
             this._accountService.activateEmail(this.model).subscribe(() => {
-                this.notify.success(this.l('YourEmailIsConfirmedMessage'), '', {
+                this.notifyService.success(this.l('YourEmailIsConfirmedMessage'), '', {
                     willClose: () => {
                         this._router.navigate(['account/login']);
                     },

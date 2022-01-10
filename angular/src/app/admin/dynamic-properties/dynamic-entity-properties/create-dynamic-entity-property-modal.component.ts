@@ -68,7 +68,7 @@ export class CreateDynamicEntityPropertyModalComponent extends AppComponentBase 
         this.dynamicEntityProperty.tenantId = abp.session.tenantId; // remove that
         this._dynamicEntityPropertyService.add(this.dynamicEntityProperty).subscribe(
             () => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.hideMainSpinner();
                 this.modalSave.emit(null);
                 this.modal.hide();

@@ -118,7 +118,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._opportunityStagesServiceProxy.delete(opportunityStage.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });
@@ -147,7 +147,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
         let request: UpdateOrderOpportunityStageDto[] = [this.opportunityStage1, this.opportunityStage2];
 
         this._opportunityStagesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notify.info(this.l('UpdateSuccessfully'));
+            this.notifyService.info(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getOpportunityStages();
         });

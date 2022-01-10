@@ -102,7 +102,7 @@ export class ActivitySourceTypesComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._activitySourceTypesServiceProxy.delete(activitySourceType.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });

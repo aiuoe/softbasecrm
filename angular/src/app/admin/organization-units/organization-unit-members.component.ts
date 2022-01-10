@@ -99,7 +99,7 @@ export class OrganizationUnitMembersComponent extends AppComponentBase implement
                     this._organizationUnitService
                         .removeUserFromOrganizationUnit(user.id, this.organizationUnit.id)
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyRemoved'));
+                            this.notifyService.success(this.l('SuccessfullyRemoved'));
                             this.memberRemoved.emit({
                                 userId: user.id,
                                 ouId: this.organizationUnit.id,
