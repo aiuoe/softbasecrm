@@ -40,35 +40,30 @@
                                                 <span class="text_next_buttons text-margin">
                                                     {{ l('SeeAs') }}
                                                 </span>
-                                                <button
-                                                    type="button"
-                                                    (click)="
-                                                        summaryTableIsShown = true;
-                                                        summaryCalendarIsShown = false;"
+                                            <button type="button"
+                                                    (click)="doSeeAsListView()"
                                                     class="btn btn-secondary k button-margin btn-square-md"
                                                     [ngClass]="{ 'j': summaryTableIsShown, 'k': summaryCalendarIsShown  }"
                                                     aria-pressed="true"
                                                     data-toggle="button"
-                                                >
+                                            >
                                                     <span class="button_text">
                                                         {{ l('List') }}
                                                     </span>
 
-                                                </button>
+                                            </button>
 
-                                                <button (click)="
-                                                        summaryTableIsShown = false;
-                                                        summaryCalendarIsShown = true;
-                                                        initializeCalendar();"
+                                            <button type="button"
+                                                    (click)="doSeeAsCalendarView()"
                                                     class="btn btn-secondary button-margin btn-square-md"
                                                     [ngClass]="{ 'j': summaryCalendarIsShown, 'k': summaryTableIsShown  }"
                                                     aria-pressed="true"
                                                     data-toggle="button"
-                                                >
+                                            >
                                                     <span class="button_text">
                                                         {{ l('Calendar') }}
                                                     </span>
-                                                </button>
+                                            </button>
                                         </div>
                                         <div class="input-group extra-padding-for-forms-div">
                                             <input
@@ -353,7 +348,7 @@
                                             <ng-template #assignedUserLabel>
                                                 <span class="p-column-title">{{ l('AssignedUser') }}</span>
                                                 <span class="d-flex align-items-center">
-                                                    <img class="img-circle mr-3" [src]="record.profilePictureUrl" />
+                                                    <img class="img-circle mr-3" [src]="record.profilePictureUrl"/>
 
                                                     {{ record.userName }}
                                                 </span>
@@ -381,11 +376,13 @@
                         </div>
                         <!--<Primeng-Datatable-End>-->
                     </div>
-                    <div [hidden]="!summaryCalendarIsShown" >
-                        <div class="row mb-2 margin-colors" >
-                            <div *ngFor="let activity of activityTaskTypes"
-                                class='text_next_boxes'><div class='box' [ngStyle]="{'background-color': activity.color}">
-                            </div> {{ activity.displayName }} </div>
+                    <div [hidden]="!summaryCalendarIsShown">
+                        <div class="row mb-2 margin-colors">
+                            <div *ngFor="let activity of activityTaskTypesForCalendar"
+                                 class='text_next_boxes'>
+                                <div class='box' [ngStyle]="{'background-color': activity.color}">
+                                </div>
+                                {{ activity.displayName }} </div>
                         </div>
                         <full-calendar
                             contentHeight="auto"
