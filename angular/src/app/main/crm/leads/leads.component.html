@@ -284,6 +284,7 @@
                                                     <hr>
                                                     <li>
                                                         <a
+                                                            *ngIf="record.canViewScheduleMeetingOption"
                                                             class="dropdown-item" 
                                                             (click) = "createActivityScheduleMeetingHandler(record.lead.id)"                                                          
                                                         >
@@ -294,6 +295,7 @@
                                                     </li>
                                                     <li>
                                                         <a
+                                                            *ngIf="record.canViewScheduleCallOption"
                                                             class="dropdown-item"
                                                             (click) = "createActivityScheduleCallHandler(record.lead.id)"                                                            
                                                         >
@@ -304,6 +306,7 @@
                                                     </li>
                                                     <li>
                                                         <a
+                                                            *ngIf="record.canViewEmailReminderOption"
                                                             class="dropdown-item" 
                                                             (click) = "createActivityEmailReminderHandler(record.lead.id)"                                                            
                                                         >
@@ -315,6 +318,7 @@
                                                     </li>
                                                     <li>
                                                         <a
+                                                            *ngIf="record.canViewToDoReminderOption"
                                                             class="dropdown-item"    
                                                             (click) = "createActivityToDoReminderHandler(record.lead.id)"                                                         
                                                         >

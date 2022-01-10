@@ -38,5 +38,10 @@ namespace SBCRM.Crm.Dtos
         public string BranchName { get; set; }
 
         public string DepartmentTitle { get; set; }
+
+        public bool CanViewScheduleMeetingOption { get; set; }
+        public bool CanViewScheduleCallOption { get; set; }
+        public bool CanViewEmailReminderOption { get; set; }
+        public bool CanViewToDoReminderOption { get; set; }
     }
 }
