@@ -113,7 +113,7 @@ export class LeadSourcesComponent extends AppComponentBase {
             if (isConfirmed) {
                 this._leadSourcesServiceProxy.delete(leadSource.id).subscribe(() => {
                     this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                 });
             }
         });
@@ -142,7 +142,7 @@ export class LeadSourcesComponent extends AppComponentBase {
         let request: UpdateOrderleadSourceDto[] = [this.leadsourceSrc, this.leadsourceDst];
 
         this._leadSourcesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notify.info(this.l('UpdateSuccessfully'));
+            this.notifyService.info(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getLeadSources();
         });

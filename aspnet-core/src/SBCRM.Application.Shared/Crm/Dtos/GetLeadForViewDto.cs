@@ -34,5 +34,10 @@ namespace SBCRM.Crm.Dtos
         public Guid? FirstUserProfilePictureUrl { get; set; }
 
         public int AssignedUsers { get; set; }
+
+        public bool CanViewScheduleMeetingOption { get; set; }
+        public bool CanViewScheduleCallOption { get; set; }
+        public bool CanViewEmailReminderOption { get; set; }
+        public bool CanViewToDoReminderOption { get; set; }
     }
 }

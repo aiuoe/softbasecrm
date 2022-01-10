@@ -7664,7 +7664,8 @@ export class CustomerServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -7673,6 +7674,386 @@ export class CustomerServiceProxy {
             }));
         }
         return _observableOf<boolean>(<any>null);
+    }
+}
+
+@Injectable()
+export class CustomerAttachmentsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param filePathFilter (optional) 
+     * @param customerNumberFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined, customerNumberFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetCustomerAttachmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (filePathFilter === null)
+            throw new Error("The parameter 'filePathFilter' cannot be null.");
+        else if (filePathFilter !== undefined)
+            url_ += "FilePathFilter=" + encodeURIComponent("" + filePathFilter) + "&";
+        if (customerNumberFilter === null)
+            throw new Error("The parameter 'customerNumberFilter' cannot be null.");
+        else if (customerNumberFilter !== undefined)
+            url_ += "CustomerNumberFilter=" + encodeURIComponent("" + customerNumberFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetCustomerAttachmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetCustomerAttachmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetCustomerAttachmentForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetCustomerAttachmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetCustomerAttachmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getCustomerAttachmentForView(id: number | undefined): Observable<GetCustomerAttachmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetCustomerAttachmentForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCustomerAttachmentForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCustomerAttachmentForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCustomerAttachmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCustomerAttachmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCustomerAttachmentForView(response: HttpResponseBase): Observable<GetCustomerAttachmentForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetCustomerAttachmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCustomerAttachmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getCustomerAttachmentForEdit(id: number | undefined): Observable<GetCustomerAttachmentForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetCustomerAttachmentForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCustomerAttachmentForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCustomerAttachmentForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCustomerAttachmentForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCustomerAttachmentForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCustomerAttachmentForEdit(response: HttpResponseBase): Observable<GetCustomerAttachmentForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetCustomerAttachmentForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCustomerAttachmentForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditCustomerAttachmentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param filePathFilter (optional) 
+     * @return Success
+     */
+    getCustomerAttachmentsToExcel(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetCustomerAttachmentsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (filePathFilter === null)
+            throw new Error("The parameter 'filePathFilter' cannot be null.");
+        else if (filePathFilter !== undefined)
+            url_ += "FilePathFilter=" + encodeURIComponent("" + filePathFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCustomerAttachmentsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCustomerAttachmentsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCustomerAttachmentsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
     }
 }
 
@@ -31000,6 +31381,54 @@ export interface ICreateOrEditCountryDto {
     id: number | undefined;
 }
 
+export class CreateOrEditCustomerAttachmentDto implements ICreateOrEditCustomerAttachmentDto {
+    name!: string;
+    filePath!: string;
+    customerNumber!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditCustomerAttachmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.customerNumber = _data["customerNumber"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditCustomerAttachmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditCustomerAttachmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["customerNumber"] = this.customerNumber;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditCustomerAttachmentDto {
+    name: string;
+    filePath: string;
+    customerNumber: string | undefined;
+    id: number | undefined;
+}
+
 export class CreateOrEditCustomerDto implements ICreateOrEditCustomerDto {
     number!: string | undefined;
     billTo!: string | undefined;
@@ -32177,6 +32606,54 @@ export interface ICustomerAccountTypeLookupTableDto {
     id: number;
     displayName: string | undefined;
     isDefault: boolean;
+}
+
+export class CustomerAttachmentDto implements ICustomerAttachmentDto {
+    name!: string | undefined;
+    filePath!: string | undefined;
+    customerNumber!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICustomerAttachmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.customerNumber = _data["customerNumber"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CustomerAttachmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerAttachmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["customerNumber"] = this.customerNumber;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICustomerAttachmentDto {
+    name: string | undefined;
+    filePath: string | undefined;
+    customerNumber: string | undefined;
+    id: number | undefined;
 }
 
 export class CustomerCountryLookupTableDto implements ICustomerCountryLookupTableDto {
@@ -36077,6 +36554,78 @@ export interface IGetCurrentLoginInformationsOutput {
     theme: UiCustomizationSettingsDto;
 }
 
+export class GetCustomerAttachmentForEditOutput implements IGetCustomerAttachmentForEditOutput {
+    customerAttachment!: CreateOrEditCustomerAttachmentDto;
+
+    constructor(data?: IGetCustomerAttachmentForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.customerAttachment = _data["customerAttachment"] ? CreateOrEditCustomerAttachmentDto.fromJS(_data["customerAttachment"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetCustomerAttachmentForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCustomerAttachmentForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerAttachment"] = this.customerAttachment ? this.customerAttachment.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetCustomerAttachmentForEditOutput {
+    customerAttachment: CreateOrEditCustomerAttachmentDto;
+}
+
+export class GetCustomerAttachmentForViewDto implements IGetCustomerAttachmentForViewDto {
+    customerAttachment!: CustomerAttachmentDto;
+
+    constructor(data?: IGetCustomerAttachmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.customerAttachment = _data["customerAttachment"] ? CustomerAttachmentDto.fromJS(_data["customerAttachment"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetCustomerAttachmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCustomerAttachmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerAttachment"] = this.customerAttachment ? this.customerAttachment.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetCustomerAttachmentForViewDto {
+    customerAttachment: CustomerAttachmentDto;
+}
+
 export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
     customer!: CreateOrEditCustomerDto;
     accountTypeDescription!: string | undefined;
@@ -36132,7 +36681,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
-        return data; 
+        return data;
     }
 }
 
@@ -36292,7 +36841,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
-        return data; 
+        return data;
     }
 }
 
@@ -37084,6 +37633,10 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     firstUserAssignedFullName!: string | undefined;
     firstUserProfilePictureUrl!: string | undefined;
     assignedUsers!: number;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -37110,6 +37663,10 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
             this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
             this.assignedUsers = _data["assignedUsers"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
         }
     }
 
@@ -37136,6 +37693,10 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
         data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
         data["assignedUsers"] = this.assignedUsers;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         return data; 
     }
 }
@@ -37155,6 +37716,10 @@ export interface IGetLeadForViewDto {
     firstUserAssignedFullName: string | undefined;
     firstUserProfilePictureUrl: string | undefined;
     assignedUsers: number;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -37666,6 +38231,10 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     assignedUsers!: number;
     branchName!: string | undefined;
     departmentTitle!: string | undefined;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -37694,6 +38263,10 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.assignedUsers = _data["assignedUsers"];
             this.branchName = _data["branchName"];
             this.departmentTitle = _data["departmentTitle"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
         }
     }
 
@@ -37722,6 +38295,10 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["assignedUsers"] = this.assignedUsers;
         data["branchName"] = this.branchName;
         data["departmentTitle"] = this.departmentTitle;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         return data; 
     }
 }
@@ -37743,6 +38320,10 @@ export interface IGetOpportunityForViewDto {
     assignedUsers: number;
     branchName: string | undefined;
     departmentTitle: string | undefined;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {
@@ -43582,6 +44163,54 @@ export class PagedResultDtoOfGetCountryForViewDto implements IPagedResultDtoOfGe
 export interface IPagedResultDtoOfGetCountryForViewDto {
     totalCount: number;
     items: GetCountryForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetCustomerAttachmentForViewDto implements IPagedResultDtoOfGetCustomerAttachmentForViewDto {
+    totalCount!: number;
+    items!: GetCustomerAttachmentForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetCustomerAttachmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetCustomerAttachmentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetCustomerAttachmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetCustomerAttachmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetCustomerAttachmentForViewDto {
+    totalCount: number;
+    items: GetCustomerAttachmentForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetCustomerForViewDto implements IPagedResultDtoOfGetCustomerForViewDto {

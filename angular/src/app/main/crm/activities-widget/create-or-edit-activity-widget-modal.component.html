@@ -96,7 +96,6 @@
                                         required
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
@@ -113,7 +112,6 @@
                                         required
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
@@ -236,7 +234,6 @@
                                         required
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
@@ -253,7 +250,6 @@
                                         required
                                         [disabled] = "isView"
                                         >
-                                        <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
@@ -316,7 +312,6 @@
                                 <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
                                     <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
-                                        <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
                                 </div>
@@ -334,7 +329,6 @@
                                         required
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityStatus') }}</option>
                                         <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
@@ -351,7 +345,6 @@
                                         required
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>
@@ -415,7 +408,6 @@
                                 <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
                                     <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
-                                        <option value="">{{ l('SelectAUser') }}</option>
                                         <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
                                     </select>
                                 </div>
@@ -450,7 +442,6 @@
                                         required
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityPriority') }}</option>
                                         <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
                                             {{ item.displayName }}
                                         </option>

@@ -52,7 +52,7 @@ export class DynamicPropertyValueModalComponent extends AppComponentBase {
         this.message.confirm(this.l('DeleteDynamicPropertyValueMessage'), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 this._dynamicPropertyValueAppService.delete(dynamicPropertyValueId).subscribe(() => {
-                    abp.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                     this.getDynamicProperties();
                 });
             }
@@ -88,7 +88,7 @@ export class DynamicPropertyValueModalComponent extends AppComponentBase {
         observable.subscribe(
             () => {
                 this.getDynamicProperties();
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notifyService.info(this.l('SavedSuccessfully'));
                 this.hideMainSpinner();
                 this.saving = false;
                 this.createOrEditValueEnabled = false;

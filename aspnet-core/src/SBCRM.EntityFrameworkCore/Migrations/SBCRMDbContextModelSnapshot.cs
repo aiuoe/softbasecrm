@@ -2135,6 +2135,55 @@ namespace SBCRM.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("SBCRM.Crm.CustomerAttachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CustomerNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerNumber");
+
+                    b.ToTable("CustomerAttachments");
+                });
+
             modelBuilder.Entity("SBCRM.Crm.Industry", b =>
                 {
                     b.Property<int>("Id")
@@ -5000,6 +5049,17 @@ namespace SBCRM.Migrations
                     b.Navigation("OpportunityFk");
 
                     b.Navigation("UserFk");
+                });
+
+            modelBuilder.Entity("SBCRM.Crm.CustomerAttachment", b =>
+                {
+                    b.HasOne("SBCRM.Legacy.Customer", "CustomerFk")
+                        .WithMany()
+                        .HasForeignKey("CustomerNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomerFk");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.Lead", b =>

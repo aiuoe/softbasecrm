@@ -215,7 +215,10 @@
                                                         </span>    
                                                         </a>
                                                     </li>
-                                                    <hr>
+                                                    <hr *ngIf="record.canViewScheduleMeetingOption 
+                                                            || record.canViewScheduleCallOption
+                                                            || record.canViewEmailReminderOption
+                                                            || record.canViewToDoReminderOption">
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleMeetingOption"

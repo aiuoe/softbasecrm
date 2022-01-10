@@ -60,7 +60,7 @@ export class ManageDynamicEntityPropertyModalComponent extends AppComponentBase 
         this.message.confirm(this.l('DeleteDynamicPropertyMessage'), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 this._dynamicEntityPropertyService.delete(id).subscribe(() => {
-                    abp.notify.success(this.l('SuccessfullyDeleted'));
+                    this.notifyService.success(this.l('SuccessfullyDeleted'));
                     this.handlePropertyChanges();
                 });
             }

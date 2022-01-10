@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>		
+		<text name="UpdateSuccessfully">Successfully updated.</text>
 		<text name="DashboardKPIWidget">KPI Widget</text>
 		
 		<text name="LatestOpportunities">Latest Opportunities</text>
@@ -10,6 +11,16 @@
 		<text name="FilterByStage">Filter by Stage</text>
 		<text name="NewOpportunity">New Opportunity</text>
 		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
+    <text name="CustomerAttachment">Customer attachment</text>
+    <text name="SBCRM.Crm.CustomerAttachment">CustomerAttachment</text>
+    <text name="FilePath">File path</text>
+    <text name="CustomerAttachmentsHeaderInfo">Customer attachments header info</text>
+    <text name="CreateNewCustomerAttachment">Create new customer attachment</text>
+    <text name="EditCustomerAttachment">Edit customer attachment</text>
+    <text name="DeleteCustomerAttachment">Delete customer attachment</text>
+    <text name="CustomerAttachments">Customer attachments</text>
+
+		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
         <text name="CustomerScheduleMeeting">Schedule meeting</text>
         <text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>
         <text name="CustomerScheduleCall">Schedule call</text>
@@ -730,6 +741,7 @@
 		<text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
 		<text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
 		<text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
+		<text name="CustomerAttachment_Warn_FileType">You can only select JPG/JPEG/PNG/GIF/DOC/PDF file. Please select another file.</text>
 		<text name="Dashboard">Dashboard</text>
 		<text name="DashboardHeaderInfo">statistics and reports</text>
 		<text name="GoToApplication">Go to application</text>
@@ -805,6 +817,7 @@
 		<text name="DeleteDynamicAccountContact">Delete contact if user is assigned to the Account</text>
 		<text name="ErrorUploadingMessage">Error uploading. Please review your file and make sure you have correct data and required fields are not blank</text>
 		<text name="LeadsImportedSuccesfuly">Leads imported successfully</text>
+		<text name="CustomerAttachmentUploaded">Customer attachment uploaded</text>
 		<text name="DuplicatedLeads">Duplicated leads encountered</text>
 		<text name="AreYouSureToUpload">Are you sure you want to upload this file?</text>
 		<text name="LeadsNotImportedDuplicated">lead(s) was(were) not imported because of an existing lead with the same Company Name and Contact Name.  Download file to see details</text>
@@ -1716,6 +1729,7 @@
 		<text name="MySettings_Description">Change your account settings</text>
 		<text name="VisualSettings_Description">Change look of the application</text>
 		<text name="DownloadCollectedData_Description">Download data belongs to your account</text>
+		<text name="DownloadErrorMessage">Download failed</text>
 		<text name="New">New</text>
 		<text name="NotAMemberYet">Not a member yet ?</text>
 		<text name="DynamicEntityProperties">Dynamic Entity Properties</text>

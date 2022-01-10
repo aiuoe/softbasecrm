@@ -211,6 +211,11 @@ namespace SBCRM.Authorization
             accountCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Customer_EmailReminder__Dynamic, L("CustomerEmailReminder"));
             accountCreateActivityDynamic.CreateChildPermission(AppPermissions.Pages_Customer_ToDoReminder__Dynamic, L("CustomerToDoReminder"));
 
+            var customerAttachments = customer.CreateChildPermission(AppPermissions.Pages_CustomerAttachments, L("CustomerAttachments"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Create, L("CreateNewCustomerAttachment"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Edit, L("EditCustomerAttachment"));
+            customerAttachments.CreateChildPermission(AppPermissions.Pages_CustomerAttachments_Delete, L("DeleteCustomerAttachment"));
+
             //var accountTypes = pages.CreateChildPermission(AppPermissions.Pages_AccountTypes, L("AccountTypes"));
             //accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Create, L("CreateNewAccountType"));
             //accountTypes.CreateChildPermission(AppPermissions.Pages_AccountTypes_Edit, L("EditAccountType"));
