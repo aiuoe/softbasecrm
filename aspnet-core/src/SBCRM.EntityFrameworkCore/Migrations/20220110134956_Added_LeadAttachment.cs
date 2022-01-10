@@ -7,20 +7,7 @@ namespace SBCRM.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Opportunities_Dept_Dept_Branch",
-                schema: "web",
-                table: "Opportunities");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Opportunities_Dept_Branch",
-                schema: "web",
-                table: "Opportunities");
-
-            migrationBuilder.DropColumn(
-                name: "DepartmentId",
-                schema: "web",
-                table: "Opportunities");
 
             migrationBuilder.CreateTable(
                 name: "LeadAttachments",
@@ -52,82 +39,19 @@ namespace SBCRM.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Opportunities_Branch_Dept",
-                schema: "web",
-                table: "Opportunities",
-                columns: new[] { "Branch", "Dept" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LeadAttachments_LeadId",
                 schema: "web",
                 table: "LeadAttachments",
                 column: "LeadId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Dept_Branch_Branch",
-                schema: "dbo",
-                table: "Dept",
-                column: "Branch",
-                principalSchema: "dbo",
-                principalTable: "Branch",
-                principalColumn: "Number",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Opportunities_Dept_Branch_Dept",
-                schema: "web",
-                table: "Opportunities",
-                columns: new[] { "Branch", "Dept" },
-                principalSchema: "dbo",
-                principalTable: "Dept",
-                principalColumns: new[] { "Branch", "Dept" },
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Dept_Branch_Branch",
-                schema: "dbo",
-                table: "Dept");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Opportunities_Dept_Branch_Dept",
-                schema: "web",
-                table: "Opportunities");
-
             migrationBuilder.DropTable(
                 name: "LeadAttachments",
                 schema: "web");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Opportunities_Branch_Dept",
-                schema: "web",
-                table: "Opportunities");
-
-            migrationBuilder.AddColumn<short>(
-                name: "DepartmentId",
-                schema: "web",
-                table: "Opportunities",
-                type: "smallint",
-                nullable: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Opportunities_Dept_Branch",
-                schema: "web",
-                table: "Opportunities",
-                columns: new[] { "Dept", "Branch" });
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Opportunities_Dept_Dept_Branch",
-                schema: "web",
-                table: "Opportunities",
-                columns: new[] { "Dept", "Branch" },
-                principalSchema: "dbo",
-                principalTable: "Dept",
-                principalColumns: new[] { "Branch", "Dept" },
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }

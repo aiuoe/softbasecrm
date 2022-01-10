@@ -2,7 +2,7 @@
 import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CustomerAttachmentsServiceProxy, LeadAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -55,6 +55,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
         private _dateTimeService: DateTimeService,
+        private _leadAttachmentsServiceProxy: LeadAttachmentsServiceProxy,
         private _tokenService: TokenService,
     ) {
         super(injector);
@@ -104,7 +105,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 break;
 
             case 'Lead':
-//                this.getLeadAttachments(event);
+                this.getLeadAttachments(event);
                 break;
 
             case 'Opportunity':
@@ -138,6 +139,32 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
             });
     }
 
+        /**
+     * Populates the lead attachments list.
+     * @param event 
+     */
+         getLeadAttachments(event?: LazyLoadEvent) {
+
+            this.primengTableHelper.showLoadingIndicator();
+    
+            this._leadAttachmentsServiceProxy
+                .getAll(
+                    this.filterText,
+                    this.nameFilter,
+                    this.filePathFilter,
+                    '',
+                    this.idToStore,
+                    this.primengTableHelper.getSorting(this.dataTable),
+                    this.primengTableHelper.getSkipCount(this.paginator, event),
+                    this.primengTableHelper.getMaxResultCount(this.paginator, event)
+                )
+                .subscribe((result) => {
+                    this.primengTableHelper.totalRecordsCount = result.totalCount;
+                    this.primengTableHelper.records = result.items.map(item => item.leadAttachment);
+                    this.primengTableHelper.hideLoadingIndicator();
+                });
+        }
+
     /**
      * Refresh the table
      */
@@ -158,14 +185,6 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
      * @returns 
      */
     deleteAttachment(attachment: IAttachment): void {
-
-        switch (this.componentType) {
-            case 'Account':
-                break;
-            default:
-                return;
-        }
-
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 switch (this.componentType) {
@@ -174,7 +193,15 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                             this.reloadPage();
                             this.notify.success(this.l('SuccessfullyDeleted'));
                         });
-                        break;        
+                        break;
+
+                    case 'Lead':
+                        this._leadAttachmentsServiceProxy.delete(attachment.id).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                        break;
+
                 }
             }
         });
@@ -186,7 +213,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
      */
     downloadAttachment(attachment: IAttachment) {
 
-        const url = AppConsts.remoteServiceBaseUrl + `/CustomerImport/getAttachment?id=${attachment.id}`;
+        const url = AppConsts.remoteServiceBaseUrl +  this.getAPIUrlForDownloadAttachment(attachment);
         fetch(url, {
             headers: new Headers({
                     Origin: location.origin,
@@ -211,5 +238,17 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
             .catch((error) => {
                 this.notify.error(this.l('DownloadErrorMessage'));
             });
+    }
+
+    private getAPIUrlForDownloadAttachment(attachment: IAttachment){
+        switch(this.componentType){
+            case 'Account':
+                return `/CustomerImport/getAttachment?id=${attachment.id}`;
+                break;
+
+            case 'Lead':
+                return `/LeadImportAttachment/getAttachment?id=${attachment.id}`
+                break;
+        }
     }
 }

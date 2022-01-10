@@ -12,6 +12,7 @@ import { ImportLeadsModalComponent } from '@app/main/crm/leads/import-leads-moda
 import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ActivitiesWidgetModule } from '../activities-widget/activities-widget.module';
+import { AttachmentsWidgetModule } from '../attachments-widget/attachments-widget.module';
 
 @NgModule({
     declarations: [LeadsComponent, CreateOrEditLeadComponent, ImportLeadsModalComponent],
@@ -23,7 +24,8 @@ import { ActivitiesWidgetModule } from '../activities-widget/activities-widget.m
                 DropdownModule,
                 MultiSelectModule, 
                 AssignedUserModule,
-                ActivitiesWidgetModule],
+                ActivitiesWidgetModule,
+                AttachmentsWidgetModule],
                 
     providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })

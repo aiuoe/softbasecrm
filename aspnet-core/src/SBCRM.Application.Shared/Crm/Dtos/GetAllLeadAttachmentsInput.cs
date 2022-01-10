@@ -13,5 +13,7 @@ namespace SBCRM.Crm.Dtos
 
         public string LeadCompanyNameFilter { get; set; }
 
+        public int LeadIdFilter { get; set; }
+
     }
 }

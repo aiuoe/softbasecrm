@@ -13410,12 +13410,13 @@ export class LeadAttachmentsServiceProxy {
      * @param nameFilter (optional) 
      * @param filePathFilter (optional) 
      * @param leadCompanyNameFilter (optional) 
+     * @param leadIdFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined, leadCompanyNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadAttachmentForViewDto> {
+    getAll(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined, leadCompanyNameFilter: string | undefined, leadIdFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadAttachmentForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -13433,6 +13434,10 @@ export class LeadAttachmentsServiceProxy {
             throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
         else if (leadCompanyNameFilter !== undefined)
             url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (leadIdFilter === null)
+            throw new Error("The parameter 'leadIdFilter' cannot be null.");
+        else if (leadIdFilter !== undefined)
+            url_ += "LeadIdFilter=" + encodeURIComponent("" + leadIdFilter) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)

@@ -121,9 +121,14 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         switch (this.componentType) {
             case 'Account':
                 url += '/CustomerImport/UploadAttachments';
+                break;
 
             case 'Lead':
                 url += '/LeadImportAttachment/UploadAttachments';
+                break;
+
+            case 'Opportunity':
+                // To DO
                 break;
 
             default:
@@ -144,8 +149,19 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 form.append('Id', this.attachment.id);
             }
             form.append('Name', this.attachment.name);
-            if (this.isCustomer(this.attachment)) {
-                form.append('CustomerNumber', (<CustomerAttachment>this.attachment).customerNumber);
+
+            switch(this.componentType){
+                case 'Account':
+                    form.append('CustomerNumber', (<CustomerAttachment>this.attachment).customerNumber);
+                    break;
+                
+                case 'Lead':
+                    form.append('LeadId', (<LeadAttachment>this.attachment).leadId);
+                    break;
+
+                case 'Opportunity':
+                    // TO-DO
+                    break;
             }
         };
 
