@@ -1,6 +1,7 @@
 ﻿using SBCRM.Crm;
 using Microsoft.Extensions.Hosting;
 using Abp.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace SBCRM.Web.Controllers
 {
@@ -17,8 +18,9 @@ namespace SBCRM.Web.Controllers
         /// <param name="env"></param>
         public CustomerImportController(
             ICustomerAttachmentsAppService customerAttachmentAppService,
-            IHostEnvironment env) :
-            base(customerAttachmentAppService, env)
+            IHostEnvironment env,
+            IConfiguration configuration) :
+            base(customerAttachmentAppService, env, configuration)
         {
         }
     }
