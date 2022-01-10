@@ -325,6 +325,15 @@ namespace SBCRM.Crm
                 List<LeadQueryDto> dbList = await leads.ToListAsync();
                 List<GetLeadForViewDto> results = GetLeadForViewDtos(dbList);
 
+                foreach (GetLeadForViewDto result in results)
+                {
+                    bool userIsAssignedToTheAccount = VerifyUserIsAssignedLead(result);
+                    result.CanViewScheduleMeetingOption = userIsAssignedToTheAccount;
+                    result.CanViewScheduleCallOption = userIsAssignedToTheAccount;
+                    result.CanViewEmailReminderOption = userIsAssignedToTheAccount;
+                    result.CanViewToDoReminderOption = userIsAssignedToTheAccount;
+                }
+
                 return new PagedResultDto<GetLeadForViewDto>(
                     totalCount,
                     results
@@ -850,6 +859,7 @@ namespace SBCRM.Crm
         public async Task<List<LeadLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
             return await _lookupLeadSourceRepository.GetAll()
+                .OrderBy(o => o.Order)
                 .Select(leadSource => new LeadLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
@@ -880,6 +890,7 @@ namespace SBCRM.Crm
         public async Task<List<LeadLeadStatusLookupTableDto>> GetAllLeadStatusForTableDropdown()
         {
             return await _lookupLeadStatusRepository.GetAll()
+                .OrderBy(o => o.Order)
                 .Select(leadStatus => new LeadLeadStatusLookupTableDto
                 {
                     Id = leadStatus.Id,
@@ -958,6 +969,23 @@ namespace SBCRM.Crm
         {
             input.EntityTypeFullName = typeof(Lead).FullName;
             return await _auditEventsService.GetEntityTypeChanges(ObjectMapper.Map<GetEntityTypeChangeInput>(input));
+        }
+
+        /// <summary>
+        /// Verify if the current user is assigned to the specified Lead
+        /// </summary>
+        /// <param name="lead"></param>
+        /// <returns></returns>
+        private bool VerifyUserIsAssignedLead(GetLeadForViewDto lead)
+        {
+            long currentUserId = GetCurrentUser().Id;
+            if (lead.Lead.Users != null)
+                foreach (LeadUserViewDto user in lead.Lead.Users)
+                {
+                    if (user.UserId == currentUserId)
+                        return true;
+                }
+            return false;
         }
     }
 }

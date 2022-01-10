@@ -1219,7 +1219,12 @@
                     (onSaveContact)="reloadEvents()"
                 ></app-customer-contacts>
             </div>
-
+            <div class="col-sm-12 col-lg-6">
+                <attachments-widget
+                    [componentType] = "'Account'"
+                    [idToStore]="this.customer.number">
+                </attachments-widget>
+            </div>
             <div class="col-sm-12 col-lg-6">
                 <!-- To Do - Attachments widget -->
             </div>

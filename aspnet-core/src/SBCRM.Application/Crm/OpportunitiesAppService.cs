@@ -389,6 +389,15 @@ namespace SBCRM.Crm
                 List<OpportunityQueryDto> dbList = await opportunities.ToListAsync();
                 List<GetOpportunityForViewDto> results = GetOpportunityForViewDtos(dbList);
 
+                foreach (GetOpportunityForViewDto result in results)
+                {
+                    bool userIsAssignedToTheAccount = VerifyUserIsAssigneOpportunity(result);
+                    result.CanViewScheduleMeetingOption = userIsAssignedToTheAccount;
+                    result.CanViewScheduleCallOption = userIsAssignedToTheAccount;
+                    result.CanViewEmailReminderOption = userIsAssignedToTheAccount;
+                    result.CanViewToDoReminderOption = userIsAssignedToTheAccount;
+                }
+
                 return new PagedResultDto<GetOpportunityForViewDto>(
                     totalCount,
                     results
@@ -947,6 +956,23 @@ namespace SBCRM.Crm
                     Title = x.Title
                 }).ToListAsync();
             return result;
+        }
+
+        /// <summary>
+        /// Verify if the current user is assigned to the specified Lead
+        /// </summary>
+        /// <param name="opportunity"></param>
+        /// <returns></returns>
+        private bool VerifyUserIsAssigneOpportunity(GetOpportunityForViewDto opportunity)
+        {
+            long currentUserId = GetCurrentUser().Id;
+            if (opportunity.Opportunity.Users != null)
+                foreach (OpportunityUserViewDto user in opportunity.Opportunity.Users)
+                {
+                    if (user.UserId == currentUserId)
+                        return true;
+                }
+            return false;
         }
     }
 }
