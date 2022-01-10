@@ -37574,6 +37574,14 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     leadSourceDescription!: string | undefined;
     leadStatusDescription!: string | undefined;
     priorityDescription!: string | undefined;
+    canViewActivityWidget!: boolean;
+    canCreateActivity!: boolean;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
+    canEditActivity!: boolean;
+    canAssignAnyUserInActivity!: boolean;
 
     constructor(data?: IGetLeadForEditOutput) {
         if (data) {
@@ -37590,6 +37598,14 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
             this.leadSourceDescription = _data["leadSourceDescription"];
             this.leadStatusDescription = _data["leadStatusDescription"];
             this.priorityDescription = _data["priorityDescription"];
+            this.canViewActivityWidget = _data["canViewActivityWidget"];
+            this.canCreateActivity = _data["canCreateActivity"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
+            this.canEditActivity = _data["canEditActivity"];
+            this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
         }
     }
 
@@ -37606,6 +37622,14 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
         data["leadSourceDescription"] = this.leadSourceDescription;
         data["leadStatusDescription"] = this.leadStatusDescription;
         data["priorityDescription"] = this.priorityDescription;
+        data["canViewActivityWidget"] = this.canViewActivityWidget;
+        data["canCreateActivity"] = this.canCreateActivity;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
+        data["canEditActivity"] = this.canEditActivity;
+        data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
         return data; 
     }
 }
@@ -37615,6 +37639,14 @@ export interface IGetLeadForEditOutput {
     leadSourceDescription: string | undefined;
     leadStatusDescription: string | undefined;
     priorityDescription: string | undefined;
+    canViewActivityWidget: boolean;
+    canCreateActivity: boolean;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
+    canEditActivity: boolean;
+    canAssignAnyUserInActivity: boolean;
 }
 
 export class GetLeadForViewDto implements IGetLeadForViewDto {
@@ -37632,10 +37664,14 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     firstUserAssignedFullName!: string | undefined;
     firstUserProfilePictureUrl!: string | undefined;
     assignedUsers!: number;
+    canViewActivityWidget!: boolean;
+    canCreateActivity!: boolean;
     canViewScheduleMeetingOption!: boolean;
     canViewScheduleCallOption!: boolean;
     canViewEmailReminderOption!: boolean;
     canViewToDoReminderOption!: boolean;
+    canEditActivity!: boolean;
+    canAssignAnyUserInActivity!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -37662,10 +37698,14 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.firstUserAssignedFullName = _data["firstUserAssignedFullName"];
             this.firstUserProfilePictureUrl = _data["firstUserProfilePictureUrl"];
             this.assignedUsers = _data["assignedUsers"];
+            this.canViewActivityWidget = _data["canViewActivityWidget"];
+            this.canCreateActivity = _data["canCreateActivity"];
             this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
             this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
             this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
+            this.canEditActivity = _data["canEditActivity"];
+            this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
         }
     }
 
@@ -37692,10 +37732,14 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["firstUserAssignedFullName"] = this.firstUserAssignedFullName;
         data["firstUserProfilePictureUrl"] = this.firstUserProfilePictureUrl;
         data["assignedUsers"] = this.assignedUsers;
+        data["canViewActivityWidget"] = this.canViewActivityWidget;
+        data["canCreateActivity"] = this.canCreateActivity;
         data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
         data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
         data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
+        data["canEditActivity"] = this.canEditActivity;
+        data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
         return data; 
     }
 }
@@ -37715,10 +37759,14 @@ export interface IGetLeadForViewDto {
     firstUserAssignedFullName: string | undefined;
     firstUserProfilePictureUrl: string | undefined;
     assignedUsers: number;
+    canViewActivityWidget: boolean;
+    canCreateActivity: boolean;
     canViewScheduleMeetingOption: boolean;
     canViewScheduleCallOption: boolean;
     canViewEmailReminderOption: boolean;
     canViewToDoReminderOption: boolean;
+    canEditActivity: boolean;
+    canAssignAnyUserInActivity: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {

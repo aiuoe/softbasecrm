@@ -33,6 +33,7 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IActivitiesService _activitiesService;
+        private readonly LeadsAppService _leadsAppService;
 
         /// <summary>
         /// Constructor
@@ -47,6 +48,7 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="activitiesService"></param>
+        /// <param name="leadsAppService"></param>
         public LeadActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
@@ -57,7 +59,8 @@ namespace SBCRM.Crm
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
             IRepository<Customer, int> lookupCustomerRepository,
-            IActivitiesService activitiesService)
+            IActivitiesService activitiesService,
+            ILeadsAppService leadsAppService)
         {
             _activityRepository = activityRepository;
             _lookupOpportunityRepository = lookupOpportunityRepository;
@@ -69,6 +72,7 @@ namespace SBCRM.Crm
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
             _activitiesService = activitiesService;
+            _leadsAppService = (LeadsAppService)leadsAppService;
         }
 
         /// <summary>
@@ -78,6 +82,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesForWidget input)
         {
+            var currentUserId = GetCurrentUser().Id;
+            var canViewAllActivities = _leadsAppService.CanViewAllActivitiesOfAllUsers();
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.LeadFk)
@@ -87,6 +93,7 @@ namespace SBCRM.Crm
                 .Include(e => e.ActivityStatusFk)
                 .Include(e => e.ActivityPriorityFk)
                 .Where(e => e.LeadFk != null && e.LeadFk.Id == int.Parse(input.IdToFilter))
+                .WhereIf(!canViewAllActivities, e => e.UserId == currentUserId)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
@@ -192,8 +199,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-            // TODO: Validate user permission here if activity permissions for Leads are implemented.
-            await _activitiesService.CreateOrEdit(input, true);
+            var canAssignOthers = _leadsAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            await _activitiesService.CreateOrEdit(input, canAssignOthers);
         }
 
         /// <summary>
@@ -212,8 +219,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            // TODO: Validate user permission here if activity permissions for Leads are implemented.
-            return await _activitiesService.GetAllUserForTableDropdown(false);
+            var canAssignOthers = _leadsAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            return await _activitiesService.GetAllUserForTableDropdown(!canAssignOthers);
         }
 
         /// <summary>
@@ -261,8 +268,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
-            // TODO: Validate user permission here if activity permissions for Leads are implemented.
-            return await _activitiesService.GetActivityForEdit(input, true);
+            var canViewOthers = _leadsAppService.CanViewAllActivitiesOfAllUsers();
+            return await _activitiesService.GetActivityForEdit(input, canViewOthers);
         }
     }
 }

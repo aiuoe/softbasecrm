@@ -13,7 +13,7 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     CountriesServiceProxy,
-    CountryDto, AccountUsersServiceProxy, LeadUsersServiceProxy,
+    CountryDto, AccountUsersServiceProxy, LeadUsersServiceProxy, GetLeadForEditOutput,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -68,6 +68,16 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
 
     // Widgets
     showAssignedUsersWidget = false;
+    showActivityWidget = false;
+
+    // Activity Widget Permissions
+    canCreateActivity = false;
+    canViewScheduleMeetingOption = false;
+    canViewScheduleCallOption = false;
+    canViewEmailReminderOption = false;
+    canViewToDoReminderOption = false;
+    canEditActivity = false;
+    canAssignAnyUserInActivity = false;
 
     /**
      * Main constructor
@@ -155,6 +165,8 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                     this.leadStatusDescription = result.leadStatusDescription;
                     this.priorityDescription = result.priorityDescription;
 
+                    this.assignRestrictionFields(result);
+
                     this.active = true;
                     this.showSaveButton = !this.isReadOnlyMode;
                 }, () => {
@@ -185,6 +197,22 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         this._countriesServiceProxy.getAllForTableDropdown().subscribe((result) => {
             this.countries = result.map(c => c.country);
         });
+    }
+
+    /**
+     * Assign the values of restriction fields based on the permission level
+     * @param leadForEdit
+     * @returns void
+     */
+     assignRestrictionFields(leadForEdit: GetLeadForEditOutput): void {
+        this.showActivityWidget = leadForEdit.canViewActivityWidget;
+        this.canCreateActivity = leadForEdit.canCreateActivity;
+        this.canViewScheduleMeetingOption = leadForEdit.canViewScheduleMeetingOption;
+        this.canViewScheduleCallOption = leadForEdit.canViewScheduleCallOption;
+        this.canViewEmailReminderOption = leadForEdit.canViewEmailReminderOption;
+        this.canViewToDoReminderOption = leadForEdit.canViewToDoReminderOption;
+        this.canEditActivity = leadForEdit.canEditActivity;
+        this.canAssignAnyUserInActivity = leadForEdit.canAssignAnyUserInActivity;
     }
 
     /**
