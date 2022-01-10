@@ -196,23 +196,28 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {
-            _activityStatusRepository.Delete(input.Id);
-
-            UpdateOrderAfterDelete();
+            UpdateOrderAfterDelete(input.Id);
+            _activityStatusRepository.Delete(input.Id);            
         }
 
         /// <summary>
         /// Method that update order after delete an item from grid
         /// </summary>
-        private void UpdateOrderAfterDelete()
+        /// <param name="statusToDeleteId"></param>
+        /// <returns></returns>
+        private void UpdateOrderAfterDelete(int statusToDeleteId)
         {
-            List<ActivityStatus> listActivityStatus = _activityStatusRepository.GetAll().ToList();
+            ActivityStatus activityStatusToDelete = _activityStatusRepository.GetAll()
+                                                                 .Where(x => x.Id == statusToDeleteId).FirstOrDefault();
 
-            int order = 1;
-            foreach (ActivityStatus activityStatus in listActivityStatus)
+            List<ActivityStatus> listActivityStatuses = _activityStatusRepository.GetAll()
+                                                                          .Where(x => x.Order > activityStatusToDelete.Order)
+                                                                          .OrderBy(x => x.Order)
+                                                                          .ToList();
+
+            foreach (ActivityStatus activityStatus in listActivityStatuses)
             {
-                activityStatus.Order = order;
-                order++;
+                activityStatus.Order--;
                 _activityStatusRepository.FirstOrDefault(activityStatus.Id);
             }
         }

@@ -199,9 +199,9 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Delete)]
         public async Task Delete(EntityDto input)
         {
-            await _leadSourceRepository.DeleteAsync(input.Id);
+            UpdateOrderAfterDelete(input.Id);
 
-            UpdateOrderAfterDelete();
+            await _leadSourceRepository.DeleteAsync(input.Id);            
         }
 
         /// <summary>
@@ -234,15 +234,21 @@ namespace SBCRM.Crm
         /// <summary>
         /// Method that update order after delete an item from grid
         /// </summary>
-        private void UpdateOrderAfterDelete()
+        /// <param name="sourceToDeleteId"></param>
+        /// <returns></returns>
+        private void UpdateOrderAfterDelete(int sourceToDeleteId)
         {
-            List<LeadSource> listLeadSource = _leadSourceRepository.GetAll().ToList();
+            LeadSource leadSourceToDelete = _leadSourceRepository.GetAll()
+                                                                 .Where(x => x.Id == sourceToDeleteId).FirstOrDefault();
 
-            int order = 1;
-            foreach (LeadSource leadSource in listLeadSource)
+            List<LeadSource> listLeadSources = _leadSourceRepository.GetAll()
+                                                                          .Where(x => x.Order > leadSourceToDelete.Order)
+                                                                          .OrderBy(x => x.Order)
+                                                                          .ToList();
+
+            foreach (LeadSource leadSource in listLeadSources)
             {
-                leadSource.Order = order;
-                order++;
+                leadSource.Order--;
                 _leadSourceRepository.FirstOrDefault(leadSource.Id);
             }
         }

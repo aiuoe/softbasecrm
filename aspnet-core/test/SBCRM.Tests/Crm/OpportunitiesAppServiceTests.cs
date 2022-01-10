@@ -64,9 +64,6 @@ namespace SBCRM.Tests.Crm
             var fakeEntityChangeReasonProvider = Substitute.For<IEntityChangeSetReasonProvider>();
             fakeEntityChangeReasonProvider.Use(Arg.Any<string>()).ReturnsNull();
 
-
-
-
             Register(Component.For<IRepository<Opportunity>>().Instance(fakeOpportunityRepository).IsDefault());
             Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider).IsDefault());
 

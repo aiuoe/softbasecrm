@@ -198,9 +198,9 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Delete)]
         public async Task Delete(EntityDto input)
         {
-            _opportunityStageRepository.Delete(input.Id);
+            UpdateOrderAfterDelete(input.Id);
 
-            UpdateOrderAfterDelete();
+            _opportunityStageRepository.Delete(input.Id);            
         }
 
         /// <summary>
@@ -235,15 +235,20 @@ namespace SBCRM.Crm
         /// <summary>
         /// Method that update order after delete an item from grid
         /// </summary>
-        private void UpdateOrderAfterDelete()
+        /// <param name="stageToDeleteId"></param>
+        /// <returns></returns>
+        private void UpdateOrderAfterDelete(int stageToDeleteId)
         {
-            List<OpportunityStage> ListOpportunityStage = _opportunityStageRepository.GetAll().ToList();
+            OpportunityStage opportunityStageToDelete = _opportunityStageRepository.GetAll()
+                                                                              .Where(x => x.Id == stageToDeleteId).FirstOrDefault();
+            List<OpportunityStage> listOpportunityStages = _opportunityStageRepository.GetAll()                                                                                     
+                                                                                     .Where(x => x.Order > opportunityStageToDelete.Order)
+                                                                                     .OrderBy(x => x.Order)
+                                                                                     .ToList();
 
-            int order = 1;
-            foreach (OpportunityStage opportunityStage in ListOpportunityStage)
+            foreach (OpportunityStage opportunityStage in listOpportunityStages)
             {
-                opportunityStage.Order = order;
-                order++;
+                opportunityStage.Order--;
                 _opportunityStageRepository.FirstOrDefault(opportunityStage.Id);
             }
         }
