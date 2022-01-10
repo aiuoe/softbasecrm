@@ -71,13 +71,14 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     allUsers: ActivityUserLookupTableDto[];
     activitySourceTypes: ActivityActivitySourceTypeLookupTableDto[];
     activityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
+    activityTaskTypesForCalendar: ActivityActivityTaskTypeLookupTableDto[];
     activityStatuses: ActivityActivityStatusLookupTableDto[];
     activitySourceTypeFilters: ActivityActivitySourceTypeLookupTableDto[];
 
     /**
      * Used to delay the search and wait for the user to finish typing.
      */
-    delaySearchActivity = debounce(this.getActivities, 1000);
+    delaySearchActivity = debounce(this.getActivities, AppConsts.SearchBarDelayMilliseconds);
 
     /**
      * Constructor method
@@ -167,7 +168,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         const isUnassignedSelected = this.selectedAssignedUsersFilter.some((x) => x.id == AppConsts.activityModule.noAssignedUserFilterId);
         const selectedUserIds = this.selectedAssignedUsersFilter.map((x) => x.id);
         const dateNow = this._dateTimeService.getDate();
-        
+
         this._activitiesServiceProxy
             .getAll(
                 this.filterText,
@@ -295,6 +296,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     loadActivityTaskTypes(): void {
         this._activitiesServiceProxy.getAllActivityTaskTypeForTableDropdown().subscribe((res) => {
             this.activityTaskTypes = res;
+            this.activityTaskTypesForCalendar = [...res];
             const allOption = new ActivityActivityTaskTypeLookupTableDto();
             allOption.displayName = AppConsts.All;
             this.activityTaskTypes.unshift(allOption);
@@ -320,7 +322,9 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         for (let i = 0; i < records.length; i++) {
             let record = records[i];
 
-            if (!record.activity.userId) continue;
+            if (!record.activity.userId) {
+                continue;
+            }
 
             this._localStorageService.getItem(AppConsts.authorization.encrptedAuthTokenName, function (err, value) {
                 let profilePictureUrl =
@@ -334,5 +338,22 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 (record as any).profilePictureUrl = profilePictureUrl;
             });
         }
+    }
+
+    /***
+     * Handle See as List
+     */
+    doSeeAsListView() {
+        this.summaryTableIsShown = true;
+        this.summaryCalendarIsShown = false;
+    }
+
+    /***
+     * Handle See as List
+     */
+    doSeeAsCalendarView() {
+        this.summaryTableIsShown = false;
+        this.summaryCalendarIsShown = true;
+        this.initializeCalendar();
     }
 }
