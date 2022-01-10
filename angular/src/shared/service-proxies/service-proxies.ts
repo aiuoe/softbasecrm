@@ -7664,8 +7664,7 @@ export class CustomerServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -36681,7 +36680,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
-        return data;
+        return data; 
     }
 }
 
@@ -36841,7 +36840,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
-        return data;
+        return data; 
     }
 }
 
@@ -38156,6 +38155,14 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
     contactName!: string | undefined;
     branchName!: string | undefined;
     departmentTitle!: string | undefined;
+    canViewActivityWidget!: boolean;
+    canCreateActivity!: boolean;
+    canViewScheduleMeetingOption!: boolean;
+    canViewScheduleCallOption!: boolean;
+    canViewEmailReminderOption!: boolean;
+    canViewToDoReminderOption!: boolean;
+    canEditActivity!: boolean;
+    canAssignAnyUserInActivity!: boolean;
 
     constructor(data?: IGetOpportunityForEditOutput) {
         if (data) {
@@ -38177,6 +38184,14 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
             this.contactName = _data["contactName"];
             this.branchName = _data["branchName"];
             this.departmentTitle = _data["departmentTitle"];
+            this.canViewActivityWidget = _data["canViewActivityWidget"];
+            this.canCreateActivity = _data["canCreateActivity"];
+            this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
+            this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
+            this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
+            this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
+            this.canEditActivity = _data["canEditActivity"];
+            this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
         }
     }
 
@@ -38198,6 +38213,14 @@ export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput
         data["contactName"] = this.contactName;
         data["branchName"] = this.branchName;
         data["departmentTitle"] = this.departmentTitle;
+        data["canViewActivityWidget"] = this.canViewActivityWidget;
+        data["canCreateActivity"] = this.canCreateActivity;
+        data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
+        data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
+        data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
+        data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
+        data["canEditActivity"] = this.canEditActivity;
+        data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
         return data; 
     }
 }
@@ -38212,6 +38235,14 @@ export interface IGetOpportunityForEditOutput {
     contactName: string | undefined;
     branchName: string | undefined;
     departmentTitle: string | undefined;
+    canViewActivityWidget: boolean;
+    canCreateActivity: boolean;
+    canViewScheduleMeetingOption: boolean;
+    canViewScheduleCallOption: boolean;
+    canViewEmailReminderOption: boolean;
+    canViewToDoReminderOption: boolean;
+    canEditActivity: boolean;
+    canAssignAnyUserInActivity: boolean;
 }
 
 export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
@@ -38231,10 +38262,14 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
     assignedUsers!: number;
     branchName!: string | undefined;
     departmentTitle!: string | undefined;
+    canViewActivityWidget!: boolean;
+    canCreateActivity!: boolean;
     canViewScheduleMeetingOption!: boolean;
     canViewScheduleCallOption!: boolean;
     canViewEmailReminderOption!: boolean;
     canViewToDoReminderOption!: boolean;
+    canEditActivity!: boolean;
+    canAssignAnyUserInActivity!: boolean;
 
     constructor(data?: IGetOpportunityForViewDto) {
         if (data) {
@@ -38263,10 +38298,14 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
             this.assignedUsers = _data["assignedUsers"];
             this.branchName = _data["branchName"];
             this.departmentTitle = _data["departmentTitle"];
+            this.canViewActivityWidget = _data["canViewActivityWidget"];
+            this.canCreateActivity = _data["canCreateActivity"];
             this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
             this.canViewScheduleCallOption = _data["canViewScheduleCallOption"];
             this.canViewEmailReminderOption = _data["canViewEmailReminderOption"];
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
+            this.canEditActivity = _data["canEditActivity"];
+            this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
         }
     }
 
@@ -38295,10 +38334,14 @@ export class GetOpportunityForViewDto implements IGetOpportunityForViewDto {
         data["assignedUsers"] = this.assignedUsers;
         data["branchName"] = this.branchName;
         data["departmentTitle"] = this.departmentTitle;
+        data["canViewActivityWidget"] = this.canViewActivityWidget;
+        data["canCreateActivity"] = this.canCreateActivity;
         data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
         data["canViewScheduleCallOption"] = this.canViewScheduleCallOption;
         data["canViewEmailReminderOption"] = this.canViewEmailReminderOption;
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
+        data["canEditActivity"] = this.canEditActivity;
+        data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
         return data; 
     }
 }
@@ -38320,10 +38363,14 @@ export interface IGetOpportunityForViewDto {
     assignedUsers: number;
     branchName: string | undefined;
     departmentTitle: string | undefined;
+    canViewActivityWidget: boolean;
+    canCreateActivity: boolean;
     canViewScheduleMeetingOption: boolean;
     canViewScheduleCallOption: boolean;
     canViewEmailReminderOption: boolean;
     canViewToDoReminderOption: boolean;
+    canEditActivity: boolean;
+    canAssignAnyUserInActivity: boolean;
 }
 
 export class GetOpportunityStageForEditOutput implements IGetOpportunityStageForEditOutput {

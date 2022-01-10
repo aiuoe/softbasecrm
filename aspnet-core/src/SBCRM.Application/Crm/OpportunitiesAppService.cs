@@ -296,8 +296,8 @@ namespace SBCRM.Crm
                                         equals
                                         new
                                         {
-                                        Key1 = o6.Dept,
-                                        Key2 = o6.Branch
+                                            Key1 = o6.Dept,
+                                            Key2 = o6.Branch
                                         }
                                         into j6
                                         from s6 in j6.DefaultIfEmpty()
@@ -354,8 +354,8 @@ namespace SBCRM.Crm
                                         equals
                                         new
                                         {
-                                        Key1 = o6.Dept,
-                                        Key2 = o6.Branch
+                                            Key1 = o6.Dept,
+                                            Key2 = o6.Branch
                                         }
                                         into j6
                                         from s6 in j6.DefaultIfEmpty()
@@ -391,11 +391,15 @@ namespace SBCRM.Crm
 
                 foreach (GetOpportunityForViewDto result in results)
                 {
-                    bool userIsAssignedToTheAccount = VerifyUserIsAssigneOpportunity(result);
-                    result.CanViewScheduleMeetingOption = userIsAssignedToTheAccount;
-                    result.CanViewScheduleCallOption = userIsAssignedToTheAccount;
-                    result.CanViewEmailReminderOption = userIsAssignedToTheAccount;
-                    result.CanViewToDoReminderOption = userIsAssignedToTheAccount;
+                    var isUserAssignedToOpportunity = VerifyUserIsAssigneOpportunity(result);
+                    result.CanViewActivityWidget = HasAccessActivityWidget(isUserAssignedToOpportunity);
+                    result.CanCreateActivity = HasAccessCreateActivity(isUserAssignedToOpportunity);
+                    result.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(isUserAssignedToOpportunity);
+                    result.CanViewScheduleCallOption = HasAccessToScheduleCall(isUserAssignedToOpportunity);
+                    result.CanViewEmailReminderOption = HasAccessToEmailReminder(isUserAssignedToOpportunity);
+                    result.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToOpportunity);
+                    result.CanEditActivity = HasAccessEditActivity(isUserAssignedToOpportunity);
+                    result.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
                 }
 
                 return new PagedResultDto<GetOpportunityForViewDto>(
@@ -479,6 +483,7 @@ namespace SBCRM.Crm
         public async Task<GetOpportunityForViewDto> GetOpportunityForView(int id)
         {
             Opportunity opportunity = await _opportunityRepository.GetAsync(id);
+            await _opportunityRepository.EnsureCollectionLoadedAsync(opportunity, x => x.Users);
 
             GetOpportunityForViewDto output = new GetOpportunityForViewDto { Opportunity = ObjectMapper.Map<OpportunityDto>(opportunity) };
 
@@ -529,6 +534,16 @@ namespace SBCRM.Crm
             //    output.DepartmentTitle = dept.Title;
             //}
 
+            var isUserAssignedToOpportunity = VerifyUserIsAssigneOpportunity(output);
+            output.CanViewActivityWidget = HasAccessActivityWidget(isUserAssignedToOpportunity);
+            output.CanCreateActivity = HasAccessCreateActivity(isUserAssignedToOpportunity);
+            output.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(isUserAssignedToOpportunity);
+            output.CanViewScheduleCallOption = HasAccessToScheduleCall(isUserAssignedToOpportunity);
+            output.CanViewEmailReminderOption = HasAccessToEmailReminder(isUserAssignedToOpportunity);
+            output.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToOpportunity);
+            output.CanEditActivity = HasAccessEditActivity(isUserAssignedToOpportunity);
+            output.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+
             return output;
         }
 
@@ -555,6 +570,8 @@ namespace SBCRM.Crm
                     .Select(x => x.OpportunityFk)
                     .FirstOrDefaultAsync();
             }
+
+            await _opportunityRepository.EnsureCollectionLoadedAsync(opportunity, x => x.Users);
 
             GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException(L("OpportunityNotExist")));
 
@@ -595,6 +612,16 @@ namespace SBCRM.Crm
                 Contact _lookupContact = await _lookupContactsRepository.FirstOrDefaultAsync(e => e.ContactId == output.Opportunity.ContactId);
                 output.ContactName = _lookupContact?.ContactField;
             }
+
+            var isUserAssignedToOpportunity = opportunity.Users?.Any(x => x.UserId == GetCurrentUserId()) ?? false;
+            output.CanViewActivityWidget = HasAccessActivityWidget(isUserAssignedToOpportunity);
+            output.CanCreateActivity = HasAccessCreateActivity(isUserAssignedToOpportunity);
+            output.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(isUserAssignedToOpportunity);
+            output.CanViewScheduleCallOption = HasAccessToScheduleCall(isUserAssignedToOpportunity);
+            output.CanViewEmailReminderOption = HasAccessToEmailReminder(isUserAssignedToOpportunity);
+            output.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToOpportunity);
+            output.CanEditActivity = HasAccessEditActivity(isUserAssignedToOpportunity);
+            output.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
 
             return output;
         }
@@ -966,13 +993,7 @@ namespace SBCRM.Crm
         private bool VerifyUserIsAssigneOpportunity(GetOpportunityForViewDto opportunity)
         {
             long currentUserId = GetCurrentUser().Id;
-            if (opportunity.Opportunity.Users != null)
-                foreach (OpportunityUserViewDto user in opportunity.Opportunity.Users)
-                {
-                    if (user.UserId == currentUserId)
-                        return true;
-                }
-            return false;
+            return opportunity?.Opportunity?.Users?.Any(x => x.UserId == currentUserId) ?? false;
         }
 
         /// <summary>
@@ -1015,7 +1036,7 @@ namespace SBCRM.Crm
         internal bool HasAccessToDoReminder(bool isUserAssignedToOpportunity)
         {
             var currentUser = GetCurrentUser();
-            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ToDoReminder) || 
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ToDoReminder) ||
                 (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_ToDoReminder__Dynamic) && isUserAssignedToOpportunity);
         }
 
@@ -1025,7 +1046,7 @@ namespace SBCRM.Crm
         /// 1. The current user has <see cref="AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users"/> permission, which is oriented for Managers., OR...
         /// 2. The current user has <see cref="AppPermissions.Pages_Opportunities_View_Activities"/> permission and also assigned to the Opportunity
         /// </summary>
-        /// <param name="isUserAssignedToOpportunity">Is the current user assigned to the Account/Customer?</param>
+        /// <param name="isUserAssignedToOpportunity">Is the current user assigned to the Opportunity?</param>
         /// <returns>True or False</returns>
         internal bool HasAccessActivityWidget(bool isUserAssignedToOpportunity)
         {
