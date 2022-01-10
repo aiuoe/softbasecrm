@@ -1010,7 +1010,7 @@ namespace SBCRM.Legacy
         }
 
         /// <summary>
-        /// Check whether the current user can view all activtiy and assign any user.
+        /// Check whether the current user can view all activities of all users in Accounts.
         /// </summary>
         /// <returns>True or False</returns>
         internal bool CanViewAllActivitiesOfAllUsers()

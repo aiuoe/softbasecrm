@@ -89,33 +89,39 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityStatusDescription">{{ l('Status') }}</label>
-                                    <select
-                                        name="activity.activityStatusId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityStatusDescription"
+                                        name="ActivityStatusDescription"
+                                        #ActivityStatusDescription="ngModel"
+                                        [options]="allActivityStatuss"
                                         [(ngModel)]="activity.activityStatusId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
-                                    <select
-                                        name="activity.activityPriorityId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityPriorityDescription"
+                                        name="ActivityPriorityDescription"
+                                        #ActivityPriorityDescription="ngModel"
+                                        [options]="allActivityPrioritys"
                                         [(ngModel)]="activity.activityPriorityId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +142,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="modal-footer">
@@ -227,33 +233,39 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityStatusDescription">{{ l('Status') }}</label>
-                                    <select
-                                        name="activity.activityStatusId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityStatusDescription"
+                                        name="ActivityStatusDescription"
+                                        #ActivityStatusDescription="ngModel"
+                                        [options]="allActivityStatuss"
                                         [(ngModel)]="activity.activityStatusId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
-                                    <select
-                                        name="activity.activityPriorityId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityPriorityDescription"
+                                        name="ActivityPriorityDescription"
+                                        #ActivityPriorityDescription="ngModel"
+                                        [options]="allActivityPrioritys"
                                         [(ngModel)]="activity.activityPriorityId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
-                                        >
-                                        <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    >
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -274,7 +286,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="modal-footer">
@@ -322,33 +334,39 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityStatusDescription">{{ l('Status') }}</label>
-                                    <select
-                                        name="activity.activityStatusId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityStatusDescription"
+                                        name="ActivityStatusDescription"
+                                        #ActivityStatusDescription="ngModel"
+                                        [options]="allActivityStatuss"
                                         [(ngModel)]="activity.activityStatusId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
-                                    <select
-                                        name="activity.activityPriorityId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityPriorityDescription"
+                                        name="ActivityPriorityDescription"
+                                        #ActivityPriorityDescription="ngModel"
+                                        [options]="allActivityPrioritys"
                                         [(ngModel)]="activity.activityPriorityId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -369,7 +387,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="modal-footer">
@@ -418,34 +436,39 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityStatusDescription">{{ l('Status') }}</label>
-                                    <select
-                                        name="activity.activityStatusId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityStatusDescription"
+                                        name="ActivityStatusDescription"
+                                        #ActivityStatusDescription="ngModel"
+                                        [options]="allActivityStatuss"
                                         [(ngModel)]="activity.activityStatusId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option value="">{{ l('SelectAActivityStatus') }}</option>
-                                        <option *ngFor="let item of allActivityStatuss" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group input-field required">
                                     <label for="ActivityPriorityDescription">{{ l('Priority') }}</label>
-                                    <select
-                                        name="activity.activityPriorityId"
+                                    <p-dropdown
+                                        [required]="true"
+                                        id="ActivityPriorityDescription"
+                                        name="ActivityPriorityDescription"
+                                        #ActivityPriorityDescription="ngModel"
+                                        [options]="allActivityPrioritys"
                                         [(ngModel)]="activity.activityPriorityId"
-                                        class="form-control"
-                                        required
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        placeholder="{{ l('Select') }}"
                                         [disabled] = "isView"
                                     >
-                                        <option *ngFor="let item of allActivityPrioritys" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
+                                    </p-dropdown>
+                                    <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -466,7 +489,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="modal-footer">
