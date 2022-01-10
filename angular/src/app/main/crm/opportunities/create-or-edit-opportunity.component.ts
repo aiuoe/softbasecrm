@@ -73,6 +73,16 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
 
     // Widgets
     showAssignedUsersWidget = false;
+    showActivityWidget = false;
+
+    // Activity Widget Permissions
+    canCreateActivity = false;
+    canViewScheduleMeetingOption = false;
+    canViewScheduleCallOption = false;
+    canViewEmailReminderOption = false;
+    canViewToDoReminderOption = false;
+    canEditActivity = false;
+    canAssignAnyUserInActivity = false;
 
     /**
      * Main constructor
@@ -207,6 +217,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                     this.allOpportunityTypes = opportunityTypes;
                     this.allCustomers = customers;
 
+                    this.assignRestrictionFields(opportunityForEdit);
                     this.getContactsAccordingToCustomer(opportunityForEdit.opportunity.customerNumber);
                     this.getDepartmentAccordingToBranch(opportunityForEdit.opportunity.branch);
 
@@ -224,6 +235,22 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
                 }
             );
         }
+    }
+
+    /**
+     * Assign the values of restriction field based on the permission level
+     * @param opportunityForEdit
+     * @returns void
+     */
+    assignRestrictionFields(opportunityForEdit: GetOpportunityForEditOutput): void {
+        this.showActivityWidget = opportunityForEdit.canViewActivityWidget;
+        this.canCreateActivity = opportunityForEdit.canCreateActivity;
+        this.canViewScheduleMeetingOption = opportunityForEdit.canViewScheduleMeetingOption;
+        this.canViewScheduleCallOption = opportunityForEdit.canViewScheduleCallOption;
+        this.canViewEmailReminderOption = opportunityForEdit.canViewEmailReminderOption;
+        this.canViewToDoReminderOption = opportunityForEdit.canViewToDoReminderOption;
+        this.canEditActivity = opportunityForEdit.canEditActivity;
+        this.canAssignAnyUserInActivity = opportunityForEdit.canAssignAnyUserInActivity;
     }
 
     /**

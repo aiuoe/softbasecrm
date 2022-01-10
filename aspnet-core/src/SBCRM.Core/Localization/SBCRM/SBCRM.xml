@@ -1783,6 +1783,10 @@
     <text name="Pages.Customer.AssignActivityToAnyUsers">Assign activities to any user</text>
     <text name="Pages.Customer.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
     <text name="Pages.Customer.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
+    <text name="Pages.Opportunities.ViewActivitiesOfAllUsers">View activities of all users</text>
+    <text name="Pages.Opportunities.AssignActivityToAnyUsers">Assign activities to any user</text>
+    <text name="Pages.Opportunities.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
+    <text name="Pages.Opportunities.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
 		<text name="FifteenMinutes">15 Minutes</text>
 		<text name="ThirtyMinutes">30 Minutes</text>
 		<text name="OneHour">1 Hour (default)</text>
