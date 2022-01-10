@@ -30,6 +30,7 @@ namespace SBCRM.Crm
         private readonly IRepository<ActivityPriority, int> _lookupActivityPriorityRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IActivitiesService _activitiesService;
+        private readonly OpportunitiesAppService _opportunityAppService;
 
         /// <summary>
         /// Constructor
@@ -44,6 +45,7 @@ namespace SBCRM.Crm
         /// <param name="lookupActivityPriorityRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="activitiesService"></param>
+        /// <param name="opportunityAppService"></param>
         public OpportunityActivitiesAppService(
             IRepository<Activity, long> activityRepository,
             IRepository<Opportunity, int> lookupOpportunityRepository,
@@ -54,7 +56,8 @@ namespace SBCRM.Crm
             IRepository<ActivityStatus, int> lookupActivityStatusRepository,
             IRepository<ActivityPriority, int> lookupActivityPriorityRepository,
             IRepository<Customer, int> lookupCustomerRepository,
-            IActivitiesService activitiesService)
+            IActivitiesService activitiesService,
+            IOpportunitiesAppService opportunityAppService)
         {
             _activityRepository = activityRepository;
             _lookupOpportunityRepository = lookupOpportunityRepository;
@@ -66,6 +69,7 @@ namespace SBCRM.Crm
             _lookupActivityPriorityRepository = lookupActivityPriorityRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
             _activitiesService = activitiesService;
+            _opportunityAppService = (OpportunitiesAppService)opportunityAppService;
         }
 
         /// <summary>
@@ -75,6 +79,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesForWidget input)
         {
+            var currentUserId = GetCurrentUser().Id;
+            var canViewAllActivities = _opportunityAppService.CanViewAllActivitiesOfAllUsers();
 
             var filteredActivities = _activityRepository.GetAll()
                 .Include(e => e.OpportunityFk)
@@ -84,6 +90,7 @@ namespace SBCRM.Crm
                 .Include(e => e.ActivityStatusFk)
                 .Include(e => e.ActivityPriorityFk)
                 .Where(e => e.OpportunityFk != null && e.OpportunityFk.Id == int.Parse(input.IdToFilter))
+                .WhereIf(!canViewAllActivities, e => e.UserId == currentUserId)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivitySourceTypeDescriptionFilter), e => e.ActivitySourceTypeFk != null && e.ActivitySourceTypeFk.Description == input.ActivitySourceTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityTaskTypeDescriptionFilter), e => e.ActivityTaskTypeFk != null && e.ActivityTaskTypeFk.Description == input.ActivityTaskTypeDescriptionFilter)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.ActivityStatusDescriptionFilter), e => e.ActivityStatusFk != null && e.ActivityStatusFk.Description == input.ActivityStatusDescriptionFilter)
@@ -189,8 +196,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
-            // TODO: Validate user permission here if activity permissions for Opportunities are implemented.
-            await _activitiesService.CreateOrEdit(input, true);
+            var canAssignOthers = _opportunityAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            await _activitiesService.CreateOrEdit(input, canAssignOthers);
         }
 
         /// <summary>
@@ -209,8 +216,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
-            // TODO: Validate user permission here if activity permissions for Opportunities are implemented.
-            return await _activitiesService.GetAllUserForTableDropdown(false);
+            var canAssignOthers = _opportunityAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            return await _activitiesService.GetAllUserForTableDropdown(!canAssignOthers);
         }
 
         /// <summary>
@@ -258,8 +265,8 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
-            // TODO: Validate user permission here if activity permissions for Opportunities are implemented.
-            return await _activitiesService.GetActivityForEdit(input, true);
+            var canViewOthers = _opportunityAppService.CanViewAllActivitiesOfAllUsers();
+            return await _activitiesService.GetActivityForEdit(input, canViewOthers);
         }
     }
 }

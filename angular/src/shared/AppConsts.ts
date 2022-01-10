@@ -48,7 +48,7 @@ export class AppConsts {
     };
 
     /// <summary>
-    /// Timer for the action result notify toast 
+    /// Timer for the action result notify toast
     /// </summary>
     static readonly notifyToastTimer = 3000;
 }

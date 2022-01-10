@@ -25,10 +25,10 @@
                                 </button>
                                 <ul class="dropdown-menu" *dropdownMenu>
                                     <li>                                                        
-                                        <a *ngIf="showScheduleMeetingOption" class="dropdown-item" href="javascript:;"
+                                        <a *ngIf="showScheduleCallOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityScheduleCallHandler()">{{l('ScheduleCall')}}</a>
 
-                                        <a *ngIf="showScheduleCallOption" class="dropdown-item" href="javascript:;"
+                                        <a *ngIf="showScheduleMeetingOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityScheduleMeetingHandler()">{{l('ScheduleMeeting')}}</a>
 
                                         <a *ngIf="showEmailReminderOption" class="dropdown-item" href="javascript:;"
