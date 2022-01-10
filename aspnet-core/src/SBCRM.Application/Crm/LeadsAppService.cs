@@ -850,6 +850,7 @@ namespace SBCRM.Crm
         public async Task<List<LeadLeadSourceLookupTableDto>> GetAllLeadSourceForTableDropdown()
         {
             return await _lookupLeadSourceRepository.GetAll()
+                .OrderBy(o => o.Order)
                 .Select(leadSource => new LeadLeadSourceLookupTableDto
                 {
                     Id = leadSource.Id,
@@ -880,6 +881,7 @@ namespace SBCRM.Crm
         public async Task<List<LeadLeadStatusLookupTableDto>> GetAllLeadStatusForTableDropdown()
         {
             return await _lookupLeadStatusRepository.GetAll()
+                .OrderBy(o => o.Order)
                 .Select(leadStatus => new LeadLeadStatusLookupTableDto
                 {
                     Id = leadStatus.Id,
