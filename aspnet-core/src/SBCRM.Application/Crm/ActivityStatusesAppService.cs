@@ -201,9 +201,8 @@ namespace SBCRM.Crm
             foreach (ActivityStatus status in modifiedOrderList)
             {
                 status.Order = order;
-                await _activityStatusRepository.FirstOrDefaultAsync(status.Id);
+                await _activityStatusRepository.InsertOrUpdateAsync(status);
                 order++;
-
             }
         }
 

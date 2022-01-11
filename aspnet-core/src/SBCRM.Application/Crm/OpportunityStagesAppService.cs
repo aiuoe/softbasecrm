@@ -203,7 +203,7 @@ namespace SBCRM.Crm
             foreach (OpportunityStage stage in modifiedOrderList)
             {
                 stage.Order = order;
-                await _opportunityStageRepository.FirstOrDefaultAsync(stage.Id);
+                await _opportunityStageRepository.InsertOrUpdateAsync(stage);
                 order++;
 
             }          

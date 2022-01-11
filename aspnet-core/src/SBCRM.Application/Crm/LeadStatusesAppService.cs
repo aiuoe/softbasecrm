@@ -203,7 +203,7 @@ namespace SBCRM.Crm
             foreach (LeadStatus status in modifiedOrderList)
             {
                 status.Order = order;
-                await _leadStatusRepository.FirstOrDefaultAsync(status.Id);
+                await _leadStatusRepository.InsertOrUpdateAsync(status);
                 order++;
 
             }

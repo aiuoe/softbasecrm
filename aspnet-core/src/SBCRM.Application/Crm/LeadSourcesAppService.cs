@@ -202,7 +202,7 @@ namespace SBCRM.Crm
             foreach (LeadSource source in modifiedOrderList)
             {
                 source.Order = order;
-                await _leadSourceRepository.FirstOrDefaultAsync(source.Id);
+                await _leadSourceRepository.InsertOrUpdateAsync(source);
                 order++;
 
             }
