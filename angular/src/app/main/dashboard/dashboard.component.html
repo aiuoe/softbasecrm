@@ -1,5 +1,7 @@
 <!-- <customizable-dashboard [dashboardName]="dashboardName"></customizable-dashboard> -->
 <div [@routerTransition]>
+    <sub-header [title]="'Dashboard' | localize"></sub-header>
+
     <div [class]="containerClass">
         <app-opportunities-widget-top-stats></app-opportunities-widget-top-stats>
     </div>
