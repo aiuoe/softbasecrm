@@ -483,12 +483,10 @@ namespace SBCRM.Crm
 
             if (input.Sorting is null)
                 query = query
-                    .OrderByDescending(e => e.DueDate)
-                    .PageBy(input);
+                    .OrderByDescending(e => e.DueDate);
             else
                 query = query
-                    .OrderBy(input.Sorting)
-                    .PageBy(input);
+                    .OrderBy(input.Sorting);
 
             var activityListDtos = await query.ToListAsync();
 
