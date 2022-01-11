@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <localizationDictionary culture="en">
 	<texts>
+
+	    <text name="OpportunityAttachment">Opportunity attachment</text>
+		<text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
+		<text name="EditOpportunityAttachment">Edit opportunity attachment</text>
+		<text name="DeleteOpportunityAttachment">Delete opportunity attachment</text>
+		
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
 		
@@ -79,6 +84,9 @@
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
 		<text name="FilterByActivity">Filter by Activity</text>
+		<text name="FilterByAccount">Filter by Account</text>
+		<text name="FilterByBranch">Filter by Branch</text>
+		<text name="FilterByDepartment">Filter by Department</text>
 		<text name="FilterByStatus">Filter by Status</text>
 		<text name="SourceType">Source Type</text>
 		<text name="Schedule">Schedule</text>
