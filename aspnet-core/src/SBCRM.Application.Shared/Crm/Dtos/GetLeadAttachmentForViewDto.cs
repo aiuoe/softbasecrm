@@ -7,7 +7,5 @@
     {
         public LeadAttachmentDto LeadAttachment { get; set; }
 
-        public string LeadCompanyName { get; set; }
-
     }
 }

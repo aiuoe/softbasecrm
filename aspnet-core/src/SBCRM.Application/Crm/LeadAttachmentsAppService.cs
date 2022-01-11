@@ -93,7 +93,6 @@ namespace SBCRM.Crm
                         FilePath = o.FilePath,
                         Id = o.Id,
                     },
-                    LeadCompanyName = o.LeadCompanyName
                 };
 
                 results.Add(res);
@@ -120,7 +119,6 @@ namespace SBCRM.Crm
             if (output.LeadAttachment.LeadId != null)
             {
                 var _lookupLead = await _lookup_leadRepository.FirstOrDefaultAsync((int)output.LeadAttachment.LeadId);
-                output.LeadCompanyName = _lookupLead?.CompanyName?.ToString();
             }
 
             return output;
@@ -234,7 +232,6 @@ namespace SBCRM.Crm
                                  FilePath = o.FilePath,
                                  Id = o.Id
                              },
-                             LeadCompanyName = s1 == null || s1.CompanyName == null ? "" : s1.CompanyName.ToString()
                          });
 
             var leadAttachmentListDtos = await query.ToListAsync();
