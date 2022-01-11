@@ -331,6 +331,7 @@
         </div>
         <app-create-or-edit-activity-widget-modal
             #createActivityModal
+            *ngIf="isGranted('Pages.Customer.ViewActivities')"
             [componentType] = "'Account'"
             [idToStore]="this.idAccountToStore"
             >
