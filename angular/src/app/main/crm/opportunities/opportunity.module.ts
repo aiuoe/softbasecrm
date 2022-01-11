@@ -11,6 +11,7 @@ import { CalendarModule} from 'primeng/calendar';
 import { AssignedUserModule } from '../assigned-user/assigned-user.module';
 import { LeadUsersServiceProxy, OpportunityUsersServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ActivitiesWidgetModule } from '../activities-widget/activities-widget.module';
+import { AttachmentsWidgetModule } from '../attachments-widget/attachments-widget.module';
 
 @NgModule({
     declarations: [OpportunitiesComponent, CreateOrEditOpportunityComponent, ViewOpportunityComponent],
@@ -22,7 +23,8 @@ import { ActivitiesWidgetModule } from '../activities-widget/activities-widget.m
         InputNumberModule, 
         CalendarModule, 
         AssignedUserModule,
-        ActivitiesWidgetModule],
+        ActivitiesWidgetModule,
+        AttachmentsWidgetModule],
         
     providers: [LeadUsersServiceProxy, OpportunityUsersServiceProxy]
 })

@@ -3,13 +3,15 @@ import { Component, ViewChild, Injector, Output, Input, EventEmitter, OnInit, El
 import { AppConsts } from '@shared/AppConsts';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { IAttachment, CustomerAttachment, LeadAttachment } from './attachment.model';
+import { IAttachment, CustomerAttachment, LeadAttachment, OpportunityAttachment } from './attachment.model';
 import {
     CreateOrEditCustomerAttachmentDto,
     CreateOrEditLeadAttachmentDto,
+    CreateOrEditOpportunityAttachmentDto,
     CustomerAttachmentsServiceProxy,
     ICustomerAttachmentDto,
-    LeadAttachmentsServiceProxy
+    LeadAttachmentsServiceProxy,
+    OpportunityAttachmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
@@ -43,6 +45,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         private _tokenService: TokenService,
         private _customerAttachmentsServiceProxy: CustomerAttachmentsServiceProxy,
         private _leadAttachmentsServiceProxy: LeadAttachmentsServiceProxy,
+        private _opportunityAttachmentsServiceProxy: OpportunityAttachmentsServiceProxy,
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
@@ -98,6 +101,26 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 this.attachment = leadAttachment;
                 break;
 
+            case 'Opportunity':
+                if (attachment) {
+                    this._opportunityAttachmentsServiceProxy
+                        .getOpportunityAttachmentForEdit(attachment.id)
+                        .subscribe((result) => {
+                            this.attachment = result.opportunityAttachment;
+
+                            this.active = true;
+                            this.initFileUploader();
+                            this.modal.show();
+                        });
+                    return;
+                }
+
+                let opportunityAttachment = new OpportunityAttachment();
+                opportunityAttachment.opportunityId = this.idToStore;
+                opportunityAttachment.id = 0;
+                this.attachment = opportunityAttachment;
+                break;
+
 
             default:
                 return;
@@ -132,7 +155,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 break;
 
             case 'Opportunity':
-                // To DO
+                url += '/OpportunityAttachment/UploadAttachments';
                 break;
 
             default:
@@ -164,7 +187,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                     break;
 
                 case 'Opportunity':
-                    // TO-DO
+                    form.append('OpportunityId', (<OpportunityAttachment>this.attachment).opportunityId);
                     break;
             }
         };
@@ -201,6 +224,10 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 case 'Lead':
                     this.updateLeadAttachment();
                     break;
+
+                case 'Opportunity':
+                    this.updateOpportunityAttachment();
+                    break;
             }
         } else {
             this.uploader.uploadAll();
@@ -218,6 +245,23 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         leadAttachment.leadId = (<LeadAttachment>this.attachment).leadId;
 
         this._leadAttachmentsServiceProxy.createOrEdit(leadAttachment).subscribe( result =>{
+            this.modalSave.emit(null);
+            this.saving = false;
+            this.close();
+        });
+    }
+
+    /**
+     * Edits a lead attachment
+     */
+    updateOpportunityAttachment(){
+        var opportunityAttachment = new CreateOrEditOpportunityAttachmentDto();
+        opportunityAttachment.id = this.attachment.id;
+        opportunityAttachment.filePath = this.attachment.filePath;
+        opportunityAttachment.name = this.attachment.name;
+        opportunityAttachment.opportunityId = (<OpportunityAttachment>this.attachment).opportunityId;
+
+        this._opportunityAttachmentsServiceProxy.createOrEdit(opportunityAttachment).subscribe( result =>{
             this.modalSave.emit(null);
             this.saving = false;
             this.close();
@@ -255,7 +299,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      * @returns 
      */
     fileChangeEvent(event: any): void {
-        const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf'];
+        const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf', 'docx'];
         const selectedFile = event.target.files[0];
         const filename: string = selectedFile.name;
         const fileExtension: string = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
