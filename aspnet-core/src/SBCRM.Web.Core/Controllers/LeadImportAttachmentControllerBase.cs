@@ -9,7 +9,6 @@ using SBCRM.Crm.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using MimeKit;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
