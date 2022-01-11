@@ -5,6 +5,7 @@ import { AttachmentsWidgetRoutingModule } from './attachments-widget-routing.mod
 import { AttachmentsWidgetComponent } from './attachments-widget.component';
 import { CreateOrEditAttachmentsWidgetModalComponent } from './create-or-edit-attachments-widget-modal.component';
 import { ViewAttachmentsWidgetModalComponent } from './view-attachments-widget-modal.component';
+import { LeadAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @NgModule({
     declarations: [
@@ -14,5 +15,7 @@ import { ViewAttachmentsWidgetModalComponent } from './view-attachments-widget-m
     ],
     imports: [AppSharedModule, AttachmentsWidgetRoutingModule, AdminSharedModule],
     exports: [AttachmentsWidgetComponent, CreateOrEditAttachmentsWidgetModalComponent],
+
+    providers: [LeadAttachmentsServiceProxy]
 })
 export class AttachmentsWidgetModule {}

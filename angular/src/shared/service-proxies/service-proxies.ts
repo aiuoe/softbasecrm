@@ -13395,6 +13395,454 @@ export class LeadActivitiesServiceProxy {
 }
 
 @Injectable()
+export class LeadAttachmentsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param filePathFilter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @param leadIdFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined, leadCompanyNameFilter: string | undefined, leadIdFilter: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLeadAttachmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (filePathFilter === null)
+            throw new Error("The parameter 'filePathFilter' cannot be null.");
+        else if (filePathFilter !== undefined)
+            url_ += "FilePathFilter=" + encodeURIComponent("" + filePathFilter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        if (leadIdFilter === null)
+            throw new Error("The parameter 'leadIdFilter' cannot be null.");
+        else if (leadIdFilter !== undefined)
+            url_ += "LeadIdFilter=" + encodeURIComponent("" + leadIdFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLeadAttachmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLeadAttachmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLeadAttachmentForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLeadAttachmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLeadAttachmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLeadAttachmentForView(id: number | undefined): Observable<GetLeadAttachmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetLeadAttachmentForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadAttachmentForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadAttachmentForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLeadAttachmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLeadAttachmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadAttachmentForView(response: HttpResponseBase): Observable<GetLeadAttachmentForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLeadAttachmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLeadAttachmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLeadAttachmentForEdit(id: number | undefined): Observable<GetLeadAttachmentForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetLeadAttachmentForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadAttachmentForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadAttachmentForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLeadAttachmentForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLeadAttachmentForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadAttachmentForEdit(response: HttpResponseBase): Observable<GetLeadAttachmentForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLeadAttachmentForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLeadAttachmentForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLeadAttachmentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param filePathFilter (optional) 
+     * @param leadCompanyNameFilter (optional) 
+     * @return Success
+     */
+    getLeadAttachmentsToExcel(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined, leadCompanyNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetLeadAttachmentsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (filePathFilter === null)
+            throw new Error("The parameter 'filePathFilter' cannot be null.");
+        else if (filePathFilter !== undefined)
+            url_ += "FilePathFilter=" + encodeURIComponent("" + filePathFilter) + "&";
+        if (leadCompanyNameFilter === null)
+            throw new Error("The parameter 'leadCompanyNameFilter' cannot be null.");
+        else if (leadCompanyNameFilter !== undefined)
+            url_ += "LeadCompanyNameFilter=" + encodeURIComponent("" + leadCompanyNameFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLeadAttachmentsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLeadAttachmentsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLeadAttachmentsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLeadForTableDropdown(): Observable<LeadAttachmentLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLeadForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLeadForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<LeadAttachmentLeadLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeadAttachmentLeadLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLeadForTableDropdown(response: HttpResponseBase): Observable<LeadAttachmentLeadLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LeadAttachmentLeadLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeadAttachmentLeadLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class LeadAutomateAssignmentServiceServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -31632,6 +32080,54 @@ export interface ICreateOrEditIndustryDto {
     id: number | undefined;
 }
 
+export class CreateOrEditLeadAttachmentDto implements ICreateOrEditLeadAttachmentDto {
+    name!: string;
+    filePath!: string;
+    leadId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLeadAttachmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.leadId = _data["leadId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLeadAttachmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLeadAttachmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["leadId"] = this.leadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLeadAttachmentDto {
+    name: string;
+    filePath: string;
+    leadId: number | undefined;
+    id: number | undefined;
+}
+
 export class CreateOrEditLeadDto implements ICreateOrEditLeadDto {
     companyName!: string;
     contactName!: string;
@@ -37625,6 +38121,86 @@ export interface IGetLatestWebLogsOutput {
     latestWebLogLines: string[] | undefined;
 }
 
+export class GetLeadAttachmentForEditOutput implements IGetLeadAttachmentForEditOutput {
+    leadAttachment!: CreateOrEditLeadAttachmentDto;
+    leadCompanyName!: string | undefined;
+
+    constructor(data?: IGetLeadAttachmentForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadAttachment = _data["leadAttachment"] ? CreateOrEditLeadAttachmentDto.fromJS(_data["leadAttachment"]) : <any>undefined;
+            this.leadCompanyName = _data["leadCompanyName"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadAttachmentForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadAttachmentForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadAttachment"] = this.leadAttachment ? this.leadAttachment.toJSON() : <any>undefined;
+        data["leadCompanyName"] = this.leadCompanyName;
+        return data; 
+    }
+}
+
+export interface IGetLeadAttachmentForEditOutput {
+    leadAttachment: CreateOrEditLeadAttachmentDto;
+    leadCompanyName: string | undefined;
+}
+
+export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto {
+    leadAttachment!: LeadAttachmentDto;
+    leadCompanyName!: string | undefined;
+
+    constructor(data?: IGetLeadAttachmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.leadAttachment = _data["leadAttachment"] ? LeadAttachmentDto.fromJS(_data["leadAttachment"]) : <any>undefined;
+            this.leadCompanyName = _data["leadCompanyName"];
+        }
+    }
+
+    static fromJS(data: any): GetLeadAttachmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLeadAttachmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["leadAttachment"] = this.leadAttachment ? this.leadAttachment.toJSON() : <any>undefined;
+        data["leadCompanyName"] = this.leadCompanyName;
+        return data; 
+    }
+}
+
+export interface IGetLeadAttachmentForViewDto {
+    leadAttachment: LeadAttachmentDto;
+    leadCompanyName: string | undefined;
+}
+
 export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     lead!: CreateOrEditLeadDto;
     leadSourceDescription!: string | undefined;
@@ -40642,6 +41218,94 @@ export interface ILdapSettingsEditDto {
     domain: string | undefined;
     userName: string | undefined;
     password: string | undefined;
+}
+
+export class LeadAttachmentDto implements ILeadAttachmentDto {
+    name!: string | undefined;
+    filePath!: string | undefined;
+    leadId!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILeadAttachmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.leadId = _data["leadId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): LeadAttachmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadAttachmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["leadId"] = this.leadId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILeadAttachmentDto {
+    name: string | undefined;
+    filePath: string | undefined;
+    leadId: number | undefined;
+    id: number;
+}
+
+export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILeadAttachmentLeadLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LeadAttachmentLeadLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeadAttachmentLeadLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILeadAttachmentLeadLookupTableDto {
+    id: number;
+    displayName: string | undefined;
 }
 
 export class LeadDto implements ILeadDto {
@@ -44542,6 +45206,54 @@ export class PagedResultDtoOfGetIndustryForViewDto implements IPagedResultDtoOfG
 export interface IPagedResultDtoOfGetIndustryForViewDto {
     totalCount: number;
     items: GetIndustryForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetLeadAttachmentForViewDto implements IPagedResultDtoOfGetLeadAttachmentForViewDto {
+    totalCount!: number;
+    items!: GetLeadAttachmentForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLeadAttachmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetLeadAttachmentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLeadAttachmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLeadAttachmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLeadAttachmentForViewDto {
+    totalCount: number;
+    items: GetLeadAttachmentForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetLeadForViewDto implements IPagedResultDtoOfGetLeadForViewDto {
