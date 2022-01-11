@@ -332,6 +332,7 @@
             </div>
         </div>
         <app-create-or-edit-activity-widget-modal
+            *ngIf="isGranted('Pages.Opportunities.ViewActivities')"
             #createActivityModal
             [componentType]="'Opportunity'"
             [idToStore]="this.idOpportunityToStore"

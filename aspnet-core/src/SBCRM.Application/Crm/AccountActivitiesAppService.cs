@@ -10,6 +10,8 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Threading.Tasks;
+using Abp.Authorization;
+using SBCRM.Authorization;
 
 namespace SBCRM.Crm
 {
@@ -77,6 +79,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<PagedResultDto<GetActivityForViewDto>> GetAll(GetAllActivitiesForWidget input)
         {
             var currentUserId = GetCurrentUser().Id;
@@ -193,6 +196,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_Create_Activities,
+            AppPermissions.Pages_Customer_Create_Activities__Dynamic,
+            AppPermissions.Pages_Customer_Edit_Activities,
+            AppPermissions.Pages_Customer_Edit_Activities__Dynamic
+        )]
         public async Task CreateOrEdit(CreateOrEditActivityDto input)
         {
             var canAssignOthers = _customerAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
@@ -204,6 +213,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task Delete(EntityDto<long> input)
         {
             await _activitiesService.Delete(input);
@@ -213,6 +223,7 @@ namespace SBCRM.Crm
         /// Get all users for table dropdown
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<List<ActivityUserLookupTableDto>> GetAllUserForTableDropdown()
         {
             var canAssignOthers = _customerAppService.CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
@@ -223,6 +234,7 @@ namespace SBCRM.Crm
         /// Get all activity source type for table dropdown
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<List<ActivityActivitySourceTypeLookupTableDto>> GetAllActivitySourceTypeForTableDropdown()
         {
             return await _activitiesService.GetAllActivitySourceTypeForTableDropdown();
@@ -232,6 +244,7 @@ namespace SBCRM.Crm
         /// Get all activity task type for table dropdown
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<List<ActivityActivityTaskTypeLookupTableDto>> GetAllActivityTaskTypeForTableDropdown()
         {
             return await _activitiesService.GetAllActivityTaskTypeForTableDropdown();
@@ -241,6 +254,7 @@ namespace SBCRM.Crm
         /// Get all activity status for table dropdown
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<List<ActivityActivityStatusLookupTableDto>> GetAllActivityStatusForTableDropdown()
         {
             return await _activitiesService.GetAllActivityStatusForTableDropdown();
@@ -251,6 +265,7 @@ namespace SBCRM.Crm
         /// Get all activity priority for table dropdown
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<List<ActivityActivityPriorityLookupTableDto>> GetAllActivityPriorityForTableDropdown()
         {
             return await _activitiesService.GetAllActivityPriorityForTableDropdown();
@@ -261,6 +276,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">Input from http header query which includes the id of the activity</param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<GetActivityForEditOutput> GetActivityForEdit(EntityDto<long> input)
         {
             var canViewOthers = _customerAppService.CanViewAllActivitiesOfAllUsers();

@@ -43,7 +43,7 @@ export class OpportunitiesComponent extends AppComponentBase {
     selectedOpportunityStages: OpportunityOpportunityStageLookupTableDto[];
     allStagesFilter: OpportunityOpportunityStageLookupTableDto = new OpportunityOpportunityStageLookupTableDto();
 
-    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
+    @ViewChild('createActivityModal') createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
