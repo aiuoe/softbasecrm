@@ -80,6 +80,7 @@
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
 		<text name="AssignUsers">Assign User(s)</text>
+		<text name="Assignee">Assignee</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
@@ -1317,6 +1318,7 @@
 		<text name="OrganizationUnits">Organization Units</text>
 		<text name="YouCanManageUsersOrganizationUnitsFromOrganizationUnitsPage">You can manage User's organization units From Organization Units page.</text>
 		<text name="DemoUiComponents">Demo UI Components</text>
+		<text name="DateAndTime">Date and Time</text>
 		<text name="DateAndTimePickers">Date and Time Pickers</text>
 		<text name="FileUpload">File Upload</text>
 		<text name="PostedValue">Posted value</text>
