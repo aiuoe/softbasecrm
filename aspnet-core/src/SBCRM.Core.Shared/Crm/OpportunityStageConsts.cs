@@ -9,5 +9,7 @@
         public const int MinColorLength = 1;
         public const int MaxColorLength = 7;
 
+        public const int MinCodeLength = 1;
+        public const int MaxCodeLength = 50;
     }
 }

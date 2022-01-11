@@ -12,13 +12,13 @@ INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDel
 INSERT INTO [web].[LeadStatuses] ([Description], [CreationTime], [Color], [IsDeleted] , [IsLeadConversionValid], [IsDefault], [Code], [Order]) VALUES ('Duplicate', getdate(), '#5400FF', 0, 1, 0, 'DUPLICATE', 5);
 GO
 
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Needs Analysis', getdate(), '#2C4AB6', 0, 1);
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Qualification', getdate(), '#2C4AB6', 0, 2);
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Prospecting', getdate(), '#2C4AB6', 0, 3);
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Proposal', getdate(), '#FF8900', 0, 4);
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Negotiation', getdate(), '#FF8900', 0, 5);
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Closed / Won', getdate(), '#008E26', 0, 6);
-INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order]) VALUES ('Closed / Lost', getdate(), '#FF1414', 0, 7);
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Needs Analysis', getdate(), '#2C4AB6', 0, 1, 'NEED_ANALYSIS');
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Qualification', getdate(), '#2C4AB6', 0, 2, 'QUALIFICATION');
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Prospecting', getdate(), '#2C4AB6', 0, 3, 'PROSPECTING');
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Proposal', getdate(), '#FF8900', 0, 4, 'PROPOSAL');
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Negotiation', getdate(), '#FF8900', 0, 5, 'NEGOTIATION');
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Closed / Won', getdate(), '#008E26', 0, 6, 'CLOSED_WON');
+INSERT INTO [web].[OpportunityStages] ([Description], [CreationTime], [Color], [IsDeleted], [Order], [Code]) VALUES ('Closed / Lost', getdate(), '#FF1414', 0, 7, 'CLOSED_LOST');
 
 INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], IsDefault) VALUES ('Open', getdate(), 0, 0);
 INSERT INTO [web].[AccountTypes] ([Description], [CreationTime], [IsDeleted], IsDefault) VALUES ('Prospect', getdate(), 0, 1);
