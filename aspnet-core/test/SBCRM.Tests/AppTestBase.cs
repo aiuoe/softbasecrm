@@ -1,4 +1,5 @@
-﻿using Abp.Localization;
+﻿using System;
+using Abp.Localization;
 using Castle.MicroKernel.Registration;
 using SBCRM.Test.Base;
 
@@ -33,6 +34,11 @@ namespace SBCRM.Tests
         protected void Register(params IRegistration[] registrations)
         {
             LocalIocManager.IocContainer.Register(registrations);
+        }
+
+        protected int GetRandom(int maxSize)
+        {
+            return new Random().Next(maxSize);
         }
     }
 }

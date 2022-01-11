@@ -3,10 +3,13 @@ import { Component, ViewChild, Injector, Output, Input, EventEmitter, OnInit, El
 import { AppConsts } from '@shared/AppConsts';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { IAttachment, CustomerAttachment } from './attachment.model';
+import { IAttachment, CustomerAttachment, LeadAttachment } from './attachment.model';
 import {
+    CreateOrEditCustomerAttachmentDto,
+    CreateOrEditLeadAttachmentDto,
     CustomerAttachmentsServiceProxy,
-    ICustomerAttachmentDto
+    ICustomerAttachmentDto,
+    LeadAttachmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
@@ -39,6 +42,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         injector: Injector,
         private _tokenService: TokenService,
         private _customerAttachmentsServiceProxy: CustomerAttachmentsServiceProxy,
+        private _leadAttachmentsServiceProxy: LeadAttachmentsServiceProxy,
         private _dateTimeService: DateTimeService
     ) {
         super(injector);
@@ -69,9 +73,32 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
 
                 let customerAttachment = new CustomerAttachment();
                 customerAttachment.customerNumber = this.idToStore;
+                customerAttachment.id = 0;
                 this.attachment = customerAttachment;
 
                 break;
+
+            case 'Lead':
+                if (attachment) {
+                    this._leadAttachmentsServiceProxy
+                        .getLeadAttachmentForEdit(attachment.id)
+                        .subscribe((result) => {
+                            this.attachment = result.leadAttachment;
+
+                            this.active = true;
+                            this.initFileUploader();
+                            this.modal.show();
+                        });
+                    return;
+                }
+
+                let leadAttachment = new LeadAttachment();
+                leadAttachment.leadId = this.idToStore;
+                leadAttachment.id = 0;
+                this.attachment = leadAttachment;
+                break;
+
+
             default:
                 return;
         }
@@ -98,8 +125,16 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         switch (this.componentType) {
             case 'Account':
                 url += '/CustomerImport/UploadAttachments';
-
                 break;
+
+            case 'Lead':
+                url += '/LeadImportAttachment/UploadAttachments';
+                break;
+
+            case 'Opportunity':
+                // To DO
+                break;
+
             default:
                 this.close();
                 return;
@@ -118,8 +153,19 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 form.append('Id', this.attachment.id);
             }
             form.append('Name', this.attachment.name);
-            if (this.isCustomer(this.attachment)) {
-                form.append('CustomerNumber', (<CustomerAttachment>this.attachment).customerNumber);
+
+            switch(this.componentType){
+                case 'Account':
+                    form.append('CustomerNumber', (<CustomerAttachment>this.attachment).customerNumber);
+                    break;
+                
+                case 'Lead':
+                    form.append('LeadId', (<LeadAttachment>this.attachment).leadId);
+                    break;
+
+                case 'Opportunity':
+                    // TO-DO
+                    break;
             }
         };
 
@@ -146,7 +192,53 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      */
     save(): void {
         this.saving = true;
-        this.uploader.uploadAll();
+        if (this.attachment.id != 0){
+            switch(this.componentType){
+                case 'Account':
+                    this.updateCustomerAttachment();
+                    break;
+                
+                case 'Lead':
+                    this.updateLeadAttachment();
+                    break;
+            }
+        } else {
+            this.uploader.uploadAll();
+        }        
+    }
+
+    /**
+     * Edits a lead attachment
+     */
+    updateLeadAttachment(){
+        var leadAttachment = new CreateOrEditLeadAttachmentDto();
+        leadAttachment.id = this.attachment.id;
+        leadAttachment.filePath = this.attachment.filePath;
+        leadAttachment.name = this.attachment.name;
+        leadAttachment.leadId = (<LeadAttachment>this.attachment).leadId;
+
+        this._leadAttachmentsServiceProxy.createOrEdit(leadAttachment).subscribe( result =>{
+            this.modalSave.emit(null);
+            this.saving = false;
+            this.close();
+        });
+    }
+
+    /**
+     * Edits a lead attachment
+     */
+    updateCustomerAttachment(){
+        var customerAttachment = new CreateOrEditCustomerAttachmentDto();
+        customerAttachment.id = this.attachment.id;
+        customerAttachment.filePath = this.attachment.filePath;
+        customerAttachment.name = this.attachment.name;
+        customerAttachment.customerNumber = (<CustomerAttachment>this.attachment).customerNumber;
+
+        this._customerAttachmentsServiceProxy.createOrEdit(customerAttachment).subscribe( result =>{
+            this.modalSave.emit(null);
+            this.saving = false;
+            this.close();
+        });
     }
 
     /**

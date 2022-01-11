@@ -43,7 +43,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     @ViewChild('importLeadsModalComponent', { static: true }) importLeadsModalComponent: ImportLeadsModalComponent;
-    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
+    @ViewChild('createActivityModal') createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
     leadStatuses: LeadLeadStatusLookupTableDto[];
     selectedLeadStatus: LeadStatusDto;
