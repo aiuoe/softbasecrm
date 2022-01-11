@@ -34,7 +34,7 @@ import { ActivityTaskType } from '@shared/AppEnums';
 export class CustomersComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
-    @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
+    @ViewChild('createActivityModal') createActivityModal: CreateOrEditActivityWidgetModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
