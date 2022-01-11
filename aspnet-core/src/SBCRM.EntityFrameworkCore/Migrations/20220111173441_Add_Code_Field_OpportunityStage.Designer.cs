@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220111173441_Add_Code_Field_OpportunityStage")]
+    partial class Add_Code_Field_OpportunityStage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2639,54 +2641,6 @@ namespace SBCRM.Migrations
                     b.ToTable("Opportunities");
                 });
 
-            modelBuilder.Entity("SBCRM.Crm.OpportunityAttachment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("OpportunityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OpportunityId");
-
-                    b.ToTable("OpportunityAttachments");
-                });
-
             modelBuilder.Entity("SBCRM.Crm.OpportunityStage", b =>
                 {
                     b.Property<int>("Id")
@@ -5253,15 +5207,6 @@ namespace SBCRM.Migrations
                     b.Navigation("OpportunityStageFk");
 
                     b.Navigation("OpportunityTypeFk");
-                });
-
-            modelBuilder.Entity("SBCRM.Crm.OpportunityAttachment", b =>
-                {
-                    b.HasOne("SBCRM.Crm.Opportunity", "OpportunityFk")
-                        .WithMany()
-                        .HasForeignKey("OpportunityId");
-
-                    b.Navigation("OpportunityFk");
                 });
 
             modelBuilder.Entity("SBCRM.Crm.OpportunityUser", b =>
