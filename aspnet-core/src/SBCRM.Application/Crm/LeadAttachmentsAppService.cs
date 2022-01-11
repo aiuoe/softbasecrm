@@ -116,11 +116,6 @@ namespace SBCRM.Crm
 
             var output = new GetLeadAttachmentForViewDto { LeadAttachment = ObjectMapper.Map<LeadAttachmentDto>(leadAttachment) };
 
-            if (output.LeadAttachment.LeadId != null)
-            {
-                var _lookupLead = await _lookup_leadRepository.FirstOrDefaultAsync((int)output.LeadAttachment.LeadId);
-            }
-
             return output;
         }
 
@@ -136,12 +131,6 @@ namespace SBCRM.Crm
             var leadAttachment = await _leadAttachmentRepository.FirstOrDefaultAsync(input.Id);
 
             var output = new GetLeadAttachmentForEditOutput { LeadAttachment = ObjectMapper.Map<CreateOrEditLeadAttachmentDto>(leadAttachment) };
-
-            if (output.LeadAttachment.LeadId != null)
-            {
-                var _lookupLead = await _lookup_leadRepository.FirstOrDefaultAsync((int)output.LeadAttachment.LeadId);
-                output.LeadCompanyName = _lookupLead?.CompanyName?.ToString();
-            }
 
             return output;
         }
