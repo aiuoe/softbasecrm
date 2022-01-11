@@ -13784,10 +13784,15 @@ export class LeadAttachmentsServiceProxy {
     }
 
     /**
+     * @param leadId (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(): Observable<LeadAttachmentLeadLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown";
+    getAllLeadForTableDropdown(leadId: number | undefined): Observable<LeadAttachmentLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown?";
+        if (leadId === null)
+            throw new Error("The parameter 'leadId' cannot be null.");
+        else if (leadId !== undefined)
+            url_ += "leadId=" + encodeURIComponent("" + leadId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -38725,6 +38730,11 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canRemoveAttachments!: boolean;
+    canDownloadAttachments!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -38759,6 +38769,11 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
         }
     }
 
@@ -38793,6 +38808,11 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
         return data; 
     }
 }
@@ -38820,6 +38840,11 @@ export interface IGetLeadForViewDto {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canRemoveAttachments: boolean;
+    canDownloadAttachments: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -41772,6 +41797,12 @@ export interface ILeadAttachmentDto {
 export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    users!: LeadUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
 
     constructor(data?: ILeadAttachmentLeadLookupTableDto) {
         if (data) {
@@ -41786,6 +41817,16 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(LeadUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
         }
     }
 
@@ -41800,6 +41841,16 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
         return data; 
     }
 }
@@ -41807,6 +41858,12 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
 export interface ILeadAttachmentLeadLookupTableDto {
     id: number;
     displayName: string | undefined;
+    users: LeadUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
 }
 
 export class LeadDto implements ILeadDto {

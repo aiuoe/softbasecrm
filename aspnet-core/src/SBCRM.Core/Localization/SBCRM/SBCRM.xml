@@ -10,7 +10,12 @@
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
 		
-		<text name="LeadAttachment">Lead attachment</text>
+		<text name="ViewLeadAttachments">View Lead Attachments on All Leads</text>
+		<text name="ViewLeadAttachments__Dynamic">View Lead Attachments if user is assigned to Lead</text>
+		<text name="AddLeadAttachments">Add Lead Attachments</text>
+		<text name="EditLeadAttachments">Edit Lead Attachments</text>
+		<text name="DownloadLeadAttachments">Download Lead Attachments</text>
+		<text name="RemoveLeadAttachments">Remove Lead Attachments</text>
 		<text name="CreateNewLeadAttachment">Create new lead attachment</text>
 		<text name="EditLeadAttachment">Edit lead attachment</text>
 		<text name="DeleteLeadAttachment">Delete lead attachment</text>

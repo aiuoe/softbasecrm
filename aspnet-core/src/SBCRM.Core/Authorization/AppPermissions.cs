@@ -140,6 +140,16 @@
         public const string Pages_Leads_Create_Activities__Dynamic = "Pages.Leads.CreateActivities__Dynamic";
         public const string Pages_Leads_Edit_Activities = "Pages.Leads.EditActivities";
         public const string Pages_Leads_Edit_Activities__Dynamic = "Pages.Leads.EditActivities__Dynamic";
+        public const string Pages_Leads_View_Attachments = "Pages.Leads.ViewAttachments";
+        public const string Pages_Leads_View_Attachments__Dynamic = "Pages.Leads.ViewAttachments_Dynamic";
+        public const string Pages_Leads_Add_Attachments = "Pages.Leads.AddAttachments";
+        public const string Pages_Leads_Add_Attachments__Dynamic = "Pages.Leads.AddAttachments_Dynamic";
+        public const string Pages_Leads_Edit_Attachments = "Pages.Leads.EditAttachments";
+        public const string Pages_Leads_Edit_Attachments__Dynamic = "Pages.Leads.EditAttachments_Dynamic";
+        public const string Pages_Leads_Download_Attachments = "Pages.Leads.DownloadAttachments";
+        public const string Pages_Leads_Download_Attachments__Dynamic = "Pages.Leads.DownloadAttachments_Dynamic";
+        public const string Pages_Leads_Remove_Attachments = "Pages.Leads.RemoveAttachments";
+        public const string Pages_Leads_Remove_Attachments__Dynamic = "Pages.Leads.RemoveAttachments_Dynamic";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";
