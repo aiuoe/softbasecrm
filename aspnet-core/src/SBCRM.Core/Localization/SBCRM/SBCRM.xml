@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <localizationDictionary culture="en">
-	<texts>
+	<texts>    <text name="OpportunityAttachment">Opportunity attachment</text>
+    <text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
+    <text name="EditOpportunityAttachment">Edit opportunity attachment</text>
+    <text name="DeleteOpportunityAttachment">Delete opportunity attachment</text>
+
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
 		
