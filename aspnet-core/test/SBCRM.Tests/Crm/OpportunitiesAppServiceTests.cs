@@ -1,138 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
+using Abp;
 using Abp.EntityHistory;
-using Abp.Runtime.Validation;
-using Abp.UI;
 using Bogus;
 using Castle.MicroKernel.Registration;
-using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using NUglify.Helpers;
+using SBCRM.Common;
 using SBCRM.Crm;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
-using SBCRM.Test.Base.Configuration;
 using Xunit;
 
 namespace SBCRM.Tests.Crm
 {
     /// <summary>
-    /// Tests suite for Opportunties Service
+    /// Tests suite for Opportunities Service
     /// </summary>
     public class OpportunitiesAppServiceTests : AppTestBase
     {
-        [Fact]
-        [Trait("Category", "UnitTest")]
-        public async Task CreateOpportunity_WithDifferentDate_WithDifferentAmounts()
+        [Theory]
+        [InlineData(500)]
+        [Trait("Category", "IntegrationTest")]
+        public async Task CreateOpportunity_WithDifferentDate_WithDifferentAmounts(int quantityRecords)
         {
-            var customers = await Resolve<IOpportunitiesAppService>().GetAllCustomerForTableDropdown();
-
-            var customerWithContacts = customers.FirstOrDefault(x => x.Name == "Sabina Valley Dental Surgery");
-
-            var contacts = await Resolve<IOpportunitiesAppService>().GetAllContactsForTableDropdownCustomerSpecific(customerWithContacts.Number);
-
+            // Arrange
+            var allContacts =
+                await Resolve<IContactsAppService>().GetAllWithoutPaging(new GetAllNoPagedContactsInput());
             var stages = await Resolve<IOpportunitiesAppService>().GetAllOpportunityStageForTableDropdown();
+            var departments = await Resolve<IOpportunitiesAppService>().GetAllDepartmentsForTableDropdown();
+            var leadSources = await Resolve<IOpportunitiesAppService>().GetAllLeadSourceForTableDropdown();
 
-            var branches = await Resolve<IOpportunitiesAppService>().GetAllBranchesForTableDropdown();
+            GuardHelper.ThrowIf(allContacts == null || !allContacts.Any(), new AbpException("Contacts not found"));
+            GuardHelper.ThrowIf(stages == null || !stages.Any(), new AbpException("Stages not found"));
+            GuardHelper.ThrowIf(departments == null || !departments.Any(), new AbpException("Departments not found"));
+            GuardHelper.ThrowIf(leadSources == null || !leadSources.Any(), new AbpException("Lead Sources not found"));
 
-            var branchWithDepartments = branches.FirstOrDefault(x => x.Name == "Houston");
+            List<CreateOrEditOpportunityDto> opportunities = new List<CreateOrEditOpportunityDto>();
 
-            var departments = await Resolve<IOpportunitiesAppService>().GetAllDepartmentsForTableDropdownBranchSpecific(branchWithDepartments.Number);
+            Enumerable.Range(1, quantityRecords).ForEach(_ =>
+            {
+                var randomContact = allContacts[GetRandom(allContacts.Count)].Contact;
+                var randomDepartment = departments[GetRandom(departments.Count)];
 
-            // Arrange
-            var opportunities = new Faker<CreateOrEditOpportunityDto>()
-                .RuleFor(u => u.Name, (f) => f.Commerce.ProductName())
-                .RuleFor(u => u.CloseDate, (f) => f.Date.Recent())
-                .RuleFor(u => u.Amount, (f) => Convert.ToDecimal(f.Commerce.Price(1000, 10000)))
-                .RuleFor(u => u.CustomerNumber, (f) => customerWithContacts.Number)
-                .RuleFor(u => u.ContactId, (f) => contacts[0].Id)
-                .RuleFor(u => u.OpportunityStageId, (f) => stages[0].Id)
-                .RuleFor(u => u.Branch, (f) => branchWithDepartments.Number)
-                .RuleFor(u => u.Dept, (f) => departments[0].Dept)
-                .Generate(200);
+                var opportunityFake = new Faker<CreateOrEditOpportunityDto>()
+                    .RuleFor(u => u.Name, (f) => f.Commerce.ProductName())
+                    .RuleFor(u => u.CloseDate,
+                        (f) => f.Date.Between(DateTime.Now.AddDays(-30), DateTime.Now.AddDays(30)))
+                    .RuleFor(u => u.Amount, (f) => f.Random.Decimal(10000, 999999))
+                    .RuleFor(u => u.CustomerNumber, (f) => randomContact.CustomerNo)
+                    .RuleFor(u => u.ContactId, (f) => randomContact.Id)
+                    .RuleFor(u => u.Probability, (f) => f.Random.Decimal(10, 100))
+                    .RuleFor(u => u.Description, (f) => f.Finance.AccountName())
+                    .RuleFor(u => u.OpportunityStageId, (f) => f.PickRandom(stages).Id)
+                    .RuleFor(u => u.LeadSourceId, (f) => f.PickRandom(leadSources).Id)
+                    .RuleFor(u => u.Branch, (f) => randomDepartment.Branch)
+                    .RuleFor(u => u.Dept, (f) => randomDepartment.Dept)
+                    .Generate(1)
+                    .FirstOrDefault();
 
-            // Arrange
-            var fakeOpportunityRepository = Substitute.For<IRepository<Opportunity>>();
-            fakeOpportunityRepository.GetAll().Returns(_ => new List<Opportunity>().AsAsyncQueryable());
-            fakeOpportunityRepository.InsertAsync(Arg.Any<Opportunity>()).Returns(_ => Task.FromResult(new Opportunity()));
+                opportunities.Add(opportunityFake);
+            });
 
             var fakeEntityChangeReasonProvider = Substitute.For<IEntityChangeSetReasonProvider>();
             fakeEntityChangeReasonProvider.Use(Arg.Any<string>()).ReturnsNull();
-
-            Register(Component.For<IRepository<Opportunity>>().Instance(fakeOpportunityRepository).IsDefault());
-            Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider).IsDefault());
+            Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider)
+                .IsDefault());
 
 
             // Act
             List<Exception> exceptions = new List<Exception>();
             foreach (CreateOrEditOpportunityDto opportunity in opportunities)
+            {
                 try
                 {
-                    async Task OpportunityCreationDelegate() => await Resolve<IOpportunitiesAppService>().CreateOrEdit(opportunity);
-                    await Task.Run(OpportunityCreationDelegate);
+                    await Resolve<IOpportunitiesAppService>().CreateOrEdit(opportunity);
                 }
                 catch (Exception exception)
                 {
                     exceptions.Add(exception);
                 }
+            }
 
             // Assert
             Assert.Empty(exceptions);
         }
     }
-        //private static int nextRandom(int value, int max, int min)
-        //{
-        //    return (value > min) ? min : value : (value > max) ? max : value;
-        //}
-
-
- 
-        //[Fact]
-        //[Trait("Category", "UnitTest")]
-        //public async Task CreateCustomer_WithValidFields_ReturnsSuccess()
-        //{
-        //    // Arrange
-        //    var customer = new Faker<CreateOrEditCustomerDto>()
-        //        .RuleFor(u => u.Name, (f) => f.Company.CompanyName())
-        //        .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
-        //        .Generate(1)
-        //        .First();
-
-        //    // Arrange
-        //    var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
-        //    fakeCustomerRepository.GetAll().Returns(_ => new List<Customer>().AsAsyncQueryable());
-        //    fakeCustomerRepository.InsertAsync(Arg.Any<Customer>()).Returns(_ => Task.FromResult(new Customer()));
-
-        //    var fakeAccountTypeRepository = Substitute.For<IRepository<AccountType>>();
-        //    (fakeAccountTypeRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<AccountType, bool>>>())).Returns(new AccountType()
-        //    {
-        //        Id = 1,
-        //        Description = "Prospect"
-        //    });
-        //    var fakeEntityChangeReasonProvider = Substitute.For<IEntityChangeSetReasonProvider>();
-        //    fakeEntityChangeReasonProvider.Use(Arg.Any<string>()).ReturnsNull();
-
-        //    var fakeCustomerSequenceRepository = Substitute.For<Base.ISoftBaseCustomerSequenceRepository>();
-        //    fakeCustomerSequenceRepository.GetNextSequence().Returns(_ => new Random().Next(10000, 50000));
-
-        //    Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
-        //    Register(Component.For<IRepository<AccountType>>().Instance(fakeAccountTypeRepository).IsDefault());
-        //    Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider).IsDefault());
-        //    Register(Component.For<Base.ISoftBaseCustomerSequenceRepository>().Instance(fakeCustomerSequenceRepository).IsDefault());
-
-        //    // ActSequenceRepository
-        //    async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
-
-
-        //    // Assert
-        //    var exception = await Record.ExceptionAsync(CustomerCreationDelegate);
-        //    Assert.Null(exception);
-        //}
-
-   
 }

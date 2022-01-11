@@ -38163,7 +38163,6 @@ export interface IGetLeadAttachmentForEditOutput {
 
 export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto {
     leadAttachment!: LeadAttachmentDto;
-    leadCompanyName!: string | undefined;
 
     constructor(data?: IGetLeadAttachmentForViewDto) {
         if (data) {
@@ -38177,7 +38176,6 @@ export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto
     init(_data?: any) {
         if (_data) {
             this.leadAttachment = _data["leadAttachment"] ? LeadAttachmentDto.fromJS(_data["leadAttachment"]) : <any>undefined;
-            this.leadCompanyName = _data["leadCompanyName"];
         }
     }
 
@@ -38191,14 +38189,12 @@ export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["leadAttachment"] = this.leadAttachment ? this.leadAttachment.toJSON() : <any>undefined;
-        data["leadCompanyName"] = this.leadCompanyName;
         return data; 
     }
 }
 
 export interface IGetLeadAttachmentForViewDto {
     leadAttachment: LeadAttachmentDto;
-    leadCompanyName: string | undefined;
 }
 
 export class GetLeadForEditOutput implements IGetLeadForEditOutput {
