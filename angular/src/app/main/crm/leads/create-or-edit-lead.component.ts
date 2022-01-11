@@ -27,6 +27,7 @@ import { NgForm } from '@angular/forms';
 import { EntityTypeHistoryComponent } from '@app/shared/common/entityHistory/entity-type-history.component';
 import { Location } from '@angular/common';
 import { forkJoin, Observable } from '@node_modules/rxjs';
+import { AppConsts } from '@shared/AppConsts';
 
 /**
  * Component to create or edit leads
@@ -111,10 +112,11 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     ngOnInit(): void {
         this.leadId = this._activatedRoute.snapshot.queryParams['id'];
         this.pageMode = this._activatedRoute.snapshot.routeConfig.path.toLowerCase();
-        this.isReadOnlyMode = this.pageMode === 'view';
+        this.isReadOnlyMode = this.pageMode === AppConsts.ViewMode;
         this.isNew = !!!this.leadId;
-        this.setPermissions();
-
+        if (this.leadId) {
+            this.setPermissions();
+        }
         this.show(this.leadId);
     }
 
@@ -132,10 +134,18 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         forkJoin([...permissionsRequests])
             .subscribe(([getCanViewAssignedUsersWidget, getVisibility]: [boolean, LeadVisibilityTabDto]) => {
                 this.showAssignedUsersWidget = getCanViewAssignedUsersWidget;
-                this.showEditButton = getVisibility.canEditOverviewTab;
+                switch (this.pageMode) {
+                    case AppConsts.ViewMode:
+                        this.showEditButton = getVisibility.canEditOverviewTab;
+                        break;
+                    case AppConsts.CreateOrEditMode:
+                        this.showSaveButton = getVisibility.canEditOverviewTab;
+                        this.isReadOnlyMode = !getVisibility.canEditOverviewTab;
+                        break;
+                }
                 this.entityTypeHistory.show({
                     entityId: this.leadId.toString(),
-                    entityName: 'Lead',
+                    entityName: AppConsts.Lead,
                     show: this.showEventsTab
                 });
             });
@@ -153,6 +163,11 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * @param leadId the id of the lead to be used, it can be null
      */
     show(leadId?: number): void {
+
+        if ((this.pageMode === AppConsts.ViewMode) && !leadId) {
+            this.goToLeads();
+        }
+
         if (!leadId) {
             this.lead = new CreateOrEditLeadDto();
             this.lead.id = leadId;
@@ -174,7 +189,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
                     this.assignRestrictionFields(result);
 
                     this.active = true;
-                    this.showSaveButton = !this.isReadOnlyMode;
+                    // this.showSaveButton = !this.isReadOnlyMode;
                 }, () => {
                     this.goToLeads();
                 });
@@ -210,7 +225,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * @param leadForEdit
      * @returns void
      */
-     assignRestrictionFields(leadForEdit: GetLeadForEditOutput): void {
+    assignRestrictionFields(leadForEdit: GetLeadForEditOutput): void {
         this.showActivityWidget = leadForEdit.canViewActivityWidget;
         this.canCreateActivity = leadForEdit.canCreateActivity;
         this.canViewScheduleMeetingOption = leadForEdit.canViewScheduleMeetingOption;
