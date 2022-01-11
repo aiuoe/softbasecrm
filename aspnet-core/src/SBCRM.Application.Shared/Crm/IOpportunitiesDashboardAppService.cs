@@ -19,7 +19,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        GetOpportunitiesStastsOutput Get(GetOpportunitiesStastsInput input);
+        Task<GetOpportunitiesStastsOutput> Get(GetOpportunitiesStastsInput input);
 
         /// <summary>
         /// Get Customer type dropdown

@@ -1,21 +1,16 @@
-﻿using Abp.Application.Services.Dto;
+﻿using System;
 using Abp.Authorization;
-using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
-using Abp.Domain.Uow;
-using Abp.EntityHistory;
 using Microsoft.EntityFrameworkCore;
-using SBCRM.Auditing;
 using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
 using SBCRM.Crm.Exporting;
 using SBCRM.Dto;
 using SBCRM.Legacy;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Abp.Linq.Extensions;
 using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
@@ -33,9 +28,6 @@ namespace SBCRM.Crm
         private readonly IRepository<OpportunityType, int> _lookupOpportunityTypeRepository;
         private readonly IRepository<Customer, int> _lookupCustomerRepository;
         private readonly IRepository<Contact, int> _lookupContactsRepository;
-        private readonly IAuditEventsService _auditEventsService;
-        private readonly IEntityChangeSetReasonProvider _reasonProvider;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<Branch> _lookupBranchRepository;
         private readonly IRepository<Department> _lookupDepartmentRepository;
         private readonly string _closedWonStateCode = "CLOSED_WON";
@@ -51,9 +43,6 @@ namespace SBCRM.Crm
         /// <param name="lookupOpportunityTypeRepository"></param>
         /// <param name="lookupCustomerRepository"></param>
         /// <param name="lookupContactsRepository"></param>
-        /// <param name="auditEventsService"></param>
-        /// <param name="reasonProvider"></param>
-        /// <param name="unitOfWorkManager"></param>
         /// <param name="lookupBranchRepository"></param>
         /// <param name="lookupDepartmentRepository"></param>
         public OpportunitiesDashboardAppService(IOpportunitiesExcelExporter opportunitiesExcelExporter,
@@ -63,9 +52,6 @@ namespace SBCRM.Crm
             IRepository<OpportunityType, int> lookupOpportunityTypeRepository,
             IRepository<Customer, int> lookupCustomerRepository,
             IRepository<Contact, int> lookupContactsRepository,
-            IAuditEventsService auditEventsService,
-            IEntityChangeSetReasonProvider reasonProvider,
-            IUnitOfWorkManager unitOfWorkManager,
             IRepository<Branch> lookupBranchRepository,
             IRepository<Department> lookupDepartmentRepository)
         {
@@ -76,9 +62,6 @@ namespace SBCRM.Crm
             _lookupOpportunityTypeRepository = lookupOpportunityTypeRepository;
             _lookupCustomerRepository = lookupCustomerRepository;
             _lookupContactsRepository = lookupContactsRepository;
-            _auditEventsService = auditEventsService;
-            _reasonProvider = reasonProvider;
-            _unitOfWorkManager = unitOfWorkManager;
             _lookupBranchRepository = lookupBranchRepository;
             _lookupDepartmentRepository = lookupDepartmentRepository;
         }
@@ -88,47 +71,63 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public GetOpportunitiesStastsOutput Get(GetOpportunitiesStastsInput input)
+        public async Task<GetOpportunitiesStastsOutput> Get(GetOpportunitiesStastsInput input)
         {
             var results = new GetOpportunitiesStastsOutput();
 
-            var opportunities = _opportunityRepository.GetAll()
-                      .Include(e => e.OpportunityStageFk)
-                      .Include(e => e.LeadSourceFk)
-                      .Include(e => e.OpportunityTypeFk)
-                      .WhereIf(input.FromDate.HasValue, e => e.CloseDate >= input.FromDate)
-                      .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
-                      .WhereIf((input.Account?.Any() ?? false), e => input.Account.Contains(e.CustomerNumber))
-                      .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
-                      .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))
-                      .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode || o.OpportunityStageFk.Code == _closedLostStateCode);
-
-            var dbList = opportunities.ToList();
-
-            if (dbList.Any())
+            try
             {
-                var wonOpportunities = dbList.Where(o => o.OpportunityStageFk.Code == _closedWonStateCode);
-                //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
-                var averageSalesCycle = dbList.Average(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
+                var opportunities = _opportunityRepository.GetAll()
+                    .Include(e => e.OpportunityStageFk)
+                    .Include(e => e.LeadSourceFk)
+                    .Include(e => e.OpportunityTypeFk)
+                    .WhereIf(input.FromDate.HasValue, e => e.CloseDate >= input.FromDate)
+                    .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
+                    .WhereIf((input.Account?.Any() ?? false), e => input.Account.Contains(e.CustomerNumber))
+                    .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
+                    .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))
+                    .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode || o.OpportunityStageFk.Code == _closedLostStateCode);
 
-                //close rate
-                //Formula: won/(total won + total lost)
-                var totalWon = wonOpportunities.Count();//all won
-                var closedRatePercentage = dbList.Count > 0 ? ((double)totalWon / (double)dbList.Count) * 100 : 0.0;
+                var dbList = await opportunities.ToListAsync();
 
-                // average deal size
-                var sumAmount = wonOpportunities.Sum(o => o.Amount);
-                var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
-
-                results = new GetOpportunitiesStastsOutput
+                if (dbList.Any())
                 {
-                    TotalClosedSales = (int)sumAmount,
-                    AverageDealSize = (int)averageDealSize,
-                    AverageSales = (int)averageSalesCycle,
-                    CloseRate = closedRatePercentage
-                };
-            }
+                    var wonOpportunities = dbList.Where(o => o.OpportunityStageFk.Code == _closedWonStateCode);
+                    //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
+                    var averageSalesCycle = dbList.Average(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
 
+                    //close rate
+                    //Formula: won/(total won + total lost)
+                    var totalWon = wonOpportunities.Count(); //all won
+                    var closedRatePercentage = dbList.Count > 0 ? ((double) totalWon / (double) dbList.Count) * 100 : 0.0;
+
+                    // average deal size
+                    var sumAmount = wonOpportunities.Sum(o => o.Amount);
+                    var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
+
+                    Logger.Info("dbList.Count -> " + dbList.Count);
+                    Logger.Info("wonOpportunities -> " + wonOpportunities);
+                    Logger.Info("averageSalesCycle -> " + averageSalesCycle);
+                    Logger.Info("totalWon -> " + totalWon);
+                    Logger.Info("closedRatePercentage -> " + closedRatePercentage);
+                    Logger.Info("sumAmount -> " + sumAmount);
+                    Logger.Info("averageDealSize -> " + averageDealSize);
+
+                    results = new GetOpportunitiesStastsOutput
+                    {
+                        AverageSales = (int)averageSalesCycle,
+                        CloseRate = closedRatePercentage,
+                        AverageDealSize = (int)averageDealSize,
+                        TotalClosedSales = (int) sumAmount
+                    };
+                }
+
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error in OpportunitiesDashboardAppService.Get -> ", e);
+                throw;
+            }
 
             return results;
         }
@@ -140,7 +139,7 @@ namespace SBCRM.Crm
         public async Task<List<BranchLookupTableDto>> GetAllBranchForTableDropdown()
         {
             var opportunities = await _lookupBranchRepository.GetAll()
-                   .ToListAsync();
+                .ToListAsync();
 
             var branches = opportunities
                 .Select((o) => new BranchLookupTableDto
@@ -187,7 +186,7 @@ namespace SBCRM.Crm
 
             return departments;
         }
-        
+
         /// <summary>
         /// Gets an excel file with the items on the dashboard
         /// </summary>
@@ -196,63 +195,57 @@ namespace SBCRM.Crm
         public FileDto GetOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input)
         {
             var filteredOpportunities = _opportunityRepository.GetAll()
-                                .Include(e => e.OpportunityStageFk)
-                                .Include(e => e.LeadSourceFk)
-                                .Include(e => e.OpportunityTypeFk)
-                                .Include(x => x.Users)
-                                    .ThenInclude(x => x.UserFk)
-                                .WhereIf(input.FromDate.HasValue, e => e.CloseDate >= input.FromDate)
-                                .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
-                                .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode || o.OpportunityStageFk.Code == _closedLostStateCode)
-                                .WhereIf((input.Account?.Any() ?? false), e => input.Account.Contains(e.CustomerNumber))
-                                .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
-                                .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))                                
-                                ;
+                    .Include(e => e.OpportunityStageFk)
+                    .Include(e => e.LeadSourceFk)
+                    .Include(e => e.OpportunityTypeFk)
+                    .Include(x => x.Users)
+                    .ThenInclude(x => x.UserFk)
+                    .WhereIf(input.FromDate.HasValue, e => e.CloseDate >= input.FromDate)
+                    .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
+                    .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode ||
+                                o.OpportunityStageFk.Code == _closedLostStateCode)
+                    .WhereIf((input.Account?.Any() ?? false), e => input.Account.Contains(e.CustomerNumber))
+                    .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
+                    .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))
+                ;
 
 
             var opportunities = (from o in filteredOpportunities
-                                 join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
-                                 from s1 in j1.DefaultIfEmpty()
-
-                                 join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
-                                 from s2 in j2.DefaultIfEmpty()
-
-                                 join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
-                                 from s3 in j3.DefaultIfEmpty()
-
-                                 join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
-                                 from s4 in j4.DefaultIfEmpty()
-
-                                 join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
-                                 from s5 in j5.DefaultIfEmpty()
-
-                                 join o6 in _lookupBranchRepository.GetAll() on o.Branch equals o6.Number into j6
-                                 from s6 in j6.DefaultIfEmpty()
-
-                                 join o7 in _lookupDepartmentRepository.GetAll() on o.Dept equals o7.Dept into j7
-                                 from s7 in j7.DefaultIfEmpty()
-
-                                 select new OpportunityQueryDto
-                                 {
-                                     Name = o.Name,
-                                     Amount = o.Amount,
-                                     Probability = o.Probability,
-                                     CloseDate = o.CloseDate,
-                                     Description = o.Description,
-                                     BranchName = s6 == null || s6.Name == null ? "" : s6.Name,
-                                     DepartmentTitle = s7 == null || s7.Title == null ? "" : s7.Title,
-                                     Id = o.Id,
-                                     OpportunityStageId = s1.Id,
-                                     Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
-                                     OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
-                                     OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
-                                     LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
-                                     OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
-                                     CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
-                                     CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
-                                     ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
-                                     CreationTime = o.CreationTime
-                                 }).ToList();
+                join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
+                from s1 in j1.DefaultIfEmpty()
+                join o2 in _lookupLeadSourceRepository.GetAll() on o.LeadSourceId equals o2.Id into j2
+                from s2 in j2.DefaultIfEmpty()
+                join o3 in _lookupOpportunityTypeRepository.GetAll() on o.OpportunityTypeId equals o3.Id into j3
+                from s3 in j3.DefaultIfEmpty()
+                join o4 in _lookupCustomerRepository.GetAll() on o.CustomerNumber equals o4.Number into j4
+                from s4 in j4.DefaultIfEmpty()
+                join o5 in _lookupContactsRepository.GetAll() on o.ContactId equals o5.ContactId into j5
+                from s5 in j5.DefaultIfEmpty()
+                join o6 in _lookupBranchRepository.GetAll() on o.Branch equals o6.Number into j6
+                from s6 in j6.DefaultIfEmpty()
+                join o7 in _lookupDepartmentRepository.GetAll() on o.Dept equals o7.Dept into j7
+                from s7 in j7.DefaultIfEmpty()
+                select new OpportunityQueryDto
+                {
+                    Name = o.Name,
+                    Amount = o.Amount,
+                    Probability = o.Probability,
+                    CloseDate = o.CloseDate,
+                    Description = o.Description,
+                    BranchName = s6 == null || s6.Name == null ? "" : s6.Name,
+                    DepartmentTitle = s7 == null || s7.Title == null ? "" : s7.Title,
+                    Id = o.Id,
+                    OpportunityStageId = s1.Id,
+                    Users = ObjectMapper.Map<List<OpportunityUserDto>>(o.Users),
+                    OpportunityStageDescription = s1 == null || s1.Description == null ? "" : s1.Description.ToString(),
+                    OpportunityStageColor = s1 != null ? s1.Color : string.Empty,
+                    LeadSourceDescription = s2 == null || s2.Description == null ? "" : s2.Description.ToString(),
+                    OpportunityTypeDescription = s3 == null || s3.Description == null ? "" : s3.Description.ToString(),
+                    CustomerName = s4 == null || s4.Name == null ? "" : s4.Name.ToString(),
+                    CustomerNumber = s4 == null || s4.Number == null ? "" : s4.Number.ToString(),
+                    ContactName = s5 == null || s5.ContactField == null ? "" : s5.ContactField.ToString(),
+                    CreationTime = o.CreationTime
+                }).ToList();
 
             var views = GetOpportunityForViewDtos(opportunities);
 
