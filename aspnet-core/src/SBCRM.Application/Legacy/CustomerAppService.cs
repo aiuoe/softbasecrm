@@ -845,6 +845,17 @@ namespace SBCRM.Legacy
                 await _contactsAppService.CreateOrEdit(contact);
             }
 
+            // Automatically assign the user who performs the conversion to the account
+            var defaultConversionAssignment = new List<CreateOrEditAccountUserDto>
+            {
+                new CreateOrEditAccountUserDto
+                {
+                    CustomerNumber = customer.Number,
+                    UserId = currentUser.Id
+                }
+            };
+            await _accountAutomateAssignment.AssignAccountUsersAsync(defaultConversionAssignment);
+
             return customer.Number;
         }
 
