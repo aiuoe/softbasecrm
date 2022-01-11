@@ -137,7 +137,9 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Create)]
         protected virtual async Task Create(CreateOrEditLeadSourceDto input)
         {
-            input.Order = _leadSourceRepository.GetAll().Count() + 1;
+            int lastLeadSourceOrder = _leadSourceRepository.GetAll().Max(x => x.Order);
+            input.Order = lastLeadSourceOrder + 1;
+
             input.IsDefault = false;
 
             LeadSource leadSource = ObjectMapper.Map<LeadSource>(input);
@@ -167,27 +169,42 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Edit)]
         public virtual async Task UpdateOrder(List<UpdateOrderleadSourceDto> input)
         {
-            int orderSrc = input[0].Order + 1;
-            int orderDst = input[1].Order + 1;
+            int indexSrc = input[0].Order;
+            int indexDst = input[1].Order;
 
-            var leadSourceSrc = await _leadSourceRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
-            if (leadSourceSrc != null)
+            List<LeadSource> allLeadSources = _leadSourceRepository.GetAll().OrderBy(x => x.Order).ToList();
+
+            int originalCount = allLeadSources.Count;
+
+            LeadSource leadSourceSrc = allLeadSources[indexSrc];
+
+            List<LeadSource> modifiedOrderList = new List<LeadSource>();
+
+            allLeadSources.RemoveAt(indexSrc);
+
+            int index = 0;
+            foreach (LeadSource source in allLeadSources)
             {
-                leadSourceSrc.Order = orderDst;
-
-                List<LeadSource> allLeadSource = _leadSourceRepository.GetAll().OrderBy(x => x.Order).ToList();
-                allLeadSource.Remove(leadSourceSrc);
-
-                int i = orderDst + 1;
-                foreach (LeadSource item in allLeadSource)
+                if (index != indexDst)
+                    modifiedOrderList.Add(source);
+                else
                 {
-                    if (item.Order >= orderDst && item.Order <= orderSrc)
-                    {
-                        item.Order = i;
-                        await _leadSourceRepository.FirstOrDefaultAsync(item.Id);
-                        i++;
-                    }
+                    modifiedOrderList.Add(leadSourceSrc);
+                    modifiedOrderList.Add(source);
                 }
+                index++;
+            }
+
+            if (modifiedOrderList.Count != originalCount)
+                modifiedOrderList.Add(leadSourceSrc);
+
+            int order = 1;
+            foreach (LeadSource source in modifiedOrderList)
+            {
+                source.Order = order;
+                await _leadSourceRepository.FirstOrDefaultAsync(source.Id);
+                order++;
+
             }
         }
 
@@ -199,8 +216,6 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadSources_Delete)]
         public async Task Delete(EntityDto input)
         {
-            UpdateOrderAfterDelete(input.Id);
-
             await _leadSourceRepository.DeleteAsync(input.Id);            
         }
 
@@ -229,28 +244,6 @@ namespace SBCRM.Crm
             List<GetLeadSourceForViewDto> leadSourceListDtos = await query.ToListAsync();
 
             return _leadSourcesExcelExporter.ExportToFile(leadSourceListDtos);
-        }
-
-        /// <summary>
-        /// Method that update order after delete an item from grid
-        /// </summary>
-        /// <param name="sourceToDeleteId"></param>
-        /// <returns></returns>
-        private void UpdateOrderAfterDelete(int sourceToDeleteId)
-        {
-            LeadSource leadSourceToDelete = _leadSourceRepository.GetAll()
-                                                                 .Where(x => x.Id == sourceToDeleteId).FirstOrDefault();
-
-            List<LeadSource> listLeadSources = _leadSourceRepository.GetAll()
-                                                                          .Where(x => x.Order > leadSourceToDelete.Order)
-                                                                          .OrderBy(x => x.Order)
-                                                                          .ToList();
-
-            foreach (LeadSource leadSource in listLeadSources)
-            {
-                leadSource.Order--;
-                _leadSourceRepository.FirstOrDefault(leadSource.Id);
-            }
         }
     }
 }

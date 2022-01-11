@@ -140,7 +140,8 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Create)]
         protected virtual async Task Create(CreateOrEditLeadStatusDto input)
         {
-            input.Order = _leadStatusRepository.GetAll().Count() + 1;
+            int lastLeadStatusOrder = _leadStatusRepository.GetAll().Max(x => x.Order);
+            input.Order = lastLeadStatusOrder + 1;
 
             LeadStatus leadStatus = ObjectMapper.Map<LeadStatus>(input);
 
@@ -169,24 +170,42 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Edit)]
         public virtual async Task UpdateOrder(List<UpdateOrderLeadStatusDto> input)
         {
-            int orderSrc = input[0].Order + 1;
-            int orderDst = input[1].Order + 1;
+            int indexSrc = input[0].Order;
+            int indexDst = input[1].Order;
 
-            LeadStatus leadStatusSrc = await _leadStatusRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
-            leadStatusSrc.Order = orderDst;
+            List<LeadStatus> allLeadStatuses = _leadStatusRepository.GetAll().OrderBy(x => x.Order).ToList();
 
-            List<LeadStatus> allLeadStatus = _leadStatusRepository.GetAll().OrderBy(x => x.Order).ToList();
-            allLeadStatus.Remove(leadStatusSrc);
+            int originalCount = allLeadStatuses.Count;
 
-            int i = orderDst + 1;
-            foreach (LeadStatus item in allLeadStatus)
+            LeadStatus leadStatusSrc = allLeadStatuses[indexSrc];
+
+            List<LeadStatus> modifiedOrderList = new List<LeadStatus>();
+
+            allLeadStatuses.RemoveAt(indexSrc);
+
+            int index = 0;
+            foreach (LeadStatus status in allLeadStatuses)
             {
-                if (item.Order >= orderDst && item.Order <= orderSrc)
+                if (index != indexDst)
+                    modifiedOrderList.Add(status);
+                else
                 {
-                    item.Order = i;
-                    await _leadStatusRepository.FirstOrDefaultAsync(item.Id);
-                    i++;
+                    modifiedOrderList.Add(leadStatusSrc);
+                    modifiedOrderList.Add(status);
                 }
+                index++;
+            }
+
+            if (modifiedOrderList.Count != originalCount)
+                modifiedOrderList.Add(leadStatusSrc);
+
+            int order = 1;
+            foreach (LeadStatus status in modifiedOrderList)
+            {
+                status.Order = order;
+                await _leadStatusRepository.FirstOrDefaultAsync(status.Id);
+                order++;
+
             }
         }
 
@@ -198,31 +217,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {
-            UpdateOrderAfterDelete(input.Id);
-
             _leadStatusRepository.Delete(input.Id);            
-        }
-
-        /// <summary>
-        /// Method that update order after delete an item from grid
-        /// </summary>
-        /// <param name="statusToDeleteId"></param>
-        /// <returns></returns>
-        private void UpdateOrderAfterDelete(int statusToDeleteId)
-        {
-            LeadStatus leadStatusToDelete = _leadStatusRepository.GetAll()
-                                                                 .Where(x => x.Id == statusToDeleteId).FirstOrDefault();
-
-            List<LeadStatus> listLeadStatuses = _leadStatusRepository.GetAll()
-                                                                          .Where(x => x.Order > leadStatusToDelete.Order)
-                                                                          .OrderBy(x => x.Order)
-                                                                          .ToList();
-
-            foreach(LeadStatus leadStatus in listLeadStatuses)
-            {
-                leadStatus.Order--;
-                _leadStatusRepository.FirstOrDefault(leadStatus.Id);
-            }
-        }
+        } 
     }
 }

@@ -140,7 +140,8 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityStageDto input)
         {
-            input.Order = _opportunityStageRepository.GetAll().Count() + 1;
+            int lastOpportunityStageOrder = _opportunityStageRepository.GetAll().Max(x => x.Order);
+            input.Order = lastOpportunityStageOrder + 1;
 
             OpportunityStage opportunityStage = ObjectMapper.Map<OpportunityStage>(input);
 
@@ -169,25 +170,43 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Edit)]
         public virtual async Task UpdateOrder(List<UpdateOrderOpportunityStageDto> input)
         {
-            int orderSrc = input[0].Order + 1;
-            int orderDst = input[1].Order + 1;
-
-            OpportunityStage opportunityStageSrc = await _opportunityStageRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
-            opportunityStageSrc.Order = orderDst;
+            int indexSrc = input[0].Order;
+            int indexDst = input[1].Order;
 
             List<OpportunityStage> allOpportunityStage = _opportunityStageRepository.GetAll().OrderBy(x => x.Order).ToList();
-            allOpportunityStage.Remove(opportunityStageSrc);
 
-            int i = orderDst + 1;
-            foreach (OpportunityStage item in allOpportunityStage)
+            int originalCount = allOpportunityStage.Count;
+
+            OpportunityStage opportunityStageSrc = allOpportunityStage[indexSrc];
+
+            List<OpportunityStage> modifiedOrderList = new List<OpportunityStage>();
+
+            allOpportunityStage.RemoveAt(indexSrc);
+
+            int index = 0;
+            foreach (OpportunityStage stage in allOpportunityStage)
             {
-                if (item.Order >= orderDst && item.Order <= orderSrc)
+                if (index != indexDst)
+                    modifiedOrderList.Add(stage);
+                else
                 {
-                    item.Order = i;
-                    await _opportunityStageRepository.FirstOrDefaultAsync(item.Id);
-                    i++;
+                    modifiedOrderList.Add(opportunityStageSrc);
+                    modifiedOrderList.Add(stage);
                 }
+                index++;
             }
+
+            if (modifiedOrderList.Count != originalCount)
+                modifiedOrderList.Add(opportunityStageSrc);
+
+            int order = 1;
+            foreach (OpportunityStage stage in modifiedOrderList)
+            {
+                stage.Order = order;
+                await _opportunityStageRepository.FirstOrDefaultAsync(stage.Id);
+                order++;
+
+            }          
         }
 
         /// <summary>
@@ -198,9 +217,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Delete)]
         public async Task Delete(EntityDto input)
         {
-            UpdateOrderAfterDelete(input.Id);
-
-            _opportunityStageRepository.Delete(input.Id);            
+            _opportunityStageRepository.Delete(input.Id);
         }
 
         /// <summary>
@@ -230,27 +247,6 @@ namespace SBCRM.Crm
             List<GetOpportunityStageForViewDto> opportunityStageListDtos = await query.ToListAsync();
 
             return _opportunityStagesExcelExporter.ExportToFile(opportunityStageListDtos);
-        }
-
-        /// <summary>
-        /// Method that update order after delete an item from grid
-        /// </summary>
-        /// <param name="stageToDeleteId"></param>
-        /// <returns></returns>
-        private void UpdateOrderAfterDelete(int stageToDeleteId)
-        {
-            OpportunityStage opportunityStageToDelete = _opportunityStageRepository.GetAll()
-                                                                              .Where(x => x.Id == stageToDeleteId).FirstOrDefault();
-            List<OpportunityStage> listOpportunityStages = _opportunityStageRepository.GetAll()                                                                                     
-                                                                                     .Where(x => x.Order > opportunityStageToDelete.Order)
-                                                                                     .OrderBy(x => x.Order)
-                                                                                     .ToList();
-
-            foreach (OpportunityStage opportunityStage in listOpportunityStages)
-            {
-                opportunityStage.Order--;
-                _opportunityStageRepository.FirstOrDefault(opportunityStage.Id);
-            }
         }
     }
 }
