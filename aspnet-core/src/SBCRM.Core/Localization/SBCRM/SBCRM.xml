@@ -2,6 +2,7 @@
 <localizationDictionary culture="en">
 	<texts>
 
+		<text name="AttachmentUploaded">Attachment uploaded</text>
 	    <text name="OpportunityAttachment">Opportunity attachment</text>
 		<text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
 		<text name="EditOpportunityAttachment">Edit opportunity attachment</text>
