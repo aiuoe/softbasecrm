@@ -87,6 +87,10 @@
                                                 optionLabel="displayName"
                                                 [placeholder]="l('FilterByAssignee')"
                                                 (onChange)="getLeads($event)"
+                                                display="chip"
+                                                [style]="{'width':'100%'}"
+                                                [emptyMessage]="l('NoRecordsFound')"
+                                                [virtualScroll]="true"
                                             >
                                             </p-multiSelect>
                                         </div>
