@@ -21,5 +21,8 @@ namespace SBCRM.Crm
         [Required]
         [StringLength(OpportunityStageConsts.MaxColorLength, MinimumLength = OpportunityStageConsts.MinColorLength)]
         public virtual string Color { get; set; }
+
+        [StringLength(OpportunityStageConsts.MaxCodeLength, MinimumLength = OpportunityStageConsts.MinCodeLength)]
+        public virtual string Code { get; set; }
     }
 }

@@ -38,6 +38,8 @@ namespace SBCRM.Crm
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<Branch> _lookupBranchRepository;
         private readonly IRepository<Department> _lookupDepartmentRepository;
+        private readonly string _closedWonStateCode = "CLOSED_WON";
+        private readonly string _closedLostStateCode = "CLOSED_LOST";
 
         /// <summary>
         /// Main Constructor
@@ -88,6 +90,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public GetOpportunitiesStastsOutput Get(GetOpportunitiesStastsInput input)
         {
+            var results = new GetOpportunitiesStastsOutput();
 
             var opportunities = _opportunityRepository.GetAll()
                       .Include(e => e.OpportunityStageFk)
@@ -98,29 +101,34 @@ namespace SBCRM.Crm
                       .WhereIf((input.Account?.Any() ?? false), e => input.Account.Contains(e.CustomerNumber))
                       .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
                       .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))
-                      .Where(o => o.OpportunityStageId == 6 || o.OpportunityStageId == 7);//closed / won, closed / lost
+                      .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode || o.OpportunityStageFk.Code == _closedLostStateCode);
 
             var dbList = opportunities.ToList();
-            var wonOpportunities = dbList.Where(o => o.OpportunityStageId == 6);
-            //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
-            var averageSalesCycle = dbList.Sum(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
 
-            //close rate
-            //Formula: won/(total won + total lost)
-            var totalWon = wonOpportunities.Count();//all won
-            var closedRate = dbList.Count > 0 ? (totalWon / dbList.Count) : 0;
-
-            // average deal size
-            var sumAmount = wonOpportunities.Sum(o => o.Amount);
-            var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
-
-            var results = new GetOpportunitiesStastsOutput
+            if (dbList.Any())
             {
-                TotalClosedSales = (int)sumAmount,
-                AverageDealSize = (int)averageDealSize,
-                AverageSales = (int)averageSalesCycle,
-                CloseRate = closedRate
-            };
+                var wonOpportunities = dbList.Where(o => o.OpportunityStageId == 6);
+                //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
+                var averageSalesCycle = dbList.Average(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
+
+                //close rate
+                //Formula: won/(total won + total lost)
+                var totalWon = wonOpportunities.Count();//all won
+                var closedRatePercentage = dbList.Count > 0 ? ((double)totalWon / (double)dbList.Count) * 100 : 0.0;
+
+                // average deal size
+                var sumAmount = wonOpportunities.Sum(o => o.Amount);
+                var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
+
+                results = new GetOpportunitiesStastsOutput
+                {
+                    TotalClosedSales = (int)sumAmount,
+                    AverageDealSize = (int)averageDealSize,
+                    AverageSales = (int)averageSalesCycle,
+                    CloseRate = closedRatePercentage
+                };
+            }
+
 
             return results;
         }
@@ -179,7 +187,7 @@ namespace SBCRM.Crm
 
             return departments;
         }
-
+        
         /// <summary>
         /// Gets an excel file with the items on the dashboard
         /// </summary>
@@ -195,9 +203,11 @@ namespace SBCRM.Crm
                                     .ThenInclude(x => x.UserFk)
                                 .WhereIf(input.FromDate.HasValue, e => e.CloseDate >= input.FromDate)
                                 .WhereIf(input.ToDate.HasValue, e => e.CloseDate <= input.ToDate)
+                                .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode || o.OpportunityStageFk.Code == _closedLostStateCode)
                                 .WhereIf((input.Account?.Any() ?? false), e => input.Account.Contains(e.CustomerNumber))
                                 .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
-                                .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept));
+                                .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))                                
+                                ;
 
 
             var opportunities = (from o in filteredOpportunities

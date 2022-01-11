@@ -1,4 +1,4 @@
-<div class="row justify-content-start mt-5" *ngIf="isGranted('Pages.Dashboard.KPI.Widget')">
+<div class="row justify-content-start mt-3" *ngIf="isGranted('Pages.Dashboard.KPI.Widget')">
     <div class="col-md-3">
         <div class="form-group input-group ">
             <input type="text"
@@ -68,11 +68,11 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a [routerLink]="[]" (click)="exportToExcel()"
-                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left text-dark font-size-h6 text-hover-state-dark d-block">
                     Average Sales Cycle (Days)
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                <div class="text-left text-primary font-size-h1 mt-3">
                     <span class="color-blue">
                         {{ opportunitesdashboard.averageSales.toFixed(0) }}
                     </span>
@@ -85,13 +85,13 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a [routerLink]="[]" (click)="exportToExcel()"
-                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left text-dark font-size-h6 text-hover-state-dark d-block">
                     Close Rate
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <div class="card-text text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                <div class="card-text text-left text-primary font-size-h1 mt-3">
                     <span class="color-blue">
-                        {{ opportunitesdashboard.closeRate.toFixed(0) }} %
+                        {{ opportunitesdashboard.closeRate.toFixed(0) }}%
                     </span>
                 </div>
             </div>
@@ -102,13 +102,13 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a [routerLink]="[]" (click)="exportToExcel()"
-                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left text-dark font-size-h6 text-hover-state-dark d-block">
                     Average Deal Size
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                <div class="text-left text-primary font-size-h1 mt-3">
                     <span class="color-blue">
-                        {{ opportunitesdashboard.averageDealSize.toFixed(0) }}
+                        {{ opportunitesdashboard.averageDealSize.toFixed(0) | thousandNumber }}
                     </span>
                 </div>
             </div>
@@ -119,13 +119,13 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a href="javascript:;"
-                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left text-dark font-size-h6 text-hover-state-dark d-block">
                     Total Closed Sales
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
-                <div class="text-left text-primary font-weight-bolder font-size-h1 mt-12">
+                <div class="text-left text-primary font-size-h1 mt-3">
                     <span class="color-blue">
-                        {{ opportunitesdashboard.totalClosedSales.toFixed(0) }}
+                        {{ opportunitesdashboard.totalClosedSales.toFixed(0) | thousandNumber }}
                     </span>
                 </div>
             </div>
