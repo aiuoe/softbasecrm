@@ -90,6 +90,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public GetOpportunitiesStastsOutput Get(GetOpportunitiesStastsInput input)
         {
+            var results = new GetOpportunitiesStastsOutput();
 
             var opportunities = _opportunityRepository.GetAll()
                       .Include(e => e.OpportunityStageFk)
@@ -103,26 +104,31 @@ namespace SBCRM.Crm
                       .Where(o => o.OpportunityStageFk.Code == _closedWonStateCode || o.OpportunityStageFk.Code == _closedLostStateCode);
 
             var dbList = opportunities.ToList();
-            var wonOpportunities = dbList.Where(o => o.OpportunityStageId == 6);
-            //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
-            var averageSalesCycle = dbList.Average(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
 
-            //close rate
-            //Formula: won/(total won + total lost)
-            var totalWon = wonOpportunities.Count();//all won
-            var closedRatePercentage = dbList.Count > 0 ? ((double)totalWon / (double)dbList.Count) * 100 : 0.0;
-
-            // average deal size
-            var sumAmount = wonOpportunities.Sum(o => o.Amount);
-            var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
-
-            var results = new GetOpportunitiesStastsOutput
+            if (dbList.Any())
             {
-                TotalClosedSales = (int)sumAmount,
-                AverageDealSize = (int)averageDealSize,
-                AverageSales = (int)averageSalesCycle,
-                CloseRate = closedRatePercentage
-            };
+                var wonOpportunities = dbList.Where(o => o.OpportunityStageId == 6);
+                //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
+                var averageSalesCycle = dbList.Average(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
+
+                //close rate
+                //Formula: won/(total won + total lost)
+                var totalWon = wonOpportunities.Count();//all won
+                var closedRatePercentage = dbList.Count > 0 ? ((double)totalWon / (double)dbList.Count) * 100 : 0.0;
+
+                // average deal size
+                var sumAmount = wonOpportunities.Sum(o => o.Amount);
+                var averageDealSize = totalWon > 0 ? (sumAmount / totalWon) : 0;
+
+                results = new GetOpportunitiesStastsOutput
+                {
+                    TotalClosedSales = (int)sumAmount,
+                    AverageDealSize = (int)averageDealSize,
+                    AverageSales = (int)averageSalesCycle,
+                    CloseRate = closedRatePercentage
+                };
+            }
+
 
             return results;
         }
