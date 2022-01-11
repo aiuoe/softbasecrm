@@ -15,6 +15,13 @@ namespace SBCRM.Crm
     public interface ILeadsAppService : IApplicationService
     {
         /// <summary>
+        /// Get visibility for Lead Tabs based on permissions
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        Task<LeadVisibilityTabDto> GetVisibilityTabsPermissions(int leadId);
+
+        /// <summary>
         /// Get all leads
         /// </summary>
         /// <param name="input"></param>

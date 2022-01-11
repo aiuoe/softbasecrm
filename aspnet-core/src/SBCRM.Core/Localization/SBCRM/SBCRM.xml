@@ -835,6 +835,7 @@
 		<text name="CustomerNotExist">This Customer does not exist or is unavailable</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
+		<text name="LeadAlreadyConvertedForEdit">The Lead has already been converted, it cannot be updated</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
 		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>

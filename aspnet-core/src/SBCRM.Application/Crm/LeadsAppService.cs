@@ -49,6 +49,7 @@ namespace SBCRM.Crm
         private readonly ILeadAutomateAssignmentService _leadAutomateAssignment;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
+        private readonly string _convertedStatusCode = "CONVERTED";
         private readonly IAuditEventsService _auditEventsService;
 
         /// <summary>
@@ -95,6 +96,37 @@ namespace SBCRM.Crm
             _lookupPriorityRepository = lookupPriorityRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+        }
+
+        /// <summary>
+        /// Get visibility for Lead Tabs based on permissions
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<LeadVisibilityTabDto> GetVisibilityTabsPermissions(int leadId)
+        {
+            var visibilityTabs = new LeadVisibilityTabDto();
+
+            var currentUser = await GetCurrentUserAsync();
+            var lead = await _leadRepository
+                .GetAll()
+                .Include(x => x.LeadStatusFk)
+                .Include(x => x.Users)
+                .Where(x => x.Id == leadId)
+                .Select(x => x).FirstOrDefaultAsync();
+
+            if (lead != null)
+            {
+                var leadIsConverted = lead.LeadStatusFk.Code == _convertedStatusCode;
+                var currentUserIsAssignedInLead = lead.Users.Any(x => x.UserId == currentUser.Id);
+
+                // Analyze permission for Edit of Overview Tab
+                var hasEditOverviewStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Leads_Edit);
+                visibilityTabs.CanEditOverviewTab = !leadIsConverted && (hasEditOverviewStaticPermission || currentUserIsAssignedInLead);
+            }
+
+            return visibilityTabs;
         }
 
         /// <summary>
@@ -576,9 +608,12 @@ namespace SBCRM.Crm
                     .FirstOrDefaultAsync();
             }
 
+            GuardHelper.ThrowIf(lead == null, new EntityNotFoundException(L("LeadNotExist")));
+
+            await _leadRepository.EnsurePropertyLoadedAsync(lead, x => x.LeadStatusFk);
             await _leadRepository.EnsureCollectionLoadedAsync(lead, x => x.Users);
 
-            GuardHelper.ThrowIf(lead == null, new EntityNotFoundException(L("LeadNotExist")));
+            //GuardHelper.ThrowIf(lead.LeadStatusFk.Code == _convertedStatusCode, new UserFriendlyException(L("LeadAlreadyConvertedForEdit")));
 
             GetLeadForEditOutput output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 
@@ -685,19 +720,21 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads_Edit)]
         protected virtual async Task Update(CreateOrEditLeadDto input)
         {
-            Lead lead = await _leadRepository.FirstOrDefaultAsync((int)input.Id);
+            Lead lead = await _leadRepository
+                .GetAll()
+                .Include(x => x.LeadStatusFk)
+                .FirstOrDefaultAsync(x => x.Id == input.Id);
 
             lead.CreationTime = lead.CreationTime.ToUniversalTime();
+            Lead existingLead = await _leadRepository
+                .FirstOrDefaultAsync(l => l.Id != (int)input.Id && (l.CompanyName.ToLower() == input.CompanyName.ToLower()
+                                                                    && l.ContactName.ToLower() == input.ContactName.ToLower()));
+
+            GuardHelper.ThrowIf(existingLead is not null, new UserFriendlyException(L("DuplicatedLead")));
+            GuardHelper.ThrowIf(lead.LeadStatusFk.Code == _convertedStatusCode, new UserFriendlyException(L("LeadAlreadyConvertedForEdit")));
 
             using (_reasonProvider.Use("Lead updated"))
             {
-                Lead existingLead = await _leadRepository
-                   .FirstOrDefaultAsync(l => l.Id != (int)input.Id && (l.CompanyName.ToLower() == input.CompanyName.ToLower()
-                                          && l.ContactName.ToLower() == input.ContactName.ToLower()));
-
-                if (existingLead is not null)
-                    throw new UserFriendlyException((int)HttpStatusCode.BadRequest, L("DuplicatedLead"));
-
                 ObjectMapper.Map(input, lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -955,20 +992,19 @@ namespace SBCRM.Crm
                 .Include(e => e.LeadStatusFk)
                 .Where(x => x.Id == input.LeadId)
                 .FirstOrDefaultAsync();
-
-            string convertedStatusCode = "CONVERTED";
+            
             LeadStatus convertedStatus = await _lookupLeadStatusRepository.GetAll()
-                .FirstOrDefaultAsync(x => convertedStatusCode == x.Code);
+                .FirstOrDefaultAsync(x => _convertedStatusCode == x.Code);
 
             GuardHelper.ThrowIf(lead is null, new UserFriendlyException(L("LeadNotExist")));
             GuardHelper.ThrowIf(!lead.LeadStatusFk.IsLeadConversionValid, new UserFriendlyException(L("LeadAlreadyConverted")));
             GuardHelper.ThrowIf(await _customerAppService.CheckIfExistByName(lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
-            GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", convertedStatusCode)));
+            GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", _convertedStatusCode)));
 
             List<CustomerAccountTypeLookupTableDto> accountTypes = await _customerAppService.GetAllAccountTypeForTableDropdown();
             CustomerAccountTypeLookupTableDto? accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
 
-            GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", convertedStatusCode)));
+            GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", _convertedStatusCode)));
 
             string customerNumber = await _customerAppService.ConvertFromLead(
                 new ConvertLeadToAccountDto(

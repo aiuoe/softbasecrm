@@ -41,7 +41,9 @@ export class AppConsts {
     static readonly Backspace = 'Backspace';
     static readonly UnitedStatesCountryCode = 'US';
     static readonly Account = 'Account';
+    static readonly Lead = 'Lead';
     static readonly ViewMode = 'view';
+    static readonly CreateOrEditMode = 'createoredit';
 
     static readonly activityModule = {
         noAssignedUserFilterId: -1,
