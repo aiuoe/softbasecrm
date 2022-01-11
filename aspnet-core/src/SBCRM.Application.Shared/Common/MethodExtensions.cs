@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SBCRM.Common
+﻿namespace SBCRM.Common
 {
     /// <summary>
-    /// This class is used as a tool for common validations for the entire application
+    /// This class is used as a tool for common method extensions for the entire application
     /// </summary>
     public static class MethodExtensions
     {
