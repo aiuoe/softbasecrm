@@ -82,6 +82,11 @@ namespace SBCRM.Authorization
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Edit, L("EditOpportunityUser"));
             opportunityUsers.CreateChildPermission(AppPermissions.Pages_OpportunityUsers_Delete, L("DeleteOpportunityUser"));
 
+            var opportunityAttachments = opportunities.CreateChildPermission(AppPermissions.Pages_OpportunityAttachments, L("OpportunityAttachments"));
+            opportunityAttachments.CreateChildPermission(AppPermissions.Pages_OpportunityAttachments_Create, L("CreateNewOpportunityAttachment"));
+            opportunityAttachments.CreateChildPermission(AppPermissions.Pages_OpportunityAttachments_Edit, L("EditOpportunityAttachment"));
+            opportunityAttachments.CreateChildPermission(AppPermissions.Pages_OpportunityAttachments_Delete, L("DeleteOpportunityAttachment"));
+
             var opportunityActivities = opportunities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Activities, L("ViewActivities"));
             opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users, L(AppPermissions.Pages_Opportunities_View_Activities_Of_All_Users));
             opportunityActivities.CreateChildPermission(AppPermissions.Pages_Opportunities_Assign_Activity_To_Any_Users, L(AppPermissions.Pages_Opportunities_Assign_Activity_To_Any_Users));
@@ -151,7 +156,7 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
-             var leadAttachments = leads.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
+            var leadAttachments = leads.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
             leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Create, L("CreateNewLeadAttachment"));
             leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Edit, L("EditLeadAttachment"));
             leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Delete, L("DeleteLeadAttachment"));
