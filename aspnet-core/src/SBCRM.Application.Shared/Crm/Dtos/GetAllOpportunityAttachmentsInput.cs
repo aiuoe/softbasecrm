@@ -3,6 +3,9 @@ using System;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Opportunity attachment filter model.
+    /// </summary>
     public class GetAllOpportunityAttachmentsInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }

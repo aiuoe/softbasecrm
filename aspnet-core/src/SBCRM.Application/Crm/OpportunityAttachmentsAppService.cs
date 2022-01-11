@@ -1,30 +1,31 @@
-﻿using SBCRM.Crm;
-
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using SBCRM.Crm.Dtos;
-using SBCRM.Dto;
 using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
-using Abp.Extensions;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Abp.UI;
-using SBCRM.Storage;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Service for opportunity attachments.
+    /// </summary>
     [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments)]
     public class OpportunityAttachmentsAppService : SBCRMAppServiceBase, IOpportunityAttachmentsAppService
     {
         private readonly IRepository<OpportunityAttachment> _opportunityAttachmentRepository;
         private readonly IRepository<Opportunity, int> _lookup_opportunityRepository;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="opportunityAttachmentRepository"></param>
+        /// <param name="lookup_opportunityRepository"></param>
         public OpportunityAttachmentsAppService(IRepository<OpportunityAttachment> opportunityAttachmentRepository, IRepository<Opportunity, int> lookup_opportunityRepository)
         {
             _opportunityAttachmentRepository = opportunityAttachmentRepository;
@@ -32,6 +33,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Get all opportunity attachments filtered by an input
+        /// </summary>
+        /// <param name="input">An input filter</param>
+        /// <returns></returns>
         public async Task<PagedResultDto<GetOpportunityAttachmentForViewDto>> GetAll(GetAllOpportunityAttachmentsInput input)
         {
 
@@ -89,6 +95,11 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Gets a opportunity attachment for viewing
+        /// </summary>
+        /// <param name="id">An Id of the lead attachment to be viewed.</param>
+        /// <returns></returns>
         public async Task<GetOpportunityAttachmentForViewDto> GetOpportunityAttachmentForView(int id)
         {
             var opportunityAttachment = await _opportunityAttachmentRepository.GetAsync(id);
@@ -104,6 +115,12 @@ namespace SBCRM.Crm
             return output;
         }
 
+
+        /// <summary>
+        /// Gets a opportunity attachment for editing
+        /// </summary>
+        /// <param name="input">An Id of the opportunity attachment to be edited.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Edit)]
         public async Task<GetOpportunityAttachmentForEditOutput> GetOpportunityAttachmentForEdit(EntityDto input)
         {
@@ -120,6 +137,12 @@ namespace SBCRM.Crm
             return output;
         }
 
+
+        /// <summary>
+        /// Creates or edits an attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be created or edited.</param>
+        /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditOpportunityAttachmentDto input)
         {
             if (input.Id == 0)
@@ -132,6 +155,12 @@ namespace SBCRM.Crm
             }
         }
 
+
+        /// <summary>
+        /// Creates an attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be created.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Create)]
         protected virtual async Task Create(CreateOrEditOpportunityAttachmentDto input)
         {
@@ -141,6 +170,12 @@ namespace SBCRM.Crm
 
         }
 
+
+        /// <summary>
+        /// Updates an exiting attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be updated.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Edit)]
         protected virtual async Task Update(CreateOrEditOpportunityAttachmentDto input)
         {
@@ -149,11 +184,21 @@ namespace SBCRM.Crm
 
         }
 
+        /// <summary>
+        /// Deletes an attachment.
+        /// </summary>
+        /// <param name="input">An attachment to be deleted.</param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Delete)]
         public async Task Delete(EntityDto input)
         {
             await _opportunityAttachmentRepository.DeleteAsync(input.Id);
         }
+
+        /// <summary>
+        /// Get a list of opportunities
+        /// </summary>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments)]
         public async Task<List<OpportunityAttachmentOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown()
         {

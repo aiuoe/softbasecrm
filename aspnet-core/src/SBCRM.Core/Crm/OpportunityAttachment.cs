@@ -7,6 +7,9 @@ using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
+    /// <summary>
+    /// Table to manage the attachments related to an Opportunity
+    /// </summary>
     [Table("OpportunityAttachments")]
     public class OpportunityAttachment : FullAuditedEntity
     {
