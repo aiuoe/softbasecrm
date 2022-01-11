@@ -37,6 +37,7 @@ namespace SBCRM.Crm
 
             var filteredOpportunityAttachments = _opportunityAttachmentRepository.GetAll()
                         .Include(e => e.OpportunityFk)
+                        .Where(e => e.OpportunityFk != null && e.OpportunityFk.Id == input.OpportunityId )
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.Name.Contains(input.Filter) || e.FilePath.Contains(input.Filter))
                         .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.Name == input.NameFilter)
                         .WhereIf(!string.IsNullOrWhiteSpace(input.FilePathFilter), e => e.FilePath == input.FilePathFilter)
@@ -121,7 +122,7 @@ namespace SBCRM.Crm
 
         public async Task CreateOrEdit(CreateOrEditOpportunityAttachmentDto input)
         {
-            if (input.Id == null)
+            if (input.Id == 0)
             {
                 await Create(input);
             }

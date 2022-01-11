@@ -13,5 +13,7 @@ namespace SBCRM.Crm.Dtos
 
         public string OpportunityNameFilter { get; set; }
 
+        public int OpportunityId { get; set; }
+
     }
 }

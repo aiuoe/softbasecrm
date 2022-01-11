@@ -26,3 +26,13 @@ export class CustomerAttachment implements IAttachment {
     id: number | undefined;
     name: string;
 }
+
+/**
+ * A opportunity attachment
+ */
+ export class OpportunityAttachment implements IAttachment {
+    opportunityId: number;
+    filePath: string;
+    id: number | undefined;
+    name: string;
+}

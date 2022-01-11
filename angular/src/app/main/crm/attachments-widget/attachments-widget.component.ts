@@ -2,7 +2,7 @@
 import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerAttachmentsServiceProxy, LeadAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CustomerAttachmentsServiceProxy, LeadAttachmentsServiceProxy, OpportunityAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -50,12 +50,10 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     constructor(
         injector: Injector,
         private _customerAttachmentsServiceProxy: CustomerAttachmentsServiceProxy,
-        private _notifyService: NotifyService,
-        private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-        private _dateTimeService: DateTimeService,
         private _leadAttachmentsServiceProxy: LeadAttachmentsServiceProxy,
+        private _opportunityAttachmentsServiceProxy: OpportunityAttachmentsServiceProxy,
         private _tokenService: TokenService,
     ) {
         super(injector);
@@ -109,7 +107,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 break;
 
             case 'Opportunity':
-//                this.getOpportunityAttachments(event);
+                this.getOpportunityAttachments(event);
                 break;
         }
     }
@@ -138,6 +136,33 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 this.primengTableHelper.hideLoadingIndicator();
             });
     }
+
+
+        /**
+     * Populates the opportunity attachments list.
+     * @param event 
+     */
+         getOpportunityAttachments(event?: LazyLoadEvent) {
+
+            this.primengTableHelper.showLoadingIndicator();
+    
+            this._opportunityAttachmentsServiceProxy
+                .getAll(
+                    this.filterText,
+                    this.nameFilter,
+                    this.filePathFilter,
+                    '',
+                    this.idToStore,
+                    this.primengTableHelper.getSorting(this.dataTable),
+                    this.primengTableHelper.getSkipCount(this.paginator, event),
+                    this.primengTableHelper.getMaxResultCount(this.paginator, event)
+                )
+                .subscribe((result) => {
+                    this.primengTableHelper.totalRecordsCount = result.totalCount;
+                    this.primengTableHelper.records = result.items.map(item => item.opportunityAttachment);
+                    this.primengTableHelper.hideLoadingIndicator();
+                });
+        }
 
         /**
      * Populates the lead attachments list.
@@ -202,6 +227,13 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                         });
                         break;
 
+                    case 'Opportunity':
+                        this._opportunityAttachmentsServiceProxy.delete(attachment.id).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                        break;
+
                 }
             }
         });
@@ -251,7 +283,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 break;
 
             case 'Opportunity':
-                // To Do
+                return `/OpportunityAttachment/getAttachment?id=${attachment.id}`
                 break;
         }
     }

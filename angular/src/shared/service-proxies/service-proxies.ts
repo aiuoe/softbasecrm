@@ -19174,6 +19174,383 @@ export class OpportunityActivitiesServiceProxy {
 }
 
 @Injectable()
+export class OpportunityAttachmentsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param filePathFilter (optional) 
+     * @param opportunityNameFilter (optional) 
+     * @param opportunityId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, filePathFilter: string | undefined, opportunityNameFilter: string | undefined, opportunityId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetOpportunityAttachmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&";
+        if (filePathFilter === null)
+            throw new Error("The parameter 'filePathFilter' cannot be null.");
+        else if (filePathFilter !== undefined)
+            url_ += "FilePathFilter=" + encodeURIComponent("" + filePathFilter) + "&";
+        if (opportunityNameFilter === null)
+            throw new Error("The parameter 'opportunityNameFilter' cannot be null.");
+        else if (opportunityNameFilter !== undefined)
+            url_ += "OpportunityNameFilter=" + encodeURIComponent("" + opportunityNameFilter) + "&";
+        if (opportunityId === null)
+            throw new Error("The parameter 'opportunityId' cannot be null.");
+        else if (opportunityId !== undefined)
+            url_ += "OpportunityId=" + encodeURIComponent("" + opportunityId) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetOpportunityAttachmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetOpportunityAttachmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetOpportunityAttachmentForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetOpportunityAttachmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetOpportunityAttachmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityAttachmentForView(id: number | undefined): Observable<GetOpportunityAttachmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetOpportunityAttachmentForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityAttachmentForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityAttachmentForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityAttachmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityAttachmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityAttachmentForView(response: HttpResponseBase): Observable<GetOpportunityAttachmentForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityAttachmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityAttachmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getOpportunityAttachmentForEdit(id: number | undefined): Observable<GetOpportunityAttachmentForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetOpportunityAttachmentForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpportunityAttachmentForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpportunityAttachmentForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetOpportunityAttachmentForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetOpportunityAttachmentForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOpportunityAttachmentForEdit(response: HttpResponseBase): Observable<GetOpportunityAttachmentForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetOpportunityAttachmentForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetOpportunityAttachmentForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditOpportunityAttachmentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllOpportunityForTableDropdown(): Observable<OpportunityAttachmentOpportunityLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetAllOpportunityForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOpportunityForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOpportunityForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<OpportunityAttachmentOpportunityLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OpportunityAttachmentOpportunityLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOpportunityForTableDropdown(response: HttpResponseBase): Observable<OpportunityAttachmentOpportunityLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OpportunityAttachmentOpportunityLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OpportunityAttachmentOpportunityLookupTableDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class OpportunityAutomateAssignmentServiceServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -32400,6 +32777,54 @@ export interface ICreateOrEditLeadUserDto {
     id: number | undefined;
 }
 
+export class CreateOrEditOpportunityAttachmentDto implements ICreateOrEditOpportunityAttachmentDto {
+    name!: string;
+    filePath!: string;
+    opportunityId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditOpportunityAttachmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.opportunityId = _data["opportunityId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditOpportunityAttachmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditOpportunityAttachmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["opportunityId"] = this.opportunityId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditOpportunityAttachmentDto {
+    name: string;
+    filePath: string;
+    opportunityId: number | undefined;
+    id: number | undefined;
+}
+
 export class CreateOrEditOpportunityDto implements ICreateOrEditOpportunityDto {
     name!: string;
     amount!: number | undefined;
@@ -38163,7 +38588,6 @@ export interface IGetLeadAttachmentForEditOutput {
 
 export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto {
     leadAttachment!: LeadAttachmentDto;
-    leadCompanyName!: string | undefined;
 
     constructor(data?: IGetLeadAttachmentForViewDto) {
         if (data) {
@@ -38177,7 +38601,6 @@ export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto
     init(_data?: any) {
         if (_data) {
             this.leadAttachment = _data["leadAttachment"] ? LeadAttachmentDto.fromJS(_data["leadAttachment"]) : <any>undefined;
-            this.leadCompanyName = _data["leadCompanyName"];
         }
     }
 
@@ -38191,14 +38614,12 @@ export class GetLeadAttachmentForViewDto implements IGetLeadAttachmentForViewDto
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["leadAttachment"] = this.leadAttachment ? this.leadAttachment.toJSON() : <any>undefined;
-        data["leadCompanyName"] = this.leadCompanyName;
         return data; 
     }
 }
 
 export interface IGetLeadAttachmentForViewDto {
     leadAttachment: LeadAttachmentDto;
-    leadCompanyName: string | undefined;
 }
 
 export class GetLeadForEditOutput implements IGetLeadForEditOutput {
@@ -38823,6 +39244,86 @@ export interface IGetOpportunitiesStastsOutput {
     closeRate: number;
     averageDealSize: number;
     totalClosedSales: number;
+}
+
+export class GetOpportunityAttachmentForEditOutput implements IGetOpportunityAttachmentForEditOutput {
+    opportunityAttachment!: CreateOrEditOpportunityAttachmentDto;
+    opportunityName!: string | undefined;
+
+    constructor(data?: IGetOpportunityAttachmentForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityAttachment = _data["opportunityAttachment"] ? CreateOrEditOpportunityAttachmentDto.fromJS(_data["opportunityAttachment"]) : <any>undefined;
+            this.opportunityName = _data["opportunityName"];
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityAttachmentForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityAttachmentForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityAttachment"] = this.opportunityAttachment ? this.opportunityAttachment.toJSON() : <any>undefined;
+        data["opportunityName"] = this.opportunityName;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityAttachmentForEditOutput {
+    opportunityAttachment: CreateOrEditOpportunityAttachmentDto;
+    opportunityName: string | undefined;
+}
+
+export class GetOpportunityAttachmentForViewDto implements IGetOpportunityAttachmentForViewDto {
+    opportunityAttachment!: OpportunityAttachmentDto;
+    opportunityName!: string | undefined;
+
+    constructor(data?: IGetOpportunityAttachmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.opportunityAttachment = _data["opportunityAttachment"] ? OpportunityAttachmentDto.fromJS(_data["opportunityAttachment"]) : <any>undefined;
+            this.opportunityName = _data["opportunityName"];
+        }
+    }
+
+    static fromJS(data: any): GetOpportunityAttachmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetOpportunityAttachmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["opportunityAttachment"] = this.opportunityAttachment ? this.opportunityAttachment.toJSON() : <any>undefined;
+        data["opportunityName"] = this.opportunityName;
+        return data; 
+    }
+}
+
+export interface IGetOpportunityAttachmentForViewDto {
+    opportunityAttachment: OpportunityAttachmentDto;
+    opportunityName: string | undefined;
 }
 
 export class GetOpportunityForEditOutput implements IGetOpportunityForEditOutput {
@@ -43360,6 +43861,94 @@ export interface IOpenIdConnectExternalLoginProviderSettings {
     validateIssuer: boolean;
 }
 
+export class OpportunityAttachmentDto implements IOpportunityAttachmentDto {
+    name!: string | undefined;
+    filePath!: string | undefined;
+    opportunityId!: number | undefined;
+    id!: number;
+
+    constructor(data?: IOpportunityAttachmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.opportunityId = _data["opportunityId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityAttachmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityAttachmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["opportunityId"] = this.opportunityId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IOpportunityAttachmentDto {
+    name: string | undefined;
+    filePath: string | undefined;
+    opportunityId: number | undefined;
+    id: number;
+}
+
+export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportunityAttachmentOpportunityLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IOpportunityAttachmentOpportunityLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): OpportunityAttachmentOpportunityLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OpportunityAttachmentOpportunityLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IOpportunityAttachmentOpportunityLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
 export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {
     id!: number;
     contactName!: string | undefined;
@@ -45446,6 +46035,54 @@ export class PagedResultDtoOfGetLeadUserForViewDto implements IPagedResultDtoOfG
 export interface IPagedResultDtoOfGetLeadUserForViewDto {
     totalCount: number;
     items: GetLeadUserForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetOpportunityAttachmentForViewDto implements IPagedResultDtoOfGetOpportunityAttachmentForViewDto {
+    totalCount!: number;
+    items!: GetOpportunityAttachmentForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetOpportunityAttachmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetOpportunityAttachmentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetOpportunityAttachmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetOpportunityAttachmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetOpportunityAttachmentForViewDto {
+    totalCount: number;
+    items: GetOpportunityAttachmentForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetOpportunityForViewDto implements IPagedResultDtoOfGetOpportunityForViewDto {
