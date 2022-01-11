@@ -120,6 +120,21 @@
         public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
         public const string Pages_Leads_View_Events = "Pages.Leads.ViewEvents";
         public const string Pages_LeadUsers_AutomateAssignment__Dynamic = "Pages_LeadUsers.AutomateAssignment__Dynamic";
+        public const string Pages_Leads_ScheduleMeeting = "Pages.Leads.ScheduleMeeting";
+        public const string Pages_Leads_ScheduleMeeting__Dynamic = "Pages.Leads.ScheduleMeeting__Dynamic";
+        public const string Pages_Leads_ScheduleCall = "Pages.Leads.ScheduleCall";
+        public const string Pages_Leads_ScheduleCall__Dynamic = "Pages.Leads.ScheduleCall__Dynamic";
+        public const string Pages_Leads_EmailReminder = "Pages.Leads.EmailReminder";
+        public const string Pages_Leads_EmailReminder__Dynamic = "Pages.Leads.EmailReminder__Dynamic";
+        public const string Pages_Leads_ToDoReminder = "Pages.Leads.ToDoReminder";
+        public const string Pages_Leads_ToDoReminder__Dynamic = "Pages.Leads.ToDoReminder__Dynamic";
+        public const string Pages_Leads_View_Activities = "Pages.Leads.ViewActivities";
+        public const string Pages_Leads_View_Activities_Of_All_Users = "Pages.Leads.ViewActivitiesOfAllUsers";
+        public const string Pages_Leads_Assign_Activity_To_Any_Users = "Pages.Leads.AssignActivityToAnyUsers";
+        public const string Pages_Leads_Create_Activities = "Pages.Leads.CreateActivities";
+        public const string Pages_Leads_Create_Activities__Dynamic = "Pages.Leads.CreateActivities__Dynamic";
+        public const string Pages_Leads_Edit_Activities = "Pages.Leads.EditActivities";
+        public const string Pages_Leads_Edit_Activities__Dynamic = "Pages.Leads.EditActivities__Dynamic";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";

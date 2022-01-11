@@ -151,16 +151,34 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
+             var leadAttachments = leads.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
+            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Create, L("CreateNewLeadAttachment"));
+            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Edit, L("EditLeadAttachment"));
+            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Delete, L("DeleteLeadAttachment"));
+
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
             var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Create, L("CreateNewLeadUser"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Edit, L("EditLeadUser"));
             leadUsers.CreateChildPermission(AppPermissions.Pages_LeadUsers_Delete, L("DeleteLeadUser"));
 
-            var leadAttachments = leads.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Create, L("CreateNewLeadAttachment"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Edit, L("EditLeadAttachment"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Delete, L("DeleteLeadAttachment"));
+            var leadActivities = leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Activities, L("ViewActivities"));
+            leadActivities.CreateChildPermission(AppPermissions.Pages_Leads_View_Activities_Of_All_Users, L(AppPermissions.Pages_Leads_View_Activities_Of_All_Users));
+            leadActivities.CreateChildPermission(AppPermissions.Pages_Leads_Assign_Activity_To_Any_Users, L(AppPermissions.Pages_Leads_Assign_Activity_To_Any_Users));
+            leadActivities.CreateChildPermission(AppPermissions.Pages_Leads_Edit_Activities, L("EditActivity"));
+            leadActivities.CreateChildPermission(AppPermissions.Pages_Leads_Edit_Activities__Dynamic, L(AppPermissions.Pages_Leads_Edit_Activities__Dynamic));
+
+            var leadCreateActivities = leadActivities.CreateChildPermission(AppPermissions.Pages_Leads_Create_Activities, L("CreateNewActivity"));
+            leadCreateActivities.CreateChildPermission(AppPermissions.Pages_Leads_ScheduleMeeting, L("ScheduleMeeting"));
+            leadCreateActivities.CreateChildPermission(AppPermissions.Pages_Leads_ScheduleCall, L("ScheduleCall"));
+            leadCreateActivities.CreateChildPermission(AppPermissions.Pages_Leads_EmailReminder, L("EmailReminder"));
+            leadCreateActivities.CreateChildPermission(AppPermissions.Pages_Leads_ToDoReminder, L("ToDoReminder"));
+
+            var leadCreateActivitiesDynamic = leadActivities.CreateChildPermission(AppPermissions.Pages_Leads_Create_Activities__Dynamic, L(AppPermissions.Pages_Leads_Create_Activities__Dynamic));
+            leadCreateActivitiesDynamic.CreateChildPermission(AppPermissions.Pages_Leads_ScheduleMeeting__Dynamic, L("ScheduleMeeting"));
+            leadCreateActivitiesDynamic.CreateChildPermission(AppPermissions.Pages_Leads_ScheduleCall__Dynamic, L("ScheduleCall"));
+            leadCreateActivitiesDynamic.CreateChildPermission(AppPermissions.Pages_Leads_EmailReminder__Dynamic, L("EmailReminder"));
+            leadCreateActivitiesDynamic.CreateChildPermission(AppPermissions.Pages_Leads_ToDoReminder__Dynamic, L("ToDoReminder"));
 
             //var industries = pages.CreateChildPermission(AppPermissions.Pages_Industries, L("Industries"));
             //industries.CreateChildPermission(AppPermissions.Pages_Industries_Create, L("CreateNewIndustry"));

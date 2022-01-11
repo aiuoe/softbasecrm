@@ -143,8 +143,9 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         this.isReadOnlyMode = this.pageMode === 'view';
         this.customerNumber = this._activatedRoute.snapshot.queryParams['number'];
         this.isNew = !!!this.customerNumber;
-        this.setPermissions();
-
+        if (this.customerNumber) {
+            this.setPermissions();
+        }
         this.show(this.customerNumber);
     }
 
