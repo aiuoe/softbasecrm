@@ -107,7 +107,7 @@ namespace SBCRM.Crm
 
             if (dbList.Any())
             {
-                var wonOpportunities = dbList.Where(o => o.OpportunityStageId == 6);
+                var wonOpportunities = dbList.Where(o => o.OpportunityStageFk.Code == _closedWonStateCode);
                 //The total duration is the SUM of all integer values(days) from ‘Closed Date’ -(minus) ‘Create Date’ of the opportunity.
                 var averageSalesCycle = dbList.Average(o => (o.CloseDate - o.CreationTime).Value.TotalDays);
 
