@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <localizationDictionary culture="en">
-	<texts>    <text name="OpportunityAttachment">Opportunity attachment</text>
-    <text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
-    <text name="EditOpportunityAttachment">Edit opportunity attachment</text>
-    <text name="DeleteOpportunityAttachment">Delete opportunity attachment</text>
+	<texts>
 
+	    <text name="OpportunityAttachment">Opportunity attachment</text>
+		<text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
+		<text name="EditOpportunityAttachment">Edit opportunity attachment</text>
+		<text name="DeleteOpportunityAttachment">Delete opportunity attachment</text>
+		
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
 		
@@ -83,6 +84,9 @@
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
 		<text name="FilterByActivity">Filter by Activity</text>
+		<text name="FilterByAccount">Filter by Account</text>
+		<text name="FilterByBranch">Filter by Branch</text>
+		<text name="FilterByDepartment">Filter by Department</text>
 		<text name="FilterByStatus">Filter by Status</text>
 		<text name="SourceType">Source Type</text>
 		<text name="Schedule">Schedule</text>
@@ -1798,11 +1802,11 @@
     <text name="Pages.Customer.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
     <text name="Pages.Opportunities.ViewActivitiesOfAllUsers">View activities of all users</text>
     <text name="Pages.Opportunities.AssignActivityToAnyUsers">Assign activities to any user</text>
-    <text name="Pages.Opportunities.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
+    <text name="Pages.Opportunities.CreateActivities__Dynamic">Create new activity only if user is assigned to the Opportunity</text>
     <text name="Pages.Opportunities.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
     <text name="Pages.Leads.ViewActivitiesOfAllUsers">View activities of all users</text>
     <text name="Pages.Leads.AssignActivityToAnyUsers">Assign activities to any user</text>
-    <text name="Pages.Leads.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
+    <text name="Pages.Leads.CreateActivities__Dynamic">Create new activity only if user is assigned to the Lead</text>
     <text name="Pages.Leads.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
 		<text name="FifteenMinutes">15 Minutes</text>
 		<text name="ThirtyMinutes">30 Minutes</text>

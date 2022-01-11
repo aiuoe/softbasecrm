@@ -420,6 +420,7 @@
     <importLeadsModal (modalUpload)="getLeads()" #importLeadsModalComponent></importLeadsModal>
 
     <app-create-or-edit-activity-widget-modal
+        *ngIf="isGranted('Pages.Leads.ViewActivities')"
         #createActivityModal
         [componentType] = "'Lead'"
         [idToStore]="this.idLeadToStore"
