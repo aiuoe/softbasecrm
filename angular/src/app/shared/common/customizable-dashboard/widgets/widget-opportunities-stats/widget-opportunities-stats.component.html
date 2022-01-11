@@ -1,10 +1,16 @@
-<div class="row justify-content-start mt-2" *ngIf="isGranted('Pages.Dashboard.KPI.Widget')">
-    <div class="col-md-2">
+<div class="row justify-content-start mt-5" *ngIf="isGranted('Pages.Dashboard.KPI.Widget')">
+    <div class="col-md-3">
         <div class="form-group input-group ">
-            <input type="text" class="form-control date-range-filter"
-                value="{{ selectedDateRange[0] | luxonFormat: 'ff' }} - {{ selectedDateRange[1] | luxonFormat: 'ff' }}"
-                disabled="disabled" #dateRangePicker="bsDaterangepicker" bsDaterangepicker dateRangePickerLuxonModifier
-                placement="bottom" [(date)]="selectedDateRange" (dateChange)="onChange($event)" />
+            <input type="text"
+                   class="form-control date-range-filter"
+                   disabled="disabled"
+                   #dateRangePicker="bsDaterangepicker"
+                   bsDaterangepicker
+                   dateRangePickerLuxonModifier
+                   placement="bottom"
+                   [(date)]="selectedDateRange"
+                   [placeholder]="l('FilterByAccount')"
+                   (dateChange)="onChange($event)"/>
             <div class="input-group-append">
                 <button class="btn btn-primary" type="button" (click)="dateRangePicker.toggle()">
                     <i class="fa fa-calendar p-0" style="color: white" aria-hidden="true"></i>
@@ -12,28 +18,46 @@
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="form-group">
-            <p-multiSelect id="opportunityAccount" [ngModelOptions]="{standalone: true}" [options]="accounts"
-                [(ngModel)]="accountFilter" optionLabel="name" optionValue="number" [virtualScroll]="true"
-                (onChange)="onFilterChange()" placeholder="All" autoWidth="false" [style]="{'width':'100%'}"
-                itemSize="40">
+            <p-multiSelect id="opportunityAccount"
+                           [ngModelOptions]="{standalone: true}"
+                           [options]="accounts"
+                           [(ngModel)]="accountFilter"
+                           optionLabel="name"
+                           optionValue="number"
+                           [virtualScroll]="true"
+                           (onChange)="onFilterChange()"
+                           [placeholder]="l('FilterByAccount')"
+                           autoWidth="false"
+                           [style]="{'width':'100%'}"
+                           itemSize="40">
             </p-multiSelect>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <p-multiSelect id="opportunityBranch" [ngModelOptions]="{standalone: true}" [options]="branches"
-                [(ngModel)]="branchFilter" (onChange)="onFilterChange()" placeholder="All" optionLabel="name"
-                optionValue="number">
+            <p-multiSelect id="opportunityBranch"
+                           [ngModelOptions]="{standalone: true}"
+                           [options]="branches"
+                           [(ngModel)]="branchFilter"
+                           (onChange)="onFilterChange()"
+                           [placeholder]="l('FilterByBranch')"
+                           optionLabel="name"
+                           optionValue="number">
             </p-multiSelect>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            <p-multiSelect id="opportunityDepartment" [ngModelOptions]="{standalone: true}" [options]="departments"
-                [(ngModel)]="departmentFilter" (onChange)="onFilterChange()" placeholder="All" optionLabel="title"
-                optionValue="dept">
+            <p-multiSelect id="opportunityDepartment"
+                           [ngModelOptions]="{standalone: true}"
+                           [options]="departments"
+                           [(ngModel)]="departmentFilter"
+                           (onChange)="onFilterChange()"
+                           [placeholder]="l('FilterByDepartment')"
+                           optionLabel="title"
+                           optionValue="dept">
             </p-multiSelect>
         </div>
     </div>
@@ -44,7 +68,7 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a [routerLink]="[]" (click)="exportToExcel()"
-                    class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Average Sales Cycle (Days)
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
@@ -61,7 +85,7 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a [routerLink]="[]" (click)="exportToExcel()"
-                    class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Close Rate
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
@@ -78,7 +102,7 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a [routerLink]="[]" (click)="exportToExcel()"
-                    class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Average Deal Size
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>
@@ -95,7 +119,7 @@
         <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
             <div class="card-body">
                 <a href="javascript:;"
-                    class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
+                   class="text-left font-weight-bolder text-dark font-size-h6 text-hover-state-dark d-block">
                     Total Closed Sales
                     <span class="float-right"><i class="fa fa-download color-blue"></i></span>
                 </a>

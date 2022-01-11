@@ -79,6 +79,9 @@
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
 		<text name="FilterByActivity">Filter by Activity</text>
+		<text name="FilterByAccount">Filter by Account</text>
+		<text name="FilterByBranch">Filter by Branch</text>
+		<text name="FilterByDepartment">Filter by Department</text>
 		<text name="FilterByStatus">Filter by Status</text>
 		<text name="SourceType">Source Type</text>
 		<text name="Schedule">Schedule</text>
