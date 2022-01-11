@@ -53,6 +53,8 @@ namespace SBCRM
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditOpportunityAttachmentDto, OpportunityAttachment>().ReverseMap();
+            configuration.CreateMap<OpportunityAttachmentDto, OpportunityAttachment>().ReverseMap();
             configuration.CreateMap<CreateOrEditLeadAttachmentDto, LeadAttachment>().ReverseMap();
             configuration.CreateMap<LeadAttachmentDto, LeadAttachment>().ReverseMap();
             configuration.CreateMap<CreateOrEditCustomerAttachmentDto, CustomerAttachment>().ReverseMap();
