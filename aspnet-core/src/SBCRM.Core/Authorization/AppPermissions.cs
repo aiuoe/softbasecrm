@@ -69,6 +69,21 @@
         public const string Pages_Opportunities_View_Events = "Pages.Opportunities.ViewEvents";
         public const string Pages_Opportunities_ViewAllOpportunities__Dynamic = "Pages.Opportunities.ViewAllOpportunities__Dynamic";
         public const string Pages_OpportunityUsers_AutomateAssignment__Dynamic = "Pages.OpportunitiesUsers.AutomateAssignment__Dynamic";
+        public const string Pages_Opportunities_ScheduleMeeting = "Pages.Opportunities.ScheduleMeeting";
+        public const string Pages_Opportunities_ScheduleMeeting__Dynamic = "Pages.Opportunities.ScheduleMeeting__Dynamic";
+        public const string Pages_Opportunities_ScheduleCall = "Pages.Opportunities.ScheduleCall";
+        public const string Pages_Opportunities_ScheduleCall__Dynamic = "Pages.Opportunities.ScheduleCall__Dynamic";
+        public const string Pages_Opportunities_EmailReminder = "Pages.Opportunities.EmailReminder";
+        public const string Pages_Opportunities_EmailReminder__Dynamic = "Pages.Opportunities.EmailReminder__Dynamic";
+        public const string Pages_Opportunities_ToDoReminder = "Pages.Opportunities.ToDoReminder";
+        public const string Pages_Opportunities_ToDoReminder__Dynamic = "Pages.Opportunities.ToDoReminder__Dynamic";
+        public const string Pages_Opportunities_View_Activities = "Pages.Opportunities.ViewActivities";
+        public const string Pages_Opportunities_View_Activities_Of_All_Users = "Pages.Opportunities.ViewActivitiesOfAllUsers";
+        public const string Pages_Opportunities_Assign_Activity_To_Any_Users = "Pages.Opportunities.AssignActivityToAnyUsers";
+        public const string Pages_Opportunities_Create_Activities = "Pages.Opportunities.CreateActivities";
+        public const string Pages_Opportunities_Create_Activities__Dynamic = "Pages.Opportunities.CreateActivities__Dynamic";
+        public const string Pages_Opportunities_Edit_Activities = "Pages.Opportunities.EditActivities";
+        public const string Pages_Opportunities_Edit_Activities__Dynamic = "Pages.Opportunities.EditActivities__Dynamic";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";
@@ -100,6 +115,21 @@
         public const string Pages_Leads_Convert_Account = "Pages.Leads.ConvertToAccount";
         public const string Pages_Leads_View_Events = "Pages.Leads.ViewEvents";
         public const string Pages_LeadUsers_AutomateAssignment__Dynamic = "Pages_LeadUsers.AutomateAssignment__Dynamic";
+        public const string Pages_Leads_ScheduleMeeting = "Pages.Leads.ScheduleMeeting";
+        public const string Pages_Leads_ScheduleMeeting__Dynamic = "Pages.Leads.ScheduleMeeting__Dynamic";
+        public const string Pages_Leads_ScheduleCall = "Pages.Leads.ScheduleCall";
+        public const string Pages_Leads_ScheduleCall__Dynamic = "Pages.Leads.ScheduleCall__Dynamic";
+        public const string Pages_Leads_EmailReminder = "Pages.Leads.EmailReminder";
+        public const string Pages_Leads_EmailReminder__Dynamic = "Pages.Leads.EmailReminder__Dynamic";
+        public const string Pages_Leads_ToDoReminder = "Pages.Leads.ToDoReminder";
+        public const string Pages_Leads_ToDoReminder__Dynamic = "Pages.Leads.ToDoReminder__Dynamic";
+        public const string Pages_Leads_View_Activities = "Pages.Leads.ViewActivities";
+        public const string Pages_Leads_View_Activities_Of_All_Users = "Pages.Leads.ViewActivitiesOfAllUsers";
+        public const string Pages_Leads_Assign_Activity_To_Any_Users = "Pages.Leads.AssignActivityToAnyUsers";
+        public const string Pages_Leads_Create_Activities = "Pages.Leads.CreateActivities";
+        public const string Pages_Leads_Create_Activities__Dynamic = "Pages.Leads.CreateActivities__Dynamic";
+        public const string Pages_Leads_Edit_Activities = "Pages.Leads.EditActivities";
+        public const string Pages_Leads_Edit_Activities__Dynamic = "Pages.Leads.EditActivities__Dynamic";
 
         public const string Pages_LeadStatuses = "Pages.LeadStatuses";
         public const string Pages_LeadStatuses_Create = "Pages.LeadStatuses.Create";

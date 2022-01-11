@@ -5,44 +5,44 @@ $blue_inactive: #EEF1F9;
 $blue_active: #DDE2F4;
 
 // Font Sizing
-$buttonFontSize: 17px;
+$buttonFontSize: 15px;
 
 .text_next_buttons {
     font-size: $buttonFontSize;
 }
 
 .text_next_boxes {
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .fc .fc-toolbar-title,
 .fc-col-header-cell-cushion {
     color: $black !important;
     font-size: $buttonFontSize !important;
-    font-weight: bold !important; 
+    font-weight: bold !important;
 }
 
 .buttons_text {
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
 }
 
 .btn.btn-secondary.k {
     background-color: $blue_inactive !important;
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
-    border: none !important; 
+    border: none !important;
     border-radius: 0rem !important;
 }
 
 .btn.btn-secondary.j {
     background-color: $blue_active !important;
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
-    border: none !important; 
+    border: none !important;
     border-radius: 0rem !important;
 }
 
@@ -59,18 +59,18 @@ $buttonFontSize: 17px;
 .fc-prev-button.fc-button.fc-button-primary,
 .fc-next-button.fc-button.fc-button-primary {
     background-color: $blue_inactive !important;
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
-    border: none !important;  
+    border: none !important;
 }
 
 .fc-prev-button.fc-button.fc-button-primary:active,
 .fc-next-button.fc-button.fc-button-primary:active,
 .fc-today-button.fc-button.fc-button-primary:active {
     background-color: $blue_active !important;
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
     border: none !important;
 }
@@ -81,16 +81,16 @@ $buttonFontSize: 17px;
 
 .fc-button {
     outline: none !important;
-    box-shadow: none !important;   
+    box-shadow: none !important;
 }
 
 .fc-dayGridWeek-button.fc-button.fc-button-primary,
 .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button {
     background-color: $blue_inactive !important;
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
-    border: none;    
+    border: none;
 }
 
 .fc-dayGridWeek-button.fc-button.fc-button-primary.fc-button-active,
@@ -98,10 +98,10 @@ $buttonFontSize: 17px;
 .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button:hover,
 .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
     background-color: $blue_active !important;
-    color: $blue_text !important; 
-    font-weight: bold !important; 
+    color: $blue_text !important;
+    font-weight: bold !important;
     font-size: $buttonFontSize !important;
-    border: none;    
+    border: none;
 }
 
 .fc .fc-button:disabled {

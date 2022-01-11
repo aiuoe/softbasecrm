@@ -845,6 +845,17 @@ namespace SBCRM.Legacy
                 await _contactsAppService.CreateOrEdit(contact);
             }
 
+            // Automatically assign the user who performs the conversion to the account
+            var defaultConversionAssignment = new List<CreateOrEditAccountUserDto>
+            {
+                new CreateOrEditAccountUserDto
+                {
+                    CustomerNumber = customer.Number,
+                    UserId = currentUser.Id
+                }
+            };
+            await _accountAutomateAssignment.AssignAccountUsersAsync(defaultConversionAssignment);
+
             return customer.Number;
         }
 
@@ -1010,7 +1021,7 @@ namespace SBCRM.Legacy
         }
 
         /// <summary>
-        /// Check whether the current user can view all activtiy and assign any user.
+        /// Check whether the current user can view all activities of all users in Accounts.
         /// </summary>
         /// <returns>True or False</returns>
         internal bool CanViewAllActivitiesOfAllUsers()
