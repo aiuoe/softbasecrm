@@ -843,6 +843,7 @@
 		<text name="CustomerNotExist">This Customer does not exist or is unavailable</text>
 		<text name="CustomerWithSameNameAlreadyExists">There is an Account with the same Company name in Accounts Module</text>
 		<text name="LeadAlreadyConverted">The Lead has already been converted, it cannot be converted again</text>
+		<text name="LeadAlreadyConvertedForEdit">The Lead has already been converted, it cannot be updated</text>
 		<text name="LeadConvertToAccount">Convert Lead to Account</text>
 		<text name="ContactNameAlreadyExist">There is already an Contact in this Account with the same name, please try another.</text>
 		<text name="CreateNewAccountUserRestricted">Create account users restricted by current assignment</text>
@@ -1795,6 +1796,10 @@
     <text name="Pages.Opportunities.AssignActivityToAnyUsers">Assign activities to any user</text>
     <text name="Pages.Opportunities.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
     <text name="Pages.Opportunities.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
+    <text name="Pages.Leads.ViewActivitiesOfAllUsers">View activities of all users</text>
+    <text name="Pages.Leads.AssignActivityToAnyUsers">Assign activities to any user</text>
+    <text name="Pages.Leads.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
+    <text name="Pages.Leads.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
 		<text name="FifteenMinutes">15 Minutes</text>
 		<text name="ThirtyMinutes">30 Minutes</text>
 		<text name="OneHour">1 Hour (default)</text>

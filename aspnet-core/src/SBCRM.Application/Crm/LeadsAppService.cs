@@ -49,6 +49,7 @@ namespace SBCRM.Crm
         private readonly ILeadAutomateAssignmentService _leadAutomateAssignment;
 
         private readonly string _assignedUserSortKey = "users.userFk.name";
+        private readonly string _convertedStatusCode = "CONVERTED";
         private readonly IAuditEventsService _auditEventsService;
 
         /// <summary>
@@ -95,6 +96,37 @@ namespace SBCRM.Crm
             _lookupPriorityRepository = lookupPriorityRepository;
             _reasonProvider = reasonProvider;
             _unitOfWorkManager = unitOfWorkManager;
+        }
+
+        /// <summary>
+        /// Get visibility for Lead Tabs based on permissions
+        /// </summary>
+        /// <param name="leadId"></param>
+        /// <returns></returns>
+        [AbpAllowAnonymous]
+        public async Task<LeadVisibilityTabDto> GetVisibilityTabsPermissions(int leadId)
+        {
+            var visibilityTabs = new LeadVisibilityTabDto();
+
+            var currentUser = await GetCurrentUserAsync();
+            var lead = await _leadRepository
+                .GetAll()
+                .Include(x => x.LeadStatusFk)
+                .Include(x => x.Users)
+                .Where(x => x.Id == leadId)
+                .Select(x => x).FirstOrDefaultAsync();
+
+            if (lead != null)
+            {
+                var leadIsConverted = lead.LeadStatusFk.Code == _convertedStatusCode;
+                var currentUserIsAssignedInLead = lead.Users.Any(x => x.UserId == currentUser.Id);
+
+                // Analyze permission for Edit of Overview Tab
+                var hasEditOverviewStaticPermission = await UserManager.IsGrantedAsync(currentUser.Id, AppPermissions.Pages_Leads_Edit);
+                visibilityTabs.CanEditOverviewTab = !leadIsConverted && (hasEditOverviewStaticPermission || currentUserIsAssignedInLead);
+            }
+
+            return visibilityTabs;
         }
 
         /// <summary>
@@ -327,11 +359,15 @@ namespace SBCRM.Crm
 
                 foreach (GetLeadForViewDto result in results)
                 {
-                    bool userIsAssignedToTheAccount = VerifyUserIsAssignedLead(result);
-                    result.CanViewScheduleMeetingOption = userIsAssignedToTheAccount;
-                    result.CanViewScheduleCallOption = userIsAssignedToTheAccount;
-                    result.CanViewEmailReminderOption = userIsAssignedToTheAccount;
-                    result.CanViewToDoReminderOption = userIsAssignedToTheAccount;
+                    var isUserAssignedToLead = VerifyUserIsAssignedLead(result);
+                    result.CanViewActivityWidget = HasAccessActivityWidget(isUserAssignedToLead);
+                    result.CanCreateActivity = HasAccessCreateActivity(isUserAssignedToLead);
+                    result.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(isUserAssignedToLead);
+                    result.CanViewScheduleCallOption = HasAccessToScheduleCall(isUserAssignedToLead);
+                    result.CanViewEmailReminderOption = HasAccessToEmailReminder(isUserAssignedToLead);
+                    result.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToLead);
+                    result.CanEditActivity = HasAccessEditActivity(isUserAssignedToLead);
+                    result.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
                 }
 
                 return new PagedResultDto<GetLeadForViewDto>(
@@ -513,6 +549,7 @@ namespace SBCRM.Crm
         public async Task<GetLeadForViewDto> GetLeadForView(int id)
         {
             Lead lead = await _leadRepository.GetAsync(id);
+            await _leadRepository.EnsureCollectionLoadedAsync(lead, x => x.Users);
 
             GetLeadForViewDto output = new GetLeadForViewDto { Lead = ObjectMapper.Map<LeadDto>(lead) };
 
@@ -533,6 +570,16 @@ namespace SBCRM.Crm
                 Priority _lookupPriority = await _lookupPriorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
                 output.PriorityDescription = _lookupPriority?.Description?.ToString();
             }
+
+            var isUserAssignedToLead = VerifyUserIsAssignedLead(output);
+            output.CanViewActivityWidget = HasAccessActivityWidget(isUserAssignedToLead);
+            output.CanCreateActivity = HasAccessCreateActivity(isUserAssignedToLead);
+            output.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(isUserAssignedToLead);
+            output.CanViewScheduleCallOption = HasAccessToScheduleCall(isUserAssignedToLead);
+            output.CanViewEmailReminderOption = HasAccessToEmailReminder(isUserAssignedToLead);
+            output.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToLead);
+            output.CanEditActivity = HasAccessEditActivity(isUserAssignedToLead);
+            output.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
 
             return output;
         }
@@ -563,6 +610,11 @@ namespace SBCRM.Crm
 
             GuardHelper.ThrowIf(lead == null, new EntityNotFoundException(L("LeadNotExist")));
 
+            await _leadRepository.EnsurePropertyLoadedAsync(lead, x => x.LeadStatusFk);
+            await _leadRepository.EnsureCollectionLoadedAsync(lead, x => x.Users);
+
+            //GuardHelper.ThrowIf(lead.LeadStatusFk.Code == _convertedStatusCode, new UserFriendlyException(L("LeadAlreadyConvertedForEdit")));
+
             GetLeadForEditOutput output = new GetLeadForEditOutput { Lead = ObjectMapper.Map<CreateOrEditLeadDto>(lead) };
 
             if (output.Lead.LeadSourceId != null)
@@ -582,6 +634,16 @@ namespace SBCRM.Crm
                 Priority _lookupPriority = await _lookupPriorityRepository.FirstOrDefaultAsync((int)output.Lead.PriorityId);
                 output.PriorityDescription = _lookupPriority?.Description;
             }
+
+            var isUserAssignedToLead = lead.Users?.Any(x => x.UserId == GetCurrentUserId()) ?? false;
+            output.CanViewActivityWidget = HasAccessActivityWidget(isUserAssignedToLead);
+            output.CanCreateActivity = HasAccessCreateActivity(isUserAssignedToLead);
+            output.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(isUserAssignedToLead);
+            output.CanViewScheduleCallOption = HasAccessToScheduleCall(isUserAssignedToLead);
+            output.CanViewEmailReminderOption = HasAccessToEmailReminder(isUserAssignedToLead);
+            output.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToLead);
+            output.CanEditActivity = HasAccessEditActivity(isUserAssignedToLead);
+            output.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
 
             return output;
         }
@@ -658,19 +720,21 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads_Edit)]
         protected virtual async Task Update(CreateOrEditLeadDto input)
         {
-            Lead lead = await _leadRepository.FirstOrDefaultAsync((int)input.Id);
+            Lead lead = await _leadRepository
+                .GetAll()
+                .Include(x => x.LeadStatusFk)
+                .FirstOrDefaultAsync(x => x.Id == input.Id);
 
             lead.CreationTime = lead.CreationTime.ToUniversalTime();
+            Lead existingLead = await _leadRepository
+                .FirstOrDefaultAsync(l => l.Id != (int)input.Id && (l.CompanyName.ToLower() == input.CompanyName.ToLower()
+                                                                    && l.ContactName.ToLower() == input.ContactName.ToLower()));
+
+            GuardHelper.ThrowIf(existingLead is not null, new UserFriendlyException(L("DuplicatedLead")));
+            GuardHelper.ThrowIf(lead.LeadStatusFk.Code == _convertedStatusCode, new UserFriendlyException(L("LeadAlreadyConvertedForEdit")));
 
             using (_reasonProvider.Use("Lead updated"))
             {
-                Lead existingLead = await _leadRepository
-                   .FirstOrDefaultAsync(l => l.Id != (int)input.Id && (l.CompanyName.ToLower() == input.CompanyName.ToLower()
-                                          && l.ContactName.ToLower() == input.ContactName.ToLower()));
-
-                if (existingLead is not null)
-                    throw new UserFriendlyException((int)HttpStatusCode.BadRequest, L("DuplicatedLead"));
-
                 ObjectMapper.Map(input, lead);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
             }
@@ -928,20 +992,19 @@ namespace SBCRM.Crm
                 .Include(e => e.LeadStatusFk)
                 .Where(x => x.Id == input.LeadId)
                 .FirstOrDefaultAsync();
-
-            string convertedStatusCode = "CONVERTED";
+            
             LeadStatus convertedStatus = await _lookupLeadStatusRepository.GetAll()
-                .FirstOrDefaultAsync(x => convertedStatusCode == x.Code);
+                .FirstOrDefaultAsync(x => _convertedStatusCode == x.Code);
 
             GuardHelper.ThrowIf(lead is null, new UserFriendlyException(L("LeadNotExist")));
             GuardHelper.ThrowIf(!lead.LeadStatusFk.IsLeadConversionValid, new UserFriendlyException(L("LeadAlreadyConverted")));
             GuardHelper.ThrowIf(await _customerAppService.CheckIfExistByName(lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
-            GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", convertedStatusCode)));
+            GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", _convertedStatusCode)));
 
             List<CustomerAccountTypeLookupTableDto> accountTypes = await _customerAppService.GetAllAccountTypeForTableDropdown();
             CustomerAccountTypeLookupTableDto? accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
 
-            GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", convertedStatusCode)));
+            GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", _convertedStatusCode)));
 
             string customerNumber = await _customerAppService.ConvertFromLead(
                 new ConvertLeadToAccountDto(
@@ -979,13 +1042,117 @@ namespace SBCRM.Crm
         private bool VerifyUserIsAssignedLead(GetLeadForViewDto lead)
         {
             long currentUserId = GetCurrentUser().Id;
-            if (lead.Lead.Users != null)
-                foreach (LeadUserViewDto user in lead.Lead.Users)
-                {
-                    if (user.UserId == currentUserId)
-                        return true;
-                }
-            return false;
+            return lead?.Lead?.Users?.Any(x => x.UserId == currentUserId) ?? false;
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToScheduleMeeting(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_ScheduleMeeting) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_ScheduleMeeting__Dynamic) && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToScheduleCall(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_ScheduleCall) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_ScheduleCall__Dynamic) && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToEmailReminder(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_EmailReminder) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_EmailReminder__Dynamic) && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Get the dynamic permission based on the current user.
+        /// </summary>
+        /// <returns></returns>
+        internal bool HasAccessToDoReminder(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_ToDoReminder) ||
+                (UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_ToDoReminder__Dynamic) && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can view the Leads Activity widget.
+        /// The user can see the widget if any of these conditions are met:
+        /// 1. The current user has <see cref="AppPermissions.Pages_Leads_View_Activities_Of_All_Users"/> permission, which is oriented for Managers., OR...
+        /// 2. The current user has <see cref="AppPermissions.Pages_Leads_View_Activities"/> permission and also assigned to the Lead
+        /// </summary>
+        /// <param name="isUserAssignedToLead">Is the current user assigned to the Lead?</param>
+        /// <returns>True or False</returns>
+        internal bool HasAccessActivityWidget(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAllActivities = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Activities_Of_All_Users);
+            var canViewActivities = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Activities);
+
+            return canViewAllActivities || (canViewActivities && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can create an activity for the Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessCreateActivity(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canCreateActivities = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Create_Activities);
+            var canCreateActivitiesDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Create_Activities__Dynamic);
+
+            return canCreateActivities || (canCreateActivitiesDynamic && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can edit an activity of Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessEditActivity(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canEditActivity = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Edit_Activities);
+            var canEditActivityDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Edit_Activities__Dynamic);
+
+            return canEditActivity || (canEditActivityDynamic && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can view all activities of all users in Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool CanViewAllActivitiesOfAllUsers()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Activities_Of_All_Users);
+        }
+
+        /// <summary>
+        /// Check whether the current user can assign any user.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool CanAssignAnyUserWhenCreatingOrUpdatingAnActivity()
+        {
+            var currentUser = GetCurrentUser();
+            return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Assign_Activity_To_Any_Users);
         }
     }
 }
