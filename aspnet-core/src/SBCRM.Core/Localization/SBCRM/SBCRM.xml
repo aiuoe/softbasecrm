@@ -116,7 +116,7 @@
 		<text name="SelectAActivitySourceType">Select a activity source type</text>
 		<text name="ActivityTaskTypeDescription">Activity task type description</text>
 		<text name="PickActivityTaskType">Pick activity task type</text>
-		<text name="SelectAActivityTaskType">Select a activity task type</text>
+		<text name="SelectAActivityTaskType">Select Activity Type</text>
 		<text name="ActivityStatusDescription">Activity status description</text>
 		<text name="PickActivityStatus">Pick activity status</text>
 		<text name="SelectAActivityStatus">Select a activity status</text>
