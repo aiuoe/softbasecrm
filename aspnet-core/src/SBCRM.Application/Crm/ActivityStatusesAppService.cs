@@ -138,7 +138,8 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Create)]
         protected virtual async Task Create(CreateOrEditActivityStatusDto input)
         {
-            input.Order = _activityStatusRepository.GetAll().Count() + 1;
+            int lastActivityStatusOrder = _activityStatusRepository.GetAll().Max(x => x.Order);
+            input.Order = lastActivityStatusOrder + 1;
 
             ActivityStatus activityStatus = ObjectMapper.Map<ActivityStatus>(input);
 
@@ -167,24 +168,41 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Edit)]
         public virtual async Task UpdateOrder(List<UpdateOrderActivityStatusDto> input)
         {
-            int orderSrc = input[0].Order + 1;
-            int orderDst = input[1].Order + 1;
+            int indexSrc = input[0].Order;
+            int indexDst = input[1].Order;
 
-            ActivityStatus activityStatusSrc = await _activityStatusRepository.FirstOrDefaultAsync(x => x.Order == orderSrc);
-            activityStatusSrc.Order = orderDst;
+            List<ActivityStatus> allActivityStatuses = _activityStatusRepository.GetAll().OrderBy(x => x.Order).ToList();
 
-            List<ActivityStatus> allActivityStatus = _activityStatusRepository.GetAll().OrderBy(x => x.Order).ToList();
-            allActivityStatus.Remove(activityStatusSrc);
+            int originalCount = allActivityStatuses.Count;
 
-            int i = orderDst + 1;
-            foreach (ActivityStatus item in allActivityStatus)
+            ActivityStatus activityStatusSrc = allActivityStatuses[indexSrc];
+
+            List<ActivityStatus> modifiedOrderList = new List<ActivityStatus>();
+
+            allActivityStatuses.RemoveAt(indexSrc);
+
+            int index = 0;
+            foreach (ActivityStatus status in allActivityStatuses)
             {
-                if (item.Order >= orderDst && item.Order <= orderSrc)
+                if (index != indexDst)
+                    modifiedOrderList.Add(status);
+                else
                 {
-                    item.Order = i;
-                    await _activityStatusRepository.FirstOrDefaultAsync(item.Id);
-                    i++;
+                    modifiedOrderList.Add(activityStatusSrc);
+                    modifiedOrderList.Add(status);
                 }
+                index++;
+            }
+
+            if (modifiedOrderList.Count != originalCount)
+                modifiedOrderList.Add(activityStatusSrc);
+
+            int order = 1;
+            foreach (ActivityStatus status in modifiedOrderList)
+            {
+                status.Order = order;
+                await _activityStatusRepository.InsertOrUpdateAsync(status);
+                order++;
             }
         }
 
@@ -196,25 +214,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_ActivityStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {
-            _activityStatusRepository.Delete(input.Id);
-
-            UpdateOrderAfterDelete();
-        }
-
-        /// <summary>
-        /// Method that update order after delete an item from grid
-        /// </summary>
-        private void UpdateOrderAfterDelete()
-        {
-            List<ActivityStatus> listActivityStatus = _activityStatusRepository.GetAll().ToList();
-
-            int order = 1;
-            foreach (ActivityStatus activityStatus in listActivityStatus)
-            {
-                activityStatus.Order = order;
-                order++;
-                _activityStatusRepository.FirstOrDefault(activityStatus.Id);
-            }
+            _activityStatusRepository.Delete(input.Id);            
         }
     }
 }
