@@ -16,3 +16,13 @@ export class CustomerAttachment implements IAttachment {
     id: number | undefined;
     name: string;
 }
+
+/**
+ * A customer attachment
+ */
+ export class LeadAttachment implements IAttachment {
+    leadId: number;
+    filePath: string;
+    id: number | undefined;
+    name: string;
+}

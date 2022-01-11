@@ -13,8 +13,8 @@
             <form *ngIf="active" #attachmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="attachment.id">{{ l('EditCustomerAttachment') }}</span>
-                        <span *ngIf="!attachment.id">{{ l('CreateNewCustomerAttachment') }}</span>
+                        <span *ngIf="attachment.id">{{ l('EditAttachment') }}</span>
+                        <span *ngIf="!attachment.id">{{ l('CreateAttachment') }}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -36,7 +36,7 @@
                         />
                         <validation-messages [formCtrl]="Attachment_Name"></validation-messages>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="attachment.id == 0">
                         <div class="input-group">
                             <div class="custom-file">
                                 <input
@@ -44,7 +44,7 @@
                                     type="file"
                                     id="uploadFile"
                                     (change)="fileChangeEvent($event)"
-                                    accept=".jpg, .jpeg, .png, .gif, .doc, .pdf"
+                                    accept=".jpg, .jpeg, .png, .gif, .doc, .pdf, .docx"
                                 />
                                 <label
                                     class="custom-file-label"
