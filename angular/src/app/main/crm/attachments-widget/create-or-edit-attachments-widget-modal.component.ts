@@ -193,7 +193,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         };
 
         this.uploader.onSuccessItem = (item, response, status) => {
-            this.message.success(this.l('CustomerAttachmentUploaded'));
+            this.message.success(this.l('AttachmentUploaded'));
             this.close();
         };
 
@@ -247,6 +247,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         this._leadAttachmentsServiceProxy.createOrEdit(leadAttachment).subscribe( result =>{
             this.modalSave.emit(null);
             this.saving = false;
+            this.notify.success(this.l('SuccessfullySaved'));
             this.close();
         });
     }
@@ -264,6 +265,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         this._opportunityAttachmentsServiceProxy.createOrEdit(opportunityAttachment).subscribe( result =>{
             this.modalSave.emit(null);
             this.saving = false;
+            this.notify.success(this.l('SuccessfullySaved'));
             this.close();
         });
     }
@@ -281,6 +283,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         this._customerAttachmentsServiceProxy.createOrEdit(customerAttachment).subscribe( result =>{
             this.modalSave.emit(null);
             this.saving = false;
+            this.notify.success(this.l('SuccessfullySaved'));
             this.close();
         });
     }

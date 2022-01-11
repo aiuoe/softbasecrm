@@ -9,8 +9,8 @@ using SBCRM.Crm.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using MimeKit;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace SBCRM.Web.Controllers
 {
@@ -28,6 +28,7 @@ namespace SBCRM.Web.Controllers
         /// </summary>
         /// <param name="customerAttachmentAppService"></param>
         /// <param name="env"></param>
+        /// <param name="configuration"></param>
         public CustomerImportControllerBase(
             ICustomerAttachmentsAppService customerAttachmentAppService,
             IHostEnvironment env,
@@ -47,15 +48,11 @@ namespace SBCRM.Web.Controllers
         {
             var attachment = Request.Form.Files.First();
             var extension = Path.GetExtension(attachment.FileName);
+            var extensionList = GetExtensionsList();
 
             try
             {
-                if (!(string.Equals(extension, ".jpg", StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(extension, ".png", StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(extension, ".gif", StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(extension, ".jpeg", StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(extension, ".doc", StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(extension, ".pdf", StringComparison.OrdinalIgnoreCase)))
+                if (!extensionList.Any(x => string.Equals(extension, x, StringComparison.OrdinalIgnoreCase)))
                 {
                     throw new UserFriendlyException(L("ErrorUploadingMessage"));
                 }
@@ -87,6 +84,24 @@ namespace SBCRM.Web.Controllers
                 Console.Write(ex.Message);
                 throw new UserFriendlyException(L("ErrorUploadingMessage"));
             }
+        }
+
+        /// <summary>
+        /// Returns the list of extensions allowed for uloading attachments
+        /// </summary>
+        /// <returns></returns>
+        private static List<string> GetExtensionsList()
+        {
+            return new List<string>
+            {
+                ".jpg",
+                ".png",
+                ".gif",
+                ".jpeg",
+                ".doc",
+                ".docx",
+                ".pdf"
+            };
         }
 
         /// <summary>

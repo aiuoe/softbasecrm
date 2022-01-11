@@ -21,21 +21,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="Attachment_Name">{{ l('Name') }} *</label>
-                        <input
-                            type="text"
-                            #Attachment_Name="ngModel"
-                            id="Attachment_Name"
-                            class="form-control"
-                            [(ngModel)]="attachment.name"
-                            name="Name"
-                            minlength="1"
-                            maxlength="100"
-                            required
-                        />
-                        <validation-messages [formCtrl]="Attachment_Name"></validation-messages>
-                    </div>
                     <div class="form-group" *ngIf="attachment.id == 0">
                         <div class="input-group">
                             <div class="custom-file">
@@ -51,10 +36,26 @@
                                     #uploadFileInputLabel
                                     for="uploadFile"
                                 >
-                                    {{ l('FileUpload') }}
+                                    {{ l('SelectFile') }}
                                 </label>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Attachment_Name">{{ l('Name') }} *</label>
+                        <input
+                            type="text"
+                            #Attachment_Name="ngModel"
+                            id="Attachment_Name"
+                            class="form-control"
+                            [(ngModel)]="attachment.name"
+                            name="Name"
+                            minlength="1"
+                            maxlength="100"
+                            required
+                        />
+                        <validation-messages [formCtrl]="Attachment_Name"></validation-messages>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -68,7 +69,7 @@
                         [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
-                        <span>{{ l('Save') }}</span>
+                        <span>{{ l('Upload') }}</span>
                     </button>
                 </div>
             </form>
