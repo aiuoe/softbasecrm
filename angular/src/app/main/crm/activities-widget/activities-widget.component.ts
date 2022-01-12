@@ -1,4 +1,5 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -56,6 +57,7 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
    * @param injector Constructor
    */
   constructor(injector: Injector,
+    private _activitySharedService: ActivitySharedService,
     private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
     private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy,
     private _opportunityActivitiesServiceProxy: OpportunityActivitiesServiceProxy) { 
@@ -260,16 +262,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
    * @returns True if the Activty item is a reminder type, otherwise False.
    */
   isReminderTypeActivity(item: GetActivityForViewDto): boolean {
-    if (!this.allActivityTaskTypes || this.allActivityTaskTypes.length == 0) {
-        return false;
-    }
-
-    const ACTIVITY_TYPE_CODE = this.allActivityTaskTypes.find((x) => x.id == item.activity.activityTaskTypeId)?.code || '';
-
-    return (
-        ACTIVITY_TYPE_CODE == ActivityTaskType.EMAIL_REMINDER ||
-        ACTIVITY_TYPE_CODE == ActivityTaskType.TODO_REMINDER
-    );
-}
-
+    return this._activitySharedService.isReminderTypeActivity(this.allActivityTaskTypes, item.activity);
+  }
 }
