@@ -8054,6 +8054,62 @@ export class CustomerAttachmentsServiceProxy {
         }
         return _observableOf<FileDto>(<any>null);
     }
+
+    /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getWidgetPermissionsForCustomer(customerNumber: string | undefined): Observable<CustomerAttachmentPermissionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetWidgetPermissionsForCustomer?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWidgetPermissionsForCustomer(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWidgetPermissionsForCustomer(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerAttachmentPermissionsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerAttachmentPermissionsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWidgetPermissionsForCustomer(response: HttpResponseBase): Observable<CustomerAttachmentPermissionsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomerAttachmentPermissionsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerAttachmentPermissionsDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -13787,8 +13843,8 @@ export class LeadAttachmentsServiceProxy {
      * @param leadId (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(leadId: number | undefined): Observable<LeadAttachmentLeadLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown?";
+    getWidgetPermissionsForLead(leadId: number | undefined): Observable<LeadAttachmentPermissionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetWidgetPermissionsForLead?";
         if (leadId === null)
             throw new Error("The parameter 'leadId' cannot be null.");
         else if (leadId !== undefined)
@@ -13804,20 +13860,20 @@ export class LeadAttachmentsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllLeadForTableDropdown(response_);
+            return this.processGetWidgetPermissionsForLead(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllLeadForTableDropdown(<any>response_);
+                    return this.processGetWidgetPermissionsForLead(<any>response_);
                 } catch (e) {
-                    return <Observable<LeadAttachmentLeadLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<LeadAttachmentPermissionsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<LeadAttachmentLeadLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<LeadAttachmentPermissionsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllLeadForTableDropdown(response: HttpResponseBase): Observable<LeadAttachmentLeadLookupTableDto[]> {
+    protected processGetWidgetPermissionsForLead(response: HttpResponseBase): Observable<LeadAttachmentPermissionsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -13828,14 +13884,7 @@ export class LeadAttachmentsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(LeadAttachmentLeadLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = LeadAttachmentPermissionsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13843,7 +13892,7 @@ export class LeadAttachmentsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<LeadAttachmentLeadLookupTableDto[]>(<any>null);
+        return _observableOf<LeadAttachmentPermissionsDto>(<any>null);
     }
 }
 
@@ -18531,6 +18580,82 @@ export class OpportunitiesDashboardServiceProxy {
      * @param departments (optional) 
      * @return Success
      */
+    getClosedWonOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetClosedWonOpportunitiesDashboardToExcel?";
+        if (fromDate === null)
+            throw new Error("The parameter 'fromDate' cannot be null.");
+        else if (fromDate !== undefined)
+            url_ += "FromDate=" + encodeURIComponent(fromDate ? "" + fromDate.toJSON() : "") + "&";
+        if (toDate === null)
+            throw new Error("The parameter 'toDate' cannot be null.");
+        else if (toDate !== undefined)
+            url_ += "ToDate=" + encodeURIComponent(toDate ? "" + toDate.toJSON() : "") + "&";
+        if (account === null)
+            throw new Error("The parameter 'account' cannot be null.");
+        else if (account !== undefined)
+            account && account.forEach(item => { url_ += "Account=" + encodeURIComponent("" + item) + "&"; });
+        if (branches === null)
+            throw new Error("The parameter 'branches' cannot be null.");
+        else if (branches !== undefined)
+            branches && branches.forEach(item => { url_ += "Branches=" + encodeURIComponent("" + item) + "&"; });
+        if (departments === null)
+            throw new Error("The parameter 'departments' cannot be null.");
+        else if (departments !== undefined)
+            departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetClosedWonOpportunitiesDashboardToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetClosedWonOpportunitiesDashboardToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetClosedWonOpportunitiesDashboardToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param fromDate (optional) 
+     * @param toDate (optional) 
+     * @param account (optional) 
+     * @param branches (optional) 
+     * @param departments (optional) 
+     * @return Success
+     */
     getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetOpportunitiesDashboardToExcel?";
         if (fromDate === null)
@@ -19497,10 +19622,15 @@ export class OpportunityAttachmentsServiceProxy {
     }
 
     /**
+     * @param opportunityId (optional) 
      * @return Success
      */
-    getAllOpportunityForTableDropdown(): Observable<OpportunityAttachmentOpportunityLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetAllOpportunityForTableDropdown";
+    getWidgetPermissionsForOpportunity(opportunityId: number | undefined): Observable<OpportunityAttachmentPermissionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetWidgetPermissionsForOpportunity?";
+        if (opportunityId === null)
+            throw new Error("The parameter 'opportunityId' cannot be null.");
+        else if (opportunityId !== undefined)
+            url_ += "opportunityId=" + encodeURIComponent("" + opportunityId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -19512,20 +19642,20 @@ export class OpportunityAttachmentsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllOpportunityForTableDropdown(response_);
+            return this.processGetWidgetPermissionsForOpportunity(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllOpportunityForTableDropdown(<any>response_);
+                    return this.processGetWidgetPermissionsForOpportunity(<any>response_);
                 } catch (e) {
-                    return <Observable<OpportunityAttachmentOpportunityLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<OpportunityAttachmentPermissionsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OpportunityAttachmentOpportunityLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<OpportunityAttachmentPermissionsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllOpportunityForTableDropdown(response: HttpResponseBase): Observable<OpportunityAttachmentOpportunityLookupTableDto[]> {
+    protected processGetWidgetPermissionsForOpportunity(response: HttpResponseBase): Observable<OpportunityAttachmentPermissionsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -19536,14 +19666,7 @@ export class OpportunityAttachmentsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(OpportunityAttachmentOpportunityLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = OpportunityAttachmentPermissionsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19551,7 +19674,7 @@ export class OpportunityAttachmentsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OpportunityAttachmentOpportunityLookupTableDto[]>(<any>null);
+        return _observableOf<OpportunityAttachmentPermissionsDto>(<any>null);
     }
 }
 
@@ -29287,7 +29410,9 @@ export interface IAccountTypeDto {
 }
 
 export class AccountUserDto implements IAccountUserDto {
-    userId!: number;
+    customerNumber!: string | undefined;
+    userId!: number | undefined;
+    userFk!: UserAssignedDto;
     id!: number;
 
     constructor(data?: IAccountUserDto) {
@@ -29301,7 +29426,9 @@ export class AccountUserDto implements IAccountUserDto {
 
     init(_data?: any) {
         if (_data) {
+            this.customerNumber = _data["customerNumber"];
             this.userId = _data["userId"];
+            this.userFk = _data["userFk"] ? UserAssignedDto.fromJS(_data["userFk"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -29315,14 +29442,18 @@ export class AccountUserDto implements IAccountUserDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["customerNumber"] = this.customerNumber;
         data["userId"] = this.userId;
+        data["userFk"] = this.userFk ? this.userFk.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IAccountUserDto {
-    userId: number;
+    customerNumber: string | undefined;
+    userId: number | undefined;
+    userFk: UserAssignedDto;
     id: number;
 }
 
@@ -33637,6 +33768,78 @@ export interface ICustomerAttachmentDto {
     id: number | undefined;
 }
 
+export class CustomerAttachmentPermissionsDto implements ICustomerAttachmentPermissionsDto {
+    number!: string | undefined;
+    name!: string | undefined;
+    users!: AccountUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
+
+    constructor(data?: ICustomerAttachmentPermissionsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(AccountUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
+        }
+    }
+
+    static fromJS(data: any): CustomerAttachmentPermissionsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerAttachmentPermissionsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
+        return data; 
+    }
+}
+
+export interface ICustomerAttachmentPermissionsDto {
+    number: string | undefined;
+    name: string | undefined;
+    users: AccountUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
+}
+
 export class CustomerCountryLookupTableDto implements ICustomerCountryLookupTableDto {
     id!: number;
     code!: string | undefined;
@@ -37610,6 +37813,7 @@ export interface IGetCustomerAttachmentForViewDto {
 export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
     customer!: CreateOrEditCustomerDto;
     accountTypeDescription!: string | undefined;
+    canViewAttachmentsWidget!: boolean;
     canViewActivityWidget!: boolean;
     canCreateActivity!: boolean;
     canViewScheduleMeetingOption!: boolean;
@@ -37632,6 +37836,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         if (_data) {
             this.customer = _data["customer"] ? CreateOrEditCustomerDto.fromJS(_data["customer"]) : <any>undefined;
             this.accountTypeDescription = _data["accountTypeDescription"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
             this.canViewActivityWidget = _data["canViewActivityWidget"];
             this.canCreateActivity = _data["canCreateActivity"];
             this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
@@ -37654,6 +37859,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         data = typeof data === 'object' ? data : {};
         data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
         data["accountTypeDescription"] = this.accountTypeDescription;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         data["canViewActivityWidget"] = this.canViewActivityWidget;
         data["canCreateActivity"] = this.canCreateActivity;
         data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
@@ -37669,6 +37875,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
 export interface IGetCustomerForEditOutput {
     customer: CreateOrEditCustomerDto;
     accountTypeDescription: string | undefined;
+    canViewAttachmentsWidget: boolean;
     canViewActivityWidget: boolean;
     canCreateActivity: boolean;
     canViewScheduleMeetingOption: boolean;
@@ -37778,6 +37985,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
+    canViewAttachmentsWidget!: boolean;
 
     constructor(data?: IGetCustomerForViewOutput) {
         if (data) {
@@ -37800,6 +38008,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
         }
     }
 
@@ -37822,6 +38031,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         return data; 
     }
 }
@@ -37837,6 +38047,7 @@ export interface IGetCustomerForViewOutput {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
+    canViewAttachmentsWidget: boolean;
 }
 
 export class GetDailySalesOutput implements IGetDailySalesOutput {
@@ -41782,7 +41993,7 @@ export interface ILeadAttachmentDto {
     id: number;
 }
 
-export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLookupTableDto {
+export class LeadAttachmentPermissionsDto implements ILeadAttachmentPermissionsDto {
     id!: number;
     displayName!: string | undefined;
     users!: LeadUserDto[] | undefined;
@@ -41792,7 +42003,7 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
     canDownloadAttachments!: boolean;
     canRemoveAttachments!: boolean;
 
-    constructor(data?: ILeadAttachmentLeadLookupTableDto) {
+    constructor(data?: ILeadAttachmentPermissionsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -41818,9 +42029,9 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
         }
     }
 
-    static fromJS(data: any): LeadAttachmentLeadLookupTableDto {
+    static fromJS(data: any): LeadAttachmentPermissionsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new LeadAttachmentLeadLookupTableDto();
+        let result = new LeadAttachmentPermissionsDto();
         result.init(data);
         return result;
     }
@@ -41843,7 +42054,7 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
     }
 }
 
-export interface ILeadAttachmentLeadLookupTableDto {
+export interface ILeadAttachmentPermissionsDto {
     id: number;
     displayName: string | undefined;
     users: LeadUserDto[] | undefined;
@@ -43954,11 +44165,17 @@ export interface IOpportunityAttachmentDto {
     id: number;
 }
 
-export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportunityAttachmentOpportunityLookupTableDto {
+export class OpportunityAttachmentPermissionsDto implements IOpportunityAttachmentPermissionsDto {
     id!: number;
     displayName!: string | undefined;
+    users!: OpportunityUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
 
-    constructor(data?: IOpportunityAttachmentOpportunityLookupTableDto) {
+    constructor(data?: IOpportunityAttachmentPermissionsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -43971,12 +44188,22 @@ export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportun
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(OpportunityUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
         }
     }
 
-    static fromJS(data: any): OpportunityAttachmentOpportunityLookupTableDto {
+    static fromJS(data: any): OpportunityAttachmentPermissionsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new OpportunityAttachmentOpportunityLookupTableDto();
+        let result = new OpportunityAttachmentPermissionsDto();
         result.init(data);
         return result;
     }
@@ -43985,13 +44212,29 @@ export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportun
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
         return data; 
     }
 }
 
-export interface IOpportunityAttachmentOpportunityLookupTableDto {
+export interface IOpportunityAttachmentPermissionsDto {
     id: number;
     displayName: string | undefined;
+    users: OpportunityUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
 }
 
 export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {

@@ -46,7 +46,7 @@
                                         <td style="width: 500px">
                                             <a
                                                 *ngIf="record.type === 'Account'"
-                                                [routerLink]="['/app/main/business/accounts/view']"
+                                                [routerLink]="['/app/main/crm/accounts/view']"
                                                 [queryParams]="{ number: record.id }">
                                                 <span class="p-column-title">{{ l('Name') }}</span>
                                                 {{ record.name }}

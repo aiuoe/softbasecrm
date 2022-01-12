@@ -240,7 +240,7 @@
                                             <p-sortIcon field="activityPriorityDescription"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="dueDate">
-                                            {{ l('ScheduleAndDueDate') }}
+                                            {{ l('DateAndTime') }}
                                             <p-sortIcon field="dueDate"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="userName">
@@ -327,14 +327,18 @@
                                             </span>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ScheduleAndDueDate') }}</span>
+                                            <span class="p-column-title">{{ l('DateAndTime') }}</span>
                                             <span
                                                 *ngIf="record.activity.startsAt"
                                                 [ngClass]="{
                                                     'text-danger': record.isPastDue
                                                 }"
                                             >
-                                                {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
+                                                {{
+                                                    isReminderTypeActivity(record.activity)
+                                                        ? (record.activity.dueDate | date: 'MM/dd/yyyy')
+                                                        : (record.activity.startsAt | date: 'MM/dd/yyyy hh:mm a')
+                                                }}
                                             </span>
                                             <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>

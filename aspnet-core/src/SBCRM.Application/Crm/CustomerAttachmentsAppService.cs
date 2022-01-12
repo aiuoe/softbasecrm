@@ -15,6 +15,9 @@ using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
+using SBCRM.Legacy;
+using SBCRM.Common;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -26,17 +29,22 @@ namespace SBCRM.Crm
     {
         private readonly IRepository<CustomerAttachment> _customerAttachmentRepository;
         private readonly ICustomerAttachmentsExcelExporter _customerAttachmentsExcelExporter;
+        private readonly IRepository<Customer> _lookup_customerRepository;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="customerAttachmentRepository"></param>
         /// <param name="customerAttachmentsExcelExporter"></param>
-        public CustomerAttachmentsAppService(IRepository<CustomerAttachment> customerAttachmentRepository, ICustomerAttachmentsExcelExporter customerAttachmentsExcelExporter)
+        /// <param name="customerRepository"></param>
+        public CustomerAttachmentsAppService(
+            IRepository<CustomerAttachment> customerAttachmentRepository, 
+            ICustomerAttachmentsExcelExporter customerAttachmentsExcelExporter,
+            IRepository<Customer> customerRepository)
         {
             _customerAttachmentRepository = customerAttachmentRepository;
             _customerAttachmentsExcelExporter = customerAttachmentsExcelExporter;
-
+            _lookup_customerRepository = customerRepository;
         }
 
         /// <summary>
@@ -44,6 +52,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<PagedResultDto<GetCustomerAttachmentForViewDto>> GetAll(GetAllCustomerAttachmentsInput input)
         {
 
@@ -102,6 +111,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="id">An Id of the customer attachment to be viewed.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_View_Attachments,
+            AppPermissions.Pages_Customer_View_Attachments__Dynamic
+        )]
         public async Task<GetCustomerAttachmentForViewDto> GetCustomerAttachmentForView(int id)
         {
             var customerAttachment = await _customerAttachmentRepository.GetAsync(id);
@@ -116,7 +129,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="id">An Id of the customer attachment to be edited.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Edit)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_Edit_Attachments,
+            AppPermissions.Pages_Customer_Edit_Attachments__Dynamic
+        )]
         public async Task<GetCustomerAttachmentForEditOutput> GetCustomerAttachmentForEdit(EntityDto input)
         {
             var customerAttachment = await _customerAttachmentRepository.FirstOrDefaultAsync(input.Id);
@@ -131,6 +147,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created or edited.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_Add_Attachments,
+            AppPermissions.Pages_Customer_Add_Attachments__Dynamic,
+            AppPermissions.Pages_Customer_Edit_Attachments,
+            AppPermissions.Pages_Customer_Edit_Attachments__Dynamic
+        )]
         public async Task CreateOrEdit(CreateOrEditCustomerAttachmentDto input)
         {
             if (input.Id == null)
@@ -148,7 +170,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Create)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_Add_Attachments,
+            AppPermissions.Pages_Customer_Add_Attachments__Dynamic
+        )]
         protected virtual async Task Create(CreateOrEditCustomerAttachmentDto input)
         {
             var customerAttachment = ObjectMapper.Map<CustomerAttachment>(input);
@@ -162,7 +187,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be updated.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Edit)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_Edit_Attachments,
+            AppPermissions.Pages_Customer_Edit_Attachments__Dynamic
+        )]
         protected virtual async Task Update(CreateOrEditCustomerAttachmentDto input)
         {
             var customerAttachment = await _customerAttachmentRepository.FirstOrDefaultAsync((int)input.Id);
@@ -175,7 +203,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be deleted.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_CustomerAttachments_Delete)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Customer_Remove_Attachments,
+            AppPermissions.Pages_Customer_Remove_Attachments__Dynamic
+        )]
         public async Task Delete(EntityDto input)
         {
             await _customerAttachmentRepository.DeleteAsync(input.Id);
@@ -186,6 +217,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns>The excel file</returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
         public async Task<FileDto> GetCustomerAttachmentsToExcel(GetAllCustomerAttachmentsForExcelInput input)
         {
 
@@ -208,6 +240,126 @@ namespace SBCRM.Crm
             var customerAttachmentListDtos = await query.ToListAsync();
 
             return _customerAttachmentsExcelExporter.ExportToFile(customerAttachmentListDtos);
+        }
+
+        /// <summary>
+        /// Get a customers
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Customer)]
+        public async Task<CustomerAttachmentPermissionsDto> GetWidgetPermissionsForCustomer(string customerNumber)
+        {
+            GuardHelper.ThrowIf(string.IsNullOrWhiteSpace(customerNumber), new EntityNotFoundException(L("AccountNotExist")));
+
+            var isUserAssignedToCustomer = false;
+            isUserAssignedToCustomer = VerifyUserIsAssignedCustomer(customerNumber);
+
+            CustomerAttachmentPermissionsDto account = await _lookup_customerRepository.GetAll()
+                .Where(x => x.Number == customerNumber)
+                .Select(customer => new CustomerAttachmentPermissionsDto
+                {
+                    Number = customer.Number,
+                    Name = customer == null || customer.Name == null ? "" : customer.Name.ToString(),
+                    CanViewAttachments = HasAccessToViewAttachments(isUserAssignedToCustomer),
+                    CanAddAttachments = HasAccessToAddAttachments(isUserAssignedToCustomer),
+                    CanEditAttachments = HasAccessToEditAttachments(isUserAssignedToCustomer),
+                    CanDownloadAttachments = HasAccessToDownloadAttachments(isUserAssignedToCustomer),
+                    CanRemoveAttachments = HasAccessToRemoveAttachments(isUserAssignedToCustomer),
+                }).FirstOrDefaultAsync();
+
+            GuardHelper.ThrowIf(account == null, new EntityNotFoundException(L("AccountNotExist")));
+
+            return account;
+        }
+
+        /// <summary>
+        /// Verify if the current user is assigned to the specified Customer
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        internal bool VerifyUserIsAssignedCustomer(string customerNumber)
+        {
+            CustomerAttachmentPermissionsDto customer = _lookup_customerRepository.GetAll()
+                .Where(x => x.Number == customerNumber)
+                .Select(customer => new CustomerAttachmentPermissionsDto
+                {
+                    Users = ObjectMapper.Map<List<AccountUserDto>>(customer.Users)
+                }).FirstOrDefault();
+
+            long currentUserId = GetCurrentUser().Id;
+            return customer?.Users?.Any(x => x.UserId == currentUserId) ?? false;
+        }
+
+
+        /// <summary>
+        /// Check whether the current user can view attachments on Customers
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToViewAttachments(bool isUserAssignedToCustomer)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_View_Attachments);
+            var canViewAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_View_Attachments__Dynamic);
+
+            return canViewAttachments || (canViewAttachmentsDynamic && isUserAssignedToCustomer);
+        }
+
+        /// <summary>
+        /// Check whether the current user can add attachments Customers.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToAddAttachments(bool isUserAssignedToCustomer)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canAddAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Add_Attachments);
+            var canAddAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Add_Attachments__Dynamic);
+
+            return canAddAttachments || (canAddAttachmentsDynamic && isUserAssignedToCustomer);
+        }
+
+        /// <summary>
+        /// Check whether the current user can edit attachments Customers.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToEditAttachments(bool isUserAssignedToCustomer)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canEditAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit_Attachments);
+            var canEditAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit_Attachments__Dynamic);
+
+            return canEditAttachments || (canEditAttachmentsDynamic && isUserAssignedToCustomer);
+        }
+
+        /// <summary>
+        /// Check whether the current user can download attachments Customers.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToDownloadAttachments(bool isUserAssignedToCustomer)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canDownloadAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Download_Attachments);
+            var canDownloadAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Download_Attachments__Dynamic);
+
+            return canDownloadAttachments || (canDownloadAttachmentsDynamic && isUserAssignedToCustomer);
+        }
+
+        /// <summary>
+        /// Check whether the current user can remove attachments Customers.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToRemoveAttachments(bool isUserAssignedToCustomer)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canRemoveAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Remove_Attachments);
+            var canRemoveAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Remove_Attachments__Dynamic);
+
+            return canRemoveAttachments || (canRemoveAttachmentsDynamic && isUserAssignedToCustomer);
         }
 
     }

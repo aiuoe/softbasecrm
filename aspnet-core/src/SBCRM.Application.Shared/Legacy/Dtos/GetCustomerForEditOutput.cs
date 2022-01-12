@@ -7,6 +7,7 @@
     {
         public CreateOrEditCustomerDto Customer { get; set; }
         public string AccountTypeDescription { get; set; }
+        public bool CanViewAttachmentsWidget { get; set; }
         public bool CanViewActivityWidget { get; set; }
         public bool CanCreateActivity { get; set; }
         public bool CanViewScheduleMeetingOption { get; set; }

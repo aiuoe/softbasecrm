@@ -11,6 +11,8 @@ using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Common;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -246,19 +248,21 @@ namespace SBCRM.Crm
 
 
         /// <summary>
-        /// Get a list of leads
+        /// Get a lead
         /// </summary>
+        /// <param name="leadId"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]
-        public async Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown(int leadId = 0)
+        public async Task<LeadAttachmentPermissionsDto> GetWidgetPermissionsForLead(int leadId)
         {
-            var isUserAssignedToLead = false;
-            if (leadId > 0)
-                isUserAssignedToLead = VerifyUserIsAssignedLead(leadId);
+            GuardHelper.ThrowIf(leadId <= 0, new EntityNotFoundException(L("LeadNotExist")));
 
-            return await _lookup_leadRepository.GetAll()
-                .WhereIf(leadId > 0, x => x.Id == leadId)
-                .Select(lead => new LeadAttachmentLeadLookupTableDto
+            var isUserAssignedToLead = false;
+            isUserAssignedToLead = VerifyUserIsAssignedLead(leadId);
+
+            LeadAttachmentPermissionsDto lead = await _lookup_leadRepository.GetAll()
+                .Where(x => x.Id == leadId)
+                .Select(lead => new LeadAttachmentPermissionsDto
                 {
                     Id = lead.Id,
                     DisplayName = lead == null || lead.CompanyName == null ? "" : lead.CompanyName.ToString(),
@@ -267,19 +271,23 @@ namespace SBCRM.Crm
                     CanEditAttachments = HasAccessToEditAttachments(isUserAssignedToLead),
                     CanDownloadAttachments = HasAccessToDownloadAttachments(isUserAssignedToLead),
                     CanRemoveAttachments = HasAccessToRemoveAttachments(isUserAssignedToLead),
-                }).ToListAsync();
+                }).FirstOrDefaultAsync();
+
+            GuardHelper.ThrowIf(lead == null, new EntityNotFoundException(L("LeadNotExist")));
+
+            return lead;
         }
 
         /// <summary>
         /// Verify if the current user is assigned to the specified Lead
         /// </summary>
-        /// <param name="lead"></param>
+        /// <param name="leadId"></param>
         /// <returns></returns>
         internal bool VerifyUserIsAssignedLead(int leadId)
         {
-            LeadAttachmentLeadLookupTableDto lead = _lookup_leadRepository.GetAll()
-                .WhereIf(leadId > 0, x => x.Id == leadId)
-                .Select(lead => new LeadAttachmentLeadLookupTableDto
+            LeadAttachmentPermissionsDto lead = _lookup_leadRepository.GetAll()
+                .Where(x => x.Id == leadId)
+                .Select(lead => new LeadAttachmentPermissionsDto
                 {
                     Users = ObjectMapper.Map<List<LeadUserDto>>(lead.Users)
                 }).FirstOrDefault();

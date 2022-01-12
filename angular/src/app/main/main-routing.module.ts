@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
             {
                 path: '',
                 children: [
-                                    
                     {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
@@ -139,17 +138,7 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.Leads' }
                     },
                     {
-                        path: 'business/leadStatuses',
-                        loadChildren: () => import('./crm/leadStatuses/leadStatus.module').then(m => m.LeadStatusModule),
-                        data: { permission: 'Pages.LeadStatuses' }
-                    },
-                    {
-                        path: 'business/leadSources',
-                        loadChildren: () => import('./crm/leadSources/leadSource.module').then(m => m.LeadSourceModule),
-                        data: { permission: 'Pages.LeadSources' }
-                    },
-                    {
-                        path: 'business/accounts',
+                        path: 'crm/accounts',
                         loadChildren: () => import('./legacy/customer/customer.module').then(m => m.CustomerModule),
                         data: { permission: 'Pages.Customer' }
                     },

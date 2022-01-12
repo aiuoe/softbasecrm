@@ -7,7 +7,6 @@ import {
     LeadDto,
     LeadLeadSourceLookupTableDto,
     LeadsServiceProxy,
-    LeadUsersServiceProxy,
     ProfileServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
@@ -16,7 +15,7 @@ import { nextGuid } from '@shared/utils/global.utils';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 
 /***
- * Component to manage the import leads functionallity
+ * Component to manage the import leads functionality
  */
 @Component({
     selector: 'importLeadsModal',
@@ -51,10 +50,10 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
      * @param _profileService
      * @param _tokenService
      * @param _leadsServiceProxy
-     * @param _accountUsersServiceProxy
      * @param _fileDownloadService
      */
-    constructor(injector: Injector, private _profileService: ProfileServiceProxy,
+    constructor(injector: Injector,
+                private _profileService: ProfileServiceProxy,
                 private _tokenService: TokenService,
                 private _leadsServiceProxy: LeadsServiceProxy,
                 private _fileDownloadService: FileDownloadService) {
@@ -140,7 +139,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
             form.append('SelectedUser', this.selectedUserId);
         };
 
-        this.uploader.onSuccessItem = (item, response, status) => {
+        this.uploader.onSuccessItem = (item, response, _) => {
             const jsonResponde = JSON.parse(response);
             this.duplicatedLeads = jsonResponde.result.repeatedLeads;
             this.duplicatedLeads.forEach(item => {
@@ -180,7 +179,7 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
 
         this.uploader.setOptions(this._uploaderOptions);
 
-        this.uploader.response.subscribe(res => {
+        this.uploader.response.subscribe(_ => {
             this.modalUpload.emit(null);
         });
     }
@@ -203,9 +202,6 @@ export class ImportLeadsModalComponent extends AppComponentBase implements OnIni
      * @returns
      */
     validateUploadButton(): boolean {
-        if (this.selectedLeadSourceId > 0 && this.fileFlag) {
-            return false;
-        }
-        return true;
+        return !(this.selectedLeadSourceId > 0 && this.fileFlag);
     }
 }

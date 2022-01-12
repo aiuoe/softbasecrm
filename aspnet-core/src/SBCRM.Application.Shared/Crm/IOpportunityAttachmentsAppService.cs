@@ -55,7 +55,7 @@ namespace SBCRM.Crm
         /// Get a list of opportunities
         /// </summary>
         /// <returns></returns>
-        Task<List<OpportunityAttachmentOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown();
+        Task<OpportunityAttachmentPermissionsDto> GetWidgetPermissionsForOpportunity(int opportunityId);
 
     }
 }
