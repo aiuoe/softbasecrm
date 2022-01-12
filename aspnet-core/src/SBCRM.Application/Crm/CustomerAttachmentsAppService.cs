@@ -133,7 +133,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task CreateOrEdit(CreateOrEditCustomerAttachmentDto input)
         {
-            if (input.Id == null)
+            if (input.Id == 0)
             {
                 await Create(input);
             }

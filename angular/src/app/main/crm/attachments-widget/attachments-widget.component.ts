@@ -83,6 +83,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 this.canRemoveAttachments = true;
                 this.canDownloadAttachments = true;
                 this.canRemoveAttachments = true;
+                this.canViewAttachments = true;
                 break;
 
             case 'Lead':
