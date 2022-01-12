@@ -19622,10 +19622,15 @@ export class OpportunityAttachmentsServiceProxy {
     }
 
     /**
+     * @param opportunityId (optional) 
      * @return Success
      */
-    getAllOpportunityForTableDropdown(): Observable<OpportunityAttachmentOpportunityLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetAllOpportunityForTableDropdown";
+    getWidgetPermissionsForOpportunity(opportunityId: number | undefined): Observable<OpportunityAttachmentPermissionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/OpportunityAttachments/GetWidgetPermissionsForOpportunity?";
+        if (opportunityId === null)
+            throw new Error("The parameter 'opportunityId' cannot be null.");
+        else if (opportunityId !== undefined)
+            url_ += "opportunityId=" + encodeURIComponent("" + opportunityId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -19637,20 +19642,20 @@ export class OpportunityAttachmentsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllOpportunityForTableDropdown(response_);
+            return this.processGetWidgetPermissionsForOpportunity(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllOpportunityForTableDropdown(<any>response_);
+                    return this.processGetWidgetPermissionsForOpportunity(<any>response_);
                 } catch (e) {
-                    return <Observable<OpportunityAttachmentOpportunityLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<OpportunityAttachmentPermissionsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OpportunityAttachmentOpportunityLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<OpportunityAttachmentPermissionsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllOpportunityForTableDropdown(response: HttpResponseBase): Observable<OpportunityAttachmentOpportunityLookupTableDto[]> {
+    protected processGetWidgetPermissionsForOpportunity(response: HttpResponseBase): Observable<OpportunityAttachmentPermissionsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -19661,14 +19666,7 @@ export class OpportunityAttachmentsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(OpportunityAttachmentOpportunityLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = OpportunityAttachmentPermissionsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19676,7 +19674,7 @@ export class OpportunityAttachmentsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OpportunityAttachmentOpportunityLookupTableDto[]>(<any>null);
+        return _observableOf<OpportunityAttachmentPermissionsDto>(<any>null);
     }
 }
 
@@ -44167,11 +44165,17 @@ export interface IOpportunityAttachmentDto {
     id: number;
 }
 
-export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportunityAttachmentOpportunityLookupTableDto {
+export class OpportunityAttachmentPermissionsDto implements IOpportunityAttachmentPermissionsDto {
     id!: number;
     displayName!: string | undefined;
+    users!: OpportunityUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
 
-    constructor(data?: IOpportunityAttachmentOpportunityLookupTableDto) {
+    constructor(data?: IOpportunityAttachmentPermissionsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -44184,12 +44188,22 @@ export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportun
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(OpportunityUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
         }
     }
 
-    static fromJS(data: any): OpportunityAttachmentOpportunityLookupTableDto {
+    static fromJS(data: any): OpportunityAttachmentPermissionsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new OpportunityAttachmentOpportunityLookupTableDto();
+        let result = new OpportunityAttachmentPermissionsDto();
         result.init(data);
         return result;
     }
@@ -44198,13 +44212,29 @@ export class OpportunityAttachmentOpportunityLookupTableDto implements IOpportun
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
         return data; 
     }
 }
 
-export interface IOpportunityAttachmentOpportunityLookupTableDto {
+export interface IOpportunityAttachmentPermissionsDto {
     id: number;
     displayName: string | undefined;
+    users: OpportunityUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
 }
 
 export class OpportunityContactsLookupTableDto implements IOpportunityContactsLookupTableDto {

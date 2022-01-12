@@ -7,6 +7,7 @@ import {
     CustomerAttachmentsServiceProxy,
     LeadAttachmentPermissionsDto,
     LeadAttachmentsServiceProxy,
+    OpportunityAttachmentPermissionsDto,
     OpportunityAttachmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
@@ -42,6 +43,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
 
     customerForPermissions : CustomerAttachmentPermissionsDto;
     leadForPermissions : LeadAttachmentPermissionsDto;
+    opportunityForPermissions : OpportunityAttachmentPermissionsDto;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -103,11 +105,15 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 break;
 
             case 'Opportunity':
-                this.canAddAttachments = true;
-                this.canEditAttachments = true;
-                this.canRemoveAttachments = true;
-                this.canDownloadAttachments = true;
-                this.canRemoveAttachments = true;
+                this._opportunityAttachmentsServiceProxy.getWidgetPermissionsForOpportunity(this.idToStore)
+                .subscribe((result) => {
+                   this.opportunityForPermissions = result;
+                   this.canViewAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canViewAttachments : false;
+                   this.canAddAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canAddAttachments : false;
+                   this.canEditAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canEditAttachments : false,
+                   this.canDownloadAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canDownloadAttachments : false,
+                   this.canRemoveAttachments  = this.opportunityForPermissions? this.opportunityForPermissions.canRemoveAttachments : false             
+               });
                 break;
         }
     }

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
-
     /// <summary>
-    /// Model to list the customer for widget permissions
+    /// Model to list the opportunity for widget permissions
     /// </summary>
-    public class CustomerAttachmentPermissionsDto
+    public class OpportunityAttachmentPermissionsDto
     {
-        public string Number { get; set; }
-        public string Name { get; set; }
-        public List<AccountUserDto> Users { get; set; }
+        public int Id { get; set; }
+
+        public string DisplayName { get; set; }
+        public List<OpportunityUserDto> Users { get; set; }
         public bool CanViewAttachments { get; set; }
         public bool CanAddAttachments { get; set; }
         public bool CanEditAttachments { get; set; }
