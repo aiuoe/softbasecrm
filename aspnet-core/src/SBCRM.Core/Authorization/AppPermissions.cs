@@ -198,6 +198,16 @@
         public const string Pages_Customer_Create_Activities__Dynamic = "Pages.Customer.CreateActivities__Dynamic";
         public const string Pages_Customer_Edit_Activities = "Pages.Customer.EditActivities";
         public const string Pages_Customer_Edit_Activities__Dynamic = "Pages.Customer.EditActivities__Dynamic";
+        public const string Pages_Customer_View_Attachments = "Pages.Customer.ViewAttachments";
+        public const string Pages_Customer_View_Attachments__Dynamic = "Pages.Customer.ViewAttachments_Dynamic";
+        public const string Pages_Customer_Add_Attachments = "Pages.Customer.AddAttachments";
+        public const string Pages_Customer_Add_Attachments__Dynamic = "Pages.Customer.AddAttachments_Dynamic";
+        public const string Pages_Customer_Edit_Attachments = "Pages.Customer.EditAttachments";
+        public const string Pages_Customer_Edit_Attachments__Dynamic = "Pages.Customer.EditAttachments_Dynamic";
+        public const string Pages_Customer_Download_Attachments = "Pages.Customer.DownloadAttachments";
+        public const string Pages_Customer_Download_Attachments__Dynamic = "Pages.Customer.DownloadAttachments_Dynamic";
+        public const string Pages_Customer_Remove_Attachments = "Pages.Customer.RemoveAttachments";
+        public const string Pages_Customer_Remove_Attachments__Dynamic = "Pages.Customer.RemoveAttachments_Dynamic";
 
         public const string Pages_AccountTypes = "Pages.AccountTypes";
         public const string Pages_AccountTypes_Create = "Pages.AccountTypes.Create";

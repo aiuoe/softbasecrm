@@ -370,6 +370,7 @@ namespace SBCRM.Legacy
             var output = new GetCustomerForViewOutput { Customer = ObjectMapper.Map<CreateOrEditCustomerDto>(customer) };
 
             bool userIsAssignedToTheAccount = customer.Users?.Any(x => x.UserId == currentUserId) ?? false;
+            output.CanViewAttachmentsWidget = HasAccessAttachmentsWidget(userIsAssignedToTheAccount);
             output.CanViewActivityWidget = HasAccessActivityWidget(userIsAssignedToTheAccount, hasAssignedAccountActivities);
             output.CanCreateActivity = HasAccessCreateActivity(userIsAssignedToTheAccount);
             output.CanViewScheduleMeetingOption = HasAccessToScheduleMeeting(userIsAssignedToTheAccount);
@@ -1038,6 +1039,20 @@ namespace SBCRM.Legacy
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Assign_Activity_To_Any_Users);
+        }
+
+        /// <summary>
+        /// Check whether the current user can view attachments on Customers
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessAttachmentsWidget(bool isUserAssignedToCustomer)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_View_Attachments);
+            var canViewAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_View_Attachments__Dynamic);
+
+            return canViewAttachments || (canViewAttachmentsDynamic && isUserAssignedToCustomer);
         }
     }
 }
