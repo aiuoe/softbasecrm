@@ -415,9 +415,8 @@
                 </app-activities-widget>
             </div>
 
-            <div class="col-sm-12 col-lg-6">
-                <attachments-widget
-                    *ngIf="showAttachmentsWidget"
+            <div class="col-sm-12 col-lg-6" *ngIf="showAttachmentsWidget">
+                <attachments-widget                    
                     [componentType] = "'Lead'"
                     [idToStore]="this.lead.id">
                 </attachments-widget>
