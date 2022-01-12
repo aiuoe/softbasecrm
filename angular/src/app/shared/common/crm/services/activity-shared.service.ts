@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
 import { ActivityDuration, ActivityTaskType } from '@shared/AppEnums';
+import { ActivityActivityTaskTypeLookupTableDto, ActivityDto } from '@shared/service-proxies/service-proxies';
 import { LocalizationService } from 'abp-ng2-module';
 import { ActivityDurationItemDto } from '../dto/activity-duration-item.dto';
 
@@ -36,18 +37,36 @@ export class ActivitySharedService {
         ];
     }
 
-
     /**
      * Gets the default duration item
-     * @param activityTypeCode 
-     * @returns 
+     * @param activityTypeCode
+     * @returns
      */
-    getDefaultDuration(activityTypeCode: string){
+    getDefaultDuration(activityTypeCode: string) {
         let durationItems = this.getActivityDurationItems();
-        if (activityTypeCode != ActivityTaskType.TODO_REMINDER &&  activityTypeCode != ActivityTaskType.EMAIL_REMINDER){
+        if (activityTypeCode != ActivityTaskType.TODO_REMINDER && activityTypeCode != ActivityTaskType.EMAIL_REMINDER) {
             return durationItems.find((x) => x.enumValue === ActivityDuration.OneHour).value;
-        } else{
+        } else {
             return 0;
         }
+    }
+
+    /**
+     * Check whether an activity is a Reminder-Type or not.
+     * @param activityTypes The list of all Activity Task Types
+     * @param activity The ActivityDto you want to verify
+     * @returns True if the Activity is a Reminder-type, otherwise False.
+     */
+    isReminderTypeActivity(activityTypes: ActivityActivityTaskTypeLookupTableDto[], activity: ActivityDto): boolean {
+        if (!activityTypes || activityTypes.length === 0) {
+            return false;
+        }
+
+        const ACTIVITY_TYPE_CODE = activityTypes.find((x) => x.id == activity.activityTaskTypeId)?.code || '';
+
+        return (
+            ACTIVITY_TYPE_CODE == ActivityTaskType.EMAIL_REMINDER ||
+            ACTIVITY_TYPE_CODE == ActivityTaskType.TODO_REMINDER
+        );
     }
 }
