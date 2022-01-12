@@ -1,7 +1,7 @@
 /***************************************************************************************************
 Procedure:          dbo.SecureInsert
 Author:             Webcreek
-Description:        Trigger creates user in web.AbpUsers table after its creation in dbo.Secure table
+Description:        Trigger creates user in web.AbpUsers table after its creation/update in dbo.Secure table
 ****************************************************************************************************
 SUMMARY OF CHANGES
 Date(yyyy-mm-dd)    Author              Comments
@@ -10,43 +10,53 @@ Date(yyyy-mm-dd)    Author              Comments
 ***************************************************************************************************/ 
 CREATE OR ALTER TRIGGER SecureInsert
     ON dbo.Secure
-    AFTER INSERT
+    AFTER UPDATE
     AS
 BEGIN
-    DECLARE
-        @user_num INT
-    SELECT @user_num = EmployeeNo FROM inserted
-    INSERT INTO [web].[AbpUsers] ([UserName], [NormalizedUserName], [Name], [Surname], [EmailAddress],
-                                  [NormalizedEmailAddress], [PhoneNumber], [Password], [CreationTime], [IsActive],
-                                  [AccessFailedCount], [IsEmailConfirmed], [IsTwoFactorEnabled], [IsLockoutEnabled],
-                                  [IsPhoneNumberConfirmed], [ShouldChangePasswordOnNextLogin], [IsDeleted],
-                                  [TenantId])
-    SELECT [S].[EmployeeNo],
-           [S].[EmployeeNo],
-           [P].[FirstName],
-           ISNULL([P].[LastName], '') AS LastName,
-           ISNULL([P].[EMailAddress], ''),
-           ISNULL(UPPER([P].[EMailAddress]), ''),
-           P.Phone,
-           '',
-           GETDATE(),
-           1,
-           0,
-           0,
-           0,
-           0,
-           0,
-           0,
-           0,
-           (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
-    FROM [dbo].[secure] AS S
-             JOIN [dbo].[Person] AS P
-                  ON [S].[EmployeeNo] = [P].[Number]
-    WHERE (
-              CASE
-                  WHEN ISNUMERIC([S].EmployeeNo) = 1 THEN CONVERT(INT, [S].EmployeeNo)
-                  ELSE 0
-                  END) = @user_num
+    BEGIN TRY
+        INSERT INTO [web].[AbpUsers] ([UserName], [NormalizedUserName], [Name], [Surname], [EmailAddress],
+                                      [NormalizedEmailAddress], [PhoneNumber], [Password], [CreationTime], [IsActive],
+                                      [AccessFailedCount], [IsEmailConfirmed], [IsTwoFactorEnabled], [IsLockoutEnabled],
+                                      [IsPhoneNumberConfirmed], [ShouldChangePasswordOnNextLogin], [IsDeleted],
+                                      [TenantId])
+        SELECT [S].[EmployeeNo],
+               [S].[EmployeeNo],
+               [P].[FirstName],
+               ISNULL([P].[LastName], '') AS LastName,
+               ISNULL([P].[EMailAddress], ''),
+               ISNULL(UPPER([P].[EMailAddress]), ''),
+               P.Phone,
+               '',
+               GETDATE(),
+               1,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               (SELECT Id FROM web.AbpTenants WHERE Name = 'Default')
+        FROM [dbo].[secure] AS S
+                 JOIN [dbo].[Person] AS P
+                      ON [S].[EmployeeNo] = [P].[Number]
+        WHERE [S].EmployeeNo = (SELECT TOP 1 EmployeeNo FROM inserted)
+        AND [S].EmployeeNo NOT IN (SELECT ISNULL(TRY_PARSE([UserName] AS INT), 0) FROM [web].[AbpUsers])
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRAN
+
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        DECLARE @ErrorSeverity INT;
+        DECLARE @ErrorState INT;
+
+        SELECT @ErrorMessage = ERROR_MESSAGE(),
+               @ErrorSeverity = ERROR_SEVERITY(),
+               @ErrorState = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH
 END;
 
 GO
