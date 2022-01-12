@@ -7,7 +7,7 @@ namespace SBCRM.Crm.Dtos
     /// <summary>
     /// Model to list the customers for lookup table
     /// </summary>
-    public class CustomerAttachmentCustomerLookupTableDto
+    public class CustomerAttachmentPermissionsDto
     {
         public string Number { get; set; }
         public string Name { get; set; }

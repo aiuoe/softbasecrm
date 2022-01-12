@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using SBCRM.Storage;
 using SBCRM.Legacy;
+using SBCRM.Common;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
@@ -245,15 +247,16 @@ namespace SBCRM.Crm
         /// <param name="customerNumber"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer)]
-        public async Task<CustomerAttachmentCustomerLookupTableDto> GetCustomerForPermissions(string customerNumber = null)
+        public async Task<CustomerAttachmentPermissionsDto> GetWidgetPermissionsForCustomer(string customerNumber)
         {
-            var isUserAssignedToCustomer = false;
-            if (customerNumber != null)
-                isUserAssignedToCustomer = VerifyUserIsAssignedCustomer(customerNumber);
+            GuardHelper.ThrowIf(string.IsNullOrWhiteSpace(customerNumber), new EntityNotFoundException(L("AccountNotExist")));
 
-            return await _lookup_customerRepository.GetAll()
-                .WhereIf(customerNumber != null, x => x.Number == customerNumber)
-                .Select(customer => new CustomerAttachmentCustomerLookupTableDto
+            var isUserAssignedToCustomer = false;
+            isUserAssignedToCustomer = VerifyUserIsAssignedCustomer(customerNumber);
+
+            CustomerAttachmentPermissionsDto account = await _lookup_customerRepository.GetAll()
+                .Where(x => x.Number == customerNumber)
+                .Select(customer => new CustomerAttachmentPermissionsDto
                 {
                     Number = customer.Number,
                     Name = customer == null || customer.Name == null ? "" : customer.Name.ToString(),
@@ -263,6 +266,10 @@ namespace SBCRM.Crm
                     CanDownloadAttachments = HasAccessToDownloadAttachments(isUserAssignedToCustomer),
                     CanRemoveAttachments = HasAccessToRemoveAttachments(isUserAssignedToCustomer),
                 }).FirstOrDefaultAsync();
+
+            GuardHelper.ThrowIf(account == null, new EntityNotFoundException(L("AccountNotExist")));
+
+            return account;
         }
 
         /// <summary>
@@ -272,9 +279,9 @@ namespace SBCRM.Crm
         /// <returns></returns>
         internal bool VerifyUserIsAssignedCustomer(string customerNumber = null)
         {
-            CustomerAttachmentCustomerLookupTableDto customer = _lookup_customerRepository.GetAll()
+            CustomerAttachmentPermissionsDto customer = _lookup_customerRepository.GetAll()
                 .WhereIf(customerNumber != null, x => x.Number == customerNumber)
-                .Select(customer => new CustomerAttachmentCustomerLookupTableDto
+                .Select(customer => new CustomerAttachmentPermissionsDto
                 {
                     Users = ObjectMapper.Map<List<AccountUserDto>>(customer.Users)
                 }).FirstOrDefault();

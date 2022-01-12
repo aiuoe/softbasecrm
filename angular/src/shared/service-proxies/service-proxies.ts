@@ -8059,8 +8059,8 @@ export class CustomerAttachmentsServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getCustomerForPermissions(customerNumber: string | undefined): Observable<CustomerAttachmentCustomerLookupTableDto> {
-        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetCustomerForPermissions?";
+    getWidgetPermissionsForCustomer(customerNumber: string | undefined): Observable<CustomerAttachmentPermissionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetWidgetPermissionsForCustomer?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
         else if (customerNumber !== undefined)
@@ -8076,20 +8076,20 @@ export class CustomerAttachmentsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetCustomerForPermissions(response_);
+            return this.processGetWidgetPermissionsForCustomer(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetCustomerForPermissions(<any>response_);
+                    return this.processGetWidgetPermissionsForCustomer(<any>response_);
                 } catch (e) {
-                    return <Observable<CustomerAttachmentCustomerLookupTableDto>><any>_observableThrow(e);
+                    return <Observable<CustomerAttachmentPermissionsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<CustomerAttachmentCustomerLookupTableDto>><any>_observableThrow(response_);
+                return <Observable<CustomerAttachmentPermissionsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetCustomerForPermissions(response: HttpResponseBase): Observable<CustomerAttachmentCustomerLookupTableDto> {
+    protected processGetWidgetPermissionsForCustomer(response: HttpResponseBase): Observable<CustomerAttachmentPermissionsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -8100,7 +8100,7 @@ export class CustomerAttachmentsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = CustomerAttachmentCustomerLookupTableDto.fromJS(resultData200);
+            result200 = CustomerAttachmentPermissionsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -8108,7 +8108,7 @@ export class CustomerAttachmentsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<CustomerAttachmentCustomerLookupTableDto>(<any>null);
+        return _observableOf<CustomerAttachmentPermissionsDto>(<any>null);
     }
 }
 
@@ -13843,8 +13843,8 @@ export class LeadAttachmentsServiceProxy {
      * @param leadId (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(leadId: number | undefined): Observable<LeadAttachmentLeadLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown?";
+    getWidgetPermissionsForLead(leadId: number | undefined): Observable<LeadAttachmentPermissionsDto> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetWidgetPermissionsForLead?";
         if (leadId === null)
             throw new Error("The parameter 'leadId' cannot be null.");
         else if (leadId !== undefined)
@@ -13860,20 +13860,20 @@ export class LeadAttachmentsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllLeadForTableDropdown(response_);
+            return this.processGetWidgetPermissionsForLead(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllLeadForTableDropdown(<any>response_);
+                    return this.processGetWidgetPermissionsForLead(<any>response_);
                 } catch (e) {
-                    return <Observable<LeadAttachmentLeadLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<LeadAttachmentPermissionsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<LeadAttachmentLeadLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<LeadAttachmentPermissionsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllLeadForTableDropdown(response: HttpResponseBase): Observable<LeadAttachmentLeadLookupTableDto[]> {
+    protected processGetWidgetPermissionsForLead(response: HttpResponseBase): Observable<LeadAttachmentPermissionsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -13884,14 +13884,7 @@ export class LeadAttachmentsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(LeadAttachmentLeadLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = LeadAttachmentPermissionsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13899,7 +13892,7 @@ export class LeadAttachmentsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<LeadAttachmentLeadLookupTableDto[]>(<any>null);
+        return _observableOf<LeadAttachmentPermissionsDto>(<any>null);
     }
 }
 
@@ -33653,78 +33646,6 @@ export interface ICustomerAccountTypeLookupTableDto {
     isDefault: boolean;
 }
 
-export class CustomerAttachmentCustomerLookupTableDto implements ICustomerAttachmentCustomerLookupTableDto {
-    number!: string | undefined;
-    name!: string | undefined;
-    users!: AccountUserDto[] | undefined;
-    canViewAttachments!: boolean;
-    canAddAttachments!: boolean;
-    canEditAttachments!: boolean;
-    canDownloadAttachments!: boolean;
-    canRemoveAttachments!: boolean;
-
-    constructor(data?: ICustomerAttachmentCustomerLookupTableDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.number = _data["number"];
-            this.name = _data["name"];
-            if (Array.isArray(_data["users"])) {
-                this.users = [] as any;
-                for (let item of _data["users"])
-                    this.users!.push(AccountUserDto.fromJS(item));
-            }
-            this.canViewAttachments = _data["canViewAttachments"];
-            this.canAddAttachments = _data["canAddAttachments"];
-            this.canEditAttachments = _data["canEditAttachments"];
-            this.canDownloadAttachments = _data["canDownloadAttachments"];
-            this.canRemoveAttachments = _data["canRemoveAttachments"];
-        }
-    }
-
-    static fromJS(data: any): CustomerAttachmentCustomerLookupTableDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CustomerAttachmentCustomerLookupTableDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["number"] = this.number;
-        data["name"] = this.name;
-        if (Array.isArray(this.users)) {
-            data["users"] = [];
-            for (let item of this.users)
-                data["users"].push(item.toJSON());
-        }
-        data["canViewAttachments"] = this.canViewAttachments;
-        data["canAddAttachments"] = this.canAddAttachments;
-        data["canEditAttachments"] = this.canEditAttachments;
-        data["canDownloadAttachments"] = this.canDownloadAttachments;
-        data["canRemoveAttachments"] = this.canRemoveAttachments;
-        return data; 
-    }
-}
-
-export interface ICustomerAttachmentCustomerLookupTableDto {
-    number: string | undefined;
-    name: string | undefined;
-    users: AccountUserDto[] | undefined;
-    canViewAttachments: boolean;
-    canAddAttachments: boolean;
-    canEditAttachments: boolean;
-    canDownloadAttachments: boolean;
-    canRemoveAttachments: boolean;
-}
-
 export class CustomerAttachmentDto implements ICustomerAttachmentDto {
     name!: string | undefined;
     filePath!: string | undefined;
@@ -33771,6 +33692,78 @@ export interface ICustomerAttachmentDto {
     filePath: string | undefined;
     customerNumber: string | undefined;
     id: number | undefined;
+}
+
+export class CustomerAttachmentPermissionsDto implements ICustomerAttachmentPermissionsDto {
+    number!: string | undefined;
+    name!: string | undefined;
+    users!: AccountUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
+
+    constructor(data?: ICustomerAttachmentPermissionsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(AccountUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
+        }
+    }
+
+    static fromJS(data: any): CustomerAttachmentPermissionsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerAttachmentPermissionsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
+        return data; 
+    }
+}
+
+export interface ICustomerAttachmentPermissionsDto {
+    number: string | undefined;
+    name: string | undefined;
+    users: AccountUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
 }
 
 export class CustomerCountryLookupTableDto implements ICustomerCountryLookupTableDto {
@@ -41926,7 +41919,7 @@ export interface ILeadAttachmentDto {
     id: number;
 }
 
-export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLookupTableDto {
+export class LeadAttachmentPermissionsDto implements ILeadAttachmentPermissionsDto {
     id!: number;
     displayName!: string | undefined;
     users!: LeadUserDto[] | undefined;
@@ -41936,7 +41929,7 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
     canDownloadAttachments!: boolean;
     canRemoveAttachments!: boolean;
 
-    constructor(data?: ILeadAttachmentLeadLookupTableDto) {
+    constructor(data?: ILeadAttachmentPermissionsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -41962,9 +41955,9 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
         }
     }
 
-    static fromJS(data: any): LeadAttachmentLeadLookupTableDto {
+    static fromJS(data: any): LeadAttachmentPermissionsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new LeadAttachmentLeadLookupTableDto();
+        let result = new LeadAttachmentPermissionsDto();
         result.init(data);
         return result;
     }
@@ -41987,7 +41980,7 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
     }
 }
 
-export interface ILeadAttachmentLeadLookupTableDto {
+export interface ILeadAttachmentPermissionsDto {
     id: number;
     displayName: string | undefined;
     users: LeadUserDto[] | undefined;
