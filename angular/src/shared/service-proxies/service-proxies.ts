@@ -38640,6 +38640,7 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
+    canViewAttachmentsWidget!: boolean;
 
     constructor(data?: IGetLeadForEditOutput) {
         if (data) {
@@ -38664,6 +38665,7 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
         }
     }
 
@@ -38688,6 +38690,7 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         return data; 
     }
 }
@@ -38705,6 +38708,7 @@ export interface IGetLeadForEditOutput {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
+    canViewAttachmentsWidget: boolean;
 }
 
 export class GetLeadForViewDto implements IGetLeadForViewDto {
@@ -38730,11 +38734,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
-    canViewAttachments!: boolean;
-    canAddAttachments!: boolean;
-    canEditAttachments!: boolean;
-    canRemoveAttachments!: boolean;
-    canDownloadAttachments!: boolean;
+    canViewAttachmentsWidget!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -38769,11 +38769,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
-            this.canViewAttachments = _data["canViewAttachments"];
-            this.canAddAttachments = _data["canAddAttachments"];
-            this.canEditAttachments = _data["canEditAttachments"];
-            this.canRemoveAttachments = _data["canRemoveAttachments"];
-            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
         }
     }
 
@@ -38808,11 +38804,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
-        data["canViewAttachments"] = this.canViewAttachments;
-        data["canAddAttachments"] = this.canAddAttachments;
-        data["canEditAttachments"] = this.canEditAttachments;
-        data["canRemoveAttachments"] = this.canRemoveAttachments;
-        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         return data; 
     }
 }
@@ -38840,11 +38832,7 @@ export interface IGetLeadForViewDto {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
-    canViewAttachments: boolean;
-    canAddAttachments: boolean;
-    canEditAttachments: boolean;
-    canRemoveAttachments: boolean;
-    canDownloadAttachments: boolean;
+    canViewAttachmentsWidget: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
