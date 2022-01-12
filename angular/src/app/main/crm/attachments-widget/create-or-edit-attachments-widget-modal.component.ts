@@ -38,6 +38,8 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
 
     private _uploaderOptions: FileUploaderOptions = {};
 
+    fileFlag = false;
+
     attachment: IAttachment = {} as IAttachment;
 
     constructor(
@@ -292,6 +294,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      * Closes this component
      */
     close(): void {
+        this.fileFlag = false;
         this.active = false;
         this.modal.hide();
     }
@@ -300,9 +303,9 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      * An event trigged when an attachment had changed
      * @param event 
      * @returns 
-     */
+     */ 
     fileChangeEvent(event: any): void {
-        const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf', 'docx'];
+        const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf', 'docx', 'ppt', 'pptx', 'xls', 'odt', 'txt', 'xlsm', 'csv', 'xlsx'];
         const selectedFile = event.target.files[0];
         const filename: string = selectedFile.name;
         const fileExtension: string = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
@@ -313,9 +316,21 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
             return;
         }
 
+        this.fileFlag = true;
         this.uploadFileInputLabel.nativeElement.innerText = filename;
         this.uploader.clearQueue();
         this.uploader.addToQueue([event.target.files[0]]);
+    }
+
+    /**
+     * This method verify if the "Upload" button is available or not
+     * @returns
+     */
+    validateUploadButton(): boolean {
+        if (this.attachment.name && this.attachment.name != '' && this.fileFlag) {
+            return false;
+        }
+        return true;
     }
 
     /**
