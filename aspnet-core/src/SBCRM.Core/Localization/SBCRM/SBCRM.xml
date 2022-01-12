@@ -767,7 +767,7 @@
 		<text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
 		<text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
 		<text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
-		<text name="CustomerAttachment_Warn_FileType">You can only select JPG/JPEG/PNG/GIF/DOC/PDF file. Please select another file.</text>
+		<text name="CustomerAttachment_Warn_FileType">You can only select JPG/JPEG/PNG/GIF/DOC/PDF/PPT PPTX/XLS/XLSX/ODT/TXT/XLSM/CSV file. Please select another file.</text>
 		<text name="Dashboard">Dashboard</text>
 		<text name="DashboardHeaderInfo">statistics and reports</text>
 		<text name="GoToApplication">Go to application</text>

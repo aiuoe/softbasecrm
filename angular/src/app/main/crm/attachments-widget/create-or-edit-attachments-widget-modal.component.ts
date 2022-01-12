@@ -300,9 +300,9 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      * An event trigged when an attachment had changed
      * @param event 
      * @returns 
-     */
+     */ 
     fileChangeEvent(event: any): void {
-        const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf', 'docx'];
+        const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf', 'docx', 'ppt', 'pptx', 'xls', 'odt', 'txt', 'xlsm', 'csv', 'xlsx'];
         const selectedFile = event.target.files[0];
         const filename: string = selectedFile.name;
         const fileExtension: string = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
