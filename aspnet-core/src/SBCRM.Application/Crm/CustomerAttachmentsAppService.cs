@@ -249,7 +249,7 @@ namespace SBCRM.Crm
         {
             var isUserAssignedToCustomer = false;
             if (customerNumber != null)
-                isUserAssignedToCustomer = VerifyUserIsAssignedLead(customerNumber);
+                isUserAssignedToCustomer = VerifyUserIsAssignedCustomer(customerNumber);
 
             return await _lookup_customerRepository.GetAll()
                 .WhereIf(customerNumber != null, x => x.Number == customerNumber)
@@ -270,7 +270,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
-        internal bool VerifyUserIsAssignedLead(string customerNumber = null)
+        internal bool VerifyUserIsAssignedCustomer(string customerNumber = null)
         {
             CustomerAttachmentCustomerLookupTableDto customer = _lookup_customerRepository.GetAll()
                 .WhereIf(customerNumber != null, x => x.Number == customerNumber)
@@ -299,7 +299,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Check whether the current user can add attachments Leads.
+        /// Check whether the current user can add attachments Customers.
         /// </summary>
         /// <returns>True or False</returns>
         internal bool HasAccessToAddAttachments(bool isUserAssignedToCustomer)
@@ -313,7 +313,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Check whether the current user can edit attachments Leads.
+        /// Check whether the current user can edit attachments Customers.
         /// </summary>
         /// <returns>True or False</returns>
         internal bool HasAccessToEditAttachments(bool isUserAssignedToCustomer)
@@ -327,7 +327,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Check whether the current user can download attachments Leads.
+        /// Check whether the current user can download attachments Customers.
         /// </summary>
         /// <returns>True or False</returns>
         internal bool HasAccessToDownloadAttachments(bool isUserAssignedToCustomer)
@@ -341,7 +341,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Check whether the current user can remove attachments Leads.
+        /// Check whether the current user can remove attachments Customers.
         /// </summary>
         /// <returns>True or False</returns>
         internal bool HasAccessToRemoveAttachments(bool isUserAssignedToCustomer)
