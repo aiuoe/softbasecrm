@@ -20,7 +20,7 @@
                                 #dataTable
                                 (onLazyLoad)="loadDataTable($event)"
                                 [value]="primengTableHelper.records"
-                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                rows="{{ primengTableHelper.defaultRecordsCountPerPageForWidget }}"
                                 [paginator]="false"
                                 [lazy]="true"
                                 [scrollable]="true"
@@ -53,15 +53,15 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
                                                         <a href="javascript:;"
-                                                            *ngIf="canViewAttachments"   
+                                                            *ngIf="canViewAttachments"
                                                             class="dropdown-item"
                                                             (click)="viewAttachmentsWidgetModal.show(record)">
                                                             {{ l('View') }}
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="javascript:;"  
-                                                            *ngIf="canEditAttachments"                                                          
+                                                        <a href="javascript:;"
+                                                            *ngIf="canEditAttachments"
                                                             class="dropdown-item"
                                                             (click)="createOrEditAttachmentsWidgetModal.show(record)">
                                                             {{ l('Edit') }}
@@ -83,16 +83,16 @@
                                             {{ record.name }}
                                         </td>
                                         <td style="width: 150px" *ngIf="canDownloadAttachments">
-                                            <button type="button"                                                 
-                                                (click)="downloadAttachment(record)" 
-                                                class="btn btn-link text-left"> 
+                                            <button type="button"
+                                                (click)="downloadAttachment(record)"
+                                                class="btn btn-link text-left">
                                                 <span class="p-column-title">{{ l('FilePath') }}</span>
-                                                {{ record.filePath }}                                               
-                                            </button>                                            
+                                                {{ record.filePath }}
+                                            </button>
                                         </td>
                                         <td style="width: 150px" *ngIf="!canDownloadAttachments">
                                             <span class="p-column-title">{{ l('FilePath') }}</span>
-                                                {{ record.filePath }}                                                                                          
+                                                {{ record.filePath }}
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="primeng-paging-container">
                                 <p-paginator
-                                    [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                    [rows]="primengTableHelper.defaultRecordsCountPerPageForWidget"
                                     #paginator
                                     (onPageChange)="loadDataTable($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"

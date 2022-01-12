@@ -20,7 +20,7 @@
                             <p-table #dataTable
                                      (onLazyLoad)="getCustomerContacts($event)"
                                      [value]="primengTableHelper.records"
-                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     rows="{{ primengTableHelper.defaultRecordsCountPerPageForWidget }}"
                                      [paginator]="false"
                                      [lazy]="true"
                                      [scrollable]="true"
@@ -75,7 +75,7 @@
                                 {{l('NoData')}}
                             </div>
                             <div class="primeng-paging-container">
-                                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPageForWidget"
                                              #paginator
                                              (onPageChange)="getCustomerContacts($event)"
                                              [totalRecords]="primengTableHelper.totalRecordsCount"

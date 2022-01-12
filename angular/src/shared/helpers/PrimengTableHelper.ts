@@ -7,6 +7,7 @@ export class PrimengTableHelper {
     predefinedRecordsCountPerPage = [5, 10, 30, 50, 100, 250, 500];
 
     defaultRecordsCountPerPage = 30;
+    defaultRecordsCountPerPageForWidget = 5;
 
     isResponsive = true;
 
