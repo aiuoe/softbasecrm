@@ -148,61 +148,61 @@ export class AppNavigationService {
                         '',
                         '/app/admin/tenantSettings'
                     ),
-                    new AppMenuItem(
-                        'OrganizationUnits',
-                        'Pages.Administration.OrganizationUnits',
-                        '',
-                        '/app/admin/organization-units'
-                    ),
-                    new AppMenuItem(
-                        'AuditLogs',
-                        'Pages.Administration.AuditLogs',
-                        '',
-                        '/app/admin/auditLogs'
-                    ),
-                    new AppMenuItem(
-                        'Maintenance',
-                        'Pages.Administration.Host.Maintenance',
-                        '',
-                        '/app/admin/maintenance'
-                    ),
-                    new AppMenuItem(
-                        'Subscription',
-                        'Pages.Administration.Tenant.SubscriptionManagement',
-                        '',
-                        '/app/admin/subscription-management'
-                    ),
-                    new AppMenuItem(
-                        'VisualSettings',
-                        'Pages.Administration.UiCustomization',
-                        '',
-                        '/app/admin/ui-customization'
-                    ),
-                    new AppMenuItem(
-                        'WebhookSubscriptions',
-                        'Pages.Administration.WebhookSubscription',
-                        '',
-                        '/app/admin/webhook-subscriptions'
-                    ),
-                    new AppMenuItem(
-                        'DynamicProperties',
-                        'Pages.Administration.DynamicProperties',
-                        '',
-                        '/app/admin/dynamic-property'
-                    ),
-                    new AppMenuItem(
-                        'Settings',
-                        'Pages.Administration.Host.Settings',
-                        '',
-                        '/app/admin/hostSettings'
-                    ),
-                    new AppMenuItem(
-                        'Languages',
-                        'Pages.Administration.Languages',
-                        '',
-                        '/app/admin/languages',
-                        ['/app/admin/languages/{name}/texts']
-                    )
+                    // new AppMenuItem(
+                    //     'OrganizationUnits',
+                    //     'Pages.Administration.OrganizationUnits',
+                    //     '',
+                    //     '/app/admin/organization-units'
+                    // ),
+                    // new AppMenuItem(
+                    //     'AuditLogs',
+                    //     'Pages.Administration.AuditLogs',
+                    //     '',
+                    //     '/app/admin/auditLogs'
+                    // ),
+                    // new AppMenuItem(
+                    //     'Maintenance',
+                    //     'Pages.Administration.Host.Maintenance',
+                    //     '',
+                    //     '/app/admin/maintenance'
+                    // ),
+                    // new AppMenuItem(
+                    //     'Subscription',
+                    //     'Pages.Administration.Tenant.SubscriptionManagement',
+                    //     '',
+                    //     '/app/admin/subscription-management'
+                    // ),
+                    // new AppMenuItem(
+                    //     'VisualSettings',
+                    //     'Pages.Administration.UiCustomization',
+                    //     '',
+                    //     '/app/admin/ui-customization'
+                    // ),
+                    // new AppMenuItem(
+                    //     'WebhookSubscriptions',
+                    //     'Pages.Administration.WebhookSubscription',
+                    //     '',
+                    //     '/app/admin/webhook-subscriptions'
+                    // ),
+                    // new AppMenuItem(
+                    //     'DynamicProperties',
+                    //     'Pages.Administration.DynamicProperties',
+                    //     '',
+                    //     '/app/admin/dynamic-property'
+                    // ),
+                    // new AppMenuItem(
+                    //     'Settings',
+                    //     'Pages.Administration.Host.Settings',
+                    //     '',
+                    //     '/app/admin/hostSettings'
+                    // ),
+                    // new AppMenuItem(
+                    //     'Languages',
+                    //     'Pages.Administration.Languages',
+                    //     '',
+                    //     '/app/admin/languages',
+                    //     ['/app/admin/languages/{name}/texts']
+                    // )
                 ])
         ]);
     }
