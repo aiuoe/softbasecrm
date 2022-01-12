@@ -5,7 +5,7 @@ namespace SBCRM.Crm.Dtos
 {
 
     /// <summary>
-    /// Model to list the customers for lookup table
+    /// Model to list the customer for widget permissions
     /// </summary>
     public class CustomerAttachmentPermissionsDto
     {

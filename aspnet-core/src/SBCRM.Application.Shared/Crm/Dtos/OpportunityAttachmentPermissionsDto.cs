@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SBCRM.Crm.Dtos
 {
+    /// <summary>
+    /// Model to list the opportunity for widget permissions
+    /// </summary>
     public class OpportunityAttachmentPermissionsDto
     {
         public int Id { get; set; }
