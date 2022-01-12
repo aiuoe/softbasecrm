@@ -2,10 +2,11 @@ import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AccountActivitiesServiceProxy, ActivityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AccountActivitiesServiceProxy, ActivityActivityTaskTypeLookupTableDto, ActivityDto, LeadActivitiesServiceProxy, OpportunityActivitiesServiceProxy, GetActivityForViewDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
+import { forkJoin, Observable } from 'rxjs';
 import { CreateOrEditActivityWidgetModalComponent } from './create-or-edit-activity-widget-modal.component';
 
 /**
@@ -47,6 +48,8 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   activityStatusDescriptionFilter = '';
   activityPriorityDescriptionFilter = '';
   customerNameFilter = '';
+  
+  allActivityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
 
   /**
    * 
@@ -69,19 +72,28 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
    * Handles the data to populate on the table
    */
   loadDataTable(event?: LazyLoadEvent){
+    const requests: Observable<any>[] = [];
+
     switch(this.componentType){
       case 'Lead':
         this.getAllActivitiesForLead(event);
+        requests.push(this._leadActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown());
         break;
 
       case 'Account':
         this.getAllActivitiesForAccount(event);
+        requests.push(this._accountActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown());
         break;
       
       case 'Opportunity':
         this.getAllActivitiesForOpportunity(event);
+        requests.push(this._opportunityActivitiesServiceProxy.getAllActivityTaskTypeForTableDropdown());
         break;
     }
+
+    forkJoin([...requests]).subscribe(([activityTaskTypes]: [ActivityActivityTaskTypeLookupTableDto[]]) => {
+      this.allActivityTaskTypes = activityTaskTypes;
+    });
   }
 
 /**
@@ -241,5 +253,23 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
   reloadPage(): void {
     this.paginator.changePage(this.paginator.getPage());
   }
+
+  /**
+   * Check whether an activity is a reminder type or not.
+   * @param item the Activity item
+   * @returns True if the Activty item is a reminder type, otherwise False.
+   */
+  isReminderTypeActivity(item: GetActivityForViewDto): boolean {
+    if (!this.allActivityTaskTypes || this.allActivityTaskTypes.length == 0) {
+        return false;
+    }
+
+    const ACTIVITY_TYPE_CODE = this.allActivityTaskTypes.find((x) => x.id == item.activity.activityTaskTypeId)?.code || '';
+
+    return (
+        ACTIVITY_TYPE_CODE == ActivityTaskType.EMAIL_REMINDER ||
+        ACTIVITY_TYPE_CODE == ActivityTaskType.TODO_REMINDER
+    );
+}
 
 }

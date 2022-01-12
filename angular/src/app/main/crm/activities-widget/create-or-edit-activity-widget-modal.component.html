@@ -20,7 +20,7 @@
                                     <input
                                         required
                                         class="form-control m-input"
-                                        #Activity_DueDate
+                                        #Activity_DueDate="ngModel"
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
@@ -51,11 +51,10 @@
                                         required
                                         styleClass="d-flex"
                                         inputStyleClass="form-control m-input"
-                                        #Activity_Starts_At
-                                        [(ngModel)]="selectedTime"
+                                        #Activity_Starts_At="ngModel"
+                                        [(ngModel)]="selectedDate"
                                         [timeOnly]="true"
                                         hourFormat="12"
-                                        dataType="string"
                                         id="Activity_Starts_At"
                                         name="Activity_Starts_At"
                                         [disabled] = "isView"
@@ -164,7 +163,7 @@
                                     <input
                                         required
                                         class="form-control m-input"
-                                        #Activity_DueDate
+                                        #Activity_DueDate="ngModel"
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
@@ -195,11 +194,10 @@
                                         required
                                         styleClass="d-flex"
                                         inputStyleClass="form-control m-input"
-                                        #Activity_Starts_At
-                                        [(ngModel)]="selectedTime"
+                                        #Activity_Starts_At="ngModel"
+                                        [(ngModel)]="selectedDate"
                                         [timeOnly]="true"
                                         hourFormat="12"
-                                        dataType="string"
                                         id="Activity_Starts_At"
                                         name="Activity_Starts_At"
                                         [disabled] = "isView"
@@ -308,7 +306,7 @@
                                     <input
                                         required
                                         class="form-control m-input"
-                                        #Activity_DueDate
+                                        #Activity_DueDate="ngModel"
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
@@ -410,7 +408,7 @@
                                     <input
                                         required
                                         class="form-control m-input"
-                                        #Activity_DueDate
+                                        #Activity_DueDate="ngModel"
                                         type="datetime"
                                         bsDatepicker
                                         datePickerLuxonModifier
