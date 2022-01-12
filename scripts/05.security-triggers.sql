@@ -62,6 +62,48 @@ END;
 GO
 
 
+
+/***************************************************************************************************
+Procedure:          dbo.SecureDelete
+Author:             Webcreek
+Description:        Trigger removes a user from the web.AbpUsers table after it is removed from the dbo.Secure table
+****************************************************************************************************
+SUMMARY OF CHANGES
+Date(yyyy-mm-dd)    Author              Comments
+------------------- ------------------- ------------------------------------------------------------
+2021-12-30          Webcreek            Creation
+***************************************************************************************************/
+CREATE OR ALTER TRIGGER SecureDelete
+    on dbo.Secure
+    AFTER DELETE
+    AS
+BEGIN
+    BEGIN TRY
+        DECLARE @EmpID INT;
+        SELECT @EmpID = deleted.EmployeeNo FROM deleted;
+        UPDATE web.AbpUsers SET IsDeleted = 1 WHERE UserName = CAST(@EmpID as varchar(256));
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRAN
+
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        DECLARE @ErrorSeverity INT;
+        DECLARE @ErrorState INT;
+
+        SELECT @ErrorMessage = ERROR_MESSAGE(),
+               @ErrorSeverity = ERROR_SEVERITY(),
+               @ErrorState = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH
+END;
+
+GO
+
+
+
+
 /***************************************************************************************************
 Procedure:          dbo.PersonUpdate
 Author:             Webcreek
@@ -96,3 +138,5 @@ BEGIN
                   ELSE 0
                   END) = @user_number
 END
+
+
