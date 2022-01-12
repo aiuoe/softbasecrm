@@ -207,6 +207,18 @@ namespace SBCRM.Authorization
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events, L("CustomerViewEvents"));
             customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Events__Dynamic, L("CustomerViewEventsDynamic"));
 
+            var CustomerViewAttachments = leads.CreateChildPermission(AppPermissions.Pages_Customer_View_Attachments, L("ViewCustomerAttachments"));
+            CustomerViewAttachments.CreateChildPermission(AppPermissions.Pages_Customer_Add_Attachments, L("AddCustomerAttachments"));
+            CustomerViewAttachments.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Attachments, L("EditCustomerAttachments"));
+            CustomerViewAttachments.CreateChildPermission(AppPermissions.Pages_Customer_Download_Attachments, L("DownloadCustomerAttachments"));
+            CustomerViewAttachments.CreateChildPermission(AppPermissions.Pages_Customer_Remove_Attachments, L("RemoveCustomerAttachments"));
+
+            var CustomerAttachmentsDynamic = leads.CreateChildPermission(AppPermissions.Pages_Customer_View_Attachments__Dynamic, L("ViewCustomerAttachments__Dynamic"));
+            CustomerAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Customer_Add_Attachments__Dynamic, L("AddCustomerAttachments"));
+            CustomerAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Attachments__Dynamic, L("EditCustomerAttachments"));
+            CustomerAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Customer_Download_Attachments__Dynamic, L("DownloadCustomerAttachments"));
+            CustomerAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Customer_Remove_Attachments__Dynamic, L("RemoveCustomerAttachments"));
+
             var accountOpportunitiesDynamic = customer.CreateChildPermission(AppPermissions.Pages_Customer_View_Opportunities__Dynamic, L("CustomerViewOpportunitiesDynamic"));
             accountOpportunitiesDynamic.CreateChildPermission(AppPermissions.Pages_Customer_Add_Opportunity__Dynamic, L("CustomerAddOpportunityDynamic"));
             accountOpportunitiesDynamic.CreateChildPermission(AppPermissions.Pages_Customer_Edit_Opportunity__Dynamic, L("CustomerEditOpportunityDynamic"));

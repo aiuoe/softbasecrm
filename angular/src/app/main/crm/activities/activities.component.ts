@@ -199,7 +199,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 let momentPipe = new MomentFormatPipe(window.navigator.language);
                 result.items.forEach((result, i) => {
                     const eventObject = {
-                        title: result.userName,
+                        title: result.activity.userId? result.userName : this.l('NotAssigned'),
                         allDay: true,
                         start: momentPipe.transform(result.activity.startsAt),
                         // end: result.activity.dueDate.toString(),
