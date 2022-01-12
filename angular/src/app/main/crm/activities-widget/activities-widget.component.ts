@@ -1,6 +1,7 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { ActivitySourceType, ActivityTaskType } from '@shared/AppEnums';
+import { ActivityTaskType } from '@shared/AppEnums';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import {
     AccountActivitiesServiceProxy,
@@ -8,7 +9,7 @@ import {
     ActivityDto,
     LeadActivitiesServiceProxy,
     OpportunityActivitiesServiceProxy,
-    GetActivityForViewDto
+    GetActivityForViewDto,
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
@@ -23,13 +24,12 @@ import { CreateOrEditActivityWidgetModalComponent } from './create-or-edit-activ
     selector: 'app-activities-widget',
     templateUrl: './activities-widget.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()]
+    animations: [appModuleAnimation()],
 })
 export class ActivitiesWidgetComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     @ViewChild('createActivityModal', { static: true }) createActivityModal: CreateOrEditActivityWidgetModalComponent;
-
 
     @Input() componentType = '';
     @Input() idToStore: any;
@@ -62,18 +62,20 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
      *
      * @param injector Constructor
      */
-    constructor(injector: Injector,
-                private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
-                private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy,
-                private _opportunityActivitiesServiceProxy: OpportunityActivitiesServiceProxy) {
+    constructor(
+        injector: Injector,
+        private _activitySharedService: ActivitySharedService,
+        private _accountActivitiesServiceProxy: AccountActivitiesServiceProxy,
+        private _leadActivitiesServiceProxy: LeadActivitiesServiceProxy,
+        private _opportunityActivitiesServiceProxy: OpportunityActivitiesServiceProxy
+    ) {
         super(injector);
     }
 
     /**
      * NgOninit event
      */
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
     /***
      * Handles the data to populate on the table
@@ -116,27 +118,28 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._leadActivitiesServiceProxy.getAll(
-            this.filterText,
-            this.opportunityNameFilter,
-            this.leadCompanyNameFilter,
-            this.userNameFilter,
-            '',
-            '',
-            '',
-            '',
-            this.customerNameFilter,
-            this.idToStore,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        this._leadActivitiesServiceProxy
+            .getAll(
+                this.filterText,
+                this.opportunityNameFilter,
+                this.leadCompanyNameFilter,
+                this.userNameFilter,
+                '',
+                '',
+                '',
+                '',
+                this.customerNameFilter,
+                this.idToStore,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
     }
-
 
     /**
      * Gets all the activities connected to an specific Account
@@ -151,25 +154,27 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._accountActivitiesServiceProxy.getAll(
-            this.filterText,
-            this.opportunityNameFilter,
-            this.leadCompanyNameFilter,
-            this.userNameFilter,
-            '',
-            '',
-            '',
-            '',
-            this.customerNameFilter,
-            this.idToStore,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        this._accountActivitiesServiceProxy
+            .getAll(
+                this.filterText,
+                this.opportunityNameFilter,
+                this.leadCompanyNameFilter,
+                this.userNameFilter,
+                '',
+                '',
+                '',
+                '',
+                this.customerNameFilter,
+                this.idToStore,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
     }
 
     /**
@@ -185,25 +190,27 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._opportunityActivitiesServiceProxy.getAll(
-            this.filterText,
-            this.opportunityNameFilter,
-            this.leadCompanyNameFilter,
-            this.userNameFilter,
-            '',
-            '',
-            '',
-            '',
-            this.customerNameFilter,
-            this.idToStore,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        this._opportunityActivitiesServiceProxy
+            .getAll(
+                this.filterText,
+                this.opportunityNameFilter,
+                this.leadCompanyNameFilter,
+                this.userNameFilter,
+                '',
+                '',
+                '',
+                '',
+                this.customerNameFilter,
+                this.idToStore,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items;
+                this.primengTableHelper.hideLoadingIndicator();
+            });
     }
 
     /**
@@ -267,16 +274,6 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
      * @returns True if the Activty item is a reminder type, otherwise False.
      */
     isReminderTypeActivity(item: GetActivityForViewDto): boolean {
-        if (!this.allActivityTaskTypes || this.allActivityTaskTypes.length == 0) {
-            return false;
-        }
-
-        const ACTIVITY_TYPE_CODE = this.allActivityTaskTypes.find((x) => x.id == item.activity.activityTaskTypeId)?.code || '';
-
-        return (
-            ACTIVITY_TYPE_CODE == ActivityTaskType.EMAIL_REMINDER ||
-            ACTIVITY_TYPE_CODE == ActivityTaskType.TODO_REMINDER
-        );
+        return this._activitySharedService.isReminderTypeActivity(this.allActivityTaskTypes, item.activity);
     }
-
 }

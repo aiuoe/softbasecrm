@@ -334,7 +334,11 @@
                                                     'text-danger': record.isPastDue
                                                 }"
                                             >
-                                                {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
+                                                {{
+                                                    isReminderTypeActivity(record.activity)
+                                                        ? (record.activity.dueDate | date: 'MM/dd/yyyy')
+                                                        : (record.activity.startsAt | date: 'MM/dd/yyyy hh:mm a')
+                                                }}
                                             </span>
                                             <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>
