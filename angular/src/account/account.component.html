@@ -2,8 +2,8 @@
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
         <div class="login-aside d-flex flex-column flex-row-auto" *ngIf="!useFullWidthLayout()">
             <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
-                <a (click)="goToHome()" href="" class="text-center mb-10">
-                    <img [src]="appRootUrl() + 'assets/crm/common/images/login/logo.svg'" alt="logo" class="max-h-70px" />
+                <a (click)="goToHome()" href="" class="text-center mb-10 logoPosition">
+                    <img [src]="appRootUrl() + 'assets/crm/common/images/login/logo.svg'" alt="logo" class="max-h-100px" />
                 </a>
                 <!-- <h5 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" >
                     CRM Portal
@@ -14,11 +14,13 @@
                 style="background-image: url(/assets/metronic/assets/media/svg/illustrations/login-visual-1.svg)"
             ></div> -->
             <div class="account-header d-flex flex-column-auto flex-column pt-lg-40 pt-15">
-                <h1 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg">
+                <h1 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg headerText">
                     {{ 'AccountHeader' | localize }} 
                 </h1>
-                <span class="text-center">
-                    {{ 'AcountSubheader' | localize }} 
+                <span class="text-center subHeaderText">
+                    {{ 'AcountSubheaderPart1' | localize }} 
+                    <br>
+                    {{ 'AcountSubheaderPart2' | localize }} 
                 </span>
             </div>
         </div>
