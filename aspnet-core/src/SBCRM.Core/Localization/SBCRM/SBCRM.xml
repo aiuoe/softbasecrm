@@ -1,16 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <localizationDictionary culture="en">
 	<texts>
-
+		<text name="DashboardAverageSalesCycle">Average Sales Cycle (Days)</text>
+		<text name="DashboardAverageSalesCycleInfo">The average days from the start date to the closed date of an opportunity.</text>
+		<text name="DashboardCloseRate">Close Rate</text>
+		<text name="DashboardCloseRateInfo">The closed rate on won opportunities to lost opportunities.</text>
+		<text name="DashboardAverageDealSize">Average Deal Size</text>
+		<text name="DashboardAverageDealSizeInfo">The average amount for all won opportunities.</text>
+		<text name="DashboardTotalClosedSales">Total Closed Sales</text>
+		<text name="DashboardTotalClosedSalesInfo">The total amount for all won opportunities.</text>
 		<text name="AttachmentUploaded">Attachment uploaded</text>
-	    <text name="OpportunityAttachment">Opportunity attachment</text>
+		<text name="OpportunityAttachment">Opportunity attachment</text>
 		<text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
 		<text name="EditOpportunityAttachment">Edit opportunity attachment</text>
 		<text name="DeleteOpportunityAttachment">Delete opportunity attachment</text>
-		
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
-		
 		<text name="ViewLeadAttachments">View Lead Attachments on All Leads</text>
 		<text name="ViewLeadAttachments__Dynamic">View Lead Attachments if user is assigned to Lead</text>
 		<text name="AddLeadAttachments">Add Lead Attachments</text>
@@ -20,10 +26,8 @@
 		<text name="CreateNewLeadAttachment">Create new lead attachment</text>
 		<text name="EditLeadAttachment">Edit lead attachment</text>
 		<text name="DeleteLeadAttachment">Delete lead attachment</text>
-	
 		<text name="UpdateSuccessfully">Successfully updated.</text>
 		<text name="DashboardKPIWidget">KPI Widget</text>
-		
 		<text name="LatestOpportunities">Latest Opportunities</text>
 		<text name="EmailOrPhoneRequired">Email or Phone should be provided</text>
 		<text name="FilterByPriority">Filter by Priority</text>
@@ -38,17 +42,15 @@
 		<text name="EditCustomerAttachment">Edit customer attachment</text>
 		<text name="DeleteCustomerAttachment">Delete customer attachment</text>
 		<text name="CustomerAttachments">Customer attachments</text>
-
 		<text name="OpportunityViewAllOpportunties__Dynamic">Access to all Opportunities</text>
-        <text name="CustomerScheduleMeeting">Schedule meeting</text>
-        <text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>
-        <text name="CustomerScheduleCall">Schedule call</text>
-        <text name="CustomerScheduleCall__Dynamic">Schedule Call if user is assigned to the Account</text>
-        <text name="CustomerEmailReminder">Email reminder </text>
-        <text name="CustomerEmailReminder__Dynamic">Create Email Reminder if user is assigned to the Account</text>
-        <text name="CustomerToDoReminder">To Do Reminder</text>
-        <text name="CustomerToDoReminder__Dynamic">Create To Do Reminder if user is assigned to the Account</text>
-		
+		<text name="CustomerScheduleMeeting">Schedule meeting</text>
+		<text name="CustomerScheduleMeeting__Dynamic">Schedule Meeting if user is assigned to the Account</text>
+		<text name="CustomerScheduleCall">Schedule call</text>
+		<text name="CustomerScheduleCall__Dynamic">Schedule Call if user is assigned to the Account</text>
+		<text name="CustomerEmailReminder">Email reminder </text>
+		<text name="CustomerEmailReminder__Dynamic">Create Email Reminder if user is assigned to the Account</text>
+		<text name="CustomerToDoReminder">To Do Reminder</text>
+		<text name="CustomerToDoReminder__Dynamic">Create To Do Reminder if user is assigned to the Account</text>
 		<text name="ScheduleCall">Schedule Call</text>
 		<text name="ScheduleMeeting">Schedule Meeting</text>
 		<text name="EmailReminder">Email Reminder</text>
@@ -1804,18 +1806,18 @@
 		<text name="Pages.Activities.View_AssignedUserFilter">Show Assigned Users filter in Summary Grid</text>
 		<text name="Pages.Activities.Create.Assign_Other_Users__Dynamic">Assign other Users</text>
 		<text name="Pages.Activities.Create.View_All_Accounts_Leads_Opportunities__Dynamic">View All Accounts, Leads and Opportunities</text>
-    <text name="Pages.Customer.ViewActivitiesOfAllUsers">View activities of all users</text>
-    <text name="Pages.Customer.AssignActivityToAnyUsers">Assign activities to any user</text>
-    <text name="Pages.Customer.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
-    <text name="Pages.Customer.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
-    <text name="Pages.Opportunities.ViewActivitiesOfAllUsers">View activities of all users</text>
-    <text name="Pages.Opportunities.AssignActivityToAnyUsers">Assign activities to any user</text>
-    <text name="Pages.Opportunities.CreateActivities__Dynamic">Create new activity only if user is assigned to the Opportunity</text>
-    <text name="Pages.Opportunities.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
-    <text name="Pages.Leads.ViewActivitiesOfAllUsers">View activities of all users</text>
-    <text name="Pages.Leads.AssignActivityToAnyUsers">Assign activities to any user</text>
-    <text name="Pages.Leads.CreateActivities__Dynamic">Create new activity only if user is assigned to the Lead</text>
-    <text name="Pages.Leads.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
+		<text name="Pages.Customer.ViewActivitiesOfAllUsers">View activities of all users</text>
+		<text name="Pages.Customer.AssignActivityToAnyUsers">Assign activities to any user</text>
+		<text name="Pages.Customer.CreateActivities__Dynamic">Create new activity only if user is assigned to the Account</text>
+		<text name="Pages.Customer.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
+		<text name="Pages.Opportunities.ViewActivitiesOfAllUsers">View activities of all users</text>
+		<text name="Pages.Opportunities.AssignActivityToAnyUsers">Assign activities to any user</text>
+		<text name="Pages.Opportunities.CreateActivities__Dynamic">Create new activity only if user is assigned to the Opportunity</text>
+		<text name="Pages.Opportunities.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
+		<text name="Pages.Leads.ViewActivitiesOfAllUsers">View activities of all users</text>
+		<text name="Pages.Leads.AssignActivityToAnyUsers">Assign activities to any user</text>
+		<text name="Pages.Leads.CreateActivities__Dynamic">Create new activity only if user is assigned to the Lead</text>
+		<text name="Pages.Leads.EditActivities__Dynamic">Edit Activity (Only assigned to User)</text>
 		<text name="FifteenMinutes">15 Minutes</text>
 		<text name="ThirtyMinutes">30 Minutes</text>
 		<text name="OneHour">1 Hour (default)</text>
