@@ -93,7 +93,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
                 this.allUsers = result;
             });
     }
-     
+
     /***
      * Get customers
      * @param event
@@ -158,7 +158,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
      * Go to create customer page
      */
     createCustomer(): void {
-        this._router.navigate(['/app/main/business/accounts/createOrEdit']);
+        this._router.navigate(['/app/main/crm/accounts/createOrEdit']);
     }
 
     /***
@@ -178,7 +178,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
 
     /**
    * Opens modal to create an activity given an activity type for Schedule Call
-   * @param activityType 
+   * @param activityType
    */
     createActivityScheduleCallHandler(idAccountToStore: string){
         this.idAccountToStore = idAccountToStore
@@ -188,7 +188,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
 
     /**
      * Opens modal to create an activity given an activity type - for Schedule Meeting
-     * @param activityType 
+     * @param activityType
      */
     createActivityScheduleMeetingHandler(idAccountToStore: string){
         this.idAccountToStore = idAccountToStore
@@ -198,7 +198,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
 
     /**
      * Opens modal to create an activity given an activity type - for Email Reminder
-     * @param activityType 
+     * @param activityType
      */
     createActivityEmailReminderHandler(idAccountToStore: string){
         this.idAccountToStore = idAccountToStore
@@ -208,7 +208,7 @@ export class CustomersComponent extends AppComponentBase implements OnInit {
 
     /**
      * Opens modal to create an activity given an activity type - for To-Do Reminder
-     * @param activityType 
+     * @param activityType
      */
     createActivityToDoReminderHandler(idAccountToStore: string){
         this.idAccountToStore = idAccountToStore

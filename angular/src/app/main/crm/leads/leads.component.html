@@ -90,7 +90,7 @@
                                                 display="chip"
                                                 [style]="{'width':'100%'}"
                                                 [emptyMessage]="l('NoRecordsFound')"
-                                                [virtualScroll]="true"
+                                                [virtualScroll]="allUsers?.length > 10"
                                             >
                                             </p-multiSelect>
                                         </div>
@@ -109,6 +109,7 @@
                                                 optionLabel="displayName"
                                                 [placeholder]="l('FilterByStatus')"
                                                 (onChange)="getLeads($event)"
+                                                [virtualScroll]="leadStatuses?.length > 10"
                                             >
                                             </p-dropdown>
                                         </div>
@@ -127,7 +128,7 @@
                                                 optionLabel="displayName"
                                                 [placeholder]="l('FilterByPriority')"
                                                 (onChange)="getLeads($event)"
-                                                [virtualScroll]="true"
+                                                [virtualScroll]="priorities?.length > 10"
                                             >
                                             </p-dropdown>
                                         </div>
@@ -289,42 +290,42 @@
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleMeetingOption"
-                                                            class="dropdown-item" 
-                                                            (click) = "createActivityScheduleMeetingHandler(record.lead.id)"                                                          
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityScheduleMeetingHandler(record.lead.id)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ScheduleMeeting') }}
-                                                        </span>                                                            
+                                                        </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleCallOption"
                                                             class="dropdown-item"
-                                                            (click) = "createActivityScheduleCallHandler(record.lead.id)"                                                            
+                                                            (click) = "createActivityScheduleCallHandler(record.lead.id)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ScheduleCall') }}
-                                                        </span>                                                            
+                                                        </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewEmailReminderOption"
-                                                            class="dropdown-item" 
-                                                            (click) = "createActivityEmailReminderHandler(record.lead.id)"                                                            
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityEmailReminderHandler(record.lead.id)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('EmailReminder') }}
                                                         </span>
-                                                            
+
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewToDoReminderOption"
-                                                            class="dropdown-item"    
-                                                            (click) = "createActivityToDoReminderHandler(record.lead.id)"                                                         
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityToDoReminderHandler(record.lead.id)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ToDoReminder') }}
