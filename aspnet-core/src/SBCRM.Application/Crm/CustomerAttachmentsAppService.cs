@@ -240,12 +240,12 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get a list of customers
+        /// Get a customers
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Customer)]
-        public async Task<List<CustomerAttachmentCustomerLookupTableDto>> GetAllCustomerForTableDropdown(string customerNumber = null)
+        public async Task<CustomerAttachmentCustomerLookupTableDto> GetCustomerForPermissions(string customerNumber = null)
         {
             var isUserAssignedToCustomer = false;
             if (customerNumber != null)
@@ -262,7 +262,7 @@ namespace SBCRM.Crm
                     CanEditAttachments = HasAccessToEditAttachments(isUserAssignedToCustomer),
                     CanDownloadAttachments = HasAccessToDownloadAttachments(isUserAssignedToCustomer),
                     CanRemoveAttachments = HasAccessToRemoveAttachments(isUserAssignedToCustomer),
-                }).ToListAsync();
+                }).FirstOrDefaultAsync();
         }
 
         /// <summary>

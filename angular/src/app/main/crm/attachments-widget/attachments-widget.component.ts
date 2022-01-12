@@ -79,9 +79,9 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
 
         switch (this.componentType) {
             case 'Account':
-                this._customerAttachmentsServiceProxy.getAllCustomerForTableDropdown(this.idToStore)
+                this._customerAttachmentsServiceProxy.getCustomerForPermissions(this.idToStore)
                 .subscribe((result) => {
-                   this.customerForPermissions = result[0];
+                   this.customerForPermissions = result;
                    this.canViewAttachments = this.customerForPermissions? this.customerForPermissions.canViewAttachments : false;
                    this.canAddAttachments = this.customerForPermissions? this.customerForPermissions.canAddAttachments : false;
                    this.canEditAttachments = this.customerForPermissions? this.customerForPermissions.canEditAttachments : false,

@@ -8059,8 +8059,8 @@ export class CustomerAttachmentsServiceProxy {
      * @param customerNumber (optional) 
      * @return Success
      */
-    getAllCustomerForTableDropdown(customerNumber: string | undefined): Observable<CustomerAttachmentCustomerLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetAllCustomerForTableDropdown?";
+    getCustomerForPermissions(customerNumber: string | undefined): Observable<CustomerAttachmentCustomerLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetCustomerForPermissions?";
         if (customerNumber === null)
             throw new Error("The parameter 'customerNumber' cannot be null.");
         else if (customerNumber !== undefined)
@@ -8076,20 +8076,20 @@ export class CustomerAttachmentsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllCustomerForTableDropdown(response_);
+            return this.processGetCustomerForPermissions(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllCustomerForTableDropdown(<any>response_);
+                    return this.processGetCustomerForPermissions(<any>response_);
                 } catch (e) {
-                    return <Observable<CustomerAttachmentCustomerLookupTableDto[]>><any>_observableThrow(e);
+                    return <Observable<CustomerAttachmentCustomerLookupTableDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<CustomerAttachmentCustomerLookupTableDto[]>><any>_observableThrow(response_);
+                return <Observable<CustomerAttachmentCustomerLookupTableDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllCustomerForTableDropdown(response: HttpResponseBase): Observable<CustomerAttachmentCustomerLookupTableDto[]> {
+    protected processGetCustomerForPermissions(response: HttpResponseBase): Observable<CustomerAttachmentCustomerLookupTableDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -8100,14 +8100,7 @@ export class CustomerAttachmentsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(CustomerAttachmentCustomerLookupTableDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = CustomerAttachmentCustomerLookupTableDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -8115,7 +8108,7 @@ export class CustomerAttachmentsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<CustomerAttachmentCustomerLookupTableDto[]>(<any>null);
+        return _observableOf<CustomerAttachmentCustomerLookupTableDto>(<any>null);
     }
 }
 
