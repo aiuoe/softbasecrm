@@ -2,6 +2,21 @@
 
 <localizationDictionary culture="en">
 	<texts>
+
+		<text name="ViewCustomerAttachments">View Account Attachments on All Accounts</text>
+		<text name="ViewCustomerAttachments__Dynamic">View Account Attachments if user is assigned to the Account</text>
+		<text name="AddCustomerAttachments">Add Customer Attachments</text>
+		<text name="EditCustomerAttachments">Edit Customer Attachments</text>
+		<text name="DownloadCustomerAttachments">Download Customer Attachments</text>
+		<text name="RemoveCustomerAttachments">Remove Customer Attachments</text>
+
+		<text name="ViewOpportunityAttachments">View Opportunity Attachments on All Opportunities</text>
+		<text name="ViewOpportunityAttachments__Dynamic">View Opportunity Attachments if user is assigned to the Opportunity</text>
+		<text name="AddOpportunityAttachments">Add Opportunity Attachments</text>
+		<text name="EditOpportunityAttachments">Edit Opportunity Attachments</text>
+		<text name="DownloadOpportunityAttachments">Download Opportunity Attachments</text>
+		<text name="RemoveOpportunityAttachments">Remove Opportunity Attachments</text>
+		
 		<text name="DashboardAverageSalesCycle">Average Sales Cycle (Days)</text>
 		<text name="DashboardAverageSalesCycleInfo">The average days from the start date to the closed date of an opportunity.</text>
 		<text name="DashboardCloseRate">Close Rate</text>
@@ -18,7 +33,7 @@
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
 		<text name="ViewLeadAttachments">View Lead Attachments on All Leads</text>
-		<text name="ViewLeadAttachments__Dynamic">View Lead Attachments if user is assigned to Lead</text>
+		<text name="ViewLeadAttachments__Dynamic">View Lead Attachments if user is assigned to the Lead</text>
 		<text name="AddLeadAttachments">Add Lead Attachments</text>
 		<text name="EditLeadAttachments">Edit Lead Attachments</text>
 		<text name="DownloadLeadAttachments">Download Lead Attachments</text>
@@ -767,7 +782,7 @@
 		<text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
 		<text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
 		<text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
-		<text name="CustomerAttachment_Warn_FileType">You can only select JPG/JPEG/PNG/GIF/DOC/PDF file. Please select another file.</text>
+		<text name="CustomerAttachment_Warn_FileType">You can only select JPG/JPEG/PNG/GIF/DOC/PDF/PPT PPTX/XLS/XLSX/ODT/TXT/XLSM/CSV file. Please select another file.</text>
 		<text name="Dashboard">Dashboard</text>
 		<text name="DashboardHeaderInfo">statistics and reports</text>
 		<text name="GoToApplication">Go to application</text>
