@@ -38,6 +38,8 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
 
     private _uploaderOptions: FileUploaderOptions = {};
 
+    fileFlag = false;
+
     attachment: IAttachment = {} as IAttachment;
 
     constructor(
@@ -292,6 +294,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      * Closes this component
      */
     close(): void {
+        this.fileFlag = false;
         this.active = false;
         this.modal.hide();
     }
@@ -313,9 +316,21 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
             return;
         }
 
+        this.fileFlag = true;
         this.uploadFileInputLabel.nativeElement.innerText = filename;
         this.uploader.clearQueue();
         this.uploader.addToQueue([event.target.files[0]]);
+    }
+
+    /**
+     * This method verify if the "Upload" button is available or not
+     * @returns
+     */
+    validateUploadButton(): boolean {
+        if (this.attachment.name && this.attachment.name != '' && this.fileFlag) {
+            return false;
+        }
+        return true;
     }
 
     /**

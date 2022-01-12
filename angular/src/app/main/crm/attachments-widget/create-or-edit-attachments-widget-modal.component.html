@@ -65,7 +65,7 @@
                     <button
                         type="submit"
                         class="btn btn-primary blue"
-                        [disabled]="!attachmentForm.form.valid"
+                        [disabled]="this.validateUploadButton()"
                         [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
