@@ -17,7 +17,6 @@ namespace SBCRM.Crm
     /// <summary>
     /// Service for lead attachments.
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_LeadAttachments)]
     public class LeadAttachmentsAppService : SBCRMAppServiceBase, ILeadAttachmentsAppService
     {
         private readonly IRepository<LeadAttachment> _leadAttachmentRepository;
@@ -43,6 +42,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<PagedResultDto<GetLeadAttachmentForViewDto>> GetAll(GetAllLeadAttachmentsInput input)
         {
 
@@ -64,7 +64,6 @@ namespace SBCRM.Crm
 
                                   select new
                                   {
-
                                       o.Name,
                                       o.FilePath,
                                       Id = o.Id,
@@ -104,6 +103,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="id">An Id of the lead attachment to be viewed.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_View_Attachments,
+            AppPermissions.Pages_Leads_View_Attachments__Dynamic
+        )]
         public async Task<GetLeadAttachmentForViewDto> GetLeadAttachmentForView(int id)
         {
             var leadAttachment = await _leadAttachmentRepository.GetAsync(id);
@@ -119,7 +122,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An Id of the lead attachment to be edited.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_LeadAttachments_Edit)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Edit_Attachments,
+            AppPermissions.Pages_Leads_Edit_Attachments__Dynamic
+        )]
         public async Task<GetLeadAttachmentForEditOutput> GetLeadAttachmentForEdit(EntityDto input)
         {
             var leadAttachment = await _leadAttachmentRepository.FirstOrDefaultAsync(input.Id);
@@ -135,6 +141,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created or edited.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Add_Attachments,
+            AppPermissions.Pages_Leads_Add_Attachments__Dynamic,
+            AppPermissions.Pages_Leads_Edit_Attachments,
+            AppPermissions.Pages_Leads_Edit_Attachments__Dynamic
+        )]
         public async Task CreateOrEdit(CreateOrEditLeadAttachmentDto input)
         {
             if (input.Id == null || input.Id == 0)
@@ -153,7 +165,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_LeadAttachments_Create)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Add_Attachments,
+            AppPermissions.Pages_Leads_Add_Attachments__Dynamic
+        )]
         protected virtual async Task Create(CreateOrEditLeadAttachmentDto input)
         {
             var leadAttachment = ObjectMapper.Map<LeadAttachment>(input);
@@ -167,7 +182,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be updated.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_LeadAttachments_Edit)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Edit_Attachments,
+            AppPermissions.Pages_Leads_Edit_Attachments__Dynamic
+        )]
         protected virtual async Task Update(CreateOrEditLeadAttachmentDto input)
         {
             var leadAttachment = await _leadAttachmentRepository.FirstOrDefaultAsync((int)input.Id);
@@ -181,7 +199,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be deleted.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_LeadAttachments_Delete)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Remove_Attachments,
+            AppPermissions.Pages_Leads_Remove_Attachments__Dynamic
+        )]
         public async Task Delete(EntityDto input)
         {
             await _leadAttachmentRepository.DeleteAsync(input.Id);
@@ -193,6 +214,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns>The excel file</returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<FileDto> GetLeadAttachmentsToExcel(GetAllLeadAttachmentsForExcelInput input)
         {
 
@@ -227,16 +249,114 @@ namespace SBCRM.Crm
         /// Get a list of leads
         /// </summary>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_LeadAttachments)]
-        public async Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown()
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
+        public async Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown(int leadId = 0)
         {
+            var isUserAssignedToLead = false;
+            if (leadId > 0)
+                isUserAssignedToLead = VerifyUserIsAssignedLead(leadId);
+
             return await _lookup_leadRepository.GetAll()
+                .WhereIf(leadId > 0, x => x.Id == leadId)
                 .Select(lead => new LeadAttachmentLeadLookupTableDto
                 {
                     Id = lead.Id,
-                    DisplayName = lead == null || lead.CompanyName == null ? "" : lead.CompanyName.ToString()
+                    DisplayName = lead == null || lead.CompanyName == null ? "" : lead.CompanyName.ToString(),
+                    CanViewAttachments = HasAccessToViewAttachments(isUserAssignedToLead),
+                    CanAddAttachments = HasAccessToAddAttachments(isUserAssignedToLead),
+                    CanEditAttachments = HasAccessToEditAttachments(isUserAssignedToLead),
+                    CanDownloadAttachments = HasAccessToDownloadAttachments(isUserAssignedToLead),
+                    CanRemoveAttachments = HasAccessToRemoveAttachments(isUserAssignedToLead),
                 }).ToListAsync();
         }
 
+        /// <summary>
+        /// Verify if the current user is assigned to the specified Lead
+        /// </summary>
+        /// <param name="lead"></param>
+        /// <returns></returns>
+        internal bool VerifyUserIsAssignedLead(int leadId)
+        {
+            LeadAttachmentLeadLookupTableDto lead = _lookup_leadRepository.GetAll()
+                .WhereIf(leadId > 0, x => x.Id == leadId)
+                .Select(lead => new LeadAttachmentLeadLookupTableDto
+                {
+                    Users = ObjectMapper.Map<List<LeadUserDto>>(lead.Users)
+                }).FirstOrDefault();
+
+            long currentUserId = GetCurrentUser().Id;
+            return lead?.Users?.Any(x => x.UserId == currentUserId) ?? false;
+        }
+
+
+        /// <summary>
+        /// Check whether the current user can view attachments on Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToViewAttachments(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Attachments);
+            var canViewAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Attachments__Dynamic);
+
+            return canViewAttachments || (canViewAttachmentsDynamic && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can add attachments Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToAddAttachments(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canAddAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Add_Attachments);
+            var canAddAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Add_Attachments__Dynamic);
+
+            return canAddAttachments || (canAddAttachmentsDynamic && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can edit attachments Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToEditAttachments(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canEditAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Edit_Attachments);
+            var canEditAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Edit_Attachments__Dynamic);
+
+            return canEditAttachments || (canEditAttachmentsDynamic && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can download attachments Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToDownloadAttachments(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canDownloadAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Download_Attachments);
+            var canDownloadAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Download_Attachments__Dynamic);
+
+            return canDownloadAttachments || (canDownloadAttachmentsDynamic && isUserAssignedToLead);
+        }
+
+        /// <summary>
+        /// Check whether the current user can remove attachments Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToRemoveAttachments(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canRemoveAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Remove_Attachments);
+            var canRemoveAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Remove_Attachments__Dynamic);
+
+            return canRemoveAttachments || (canRemoveAttachmentsDynamic && isUserAssignedToLead);
+        }
     }
 }

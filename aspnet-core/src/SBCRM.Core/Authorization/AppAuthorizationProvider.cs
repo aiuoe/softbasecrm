@@ -156,10 +156,17 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
-            var leadAttachments = leads.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Create, L("CreateNewLeadAttachment"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Edit, L("EditLeadAttachment"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Delete, L("DeleteLeadAttachment"));
+            var leadViewAttachments =  leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Attachments, L("ViewLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Add_Attachments, L("AddLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Edit_Attachments, L("EditLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Download_Attachments, L("DownloadLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Remove_Attachments, L("RemoveLeadAttachments"));
+
+            var leadAttachmentsDynamic = leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Attachments__Dynamic, L("ViewLeadAttachments__Dynamic"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Add_Attachments__Dynamic, L("AddLeadAttachments"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Edit_Attachments__Dynamic, L("EditLeadAttachments"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Download_Attachments__Dynamic, L("DownloadLeadAttachments"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Remove_Attachments__Dynamic, L("RemoveLeadAttachments"));
 
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
             var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));
