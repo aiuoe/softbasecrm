@@ -5,15 +5,13 @@ namespace SBCRM.Crm.Dtos
 {
 
     /// <summary>
-    /// Model to list the leads
+    /// Model to list the customer for widget permissions
     /// </summary>
-    public class LeadAttachmentLeadLookupTableDto
+    public class CustomerAttachmentPermissionsDto
     {
-        public int Id { get; set; }
-
-        public string DisplayName { get; set; }
-
-        public List<LeadUserDto> Users { get; set; }
+        public string Number { get; set; }
+        public string Name { get; set; }
+        public List<AccountUserDto> Users { get; set; }
         public bool CanViewAttachments { get; set; }
         public bool CanAddAttachments { get; set; }
         public bool CanEditAttachments { get; set; }

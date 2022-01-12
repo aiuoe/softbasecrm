@@ -28,6 +28,7 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { debounce } from 'lodash-es';
 import { MomentFormatPipe } from '@shared/utils/moment-format.pipe';
+import { ActivitySharedService } from '@app/shared/common/crm/services/activity-shared.service';
 
 /***
  * Component to manage the activities summary grid
@@ -86,6 +87,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _activitiesServiceProxy: ActivitiesServiceProxy,
+        private _activitySharedService: ActivitySharedService,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -197,7 +199,7 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
                 let momentPipe = new MomentFormatPipe(window.navigator.language);
                 result.items.forEach((result, i) => {
                     const eventObject = {
-                        title: result.userName,
+                        title: result.activity.userId? result.userName : this.l('NotAssigned'),
                         allDay: true,
                         start: momentPipe.transform(result.activity.startsAt),
                         // end: result.activity.dueDate.toString(),
@@ -355,5 +357,14 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
         this.summaryTableIsShown = false;
         this.summaryCalendarIsShown = true;
         this.initializeCalendar();
+    }
+
+    /**
+     * Check whether an activity is a Reminder-Type or not.
+     * @param item the ActivityDto item
+     * @returns True if the ActivityDto item is a Reminder-Type, otherwise False.
+     */
+     isReminderTypeActivity(item: ActivityDto): boolean {
+        return this._activitySharedService.isReminderTypeActivity(this.activityTaskTypes, item);
     }
 }

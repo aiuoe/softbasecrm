@@ -183,19 +183,19 @@
                                                         <a
                                                             *ngIf="permission.isGranted('Pages.Customer')"
                                                             class="dropdown-item"
-                                                            [routerLink]="['/app/main/business/accounts/view']"
+                                                            [routerLink]="['/app/main/crm/accounts/view']"
                                                             [queryParams]="{ number: record.customer.number }"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('View') }}
-                                                        </span>    
+                                                        </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewEditOption"
                                                             class="dropdown-item"
-                                                            [routerLink]="['/app/main/business/accounts/createOrEdit']"
+                                                            [routerLink]="['/app/main/crm/accounts/createOrEdit']"
                                                             [queryParams]="{ number: record.customer.number }"
                                                         >
                                                         <span class = "options menu actions">
@@ -212,52 +212,52 @@
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('AddOpportunity') }}
-                                                        </span>    
+                                                        </span>
                                                         </a>
                                                     </li>
-                                                    <hr *ngIf="record.canViewScheduleMeetingOption 
+                                                    <hr *ngIf="record.canViewScheduleMeetingOption
                                                             || record.canViewScheduleCallOption
                                                             || record.canViewEmailReminderOption
                                                             || record.canViewToDoReminderOption">
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleMeetingOption"
-                                                            class="dropdown-item" 
-                                                            (click) = "createActivityScheduleMeetingHandler(record.customer.number)"                                                          
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityScheduleMeetingHandler(record.customer.number)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ScheduleMeeting') }}
-                                                        </span>                                                            
+                                                        </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewScheduleCallOption"
                                                             class="dropdown-item"
-                                                            (click) = "createActivityScheduleCallHandler(record.customer.number)"                                                            
+                                                            (click) = "createActivityScheduleCallHandler(record.customer.number)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ScheduleCall') }}
-                                                        </span>                                                            
+                                                        </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewEmailReminderOption"
-                                                            class="dropdown-item" 
-                                                            (click) = "createActivityEmailReminderHandler(record.customer.number)"                                                            
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityEmailReminderHandler(record.customer.number)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('EmailReminder') }}
                                                         </span>
-                                                            
+
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a
                                                             *ngIf="record.canViewToDoReminderOption"
-                                                            class="dropdown-item"    
-                                                            (click) = "createActivityToDoReminderHandler(record.customer.number)"                                                         
+                                                            class="dropdown-item"
+                                                            (click) = "createActivityToDoReminderHandler(record.customer.number)"
                                                         >
                                                         <span class = "options menu actions">
                                                             {{ l('ToDoReminder') }}
@@ -270,7 +270,7 @@
 
                                         <td style="width: 250px">
                                             <a
-                                                [routerLink]="['/app/main/business/accounts/view']"
+                                                [routerLink]="['/app/main/crm/accounts/view']"
                                                 [queryParams]="{ number: record.customer.number }"
                                             >
                                                 <span class="p-column-title">{{ l('Name') }}</span>

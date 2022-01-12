@@ -54,5 +54,12 @@ namespace SBCRM.Crm
         /// <returns>The excel file</returns>
         Task<FileDto> GetCustomerAttachmentsToExcel(GetAllCustomerAttachmentsForExcelInput input);
 
+        /// <summary>
+        /// Get a customers
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        Task<CustomerAttachmentPermissionsDto> GetWidgetPermissionsForCustomer(string customerNumber);
+
     }
 }
