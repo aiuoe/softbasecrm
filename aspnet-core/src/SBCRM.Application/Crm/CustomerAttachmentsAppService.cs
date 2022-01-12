@@ -24,7 +24,6 @@ namespace SBCRM.Crm
     /// <summary>
     /// A service for customer attachments.
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_CustomerAttachments)]
     public class CustomerAttachmentsAppService : SBCRMAppServiceBase, ICustomerAttachmentsAppService
     {
         private readonly IRepository<CustomerAttachment> _customerAttachmentRepository;
