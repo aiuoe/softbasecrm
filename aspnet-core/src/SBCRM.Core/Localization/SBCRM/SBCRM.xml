@@ -1323,6 +1323,8 @@
 		<text name="YourPhoneNumberIsNotVerified">Your phone number is not verified</text>
 		<text name="WrongSmsVerificationCode">Wrong verification code!</text>
 		<text name="SelectUsers">Select users</text>
+		<text name="SelectUser">Select user</text>
+		<text name="SelectAssignedUser">Select assigned user</text>
 		<text name="OrganizationUnits">Organization Units</text>
 		<text name="YouCanManageUsersOrganizationUnitsFromOrganizationUnitsPage">You can manage User's organization units From Organization Units page.</text>
 		<text name="DemoUiComponents">Demo UI Components</text>
