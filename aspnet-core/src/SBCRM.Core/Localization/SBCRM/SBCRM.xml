@@ -83,7 +83,7 @@
 		<text name="OpportunityInvalidProbability">Value range is 1% to 100%</text>
 		<text name="LeadViewAllLeads__Dynamic">Access to all Leads</text>
 		<text name="NewOpportunities">New Opportunities</text>
-		<text name="ProjectClose">Project Close</text>
+		<text name="ProjectClose">Project Closed</text>
 		<text name="IsCompletedStatus">Is completed status</text>
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
@@ -99,7 +99,7 @@
 		<text name="FilterByStatus">Filter by Status</text>
 		<text name="SourceType">Source Type</text>
 		<text name="Schedule">Schedule</text>
-		<text name="ScheduleAndDueDate">Schedule / Due Date</text>
+		<text name="ScheduleAndDueDate">Scheduled/Due Date</text>
 		<text name="ExcludeCompleted">Exclude Completed</text>
 		<text name="NoRecordsFound">No records found.</text>
 		<text name="SearchCompanyName">Search Company Name</text>
@@ -186,7 +186,7 @@
 		<text name="IsDefault">Is default</text>
 		<text name="SelectAOpportunityStage">Select a opportunity stage</text>
 		<text name="SelectAOpportunityType">Select a opportunity type</text>
-		<text name="PO">Po</text>
+		<text name="PO">PO</text>
 		<text name="OpportunityAmmountFormat">$0.00</text>
 		<text name="Unit">Unit</text>
 		<text name="Serial">Serial</text>
@@ -254,7 +254,7 @@
 		<text name="CreateNewOpportunityType">Create new opportunity type</text>
 		<text name="EditOpportunityType">Edit opportunity type</text>
 		<text name="DeleteOpportunityType">Delete opportunity type</text>
-		<text name="OpportunityStage">Opportunity stage</text>
+		<text name="OpportunityStage">Opportunity Stage</text>
 		<text name="Stage">Stage</text>
 		<text name="StageName">Stage Name</text>
 		<text name="CreateNewOpportunityStage">Create new opportunity stage</text>
@@ -351,12 +351,12 @@
 		<text name="Customers">Accounts</text>
 		<text name="SBCRM.Legacy.Customer">Customer</text>
 		<text name="Number">Number</text>
-		<text name="CustomerNumber">Customer Number #</text>
-		<text name="BillTo">Bill To #</text>
+		<text name="CustomerNumber">Customer Number</text>
+		<text name="BillTo">Bill to Number</text>
 		<text name="SearchName">Search name</text>
 		<text name="SubName">Sub name</text>
-		<text name="POBox">PO Box</text>
-		<text name="EnterPOBox">Enter PO Box</text>
+		<text name="POBox">P.O Box</text>
+		<text name="EnterPOBox">Enter P.O Box</text>
 		<text name="City">City</text>
 		<text name="EnterCity">Enter City</text>
 		<text name="State">State/Province</text>
@@ -376,6 +376,7 @@
 		<text name="WWWAddress">W w w address</text>
 		<text name="ParentCompany">Parent company</text>
 		<text name="MapLocation">Map location</text>
+		<text name="Salesperson">Salesperson</text>
 		<text name="Salesman1">Salesman 1</text>
 		<text name="Salesman2">Salesman 2</text>
 		<text name="Salesman3">Salesman 3</text>
@@ -629,7 +630,7 @@
 		<text name="Pages">Pages</text>
 		<text name="Modules">Modules</text>
 		<text name="BasePermission">Base permission</text>
-		<text name="RoleName">Role name</text>
+		<text name="RoleName">Role Name</text>
 		<text name="EditRole">Edit role</text>
 		<text name="CreateNewRole">Create new role</text>
 		<text name="RoleProperties">Role properties</text>
@@ -688,7 +689,7 @@
 		<text name="CreatingNewRole">Creating new role</text>
 		<text name="DeletingRole">Deleting role</text>
 		<text name="CreationTime">Creation Time</text>
-		<text name="LeadCreationTime">Created at</text>
+		<text name="LeadCreationTime">Created on</text>
 		<text name="SearchWithThreeDot">Search...</text>
 		<text name="UsersSearchWithThreeDot">Search by Employee # or Name or Last Name or Email Address</text>
 		<text name="ActivitySearchWithThreeDot">Search by Company Name</text>
@@ -762,7 +763,7 @@
 		<text name="TenantNameCanNotBeEmpty">Tenant name can not be empty</text>
 		<text name="ChangeProfilePicture">Change Profile Picture</text>
 		<text name="TenantName_Regex_Description">Tenant name must be at least 2 chars, starts with a letter and continue with letter, number, dash or underscore.</text>
-		<text name="ProfilePicture_Change_Info">You can select a JPG/JPEG/PNG file with a maximum {0}MB size.</text>
+		<text name="ProfilePicture_Change_Info">Allowed file types: JPG, JPEG, PNG Maximum upload file size: {0} MB</text>
 		<text name="ProfilePicture_Change_Error">Your profile picture could not be changed.</text>
 		<text name="ProfilePicture_Warn_SizeLimit">Picture size must be smaller than {0}MB. Please select another file.</text>
 		<text name="ProfilePicture_Warn_FileType">You can only select JPG/JPEG/PNG file. Please select another file.</text>
@@ -1136,12 +1137,12 @@
 		<text name="LeaveEmptyToSwitchToHost">Leave empty to switch to the host</text>
 		<text name="PleaseWaitToConfirmYourEmailMessage">Please wait while confirming your email address...</text>
 		<text name="ChatIsConnecting">Chat is connecting...</text>
-		<text name="Note_RefreshPageForPermissionChanges">If you are changing your own permissions, you may need to refresh page (F5) to take effect of permission changes on your own screen!</text>
+		<text name="Note_RefreshPageForPermissionChanges">If you are changing your own permissions, you may need to refresh the page for the permissions changes to take effect on your screen.</text>
 		<text name="ApplicationLogo">Application Logo</text>
 		<text name="CustomCSS">Custom CSS</text>
 		<text name="Upload">Upload</text>
 		<text name="Download">Download</text>
-		<text name="UploadLogo_Info">Select a JPG/JPEG/PNG/GIF file with a maximum of 30KB size and 139x35 pixel resolution.</text>
+		<text name="UploadLogo_Info">Allowed file types: JPG, JPEG, PNG, GIF Maximum file size and resolution: 30 KB / 139×35 pixels</text>
 		<text name="UploadCSS_Info">Select a .css file with a maximum of 1MB size.</text>
 		<text name="Browse">Browse</text>
 		<text name="Appearance">Appearance</text>
@@ -1802,6 +1803,7 @@
 		<text name="ChangeDefaultLanguage">Change default language</text>
 		<text name="ActivationMailSentIfEmailAssociatedMessage">If the email address is associated to a known user account then an activation link will be sent to you</text>
 		<text name="ChooseAFile">Choose A File</text>
+		<text name="SelectAFile">Select a file</text>
 		<text name="YouAreNotLoggedInAsAHostUser">You are not logged in as a host user!</text>
 		<text name="WhatsIncludedInYourPlan">What's included in your plan</text>
 		<text name="NoFeaturesInYourPlan">There is no feature in your plan!</text>
