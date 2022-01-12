@@ -74,6 +74,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     // Widgets
     showAssignedUsersWidget = false;
     showActivityWidget = false;
+    showAttachmentsWidget = false;
 
     // Activity Widget Permissions
     canCreateActivity = false;
@@ -226,6 +227,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * @returns void
      */
     assignRestrictionFields(leadForEdit: GetLeadForEditOutput): void {
+        this.showAttachmentsWidget = leadForEdit.canViewAttachmentsWidget;
         this.showActivityWidget = leadForEdit.canViewActivityWidget;
         this.canCreateActivity = leadForEdit.canCreateActivity;
         this.canViewScheduleMeetingOption = leadForEdit.canViewScheduleMeetingOption;

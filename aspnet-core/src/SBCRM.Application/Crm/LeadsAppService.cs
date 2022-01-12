@@ -368,6 +368,7 @@ namespace SBCRM.Crm
                     result.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToLead);
                     result.CanEditActivity = HasAccessEditActivity(isUserAssignedToLead);
                     result.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+                    result.CanViewAttachmentsWidget = CanViewAttachmentsWidget(isUserAssignedToLead);
                 }
 
                 return new PagedResultDto<GetLeadForViewDto>(
@@ -580,6 +581,7 @@ namespace SBCRM.Crm
             output.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToLead);
             output.CanEditActivity = HasAccessEditActivity(isUserAssignedToLead);
             output.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            output.CanViewAttachmentsWidget = CanViewAttachmentsWidget(isUserAssignedToLead);
 
             return output;
         }
@@ -644,6 +646,8 @@ namespace SBCRM.Crm
             output.CanViewToDoReminderOption = HasAccessToDoReminder(isUserAssignedToLead);
             output.CanEditActivity = HasAccessEditActivity(isUserAssignedToLead);
             output.CanAssignAnyUserInActivity = CanAssignAnyUserWhenCreatingOrUpdatingAnActivity();
+            output.CanViewAttachmentsWidget = CanViewAttachmentsWidget(isUserAssignedToLead);
+
 
             return output;
         }
@@ -1153,6 +1157,20 @@ namespace SBCRM.Crm
         {
             var currentUser = GetCurrentUser();
             return UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_Assign_Activity_To_Any_Users);
+        }
+
+        /// <summary>
+        /// Check whether the current user can view attachments on Leads.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool CanViewAttachmentsWidget(bool isUserAssignedToLead)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAttachmentsWidget = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Attachments);
+            var canViewAttachmentsWidgetDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Leads_View_Attachments__Dynamic);
+
+            return canViewAttachmentsWidget || (canViewAttachmentsWidgetDynamic && isUserAssignedToLead);
         }
     }
 }

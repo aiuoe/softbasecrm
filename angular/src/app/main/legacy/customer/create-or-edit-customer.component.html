@@ -1227,9 +1227,8 @@
                 </attachments-widget>
             </div>
 
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6" *ngIf="showActivityWidget">
                 <app-activities-widget
-                    *ngIf="showActivityWidget"
                     [allowCreate]="canCreateActivity"
                     [showScheduleMeetingOption]="canViewScheduleMeetingOption"
                     [showScheduleCallOption]="canViewScheduleCallOption"

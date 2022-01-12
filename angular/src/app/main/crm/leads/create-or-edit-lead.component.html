@@ -401,9 +401,8 @@
                 </app-assigned-user>
             </div>
 
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6" *ngIf="showActivityWidget">
                 <app-activities-widget
-                    *ngIf="showActivityWidget"
                     [allowCreate]="canCreateActivity"
                     [showScheduleMeetingOption]="canViewScheduleMeetingOption"
                     [showScheduleCallOption]="canViewScheduleCallOption"
@@ -416,8 +415,8 @@
                 </app-activities-widget>
             </div>
 
-            <div class="col-sm-12 col-lg-6">
-                <attachments-widget
+            <div class="col-sm-12 col-lg-6" *ngIf="showAttachmentsWidget">
+                <attachments-widget                    
                     [componentType] = "'Lead'"
                     [idToStore]="this.lead.id">
                 </attachments-widget>

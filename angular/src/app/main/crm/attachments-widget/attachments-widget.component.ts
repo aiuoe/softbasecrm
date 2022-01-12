@@ -2,7 +2,7 @@
 import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerAttachmentsServiceProxy, LeadAttachmentsServiceProxy, OpportunityAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CustomerAttachmentsServiceProxy, LeadAttachmentLeadLookupTableDto, LeadAttachmentsServiceProxy, OpportunityAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -18,6 +18,7 @@ import { filter as _filter } from 'lodash-es';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { IAttachment } from './attachment.model';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 /***
  * Component to manage the list of attachments.
@@ -39,13 +40,17 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     @Input() idToStore: any;
     @Output() onSaveAttachments: EventEmitter<any> = new EventEmitter<any>();
 
+    leadForPermissions : LeadAttachmentLeadLookupTableDto;
+
     advancedFiltersAreShown = false;
     filterText = '';
     nameFilter = '';
     filePathFilter = '';
+    canViewAttachments = false;
     canAddAttachments = false;
     canEditAttachments = false;
-    canDeleteAttachments = false;
+    canDownloadAttachments = false;
+    canRemoveAttachments = false;
 
     constructor(
         injector: Injector,
@@ -73,21 +78,31 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
 
         switch (this.componentType) {
             case 'Account':
-                this.canAddAttachments = this.isGranted('Pages.CustomerAttachments.Create');
-                this.canEditAttachments = this.isGranted('Pages.CustomerAttachments.Edit');
-                this.canDeleteAttachments = this.isGranted('Pages.CustomerAttachments.Delete');
+                this.canAddAttachments = true;
+                this.canEditAttachments = true;
+                this.canRemoveAttachments = true;
+                this.canDownloadAttachments = true;
+                this.canRemoveAttachments = true;
                 break;
 
             case 'Lead':
-                this.canAddAttachments = this.isGranted('Pages.LeadAttachments.Create');
-                this.canEditAttachments = this.isGranted('Pages.LeadAttachments.Edit');
-                this.canDeleteAttachments = this.isGranted('Pages.LeadAttachments.Delete');
+                this._leadAttachmentsServiceProxy.getAllLeadForTableDropdown(this.idToStore)
+                 .subscribe((result) => {
+                    this.leadForPermissions = result[0];
+                    this.canViewAttachments = this.leadForPermissions? this.leadForPermissions.canViewAttachments : false;
+                    this.canAddAttachments = this.leadForPermissions? this.leadForPermissions.canAddAttachments : false;
+                    this.canEditAttachments = this.leadForPermissions? this.leadForPermissions.canEditAttachments : false,
+                    this.canDownloadAttachments = this.leadForPermissions? this.leadForPermissions.canDownloadAttachments : false,
+                    this.canRemoveAttachments  = this.leadForPermissions? this.leadForPermissions.canRemoveAttachments : false             
+                }); 
                 break;
 
             case 'Opportunity':
-                this.canAddAttachments = this.isGranted('Pages.OpportunityAttachments.Create');
-                this.canEditAttachments = this.isGranted('Pages.OpportunityAttachments.Edit');
-                this.canDeleteAttachments = this.isGranted('Pages.OpportunityAttachments.Delete');
+                this.canAddAttachments = true;
+                this.canEditAttachments = true;
+                this.canRemoveAttachments = true;
+                this.canDownloadAttachments = true;
+                this.canRemoveAttachments = true;
                 break;
         }
     }
@@ -171,7 +186,6 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
          getLeadAttachments(event?: LazyLoadEvent) {
 
             this.primengTableHelper.showLoadingIndicator();
-    
             this._leadAttachmentsServiceProxy
                 .getAll(
                     this.filterText,

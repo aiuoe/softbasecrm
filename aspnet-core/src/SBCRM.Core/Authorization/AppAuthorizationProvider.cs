@@ -156,10 +156,17 @@ namespace SBCRM.Authorization
             leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Events, L("LeadViewEvents"));
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_AutomateAssignment__Dynamic, L("AutomateAssignmentUser"));
 
-            var leadAttachments = leads.CreateChildPermission(AppPermissions.Pages_LeadAttachments, L("LeadAttachments"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Create, L("CreateNewLeadAttachment"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Edit, L("EditLeadAttachment"));
-            leadAttachments.CreateChildPermission(AppPermissions.Pages_LeadAttachments_Delete, L("DeleteLeadAttachment"));
+            var leadViewAttachments =  leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Attachments, L("ViewLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Add_Attachments, L("AddLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Edit_Attachments, L("EditLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Download_Attachments, L("DownloadLeadAttachments"));
+            leadViewAttachments.CreateChildPermission(AppPermissions.Pages_Leads_Remove_Attachments, L("RemoveLeadAttachments"));
+
+            var leadAttachmentsDynamic = leads.CreateChildPermission(AppPermissions.Pages_Leads_View_Attachments__Dynamic, L("ViewLeadAttachments__Dynamic"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Add_Attachments__Dynamic, L("AddLeadAttachments"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Edit_Attachments__Dynamic, L("EditLeadAttachments"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Download_Attachments__Dynamic, L("DownloadLeadAttachments"));
+            leadAttachmentsDynamic.CreateChildPermission(AppPermissions.Pages_Leads_Remove_Attachments__Dynamic, L("RemoveLeadAttachments"));
 
             leads.CreateChildPermission(AppPermissions.Pages_LeadUsers_View__Dynamic, L("LeadViewDynamicAssignUsers"));
             var leadUsers = leads.CreateChildPermission(AppPermissions.Pages_LeadUsers, L("LeadViewAssignUsers"));
@@ -258,7 +265,7 @@ namespace SBCRM.Authorization
             //zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Edit, L("EditZipCode"));
             //zipCodes.CreateChildPermission(AppPermissions.Pages_ZipCodes_Delete, L("DeleteZipCode"));
 
-            pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
+            //pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));
             var usersManagement = pages.CreateChildPermission(AppPermissions.Pages_UsersManagement, L("UsersManagement"));
@@ -283,12 +290,12 @@ namespace SBCRM.Authorization
             //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeTexts, L("ChangingTexts"));
             //languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeDefaultLanguage, L("ChangeDefaultLanguage"));
 
-            administration.CreateChildPermission(AppPermissions.Pages_Administration_AuditLogs, L("AuditLogs"));
+            //administration.CreateChildPermission(AppPermissions.Pages_Administration_AuditLogs, L("AuditLogs"));
 
-            var organizationUnits = administration.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits, L("OrganizationUnits"));
-            organizationUnits.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits_ManageOrganizationTree, L("ManagingOrganizationTree"));
-            organizationUnits.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits_ManageMembers, L("ManagingMembers"));
-            organizationUnits.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits_ManageRoles, L("ManagingRoles"));
+            //var organizationUnits = administration.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits, L("OrganizationUnits"));
+            //organizationUnits.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits_ManageOrganizationTree, L("ManagingOrganizationTree"));
+            //organizationUnits.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits_ManageMembers, L("ManagingMembers"));
+            //organizationUnits.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits_ManageRoles, L("ManagingRoles"));
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_UiCustomization, L("VisualSettings"));
 

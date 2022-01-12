@@ -13784,10 +13784,15 @@ export class LeadAttachmentsServiceProxy {
     }
 
     /**
+     * @param leadId (optional) 
      * @return Success
      */
-    getAllLeadForTableDropdown(): Observable<LeadAttachmentLeadLookupTableDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown";
+    getAllLeadForTableDropdown(leadId: number | undefined): Observable<LeadAttachmentLeadLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LeadAttachments/GetAllLeadForTableDropdown?";
+        if (leadId === null)
+            throw new Error("The parameter 'leadId' cannot be null.");
+        else if (leadId !== undefined)
+            url_ += "leadId=" + encodeURIComponent("" + leadId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -38635,6 +38640,7 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
+    canViewAttachmentsWidget!: boolean;
 
     constructor(data?: IGetLeadForEditOutput) {
         if (data) {
@@ -38659,6 +38665,7 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
         }
     }
 
@@ -38683,6 +38690,7 @@ export class GetLeadForEditOutput implements IGetLeadForEditOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         return data; 
     }
 }
@@ -38700,6 +38708,7 @@ export interface IGetLeadForEditOutput {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
+    canViewAttachmentsWidget: boolean;
 }
 
 export class GetLeadForViewDto implements IGetLeadForViewDto {
@@ -38725,6 +38734,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
+    canViewAttachmentsWidget!: boolean;
 
     constructor(data?: IGetLeadForViewDto) {
         if (data) {
@@ -38759,6 +38769,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
         }
     }
 
@@ -38793,6 +38804,7 @@ export class GetLeadForViewDto implements IGetLeadForViewDto {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         return data; 
     }
 }
@@ -38820,6 +38832,7 @@ export interface IGetLeadForViewDto {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
+    canViewAttachmentsWidget: boolean;
 }
 
 export class GetLeadSourceForEditOutput implements IGetLeadSourceForEditOutput {
@@ -41772,6 +41785,12 @@ export interface ILeadAttachmentDto {
 export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLookupTableDto {
     id!: number;
     displayName!: string | undefined;
+    users!: LeadUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
 
     constructor(data?: ILeadAttachmentLeadLookupTableDto) {
         if (data) {
@@ -41786,6 +41805,16 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
         if (_data) {
             this.id = _data["id"];
             this.displayName = _data["displayName"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(LeadUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
         }
     }
 
@@ -41800,6 +41829,16 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["displayName"] = this.displayName;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
         return data; 
     }
 }
@@ -41807,6 +41846,12 @@ export class LeadAttachmentLeadLookupTableDto implements ILeadAttachmentLeadLook
 export interface ILeadAttachmentLeadLookupTableDto {
     id: number;
     displayName: string | undefined;
+    users: LeadUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
 }
 
 export class LeadDto implements ILeadDto {

@@ -2,6 +2,7 @@
 <localizationDictionary culture="en">
 	<texts>
 
+		<text name="AttachmentUploaded">Attachment uploaded</text>
 	    <text name="OpportunityAttachment">Opportunity attachment</text>
 		<text name="CreateNewOpportunityAttachment">Create new opportunity attachment</text>
 		<text name="EditOpportunityAttachment">Edit opportunity attachment</text>
@@ -10,7 +11,12 @@
 		<text name="CreateAttachment">Create new attachment</text>
 		<text name="EditAttachment">Edit attachment</text>
 		
-		<text name="LeadAttachment">Lead attachment</text>
+		<text name="ViewLeadAttachments">View Lead Attachments on All Leads</text>
+		<text name="ViewLeadAttachments__Dynamic">View Lead Attachments if user is assigned to Lead</text>
+		<text name="AddLeadAttachments">Add Lead Attachments</text>
+		<text name="EditLeadAttachments">Edit Lead Attachments</text>
+		<text name="DownloadLeadAttachments">Download Lead Attachments</text>
+		<text name="RemoveLeadAttachments">Remove Lead Attachments</text>
 		<text name="CreateNewLeadAttachment">Create new lead attachment</text>
 		<text name="EditLeadAttachment">Edit lead attachment</text>
 		<text name="DeleteLeadAttachment">Delete lead attachment</text>
@@ -80,6 +86,7 @@
 		<text name="AccountHeader">CRM Portal</text>
 		<text name="AcountSubheader">Business to Business CRM for use with Softbase 3.0</text>
 		<text name="AssignUsers">Assign User(s)</text>
+		<text name="Assignee">Assignee</text>
 		<text name="NotIsCompletedStatus">Not is completed status</text>
 		<text name="FilterByAssignee">Filter by Assignee</text>
 		<text name="FilterBySourceType">Filter by Source Type</text>
@@ -115,7 +122,7 @@
 		<text name="SelectAActivitySourceType">Select a activity source type</text>
 		<text name="ActivityTaskTypeDescription">Activity task type description</text>
 		<text name="PickActivityTaskType">Pick activity task type</text>
-		<text name="SelectAActivityTaskType">Select a activity task type</text>
+		<text name="SelectAActivityTaskType">Select Activity Type</text>
 		<text name="ActivityStatusDescription">Activity status description</text>
 		<text name="PickActivityStatus">Pick activity status</text>
 		<text name="SelectAActivityStatus">Select a activity status</text>
@@ -1317,6 +1324,7 @@
 		<text name="OrganizationUnits">Organization Units</text>
 		<text name="YouCanManageUsersOrganizationUnitsFromOrganizationUnitsPage">You can manage User's organization units From Organization Units page.</text>
 		<text name="DemoUiComponents">Demo UI Components</text>
+		<text name="DateAndTime">Date and Time</text>
 		<text name="DateAndTimePickers">Date and Time Pickers</text>
 		<text name="FileUpload">File Upload</text>
 		<text name="PostedValue">Posted value</text>

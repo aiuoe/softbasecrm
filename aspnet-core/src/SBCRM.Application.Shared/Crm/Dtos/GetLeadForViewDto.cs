@@ -43,5 +43,6 @@ namespace SBCRM.Crm.Dtos
         public bool CanViewToDoReminderOption { get; set; }
         public bool CanEditActivity { get; set; }
         public bool CanAssignAnyUserInActivity { get; set; }
+        public bool CanViewAttachmentsWidget { get; set; }
     }
 }
