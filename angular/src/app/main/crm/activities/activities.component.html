@@ -240,7 +240,7 @@
                                             <p-sortIcon field="activityPriorityDescription"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="dueDate">
-                                            {{ l('ScheduleAndDueDate') }}
+                                            {{ l('DateAndTime') }}
                                             <p-sortIcon field="dueDate"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="userName">
@@ -327,7 +327,7 @@
                                             </span>
                                         </td>
                                         <td style="width: 150px">
-                                            <span class="p-column-title">{{ l('ScheduleAndDueDate') }}</span>
+                                            <span class="p-column-title">{{ l('DateAndTime') }}</span>
                                             <span
                                                 *ngIf="record.activity.startsAt"
                                                 [ngClass]="{
