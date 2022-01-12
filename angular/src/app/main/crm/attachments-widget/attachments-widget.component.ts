@@ -2,28 +2,28 @@
 import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerAttachmentCustomerLookupTableDto, CustomerAttachmentsServiceProxy, LeadAttachmentLeadLookupTableDto, LeadAttachmentsServiceProxy, OpportunityAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
+import {
+    CustomerAttachmentCustomerLookupTableDto,
+    CustomerAttachmentsServiceProxy,
+    LeadAttachmentLeadLookupTableDto,
+    LeadAttachmentsServiceProxy,
+    OpportunityAttachmentsServiceProxy
+} from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditAttachmentsWidgetModalComponent } from './create-or-edit-attachments-widget-modal.component';
-
 import { ViewAttachmentsWidgetModalComponent } from './view-attachments-widget-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
-import { filter as _filter } from 'lodash-es';
-
-import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { IAttachment } from './attachment.model';
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 /***
  * Component to manage the list of attachments.
  */
- @Component({
+@Component({
     templateUrl: './attachments-widget.component.html',
     selector: 'attachments-widget',
     encapsulation: ViewEncapsulation.None,
@@ -68,7 +68,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     /***
      * Initialize component
      */
-     ngOnInit() {
+    ngOnInit() {
         this.loadPermissions();
     }
 
@@ -92,14 +92,14 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
 
             case 'Lead':
                 this._leadAttachmentsServiceProxy.getAllLeadForTableDropdown(this.idToStore)
-                 .subscribe((result) => {
-                    this.leadForPermissions = result[0];
-                    this.canViewAttachments = this.leadForPermissions? this.leadForPermissions.canViewAttachments : false;
-                    this.canAddAttachments = this.leadForPermissions? this.leadForPermissions.canAddAttachments : false;
-                    this.canEditAttachments = this.leadForPermissions? this.leadForPermissions.canEditAttachments : false,
-                    this.canDownloadAttachments = this.leadForPermissions? this.leadForPermissions.canDownloadAttachments : false,
-                    this.canRemoveAttachments  = this.leadForPermissions? this.leadForPermissions.canRemoveAttachments : false             
-                }); 
+                    .subscribe((result) => {
+                        this.leadForPermissions = result[0];
+                        this.canViewAttachments = this.leadForPermissions ? this.leadForPermissions.canViewAttachments : false;
+                        this.canAddAttachments = this.leadForPermissions ? this.leadForPermissions.canAddAttachments : false;
+                        this.canEditAttachments = this.leadForPermissions ? this.leadForPermissions.canEditAttachments : false,
+                            this.canDownloadAttachments = this.leadForPermissions ? this.leadForPermissions.canDownloadAttachments : false,
+                            this.canRemoveAttachments = this.leadForPermissions ? this.leadForPermissions.canRemoveAttachments : false;
+                    });
                 break;
 
             case 'Opportunity':
@@ -131,10 +131,10 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 break;
         }
     }
-    
+
     /**
      * Populates the customer attachments list.
-     * @param event 
+     * @param event
      */
     getCustomerAttachments(event?: LazyLoadEvent) {
 
@@ -158,61 +158,61 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     }
 
 
-        /**
+    /**
      * Populates the opportunity attachments list.
-     * @param event 
+     * @param event
      */
-         getOpportunityAttachments(event?: LazyLoadEvent) {
+    getOpportunityAttachments(event?: LazyLoadEvent) {
 
-            this.primengTableHelper.showLoadingIndicator();
-    
-            this._opportunityAttachmentsServiceProxy
-                .getAll(
-                    this.filterText,
-                    this.nameFilter,
-                    this.filePathFilter,
-                    '',
-                    this.idToStore,
-                    this.primengTableHelper.getSorting(this.dataTable),
-                    this.primengTableHelper.getSkipCount(this.paginator, event),
-                    this.primengTableHelper.getMaxResultCount(this.paginator, event)
-                )
-                .subscribe((result) => {
-                    this.primengTableHelper.totalRecordsCount = result.totalCount;
-                    this.primengTableHelper.records = result.items.map(item => item.opportunityAttachment);
-                    this.primengTableHelper.hideLoadingIndicator();
-                });
-        }
+        this.primengTableHelper.showLoadingIndicator();
 
-        /**
+        this._opportunityAttachmentsServiceProxy
+            .getAll(
+                this.filterText,
+                this.nameFilter,
+                this.filePathFilter,
+                '',
+                this.idToStore,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items.map(item => item.opportunityAttachment);
+                this.primengTableHelper.hideLoadingIndicator();
+            });
+    }
+
+    /**
      * Populates the lead attachments list.
-     * @param event 
+     * @param event
      */
-         getLeadAttachments(event?: LazyLoadEvent) {
+    getLeadAttachments(event?: LazyLoadEvent) {
 
-            this.primengTableHelper.showLoadingIndicator();
-            this._leadAttachmentsServiceProxy
-                .getAll(
-                    this.filterText,
-                    this.nameFilter,
-                    this.filePathFilter,
-                    '',
-                    this.idToStore,
-                    this.primengTableHelper.getSorting(this.dataTable),
-                    this.primengTableHelper.getSkipCount(this.paginator, event),
-                    this.primengTableHelper.getMaxResultCount(this.paginator, event)
-                )
-                .subscribe((result) => {
-                    this.primengTableHelper.totalRecordsCount = result.totalCount;
-                    this.primengTableHelper.records = result.items.map(item => item.leadAttachment);
-                    this.primengTableHelper.hideLoadingIndicator();
-                });
-        }
+        this.primengTableHelper.showLoadingIndicator();
+        this._leadAttachmentsServiceProxy
+            .getAll(
+                this.filterText,
+                this.nameFilter,
+                this.filePathFilter,
+                '',
+                this.idToStore,
+                this.primengTableHelper.getSorting(this.dataTable),
+                this.primengTableHelper.getSkipCount(this.paginator, event),
+                this.primengTableHelper.getMaxResultCount(this.paginator, event)
+            )
+            .subscribe((result) => {
+                this.primengTableHelper.totalRecordsCount = result.totalCount;
+                this.primengTableHelper.records = result.items.map(item => item.leadAttachment);
+                this.primengTableHelper.hideLoadingIndicator();
+            });
+    }
 
     /**
      * Refresh the table
      */
-     reloadPage(): void {
+    reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
@@ -226,7 +226,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     /**
      * Deletes existing attachment
      * @param attachment An attachment to be removed
-     * @returns 
+     * @returns
      */
     deleteAttachment(attachment: IAttachment): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
@@ -264,18 +264,18 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
      */
     downloadAttachment(attachment: IAttachment) {
 
-        const url = AppConsts.remoteServiceBaseUrl +  this.getAPIUrlForDownloadAttachment(attachment);
+        const url = AppConsts.remoteServiceBaseUrl + this.getAPIUrlForDownloadAttachment(attachment);
         fetch(url, {
             headers: new Headers({
-                    Origin: location.origin,
-                    Authorization: 'Bearer ' + this._tokenService.getToken()
-                }),
-                mode: "cors",
-            })
+                Origin: location.origin,
+                Authorization: 'Bearer ' + this._tokenService.getToken()
+            }),
+            mode: 'cors',
+        })
             .then((response) => response.blob())
             .then((blob) => {
 
-                const a = document.createElement("a");
+                const a = document.createElement('a');
                 let url = window.URL.createObjectURL(blob);
 
                 a.download = attachment.filePath;
@@ -291,18 +291,16 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
             });
     }
 
-    private getAPIUrlForDownloadAttachment(attachment: IAttachment){
-        switch(this.componentType){
+    private getAPIUrlForDownloadAttachment(attachment: IAttachment) {
+        switch (this.componentType) {
             case 'Account':
-                return `/CustomerImport/getAttachment?id=${attachment.id}`;
+                return `/CustomerImport/getAttachment?id=${ attachment.id }`;
                 break;
-
             case 'Lead':
-                return `/LeadImportAttachment/getAttachment?id=${attachment.id}`
+                return `/LeadImportAttachment/getAttachment?id=${ attachment.id }`;
                 break;
-
             case 'Opportunity':
-                return `/OpportunityAttachment/getAttachment?id=${attachment.id}`
+                return `/OpportunityAttachment/getAttachment?id=${ attachment.id }`;
                 break;
         }
     }
