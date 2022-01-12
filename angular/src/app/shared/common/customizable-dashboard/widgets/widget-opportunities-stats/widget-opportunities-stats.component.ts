@@ -32,9 +32,9 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
     ];
 
     constructor(injector: Injector,
-        private _opportunitiesDashboardServiceProxy: OpportunitiesDashboardServiceProxy,
-        private _dateTimeService: DateTimeService,
-        private _fileDownloadService: FileDownloadService) {
+                private _opportunitiesDashboardServiceProxy: OpportunitiesDashboardServiceProxy,
+                private _dateTimeService: DateTimeService,
+                private _fileDownloadService: FileDownloadService) {
         super(injector);
         this.opportunitesdashboard = new OpportunitiesDashboardStats();
     }
@@ -95,10 +95,25 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
     }
 
     /***
-   * Export to excel
-   */
+     * Export to excel
+     */
     exportToExcel(): void {
         this._opportunitiesDashboardServiceProxy.getOpportunitiesDashboardToExcel(
+            this.selectedDateRange[0],
+            this.selectedDateRange[1],
+            this.accountFilter,
+            this.branchFilter,
+            this.departmentFilter)
+            .subscribe((result) => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+    }
+
+    /***
+     * Export to excel Closed/Won
+     */
+    exportToExcelClosedWon(): void {
+        this._opportunitiesDashboardServiceProxy.getClosedWonOpportunitiesDashboardToExcel(
             this.selectedDateRange[0],
             this.selectedDateRange[1],
             this.accountFilter,
