@@ -65,11 +65,11 @@
                                             <p-sortIcon field="activityTaskTypeDescription"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="userName">
-                                            {{l('Asignee')}}
+                                            {{l('Assignee')}}
                                             <p-sortIcon field="userName"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="startsAt">
-                                            {{l('ScheduleAndDueDate')}}
+                                            {{l('DateAndTime')}}
                                             <p-sortIcon field="startsAt"></p-sortIcon>
                                         </th>
 
@@ -128,7 +128,11 @@
                                             [ngClass]="{
                                                 'text-danger': record.isPastDue
                                             }">
-                                            {{ record.activity.startsAt | date: 'MM/dd/yyyy' }}
+                                                {{
+                                                    isReminderTypeActivity(record)
+                                                        ? (record.activity.dueDate | date: 'MM/dd/yyyy')
+                                                        : (record.activity.startsAt | date: 'MM/dd/yyyy hh:mm a')
+                                                }}
                                             </span>
                                             <span *ngIf="!record.activity.startsAt">-</span>
                                         </td>

@@ -48,7 +48,6 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
 
     opportunityCustomerNumber = '';
     selectedDate: Date = new Date();
-    selectedTime = '';
 
     allLeads: ActivityLeadLookupTableDto[];
     allAccounts: ActivityCustomerLookupTableDto[];
@@ -128,12 +127,10 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
 
                         const { dueDate } = res.activity;
                         this.selectedDate = dueDate.toJSDate();
-                        this.selectedTime = dueDate.toFormat('hh:mm a');
                     }
                 });
         } else {
             this.selectedDate = new Date();
-            this.selectedTime = '';
         }
 
         // Assign the source type code after loading the data in case we are viewing from global search.
@@ -257,16 +254,6 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
         this.activity.taskName = selectedActivityType.displayName;
         this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
-
-        if (!this.isReminder) {
-            const time = DateTime.fromFormat(this.selectedTime, 'hh:mm a');
-
-            this.activity.dueDate = this.activity.dueDate.set({
-                hour: time.hour,
-                minute: time.minute,
-            });
-        }
-
         this.activity.startsAt = this.activity.dueDate;
     }
 

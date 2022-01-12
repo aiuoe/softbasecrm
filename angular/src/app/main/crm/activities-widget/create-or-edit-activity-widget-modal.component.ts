@@ -54,7 +54,6 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
     allActivityPrioritys: ActivityActivityPriorityLookupTableDto[];
 
     selectedDate: Date = new Date();
-    selectedTime = '';
     durationItems = [];
 
     activityTypeEnum: typeof ActivityTaskType = ActivityTaskType;
@@ -95,7 +94,6 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         this.active = false;
         this.activity = new CreateOrEditActivityDto();
         this.selectedDate = new Date();
-        this.selectedTime = '';
         this.activityTypeCode = '';
         this.activityType = '';
         this.isView = false;
@@ -158,7 +156,6 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
             ).code;
             const { dueDate } = result.activity;
             this.selectedDate = dueDate.toJSDate();
-            this.selectedTime = dueDate.toFormat('hh:mm a');
         });
     }
 
@@ -175,7 +172,6 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
             ).code;
             const { dueDate } = result.activity;
             this.selectedDate = dueDate.toJSDate();
-            this.selectedTime = dueDate.toFormat('hh:mm a');
         });
     }
 
@@ -192,7 +188,6 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
             ).code;
             const { dueDate } = result.activity;
             this.selectedDate = dueDate.toJSDate();
-            this.selectedTime = dueDate.toFormat('hh:mm a');
         });
     }
 
@@ -294,21 +289,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
         const selectedActivityType = this.allActivityTaskTypes.find((x) => x.id === this.activity.activityTaskTypeId);
 
         this.activity.taskName = selectedActivityType.displayName;
-
         this.activity.dueDate = DateTime.fromJSDate(this.selectedDate);
-
-        if (
-            this.activityTypeCode != ActivityTaskType.TODO_REMINDER &&
-            this.activityTypeCode != ActivityTaskType.EMAIL_REMINDER
-        ) {
-            const time = DateTime.fromFormat(this.selectedTime, 'hh:mm a');
-
-            this.activity.dueDate = this.activity.dueDate.set({
-                hour: time.hour,
-                minute: time.minute,
-            });
-        }
-
         this.activity.startsAt = this.activity.dueDate;
     }
 
