@@ -59,7 +59,7 @@ namespace SBCRM.Crm
         /// Get a list of leads
         /// </summary>
         /// <returns></returns>
-        Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown();
+        Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown(int leadId = 0);
 
     }
 }
