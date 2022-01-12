@@ -17,7 +17,6 @@ namespace SBCRM.Crm
     /// <summary>
     /// Service for lead attachments.
     /// </summary>
-    //[AbpAuthorize(AppPermissions.Pages_LeadAttachments)]
     public class LeadAttachmentsAppService : SBCRMAppServiceBase, ILeadAttachmentsAppService
     {
         private readonly IRepository<LeadAttachment> _leadAttachmentRepository;
@@ -43,6 +42,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<PagedResultDto<GetLeadAttachmentForViewDto>> GetAll(GetAllLeadAttachmentsInput input)
         {
 
@@ -103,6 +103,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="id">An Id of the lead attachment to be viewed.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_View_Attachments,
+            AppPermissions.Pages_Leads_View_Attachments__Dynamic
+        )]
         public async Task<GetLeadAttachmentForViewDto> GetLeadAttachmentForView(int id)
         {
             var leadAttachment = await _leadAttachmentRepository.GetAsync(id);
@@ -118,6 +122,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An Id of the lead attachment to be edited.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Edit_Attachments,
+            AppPermissions.Pages_Leads_Edit_Attachments__Dynamic
+        )]
         public async Task<GetLeadAttachmentForEditOutput> GetLeadAttachmentForEdit(EntityDto input)
         {
             var leadAttachment = await _leadAttachmentRepository.FirstOrDefaultAsync(input.Id);
@@ -133,6 +141,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created or edited.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Add_Attachments,
+            AppPermissions.Pages_Leads_Add_Attachments__Dynamic,
+            AppPermissions.Pages_Leads_Edit_Attachments,
+            AppPermissions.Pages_Leads_Edit_Attachments__Dynamic
+        )]
         public async Task CreateOrEdit(CreateOrEditLeadAttachmentDto input)
         {
             if (input.Id == null || input.Id == 0)
@@ -151,6 +165,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Add_Attachments,
+            AppPermissions.Pages_Leads_Add_Attachments__Dynamic
+        )]
         protected virtual async Task Create(CreateOrEditLeadAttachmentDto input)
         {
             var leadAttachment = ObjectMapper.Map<LeadAttachment>(input);
@@ -164,6 +182,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be updated.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Edit_Attachments,
+            AppPermissions.Pages_Leads_Edit_Attachments__Dynamic
+        )]
         protected virtual async Task Update(CreateOrEditLeadAttachmentDto input)
         {
             var leadAttachment = await _leadAttachmentRepository.FirstOrDefaultAsync((int)input.Id);
@@ -177,6 +199,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be deleted.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Leads_Remove_Attachments,
+            AppPermissions.Pages_Leads_Remove_Attachments__Dynamic
+        )]
         public async Task Delete(EntityDto input)
         {
             await _leadAttachmentRepository.DeleteAsync(input.Id);
@@ -188,6 +214,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns>The excel file</returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<FileDto> GetLeadAttachmentsToExcel(GetAllLeadAttachmentsForExcelInput input)
         {
 
@@ -222,6 +249,7 @@ namespace SBCRM.Crm
         /// Get a list of leads
         /// </summary>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown(int leadId = 0)
         {
             var isUserAssignedToLead = false;
@@ -247,7 +275,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="lead"></param>
         /// <returns></returns>
-        private bool VerifyUserIsAssignedLead(int leadId)
+        internal bool VerifyUserIsAssignedLead(int leadId)
         {
             LeadAttachmentLeadLookupTableDto lead = _lookup_leadRepository.GetAll()
                 .WhereIf(leadId > 0, x => x.Id == leadId)
