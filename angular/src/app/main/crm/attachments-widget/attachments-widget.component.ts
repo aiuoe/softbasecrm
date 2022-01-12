@@ -2,7 +2,7 @@
 import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerAttachmentsServiceProxy, LeadAttachmentLeadLookupTableDto, LeadAttachmentsServiceProxy, OpportunityAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CustomerAttachmentCustomerLookupTableDto, CustomerAttachmentsServiceProxy, LeadAttachmentLeadLookupTableDto, LeadAttachmentsServiceProxy, OpportunityAttachmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -40,6 +40,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     @Input() idToStore: any;
     @Output() onSaveAttachments: EventEmitter<any> = new EventEmitter<any>();
 
+    customerForPermissions : CustomerAttachmentCustomerLookupTableDto;
     leadForPermissions : LeadAttachmentLeadLookupTableDto;
 
     advancedFiltersAreShown = false;
@@ -78,11 +79,15 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
 
         switch (this.componentType) {
             case 'Account':
-                this.canAddAttachments = true;
-                this.canEditAttachments = true;
-                this.canRemoveAttachments = true;
-                this.canDownloadAttachments = true;
-                this.canRemoveAttachments = true;
+                this._customerAttachmentsServiceProxy.getAllCustomerForTableDropdown(this.idToStore)
+                .subscribe((result) => {
+                   this.customerForPermissions = result[0];
+                   this.canViewAttachments = this.customerForPermissions? this.customerForPermissions.canViewAttachments : false;
+                   this.canAddAttachments = this.customerForPermissions? this.customerForPermissions.canAddAttachments : false;
+                   this.canEditAttachments = this.customerForPermissions? this.customerForPermissions.canEditAttachments : false,
+                   this.canDownloadAttachments = this.customerForPermissions? this.customerForPermissions.canDownloadAttachments : false,
+                   this.canRemoveAttachments  = this.customerForPermissions? this.customerForPermissions.canRemoveAttachments : false             
+               });
                 break;
 
             case 'Lead':

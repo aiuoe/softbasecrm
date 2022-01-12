@@ -248,6 +248,7 @@ namespace SBCRM.Crm
         /// <summary>
         /// Get a list of leads
         /// </summary>
+        /// <param name="leadId"></param>
         /// <returns></returns>
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<List<LeadAttachmentLeadLookupTableDto>> GetAllLeadForTableDropdown(int leadId = 0)
@@ -273,7 +274,7 @@ namespace SBCRM.Crm
         /// <summary>
         /// Verify if the current user is assigned to the specified Lead
         /// </summary>
-        /// <param name="lead"></param>
+        /// <param name="leadId"></param>
         /// <returns></returns>
         internal bool VerifyUserIsAssignedLead(int leadId)
         {

@@ -8054,6 +8054,69 @@ export class CustomerAttachmentsServiceProxy {
         }
         return _observableOf<FileDto>(<any>null);
     }
+
+    /**
+     * @param customerNumber (optional) 
+     * @return Success
+     */
+    getAllCustomerForTableDropdown(customerNumber: string | undefined): Observable<CustomerAttachmentCustomerLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerAttachments/GetAllCustomerForTableDropdown?";
+        if (customerNumber === null)
+            throw new Error("The parameter 'customerNumber' cannot be null.");
+        else if (customerNumber !== undefined)
+            url_ += "customerNumber=" + encodeURIComponent("" + customerNumber) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllCustomerForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllCustomerForTableDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerAttachmentCustomerLookupTableDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerAttachmentCustomerLookupTableDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllCustomerForTableDropdown(response: HttpResponseBase): Observable<CustomerAttachmentCustomerLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CustomerAttachmentCustomerLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerAttachmentCustomerLookupTableDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -29287,7 +29350,9 @@ export interface IAccountTypeDto {
 }
 
 export class AccountUserDto implements IAccountUserDto {
-    userId!: number;
+    customerNumber!: string | undefined;
+    userId!: number | undefined;
+    userFk!: UserAssignedDto;
     id!: number;
 
     constructor(data?: IAccountUserDto) {
@@ -29301,7 +29366,9 @@ export class AccountUserDto implements IAccountUserDto {
 
     init(_data?: any) {
         if (_data) {
+            this.customerNumber = _data["customerNumber"];
             this.userId = _data["userId"];
+            this.userFk = _data["userFk"] ? UserAssignedDto.fromJS(_data["userFk"]) : <any>undefined;
             this.id = _data["id"];
         }
     }
@@ -29315,14 +29382,18 @@ export class AccountUserDto implements IAccountUserDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["customerNumber"] = this.customerNumber;
         data["userId"] = this.userId;
+        data["userFk"] = this.userFk ? this.userFk.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IAccountUserDto {
-    userId: number;
+    customerNumber: string | undefined;
+    userId: number | undefined;
+    userFk: UserAssignedDto;
     id: number;
 }
 
@@ -33589,6 +33660,78 @@ export interface ICustomerAccountTypeLookupTableDto {
     isDefault: boolean;
 }
 
+export class CustomerAttachmentCustomerLookupTableDto implements ICustomerAttachmentCustomerLookupTableDto {
+    number!: string | undefined;
+    name!: string | undefined;
+    users!: AccountUserDto[] | undefined;
+    canViewAttachments!: boolean;
+    canAddAttachments!: boolean;
+    canEditAttachments!: boolean;
+    canDownloadAttachments!: boolean;
+    canRemoveAttachments!: boolean;
+
+    constructor(data?: ICustomerAttachmentCustomerLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(AccountUserDto.fromJS(item));
+            }
+            this.canViewAttachments = _data["canViewAttachments"];
+            this.canAddAttachments = _data["canAddAttachments"];
+            this.canEditAttachments = _data["canEditAttachments"];
+            this.canDownloadAttachments = _data["canDownloadAttachments"];
+            this.canRemoveAttachments = _data["canRemoveAttachments"];
+        }
+    }
+
+    static fromJS(data: any): CustomerAttachmentCustomerLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerAttachmentCustomerLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["canViewAttachments"] = this.canViewAttachments;
+        data["canAddAttachments"] = this.canAddAttachments;
+        data["canEditAttachments"] = this.canEditAttachments;
+        data["canDownloadAttachments"] = this.canDownloadAttachments;
+        data["canRemoveAttachments"] = this.canRemoveAttachments;
+        return data; 
+    }
+}
+
+export interface ICustomerAttachmentCustomerLookupTableDto {
+    number: string | undefined;
+    name: string | undefined;
+    users: AccountUserDto[] | undefined;
+    canViewAttachments: boolean;
+    canAddAttachments: boolean;
+    canEditAttachments: boolean;
+    canDownloadAttachments: boolean;
+    canRemoveAttachments: boolean;
+}
+
 export class CustomerAttachmentDto implements ICustomerAttachmentDto {
     name!: string | undefined;
     filePath!: string | undefined;
@@ -37610,6 +37753,7 @@ export interface IGetCustomerAttachmentForViewDto {
 export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
     customer!: CreateOrEditCustomerDto;
     accountTypeDescription!: string | undefined;
+    canViewAttachmentsWidget!: boolean;
     canViewActivityWidget!: boolean;
     canCreateActivity!: boolean;
     canViewScheduleMeetingOption!: boolean;
@@ -37632,6 +37776,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         if (_data) {
             this.customer = _data["customer"] ? CreateOrEditCustomerDto.fromJS(_data["customer"]) : <any>undefined;
             this.accountTypeDescription = _data["accountTypeDescription"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
             this.canViewActivityWidget = _data["canViewActivityWidget"];
             this.canCreateActivity = _data["canCreateActivity"];
             this.canViewScheduleMeetingOption = _data["canViewScheduleMeetingOption"];
@@ -37654,6 +37799,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
         data = typeof data === 'object' ? data : {};
         data["customer"] = this.customer ? this.customer.toJSON() : <any>undefined;
         data["accountTypeDescription"] = this.accountTypeDescription;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         data["canViewActivityWidget"] = this.canViewActivityWidget;
         data["canCreateActivity"] = this.canCreateActivity;
         data["canViewScheduleMeetingOption"] = this.canViewScheduleMeetingOption;
@@ -37669,6 +37815,7 @@ export class GetCustomerForEditOutput implements IGetCustomerForEditOutput {
 export interface IGetCustomerForEditOutput {
     customer: CreateOrEditCustomerDto;
     accountTypeDescription: string | undefined;
+    canViewAttachmentsWidget: boolean;
     canViewActivityWidget: boolean;
     canCreateActivity: boolean;
     canViewScheduleMeetingOption: boolean;
@@ -37778,6 +37925,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
     canViewToDoReminderOption!: boolean;
     canEditActivity!: boolean;
     canAssignAnyUserInActivity!: boolean;
+    canViewAttachmentsWidget!: boolean;
 
     constructor(data?: IGetCustomerForViewOutput) {
         if (data) {
@@ -37800,6 +37948,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
             this.canViewToDoReminderOption = _data["canViewToDoReminderOption"];
             this.canEditActivity = _data["canEditActivity"];
             this.canAssignAnyUserInActivity = _data["canAssignAnyUserInActivity"];
+            this.canViewAttachmentsWidget = _data["canViewAttachmentsWidget"];
         }
     }
 
@@ -37822,6 +37971,7 @@ export class GetCustomerForViewOutput implements IGetCustomerForViewOutput {
         data["canViewToDoReminderOption"] = this.canViewToDoReminderOption;
         data["canEditActivity"] = this.canEditActivity;
         data["canAssignAnyUserInActivity"] = this.canAssignAnyUserInActivity;
+        data["canViewAttachmentsWidget"] = this.canViewAttachmentsWidget;
         return data; 
     }
 }
@@ -37837,6 +37987,7 @@ export interface IGetCustomerForViewOutput {
     canViewToDoReminderOption: boolean;
     canEditActivity: boolean;
     canAssignAnyUserInActivity: boolean;
+    canViewAttachmentsWidget: boolean;
 }
 
 export class GetDailySalesOutput implements IGetDailySalesOutput {

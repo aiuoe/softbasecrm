@@ -99,6 +99,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     showEventsTab = false;
 
     // Widgets
+    showAttachmentsWidget = false;
     showAssignedUsersWidget = false;
     showActivityWidget = false;
 
@@ -243,6 +244,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
                     this.allLeadSources = leadSources;
                     this.countries = countries;
 
+                    this.showAttachmentsWidget = customerForEdit.canViewAttachmentsWidget;
                     this.showActivityWidget = customerForEdit.canViewActivityWidget;
                     this.canCreateActivity = customerForEdit.canCreateActivity;
                     this.canViewScheduleMeetingOption = customerForEdit.canViewScheduleMeetingOption;
