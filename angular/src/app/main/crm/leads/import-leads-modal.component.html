@@ -35,7 +35,7 @@
                                     #uploadFileImportInputLabel
                                     for="uploadExcelFile"
                                 >
-                                    Uploaded File
+                                    {{ l('UploadedFile') }}
                                 </label>
                             </div>
                             <span class="form-text text-muted col-lg-12">
@@ -44,26 +44,41 @@
                         </div>
                         <div class="form-group">
                             <label for="LeadSourceDescription">{{ l('LeadSource') }}</label>
-                            <select name="selectedLeadSourceId" [(ngModel)]="selectedLeadSourceId" class="form-control" required>
-                                <option *ngFor="let item of allLeadSources" value="{{ item.id }}">
-                                    {{ item.displayName }}
-                                </option>
-                            </select>
+                            <p-dropdown
+                                [required]="true"
+                                id="LeadSourceDescription"
+                                name="LeadSourceDescription"
+                                [options]="allLeadSources"
+                                [(ngModel)]="selectedLeadSourceId"
+                                optionLabel="displayName"
+                                [placeholder]="l('EnterLeadSource')"
+                                optionValue="id"
+                                [virtualScroll]="allLeadSources?.length > 10"
+                            >
+                            </p-dropdown>
                         </div>
                         <div class="form-group">
-                            <label for="AssignedUserDescription">Assigned User</label>
-                            <select name="selectedUserId" [(ngModel)]="selectedUserId" class="form-control">                                                            
-                                <option *ngFor="let item of allUsers" value="{{ item.id }}">
-                                    {{ item.displayName }}
-                                </option>
-                            </select>
+                            <label for="AssignedUserDescription">{{ l('AssignedUser') }}</label>
+                            <p-dropdown
+                                [required]="true"
+                                [filter]="true"
+                                id="AssignedUserDescription"
+                                name="AssignedUserDescription"
+                                [options]="allUsers"
+                                [(ngModel)]="selectedUserId"
+                                optionLabel="displayName"
+                                [placeholder]="l('SelectUser')"
+                                optionValue="id"
+                                [virtualScroll]="allUsers?.length > 10"
+                            >
+                            </p-dropdown>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn btn-light-primary font-weight-bold"
+                        class="btn btn-default font-weight-bold"
                         (click)="close()"
                         [disabled]="saving"
                     >
