@@ -240,7 +240,7 @@ namespace SBCRM.Crm
         }
 
         /// <summary>
-        /// Get a list of leads
+        /// Get a list of customers
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
