@@ -36,6 +36,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="customerAttachmentRepository"></param>
         /// <param name="customerAttachmentsExcelExporter"></param>
+        /// <param name="customerRepository"></param>
         public CustomerAttachmentsAppService(
             IRepository<CustomerAttachment> customerAttachmentRepository, 
             ICustomerAttachmentsExcelExporter customerAttachmentsExcelExporter,
@@ -277,7 +278,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="customerNumber"></param>
         /// <returns></returns>
-        internal bool VerifyUserIsAssignedCustomer(string customerNumber = null)
+        internal bool VerifyUserIsAssignedCustomer(string customerNumber)
         {
             CustomerAttachmentPermissionsDto customer = _lookup_customerRepository.GetAll()
                 .Where(x => x.Number == customerNumber)

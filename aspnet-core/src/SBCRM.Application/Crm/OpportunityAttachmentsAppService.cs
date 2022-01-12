@@ -9,13 +9,14 @@ using Abp.Application.Services.Dto;
 using SBCRM.Authorization;
 using Abp.Authorization;
 using Microsoft.EntityFrameworkCore;
+using SBCRM.Common;
+using Abp.Domain.Entities;
 
 namespace SBCRM.Crm
 {
     /// <summary>
     /// Service for opportunity attachments.
     /// </summary>
-    [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments)]
     public class OpportunityAttachmentsAppService : SBCRMAppServiceBase, IOpportunityAttachmentsAppService
     {
         private readonly IRepository<OpportunityAttachment> _opportunityAttachmentRepository;
@@ -38,6 +39,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An input filter</param>
         /// <returns></returns>
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
         public async Task<PagedResultDto<GetOpportunityAttachmentForViewDto>> GetAll(GetAllOpportunityAttachmentsInput input)
         {
 
@@ -100,6 +102,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="id">An Id of the lead attachment to be viewed.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Opportunities_View_Attachments,
+            AppPermissions.Pages_Opportunities_View_Attachments__Dynamic
+        )]
         public async Task<GetOpportunityAttachmentForViewDto> GetOpportunityAttachmentForView(int id)
         {
             var opportunityAttachment = await _opportunityAttachmentRepository.GetAsync(id);
@@ -121,7 +127,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An Id of the opportunity attachment to be edited.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Edit)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Opportunities_Edit_Attachments,
+            AppPermissions.Pages_Opportunities_Edit_Attachments__Dynamic
+        )]
         public async Task<GetOpportunityAttachmentForEditOutput> GetOpportunityAttachmentForEdit(EntityDto input)
         {
             var opportunityAttachment = await _opportunityAttachmentRepository.FirstOrDefaultAsync(input.Id);
@@ -143,6 +152,12 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created or edited.</param>
         /// <returns></returns>
+        [AbpAuthorize(
+            AppPermissions.Pages_Opportunities_Add_Attachments,
+            AppPermissions.Pages_Opportunities_Add_Attachments__Dynamic,
+            AppPermissions.Pages_Opportunities_Edit_Attachments,
+            AppPermissions.Pages_Opportunities_Edit_Attachments__Dynamic
+        )]
         public async Task CreateOrEdit(CreateOrEditOpportunityAttachmentDto input)
         {
             if (input.Id == 0)
@@ -161,7 +176,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be created.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Create)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Opportunities_Add_Attachments,
+            AppPermissions.Pages_Opportunities_Add_Attachments__Dynamic
+        )]
         protected virtual async Task Create(CreateOrEditOpportunityAttachmentDto input)
         {
             var opportunityAttachment = ObjectMapper.Map<OpportunityAttachment>(input);
@@ -176,7 +194,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be updated.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Edit)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Opportunities_Edit_Attachments,
+            AppPermissions.Pages_Opportunities_Edit_Attachments__Dynamic
+        )]
         protected virtual async Task Update(CreateOrEditOpportunityAttachmentDto input)
         {
             var opportunityAttachment = await _opportunityAttachmentRepository.FirstOrDefaultAsync((int)input.Id);
@@ -189,7 +210,10 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="input">An attachment to be deleted.</param>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments_Delete)]
+        [AbpAuthorize(
+            AppPermissions.Pages_Opportunities_Remove_Attachments,
+            AppPermissions.Pages_Opportunities_Remove_Attachments__Dynamic
+        )]
         public async Task Delete(EntityDto input)
         {
             await _opportunityAttachmentRepository.DeleteAsync(input.Id);
@@ -199,15 +223,119 @@ namespace SBCRM.Crm
         /// Get a list of opportunities
         /// </summary>
         /// <returns></returns>
-        [AbpAuthorize(AppPermissions.Pages_OpportunityAttachments)]
-        public async Task<List<OpportunityAttachmentOpportunityLookupTableDto>> GetAllOpportunityForTableDropdown()
+        [AbpAuthorize(AppPermissions.Pages_Opportunities)]
+        public async Task<OpportunityAttachmentPermissionsDto> GetWidgetPermissionsForOpportunity(int opportunityId)
         {
-            return await _lookup_opportunityRepository.GetAll()
-                .Select(opportunity => new OpportunityAttachmentOpportunityLookupTableDto
+            GuardHelper.ThrowIf(opportunityId <= 0, new EntityNotFoundException(L("OpportunityNotExist")));
+
+            var isUserAssignedToOpportunity = false;
+            isUserAssignedToOpportunity = VerifyUserIsAssignedToOpportunity(opportunityId);
+
+            OpportunityAttachmentPermissionsDto opportunity = await _lookup_opportunityRepository.GetAll()
+                .Where(x => x.Id == opportunityId)
+                .Select(opportunity => new OpportunityAttachmentPermissionsDto
                 {
                     Id = opportunity.Id,
-                    DisplayName = opportunity == null || opportunity.Name == null ? "" : opportunity.Name.ToString()
-                }).ToListAsync();
+                    DisplayName = opportunity == null || opportunity.Name == null ? "" : opportunity.Name.ToString(),
+                    CanViewAttachments = HasAccessToViewAttachments(isUserAssignedToOpportunity),
+                    CanAddAttachments = HasAccessToAddAttachments(isUserAssignedToOpportunity),
+                    CanEditAttachments = HasAccessToEditAttachments(isUserAssignedToOpportunity),
+                    CanDownloadAttachments = HasAccessToDownloadAttachments(isUserAssignedToOpportunity),
+                    CanRemoveAttachments = HasAccessToRemoveAttachments(isUserAssignedToOpportunity),
+                }).FirstOrDefaultAsync();
+
+            GuardHelper.ThrowIf(opportunity == null, new EntityNotFoundException(L("OpportunityNotExist")));
+
+            return opportunity;
+        }
+
+        /// <summary>
+        /// Verify if the current user is assigned to the specified Opportunity
+        /// </summary>
+        /// <param name="opportunityId"></param>
+        /// <returns></returns>
+        internal bool VerifyUserIsAssignedToOpportunity(int opportunityId)
+        {
+            OpportunityAttachmentPermissionsDto opportunity = _lookup_opportunityRepository.GetAll()
+                .Where(x => x.Id == opportunityId)
+                .Select(opportunity => new OpportunityAttachmentPermissionsDto
+                {
+                    Users = ObjectMapper.Map<List<OpportunityUserDto>>(opportunity.Users)
+                }).FirstOrDefault();
+
+            long currentUserId = GetCurrentUser().Id;
+            return opportunity?.Users?.Any(x => x.UserId == currentUserId) ?? false;
+        }
+
+
+        /// <summary>
+        /// Check whether the current user can view attachments on Opportunities
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToViewAttachments(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canViewAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_View_Attachments);
+            var canViewAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_View_Attachments__Dynamic);
+
+            return canViewAttachments || (canViewAttachmentsDynamic && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can add attachments Opportunities.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToAddAttachments(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canAddAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Add_Attachments);
+            var canAddAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Add_Attachments__Dynamic);
+
+            return canAddAttachments || (canAddAttachmentsDynamic && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can edit attachments Opportunities.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToEditAttachments(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canEditAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Edit_Attachments);
+            var canEditAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Edit_Attachments__Dynamic);
+
+            return canEditAttachments || (canEditAttachmentsDynamic && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can download attachments Opportunities.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToDownloadAttachments(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canDownloadAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Download_Attachments);
+            var canDownloadAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Download_Attachments__Dynamic);
+
+            return canDownloadAttachments || (canDownloadAttachmentsDynamic && isUserAssignedToOpportunity);
+        }
+
+        /// <summary>
+        /// Check whether the current user can remove attachments Opportunities.
+        /// </summary>
+        /// <returns>True or False</returns>
+        internal bool HasAccessToRemoveAttachments(bool isUserAssignedToOpportunity)
+        {
+            var currentUser = GetCurrentUser();
+
+            var canRemoveAttachments = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Remove_Attachments);
+            var canRemoveAttachmentsDynamic = UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Opportunities_Remove_Attachments__Dynamic);
+
+            return canRemoveAttachments || (canRemoveAttachmentsDynamic && isUserAssignedToOpportunity);
         }
 
     }
