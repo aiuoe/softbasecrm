@@ -29,7 +29,7 @@
                                     type="file"
                                     id="uploadFile"
                                     (change)="fileChangeEvent($event)"
-                                    accept=".jpg, .jpeg, .png, .gif, .doc, .pdf, .docx"
+                                    accept=".jpg, .jpeg, .png, .gif, .doc, .pdf, .docx, .ppt, .pptx, .xls, .xlsx, .odt, .txt, .xlsm, .csv"
                                 />
                                 <label
                                     class="custom-file-label"
@@ -65,7 +65,7 @@
                     <button
                         type="submit"
                         class="btn btn-primary blue"
-                        [disabled]="!attachmentForm.form.valid"
+                        [disabled]="this.validateUploadButton()"
                         [buttonBusy]="saving"
                         [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>

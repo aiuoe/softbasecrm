@@ -100,7 +100,15 @@ namespace SBCRM.Web.Controllers
                 ".jpeg",
                 ".doc",
                 ".docx",
-                ".pdf"
+                ".pdf", 
+                ".ppt", 
+                ".pptx", 
+                ".xls", 
+                ".odt", 
+                ".txt", 
+                ".xlsm", 
+                ".csv",
+                ".xlsx"
             };
         }
 
