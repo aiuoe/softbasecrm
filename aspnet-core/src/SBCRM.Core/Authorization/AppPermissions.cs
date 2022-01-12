@@ -94,6 +94,16 @@
         public const string Pages_Opportunities_Create_Activities__Dynamic = "Pages.Opportunities.CreateActivities__Dynamic";
         public const string Pages_Opportunities_Edit_Activities = "Pages.Opportunities.EditActivities";
         public const string Pages_Opportunities_Edit_Activities__Dynamic = "Pages.Opportunities.EditActivities__Dynamic";
+        public const string Pages_Opportunities_View_Attachments = "Pages.Opportunities.ViewAttachments";
+        public const string Pages_Opportunities_View_Attachments__Dynamic = "Pages.Opportunities.ViewAttachments_Dynamic";
+        public const string Pages_Opportunities_Add_Attachments = "Pages.Opportunities.AddAttachments";
+        public const string Pages_Opportunities_Add_Attachments__Dynamic = "Pages.Opportunities.AddAttachments_Dynamic";
+        public const string Pages_Opportunities_Edit_Attachments = "Pages.Opportunities.EditAttachments";
+        public const string Pages_Opportunities_Edit_Attachments__Dynamic = "Pages.Opportunities.EditAttachments_Dynamic";
+        public const string Pages_Opportunities_Download_Attachments = "Pages.Opportunities.DownloadAttachments";
+        public const string Pages_Opportunities_Download_Attachments__Dynamic = "Pages.Opportunities.DownloadAttachments_Dynamic";
+        public const string Pages_Opportunities_Remove_Attachments = "Pages.Opportunities.RemoveAttachments";
+        public const string Pages_Opportunities_Remove_Attachments__Dynamic = "Pages.Opportunities.RemoveAttachments_Dynamic";
 
         public const string Pages_OpportunityTypes = "Pages.OpportunityTypes";
         public const string Pages_OpportunityTypes_Create = "Pages.OpportunityTypes.Create";

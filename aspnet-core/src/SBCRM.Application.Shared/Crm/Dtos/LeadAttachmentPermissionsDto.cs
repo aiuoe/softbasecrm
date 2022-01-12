@@ -5,7 +5,7 @@ namespace SBCRM.Crm.Dtos
 {
 
     /// <summary>
-    /// Model to list the leads
+    /// Model to list the lead for widget permissions
     /// </summary>
     public class LeadAttachmentPermissionsDto
     {
