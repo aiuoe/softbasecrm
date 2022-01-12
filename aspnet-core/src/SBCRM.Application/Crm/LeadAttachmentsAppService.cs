@@ -255,7 +255,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_Leads)]
         public async Task<LeadAttachmentPermissionsDto> GetWidgetPermissionsForLead(int leadId)
         {
-            GuardHelper.ThrowIf(leadId < 0, new EntityNotFoundException(L("LeadNotExist")));
+            GuardHelper.ThrowIf(leadId <= 0, new EntityNotFoundException(L("LeadNotExist")));
 
             var isUserAssignedToLead = false;
             isUserAssignedToLead = VerifyUserIsAssignedLead(leadId);
@@ -286,7 +286,7 @@ namespace SBCRM.Crm
         internal bool VerifyUserIsAssignedLead(int leadId)
         {
             LeadAttachmentPermissionsDto lead = _lookup_leadRepository.GetAll()
-                .WhereIf(leadId > 0, x => x.Id == leadId)
+                .Where(x => x.Id == leadId)
                 .Select(lead => new LeadAttachmentPermissionsDto
                 {
                     Users = ObjectMapper.Map<List<LeadUserDto>>(lead.Users)

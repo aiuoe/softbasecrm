@@ -280,7 +280,7 @@ namespace SBCRM.Crm
         internal bool VerifyUserIsAssignedCustomer(string customerNumber = null)
         {
             CustomerAttachmentPermissionsDto customer = _lookup_customerRepository.GetAll()
-                .WhereIf(customerNumber != null, x => x.Number == customerNumber)
+                .Where(x => x.Number == customerNumber)
                 .Select(customer => new CustomerAttachmentPermissionsDto
                 {
                     Users = ObjectMapper.Map<List<AccountUserDto>>(customer.Users)

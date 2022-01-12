@@ -59,7 +59,7 @@ namespace SBCRM.Crm
         /// Get a list of leads
         /// </summary>
         /// <returns></returns>
-        Task<LeadAttachmentPermissionsDto> GetWidgetPermissionsForLead(int leadId = 0);
+        Task<LeadAttachmentPermissionsDto> GetWidgetPermissionsForLead(int leadId);
 
     }
 }
