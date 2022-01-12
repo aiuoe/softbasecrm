@@ -20,6 +20,10 @@ namespace SBCRM.Tests.Crm
     public class ActivitiesAppServiceTests : AppTestBase
     {
 
+        /// <summary>
+        /// Generate a fake activity repository with defined list of activities.
+        /// </summary>
+        /// <param name="activities">The list of activity entity to be used by the fake activity repositoy</param>
         private void RegisterFakeActivityRepository(List<Activity> activities)
         {
             var fakeRepository = Substitute.For<IRepository<Activity, long>>();
