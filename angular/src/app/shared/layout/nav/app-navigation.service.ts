@@ -22,7 +22,7 @@ export class AppNavigationService {
             new AppMenuItem('Dashboard', 'Pages.Dashboard', 'fas fa-chart-pie', '/app/main/dashboard', ['/app/main/dashboard']),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants', ['/app/admin/tenants']),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions', ['/app/admin/editions']),
-            new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/business/accounts/', ['/app/main/business/accounts']),
+            new AppMenuItem('Customers', 'Pages.Customer', 'fas fa-book', '/app/main/crm/accounts/', ['/app/main/crm/accounts']),
             new AppMenuItem('Leads', 'Pages.Leads', 'fas fa-id-badge', '/app/main/crm/leads', ['/app/main/crm/leads']),
             new AppMenuItem('Opportunities', 'Pages.Opportunities', 'fa fa-thumbs-up', '/app/main/crm/opportunities', ['/app/main/crm/opportunities']),
             new AppMenuItem('Activities', 'Pages.Activities', 'flaticon2-list-3', '/app/main/crm/activities', ['/app/main/crm/activities']),

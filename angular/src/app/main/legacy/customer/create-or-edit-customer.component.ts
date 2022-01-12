@@ -56,7 +56,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
     @ViewChild('customerWipPaginator', { static: true }) customerWipPaginator: Paginator;
     @ViewChild('entityTypeHistory', { static: true }) entityTypeHistory: EntityTypeHistoryComponent;
 
-    routerLink = '/app/main/business/accounts';
+    routerLink = '/app/main/crm/accounts';
     opportunitiesRouterLink = '/app/main/crm/opportunities/createOrEdit';
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Customer'), this.routerLink)
