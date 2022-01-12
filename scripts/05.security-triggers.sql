@@ -41,7 +41,7 @@ BEGIN
                  JOIN [dbo].[Person] AS P
                       ON [S].[EmployeeNo] = [P].[Number]
         WHERE [S].EmployeeNo = (SELECT TOP 1 EmployeeNo FROM inserted)
-        AND [S].EmployeeNo NOT IN (SELECT ISNULL(TRY_PARSE([UserName] AS INT), 0) FROM [web].[AbpUsers])
+        AND [S].EmployeeNo NOT IN (SELECT ISNULL(TRY_PARSE([UserName] AS INT), 0) FROM [web].[AbpUsers] WHERE IsDeleted = 0)
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0
