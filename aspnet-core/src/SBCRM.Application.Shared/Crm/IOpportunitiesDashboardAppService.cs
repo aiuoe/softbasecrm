@@ -38,6 +38,14 @@ namespace SBCRM.Crm
         /// </summary>
         /// <returns></returns>
         Task<List<DepartmentLookupTableDto>> GetAllDepartmentForTableDropdown();
+
+        /// <summary>
+        /// Gets an excel file with the closed won items on the dashboard
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        FileDto GetClosedWonOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input);
+
         /// <summary>
         /// Gets an excel file with the opportunities selected
         /// </summary>
