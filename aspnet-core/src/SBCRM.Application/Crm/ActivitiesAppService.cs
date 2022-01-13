@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using SBCRM.Legacy;
 using SBCRM.Common;
 using Abp.Domain.Entities;
+using Abp.UI;
 
 namespace SBCRM.Crm
 {
@@ -290,7 +291,7 @@ namespace SBCRM.Crm
             var activity = await _activityRepository.FirstOrDefaultAsync(input.Id);
 
             GuardHelper.ThrowIf(activity is null, new EntityNotFoundException(L("ActivityNotExist")));
-            GuardHelper.ThrowIf(!canAssignOthers && activity.UserId != currentUser.Id, new EntityNotFoundException(L("ActivityViewNotAllowed")));
+            GuardHelper.ThrowIf(!canAssignOthers && activity.UserId != currentUser.Id, new UserFriendlyException(L("ActivityViewNotAllowed")));
 
             var output = new GetActivityForEditOutput { Activity = ObjectMapper.Map<CreateOrEditActivityDto>(activity) };
 
@@ -359,7 +360,7 @@ namespace SBCRM.Crm
             var currentUser = await GetCurrentUserAsync();
             var canAssignOthers = await IsUserCanAssignOthers(currentUser.Id);
 
-            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != currentUser.Id, new EntityNotFoundException(L("ActivityAssignOthersNotAllowed")));
+            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != currentUser.Id, new UserFriendlyException(L("ActivityAssignOthersNotAllowed")));
 
             var activity = ObjectMapper.Map<Activity>(input);
 
@@ -385,7 +386,7 @@ namespace SBCRM.Crm
             var activity = await _activityRepository.FirstOrDefaultAsync((long)input.Id);
 
             GuardHelper.ThrowIf(activity is null, new EntityNotFoundException(L("ActivityNotExist")));
-            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != activity.UserId, new EntityNotFoundException(L("ActivityAssignOthersNotAllowed")));
+            GuardHelper.ThrowIf(!canAssignOthers && input.UserId.HasValue && input.UserId != activity.UserId, new UserFriendlyException(L("ActivityAssignOthersNotAllowed")));
 
             input.StartsAt = input.StartsAt.ToUniversalTime();
             input.DueDate = input.DueDate.ToUniversalTime();
