@@ -4,12 +4,13 @@ import {
     OpportunitiesDashboardServiceProxy,
     BranchLookupTableDto,
     OpportunityCustomerLookupTableDto,
-    DepartmentLookupTableDto
+    DepartmentLookupTableDto, ActivityActivitySourceTypeLookupTableDto
 } from '@shared/service-proxies/service-proxies';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { DateTime } from 'luxon/src/datetime';
 import { DashboardChartBase } from '../dashboard-chart-base';
 import { WidgetComponentBaseComponent } from '../widget-component-base';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'app-opportunities-widget-top-stats',
@@ -22,7 +23,7 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
     branches: Array<BranchLookupTableDto> = [];
     departments: Array<DepartmentLookupTableDto> = [];
     accounts: Array<OpportunityCustomerLookupTableDto> = []; // aka customers
-    accountFilter = undefined;
+    accountFilter: string;
     branchFilter = undefined;
     departmentFilter = undefined;
     date: Date;
@@ -40,13 +41,13 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
     }
 
     ngOnInit() {
-        this.loadTopOpportunitiesStatsData(this.selectedDateRange[0], this.selectedDateRange[1], undefined, undefined, undefined);
+        this.loadTopOpportunitiesStatsData(this.selectedDateRange[0], this.selectedDateRange[1], [], undefined, undefined);
         this.loadBranches();
         this.loadDepartments();
         this.loadAccounts();
     }
 
-    loadTopOpportunitiesStatsData(fromDate, toDate, account, branches, departments) {
+    loadTopOpportunitiesStatsData(fromDate, toDate, account: string[], branches, departments) {
         this._opportunitiesDashboardServiceProxy
             .get(fromDate, toDate, account, branches, departments)
             .subscribe((data) => {
@@ -72,6 +73,9 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
         this._opportunitiesDashboardServiceProxy.getAllCustomerForTableDropdown()
             .subscribe((data) => {
                 this.accounts = [...data];
+                this.accounts.forEach(x => {
+                   x.name = !x.name ? x.number : x.name;
+                });
             });
     }
 
@@ -91,7 +95,11 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
     }
 
     onFilterChange() {
-        this.loadTopOpportunitiesStatsData(this.selectedDateRange[0], this.selectedDateRange[1], this.accountFilter, this.branchFilter, this.departmentFilter);
+        this.loadTopOpportunitiesStatsData(
+            this.selectedDateRange[0],
+            this.selectedDateRange[1],
+            this.accountFilter ? [this.accountFilter] : [], this.branchFilter,
+            this.departmentFilter);
     }
 
     /***
@@ -101,7 +109,7 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
         this._opportunitiesDashboardServiceProxy.getOpportunitiesDashboardToExcel(
             this.selectedDateRange[0],
             this.selectedDateRange[1],
-            this.accountFilter,
+            this.accountFilter ? [this.accountFilter] : [],
             this.branchFilter,
             this.departmentFilter)
             .subscribe((result) => {
@@ -116,7 +124,7 @@ export class WidgetOpportunitiesTopStatsComponent extends WidgetComponentBaseCom
         this._opportunitiesDashboardServiceProxy.getClosedWonOpportunitiesDashboardToExcel(
             this.selectedDateRange[0],
             this.selectedDateRange[1],
-            this.accountFilter,
+            this.accountFilter ? [this.accountFilter] : [],
             this.branchFilter,
             this.departmentFilter)
             .subscribe((result) => {
