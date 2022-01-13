@@ -3,7 +3,7 @@
         <div class="login-aside d-flex flex-column flex-row-auto" *ngIf="!useFullWidthLayout()">
             <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
                 <a (click)="goToHome()" href="" class="text-center mb-10 logoPosition">
-                    <img [src]="appRootUrl() + 'assets/crm/common/images/login/logo.svg'" alt="logo" class="max-h-100px" />
+                    <img [src]="appRootUrl() + 'assets/crm/common/images/login/logo.svg'" alt="logo" class="max-h-80px" />
                 </a>
                 <!-- <h5 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" >
                     CRM Portal
@@ -36,7 +36,7 @@
             ">
             <div class="d-flex flex-column-fluid flex-center">
                 <div class="login-form login-signin">
-                    <div class="pb-13 pt-lg-0 pt-5">
+                    <div class="">
                         <a (click)="goToHome()" href="" class="text-center mb-10" *ngIf="useFullWidthLayout()">
                             <img *ngIf="!appSession.tenant || !appSession.tenant.logoId"
                                 [src]="appRootUrl() + 'assets/common/images/logo.svg'" alt="logo" class="max-h-70px" />
