@@ -1,11 +1,8 @@
 ﻿using Abp.Domain.Repositories;
-using Abp.EntityHistory;
-using Abp.Runtime.Validation;
 using Abp.UI;
 using Bogus;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using SBCRM.Crm;
 using SBCRM.Crm.Dtos;
 using SBCRM.Legacy;
@@ -65,35 +62,34 @@ namespace SBCRM.Tests.Crm
                 .RuleFor(u => u.ContactName, (f) => f.Name.FullName())
                 .RuleFor(u => u.CompanyEmail, (f) => f.Person.Email)
                 .RuleFor(u => u.CompanyPhone, (f) => f.Person.Phone)
-                .RuleFor(u => u.Id, (f) => 1)
-                .Generate(1);
-
-            var existingCustomer = new Faker<Customer>()
-                .RuleFor(u => u.Name, (f) => existingLead.First().CompanyName)
-                .RuleFor(u => u.Id, (f) => 1)
+                .RuleFor(u => u.Id, _ => 1)
+                .RuleFor(u => u.LeadStatusFk, _ => new LeadStatus { IsLeadConversionValid = true })
                 .Generate(1);
 
             var existingLeadStatus = new Faker<LeadStatus>()
-                .RuleFor(u => u.Code, (f) => _convertedStatusCode)
-                .RuleFor(u => u.Description, (f) => _convertedStatusCode)
-                .RuleFor(u => u.Id, (f) => 1)
-                .RuleFor(u => u.Id, (f) => 1)
+                .RuleFor(u => u.Code, _ => _convertedStatusCode)
+                .RuleFor(u => u.Description, _ => _convertedStatusCode)
+                .RuleFor(u => u.Id, _ => 1)
                 .Generate(1);
 
-            var leadToConvert = new ConvertLeadToAccountRequestDto()
+            var leadToConvert = new ConvertLeadToAccountRequestDto
             {
                 LeadId = existingLead.First().Id
             };
 
             var fakeLeadRepository = Substitute.For<IRepository<Lead>>();
             fakeLeadRepository.GetAll().Returns(existingLead.AsAsyncQueryable());
+            fakeLeadRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<Lead, bool>>>()).Returns(existingLead.FirstOrDefault());
 
             var fakeLeadStatusRepository = Substitute.For<IRepository<LeadStatus>>();
             fakeLeadStatusRepository.GetAll().Returns(existingLeadStatus.AsAsyncQueryable());
 
+            var fakeCustomerAppService = Substitute.For<ICustomerAppService>();
+            fakeCustomerAppService.CheckIfExistByName(Arg.Any<string>()).Returns(true);
+
             Register(Component.For<IRepository<Lead>>().Instance(fakeLeadRepository).IsDefault());
             Register(Component.For<IRepository<LeadStatus>>().Instance(fakeLeadStatusRepository).IsDefault());
-
+            Register(Component.For<ICustomerAppService>().Instance(fakeCustomerAppService).IsDefault());
 
             // Act
             async Task LeadCreationDelegate() => await Resolve<ILeadsAppService>().ConvertToAccount(leadToConvert);

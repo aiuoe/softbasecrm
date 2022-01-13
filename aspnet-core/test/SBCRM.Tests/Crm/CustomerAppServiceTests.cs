@@ -12,6 +12,7 @@ using Castle.MicroKernel.Registration;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SBCRM.Crm;
+using SBCRM.Crm.Dtos;
 using SBCRM.Legacy;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Test.Base.Configuration;
@@ -110,8 +111,7 @@ namespace SBCRM.Tests.Crm
                 .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
                 .Generate(1)
                 .First();
-
-            // Arrange
+            
             var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
             fakeCustomerRepository.GetAll().Returns(_ => new List<Customer>().AsAsyncQueryable());
             fakeCustomerRepository.InsertAsync(Arg.Any<Customer>()).Returns(_ => Task.FromResult(new Customer()));
@@ -128,10 +128,14 @@ namespace SBCRM.Tests.Crm
             var fakeCustomerSequenceRepository = Substitute.For<Base.ISoftBaseCustomerSequenceRepository>();
             fakeCustomerSequenceRepository.GetNextSequence().Returns(_ => new Random().Next(10000, 50000));
 
+            var fakeAccountAutomateAssignmentService = Substitute.For<IAccountAutomateAssignmentService>();
+            fakeAccountAutomateAssignmentService.AssignAccountUsersAsync(Arg.Any<List<CreateOrEditAccountUserDto>>()).Returns(Task.CompletedTask);
+
             Register(Component.For<IRepository<Customer>>().Instance(fakeCustomerRepository).IsDefault());
             Register(Component.For<IRepository<AccountType>>().Instance(fakeAccountTypeRepository).IsDefault());
             Register(Component.For<IEntityChangeSetReasonProvider>().Instance(fakeEntityChangeReasonProvider).IsDefault());
             Register(Component.For<Base.ISoftBaseCustomerSequenceRepository>().Instance(fakeCustomerSequenceRepository).IsDefault());
+            Register(Component.For<IAccountAutomateAssignmentService>().Instance(fakeAccountAutomateAssignmentService).IsDefault());
 
             // Act
             async Task CustomerCreationDelegate() => await Resolve<ICustomerAppService>().CreateOrEdit(customer);
@@ -153,8 +157,7 @@ namespace SBCRM.Tests.Crm
                 .RuleFor(u => u.Phone, (f) => f.Phone.PhoneNumber())
                 .Generate(1)
                 .First();
-
-            // Arrange
+            
             var fakeCustomerRepository = Substitute.For<IRepository<Customer>>();
             fakeCustomerRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<Customer, bool>>>()).Returns(_ => (Customer)null);
 
@@ -165,7 +168,7 @@ namespace SBCRM.Tests.Crm
 
             // Assert
             var userFriendlyException = await Assert.ThrowsAsync<UserFriendlyException>(CustomerEditionDelegate);
-            Assert.Equal(L("CustomerNotFound"), userFriendlyException.Message);
+            Assert.Equal(L("AccountNotExist"), userFriendlyException.Message);
         }
     }
 }
