@@ -7,7 +7,8 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
     selector: 'role-combo',
     template: `
         <select class="form-control" [formControl]="selectedRole">
-            <option value="">{{ 'FilterByRole' | localize }}</option>
+            <option value="" disabled selected hidden>{{ 'FilterByRole' | localize }}</option>
+            <option value="">All</option>
             <option *ngFor="let role of roles" [value]="role.id">{{ role.displayName }}</option>
         </select>
     `,
