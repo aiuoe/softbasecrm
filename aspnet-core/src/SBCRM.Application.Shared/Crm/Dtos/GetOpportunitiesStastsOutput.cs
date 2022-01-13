@@ -5,7 +5,7 @@
     /// </summary>
     public class GetOpportunitiesStastsOutput
     {
-        public int AverageSales { get; set; }
+        public double AverageSales { get; set; }
         public double CloseRate { get; set; }
         public int AverageDealSize { get; set; }
         public int TotalClosedSales { get; set; }
