@@ -20,19 +20,21 @@
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <p-multiSelect id="opportunityAccount"
-                           [ngModelOptions]="{standalone: true}"
-                           [options]="accounts"
-                           [(ngModel)]="accountFilter"
-                           optionLabel="name"
-                           optionValue="number"
-                           [virtualScroll]="true"
-                           (onChange)="onFilterChange()"
-                           [placeholder]="l('FilterByAccount')"
-                           autoWidth="false"
-                           [style]="{'width':'100%'}"
-                           itemSize="40">
-            </p-multiSelect>
+            <p-dropdown
+                id="opportunityAccount"
+                name="opportunityAccount"
+                [autoDisplayFirst]="false"
+                [options]="accounts"
+                [(ngModel)]="accountFilter"
+                optionValue="number"
+                optionLabel="name"
+                placeholder="{{ l('FilterByAccount') }}"
+                (onChange)="onFilterChange()"
+                [virtualScroll]="true"
+                itemSize="40"
+                [showClear]="true"
+                [filter]="true"
+            ></p-dropdown>
         </div>
     </div>
     <div class="col-md-2">
@@ -43,6 +45,7 @@
                            [(ngModel)]="branchFilter"
                            (onChange)="onFilterChange()"
                            [placeholder]="l('FilterByBranch')"
+                           [style]="{'width':'100%'}"
                            optionLabel="name"
                            optionValue="number">
             </p-multiSelect>
@@ -56,6 +59,7 @@
                            [(ngModel)]="departmentFilter"
                            (onChange)="onFilterChange()"
                            [placeholder]="l('FilterByDepartment')"
+                           [style]="{'width':'100%'}"
                            optionLabel="title"
                            optionValue="dept">
             </p-multiSelect>

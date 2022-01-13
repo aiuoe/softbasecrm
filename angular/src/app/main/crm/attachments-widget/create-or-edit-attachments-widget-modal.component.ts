@@ -70,6 +70,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                             this.attachment = result.customerAttachment;
 
                             this.active = true;
+                            this.fileFlag = true;
                             this.initFileUploader();
                             this.modal.show();
                         });
@@ -91,6 +92,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                             this.attachment = result.leadAttachment;
 
                             this.active = true;
+                            this.fileFlag = true;
                             this.initFileUploader();
                             this.modal.show();
                         });
@@ -111,6 +113,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                             this.attachment = result.opportunityAttachment;
 
                             this.active = true;
+                            this.fileFlag = true;
                             this.initFileUploader();
                             this.modal.show();
                         });
