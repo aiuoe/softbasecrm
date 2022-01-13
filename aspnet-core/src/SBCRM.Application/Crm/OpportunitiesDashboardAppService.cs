@@ -110,7 +110,7 @@ namespace SBCRM.Crm
 
                     results = new GetOpportunitiesStastsOutput
                     {
-                        AverageSales = (int)averageSalesCycle,
+                        AverageSales = averageSalesCycle,
                         CloseRate = closedRatePercentage,
                         AverageDealSize = (int)averageDealSize,
                         TotalClosedSales = (int) sumAmount
