@@ -19,7 +19,7 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 import { FileDownloadService } from '@shared/utils/file-download.service';
-import { filter as _filter } from 'lodash-es';
+import { debounce, filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
@@ -166,17 +166,10 @@ export class OpportunitiesComponent extends AppComponentBase {
             });
     }
 
-    /***
-     * Get opportunities by name filter changed
-     * @param event
-     */
-    getOpportunityByNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan1Characters = this.nameFilter && this.nameFilter?.trim().length >= 1;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
-            this.getOpportunities();
-        }
-    }
+    /**
+     * Used to delay the search and wait for the user to finish typing.
+    */
+    delaySearchOpportunities = debounce(this.getOpportunities, AppConsts.SearchBarDelayMilliseconds);
 
     /***
      * Reload page
