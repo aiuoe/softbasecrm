@@ -184,6 +184,7 @@
                                     id="Activity_DueDate"
                                     name="Activity_DueDate"
                                     [disabled]="readonly"
+                                    (input)="removeFocusWhenCleared($event)"
                                 />
                                 <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                             </div>

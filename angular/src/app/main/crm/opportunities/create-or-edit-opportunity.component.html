@@ -172,23 +172,27 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6 input-field">
-                                                        <label for="Opportunity_CloseDate">{{ l('CloseDate') }}</label>
-                                                        <p-calendar
-                                                            [style]="{ width: '100%' }"
-                                                            [inputStyle]="{ width: '100%' }"
-                                                            #Opportunity_CloseDate="ngModel"
-                                                            dataType="date"
-                                                            dateFormat="mm/dd/yy"
-                                                            [placeholder]="l('InputCloseDate')"
-                                                            [(ngModel)]="formDate"
-                                                            id="Opportunity_CloseDate"
-                                                            name="Opportunity_CloseDate"
-                                                            [disabled]="this.isReadOnlyMode"
-                                                        ></p-calendar>
-                                                        <validation-messages
-                                                            [formCtrl]="Opportunity_CloseDate"
-                                                        ></validation-messages>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group input-field">
+                                                            <label for="Opportunity_CloseDate">
+                                                                {{ l('CloseDate') }}
+                                                            </label>
+                                                            <input
+                                                                bsDatepicker
+                                                                class="form-control m-input"
+                                                                #Opportunity_CloseDate="ngModel"
+                                                                type="datetime"
+                                                                id="Opportunity_CloseDate"
+                                                                name="Opportunity_CloseDate"
+                                                                [(ngModel)]="formDate"
+                                                                [placeholder]="l('InputCloseDate')"
+                                                                [disabled]="this.isReadOnlyMode"
+                                                                (input)="removeFocusWhenCleared($event)"
+                                                            />
+                                                            <validation-messages
+                                                                [formCtrl]="Opportunity_CloseDate"
+                                                            ></validation-messages>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -367,9 +371,9 @@
 
             <div class="col-sm-12 col-lg-6">
                 <attachments-widget
-                    [componentType] = "'Opportunity'"
-                    [idToStore]="this.opportunity.id">
-                </attachments-widget>
+                    [componentType]="'Opportunity'"
+                    [idToStore]="this.opportunity.id"
+                ></attachments-widget>
             </div>
         </div>
     </div>
