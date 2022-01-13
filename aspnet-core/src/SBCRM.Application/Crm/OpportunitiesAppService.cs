@@ -804,6 +804,7 @@ namespace SBCRM.Crm
         public async Task<List<OpportunityOpportunityStageLookupTableDto>> GetAllOpportunityStageForTableDropdown()
         {
             return await _lookupOpportunityStageRepository.GetAll()
+                .OrderBy(x => x.Order)
                 .Select(opportunityStage => new OpportunityOpportunityStageLookupTableDto
                 {
                     Id = opportunityStage.Id,

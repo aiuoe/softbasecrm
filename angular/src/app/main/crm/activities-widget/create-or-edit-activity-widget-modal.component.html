@@ -28,6 +28,7 @@
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
                                         [disabled] = "isView"
+                                        (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -171,6 +172,7 @@
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
                                         [disabled] = "isView"
+                                        (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -314,6 +316,7 @@
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
                                         [disabled] = "isView"
+                                        (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
@@ -416,6 +419,7 @@
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
                                         [disabled] = "isView"
+                                        (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
                                 </div>
