@@ -158,4 +158,18 @@ export abstract class AppComponentBase implements OnDestroy {
     ngOnDestroy(): void {
         this.unSubscribeAllEvents();
     }
+
+    /**
+     * This method is used as a workaround for the strange behavior of bsDatepicker
+     * where the input value is not updated when the user selects a date right after clearing the input field.
+     * This will make the input field lost it's focus whenever its text value is cleared (removed completely)
+     * forcing the bsDatepicker to update its model value.
+     * @param event The input event
+     */
+    removeFocusWhenCleared(event): void {
+        const { target } = event;
+        if (!target.value) {
+            target.blur();
+        }
+    }
 }
