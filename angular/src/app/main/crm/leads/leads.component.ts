@@ -29,6 +29,7 @@ import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { AppConsts } from '@shared/AppConsts';
 import { CreateOrEditActivityWidgetModalComponent } from '../activities-widget/create-or-edit-activity-widget-modal.component';
 import { ActivityTaskType } from '@shared/AppEnums';
+import debounce from 'lodash-es/debounce';
 
 /***
  * Component to manage the leads summary grid
@@ -160,17 +161,10 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    /***
-     * Get leads by company or contact filter changed
-     * @param event
-     */
-    getCustomerByCompanyOrContactNameFilter(event: KeyboardEvent) {
-        const textFilterHasMoreThan1Characters = this.companyOrContactNameFilter && this.companyOrContactNameFilter?.trim().length >= 1;
-        const keyDownIsBackspace = event && event.key === 'Backspace';
-        if (textFilterHasMoreThan1Characters || keyDownIsBackspace) {
-            this.getLeads();
-        }
-    }
+    /**
+     * Used to delay the search and wait for the user to finish typing.
+    */
+    delaySearchLeads = debounce(this.getLeads, AppConsts.SearchBarDelayMilliseconds);
 
 
     /***

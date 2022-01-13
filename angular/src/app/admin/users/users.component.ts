@@ -20,10 +20,14 @@ import { ImpersonationService } from './impersonation.service';
 import { HttpClient } from '@angular/common/http';
 import { FileUpload } from 'primeng/fileupload';
 import { finalize } from 'rxjs/operators';
+import { debounce } from 'lodash-es';
 import { PermissionTreeModalComponent } from '../shared/permission-tree-modal.component';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { DynamicEntityPropertyManagerComponent } from '@app/shared/common/dynamic-entity-property-manager/dynamic-entity-property-manager.component';
 
+/***
+ * Component to manage the leads summary grid
+ */
 @Component({
     templateUrl: './users.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -49,6 +53,21 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
     role = '';
     onlyLockedUsers = false;
 
+    /**
+     * Used to delay the search and wait for the user to finish typing.
+    */
+    delaySearchUsers = debounce(this.getUsers, AppConsts.SearchBarDelayMilliseconds);
+
+    /***
+    * Main constructor
+    * @param injector
+    * @param _impersonationService
+    * @param _userServiceProxy
+    * @param _fileDownloadService
+    * @param _activatedRoute
+    * @param _httpClient
+    * @param _localStorageService
+    */
     constructor(
         injector: Injector,
         public _impersonationService: ImpersonationService,
@@ -63,10 +82,18 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
         this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/Users/ImportFromExcel';
     }
 
+    /***
+     * Post-initialization of the component
+    */
     ngAfterViewInit(): void {
         this.primengTableHelper.adjustScroll(this.dataTable);
     }
 
+    
+    /***
+     * Get users
+     * @param event
+     */
     getUsers(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -97,12 +124,21 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
             });
     }
 
+    
+    /***
+     * Unlock a user
+     * @param record
+     */
     unlockUser(record): void {
         this._userServiceProxy.unlockUser(new EntityDtoOfInt64({ id: record.id })).subscribe(() => {
             this.notifyService.success(this.l('UnlockedTheUser', record.userName));
         });
     }
 
+    /***
+     * Get user role(s) on string format
+     * @param roles
+    */
     getRolesAsString(roles): string {
         let roleNames = '';
 
@@ -117,10 +153,16 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
         return roleNames;
     }
 
+    /***
+     * Reload page
+    */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
 
+    /***
+     * Export to excel
+     */
     exportToExcel(): void {
         this._userServiceProxy
             .getUsersToExcel(
@@ -135,10 +177,16 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
             });
     }
 
+    /***
+     * Go to create user page
+     */
     createUser(): void {
         this.createOrEditUserModal.show();
     }
 
+    /***
+     * Upload an excel file
+     */
     uploadExcel(data: { files: File }): void {
         const formData: FormData = new FormData();
         const file = data.files[0];
@@ -156,10 +204,16 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
             });
     }
 
+    /***
+     * Notify error on excel file upload
+     */
     onUploadExcelError(): void {
         this.notifyService.error(this.l('ImportUsersUploadFailed'));
     }
 
+    /***
+     * Delete a user
+     */
     deleteUser(user: UserListDto): void {
         if (user.userName === AppConsts.userManagement.defaultAdminUserName) {
             this.message.warn(this.l('{0}UserCannotBeDeleted', AppConsts.userManagement.defaultAdminUserName));
@@ -176,12 +230,18 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
         });
     }
 
+    /***
+     * Show dynamic properties
+     */
     showDynamicProperties(user: UserListDto): void {
         this.dynamicEntityPropertyManager
             .getModal()
             .show('SBCRM.Authorization.Users.User', user.id.toString());
     }
 
+    /***
+     * Set the user profile picture
+     */
     setUsersProfilePictureUrl(users: UserListDto[]): void {
         for (let i = 0; i < users.length; i++) {
             let user = users[i];
@@ -197,5 +257,5 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
                 (user as any).profilePictureUrl = profilePictureUrl;
             });
         }
-    }
+    }    
 }

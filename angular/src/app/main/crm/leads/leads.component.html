@@ -54,7 +54,7 @@
                                                 class="form-control m-input"
                                                 [placeholder]="l('LeadSearchWithThreeDot')"
                                                 type="text"
-                                                (keyup)="getCustomerByCompanyOrContactNameFilter($event)"
+                                                (input)="delaySearchLeads()"
                                             />
                                             <span class="input-group-append">
                                                 <button
