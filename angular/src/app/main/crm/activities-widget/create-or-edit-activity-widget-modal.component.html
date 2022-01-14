@@ -36,10 +36,22 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
-                                        <option value="">{{ l('SelectAUser') }}</option>
-                                        <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
-                                    </select>
+                                    <p-dropdown
+                                        id="Assigned_User"
+                                        name="Assigned_User"
+                                        #Assigned_User="ngModel"
+                                        [options]="allUsers"
+                                        [(ngModel)]="activity.userId"
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        [placeholder]="isView && !activity.userId ? l('NotAssigned') : l('SelectAUser')"
+                                        [virtualScroll]="allLeads?.length > 10"
+                                        itemSize="40"
+                                        [showClear]="true"
+                                        [filter]="true"
+                                        [disabled]="isView"
+                                    ></p-dropdown>
+                                    <validation-messages [formCtrl]="Assigned_User"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -180,10 +192,22 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
-                                        <option value="">{{ l('SelectAUser') }}</option>
-                                        <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
-                                    </select>
+                                    <p-dropdown
+                                        id="Assigned_User"
+                                        name="Assigned_User"
+                                        #Assigned_User="ngModel"
+                                        [options]="allUsers"
+                                        [(ngModel)]="activity.userId"
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        [placeholder]="isView && !activity.userId ? l('NotAssigned') : l('SelectAUser')"
+                                        [virtualScroll]="allLeads?.length > 10"
+                                        itemSize="40"
+                                        [showClear]="true"
+                                        [filter]="true"
+                                        [disabled]="isView"
+                                    ></p-dropdown>
+                                    <validation-messages [formCtrl]="Assigned_User"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -324,9 +348,22 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
-                                        <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
-                                    </select>
+                                    <p-dropdown
+                                        id="Assigned_User"
+                                        name="Assigned_User"
+                                        #Assigned_User="ngModel"
+                                        [options]="allUsers"
+                                        [(ngModel)]="activity.userId"
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        [placeholder]="isView && !activity.userId ? l('NotAssigned') : l('SelectAUser')"
+                                        [virtualScroll]="allLeads?.length > 10"
+                                        itemSize="40"
+                                        [showClear]="true"
+                                        [filter]="true"
+                                        [disabled]="isView"
+                                    ></p-dropdown>
+                                    <validation-messages [formCtrl]="Assigned_User"></validation-messages>
                                 </div>
                             </div>
                         </div>
@@ -427,9 +464,22 @@
                             <div class="col-md-6">
                                 <div class="form-group input-field">
                                     <label for="UserName">{{ l('AssignedUser') }}</label>
-                                    <select name="activity.userId" [(ngModel)]="activity.userId" class="form-control" [disabled] = "isView">
-                                        <option *ngFor="let item of allUsers" value="{{ item.id }}">{{ item.displayName }}</option>
-                                    </select>
+                                    <p-dropdown
+                                        id="Assigned_User"
+                                        name="Assigned_User"
+                                        #Assigned_User="ngModel"
+                                        [options]="allUsers"
+                                        [(ngModel)]="activity.userId"
+                                        optionValue="id"
+                                        optionLabel="displayName"
+                                        [placeholder]="isView && !activity.userId ? l('NotAssigned') : l('SelectAUser')"
+                                        [virtualScroll]="allLeads?.length > 10"
+                                        itemSize="40"
+                                        [showClear]="true"
+                                        [filter]="true"
+                                        [disabled]="isView"
+                                    ></p-dropdown>
+                                    <validation-messages [formCtrl]="Assigned_User"></validation-messages>
                                 </div>
                             </div>
                         </div>
