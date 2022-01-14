@@ -431,6 +431,10 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
         }
     }
 
+    /***
+     * Search zipcode and populate City/State/Country
+     * @param event
+     */
     getZipCode(event: KeyboardEvent) {
         const zipCodeHasMoreThan5Characters = this.customer.zipCode?.trim().length >= 5 && this.customer.zipCode;
         const keyDownIsBackspace = event && event.key === AppConsts.Backspace;

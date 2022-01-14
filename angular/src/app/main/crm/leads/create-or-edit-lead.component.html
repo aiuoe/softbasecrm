@@ -124,14 +124,16 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="Lead_Country">{{ l('Country') }}</label>
-                                                    <p-dropdown #Lead_Country="ngModel" id="Lead_Country"
+                                                    <p-dropdown #Lead_Country="ngModel"
+                                                                id="Lead_Country"
                                                                 [ngModelOptions]="{standalone: true}"
                                                                 [options]="countries"
-                                                                [(ngModel)]="lead.country" optionLabel="name"
+                                                                [(ngModel)]="lead.country"
+                                                                optionLabel="name"
                                                                 [disabled]="this.isReadOnlyMode"
                                                                 [placeholder]="l('SelectCountry')"
                                                                 [showClear]="true"
-                                                                optionValue="name">
+                                                                optionValue="code">
                                                     </p-dropdown>
                                                     <validation-messages [formCtrl]="Lead_Country">
                                                     </validation-messages>
@@ -160,11 +162,17 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="Lead_ZipCode">{{ l('ZipCode') }}</label>
-                                                    <input type="text" #Lead_ZipCode="ngModel" id="Lead_ZipCode"
-                                                        class="form-control" [(ngModel)]="lead.zipCode"
-                                                        [disabled]="this.isReadOnlyMode"
-                                                        [placeholder]="l('EnterZipCode')" name="ZipCode"
-                                                        maxlength="50" />
+                                                    <input type="text"
+                                                           #Lead_ZipCode="ngModel"
+                                                           id="Lead_ZipCode"
+                                                           class="form-control"
+                                                           [(ngModel)]="lead.zipCode"
+                                                           [disabled]="this.isReadOnlyMode"
+                                                           [placeholder]="l('EnterZipCode')"
+                                                           name="ZipCode"
+                                                           maxlength="50"
+                                                           (keyup)="getZipCode($event)"
+                                                    />
                                                     <validation-messages [formCtrl]="Lead_ZipCode">
                                                     </validation-messages>
                                                 </div>
@@ -416,7 +424,7 @@
             </div>
 
             <div class="col-sm-12 col-lg-6" *ngIf="showAttachmentsWidget">
-                <attachments-widget                    
+                <attachments-widget
                     [componentType] = "'Lead'"
                     [idToStore]="this.lead.id">
                 </attachments-widget>
