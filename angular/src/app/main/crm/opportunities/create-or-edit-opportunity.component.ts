@@ -331,7 +331,7 @@ export class CreateOrEditOpportunityComponent extends AppComponentBase implement
             )
             .subscribe((_) => {
                 this.saving = false;
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this._router.navigate([this.routerLink]);
             });
     }

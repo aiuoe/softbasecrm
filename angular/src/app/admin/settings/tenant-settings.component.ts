@@ -170,7 +170,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         uploader.onSuccessItem = (item, response, status) => {
             const ajaxResponse = <IAjaxResponse>JSON.parse(response);
             if (ajaxResponse.success) {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 if (success) {
                     success(ajaxResponse.result);
                 }
@@ -198,7 +198,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         this._tenantSettingsService.clearLogo().subscribe(() => {
             this.appSession.tenant.logoFileType = null;
             this.appSession.tenant.logoId = null;
-            this.notifyService.info(this.l('ClearedSuccessfully'));
+            this.notifyService.success(this.l('ClearedSuccessfully'));
         });
     }
 
@@ -211,7 +211,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
                 oldTenantCustomCss.remove();
             }
 
-            this.notifyService.info(this.l('ClearedSuccessfully'));
+            this.notifyService.success(this.l('ClearedSuccessfully'));
         });
     }
 
@@ -246,7 +246,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
 
         this.mapClaims();
         this._tenantSettingsService.updateAllSettings(this.settings).subscribe(() => {
-            this.notifyService.info(this.l('SavedSuccessfully'));
+            this.notifyService.success(this.l('SavedSuccessfully'));
 
             if (
                 abp.clock.provider.supportsMultipleTimezone &&

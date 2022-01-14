@@ -352,7 +352,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.saving = false;
             }))
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.getAccountUsers();
             });
     }
@@ -378,7 +378,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.saving = false;
             }))
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.getLeadUsers();
             });
     }
@@ -404,7 +404,7 @@ export class AssignedUserComponent extends AppComponentBase implements OnInit {
                 this.saving = false;
             }))
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.getLeadUsers();
             });
     }

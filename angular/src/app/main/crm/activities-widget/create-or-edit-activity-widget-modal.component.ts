@@ -238,7 +238,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
@@ -257,7 +257,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
@@ -276,7 +276,7 @@ export class CreateOrEditActivityWidgetModalComponent extends AppComponentBase i
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

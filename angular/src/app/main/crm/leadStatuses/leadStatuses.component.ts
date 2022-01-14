@@ -138,7 +138,7 @@ export class LeadStatusesComponent extends AppComponentBase {
         let request: UpdateOrderLeadStatusDto[] = [this.leadStatus1, this.leadStatus2];
 
         this._leadStatusesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notifyService.info(this.l('UpdateSuccessfully'));
+            this.notifyService.success(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getLeadStatuses();
         });
