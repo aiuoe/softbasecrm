@@ -10,7 +10,6 @@ import {
     OpportunityAttachmentPermissionsDto,
     OpportunityAttachmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { CreateOrEditAttachmentsWidgetModalComponent } from './create-or-edit-attachments-widget-modal.component';
 import { ViewAttachmentsWidgetModalComponent } from './view-attachments-widget-modal.component';
@@ -41,9 +40,9 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
     @Input() idToStore: any;
     @Output() onSaveAttachments: EventEmitter<any> = new EventEmitter<any>();
 
-    customerForPermissions : CustomerAttachmentPermissionsDto;
-    leadForPermissions : LeadAttachmentPermissionsDto;
-    opportunityForPermissions : OpportunityAttachmentPermissionsDto;
+    customerForPermissions: CustomerAttachmentPermissionsDto;
+    leadForPermissions: LeadAttachmentPermissionsDto;
+    opportunityForPermissions: OpportunityAttachmentPermissionsDto;
 
     advancedFiltersAreShown = false;
     filterText = '';
@@ -84,11 +83,11 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 this._customerAttachmentsServiceProxy.getWidgetPermissionsForCustomer(this.idToStore)
                 .subscribe((result) => {
                    this.customerForPermissions = result;
-                   this.canViewAttachments = this.customerForPermissions? this.customerForPermissions.canViewAttachments : false;
-                   this.canAddAttachments = this.customerForPermissions? this.customerForPermissions.canAddAttachments : false;
-                   this.canEditAttachments = this.customerForPermissions? this.customerForPermissions.canEditAttachments : false,
-                   this.canDownloadAttachments = this.customerForPermissions? this.customerForPermissions.canDownloadAttachments : false,
-                   this.canRemoveAttachments  = this.customerForPermissions? this.customerForPermissions.canRemoveAttachments : false             
+                   this.canViewAttachments = this.customerForPermissions ? this.customerForPermissions.canViewAttachments : false;
+                   this.canAddAttachments = this.customerForPermissions ? this.customerForPermissions.canAddAttachments : false;
+                   this.canEditAttachments = this.customerForPermissions ? this.customerForPermissions.canEditAttachments : false;
+                   this.canDownloadAttachments = this.customerForPermissions ? this.customerForPermissions.canDownloadAttachments : false;
+                   this.canRemoveAttachments  = this.customerForPermissions ? this.customerForPermissions.canRemoveAttachments : false;
                });
                 break;
 
@@ -98,8 +97,8 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                         this.leadForPermissions = result;
                         this.canViewAttachments = this.leadForPermissions ? this.leadForPermissions.canViewAttachments : false;
                         this.canAddAttachments = this.leadForPermissions ? this.leadForPermissions.canAddAttachments : false;
-                        this.canEditAttachments = this.leadForPermissions ? this.leadForPermissions.canEditAttachments : false,
-                            this.canDownloadAttachments = this.leadForPermissions ? this.leadForPermissions.canDownloadAttachments : false,
+                        this.canEditAttachments = this.leadForPermissions ? this.leadForPermissions.canEditAttachments : false;
+                            this.canDownloadAttachments = this.leadForPermissions ? this.leadForPermissions.canDownloadAttachments : false;
                             this.canRemoveAttachments = this.leadForPermissions ? this.leadForPermissions.canRemoveAttachments : false;
                     });
                 break;
@@ -108,11 +107,11 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 this._opportunityAttachmentsServiceProxy.getWidgetPermissionsForOpportunity(this.idToStore)
                 .subscribe((result) => {
                    this.opportunityForPermissions = result;
-                   this.canViewAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canViewAttachments : false;
-                   this.canAddAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canAddAttachments : false;
-                   this.canEditAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canEditAttachments : false,
-                   this.canDownloadAttachments = this.opportunityForPermissions? this.opportunityForPermissions.canDownloadAttachments : false,
-                   this.canRemoveAttachments  = this.opportunityForPermissions? this.opportunityForPermissions.canRemoveAttachments : false             
+                   this.canViewAttachments = this.opportunityForPermissions ? this.opportunityForPermissions.canViewAttachments : false;
+                   this.canAddAttachments = this.opportunityForPermissions ? this.opportunityForPermissions.canAddAttachments : false;
+                   this.canEditAttachments = this.opportunityForPermissions ? this.opportunityForPermissions.canEditAttachments : false,
+                   this.canDownloadAttachments = this.opportunityForPermissions ? this.opportunityForPermissions.canDownloadAttachments : false,
+                   this.canRemoveAttachments  = this.opportunityForPermissions ? this.opportunityForPermissions.canRemoveAttachments : false;
                });
                 break;
         }
@@ -241,21 +240,21 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                     case 'Account':
                         this._customerAttachmentsServiceProxy.delete(attachment.id).subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                         });
                         break;
 
                     case 'Lead':
                         this._leadAttachmentsServiceProxy.delete(attachment.id).subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                         });
                         break;
 
                     case 'Opportunity':
                         this._opportunityAttachmentsServiceProxy.delete(attachment.id).subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.notifyService.success(this.l('SuccessfullyDeleted'));
                         });
                         break;
 
@@ -293,7 +292,7 @@ export class AttachmentsWidgetComponent extends AppComponentBase implements OnIn
                 setTimeout(() => window.URL.revokeObjectURL(url), 100);
             })
             .catch((error) => {
-                this.notify.error(this.l('DownloadErrorMessage'));
+                this.notifyService.error(this.l('DownloadErrorMessage'));
             });
     }
 

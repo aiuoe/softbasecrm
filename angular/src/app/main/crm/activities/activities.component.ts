@@ -244,9 +244,12 @@ export class ActivitiesComponent extends AppComponentBase implements OnInit {
      * Export the activities to excel file
      */
     exportToExcel(): void {
+        const localTimeZone = this._dateTimeService.getLocalTimeZone();
+
         this._activitiesServiceProxy
             .getActivitiesToExcel(
                 this.filterText,
+                localTimeZone,
                 this.opportunityNameFilter,
                 this.leadCompanyNameFilter,
                 this.userNameFilter,

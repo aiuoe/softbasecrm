@@ -5,7 +5,8 @@ import { findWindows } from 'windows-iana';
 
 @Injectable()
 export class DateTimeService {
-    constructor(private _appLocalizationService: AppLocalizationService) {}
+    constructor(private _appLocalizationService: AppLocalizationService) {
+    }
 
     createDateRangePickerOptions(): any {
         let options = {
@@ -13,36 +14,36 @@ export class DateTimeService {
                 format: 'L',
                 applyLabel: this._appLocalizationService.l('Apply'),
                 cancelLabel: this._appLocalizationService.l('Cancel'),
-                customRangeLabel: this._appLocalizationService.l('CustomRange'),
+                customRangeLabel: this._appLocalizationService.l('CustomRange')
             },
             min: this.fromISODateString('2015-05-01'),
             minDate: this.fromISODateString('2015-05-01'),
             max: this.getDate(),
             maxDate: this.getDate(),
             opens: 'left',
-            ranges: {},
+            ranges: {}
         };
 
         options.ranges[this._appLocalizationService.l('Today')] = [this.getStartOfDay(), this.getEndOfDay()];
         options.ranges[this._appLocalizationService.l('Yesterday')] = [
             this.minusDays(this.getStartOfDay(), 1),
-            this.minusDays(this.getEndOfDay(), 1),
+            this.minusDays(this.getEndOfDay(), 1)
         ];
         options.ranges[this._appLocalizationService.l('Last7Days')] = [
             this.minusDays(this.getStartOfDay(), 6),
-            this.getEndOfDay(),
+            this.getEndOfDay()
         ];
         options.ranges[this._appLocalizationService.l('Last30Days')] = [
             this.minusDays(this.getStartOfDay(), 29),
-            this.getEndOfDay(),
+            this.getEndOfDay()
         ];
         options.ranges[this._appLocalizationService.l('ThisMonth')] = [
             this.getDate().startOf('month'),
-            this.getDate().endOf('month'),
+            this.getDate().endOf('month')
         ];
         options.ranges[this._appLocalizationService.l('LastMonth')] = [
             this.getDate().startOf('month').minus({ months: 1 }),
-            this.getDate().endOf('month').minus({ months: 1 }),
+            this.getDate().endOf('month').minus({ months: 1 })
         ];
 
         return options;
@@ -91,11 +92,11 @@ export class DateTimeService {
     }
 
     getStartOfMonth(): DateTime {
-        return this.getDate().startOf('month')
+        return this.getDate().startOf('month');
     }
 
     getEndOfMonth(): DateTime {
-        return this.getDate().endOf('month')
+        return this.getDate().endOf('month');
     }
 
     getEndOfDay(): DateTime {
@@ -216,7 +217,7 @@ export class DateTimeService {
         return date.toRelative();
     }
 
-    getLocalTimeZone() : string {
+    getLocalTimeZone(): string {
         return findWindows(Intl.DateTimeFormat().resolvedOptions().timeZone).toString();
     }
 }

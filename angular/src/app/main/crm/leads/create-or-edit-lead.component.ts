@@ -17,6 +17,10 @@ import {
     LeadUsersServiceProxy,
     GetLeadForEditOutput,
     LeadVisibilityTabDto,
+    ZipCodeDto,
+    GetZipCodeForViewDto,
+    PagedResultDtoOfGetZipCodeForViewDto,
+    ZipCodesServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -60,6 +64,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
     allLeadSources: LeadLeadSourceLookupTableDto[];
     allLeadStatuss: LeadLeadStatusLookupTableDto[];
     allPrioritys: LeadPriorityLookupTableDto[];
+    usZipCodes: GetZipCodeForViewDto[] = [];
     isNew = true;
     isReadOnlyMode = false;
     showEventsTab = false;
@@ -94,6 +99,7 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      * @param _countriesServiceProxy
      * @param location
      * @param _leadUsersServiceProxy
+     * @param _zipCodeServiceProxy
      */
     constructor(
         injector: Injector,
@@ -102,7 +108,8 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         private _router: Router,
         private _countriesServiceProxy: CountriesServiceProxy,
         private location: Location,
-        private _leadUsersServiceProxy: LeadUsersServiceProxy
+        private _leadUsersServiceProxy: LeadUsersServiceProxy,
+        private _zipCodeServiceProxy: ZipCodesServiceProxy
     ) {
         super(injector);
     }
@@ -219,6 +226,11 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
         this._countriesServiceProxy.getAllForTableDropdown().subscribe((result) => {
             this.countries = result.map(c => c.country);
         });
+
+        this._zipCodeServiceProxy.getAllZipCodesForTableDropdown()
+            .subscribe((zipCodes: PagedResultDtoOfGetZipCodeForViewDto) => {
+                this.usZipCodes = zipCodes.items;
+            });
     }
 
     /**
@@ -280,5 +292,22 @@ export class CreateOrEditLeadComponent extends AppComponentBase implements OnIni
      */
     reloadEvents() {
         this.entityTypeHistory.refreshTable();
+    }
+
+    /***
+     * Search zipcode and populate City/State/Country
+     * @param event
+     */
+    getZipCode(event: KeyboardEvent) {
+        const zipCodeHasMoreThan5Characters = this.lead.zipCode?.trim().length >= 5 && this.lead.zipCode;
+        const keyDownIsBackspace = event && event.key === AppConsts.Backspace;
+        if (zipCodeHasMoreThan5Characters || keyDownIsBackspace) {
+            const zipCodeFound: ZipCodeDto = this.usZipCodes.map(x => x.zipCode).find(x => x.zipCode === this.lead.zipCode);
+            if (zipCodeFound) {
+                this.lead.city = zipCodeFound.city;
+                this.lead.state = zipCodeFound.state;
+                this.lead.country = AppConsts.UnitedStatesCountryCode;
+            }
+        }
     }
 }

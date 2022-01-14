@@ -11,6 +11,8 @@ namespace SBCRM.Crm.Dtos
     {
         public string Filter { get; set; }
 
+        public string TimeZone { get; set; }
+
         public string OpportunityNameFilter { get; set; }
 
         public string LeadCompanyNameFilter { get; set; }

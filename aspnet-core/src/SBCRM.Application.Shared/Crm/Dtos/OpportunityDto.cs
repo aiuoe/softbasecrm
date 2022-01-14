@@ -16,6 +16,7 @@ namespace SBCRM.Crm.Dtos
         public decimal? Probability { get; set; }
 
         public DateTime? CloseDate { get; set; }
+        public DateTime? CreationTime { get; set; }
 
         public string Description { get; set; }
 

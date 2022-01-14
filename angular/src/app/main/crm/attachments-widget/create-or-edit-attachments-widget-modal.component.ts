@@ -9,7 +9,6 @@ import {
     CreateOrEditLeadAttachmentDto,
     CreateOrEditOpportunityAttachmentDto,
     CustomerAttachmentsServiceProxy,
-    ICustomerAttachmentDto,
     LeadAttachmentsServiceProxy,
     OpportunityAttachmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
@@ -20,9 +19,9 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 /***
  * Component to manage creation and modification of an attachment.
  */
- @Component({
+@Component({
     selector: 'create-or-edit-attachments-widget-modal',
-    templateUrl: './create-or-edit-attachments-widget-modal.component.html',
+    templateUrl: './create-or-edit-attachments-widget-modal.component.html'
 })
 export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
@@ -57,7 +56,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      * Displays this component
      * @param attachment    An attachment to modify, otherwise a null to create a new attachment.
      */
-     show(attachment?: IAttachment): void {
+    show(attachment?: IAttachment): void {
 
         this.attachment = {} as IAttachment;
 
@@ -147,8 +146,8 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
     /**
      * This method manages the upload of the excel file
      */
-     initFileUploader(): void {
-        
+    initFileUploader(): void {
+
         let url = AppConsts.remoteServiceBaseUrl;
         switch (this.componentType) {
             case 'Account':
@@ -168,7 +167,7 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
                 return;
         }
 
-        this.uploader = new FileUploader({url});
+        this.uploader = new FileUploader({ url });
         this._uploaderOptions.autoUpload = false;
         this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
         this._uploaderOptions.removeAfterUpload = true;
@@ -177,16 +176,16 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
         };
 
         this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
-            if(this.attachment.id !== undefined) {
+            if (this.attachment.id !== undefined) {
                 form.append('Id', this.attachment.id);
             }
             form.append('Name', this.attachment.name);
 
-            switch(this.componentType){
+            switch (this.componentType) {
                 case 'Account':
                     form.append('CustomerNumber', (<CustomerAttachment>this.attachment).customerNumber);
                     break;
-                
+
                 case 'Lead':
                     form.append('LeadId', (<LeadAttachment>this.attachment).leadId);
                     break;
@@ -220,12 +219,12 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
      */
     save(): void {
         this.saving = true;
-        if (this.attachment.id != 0){
-            switch(this.componentType){
+        if (this.attachment.id != 0) {
+            switch (this.componentType) {
                 case 'Account':
                     this.updateCustomerAttachment();
                     break;
-                
+
                 case 'Lead':
                     this.updateLeadAttachment();
                     break;
@@ -236,23 +235,23 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
             }
         } else {
             this.uploader.uploadAll();
-        }        
+        }
     }
 
     /**
      * Edits a lead attachment
      */
-    updateLeadAttachment(){
-        var leadAttachment = new CreateOrEditLeadAttachmentDto();
+    updateLeadAttachment() {
+        const leadAttachment = new CreateOrEditLeadAttachmentDto();
         leadAttachment.id = this.attachment.id;
         leadAttachment.filePath = this.attachment.filePath;
         leadAttachment.name = this.attachment.name;
         leadAttachment.leadId = (<LeadAttachment>this.attachment).leadId;
 
-        this._leadAttachmentsServiceProxy.createOrEdit(leadAttachment).subscribe( result =>{
+        this._leadAttachmentsServiceProxy.createOrEdit(leadAttachment).subscribe(result => {
             this.modalSave.emit(null);
             this.saving = false;
-            this.notify.success(this.l('SuccessfullySaved'));
+            this.notifyService.success(this.l('SuccessfullySaved'));
             this.close();
         });
     }
@@ -260,17 +259,17 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
     /**
      * Edits a lead attachment
      */
-    updateOpportunityAttachment(){
-        var opportunityAttachment = new CreateOrEditOpportunityAttachmentDto();
+    updateOpportunityAttachment() {
+        const opportunityAttachment = new CreateOrEditOpportunityAttachmentDto();
         opportunityAttachment.id = this.attachment.id;
         opportunityAttachment.filePath = this.attachment.filePath;
         opportunityAttachment.name = this.attachment.name;
         opportunityAttachment.opportunityId = (<OpportunityAttachment>this.attachment).opportunityId;
 
-        this._opportunityAttachmentsServiceProxy.createOrEdit(opportunityAttachment).subscribe( result =>{
+        this._opportunityAttachmentsServiceProxy.createOrEdit(opportunityAttachment).subscribe(result => {
             this.modalSave.emit(null);
             this.saving = false;
-            this.notify.success(this.l('SuccessfullySaved'));
+            this.notifyService.success(this.l('SuccessfullySaved'));
             this.close();
         });
     }
@@ -278,17 +277,17 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
     /**
      * Edits a lead attachment
      */
-    updateCustomerAttachment(){
-        var customerAttachment = new CreateOrEditCustomerAttachmentDto();
+    updateCustomerAttachment() {
+        const customerAttachment = new CreateOrEditCustomerAttachmentDto();
         customerAttachment.id = this.attachment.id;
         customerAttachment.filePath = this.attachment.filePath;
         customerAttachment.name = this.attachment.name;
         customerAttachment.customerNumber = (<CustomerAttachment>this.attachment).customerNumber;
 
-        this._customerAttachmentsServiceProxy.createOrEdit(customerAttachment).subscribe( result =>{
+        this._customerAttachmentsServiceProxy.createOrEdit(customerAttachment).subscribe(result => {
             this.modalSave.emit(null);
             this.saving = false;
-            this.notify.success(this.l('SuccessfullySaved'));
+            this.notifyService.success(this.l('SuccessfullySaved'));
             this.close();
         });
     }
@@ -304,9 +303,9 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
 
     /**
      * An event trigged when an attachment had changed
-     * @param event 
-     * @returns 
-     */ 
+     * @param event
+     * @returns
+     */
     fileChangeEvent(event: any): void {
         const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'doc', 'pdf', 'docx', 'ppt', 'pptx', 'xls', 'odt', 'txt', 'xlsm', 'csv', 'xlsx'];
         const selectedFile = event.target.files[0];
@@ -339,5 +338,6 @@ export class CreateOrEditAttachmentsWidgetModalComponent extends AppComponentBas
     /**
      * An init function
      */
-    ngOnInit(): void {}
+    ngOnInit(): void {
+    }
 }

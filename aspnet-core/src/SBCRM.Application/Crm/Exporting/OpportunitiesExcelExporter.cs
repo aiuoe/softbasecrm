@@ -65,7 +65,7 @@ namespace SBCRM.Crm.Exporting
                         _ => _.Opportunity.Users != null && _.Opportunity.Users.Any()
                             ? string.Join(", ", _.Opportunity.Users.Select(x => x.FullName))
                             : string.Empty,
-                        _ => _.Opportunity.CloseDate.HasValue ? _.Opportunity.CloseDate.Value.ToString("MM/dd/yyyy") : null,
+                        _ => _.Opportunity.CloseDate?.ToString("MM/dd/yyyy"),
                         _ => _.Opportunity.Amount,
                         _ => _.BranchName,
                         _ => _.DepartmentTitle
