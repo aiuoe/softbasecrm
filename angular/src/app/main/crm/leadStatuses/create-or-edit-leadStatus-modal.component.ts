@@ -19,6 +19,7 @@ export class CreateOrEditLeadStatusModalComponent extends AppComponentBase imple
 
     active = false;
     saving = false;
+    isCreateMode = false;
 
     leadStatus: CreateOrEditLeadStatusDto = new CreateOrEditLeadStatusDto();
 
@@ -38,7 +39,8 @@ export class CreateOrEditLeadStatusModalComponent extends AppComponentBase imple
      * @param opportunityStageId
      */
     show(leadStatusId?: number): void {
-        if (!leadStatusId) {
+        this.isCreateMode = !leadStatusId;
+        if (this.isCreateMode) {
             this.leadStatus = new CreateOrEditLeadStatusDto();
             this.leadStatus.id = leadStatusId;
             this.leadStatus.color = '#2c4ab6';

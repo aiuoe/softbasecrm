@@ -20,6 +20,7 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
 
     active = false;
     saving = false;
+    isCreateMode = false;
 
     activityStatus: CreateOrEditActivityStatusDto = new CreateOrEditActivityStatusDto();
 
@@ -38,7 +39,8 @@ export class CreateOrEditActivityStatusModalComponent extends AppComponentBase i
      * Show the form dialog
      */
     show(activityStatusId?: number): void {
-        if (!activityStatusId) {
+        this.isCreateMode = !activityStatusId;
+        if (this.isCreateMode) {
             this.activityStatus = new CreateOrEditActivityStatusDto();
             this.activityStatus.id = activityStatusId;
             this.activityStatus.color = '#2c4ab6';
