@@ -493,7 +493,7 @@ namespace SBCRM.Crm
 
             var activityListDtos = await query.ToListAsync();
 
-            return _activitiesExcelExporter.ExportToFile(activityListDtos);
+            return _activitiesExcelExporter.ExportToFile(activityListDtos, TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone));
         }
 
         /// <summary>
