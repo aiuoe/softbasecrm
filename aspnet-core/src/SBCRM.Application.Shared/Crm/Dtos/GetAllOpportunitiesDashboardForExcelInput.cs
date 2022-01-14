@@ -16,5 +16,6 @@ namespace SBCRM.Crm.Dtos
         public short[] Branches { get; set; }
 
         public short[] Departments { get; set; }
+        public string TimeZone { get; set; }
     }
 }
