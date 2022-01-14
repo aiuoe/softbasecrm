@@ -18578,9 +18578,10 @@ export class OpportunitiesDashboardServiceProxy {
      * @param account (optional) 
      * @param branches (optional) 
      * @param departments (optional) 
+     * @param timeZone (optional) 
      * @return Success
      */
-    getClosedWonOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
+    getClosedWonOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined, timeZone: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetClosedWonOpportunitiesDashboardToExcel?";
         if (fromDate === null)
             throw new Error("The parameter 'fromDate' cannot be null.");
@@ -18602,6 +18603,10 @@ export class OpportunitiesDashboardServiceProxy {
             throw new Error("The parameter 'departments' cannot be null.");
         else if (departments !== undefined)
             departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -18654,9 +18659,10 @@ export class OpportunitiesDashboardServiceProxy {
      * @param account (optional) 
      * @param branches (optional) 
      * @param departments (optional) 
+     * @param timeZone (optional) 
      * @return Success
      */
-    getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined): Observable<FileDto> {
+    getOpportunitiesDashboardToExcel(fromDate: DateTime | undefined, toDate: DateTime | undefined, account: string[] | undefined, branches: number[] | undefined, departments: number[] | undefined, timeZone: string | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/OpportunitiesDashboard/GetOpportunitiesDashboardToExcel?";
         if (fromDate === null)
             throw new Error("The parameter 'fromDate' cannot be null.");
@@ -18678,6 +18684,10 @@ export class OpportunitiesDashboardServiceProxy {
             throw new Error("The parameter 'departments' cannot be null.");
         else if (departments !== undefined)
             departments && departments.forEach(item => { url_ += "Departments=" + encodeURIComponent("" + item) + "&"; });
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -44322,6 +44332,7 @@ export class OpportunityDto implements IOpportunityDto {
     amount!: number | undefined;
     probability!: number | undefined;
     closeDate!: DateTime | undefined;
+    creationTime!: DateTime | undefined;
     description!: string | undefined;
     branchId!: number | undefined;
     departmentId!: number | undefined;
@@ -44348,6 +44359,7 @@ export class OpportunityDto implements IOpportunityDto {
             this.amount = _data["amount"];
             this.probability = _data["probability"];
             this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.description = _data["description"];
             this.branchId = _data["branchId"];
             this.departmentId = _data["departmentId"];
@@ -44378,6 +44390,7 @@ export class OpportunityDto implements IOpportunityDto {
         data["amount"] = this.amount;
         data["probability"] = this.probability;
         data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["description"] = this.description;
         data["branchId"] = this.branchId;
         data["departmentId"] = this.departmentId;
@@ -44401,6 +44414,7 @@ export interface IOpportunityDto {
     amount: number | undefined;
     probability: number | undefined;
     closeDate: DateTime | undefined;
+    creationTime: DateTime | undefined;
     description: string | undefined;
     branchId: number | undefined;
     departmentId: number | undefined;
