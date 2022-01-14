@@ -1,3 +1,11 @@
+<#
+It is necessary to have installer the following tools:
+- https://nodejs.org/
+- https://angular.io/cli
+- https://gulpjs.com/docs/en/getting-started/quick-start/
+- https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable
+#>
+
 $projectWorkspace = pwd
 $projectWorkspaceBackend = "$projectWorkspace\aspnet-core"
 $projectWorkspaceFrontend = "$projectWorkspace\angular"
@@ -8,7 +16,7 @@ $destinationBackendFolder = "crm-prod-api"
 $destinationBackendRoot = "C:\CRMFiles\$destinationBackendFolder\"
 $sourceFrontendRoot = "$projectWorkspaceFrontend\dist"
 $destinationFrontendRoot = "C:\CRMFiles\$destinationFrontendFolder\"
-$connectionString = "Server=CRMDev; Database=SB-Uat; User Id =sa;Password=Softbase2021#;MultipleActiveResultSets=True;"
+$connectionString = "Server=;Database=;User Id=;Password=;MultipleActiveResultSets=True;"
 
 
 Write-Output "-----------------------------------------------------"
@@ -59,7 +67,8 @@ $json | ConvertTo-Json | Out-File $jsonFile
 
 yarn
 gulp build
-npm run publish
+ng build --configuration production --deleteOutputPath=false
+Copy-Item -Path $projectWorkspaceFrontend\web.config -Destination $sourceFrontendRoot
 
 
 Write-Output "-----------------------------------------------------"
@@ -74,3 +83,10 @@ If(!(test-path $destinationFrontendRoot))
 Copy-Item -Path $sourceFrontendRoot\* -Destination $destinationFrontendRoot -Force -Recurse
 
 cd $projectWorkspace
+
+
+Write-Output "-----------------------------------------------------"
+Write-Output "Build Complete!!"
+Write-Output "-----------------------------------------------------"
+
+pause
