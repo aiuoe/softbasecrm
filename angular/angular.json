@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "abp-zero-template": {
+    "softbase-crm": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -138,21 +138,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "abp-zero-template:build"
+            "browserTarget": "softbase-crm:build"
           },
           "configurations": {
             "hmr": {
-              "browserTarget": "abp-zero-template:build:hmr"
+              "browserTarget": "softbase-crm:build:hmr"
             },
             "production": {
-              "browserTarget": "abp-zero-template:build:production"
+              "browserTarget": "softbase-crm:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "abp-zero-template:build"
+            "browserTarget": "softbase-crm:build"
           }
         },
         "test": {
@@ -233,7 +233,7 @@
         }
       }
     },
-    "abp-zero-template-e2e": {
+    "softbase-crm-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -242,7 +242,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "abp-zero-template:serve",
+            "devServerTarget": "softbase-crm:serve",
             "port": 4200
           }
         },
@@ -256,7 +256,7 @@
       }
     }
   },
-  "defaultProject": "abp-zero-template",
+  "defaultProject": "softbase-crm",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
