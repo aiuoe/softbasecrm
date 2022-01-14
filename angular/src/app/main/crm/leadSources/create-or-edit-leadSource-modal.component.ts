@@ -19,6 +19,7 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
 
     active = false;
     saving = false;
+    isCreateMode = false;
 
     leadSource: CreateOrEditLeadSourceDto = new CreateOrEditLeadSourceDto();
 
@@ -35,7 +36,8 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
      * @param opportunityStageId
      */
     show(leadSourceId?: number): void {
-        if (!leadSourceId) {
+        this.isCreateMode = !leadSourceId;
+        if (this.isCreateMode) {
             this.leadSource = new CreateOrEditLeadSourceDto();
             this.leadSource.id = leadSourceId;
 
@@ -65,7 +67,7 @@ export class CreateOrEditLeadSourceModalComponent extends AppComponentBase imple
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
