@@ -51,7 +51,6 @@ namespace SBCRM.Tests.Crm
             Assert.Equal(L("DuplicatedLead"), userFriendlyException.Message);
         }
 
-
         [Fact]
         [Trait("Category", "UnitTest")]
         public async Task ConvertToAccount_ButCustomerNameAlreadyExist_ReturnsError()
@@ -97,6 +96,51 @@ namespace SBCRM.Tests.Crm
             // Assert
             var userFriendlyException = await Assert.ThrowsAsync<UserFriendlyException>(LeadCreationDelegate);
             Assert.Equal(L("CustomerWithSameNameAlreadyExists"), userFriendlyException.Message);
+        }
+
+
+        [Fact]
+        [Trait("Category", "UnitTest")]
+        public async Task ConvertToAccount_ButLeadAlreadyConverted_ReturnsError()
+        {
+            // Arrange
+            var existingLead = new Faker<Lead>()
+                .RuleFor(u => u.CompanyName, (f) => f.Company.CompanyName())
+                .RuleFor(u => u.ContactName, (f) => f.Name.FullName())
+                .RuleFor(u => u.CompanyEmail, (f) => f.Person.Email)
+                .RuleFor(u => u.CompanyPhone, (f) => f.Person.Phone)
+                .RuleFor(u => u.Id, _ => 1)
+                .RuleFor(u => u.LeadStatusFk, _ => new LeadStatus { IsLeadConversionValid = false })
+                .Generate(1);
+
+            var existingLeadStatus = new Faker<LeadStatus>()
+                .RuleFor(u => u.Code, _ => _convertedStatusCode)
+                .RuleFor(u => u.Description, _ => _convertedStatusCode)
+                .RuleFor(u => u.Id, _ => 1)
+                .Generate(1);
+
+            var leadToConvert = new ConvertLeadToAccountRequestDto
+            {
+                LeadId = existingLead.First().Id
+            };
+
+            var fakeLeadRepository = Substitute.For<IRepository<Lead>>();
+            fakeLeadRepository.GetAll().Returns(existingLead.AsAsyncQueryable());
+            fakeLeadRepository.FirstOrDefaultAsync(Arg.Any<Expression<Func<Lead, bool>>>()).Returns(existingLead.FirstOrDefault());
+
+            var fakeLeadStatusRepository = Substitute.For<IRepository<LeadStatus>>();
+            fakeLeadStatusRepository.GetAll().Returns(existingLeadStatus.AsAsyncQueryable());
+
+            Register(Component.For<IRepository<Lead>>().Instance(fakeLeadRepository).IsDefault());
+            Register(Component.For<IRepository<LeadStatus>>().Instance(fakeLeadStatusRepository).IsDefault());
+
+
+            // Act
+            async Task LeadCreationDelegate() => await Resolve<ILeadsAppService>().ConvertToAccount(leadToConvert);
+
+            // Assert
+            var userFriendlyException = await Assert.ThrowsAsync<UserFriendlyException>(LeadCreationDelegate);
+            Assert.Equal(L("LeadAlreadyConverted"), userFriendlyException.Message);
         }
 
     }
