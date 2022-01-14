@@ -293,7 +293,7 @@ export class CreateOrEditCustomerComponent extends AppComponentBase implements O
             )
             .subscribe((_) => {
                 this.saving = false;
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.goToAccounts();
             });
     }
