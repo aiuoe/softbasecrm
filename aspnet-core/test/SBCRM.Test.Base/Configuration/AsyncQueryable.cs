@@ -19,36 +19,88 @@ namespace SBCRM.Test.Base.Configuration
             => new AsyncQueryable<TEntity>(source ?? throw new ArgumentNullException(nameof(source)));
     }
 
-    public class AsyncQueryable<TEntity> : EnumerableQuery<TEntity>, IAsyncEnumerable<TEntity>, IQueryable<TEntity>
+    public class AsyncEnumerator<T> : IAsyncEnumerator<T>
     {
-        public AsyncQueryable(IEnumerable<TEntity> enumerable) : base(enumerable) { }
-        public AsyncQueryable(Expression expression) : base(expression) { }
-        public IAsyncEnumerator<TEntity> GetEnumerator() => new AsyncEnumerator(this.AsEnumerable().GetEnumerator());
-        public IAsyncEnumerator<TEntity> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new AsyncEnumerator(this.AsEnumerable().GetEnumerator());
-        IQueryProvider IQueryable.Provider => new AsyncQueryProvider(this);
+        private readonly IEnumerator<T> _enumerator;
 
-        class AsyncEnumerator : IAsyncEnumerator<TEntity>
+        public AsyncEnumerator(IEnumerator<T> enumerator)
         {
-            private readonly IEnumerator<TEntity> inner;
-            public AsyncEnumerator(IEnumerator<TEntity> inner) => this.inner = inner;
-            public void Dispose() => inner.Dispose();
-            public TEntity Current => inner.Current;
-            public ValueTask<bool> MoveNextAsync() => new ValueTask<bool>(inner.MoveNext());
-#pragma warning disable CS1998 // Nothing to await
-            public async ValueTask DisposeAsync() => inner.Dispose();
-#pragma warning restore CS1998
+            this._enumerator = enumerator;
         }
 
-        class AsyncQueryProvider : IAsyncQueryProvider
+        public T Current => this._enumerator.Current;
+
+        public ValueTask DisposeAsync()
         {
-            private readonly IQueryProvider inner;
-            internal AsyncQueryProvider(IQueryProvider inner) => this.inner = inner;
-            public IQueryable CreateQuery(Expression expression) => new AsyncQueryable<TEntity>(expression);
-            public IQueryable<TElement> CreateQuery<TElement>(Expression expression) => new AsyncQueryable<TElement>(expression);
-            public object Execute(Expression expression) => inner.Execute(expression);
-            public TResult Execute<TResult>(Expression expression) => inner.Execute<TResult>(expression);
-            public IAsyncEnumerable<TResult> ExecuteAsync<TResult>(Expression expression) => new AsyncQueryable<TResult>(expression);
-            TResult IAsyncQueryProvider.ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken) => Execute<TResult>(expression);
+            return new ValueTask(Task.Run(() => this._enumerator.Dispose()));
+        }
+
+        public ValueTask<bool> MoveNextAsync()
+        {
+            return new ValueTask<bool>(this._enumerator.MoveNext());
+        }
+    }
+
+
+    public class AsyncQueryable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
+    {
+        public AsyncQueryable(IEnumerable<T> enumerable)
+            : base(enumerable)
+        {
+        }
+
+        public AsyncQueryable(Expression expression)
+            : base(expression)
+        {
+        }
+
+        IQueryProvider IQueryable.Provider => new AsyncQueryProvider<T>(this);
+
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken token)
+        {
+            return new AsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
+        }
+    }
+
+
+    public class AsyncQueryProvider<TEntity> : IAsyncQueryProvider
+    {
+        private readonly IQueryProvider _innerQueryProvider;
+
+        internal AsyncQueryProvider(IQueryProvider innerQueryProvider)
+        {
+            _innerQueryProvider = innerQueryProvider;
+        }
+
+        public IQueryable CreateQuery(Expression expression)
+        {
+            return new AsyncQueryable<TEntity>(expression);
+        }
+
+        public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
+        {
+            return new AsyncQueryable<TElement>(expression);
+        }
+
+        public object Execute(Expression expression)
+        {
+            return this._innerQueryProvider.Execute(expression);
+        }
+
+        public TResult Execute<TResult>(Expression expression)
+        {
+            return this._innerQueryProvider.Execute<TResult>(expression);
+        }
+
+        public TResult ExecuteAsync<TResult>(Expression expression,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            var expectedResultType = typeof(TResult).GetGenericArguments()[0];
+            var executionResult = ((IQueryProvider) this).Execute(expression);
+
+            return (TResult) typeof(Task).GetMethod(nameof(Task.FromResult))
+                ?.MakeGenericMethod(expectedResultType)
+                .Invoke(null, new[] {executionResult});
         }
     }
 }
