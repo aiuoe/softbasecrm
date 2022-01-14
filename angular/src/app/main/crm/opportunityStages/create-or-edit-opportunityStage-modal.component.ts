@@ -24,6 +24,7 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
 
     active = false;
     saving = false;
+    isCreateMode = false;
 
     opportunityStage: CreateOrEditOpportunityStageDto = new CreateOrEditOpportunityStageDto();
 
@@ -40,7 +41,8 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
      * @param opportunityStageId
      */
     show(opportunityStageId?: number): void {
-        if (!opportunityStageId) {
+        this.isCreateMode = !opportunityStageId;
+        if (this.isCreateMode) {
             this.opportunityStage = new CreateOrEditOpportunityStageDto();
             this.opportunityStage.id = opportunityStageId;
 
@@ -71,7 +73,7 @@ export class CreateOrEditOpportunityStageModalComponent extends AppComponentBase
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

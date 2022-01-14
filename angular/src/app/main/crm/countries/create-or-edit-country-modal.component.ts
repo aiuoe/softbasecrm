@@ -71,7 +71,7 @@ export class CreateOrEditCountryModalComponent extends AppComponentBase implemen
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

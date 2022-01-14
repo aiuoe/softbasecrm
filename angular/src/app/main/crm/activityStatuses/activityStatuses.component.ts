@@ -124,7 +124,7 @@ export class ActivityStatusesComponent extends AppComponentBase {
         let request: UpdateOrderActivityStatusDto[] = [this.activityStatus1, this.activityStatus2];
 
         this._activityStatusesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notifyService.info(this.l('UpdateSuccessfully'));
+            this.notifyService.success(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getActivityStatuses();
         });

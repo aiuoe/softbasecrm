@@ -142,7 +142,7 @@ export class LeadSourcesComponent extends AppComponentBase {
         let request: UpdateOrderleadSourceDto[] = [this.leadsourceSrc, this.leadsourceDst];
 
         this._leadSourcesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notifyService.info(this.l('UpdateSuccessfully'));
+            this.notifyService.success(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getLeadSources();
         });

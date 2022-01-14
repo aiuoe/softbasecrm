@@ -147,7 +147,7 @@ export class OpportunityStagesComponent extends AppComponentBase {
         let request: UpdateOrderOpportunityStageDto[] = [this.opportunityStage1, this.opportunityStage2];
 
         this._opportunityStagesServiceProxy.updateOrder(request).subscribe(() => {
-            this.notifyService.info(this.l('UpdateSuccessfully'));
+            this.notifyService.success(this.l('UpdateSuccessfully'));
             this.modalSave.emit(null);
             this.getOpportunityStages();
         });

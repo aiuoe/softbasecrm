@@ -166,7 +166,7 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

@@ -52,7 +52,7 @@ export class EditUserPermissionsModalComponent extends AppComponentBase {
                 })
             )
             .subscribe(() => {
-                this.notifyService.info(this.l('SavedSuccessfully'));
+                this.notifyService.success(this.l('SavedSuccessfully'));
                 this.close();
             });
     }
@@ -65,7 +65,7 @@ export class EditUserPermissionsModalComponent extends AppComponentBase {
         this.resettingPermissions = true;
         this._userService.resetUserSpecificPermissions(input).subscribe({
             next: () => {
-                this.notifyService.info(this.l('ResetSuccessfully'));
+                this.notifyService.success(this.l('ResetSuccessfully'));
                 this._userService.getUserPermissionsForEdit(this.userId).subscribe((result) => {
                     this.permissionTree.editData = result;
                 });
