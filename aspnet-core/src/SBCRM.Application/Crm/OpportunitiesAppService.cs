@@ -730,8 +730,7 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public async Task<FileDto> GetOpportunitiesToExcel(GetAllOpportunitiesForExcelInput input)
         {
-            TimeZoneInfo TimeZone =
-                                TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone);
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone);
 
             IQueryable<Opportunity> filteredOpportunities = _opportunityRepository.GetAll()
                         .Include(e => e.OpportunityStageFk)
@@ -776,7 +775,7 @@ namespace SBCRM.Crm
                                                          Name = o.Name,
                                                          Amount = o.Amount,
                                                          Probability = o.Probability,
-                                                         CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, TimeZone) : null,
+                                                         CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, timeZone) : null,
                                                          Description = o.Description,
                                                          BranchName = o.Name,
                                                          DepartmentTitle = o.Name,

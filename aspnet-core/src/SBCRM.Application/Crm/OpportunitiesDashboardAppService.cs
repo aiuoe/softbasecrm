@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Linq.Extensions;
 using NUglify.Helpers;
+using SBCRM.Common;
 using SBCRM.Legacy.Dtos;
 
 namespace SBCRM.Crm
@@ -78,6 +79,9 @@ namespace SBCRM.Crm
 
             try
             {
+                input.FromDate = input.FromDate.ResetTimeToZeroHours();
+                input.ToDate = input.ToDate.ResetTimeToLastHoursNextDay();
+
                 var opportunities = _opportunityRepository.GetAll()
                     .Include(e => e.OpportunityStageFk)
                     .Include(e => e.LeadSourceFk)
@@ -189,6 +193,9 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public FileDto GetClosedWonOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input)
         {
+            input.FromDate = input.FromDate.ResetTimeToZeroHours();
+            input.ToDate = input.ToDate.ResetTimeToLastHoursNextDay();
+
             var filteredOpportunities = _opportunityRepository.GetAll()
                     .Include(e => e.OpportunityStageFk)
                     .Include(e => e.LeadSourceFk)
@@ -202,8 +209,7 @@ namespace SBCRM.Crm
                     .WhereIf((input.Branches?.Any() ?? false), e => input.Branches.Contains(e.Branch))
                     .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))
                 ;
-
-            return GetOpportunitiesInternDashboardToExcel(filteredOpportunities);
+            return GetOpportunitiesInternDashboardToExcel(filteredOpportunities, TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone));
         }
 
         /// <summary>
@@ -213,6 +219,9 @@ namespace SBCRM.Crm
         /// <returns></returns>
         public FileDto GetOpportunitiesDashboardToExcel(GetAllOpportunitiesDashboardForExcelInput input)
         {
+            input.FromDate = input.FromDate.ResetTimeToZeroHours();
+            input.ToDate = input.ToDate.ResetTimeToLastHoursNextDay();
+
             var filteredOpportunities = _opportunityRepository.GetAll()
                     .Include(e => e.OpportunityStageFk)
                     .Include(e => e.LeadSourceFk)
@@ -227,13 +236,12 @@ namespace SBCRM.Crm
                     .WhereIf((input.Departments?.Any() ?? false), e => input.Departments.Contains(e.Dept))
                 ;
 
-            return GetOpportunitiesInternDashboardToExcel(filteredOpportunities);
+            return GetOpportunitiesInternDashboardToExcel(filteredOpportunities, TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone));
         }
 
 
-        private FileDto GetOpportunitiesInternDashboardToExcel(IQueryable<Opportunity> filteredOpportunities)
+        private FileDto GetOpportunitiesInternDashboardToExcel(IQueryable<Opportunity> filteredOpportunities, TimeZoneInfo timeZone)
         {
-
             var opportunities = (from o in filteredOpportunities
                                  join o1 in _lookupOpportunityStageRepository.GetAll() on o.OpportunityStageId equals o1.Id into j1
                                  from s1 in j1.DefaultIfEmpty()
@@ -272,7 +280,7 @@ namespace SBCRM.Crm
                                  }).ToList();
 
             opportunities = opportunities.DistinctBy(x => x.Id).ToList();
-            var views = GetOpportunityForViewDtos(opportunities);
+            var views = GetOpportunityForViewDtos(opportunities, timeZone);
 
             return _opportunitiesExcelExporter.ExportToFile(views);
         }
@@ -281,8 +289,9 @@ namespace SBCRM.Crm
         /// Get list of Opportunity Query Dtos for view
         /// </summary>
         /// <param name="dbList"></param>
+        /// <param name="timeZone"></param>
         /// <returns></returns>
-        private static List<GetOpportunityForViewDto> GetOpportunityForViewDtos(List<OpportunityQueryDto> dbList)
+        private static List<GetOpportunityForViewDto> GetOpportunityForViewDtos(List<OpportunityQueryDto> dbList, TimeZoneInfo timeZone)
         {
             var results = new List<GetOpportunityForViewDto>();
 
@@ -295,7 +304,8 @@ namespace SBCRM.Crm
                         Name = o.Name,
                         Amount = o.Amount,
                         Probability = o.Probability,
-                        CloseDate = o.CloseDate,
+                        CloseDate = o.CloseDate.HasValue ? TimeZoneInfo.ConvertTime((DateTime)o.CloseDate, timeZone) : null,
+                        CreationTime = TimeZoneInfo.ConvertTime((DateTime)o.CreationTime, timeZone),
                         Description = o.Description,
                         Id = o.Id,
                     },
