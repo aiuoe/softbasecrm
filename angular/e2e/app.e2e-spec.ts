@@ -1,7 +1,7 @@
 import { SBCRMPage } from './app.po';
 import { browser, element, by } from 'protractor';
 
-describe('abp-zero-template App', () => {
+describe('softbase-crm App', () => {
     let page: SBCRMPage;
 
     beforeEach(() => {
