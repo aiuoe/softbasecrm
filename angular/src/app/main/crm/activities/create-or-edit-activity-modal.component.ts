@@ -239,7 +239,6 @@ export class CreateOrEditActivityModalComponent extends AppComponentBase impleme
         this.allActivityPriorities = priorities;
 
         if (!this.isEditMode) {
-            this.activity.userId = !this.canAssignOtherUsers ? availableUsers[0].id : null;
             this.activity.activitySourceTypeId = sourceTypes.length > 0 ? sourceTypes.find((x) => x.code === sourceTypeCode)?.id : null;
             this.activity.activityTaskTypeId = activityTypes.length > 0 ? activityTypes.find((x) => x.isDefault)?.id || activityTypes[0].id : null;
             this.activity.activityStatusId = statuses.length > 0 ? statuses.find((x) => x.isDefault)?.id || statuses[0].id : null;
