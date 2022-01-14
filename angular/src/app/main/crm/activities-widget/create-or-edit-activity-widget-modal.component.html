@@ -1,4 +1,13 @@
-<div bsModal #createActivityModal="bs-modal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createActivityModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+<div
+    bsModal
+    #createActivityModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createActivityModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div *ngIf="active">
@@ -11,7 +20,13 @@
                     </button>
                 </div>
                 <!-- SCHEDULE CALL FORM -->
-                <form  *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_CALL" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form
+                    *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_CALL"
+                    #activityForm="ngForm"
+                    novalidate
+                    (ngSubmit)="save()"
+                    autocomplete="off"
+                >
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -27,7 +42,7 @@
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                         (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
@@ -70,7 +85,7 @@
                                         hourFormat="12"
                                         id="Activity_Starts_At"
                                         name="Activity_Starts_At"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                     ></p-calendar>
                                     <validation-messages [formCtrl]="Activity_Starts_At"></validation-messages>
                                 </div>
@@ -89,9 +104,8 @@
                                         optionValue="value"
                                         optionLabel="text"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="Activity_Duration_Minutes"></validation-messages>
                                 </div>
                             </div>
@@ -111,9 +125,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
@@ -130,9 +143,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
@@ -148,18 +160,26 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
-                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">
+                            {{ l('Cancel') }}
+                        </button>
+                        <button
+                            *ngIf="!isView"
+                            type="submit"
+                            class="btn btn-primary blue"
+                            [disabled]="!activityForm.form.valid"
+                            [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"
+                        >
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
@@ -167,7 +187,13 @@
                 </form>
 
                 <!-- SCHEDULE MEETING FORM -->
-                <form  *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_MEETING" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form
+                    *ngIf="this.activityTypeCode == activityTypeEnum.SCHEDULE_MEETING"
+                    #activityForm="ngForm"
+                    novalidate
+                    (ngSubmit)="save()"
+                    autocomplete="off"
+                >
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -183,7 +209,7 @@
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                         (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
@@ -226,7 +252,7 @@
                                         hourFormat="12"
                                         id="Activity_Starts_At"
                                         name="Activity_Starts_At"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                     ></p-calendar>
                                     <validation-messages [formCtrl]="Activity_Starts_At"></validation-messages>
                                 </div>
@@ -245,9 +271,8 @@
                                         optionValue="value"
                                         optionLabel="text"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="Activity_Duration_Minutes"></validation-messages>
                                 </div>
                             </div>
@@ -267,9 +292,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
@@ -286,9 +310,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
@@ -304,18 +327,26 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
-                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">
+                            {{ l('Cancel') }}
+                        </button>
+                        <button
+                            *ngIf="!isView"
+                            type="submit"
+                            class="btn btn-primary blue"
+                            [disabled]="!activityForm.form.valid"
+                            [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"
+                        >
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
@@ -323,7 +354,13 @@
                 </form>
 
                 <!-- EMAIL REMINDER FORM -->
-                <form  *ngIf="this.activityTypeCode == activityTypeEnum.EMAIL_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form
+                    *ngIf="this.activityTypeCode == activityTypeEnum.EMAIL_REMINDER"
+                    #activityForm="ngForm"
+                    novalidate
+                    (ngSubmit)="save()"
+                    autocomplete="off"
+                >
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -339,7 +376,7 @@
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                         (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
@@ -382,9 +419,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
@@ -401,9 +437,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
@@ -419,27 +454,40 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn  btn-secondary" (click)="close()">{{l("Cancel")}}</button>
-                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">
+                            {{ l('Cancel') }}
+                        </button>
+                        <button
+                            *ngIf="!isView"
+                            type="submit"
+                            class="btn btn-primary blue"
+                            [disabled]="!activityForm.form.valid"
+                            [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"
+                        >
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
                     </div>
                 </form>
 
-
                 <!-- TO DO REMINDER FORM -->
-                <form  *ngIf="this.activityTypeCode == activityTypeEnum.TODO_REMINDER" #activityForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <form
+                    *ngIf="this.activityTypeCode == activityTypeEnum.TODO_REMINDER"
+                    #activityForm="ngForm"
+                    novalidate
+                    (ngSubmit)="save()"
+                    autocomplete="off"
+                >
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -455,7 +503,7 @@
                                         id="Activity_DueDate"
                                         name="Activity_DueDate"
                                         [(ngModel)]="selectedDate"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                         (input)="removeFocusWhenCleared($event)"
                                     />
                                     <validation-messages [formCtrl]="Activity_DueDate"></validation-messages>
@@ -498,9 +546,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityStatusDescription"></validation-messages>
                                 </div>
                             </div>
@@ -517,9 +564,8 @@
                                         optionValue="id"
                                         optionLabel="displayName"
                                         placeholder="{{ l('Select') }}"
-                                        [disabled] = "isView"
-                                    >
-                                    </p-dropdown>
+                                        [disabled]="isView"
+                                    ></p-dropdown>
                                     <validation-messages [formCtrl]="ActivityPriorityDescription"></validation-messages>
                                 </div>
                             </div>
@@ -535,18 +581,26 @@
                                         class="form-control"
                                         [(ngModel)]="activity.description"
                                         name="Description"
-                                        [disabled] = "isView"
+                                        [disabled]="isView"
                                     ></textarea>
                                     <validation-messages [formCtrl]="Activity_Description"></validation-messages>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">{{l("Cancel")}}</button>
-                        <button *ngIf="!isView" type="submit" class="btn btn-primary blue" [disabled]="!activityForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button [disabled]="saving" type="button" class="btn btn-secondary" (click)="close()">
+                            {{ l('Cancel') }}
+                        </button>
+                        <button
+                            *ngIf="!isView"
+                            type="submit"
+                            class="btn btn-primary blue"
+                            [disabled]="!activityForm.form.valid"
+                            [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"
+                        >
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
@@ -555,5 +609,4 @@
             </div>
         </div>
     </div>
-
 </div>
