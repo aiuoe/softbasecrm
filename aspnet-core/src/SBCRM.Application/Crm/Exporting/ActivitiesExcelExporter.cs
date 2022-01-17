@@ -68,7 +68,7 @@ namespace SBCRM.Crm.Exporting
                         _ => _.CompanyName,
                         _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityPriorityDescription,
-                        _ => TimeZoneInfo.ConvertTime(_.DueDate, timeZone),
+                        _ => _.IsReminderType ? TimeZoneInfo.ConvertTime(_.DueDate, timeZone).Date : TimeZoneInfo.ConvertTime(_.DueDate, timeZone),
                         _ => _.UserName
                         );
 
