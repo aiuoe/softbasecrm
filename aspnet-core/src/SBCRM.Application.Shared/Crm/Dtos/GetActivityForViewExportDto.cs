@@ -12,5 +12,7 @@ namespace SBCRM.Crm.Dtos
         public DateTime DueDate { get; set; }
 
         public DateTime StartsAt { get; set; }
+
+        public bool IsReminderType { get; set; }
     }
 }
