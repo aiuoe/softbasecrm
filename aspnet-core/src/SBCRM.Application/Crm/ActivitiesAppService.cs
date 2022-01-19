@@ -466,6 +466,7 @@ namespace SBCRM.Crm
                              Activity = new ActivityDto
                              {
                                  Id = activity.Id,
+                                 ActivityTaskTypeId = activity.ActivityTaskTypeId,
                                  // Due date needs to be a direct child of the model in order to make custom sorting work.
                              },
                              DueDate = activity.DueDate,
@@ -493,7 +494,15 @@ namespace SBCRM.Crm
 
             var activityListDtos = await query.ToListAsync();
 
-            return _activitiesExcelExporter.ExportToFile(activityListDtos);
+            var activityTypes = await _activitiesService.GetAllActivityTaskTypeForTableDropdown();
+
+            foreach (var item in activityListDtos)
+            {
+                var activityTypeCode = activityTypes.SingleOrDefault(x => x.Id == item.Activity.ActivityTaskTypeId)?.Code ?? string.Empty;
+                item.IsReminderType = activityTypeCode == ActivityConsts.EMAIL_REMINDER || activityTypeCode == ActivityConsts.TODO_REMINDER;
+            }
+
+            return _activitiesExcelExporter.ExportToFile(activityListDtos, TimeZoneInfo.FindSystemTimeZoneById(input.TimeZone));
         }
 
         /// <summary>

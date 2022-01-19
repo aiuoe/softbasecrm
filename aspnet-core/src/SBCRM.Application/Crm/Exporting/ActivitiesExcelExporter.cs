@@ -39,7 +39,7 @@ namespace SBCRM.Crm.Exporting
         /// </summary>
         /// <param name="activities">The list of Activities</param>
         /// <returns></returns>
-        public FileDto ExportToFile(List<GetActivityForViewExportDto> activities)
+        public FileDto ExportToFile(List<GetActivityForViewExportDto> activities, TimeZoneInfo timeZone)
         {
             var fileName = $"Activities_{DateTime.UtcNow:MM_dd_yyyy}.xlsx";
 
@@ -68,7 +68,7 @@ namespace SBCRM.Crm.Exporting
                         _ => _.CompanyName,
                         _ => _.ActivityTaskTypeDescription,
                         _ => _.ActivityPriorityDescription,
-                        _ => _timeZoneConverter.Convert(_.DueDate, _abpSession.TenantId, _abpSession.GetUserId()),
+                        _ => _.IsReminderType ? TimeZoneInfo.ConvertTime(_.DueDate, timeZone).Date : TimeZoneInfo.ConvertTime(_.DueDate, timeZone),
                         _ => _.UserName
                         );
 

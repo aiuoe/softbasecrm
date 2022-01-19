@@ -2399,6 +2399,7 @@ export class ActivitiesServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param timeZone (optional) 
      * @param opportunityNameFilter (optional) 
      * @param leadCompanyNameFilter (optional) 
      * @param userNameFilter (optional) 
@@ -2414,12 +2415,16 @@ export class ActivitiesServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getActivitiesToExcel(filter: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getActivitiesToExcel(filter: string | undefined, timeZone: string | undefined, opportunityNameFilter: string | undefined, leadCompanyNameFilter: string | undefined, userNameFilter: string | undefined, customerNameFilter: string | undefined, userIds: number[] | undefined, excludeCompleted: boolean | undefined, activitySourceTypeId: number | undefined, activityTaskTypeId: number | undefined, activityStatusId: number | undefined, isUnassignedSelected: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Activities/GetActivitiesToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (timeZone === null)
+            throw new Error("The parameter 'timeZone' cannot be null.");
+        else if (timeZone !== undefined)
+            url_ += "TimeZone=" + encodeURIComponent("" + timeZone) + "&";
         if (opportunityNameFilter === null)
             throw new Error("The parameter 'opportunityNameFilter' cannot be null.");
         else if (opportunityNameFilter !== undefined)

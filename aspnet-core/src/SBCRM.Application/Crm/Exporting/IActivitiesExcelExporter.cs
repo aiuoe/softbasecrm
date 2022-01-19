@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 
@@ -13,7 +14,8 @@ namespace SBCRM.Crm.Exporting
         /// Creates an Excel file for the list of Activites
         /// </summary>
         /// <param name="activities">The list of Activities</param>
+        /// <param name="timeZone">The time zone of the current user</param>
         /// <returns></returns>
-        FileDto ExportToFile(List<GetActivityForViewExportDto> activities);
+        FileDto ExportToFile(List<GetActivityForViewExportDto> activities, TimeZoneInfo timeZone);
     }
 }
