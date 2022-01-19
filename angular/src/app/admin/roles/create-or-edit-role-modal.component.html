@@ -45,19 +45,19 @@
                                 <validation-messages [formCtrl]="roleNameInput"></validation-messages>
                             </div>
 
-                            <div class="checkbox-list">
-                                <label class="checkbox">
-                                    <input
-                                        id="EditRole_IsDefault"
-                                        type="checkbox"
-                                        name="IsDefault"
-                                        [(ngModel)]="role.isDefault"
-                                    />
-                                    <span></span>
-                                    {{ 'Default' | localize }}
-                                </label>
-                                <small class="form-text text-muted">{{ 'DefaultRole_Description' | localize }}</small>
-                            </div>
+<!--                            <div class="checkbox-list">-->
+<!--                                <label class="checkbox">-->
+<!--                                    <input-->
+<!--                                        id="EditRole_IsDefault"-->
+<!--                                        type="checkbox"-->
+<!--                                        name="IsDefault"-->
+<!--                                        [(ngModel)]="role.isDefault"-->
+<!--                                    />-->
+<!--                                    <span></span>-->
+<!--                                    {{ 'Default' | localize }}-->
+<!--                                </label>-->
+<!--                                <small class="form-text text-muted">{{ 'DefaultRole_Description' | localize }}</small>-->
+<!--                            </div>-->
                         </tab>
                         <tab heading="{{ 'Permissions' | localize }}">
                             <permission-tree #permissionTree></permission-tree>

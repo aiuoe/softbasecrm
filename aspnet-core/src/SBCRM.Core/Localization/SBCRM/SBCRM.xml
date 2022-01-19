@@ -274,8 +274,8 @@
 		<text name="Stage">Stage</text>
 		<text name="StageName">Stage Name</text>
 		<text name="CreateNewOpportunityStage">Create new opportunity stage</text>
-		<text name="NewOpportunityStage">New opportunity stage</text>
-		<text name="EditOpportunityStage">Edit opportunity stage</text>
+		<text name="NewOpportunityStage">New Opportunity Stage</text>
+		<text name="EditOpportunityStage">Edit Opportunity Stage</text>
 		<text name="DeleteOpportunityStage">Delete opportunity stage</text>
 		<text name="IsLeadConversionValid">Is lead conversion valid</text>
 		<text name="NotIsLeadConversionValid">Not is lead conversion valid</text>
@@ -343,7 +343,7 @@
 		<text name="LeadStatusesHeaderInfo">Lead statuses header info</text>
 		<text name="NewLeadStatus">New Lead Status</text>
 		<text name="CreateNewLeadStatus">Create New Lead Status</text>
-		<text name="EditLeadStatus">Edit lead status</text>
+		<text name="EditLeadStatus">Edit Lead Status</text>
 		<text name="DeleteLeadStatus">Delete lead status</text>
 		<text name="LeadStatuses">Lead Status</text>
 		<text name="LeadStatusName">Status Name</text>
@@ -356,7 +356,7 @@
 		<text name="LeadSourcesHeaderInfo">Lead sources header info</text>
 		<text name="NewLeadSource">New Lead Source</text>
 		<text name="CreateNewLeadSource">Create lead source</text>
-		<text name="EditLeadSource">Edit lead source</text>
+		<text name="EditLeadSource">Edit Lead Source</text>
 		<text name="DeleteLeadSource">Delete lead source</text>
 		<text name="LeadSources">Lead Sources</text>
 		<text name="Industry">Industry</text>
