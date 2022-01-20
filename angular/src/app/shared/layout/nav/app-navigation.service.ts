@@ -127,7 +127,7 @@ export class AppNavigationService {
             new AppMenuItem(
                 'User Management',
                 '',
-                'fas fa-male',
+                'fas fa-user-shield',
                 '',
                 [],
                 [
