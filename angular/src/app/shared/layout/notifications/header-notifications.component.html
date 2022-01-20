@@ -6,13 +6,13 @@
     [dropup]="isDropup"
     container="{{ isDropup ? null : 'body' }}"
 >
-    <div dropdownToggle [class]="customStyle" id="notificationIcon">
-        <i class="flaticon-alert-2 unread-notification" *ngIf="unreadNotificationCount"></i>
-        <span class="label label-warning unread-notification-count" *ngIf="unreadNotificationCount">
-            {{ unreadNotificationCount }}
-        </span>
-        <i class="flaticon-alarm" *ngIf="!unreadNotificationCount"></i>
-    </div>
+<!--    <div dropdownToggle [class]="customStyle" id="notificationIcon">-->
+<!--        <i class="flaticon-alert-2 unread-notification" *ngIf="unreadNotificationCount"></i>-->
+<!--        <span class="label label-warning unread-notification-count" *ngIf="unreadNotificationCount">-->
+<!--            {{ unreadNotificationCount }}-->
+<!--        </span>-->
+<!--        <i class="flaticon-alarm" *ngIf="!unreadNotificationCount"></i>-->
+<!--    </div>-->
     <div
         *dropdownMenu
         class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-lg"
