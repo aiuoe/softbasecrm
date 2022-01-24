@@ -172,4 +172,15 @@ export abstract class AppComponentBase implements OnDestroy {
             target.blur();
         }
     }
+
+    /***
+     * Shows an empty string in case the value is 0, this is necessary for certain modules in the system
+     * @param rentalContractNo
+     */
+    showStringEmptyInsteadOfZero(rentalContractNo: any) {
+        if (rentalContractNo == 0) {
+            return '';
+        }
+        return rentalContractNo;
+    }
 }
