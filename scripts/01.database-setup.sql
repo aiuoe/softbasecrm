@@ -1,7 +1,8 @@
 UPDATE [web].[AbpLanguages] SET IsDisabled = 1 WHERE Name <> 'en';
 GO
 
-UPDATE [web].AbpUsers SET Password = 'AQAAAAEAACcQAAAAEN2zqWVIB07bQAxWs3vewH6GLxt++3TzSboByFAJDxuG9m3WNmWJ2sFcmXg0jEQMLg==' WHERE UserName = 'admin';
+UPDATE [web].AbpUsers SET UserName = 'SoftbaseAdmin', Name = 'Softbase', Surname = 'Admin', NormalizedUserName = 'SOFTBASEADMIN' WHERE UserName = 'admin';
+UPDATE [web].AbpUsers SET Password = 'AQAAAAEAACcQAAAAEI4JxhWyG4aWjT4dqekpXVcSdT0FJr/PpqXzEUuC1qqZRKEo0AMsDjZ11dJgaAg2Dw==' WHERE UserName = 'SoftbaseAdmin';
 
 GO
 
