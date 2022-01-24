@@ -98,8 +98,8 @@
                                                 (input)="delaySearchUsers()"
                                             />
                                             <div class="input-group-append">
-                                                <button (click)="getUsers()" 
-                                                        class="btn btn-primary" 
+                                                <button (click)="getUsers()"
+                                                        class="btn btn-primary"
                                                         type="submit">
                                                     <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
                                                 </button>
@@ -126,11 +126,11 @@
                                 </div>
                                 <div class="col-md-6" *ngIf="'Pages.Administration.Roles' | permission">
                                     <div class="form-group">
-                                        <role-combo 
-                                            name="roleFilter" 
+                                        <role-combo
+                                            name="roleFilter"
                                             [(ngModel)]="role"
                                             (click)="getUsers()"
-                                        >    
+                                        >
                                         </role-combo>
                                     </div>
                                 </div>
@@ -266,7 +266,7 @@
                                                 <button
                                                     id="dropdownButton"
                                                     type="button"
-                                                    class="btn btn-primary btn-sm dropdown-toggle"
+                                                    class="btn btn-secondary btn-sm dropdown-toggle"
                                                     dropdownToggle
                                                     aria-controls="dropdownMenu"
                                                 >
