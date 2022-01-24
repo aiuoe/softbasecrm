@@ -48,7 +48,7 @@
 		<text name="CustomerEdit__Dynamic">Edit Account if user is assigned to the Account</text>
 		<text name="CustomerAttachment">Customer attachment</text>
 		<text name="SBCRM.Crm.CustomerAttachment">CustomerAttachment</text>
-		<text name="FilePath">File path</text>
+		<text name="FilePath">File Path</text>
 		<text name="CustomerAttachmentsHeaderInfo">Customer attachments header info</text>
 		<text name="CreateNewCustomerAttachment">Create new customer attachment</text>
 		<text name="EditCustomerAttachment">Edit customer attachment</text>
@@ -249,7 +249,7 @@
 		<text name="Probability">Probability</text>
 		<text name="Probability%">Probability %</text>
 		<text name="CloseDate">Closed Date</text>
-		<text name="OpportunityCloseDate">Close Date</text>
+		<text name="OpportunityCloseDate">Closed Date</text>
 		<text name="Department">Department</text>
 		<text name="NewOpportunites">New Opportunites</text>
 		<text name="DepartmentName">Department Name</text>
