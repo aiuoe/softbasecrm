@@ -730,36 +730,36 @@
                                         >
                                             <ng-template pTemplate="header">
                                                 <tr>
-                                                    <th style="width: 150px" pSortableColumn="invoiceNumber">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="invoiceNumber">
                                                         {{ l('InvoiceNumber') }}
                                                         <p-sortIcon field="invoiceNumber"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="poNumber">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="poNumber">
                                                         {{ l('PO') }}
                                                         <p-sortIcon field="poNumber"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="serial">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="serial">
                                                         {{ l('Serial') }}
                                                         <p-sortIcon field="serial"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="unitNo">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="unitNo">
                                                         {{ l('Unit') }}
                                                         <p-sortIcon field="unitNo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="associatedWONo">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="associatedWONo">
                                                         {{ l('AssociatedDoc') }}
                                                         <p-sortIcon field="associatedWONo"></p-sortIcon>
                                                     </th>
 
-                                                    <th style="width: 150px" pSortableColumn="rentalContractNo">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="rentalContractNo">
                                                         {{ l('RentalNumber') }}
                                                         <p-sortIcon field="rentalContractNo"></p-sortIcon>
                                                     </th>
-                                                    <th style="width: 150px" pSortableColumn="grandTotal">
+                                                    <th style="width: 150px" class="font-size-h5" pSortableColumn="grandTotal">
                                                         {{ l('Amount') }}
                                                         <p-sortIcon field="grandTotal"></p-sortIcon>
                                                     </th>
@@ -797,9 +797,9 @@
                                                         {{ showStringEmptyInsteadOfZero(record.rentalContractNo) }}
                                                     </td>
 
-                                                    <td style="width: 150px" class="text-right">
+                                                    <td style="width: 150px">
                                                         <span class="p-column-title">{{ l('Amount') }}</span>
-                                                        {{ record.grandTotal | number: '1.2-2' }}
+                                                        {{ record.grandTotal | currency: 'USD':true }}
                                                     </td>
                                                 </tr>
                                             </ng-template>
