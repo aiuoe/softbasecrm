@@ -18,12 +18,13 @@
                                 "
                                 class="btn-group dropdown"
                                 dropdown
+                                placement="bottom left"
                                 container="body"
                             >
                                 <button class="btn btn-primary blue" dropdownToggle>
                                     <i class="fa fa-plus"></i><span class="caret">{{l("Activity")}}</span>
                                 </button>
-                                <ul class="dropdown-menu" *dropdownMenu>
+                                <ul class="dropdown-menu activities-context-menu" *dropdownMenu>
                                     <li>
                                         <a *ngIf="showScheduleCallOption" class="dropdown-item" href="javascript:;"
                                         (click)="createActivityScheduleCallHandler()">{{l('ScheduleCall')}}</a>

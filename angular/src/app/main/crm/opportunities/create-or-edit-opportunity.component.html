@@ -346,8 +346,8 @@
             </tabset>
         </div>
 
-        <div class="row" *ngIf="this.opportunity.id">
-            <div class="col-sm-12 col-lg-6" *ngIf="this.showAssignedUsersWidget">
+        <div [class]="containerClass + ' row p-0 m-0'" *ngIf="this.opportunity.id">
+            <div class="col-sm-12 col-lg-6 p-0 m-0" *ngIf="this.showAssignedUsersWidget">
                 <app-assigned-user
                     [componentType]="'Opportunity'"
                     [idToStore]="this.opportunity.id"
@@ -355,7 +355,7 @@
                 ></app-assigned-user>
             </div>
 
-            <div class="col-sm-12 col-lg-6" *ngIf="showActivityWidget">
+            <div class="col-sm-12 col-lg-6 p-0 m-0" *ngIf="showActivityWidget">
                 <app-activities-widget
                     [allowCreate]="canCreateActivity"
                     [showScheduleMeetingOption]="canViewScheduleMeetingOption"
@@ -369,7 +369,7 @@
                 ></app-activities-widget>
             </div>
 
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6 p-0 m-0">
                 <attachments-widget
                     [componentType]="'Opportunity'"
                     [idToStore]="this.opportunity.id"
