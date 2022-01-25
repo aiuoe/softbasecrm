@@ -59,8 +59,12 @@ export class ActivitiesWidgetComponent extends AppComponentBase implements OnIni
     allActivityTaskTypes: ActivityActivityTaskTypeLookupTableDto[];
 
     /**
-     *
+     * Main constructor
      * @param injector Constructor
+     * @param _activitySharedService
+     * @param _accountActivitiesServiceProxy
+     * @param _leadActivitiesServiceProxy
+     * @param _opportunityActivitiesServiceProxy
      */
     constructor(
         injector: Injector,
