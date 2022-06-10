@@ -1,4 +1,5 @@
 {
+  "remoteReportServiceBaseUrl": "https://localhost:44302",
   "remoteServiceBaseUrl": "https://localhost:44301",
   "appBaseUrl": "http://localhost:4200",
   "localeMappings": {
