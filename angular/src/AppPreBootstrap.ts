@@ -100,11 +100,18 @@ export class AppPreBootstrap {
                     AppConsts.tenancyNamePlaceHolderInUrl + '.',
                     ''
                 );
-
+                AppConsts.remoteReportServiceBaseUrl = result.remoteReportServiceBaseUrl.replace(
+                    AppConsts.tenancyNamePlaceHolderInUrl + '.',
+                    ''
+                );
                 callback();
             } else {
                 AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
                 AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(
+                    AppConsts.tenancyNamePlaceHolderInUrl,
+                    tenancyName
+                );
+                AppConsts.remoteReportServiceBaseUrl = result.remoteReportServiceBaseUrl.replace(
                     AppConsts.tenancyNamePlaceHolderInUrl,
                     tenancyName
                 );
