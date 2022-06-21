@@ -1,0 +1,859 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration'" [description]="'Administration · Sale Codes'">
+            <div role="actions">
+                <button
+                    class="btn btn-secondary blue"
+                >
+                    Close
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="form">
+                        <form>
+                            <div class="form-body">
+                                <div class="row mb-4">
+                                    <div class="col-xl-12 text-right">
+                                        <button
+                                            class="btn btn-primary blue"
+                                            (click)="replicateSaleCodes()"
+                                        >
+                                            <i class="fa fa-copy fa-lg"></i>
+                                            Replicate
+                                        </button>
+                                        <button class="btn btn-primary blue">
+                                            <i class="fa fa-plus fa-lg"></i>
+                                            Add
+                                        </button>
+                                        <button class="btn btn-primary blue">
+                                            <i class="fa fa-trash fa-lg"></i>
+                                            Delete
+                                        </button>
+                                        <button class="btn btn-primary blue">
+                                            <i class="fa fa-check fa-lg"></i>
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center form-row-header">
+                                    <i class="fa fa-user"></i>
+                                    Sale Code Setup
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Branch</label>
+                                        <select class="form-control">
+                                            <option>Branch 1</option>
+                                            <option>Branch 2</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Department</label>
+                                        <select class="form-control">
+                                            <option>Department 1</option>
+                                            <option>Department 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Sale Code</label>
+                                        <select class="form-control">
+                                            <option>Sale Code 1</option>
+                                            <option>Sale Code 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center form-row-header">
+                                    <i class="fa fa-user"></i>
+                                    Description
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-3">
+                                        <label for="">General</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">Parts</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Sale Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">COG Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Tax Code Override</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button
+                                                    class="btn btn-primary addl-dist-btn"
+                                                    (click)="addlDistSaleCodes()"
+                                                >
+                                                    Add'l Dist
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Taxable
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                State
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Country
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                City
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Local
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Labor</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">Sale Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">COG Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Tax Code Override</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Labor Rate</label>
+                                        <select class="form-control">
+                                            <option>Rate 1</option>
+                                            <option>Rate 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Taxable
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                State
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Country
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                City
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Local
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Misc</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">Sale Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">COG Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Misc Inventory Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Tax Code Override</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Taxable
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                State
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Country
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                City
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Local
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Markup Percent</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Sub Total Type</label>
+                                        <select class="form-control">
+                                            <option>Type 1</option>
+                                            <option>Type 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Rental</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">Sale Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label for="">COG Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Tax Code Override</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Rental Cost Percent</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Taxable
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Cost Prompt
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                State
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Country
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                City
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Local
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Equipment</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                        />
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Sale Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">COG Account</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Tax Code Override</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Taxable
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                State
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Country
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                City
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-1">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Local
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 text-right">
+                                        <button
+                                            class="btn btn-primary blue"
+                                            (click)="eqGroupDistSaleCodes()"
+                                        >
+                                            EQ Group Dist
+                                        </button>
+                                        <button
+                                            class="btn btn-primary blue"
+                                            (click)="eqMakeDistSaleCodes()"
+                                        >
+                                            EQ Make Dist
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Bill To#</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button
+                                                    class="btn btn-primary"
+                                                    (click)="customerSearchSaleCodes()"
+                                                >
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 align-option-btns">
+                                        <div class="radio-inline">
+                                            <label for="customerSale" class="radio">
+                                                <input
+                                                    id="customerSale"
+                                                    name="billToRadio"
+                                                    type="radio"
+                                                />
+                                                <span></span>
+                                                Customer Sale
+                                            </label>
+                                            <label for="automaticExpenseCode" class="radio">
+                                                <input
+                                                    id="automaticExpenseCode"
+                                                    name="billToRadio"
+                                                    type="radio"
+                                                />
+                                                <span></span>
+                                                Automatic Expense Code
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Expense Branch</label>
+                                        <select class="form-control">
+                                            <option>Branch 1</option>
+                                            <option>Branch 2</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="">Expense Department</label>
+                                        <select class="form-control">
+                                            <option>Department 1</option>
+                                            <option>Department 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-6">
+                                        <label for="">Expense Code</label>
+                                        <select class="form-control">
+                                            <option>Code 1</option>
+                                            <option>Code 2</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-2 align-option-btns">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Re-Work
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 align-option-btns">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Travel Time
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 align-option-btns">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Guaranteed Maint
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Require Serial #
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Lost Time
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <div class="checkbox-list mb-2">
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                />
+                                                <span></span>
+                                                Exclude from Credit Limit Checks
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> 
+                    </div>
+                    <div class="mt-30">
+                        <p class="font-italic">Added by: Terry Eutsler on 08/22/2019 11:00:29 PM</p>
+                        <p class="font-italic">Changed by: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <replicateSaleCodesModal #replicateSaleCodesModal></replicateSaleCodesModal>
+        <addlDistSaleCodesModal #addlDistSaleCodesModal></addlDistSaleCodesModal>
+        <eqGroupDistSaleCodesModal #eqGroupDistSaleCodesModal></eqGroupDistSaleCodesModal>
+        <eqMakeDistSaleCodesModal #eqMakeDistSaleCodesModal></eqMakeDistSaleCodesModal>
+        <customerSearchSaleCodesModal #customerSearchSaleCodesModal></customerSearchSaleCodesModal>
+    </div>
+</div>

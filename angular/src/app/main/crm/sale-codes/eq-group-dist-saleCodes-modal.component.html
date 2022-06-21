@@ -1,0 +1,85 @@
+<div
+    bsModal
+    #eqGroupDistModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="eqGroupDistModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Equipment Group Distribution</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-xl-6">
+                            <label for="">Model Group</label>
+                            <select class="form-control">
+                                <option>Group 1</option>
+                                <option>Group 2</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-6">
+                            <label for="">Sale Account</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary">
+                                        <i class="flaticon-search-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-xl-6">
+                            <label for="">Cost Account</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary">
+                                        <i class="flaticon-search-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 text-right modal-btns">
+                            <button class="btn btn-primary blue">
+                                <i class="fa fa-plus fa-lg"></i>
+                                Add
+                            </button>
+                            <button class="btn btn-primary blue">
+                                <i class="fa fa-trash fa-lg"></i>
+                                Delete
+                            </button>
+                            <button class="btn btn-primary blue">
+                                <i class="fa fa-check fa-lg"></i>
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        class="btn btn-primary blue"
+                        (click)="close()"
+                    >
+                        <span>Done</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

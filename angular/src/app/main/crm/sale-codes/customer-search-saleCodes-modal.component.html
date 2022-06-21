@@ -1,0 +1,160 @@
+<div
+    bsModal
+    #customerSearchModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="customerSearchModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <form novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Customer Search</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-xl-6">
+                            <label for="">Customer #</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary">
+                                        <i class="flaticon-search-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="checkbox-inline mb-2">
+                                <label class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                    />
+                                    <span></span>
+                                    Name Only
+                                </label>
+                                <label class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                    />
+                                    <span></span>
+                                    Ignore City
+                                </label>
+                                <label class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                    />
+                                    <span></span>
+                                    Inactive
+                                </label>
+                                <label class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                    />
+                                    <span></span>
+                                    Include Prospects
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-xl-12">
+                            <!--<Primeng-TurboTable-Start>-->
+                            <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                                <p-table
+                                    #dataTable
+                                    sortMode="multiple"
+                                    [value]="primengTableHelper.records"
+                                    rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                    [paginator]="false"
+                                    [lazy]="true"
+                                    [responsive]="primengTableHelper.isResponsive"
+                                >
+                                <!-- (onLazyLoad)="getTenants($event)" -->
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <!-- <th style="width: 130px">{{ 'Actions' | localize }}</th> -->
+                                            <th pSortableColumn="tenancyName">
+                                                Cust #
+                                                <p-sortIcon field="tenancyName"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="name">
+                                                Company Name
+                                                <p-sortIcon field="name"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="subscriptionEndDateUtc">
+                                                Sub Name
+                                                <p-sortIcon field="subscriptionEndDateUtc"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="isActive">
+                                                Address
+                                                <p-sortIcon field="isActive"></p-sortIcon>
+                                            </th>
+                                            <th>City, State, Zip Code</th>
+                                            <th pSortableColumn="creationTime">
+                                                Phone
+                                                <p-sortIcon field="creationTime"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="creationTime">
+                                                Old Name
+                                                <p-sortIcon field="creationTime"></p-sortIcon>
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-record="$implicit">
+                                        <tr>
+                                            <!-- <td style="width: 130px"> -->
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                                <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                    {{ 'NoData' | localize }}
+                                </div>
+                                <div class="primeng-paging-container">
+                                    <p-paginator
+                                        [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                        #paginator
+                                        [totalRecords]="primengTableHelper.totalRecordsCount"
+                                        [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                        [showCurrentPageReport]="true"
+                                        [currentPageReportTemplate]="
+                                            'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                                        "
+                                    ></p-paginator>
+                                    <!-- (onPageChange)="getTenants($event)" -->
+                                </div>
+                            </div>
+                            <!--<Primeng-TurboTable-End>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="close()">
+                        Close
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                    >
+                        <span>Ok</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

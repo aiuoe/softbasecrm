@@ -83,6 +83,11 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.ActivityStatuses' }
                     },
                     {
+                        path: 'crm/saleCodes',
+                        loadChildren: () => import('./crm/sale-codes/saleCodes.module').then(m => m.SaleCodesModule),
+                        // data: { permission: 'Pages.ActivityStatuses' }
+                    },
+                    {
                         path: 'crm/activityTaskTypes',
                         loadChildren: () => import('./crm/activityTaskTypes/activityTaskType.module').then(m => m.ActivityTaskTypeModule),
                         data: { permission: 'Pages.ActivityTaskTypes' }
