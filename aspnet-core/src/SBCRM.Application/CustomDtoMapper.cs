@@ -46,6 +46,7 @@ using SBCRM.Notifications.Dto;
 using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
+using SBCRM.Administration;
 
 namespace SBCRM
 {
@@ -224,6 +225,9 @@ namespace SBCRM
 
             //User Delegations
             configuration.CreateMap<CreateUserDelegationDto, UserDelegation>();
+
+            // Department
+            configuration.CreateMap<CreateOrEditDepartmentDto, Department>().ReverseMap();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
 

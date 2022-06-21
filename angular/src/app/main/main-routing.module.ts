@@ -152,6 +152,11 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./crm/globalSearch/global-search.module').then((m) => m.GlobalSearchModule),
                         data: { permission: 'Pages.GlobalSearch' },
                     },
+                    {
+                        path: 'administration/department',
+                        loadChildren: () => import('./administration/department/department.module').then((m) => m.DepartmentModule),
+                        data: { permission: 'Pages.Administration.Tenant.Department' },
+                    },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                     { path: '**', redirectTo: 'dashboard' },
                 ],

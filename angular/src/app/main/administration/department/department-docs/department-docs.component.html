@@ -1,0 +1,105 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div class="row align-items-center">
+        <form class="form w-100" autocomplete="off">
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Internal Customer #</label>
+                        <input type="text" id="internalCustomerNo" name="internalCustomerNo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Next Invoice #</label>
+                        <input type="text" id="nextInvoiceNo" name="nextInvoiceNo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Next Quote #</label>
+                        <input type="text" id="nextQuoteNo" name="nextQuoteNo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Print Verbiage</label>
+                        <input type="text" id="printVerbiage" name="printVerbiage" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Print Verbiage French</label>
+                        <input type="text" id="printVerbiageFrench" name="printVerbiageFrench" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Next PO #</label>
+                        <input type="text" id="nextPONo" name="nextPONo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Next Rental Contact #</label>
+                        <input type="text" id="nextRentalContactNo" name="nextRentalContactNo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Quote Expiration Days</label>
+                        <input type="text" id="quoteExpirationDays" name="quoteExpirationDays" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">Open WO Watermark</label>
+                        <input type="text" id="openWOWatermark" name="openWOWatermark" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-5 mb-3">
+                <strong>Transaction Date Range</strong>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="col-md-12 px-0">
+                        <label for="fromDate">From Date</label>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <p-calendar [showIcon]="true" inputId="fromDate" placeholder="Select Date" styleClass="w-100"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 px-0">
+                        <label for="fromDate">To Date</label>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <p-calendar [showIcon]="true" inputId="toDate" placeholder="Select Date" styleClass="w-100"></p-calendar>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex align-items-end justify-content-end py-5">
+                <label>Set All Depts To The Same &nbsp;</label>
+                <button pButton type="button" label="Set" click="setAll()" class="btn btn-primary"></button>
+            </div>
+        </form>
+
+        <div class="col-md-12 pt-5">
+            <div class="font-italic">
+                <span>Added by:</span>
+            </div>
+            <div class="font-italic">
+                <span>Changed by:</span>
+            </div>
+        </div>
+    </div>
+</div>

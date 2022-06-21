@@ -9021,6 +9021,70 @@ export class DemoUiComponentsServiceProxy {
 }
 
 @Injectable()
+export class DepartmentServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditDepartmentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Department/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class DynamicEntityPropertyServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -32570,6 +32634,126 @@ export interface ICreateOrEditCustomerDto {
     sicCode3: string | undefined;
     sicCode4: string | undefined;
     businessDescription: string | undefined;
+}
+
+export class CreateOrEditDepartmentDto implements ICreateOrEditDepartmentDto {
+    branch!: string | undefined;
+    department!: string | undefined;
+    title!: string | undefined;
+    saleGroup!: string | undefined;
+    reportingGroup!: string | undefined;
+    mechanicGroup!: string | undefined;
+    termsOverride!: string | undefined;
+    invoiceType!: string | undefined;
+    invoiceName!: string | undefined;
+    invoiceFrench!: string | undefined;
+    allowPartsPricingOverride!: boolean;
+    suppressLaborHours!: boolean;
+    taxAtDealer!: boolean;
+    noCreditCardTransactions!: boolean;
+    initialComments!: boolean;
+    suppressPartsPricing!: boolean;
+    noCreditCheckForQuotes!: boolean;
+    laborAccount!: string | undefined;
+    equipmentAccount!: string | undefined;
+    cashAccount!: string | undefined;
+    creditCardAccount!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditDepartmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branch = _data["branch"];
+            this.department = _data["department"];
+            this.title = _data["title"];
+            this.saleGroup = _data["saleGroup"];
+            this.reportingGroup = _data["reportingGroup"];
+            this.mechanicGroup = _data["mechanicGroup"];
+            this.termsOverride = _data["termsOverride"];
+            this.invoiceType = _data["invoiceType"];
+            this.invoiceName = _data["invoiceName"];
+            this.invoiceFrench = _data["invoiceFrench"];
+            this.allowPartsPricingOverride = _data["allowPartsPricingOverride"];
+            this.suppressLaborHours = _data["suppressLaborHours"];
+            this.taxAtDealer = _data["taxAtDealer"];
+            this.noCreditCardTransactions = _data["noCreditCardTransactions"];
+            this.initialComments = _data["initialComments"];
+            this.suppressPartsPricing = _data["suppressPartsPricing"];
+            this.noCreditCheckForQuotes = _data["noCreditCheckForQuotes"];
+            this.laborAccount = _data["laborAccount"];
+            this.equipmentAccount = _data["equipmentAccount"];
+            this.cashAccount = _data["cashAccount"];
+            this.creditCardAccount = _data["creditCardAccount"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditDepartmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditDepartmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branch"] = this.branch;
+        data["department"] = this.department;
+        data["title"] = this.title;
+        data["saleGroup"] = this.saleGroup;
+        data["reportingGroup"] = this.reportingGroup;
+        data["mechanicGroup"] = this.mechanicGroup;
+        data["termsOverride"] = this.termsOverride;
+        data["invoiceType"] = this.invoiceType;
+        data["invoiceName"] = this.invoiceName;
+        data["invoiceFrench"] = this.invoiceFrench;
+        data["allowPartsPricingOverride"] = this.allowPartsPricingOverride;
+        data["suppressLaborHours"] = this.suppressLaborHours;
+        data["taxAtDealer"] = this.taxAtDealer;
+        data["noCreditCardTransactions"] = this.noCreditCardTransactions;
+        data["initialComments"] = this.initialComments;
+        data["suppressPartsPricing"] = this.suppressPartsPricing;
+        data["noCreditCheckForQuotes"] = this.noCreditCheckForQuotes;
+        data["laborAccount"] = this.laborAccount;
+        data["equipmentAccount"] = this.equipmentAccount;
+        data["cashAccount"] = this.cashAccount;
+        data["creditCardAccount"] = this.creditCardAccount;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditDepartmentDto {
+    branch: string | undefined;
+    department: string | undefined;
+    title: string | undefined;
+    saleGroup: string | undefined;
+    reportingGroup: string | undefined;
+    mechanicGroup: string | undefined;
+    termsOverride: string | undefined;
+    invoiceType: string | undefined;
+    invoiceName: string | undefined;
+    invoiceFrench: string | undefined;
+    allowPartsPricingOverride: boolean;
+    suppressLaborHours: boolean;
+    taxAtDealer: boolean;
+    noCreditCardTransactions: boolean;
+    initialComments: boolean;
+    suppressPartsPricing: boolean;
+    noCreditCheckForQuotes: boolean;
+    laborAccount: string | undefined;
+    equipmentAccount: string | undefined;
+    cashAccount: string | undefined;
+    creditCardAccount: string | undefined;
+    id: number | undefined;
 }
 
 export class CreateOrEditIndustryDto implements ICreateOrEditIndustryDto {

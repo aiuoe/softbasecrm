@@ -1,0 +1,246 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration' | localize" [hideSeparator]="false"
+            [description]="'Administration - Department'">
+            <div role="actions">
+                <button (click)="close()" class="btn btn-primary blue">
+                    {{ l('Close') }}
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row justify-content-end">
+                        <button (click)="add()" class="btn btn-primary" [disabled]="!allowAdd">
+                            <i class="pi pi-plus"></i>
+                            {{ l('Add') }}
+                        </button>
+                        <button (click)="add()" class="btn btn-primary" [disabled]="!allowDelete">
+                            <i class="pi pi-trash"></i>
+                            {{ l('Delete') }}
+                        </button>
+                        <button (click)="add()" class="btn btn-primary" [disabled]="!allowUpdate">
+                            <i class="pi pi-check"></i>
+                            {{ l('Update') }}
+                        </button>
+                    </div>
+                    <div class="row align-items-center">
+                        <form class="form w-100" autocomplete="off">
+                            <h5>Department Setup</h5>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="branchFilter">Branch</label>
+                                        <p-dropdown
+                                            id="branchFilter"
+                                            name="branchFilter"
+                                            [options]="branches"
+                                            [(ngModel)]="department.branch"
+                                            optionLabel="displayName"
+                                            [style]="{'width':'100%'}"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="onBranchChange()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="departmentFilter">Department</label>
+                                        <p-dropdown
+                                            id="departmentFilter"
+                                            name="departmentFilter"
+                                            [options]="departments"
+                                            [(ngModel)]="department.department"
+                                            optionLabel="displayName"
+                                            [style]="{'width':'100%'}"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="onDepartmentChange()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="title">Title</label>
+                                        <input type="text" id="title" name="title" class="form-control" [(ngModel)]="department.title" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex px-0">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="saleGroup">Sale Group</label>
+                                            <p-dropdown
+                                                id="saleGroup"
+                                                name="saleGroup"
+                                                [options]="departments"
+                                                [(ngModel)]="department.saleGroup"
+                                                optionLabel="displayName"
+                                                [style]="{'width':'100%'}"
+                                                [emptyMessage]="l('NoRecordsFound')"
+                                                (onChange)="onDepartmentChange()"
+                                            ></p-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="reportingGroup">Reporting Group</label>
+                                            <input type="text" id="reportingGroup" name="reportingGroup" class="form-control" [(ngModel)]="department.reportingGroup" />
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mechanicGroup">Mechanic Group</label>
+                                        <p-dropdown
+                                            id="mechanicGroup"
+                                            name="mechanicGroup"
+                                            [options]="branches"
+                                            [(ngModel)]="department.mechanicGroup"
+                                            optionLabel="displayName"
+                                            [style]="{'width':'100%'}"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="onBranchChange()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="termsOverride">Terms Override</label>
+                                        <p-dropdown
+                                            id="termsOverride"
+                                            name="termsOverride"
+                                            [options]="departments"
+                                            [(ngModel)]="department.termsOverride"
+                                            optionLabel="displayName"
+                                            [style]="{'width':'100%'}"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="onDepartmentChange()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="invoiceType">Invoice Type</label>
+                                        <p-dropdown
+                                            id="invoiceType"
+                                            name="invoiceType"
+                                            [options]="branches"
+                                            [(ngModel)]="department.invoiceType"
+                                            optionLabel="displayName"
+                                            [style]="{'width':'100%'}"
+                                            [emptyMessage]="l('NoRecordsFound')"
+                                            (onChange)="onBranchChange()"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex px-0">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="invoiceName">Invoice Name</label>
+                                            <input type="text" id="invoiceName" name="invoiceName" class="form-control" [(ngModel)]="department.invoiceName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="invoiceFrench">Invoice French</label>
+                                            <input type="text" id="invoiceFrench" name="invoiceFrench" class="form-control" [(ngModel)]="department.invoiceFrench" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="Allow Parts Pricing Override" name="allowPartsPricingOverride" [(ngModel)]="department.allowPartsPricingOverride" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="Suppress Labor Hours" name="suppressLaborHours" [(ngModel)]="department.suppressLaborHours" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="Tax At Dealer" name="taxAtDealer" [(ngModel)]="department.taxAtDealer" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="No Credit Card Transactions" name="noCreditCardTransactions" [(ngModel)]="department.noCreditCardTransactions" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="Initial Comments" name="initialComments" [(ngModel)]="department.initialComments" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="Suppress Parts Pricing" name="suppressPartsPricing" [(ngModel)]="department.suppressPartsPricing" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <p-checkbox label="No Credit Check for Quotes" name="noCreditCheckForQuotes" [(ngModel)]="department.noCreditCheckForQuotes" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="laborAccount">Labor Account</label>
+                                        <div class="p-inputgroup">
+                                            <input pInputText id="laborAccount" name="laborAccount" class="form-control" [(ngModel)]="department.laborAccount">   
+                                            <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="laborAccount">Equipment Account</label>
+                                        <div class="p-inputgroup">
+                                            <input pInputText id="equipmentAccount" name="equipmentAccount" class="form-control" [(ngModel)]="department.equipmentAccount">   
+                                            <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex px-0">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="laborAccount">Cash Account</label>
+                                        <div class="p-inputgroup">
+                                            <input pInputText id="cashAccount" name="cashAccount" class="form-control" [(ngModel)]="department.cashAccount">   
+                                            <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="laborAccount">Credit Card Account #</label>
+                                        <div class="p-inputgroup">
+                                            <input pInputText id="creditCardAccount" name="creditCardAccount" class="form-control" [(ngModel)]="department.creditCardAccount">   
+                                            <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <app-department-tabs class="d-flex w-100"></app-department-tabs>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

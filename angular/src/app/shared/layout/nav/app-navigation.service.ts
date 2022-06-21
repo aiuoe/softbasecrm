@@ -148,6 +148,12 @@ export class AppNavigationService {
                         '',
                         '/app/admin/tenantSettings'
                     ),
+                    new AppMenuItem(
+                        'Department',
+                        'Pages.Administration.Tenant.Department',
+                        '',
+                        '/app/main/administration/department'
+                    ),
                     // new AppMenuItem(
                     //     'OrganizationUnits',
                     //     'Pages.Administration.OrganizationUnits',
