@@ -1,21 +1,21 @@
 <div class="w-100">
     <p-tabView>
-        <p-tabPanel header="Additional">
+        <p-tabPanel [header]="l('Additional')">
             <app-department-additional></app-department-additional>
         </p-tabPanel>
-        <p-tabPanel header="Docs # / Dates">
+        <p-tabPanel [header]="l('DocsDates')">
             <app-department-docs></app-department-docs>
         </p-tabPanel>
-        <p-tabPanel header="Rental / Parts">
+        <p-tabPanel [header]="l('RentalParts')">
             <app-department-rental></app-department-rental>
         </p-tabPanel>
-        <p-tabPanel header="Quote">
+        <p-tabPanel [header]="l('Quote')">
             <app-department-quote></app-department-quote>
         </p-tabPanel>
-        <p-tabPanel header="Invoice">
+        <p-tabPanel [header]="l('Invoice')">
             <app-department-invoice></app-department-invoice>
         </p-tabPanel>
-        <p-tabPanel header="Mobile">
+        <p-tabPanel [header]="l('Mobile')">
             <app-department-mobile></app-department-mobile>
         </p-tabPanel>
     </p-tabView>

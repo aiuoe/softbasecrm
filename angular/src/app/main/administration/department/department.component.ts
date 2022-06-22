@@ -14,6 +14,7 @@ import { BranchLookupTableDto, CreateOrEditDepartmentDto, DepartmentLookupTableD
   animations: [appModuleAnimation()],
 })
 export class DepartmentComponent extends AppComponentBase implements OnInit {
+  subheaderDescription: string = `${this.l('Administration')} - ${this.l('Department')}`;
   allowAdd: boolean;
   allowDelete: boolean;
   allowUpdate: boolean;

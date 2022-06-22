@@ -2,18 +2,18 @@
     <div class="row align-items-center">
         <form class="form w-100" autocomplete="off">
             <div class="col-md-12 mb-3">
-                <strong>Rental Proration Days</strong>
+                <strong>l('RentalProrationDays')</strong>
             </div>
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">Rental Billing Hours In a Day</label>
+                        <label for="maxAmount">l('RentalBillingHoursInADay')</label>
                         <input type="text" id="rentalBillingHoursInDay" name="rentalBillingHoursInDay" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">Rental Billing Hours In a Week</label>
+                        <label for="maxAmount">l('RentalBillingHoursInAWeek')</label>
                         <input type="text" id="rentalBillingHoursInWeek" name="rentalBillingHoursInWeek" class="form-control" />
                     </div>
                 </div>
@@ -21,13 +21,13 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">Rental Billing Hours In 4 Weeks</label>
+                        <label for="maxAmount">l('RentalBillingHoursIn4Weeks')</label>
                         <input type="text" id="rentalBillingHoursIn4Weeks" name="rentalBillingHoursIn4Weeks" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">Rental Billing Hours In a Month</label>
+                        <label for="maxAmount">l('RentalBillingHoursInAMonth')</label>
                         <input type="text" id="rentalBillingHoursInMonth" name="rentalBillingHoursInMonth" class="form-control" />
                     </div>
                 </div>
@@ -35,13 +35,13 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">Rental Billing Hours In a Quarter</label>
+                        <label for="maxAmount">l('RentalBillingHoursInAQuarter')</label>
                         <input type="text" id="rentalBillingHoursInQuarter" name="rentalBillingHoursInQuarter" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="defaultReturnStatus">Default Return Status</label>
+                        <label for="defaultReturnStatus">l('DefaultReturnStatus')</label>
                         <p-dropdown id="defaultReturnStatus" name="defaultReturnStatus" [options]="returnStatuses"
                             optionLabel="displayName" [style]="{'width':'100%'}" [disabled]="disableReturnStatus"
                             [emptyMessage]="l('NoRecordsFound')"></p-dropdown>
@@ -50,12 +50,12 @@
             </div>
 
             <div class="col-md-12 mt-5 mb-3">
-                <strong>Parts Routing Priorities</strong>
+                <strong>l('PartsRoutingPriorities')</strong>
             </div>
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="defaultForBOs">Default for BOs</label>
+                        <label for="defaultForBOs">l('DefaultForBOs')</label>
                         <p-dropdown id="defaultForBOs" name="defaultForBOs" [options]="BOs"
                             optionLabel="displayName" [style]="{'width':'100%'}" [disabled]="disableBOs"
                             [emptyMessage]="l('NoRecordsFound')"></p-dropdown>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="defaultForStock">Default for Stock</label>
+                        <label for="defaultForStock">l('DefaultForStock')</label>
                         <p-dropdown id="defaultForStock" name="defaultForStock" [options]="stocks"
                             optionLabel="displayName" [style]="{'width':'100%'}" [disabled]="disableStock"
                             [emptyMessage]="l('NoRecordsFound')"></p-dropdown>
@@ -73,7 +73,7 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="emergencyCostPriority">Emergency Cost Priority</label>
+                        <label for="emergencyCostPriority">l('EmergencyCostPriority')</label>
                         <p-dropdown id="emergencyCostPriority" name="emergencyCostPriority" [options]="emergencyCostPriorities"
                             optionLabel="displayName" [style]="{'width':'100%'}" [disabled]="disableEmergencyCostPriority"
                             [emptyMessage]="l('NoRecordsFound')"></p-dropdown>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="partsReceiveEmailAdd">Parts Receive Email Address</label>
+                        <label for="partsReceiveEmailAdd">l('PartsReceiveEmailAddress')</label>
                         <input type="text" id="partsReceiveEmailAdd" name="partsReceiveEmailAdd" class="form-control" />
                     </div>
                 </div>
@@ -90,10 +90,10 @@
 
         <div class="col-md-12 pt-5">
             <div class="font-italic">
-                <span>Added by:</span>
+                <span>l('AddedBy'):</span>
             </div>
             <div class="font-italic">
-                <span>Changed by:</span>
+                <span>l('ChangedBy'):</span>
             </div>
         </div>
     </div>

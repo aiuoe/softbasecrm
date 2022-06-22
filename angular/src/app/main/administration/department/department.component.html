@@ -1,7 +1,7 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'Administration' | localize" [hideSeparator]="false"
-            [description]="'Administration - Department'">
+            [description]="subheaderDescription">
             <div role="actions">
                 <button (click)="close()" class="btn btn-primary blue">
                     {{ l('Close') }}
@@ -28,11 +28,11 @@
                     </div>
                     <div class="row align-items-center">
                         <form class="form w-100" autocomplete="off">
-                            <h5>Department Setup</h5>
+                            <h5>l('DepartmentSetup')</h5>
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="branchFilter">Branch</label>
+                                        <label for="branchFilter">l('Branch')</label>
                                         <p-dropdown
                                             id="branchFilter"
                                             name="branchFilter"
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="departmentFilter">Department</label>
+                                        <label for="departmentFilter">l('Department')</label>
                                         <p-dropdown
                                             id="departmentFilter"
                                             name="departmentFilter"
@@ -64,14 +64,14 @@
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="title">Title</label>
+                                        <label for="title">l('Title')</label>
                                         <input type="text" id="title" name="title" class="form-control" [(ngModel)]="department.title" />
                                     </div>
                                 </div>
                                 <div class="col-md-6 d-flex px-0">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="saleGroup">Sale Group</label>
+                                            <label for="saleGroup">l('SaleGroup')</label>
                                             <p-dropdown
                                                 id="saleGroup"
                                                 name="saleGroup"
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="reportingGroup">Reporting Group</label>
+                                            <label for="reportingGroup">l('ReportingGroup')</label>
                                             <input type="text" id="reportingGroup" name="reportingGroup" class="form-control" [(ngModel)]="department.reportingGroup" />
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="mechanicGroup">Mechanic Group</label>
+                                        <label for="mechanicGroup">l('MechanicGroup')</label>
                                         <p-dropdown
                                             id="mechanicGroup"
                                             name="mechanicGroup"
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="termsOverride">Terms Override</label>
+                                        <label for="termsOverride">l('TermsOverride')</label>
                                         <p-dropdown
                                             id="termsOverride"
                                             name="termsOverride"
@@ -128,7 +128,7 @@
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="invoiceType">Invoice Type</label>
+                                        <label for="invoiceType">l('InvoiceType')</label>
                                         <p-dropdown
                                             id="invoiceType"
                                             name="invoiceType"
@@ -144,13 +144,13 @@
                                 <div class="col-md-6 d-flex px-0">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="invoiceName">Invoice Name</label>
+                                            <label for="invoiceName">l('InvoiceName')</label>
                                             <input type="text" id="invoiceName" name="invoiceName" class="form-control" [(ngModel)]="department.invoiceName" />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="invoiceFrench">Invoice French</label>
+                                            <label for="invoiceFrench">l('InvoiceFrench')</label>
                                             <input type="text" id="invoiceFrench" name="invoiceFrench" class="form-control" [(ngModel)]="department.invoiceFrench" />
                                         </div>
                                     </div>
@@ -159,46 +159,46 @@
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="Allow Parts Pricing Override" name="allowPartsPricingOverride" [(ngModel)]="department.allowPartsPricingOverride" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('AllowPartsPricingOverride')" name="allowPartsPricingOverride" [(ngModel)]="department.allowPartsPricingOverride" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="Suppress Labor Hours" name="suppressLaborHours" [(ngModel)]="department.suppressLaborHours" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('SuppressLaborHours')" name="suppressLaborHours" [(ngModel)]="department.suppressLaborHours" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="Tax At Dealer" name="taxAtDealer" [(ngModel)]="department.taxAtDealer" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('TaxAtDealer')" name="taxAtDealer" [(ngModel)]="department.taxAtDealer" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="No Credit Card Transactions" name="noCreditCardTransactions" [(ngModel)]="department.noCreditCardTransactions" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('NoCreditCardTransactions')" name="noCreditCardTransactions" [(ngModel)]="department.noCreditCardTransactions" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="Initial Comments" name="initialComments" [(ngModel)]="department.initialComments" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('InitialComments')" name="initialComments" [(ngModel)]="department.initialComments" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="Suppress Parts Pricing" name="suppressPartsPricing" [(ngModel)]="department.suppressPartsPricing" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('SuppressPartsPricing')" name="suppressPartsPricing" [(ngModel)]="department.suppressPartsPricing" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <p-checkbox label="No Credit Check for Quotes" name="noCreditCheckForQuotes" [(ngModel)]="department.noCreditCheckForQuotes" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox [label]="l('NoCreditCheckForQuotes')" name="noCreditCheckForQuotes" [(ngModel)]="department.noCreditCheckForQuotes" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="laborAccount">Labor Account</label>
+                                        <label for="laborAccount">l('LaborAccount')</label>
                                         <div class="p-inputgroup">
                                             <input pInputText id="laborAccount" name="laborAccount" class="form-control" [(ngModel)]="department.laborAccount">   
                                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
@@ -207,7 +207,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="laborAccount">Equipment Account</label>
+                                        <label for="laborAccount">l('EquipmentAccount')</label>
                                         <div class="p-inputgroup">
                                             <input pInputText id="equipmentAccount" name="equipmentAccount" class="form-control" [(ngModel)]="department.equipmentAccount">   
                                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
@@ -218,7 +218,7 @@
                             <div class="col-md-12 d-flex px-0">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="laborAccount">Cash Account</label>
+                                        <label for="laborAccount">l('CashAccount')</label>
                                         <div class="p-inputgroup">
                                             <input pInputText id="cashAccount" name="cashAccount" class="form-control" [(ngModel)]="department.cashAccount">   
                                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
@@ -227,7 +227,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="laborAccount">Credit Card Account #</label>
+                                        <label for="laborAccount">l('CreditCardAccount')</label>
                                         <div class="p-inputgroup">
                                             <input pInputText id="creditCardAccount" name="creditCardAccount" class="form-control" [(ngModel)]="department.creditCardAccount">   
                                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary" (click)="searchAccount()"></button>      
