@@ -1956,7 +1956,6 @@
 		<text name="MiscSaleAccount">Misc Sale Account</text>
 		<text name="MaxAmount">Max Amount</text>
 		<text name="MinAmount">Min Amount</text>
-		<text name="TaxCodeOverride">Tax Code Override</text>
 		<text name="RentalReoccur">Rental Reoccur</text>
 		<text name="CalculateOnLaborOnly">Calculate on Labor Only</text>
 		<text name="CalculateOnPartsOnly">Calculate on Parts Only</text>
