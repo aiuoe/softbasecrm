@@ -1,0 +1,914 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration' | localize" [breadcrumbs]="breadcrumbs">
+            <div role="actions">
+                <button class="btn btn-secondary text-prmary float-left">
+                    <span>{{ l('Close') }}</span>
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" autocomplete="off">
+                        <div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card card-custom card-in-tab gutter-b">
+                                        <div class="card-body">
+                                            <div class="row pb-3">
+                                                <div class="col-12 d-flex justify-content-end">
+                                                    <button
+                                                        (click)="add()"
+                                                        class="btn btn-primary blue"
+                                                        [buttonBusy]="saving"
+                                                    >
+                                                        <i class="fa fa-plus pr-3"></i>
+                                                        <span>{{ l('Add') }}</span>
+                                                    </button>
+                                                    <button
+                                                        (click)="delete()"
+                                                        class="btn btn-primary blue"
+                                                        [buttonBusy]="saving"
+                                                    >
+                                                        <i class="fa fa-times pr-3"></i>
+                                                        <span>{{ l('Delete') }}</span>
+                                                    </button>
+                                                    <button
+                                                        (click)="update()"
+                                                        class="btn btn-primary blue"
+                                                        [buttonBusy]="saving"
+                                                    >
+                                                        <i class="fa fa-check pr-3"></i>
+                                                        <span>{{ l('Update') }}</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_Branch">{{ l('Branch') }}</label>                                                                
+                                                                <p-dropdown 
+                                                                            id="Branch_Branch"
+                                                                            options="branches"
+                                                                            optionLabel="displayName"
+                                                                            [placeholder]="l('SelectBranch')"
+                                                                            [showClear]="true"
+                                                                            optionValue="code">
+                                                                </p-dropdown>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_Name">{{ l('Name') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_Name"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('Name')"
+                                                                    name="Name"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_SubName">
+                                                                    {{ l('SubName') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_SubName"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('SubName')"
+                                                                    name="SubName"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_InvSubName">
+                                                                    {{ l('InvSubName') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_InvSubName"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('InvSubName')"
+                                                                    name="InvSubName"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_Address">
+                                                                    {{ l('Address') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_Address"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('Address')"
+                                                                    name="Address"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_City">
+                                                                    {{ l('City') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_City"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('City')"
+                                                                    name="City"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_State">
+                                                                    {{ l('State') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_State"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('State')"
+                                                                    name="State"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ZipCode">
+                                                                    {{ l('ZipCode') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_ZipCode"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('ZipCode')"
+                                                                    name="ZipCode"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_Country">{{ l('Country') }}</label>                                                                
+                                                                <p-dropdown 
+                                                                            id="Branch_Country"
+                                                                            options="countries"
+                                                                            optionLabel="displayName"
+                                                                            [placeholder]="l('SelectCountry')"
+                                                                            [showClear]="true"
+                                                                            optionValue="code">
+                                                                </p-dropdown>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_Phone">{{ l('Phone') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_Phone"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('Phone')"
+                                                                    name="Phone"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_Fax">
+                                                                    {{ l('Fax') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_Fax"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('Fax')"
+                                                                    name="Fax"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 d-flex align-items-center justify-content-between">
+                                                            <div class="form-group flex-grow-1 pr-2">
+                                                                <label for="Branch_AcountsReceivableGLAccountNumber">
+                                                                    {{ l('AcountsReceivableGLAccountNumber') }}
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_AcountsReceivableGLAccountNumber"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('AcountsReceivableGLAccountNumber')"
+                                                                    name="AcountsReceivableGLAccountNumber"
+                                                                />
+
+                                                            </div>
+                                                            <button class="btn btn-primary text-primary p-2 mt-1">
+                                                                <i class="fa fa-search p-0"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ARAccounts">{{ l('ARAccounts') }}</label>                                                                
+                                                                <p-dropdown 
+                                                                            id="Branch_ARAccounts"
+                                                                            options="arAccounts"
+                                                                            optionLabel="displayName"
+                                                                            [placeholder]="l('SelectARAccounts')"
+                                                                            [showClear]="true"
+                                                                            optionValue="code">
+                                                                </p-dropdown>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ClarkDealerAccessCode">{{ l('ClarkDealerAccessCode') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_ClarkDealerAccessCode"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('ClarkDealerAccessCode')"
+                                                                    name="ClarkDealerAccessCode"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ClarkPartsCode">{{ l('ClarkPartsCode') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_ClarkPartsCode"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('ClarkPartsCode')"
+                                                                    name="Branch_ClarkPartsCode"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_FedExShopId">{{ l('FedExShopId') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_FedExShopId"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('FedExShopId')"
+                                                                    name="FedExShopId"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_FedExVendorId">{{ l('FedExVendorId') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_FedExVendorId"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('FedExVendorId')"
+                                                                    name="FedExVendorId"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>                                                                
+                                                                <p-dropdown 
+                                                                            id="Branch_DefaultWarehouse"
+                                                                            options="warehouses"
+                                                                            optionLabel="displayName"
+                                                                            [placeholder]="l('SelectDefaultWarehouse')"
+                                                                            [showClear]="true"
+                                                                            optionValue="code">
+                                                                </p-dropdown>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_RentalDeliveryDefaultTime">{{ l('RentalDeliveryDefaultTime') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_RentalDeliveryDefaultTime"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('RentalDeliveryDefaultTime')"
+                                                                    name="RentalDeliveryDefaultTime"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_CurrencyType">{{ l('CurrencyType') }}</label>                                                                
+                                                                <p-dropdown 
+                                                                            id="Branch_CurrencyType"
+                                                                            options="currencies"
+                                                                            optionLabel="displayName"
+                                                                            [placeholder]="l('SelectCurrencyType')"
+                                                                            [showClear]="true"
+                                                                            optionValue="code">
+                                                                </p-dropdown>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ARAccountForCurrency">{{ l('ARAccountForCurrency') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_ARAccountForCurrency"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('ARAccountForCurrency')"
+                                                                    name="ARAccountForCurrency"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_DebitAccount">{{ l('DebitAccount') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_DebitAccount"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('DebitAccount')"
+                                                                    name="DebitAccount"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_CreditAccount">{{ l('CreditAccount') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_CreditAccount"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('CreditAccount')"
+                                                                    name="CreditAccount"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-4">
+                                                        <div class="col-12">
+                                                            <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('Reevaluation') }}</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ReevaluationDebitAccount">{{ l('DebitAccount') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_ReevaluationDebitAccount"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('DebitAccount')"
+                                                                    name="ReevaluationDebitAccount"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="form-group">
+                                                                <label for="Branch_ReevaluationCreditAccount">{{ l('CreditAccount') }}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    id="Branch_ReevaluationCreditAccount"
+                                                                    class="form-control"
+                                                                    [placeholder]="l('CreditAccount')"
+                                                                    name="ReevaluationCreditAccount"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 d-flex align-items-center justify-content-end">
+                                                            <button
+                                                                (click)="delete" 
+                                                                class="btn btn-primary"
+                                                            >
+                                                                <span>{{ l('Delete') }}</span>
+                                                            </button>
+                                                            <button 
+                                                            (click)="update"
+                                                                class="btn btn-primary"
+                                                            >
+                                                                <span>{{ l('Update') }}</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <tabset>                
+                <tab heading="{{ l('TaxSetup') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_StateSalesTaxLabel">{{ l('StateSalesTaxLabel') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_StateSalesTaxLabel"
+                                                    class="form-control"
+                                                    [placeholder]="l('StateSalesTaxLabel')"
+                                                    name="TaxSetup_StateSalesTaxLabel"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center align-items-center mt-5">
+                                            <div class="form-group">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="UseStateTaxCodeDescription"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('UseStateTaxCodeDescription') }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_CountrySalesTaxLabel">{{ l('CountrySalesTaxLabel') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_CountrySalesTaxLabel"
+                                                    class="form-control"
+                                                    [placeholder]="l('CountrySalesTaxLabel')"
+                                                    name="TaxSetup_CountrySalesTaxLabel"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center align-items-center mt-5">
+                                            <div class="form-group">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="UseCountryTaxCodeDescription"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('UseCountryTaxCodeDescription') }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_CitySalesTaxLabel">{{ l('CitySalesTaxLabel') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_CitySalesTaxLabel"
+                                                    class="form-control"
+                                                    [placeholder]="l('CitySalesTaxLabel')"
+                                                    name="TaxSetup_CitySalesTaxLabel"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center align-items-center mt-5">
+                                            <div class="form-group">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="UseCityTaxCodeDescription"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('UseCityTaxCodeDescription') }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_LocalSalesTaxLabel">{{ l('LocalSalesTaxLabel') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_LocalSalesTaxLabel"
+                                                    class="form-control"
+                                                    [placeholder]="l('LocalSalesTaxLabel')"
+                                                    name="TaxSetup_LocalSalesTaxLabel"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center align-items-center mt-5">
+                                            <div class="form-group">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="UseLocalTaxCodeDescription"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('UseLocalTaxCodeDescription') }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 d-flex align-items-center mt-5">
+                                            <div class="form-group">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="ShopSplitSalesTax"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('ShopSplitSalesTax') }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3>{{ l('WhenTaxedAtDelearshipUseTheFollowing') }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_StandardTaxCode"
+                                                    class="form-control"
+                                                    [placeholder]="l('StandardTaxCode')"
+                                                    name="TaxSetup_StandardTaxCode"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6 d-flex align-items-center mt-5">
+                                            <div class="form-group">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="UseAbsoluteTaxCodes"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('UseAbsoluteTaxCodes') }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_StateTaxCode"
+                                                    class="form-control"
+                                                    [placeholder]="l('StateTaxCode')"
+                                                    name="TaxSetup_StateTaxCode"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_CountryTaxCode"
+                                                    class="form-control"
+                                                    [placeholder]="l('CountryTaxCode')"
+                                                    name="TaxSetup_CountryTaxCode"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_CityTaxCode"
+                                                    class="form-control"
+                                                    [placeholder]="l('CityTaxCode')"
+                                                    name="TaxSetup_CityTaxCode"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TaxSetup_LocalTaxCode"
+                                                    class="form-control"
+                                                    [placeholder]="l('LocalTaxCode')"
+                                                    name="TaxSetup_LocalTaxCode"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-12">
+                                            <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                            <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('TVH') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TVH_AccountNo"
+                                                    class="form-control"
+                                                    [placeholder]="l('TVHAccountNo')"
+                                                    name="TVH_AccountNo"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TVH_Key">{{ l('TVHKey') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="TVH_Key"
+                                                    class="form-control"
+                                                    [placeholder]="l('TVHKey')"
+                                                    name="TVH_Key"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TVH_Country">{{ l('Country') }}</label>                                                                
+                                                <p-dropdown 
+                                                            id="TVH_Country"
+                                                            options="countries"
+                                                            optionLabel="displayName"
+                                                            [placeholder]="l('Country')"
+                                                            [showClear]="true"
+                                                            optionValue="code">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="TVH_Warehouse">{{ l('Warehouse') }}</label>
+                                                <p-dropdown 
+                                                            id="TVH_Warehouse"
+                                                            options="warehouses"
+                                                            optionLabel="displayName"
+                                                            [placeholder]="l('Warehouse')"
+                                                            [showClear]="true"
+                                                            optionValue="code">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-12">
+                                            <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                            <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('Finance') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6 d-flex align-items-center justify-content-between">
+                                            <div class="form-group flex-grow-1 pr-2">
+                                                <label for="Finance_ChargeGLAccount">{{ l('FinanceChargeGLAccount') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_ChargeGLAccount"
+                                                    class="form-control"
+                                                    [placeholder]="l('FinanceChargeGLAccount')"
+                                                    name="Finance_ChargeGLAccount"
+                                                />
+
+                                            </div>
+                                            <button class="btn btn-primary text-primary p-2 mt-1">
+                                                <i class="fa fa-search p-0"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Finance_Rate">{{ l('Rate') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_Rate"
+                                                    class="form-control"
+                                                    [placeholder]="l('Rate')"
+                                                    name="Finance_Rate"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Finance_DaysLate">{{ l('DaysLate') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_DaysLate"
+                                                    class="form-control"
+                                                    [placeholder]="l('DaysLate')"
+                                                    name="Finance_DaysLate"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3>{{ l('UseForCreditPayments') }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Finance_StoreName">{{ l('StoreName') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_StoreName"
+                                                    class="form-control"
+                                                    [placeholder]="l('StoreName')"
+                                                    name="Finance_StoreName"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6 d-flex align-items-center justify-content-between">
+                                            <div class="form-group flex-grow-1 pr-2">
+                                                <label for="Finance_CreditCardDebitAccountNo">{{ l('CreditCardDebitAccountNo') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_CreditCardDebitAccountNo"
+                                                    class="form-control"
+                                                    [placeholder]="l('CreditCardDebitAccountNo')"
+                                                    name="Finance_CreditCardDebitAccountNo"
+                                                />
+
+                                            </div>
+                                            <button class="btn btn-primary text-primary p-2 mt-1">
+                                                <i class="fa fa-search p-0"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-12">
+                                            <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                            <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('Email') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3>{{ l('PrintFinalAutoCcBcc') }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Finance_PrintFinalCc">{{ l('PrintFinalCc') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_PrintFinalCc"
+                                                    class="form-control"
+                                                    [placeholder]="l('PrintFinalCc')"
+                                                    name="Finance_PrintFinalCc"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Finance_PrintFinalBcc">{{ l('PrintFinalBcc') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_PrintFinalBcc"
+                                                    class="form-control"
+                                                    [placeholder]="l('PrintFinalBcc')"
+                                                    name="Finance_PrintFinalBcc"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-12">
+                                            <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                            <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('LogoGraphic') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-custom card-in-tab gutter-b">
+                                <div class="card-body">
+                                    <div class="row">                                        
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
+                                                <input
+                                                    type="text"
+                                                    id="Finance_LogoGraphicFile"
+                                                    class="form-control"
+                                                    [placeholder]="l('LogoGraphicFile')"
+                                                    name="Finance_LogoGraphicFile"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-center align-items-center mt-5">
+                                            <div class="form-group flex-grow-1 d-flex justify-content-between align-items-center">
+                                                <label class="checkbox checkbox-outline">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="UseGraphic"
+                                                        value="true"
+                                                    />
+                                                    <span></span>
+                                                    {{ l('UseGraphic') }}
+                                                </label>
+                                                <button
+                                                    (click)="logoGraphicClear()"
+                                                    class="btn btn-primary blue"
+                                                    [buttonBusy]="saving"
+                                                >
+                                                    <i class="fa fa-times pr-3"></i>
+                                                    <span>{{ l('Clear') }}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-12">
+                                            <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                            <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>
