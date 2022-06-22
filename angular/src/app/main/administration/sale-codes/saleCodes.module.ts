@@ -7,7 +7,7 @@ import { ReplicateSaleCodesModalComponent } from './replicate/replicate-saleCode
 import { AddlDistSaleCodesModalComponent } from './addl-dist/addl-dist-saleCodes-modal.component';
 import { EqGroupDistSaleCodesModalComponent } from './eq-group-dist/eq-group-dist-saleCodes-modal.component';
 import { EqMakeDistSaleCodesModalComponent } from './eq-make-dist/eq-make-dist-saleCodes-modal.component';
-import { CustomerSearchSaleCodesModalComponent } from './customer-search/customer-search-saleCodes-modal.component';
+import { CustomerSearchSaleCodesModalComponent } from '../../common/customer-search/customer-search-saleCodes-modal.component';
 
 @NgModule({
     declarations: [
