@@ -1933,14 +1933,13 @@
 		<text name="MechanicGroup">Mechanic Group</text>
 		<text name="TermsOverride">Terms Override</text>
 		<text name="InvoiceType">Invoice Type</text>
-		<text name="InvoiceType">Invoice Name</text>
+		<text name="InvoiceName">Invoice Name</text>
 		<text name="InvoiceFrench">Invoice French</text>
 		<text name="AllowPartsPricing Override">Allow Parts Pricing Override</text>
 		<text name="SuppressLaborHours">Suppress Labor Hours</text>
 		<text name="TaxAtDealer">Tax At Dealer</text>
 		<text name="NoCreditCardTransactions">No Credit Card Transactions</text>
 		<text name="InitialComments">Initial Comments</text>
-		<text name="SuppressPartsPricing">Suppress Parts Pricing</text>
 		<text name="NoCreditCheckForQuotes">No Credit Check for Quotes</text>
 		<text name="LaborAccount">Labor Account</text>
 		<text name="EquipmentAccount">Equipment Account</text>

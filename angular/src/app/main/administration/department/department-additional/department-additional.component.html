@@ -4,7 +4,7 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="miscDescription">l('MiscDescription')</label>
+                        <label for="miscDescription">{{ l('MiscDescription') }}</label>
                         <p-dropdown id="miscDescription" name="miscDescription" [options]="miscDescriptions"
                             [(ngModel)]="department.branch" optionLabel="displayName" [style]="{'width':'100%'}"
                             [emptyMessage]="l('NoRecordsFound')"></p-dropdown>
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="miscPercentage">l('MiscPercentage')</label>
+                        <label for="miscPercentage">{{ l('MiscPercentage') }}</label>
                         <input type="text" id="miscPercentage" name="miscPercentage" class="form-control" />
                     </div>
                 </div>
@@ -20,7 +20,7 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="miscSaleAccount">l('MiscSaleAccount')</label>
+                        <label for="miscSaleAccount">{{ l('MiscSaleAccount') }}</label>
                         <div class="p-inputgroup">
                             <input pInputText id="miscSaleAccount" name="miscSaleAccount" class="form-control">
                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary"
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">l('MaxAmount')</label>
+                        <label for="maxAmount">{{ l('MaxAmount') }}</label>
                         <input type="text" id="maxAmount" name="maxAmount" class="form-control" />
                     </div>
                 </div>
@@ -38,13 +38,13 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">l('MinAmount')</label>
+                        <label for="maxAmount">{{ l('MinAmount') }}</label>
                         <input type="text" id="minAmount" name="minAmount" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="taxCodeOverride">l('TaxCodeOverride')</label>
+                        <label for="taxCodeOverride">{{ l('TaxCodeOverride') }}</label>
                         <div class="p-inputgroup">
                             <input pInputText id="taxCodeOverride" name="taxCodeOverride" class="form-control">
                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary"
@@ -78,14 +78,14 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="maxAmount">l('AdditionalLaborHours')</label>
+                        <label for="maxAmount">{{ l('AdditionalLaborHours') }}</label>
                         <input type="text" id="additionalLaborHours" name="additionalLaborHours" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <div class="form-group">
-                            <label for="maxAmount">l('Mechanic') #</label>
+                            <label for="maxAmount">{{ l('Mechanic') }} #</label>
                             <input type="text" id="mehanicNo" name="mehanicNo" class="form-control" />
                         </div>
                     </div>
@@ -94,7 +94,7 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="taxCodeOverride">l('AdditionalSaleAccount')</label>
+                        <label for="taxCodeOverride">{{ l('AdditionalSaleAccount') }}</label>
                         <div class="p-inputgroup">
                             <input pInputText id="additionalSaleAccount" name="additionalSaleAccount" class="form-control">
                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary"
@@ -107,10 +107,10 @@
 
         <div class="col-md-12 pt-5">
             <div class="font-italic">
-                <span>l('AddedBy'):</span>
+                <span>{{ l('AddedBy') }}:</span>
             </div>
             <div class="font-italic">
-                <span>l('ChangedBy'):</span>
+                <span>{{ l('ChangedBy') }}:</span>
             </div>
         </div>
     </div>

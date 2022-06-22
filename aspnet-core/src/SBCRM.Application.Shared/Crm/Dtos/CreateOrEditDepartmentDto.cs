@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Abp.Application.Services.Dto;
+using Abp.Runtime.Validation;
 
 namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// Department dto used by the ui to create or edit a department
     /// </summary>
-    public class CreateOrEditDepartmentDto
+    public class CreateOrEditDepartmentDto : EntityDto<int?>, ICustomValidate
     {
         public string Branch { get; set; }
         public string Department { get; set; }
@@ -30,5 +32,14 @@ namespace SBCRM.Crm.Dtos
         public string EquipmentAccount { get; set; }
         public string CashAccount { get; set; }
         public string CreditCardAccount { get; set; }
+
+        /// <summary>
+        /// Custom validator for department
+        /// </summary>
+        /// <param name="context"></param>
+        public void AddValidationErrors(CustomValidationContext context)
+        {
+
+        }
     }
 }

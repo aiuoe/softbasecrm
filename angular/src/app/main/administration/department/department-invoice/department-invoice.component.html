@@ -3,7 +3,7 @@
         <form class="form w-100" autocomplete="off">
             <div class="col-md-12 px-0">
                 <div class="col-md-12">
-                    <label for="comments">l('CommentsToAppearOnInvoices')</label>
+                    <label for="comments">{{ l('CommentsToAppearOnInvoices') }}</label>
                 </div>
                 <div class="col-md-12">
                     <textarea id="comments" class="w-100" pInputTextarea rows="10"></textarea>
@@ -12,7 +12,7 @@
             <div class="col-md-12 d-flex px-0 pt-2">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="internalCopy">l('InternalCopyTopRightTextLine')...</label>
+                        <label for="internalCopy">{{ l('InternalCopyTopRightTextLine') }}...</label>
                         <input type="text" id="internalCopy" name="internalCopy" class="form-control" />
                     </div>
                 </div>
@@ -21,10 +21,10 @@
 
         <div class="col-md-12 pt-5">
             <div class="font-italic">
-                <span>l('AddedBy'):</span>
+                <span>{{ l('AddedBy') }}:</span>
             </div>
             <div class="font-italic">
-                <span>l('ChangedBy'):</span>
+                <span>{{ l('ChangedBy') }}:</span>
             </div>
         </div>
     </div>
