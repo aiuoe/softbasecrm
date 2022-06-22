@@ -1873,5 +1873,57 @@
 			This page shows a few useful UI components those can be used in your application.
 			Components in this page are implemented as full stack (includes the server side).
 		</text>
+		<text name="Replicate">Replicate</text>
+		<text name="Update">Update</text>
+		<text name="Parts">Parts</text>
+		<text name="AdministrationSaleCodes">Administration · Sale Codes</text>
+		<text name="SaleCode">Sale Code</text>
+		<text name="SaleCodes">Sale Codes</text>
+		<text name="SaleCodeSetup">Sale Code Setup</text>
+		<text name="SaleAccount">Sale Account</text>
+		<text name="COGAccount">COG Account</text>
+		<text name="TaxCodeOverride">Tax Code Override</text>
+		<text name="AddlDist">Add'l Dist</text>
+		<text name="StateOnly">State</text>
+		<text name="Local">Local</text>
+		<text name="Labor">Labor</text>
+		<text name="Misc">Misc</text>
+		<text name="MiscInventoryAccount">Misc Inventory Account</text>
+		<text name="MarkupPercent">Markup Percent</text>
+		<text name="SubTotalType">Sub Total Type</text>
+		<text name="Rental">Rental</text>
+		<text name="RentalCostPercent">Rental Cost Percent</text>
+		<text name="CostPrompt">Cost Prompt</text>
+		<text name="EQGroupDist">EQ Group Dist</text>
+		<text name="EQMakeDist">EQ Make Dist</text>
+		<text name="BillToOnly">Bill To</text>
+		<text name="CustomerSale">Customer Sale</text>
+		<text name="AutomaticExpenseCode">Automatic Expense Code</text>
+		<text name="ExpenseBranch">Expense Branch</text>
+		<text name="ExpenseDepartment">Expense Department</text>
+		<text name="ExpenseCode">Expense Code</text>
+		<text name="ReWork">Re-Work</text>
+		<text name="TravelTime">Travel Time</text>
+		<text name="GuaranteedMaint">Guaranteed Maint</text>
+		<text name="RequireSerial">Require Serial</text>
+		<text name="LostTime">Lost Time</text>
+		<text name="ExcludeFromCreditLimitChecks">Exclude from Credit Limit Checks</text>
+		<text name="BranchDepartmentChoice">Branch Department Choice</text>
+		<text name="AdditionalPartsDistribution">Additional Parts Distribution</text>
+		<text name="PartsGroup">Parts Group</text>
+		<text name="AvailableGroups">Available Groups</text>
+		<text name="CostAccount">Cost Account</text>
+		<text name="Done">Done</text>
+		<text name="EquipmentGroupDistribution">Equipment Group Distribution</text>
+		<text name="ModelGroup">Model Group</text>
+		<text name="EquipmentMakeDistribution">Equipment Make Distribution</text>
+		<text name="EquipmentMake">Equipment Make</text>
+		<text name="CustomerSearch">Customer Search</text>
+		<text name="CustomerLabel">Customer</text>
+		<text name="NameOnly">Name Only</text>
+		<text name="IgnoreCity">Ignore City</text>
+		<text name="IncludeProspects">Include Prospects</text>
+		<text name="Cust">Cust</text>
+		<text name="CityStateZipCode">City, State, Zip Code</text>
 	</texts>
 </localizationDictionary>
