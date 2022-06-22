@@ -154,6 +154,12 @@ export class AppNavigationService {
                         '',
                         '/app/main/administration/department'
                     ),
+                    new AppMenuItem(
+                        'Sale Codes',
+                        '',
+                        '',
+                        '/app/main/administration/saleCodes'
+                    )
                     // new AppMenuItem(
                     //     'OrganizationUnits',
                     //     'Pages.Administration.OrganizationUnits',
