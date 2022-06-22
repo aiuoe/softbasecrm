@@ -1,14 +1,13 @@
 ﻿using System;
-using Abp.Application.Services.Dto;
-using System.ComponentModel.DataAnnotations;
-using Abp.Runtime.Validation;
+using System.Collections.Generic;
+using System.Text;
 
-namespace SBCRM.Administration
+namespace SBCRM.Crm.Dtos
 {
     /// <summary>
     /// Department dto used by the ui to create or edit a department
     /// </summary>
-    public class CreateOrEditDepartmentDto : EntityDto<int?>, ICustomValidate
+    public class CreateOrEditDepartmentDto
     {
         public string Branch { get; set; }
         public string Department { get; set; }
@@ -31,15 +30,5 @@ namespace SBCRM.Administration
         public string EquipmentAccount { get; set; }
         public string CashAccount { get; set; }
         public string CreditCardAccount { get; set; }
-
-        /// <summary>
-        /// Custom validator to check the lead either has  CompanyPhone or a CompanyEmail
-        /// </summary>
-        /// <param name="context"></param>
-        public void AddValidationErrors(CustomValidationContext context)
-        {
-
-        }
     }
-
 }
