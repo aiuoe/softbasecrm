@@ -1,5 +1,6 @@
 import { Component, ViewChild, Injector, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 /***
@@ -10,6 +11,11 @@ import { AppComponentBase } from '@shared/common/app-component-base';
     templateUrl: './eq-group-dist-saleCodes-modal.component.html',
 })
 export class EqGroupDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
+    groupSelectItems: SelectItem[] = [
+        { label: 'Group 1', value: 'Group 1' },
+        { label: 'Group 2', value: 'Group 2' },
+    ];
+
     @ViewChild('eqGroupDistModal', { static: true }) modal: ModalDirective;
 
     constructor(

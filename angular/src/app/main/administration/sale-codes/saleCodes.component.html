@@ -46,26 +46,32 @@
                                 <div class="row mb-4">
                                     <div class="col-lg-6">
                                         <label for="">{{ l('Branch') }}</label>
-                                        <select class="form-control">
-                                            <option>Branch 1</option>
-                                            <option>Branch 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="branchSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="">{{ l('Department') }}</label>
-                                        <select class="form-control">
-                                            <option>Department 1</option>
-                                            <option>Department 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="departmentSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-lg-6">
                                         <label for="">{{ l('SaleCode') }}</label>
-                                        <select class="form-control">
-                                            <option>Sale Code 1</option>
-                                            <option>Sale Code 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="saleCodeSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="row align-items-center form-row-header">
@@ -251,10 +257,12 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="">{{ l('LaborRate') | titlecase }}</label>
-                                        <select class="form-control">
-                                            <option>Rate 1</option>
-                                            <option>Rate 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="laborRateSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
@@ -448,10 +456,12 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="">{{ l('SubTotalType') }}</label>
-                                        <select class="form-control">
-                                            <option>Type 1</option>
-                                            <option>Type 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="subTotalTypeSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
@@ -750,26 +760,32 @@
                                 <div class="row mb-4">
                                     <div class="col-lg-6">
                                         <label for="">{{ l('ExpenseBranch') }}</label>
-                                        <select class="form-control">
-                                            <option>Branch 1</option>
-                                            <option>Branch 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="expenseBranchSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="">{{ l('ExpenseDepartment') }}</label>
-                                        <select class="form-control">
-                                            <option>Department 1</option>
-                                            <option>Department 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="expenseDepartmentSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-lg-6">
                                         <label for="">{{ l('ExpenseCode') }}</label>
-                                        <select class="form-control">
-                                            <option>Code 1</option>
-                                            <option>Code 2</option>
-                                        </select>
+                                        <p-dropdown
+                                            [options]="expenseCodeSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                        ></p-dropdown>
                                     </div>
                                     <div class="col-lg-2 align-option-btns">
                                         <div class="checkbox-list mb-2">
