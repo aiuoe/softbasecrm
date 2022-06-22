@@ -13,13 +13,13 @@
             <form novalidate autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span>Customer Search</span>
+                        <span>{{ l('CustomerSearch') }}</span>
                     </h4>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-4">
                         <div class="col-xl-6">
-                            <label for="">Customer #</label>
+                            <label for="">{{ l('CustomerLabel') }} #</label>
                             <div class="input-group">
                                 <input
                                     type="text"
@@ -39,28 +39,28 @@
                                         type="checkbox"
                                     />
                                     <span></span>
-                                    Name Only
+                                    {{ l('NameOnly') }}
                                 </label>
                                 <label class="checkbox">
                                     <input
                                         type="checkbox"
                                     />
                                     <span></span>
-                                    Ignore City
+                                    {{ l('IgnoreCity') }}
                                 </label>
                                 <label class="checkbox">
                                     <input
                                         type="checkbox"
                                     />
                                     <span></span>
-                                    Inactive
+                                    {{ l('Inactive') }}
                                 </label>
                                 <label class="checkbox">
                                     <input
                                         type="checkbox"
                                     />
                                     <span></span>
-                                    Include Prospects
+                                    {{ l('IncludeProspects') }}
                                 </label>
                             </div>
                         </div>
@@ -78,40 +78,37 @@
                                     [lazy]="true"
                                     [responsive]="primengTableHelper.isResponsive"
                                 >
-                                <!-- (onLazyLoad)="getTenants($event)" -->
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <!-- <th style="width: 130px">{{ 'Actions' | localize }}</th> -->
                                             <th pSortableColumn="tenancyName">
-                                                Cust #
+                                                {{ l('Cust') }} #
                                                 <p-sortIcon field="tenancyName"></p-sortIcon>
                                             </th>
                                             <th pSortableColumn="name">
-                                                Company Name
+                                                {{ l('CompanyName') }}
                                                 <p-sortIcon field="name"></p-sortIcon>
                                             </th>
                                             <th pSortableColumn="subscriptionEndDateUtc">
-                                                Sub Name
+                                                {{ l('SubName') | titlecase }}
                                                 <p-sortIcon field="subscriptionEndDateUtc"></p-sortIcon>
                                             </th>
                                             <th pSortableColumn="isActive">
-                                                Address
+                                                {{ l('Address') }}
                                                 <p-sortIcon field="isActive"></p-sortIcon>
                                             </th>
-                                            <th>City, State, Zip Code</th>
+                                            <th>{{ l('CityStateZipCode') }}</th>
                                             <th pSortableColumn="creationTime">
-                                                Phone
+                                                {{ l('Phone') }}
                                                 <p-sortIcon field="creationTime"></p-sortIcon>
                                             </th>
                                             <th pSortableColumn="creationTime">
-                                                Old Name
+                                                {{ l('OldName') | titlecase }}
                                                 <p-sortIcon field="creationTime"></p-sortIcon>
                                             </th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-record="$implicit">
                                         <tr>
-                                            <!-- <td style="width: 130px"> -->
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -136,7 +133,6 @@
                                             'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
                                         "
                                     ></p-paginator>
-                                    <!-- (onPageChange)="getTenants($event)" -->
                                 </div>
                             </div>
                             <!--<Primeng-TurboTable-End>-->
@@ -145,13 +141,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="close()">
-                        Close
+                        {{ l('Close') }}
                     </button>
                     <button
                         type="submit"
                         class="btn btn-primary blue"
                     >
-                        <span>Ok</span>
+                        <span>{{ l('Ok') }}</span>
                     </button>
                 </div>
             </form>

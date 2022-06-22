@@ -152,7 +152,7 @@ export class AppNavigationService {
                         'Sale Codes',
                         '',
                         '',
-                        '/app/main/crm/saleCodes'
+                        '/app/main/administration/saleCodes'
                     )
                     // new AppMenuItem(
                     //     'OrganizationUnits',

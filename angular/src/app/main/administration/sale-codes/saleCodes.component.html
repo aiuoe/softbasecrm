@@ -1,11 +1,11 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Administration'" [description]="'Administration · Sale Codes'">
+        <sub-header [title]="'Administration' | localize" [description]="'AdministrationSaleCodes' | localize">
             <div role="actions">
                 <button
                     class="btn btn-secondary blue"
                 >
-                    Close
+                    {{ l('Close') }}
                 </button>
             </div>
         </sub-header>
@@ -17,42 +17,42 @@
                         <form>
                             <div class="form-body">
                                 <div class="row mb-4">
-                                    <div class="col-xl-12 text-right">
+                                    <div class="col-lg-12 text-right">
                                         <button
                                             class="btn btn-primary blue"
                                             (click)="replicateSaleCodes()"
                                         >
                                             <i class="fa fa-copy fa-lg"></i>
-                                            Replicate
+                                            {{ l('Replicate') }}
                                         </button>
                                         <button class="btn btn-primary blue">
                                             <i class="fa fa-plus fa-lg"></i>
-                                            Add
+                                            {{ l('Add') }}
                                         </button>
                                         <button class="btn btn-primary blue">
                                             <i class="fa fa-trash fa-lg"></i>
-                                            Delete
+                                            {{ l('Delete') }}
                                         </button>
                                         <button class="btn btn-primary blue">
                                             <i class="fa fa-check fa-lg"></i>
-                                            Update
+                                            {{ l('Update') }}
                                         </button>
                                     </div>
                                 </div>
                                 <div class="row align-items-center form-row-header">
                                     <i class="fa fa-user"></i>
-                                    Sale Code Setup
+                                    {{ l('SaleCodeSetup') }}
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Branch</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Branch') }}</label>
                                         <select class="form-control">
                                             <option>Branch 1</option>
                                             <option>Branch 2</option>
                                         </select>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Department</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Department') }}</label>
                                         <select class="form-control">
                                             <option>Department 1</option>
                                             <option>Department 2</option>
@@ -60,8 +60,8 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Sale Code</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('SaleCode') }}</label>
                                         <select class="form-control">
                                             <option>Sale Code 1</option>
                                             <option>Sale Code 2</option>
@@ -70,25 +70,25 @@
                                 </div>
                                 <div class="row align-items-center form-row-header">
                                     <i class="fa fa-user"></i>
-                                    Description
+                                    {{ l('Description') }}
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-3">
-                                        <label for="">General</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('General') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">Parts</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('Parts') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Sale Account</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('SaleAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -103,8 +103,8 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">COG Account</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('COGAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -117,8 +117,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Tax Code Override</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('TaxCodeOverride') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -134,79 +134,79 @@
                                                     class="btn btn-primary addl-dist-btn"
                                                     (click)="addlDistSaleCodes()"
                                                 >
-                                                    Add'l Dist
+                                                    {{ l('AddlDist') }}
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Taxable
+                                                {{ l('Taxable') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                State
+                                                {{ l('StateOnly') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Country
+                                                {{ l('Country') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                City
+                                                {{ l('City') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Local
+                                                {{ l('Local') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Labor</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Labor') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">Sale Account</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('SaleAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -219,8 +219,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">COG Account</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('COGAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -235,8 +235,8 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Tax Code Override</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('TaxCodeOverride') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -249,8 +249,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Labor Rate</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('LaborRate') | titlecase }}</label>
                                         <select class="form-control">
                                             <option>Rate 1</option>
                                             <option>Rate 2</option>
@@ -258,72 +258,72 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Taxable
+                                                {{ l('Taxable') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                State
+                                                {{ l('StateOnly') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Country
+                                                {{ l('Country') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                City
+                                                {{ l('City') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Local
+                                                {{ l('Local') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Misc</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Misc') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">Sale Account</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('SaleAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -336,38 +336,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">COG Account</label>
-                                        <div class="input-group">
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                            />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary">
-                                                    <i class="flaticon-search-1"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Misc Inventory Account</label>
-                                        <div class="input-group">
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                            />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary">
-                                                    <i class="flaticon-search-1"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Tax Code Override</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('COGAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -382,72 +352,102 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('MiscInventoryAccount') }}</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('TaxCodeOverride') }}</label>
+                                        <div class="input-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Taxable
+                                                {{ l('Taxable') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                State
+                                                {{ l('StateOnly') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Country
+                                                {{ l('Country') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                City
+                                                {{ l('City') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Local
+                                                {{ l('Local') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Markup Percent</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('MarkupPercent') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Sub Total Type</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('SubTotalType') }}</label>
                                         <select class="form-control">
                                             <option>Type 1</option>
                                             <option>Type 2</option>
@@ -455,15 +455,15 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Rental</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Rental') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">Sale Account</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('SaleAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -476,8 +476,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-3">
-                                        <label for="">COG Account</label>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('COGAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -492,8 +492,8 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Tax Code Override</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('TaxCodeOverride') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -506,8 +506,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Rental Cost Percent</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('RentalCostPercent') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
@@ -515,83 +515,83 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Taxable
+                                                {{ l('Taxable') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Cost Prompt
+                                                {{ l('CostPrompt') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                State
+                                                {{ l('StateOnly') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Country
+                                                {{ l('Country') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                City
+                                                {{ l('City') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Local
+                                                {{ l('Local') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Equipment</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Equipment') }}</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                         />
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Sale Account</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('SaleAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -606,8 +606,8 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">COG Account</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('COGAccount') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -620,8 +620,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Tax Code Override</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('TaxCodeOverride') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -636,79 +636,79 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Taxable
+                                                {{ l('Taxable') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                State
+                                                {{ l('StateOnly') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Country
+                                                {{ l('Country') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                City
+                                                {{ l('City') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-1">
+                                    <div class="col-lg-1">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Local
+                                                {{ l('Local') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-3 text-right">
+                                    <div class="col-xxl-3 text-right">
                                         <button
                                             class="btn btn-primary blue"
                                             (click)="eqGroupDistSaleCodes()"
                                         >
-                                            EQ Group Dist
+                                            {{ l('EQGroupDist') }}
                                         </button>
                                         <button
                                             class="btn btn-primary blue"
                                             (click)="eqMakeDistSaleCodes()"
                                         >
-                                            EQ Make Dist
+                                            {{ l('EQMakeDist') }}
                                         </button>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Bill To#</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('BillToOnly') }}#</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -724,7 +724,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 align-option-btns">
+                                    <div class="col-lg-6 align-option-btns">
                                         <div class="radio-inline">
                                             <label for="customerSale" class="radio">
                                                 <input
@@ -733,7 +733,7 @@
                                                     type="radio"
                                                 />
                                                 <span></span>
-                                                Customer Sale
+                                                {{ l('CustomerSale') }}
                                             </label>
                                             <label for="automaticExpenseCode" class="radio">
                                                 <input
@@ -742,21 +742,21 @@
                                                     type="radio"
                                                 />
                                                 <span></span>
-                                                Automatic Expense Code
+                                                {{ l('AutomaticExpenseCode') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Expense Branch</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('ExpenseBranch') }}</label>
                                         <select class="form-control">
                                             <option>Branch 1</option>
                                             <option>Branch 2</option>
                                         </select>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <label for="">Expense Department</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('ExpenseDepartment') }}</label>
                                         <select class="form-control">
                                             <option>Department 1</option>
                                             <option>Department 2</option>
@@ -764,78 +764,78 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-6">
-                                        <label for="">Expense Code</label>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('ExpenseCode') }}</label>
                                         <select class="form-control">
                                             <option>Code 1</option>
                                             <option>Code 2</option>
                                         </select>
                                     </div>
-                                    <div class="col-xl-2 align-option-btns">
+                                    <div class="col-lg-2 align-option-btns">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Re-Work
+                                                {{ l('ReWork') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2 align-option-btns">
+                                    <div class="col-lg-2 align-option-btns">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Travel Time
+                                                {{ l('TravelTime') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2 align-option-btns">
+                                    <div class="col-lg-2 align-option-btns">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Guaranteed Maint
+                                                {{ l('GuaranteedMaint') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Require Serial #
+                                                {{ l('RequireSerial') }} #
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-2">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Lost Time
+                                                {{ l('LostTime') }}
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-2">
+                                    <div class="col-lg-4">
                                         <div class="checkbox-list mb-2">
                                             <label class="checkbox">
                                                 <input
                                                     type="checkbox"
                                                 />
                                                 <span></span>
-                                                Exclude from Credit Limit Checks
+                                                {{ l('ExcludeFromCreditLimitChecks') }}
                                             </label>
                                         </div>
                                     </div>
@@ -844,8 +844,8 @@
                         </form> 
                     </div>
                     <div class="mt-30">
-                        <p class="font-italic">Added by: Terry Eutsler on 08/22/2019 11:00:29 PM</p>
-                        <p class="font-italic">Changed by: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+                        <p class="font-italic">{{ l('AddedBy') }}: Terry Eutsler on 08/22/2019 11:00:29 PM</p>
+                        <p class="font-italic">{{ l('ChangedBy') }}: Adam Madsen on 04/25/2022 11:00:29 PM</p>
                     </div>
                 </div>
             </div>

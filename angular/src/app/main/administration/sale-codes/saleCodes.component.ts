@@ -1,11 +1,11 @@
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { ReplicateSaleCodesModalComponent } from './replicate-saleCodes-modal.component';
-import { AddlDistSaleCodesModalComponent } from './addl-dist-saleCodes-modal.component';
-import { EqGroupDistSaleCodesModalComponent } from './eq-group-dist-saleCodes-modal.component';
-import { EqMakeDistSaleCodesModalComponent } from './eq-make-dist-saleCodes-modal.component';
-import { CustomerSearchSaleCodesModalComponent } from './customer-search-saleCodes-modal.component';
+import { ReplicateSaleCodesModalComponent } from './replicate/replicate-saleCodes-modal.component';
+import { AddlDistSaleCodesModalComponent } from './addl-dist/addl-dist-saleCodes-modal.component';
+import { EqGroupDistSaleCodesModalComponent } from './eq-group-dist/eq-group-dist-saleCodes-modal.component';
+import { EqMakeDistSaleCodesModalComponent } from './eq-make-dist/eq-make-dist-saleCodes-modal.component';
+import { CustomerSearchSaleCodesModalComponent } from './customer-search/customer-search-saleCodes-modal.component';
 
 /***
  * Component to manage sale codes

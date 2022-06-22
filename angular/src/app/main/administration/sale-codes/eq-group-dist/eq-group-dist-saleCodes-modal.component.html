@@ -1,10 +1,10 @@
 <div
     bsModal
-    #eqMakeDistModal="bs-modal"
+    #eqGroupDistModal="bs-modal"
     class="modal fade"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="eqMakeDistModal"
+    aria-labelledby="eqGroupDistModal"
     aria-hidden="true"
     [config]="{ backdrop: 'static' }"
 >
@@ -13,20 +13,20 @@
             <form novalidate autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span>Equipment Make Distribution</span>
+                        <span>{{ l('EquipmentGroupDistribution') }}</span>
                     </h4>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-4">
                         <div class="col-xl-6">
-                            <label for="">Equipment Make</label>
+                            <label for="">{{ l('ModelGroup') }}</label>
                             <select class="form-control">
-                                <option>Make 1</option>
-                                <option>Make 2</option>
+                                <option>Group 1</option>
+                                <option>Group 2</option>
                             </select>
                         </div>
                         <div class="col-xl-6">
-                            <label for="">Sale Account</label>
+                            <label for="">{{ l('SaleAccount') }}</label>
                             <div class="input-group">
                                 <input
                                     type="text"
@@ -42,7 +42,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-xl-6">
-                            <label for="">Cost Account</label>
+                            <label for="">{{ l('CostAccount') }}</label>
                             <div class="input-group">
                                 <input
                                     type="text"
@@ -58,15 +58,15 @@
                         <div class="col-xl-6 text-right modal-btns">
                             <button class="btn btn-primary blue">
                                 <i class="fa fa-plus fa-lg"></i>
-                                Add
+                                {{ l('Add') }}
                             </button>
                             <button class="btn btn-primary blue">
                                 <i class="fa fa-trash fa-lg"></i>
-                                Delete
+                                {{ l('Delete') }}
                             </button>
                             <button class="btn btn-primary blue">
                                 <i class="fa fa-check fa-lg"></i>
-                                Update
+                                {{ l('Update') }}
                             </button>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         class="btn btn-primary blue"
                         (click)="close()"
                     >
-                        <span>Done</span>
+                        <span>{{ l('Done') }}</span>
                     </button>
                 </div>
             </form>
