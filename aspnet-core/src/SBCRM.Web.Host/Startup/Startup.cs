@@ -74,6 +74,8 @@ namespace SBCRM.Web.Startup
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
             }).AddNewtonsoftJson();
 
+            services.AddApiVersioning();
+
             services.AddSingleton<IConfiguration>(_appConfiguration);
             services.AddSignalR();
 

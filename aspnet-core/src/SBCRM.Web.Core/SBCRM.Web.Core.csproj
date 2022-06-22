@@ -21,6 +21,8 @@
   <ItemGroup>
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="6.5.0" />
     <PackageReference Include="Abp.AspNetZeroCore.Web" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
     <PackageReference Include="Hangfire.SqlServer" Version="1.7.25" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.2" />
