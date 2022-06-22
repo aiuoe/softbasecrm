@@ -379,6 +379,8 @@ namespace SBCRM.Authorization
 
             #region Schema 4.0 SAAS
 
+            pages.CreateChildPermission(AppPermissions.Pages_Branches, L("Branches"), multiTenancySides: MultiTenancySides.Tenant);
+
             #endregion
         }
 

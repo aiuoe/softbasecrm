@@ -6,6 +6,10 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Branches = "Pages.Branches";
+
+
+
         public const string Pages_OpportunityAttachments = "Pages.OpportunityAttachments";
         public const string Pages_OpportunityAttachments_Create = "Pages.OpportunityAttachments.Create";
         public const string Pages_OpportunityAttachments_Edit = "Pages.OpportunityAttachments.Edit";
