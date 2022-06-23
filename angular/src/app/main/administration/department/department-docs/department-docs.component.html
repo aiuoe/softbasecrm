@@ -1,0 +1,105 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div class="row align-items-center">
+        <form class="form w-100" autocomplete="off">
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('InternalCustomer') }} #</label>
+                        <input type="text" id="internalCustomerNo" name="internalCustomerNo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('NextInvoice') }} #</label>
+                        <input type="text" id="nextInvoiceNo" name="nextInvoiceNo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('NextQuote') }} #</label>
+                        <input type="text" id="nextQuoteNo" name="nextQuoteNo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('PrintVerbiage') }}</label>
+                        <input type="text" id="printVerbiage" name="printVerbiage" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('PrintVerbiageFrench') }}</label>
+                        <input type="text" id="printVerbiageFrench" name="printVerbiageFrench" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('NextPO') }} #</label>
+                        <input type="text" id="nextPONo" name="nextPONo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('NextRentalContact') }} #</label>
+                        <input type="text" id="nextRentalContactNo" name="nextRentalContactNo" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('QuoteExpirationDays') }}</label>
+                        <input type="text" id="quoteExpirationDays" name="quoteExpirationDays" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="maxAmount">{{ l('OpenWOWatermark') }}</label>
+                        <input type="text" id="openWOWatermark" name="openWOWatermark" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-5 mb-3">
+                <strong>{{ l('TransactionDateRange') }}</strong>
+            </div>
+            <div class="col-md-12 d-flex px-0">
+                <div class="col-md-6">
+                    <div class="col-md-12 px-0">
+                        <label for="fromDate">{{ l('FromDate') }}</label>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <p-calendar [showIcon]="true" inputId="fromDate" placeholder="Select Date" styleClass="w-100"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 px-0">
+                        <label for="fromDate">{{ l('ToDate') }}</label>
+                    </div>
+                    <div class="col-md-12 px-0">
+                        <p-calendar [showIcon]="true" inputId="toDate" placeholder="Select Date" styleClass="w-100"></p-calendar>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex align-items-end justify-content-end py-5">
+                <label>{{ l('SetAllDeptsToTheSame') }} &nbsp;</label>
+                <button pButton type="button" [label]="l('Set')" click="setAll()" class="btn btn-primary"></button>
+            </div>
+        </form>
+
+        <div class="col-md-12 pt-5">
+            <div class="font-italic">
+                <span>{{ l('AddedBy') }}:</span>
+            </div>
+            <div class="font-italic">
+                <span>{{ l('ChangedBy') }}:</span>
+            </div>
+        </div>
+    </div>
+</div>

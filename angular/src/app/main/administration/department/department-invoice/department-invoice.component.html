@@ -1,0 +1,31 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div class="row align-items-center">
+        <form class="form w-100" autocomplete="off">
+            <div class="col-md-12 px-0">
+                <div class="col-md-12">
+                    <label for="comments">{{ l('CommentsToAppearOnInvoices') }}</label>
+                </div>
+                <div class="col-md-12">
+                    <textarea id="comments" class="w-100" pInputTextarea rows="10"></textarea>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex px-0 pt-2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="internalCopy">{{ l('InternalCopyTopRightTextLine') }}...</label>
+                        <input type="text" id="internalCopy" name="internalCopy" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="col-md-12 pt-5">
+            <div class="font-italic">
+                <span>{{ l('AddedBy') }}:</span>
+            </div>
+            <div class="font-italic">
+                <span>{{ l('ChangedBy') }}:</span>
+            </div>
+        </div>
+    </div>
+</div>

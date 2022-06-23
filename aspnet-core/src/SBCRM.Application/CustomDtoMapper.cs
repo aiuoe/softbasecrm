@@ -225,6 +225,9 @@ namespace SBCRM
             //User Delegations
             configuration.CreateMap<CreateUserDelegationDto, UserDelegation>();
 
+            // Department
+            configuration.CreateMap<CreateOrEditDepartmentDto, Department>().ReverseMap();
+
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
 
             configuration.CreateMap<User, AccountUserViewDto>()

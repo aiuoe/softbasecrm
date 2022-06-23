@@ -316,6 +316,7 @@
         public const string Pages_Administration_Tenant_Settings = "Pages.Administration.Tenant.Settings";
 
         public const string Pages_Administration_Tenant_SubscriptionManagement = "Pages.Administration.Tenant.SubscriptionManagement";
+        public const string Pages_Administration_Department = "Pages.Administration.Tenant.Department";
 
         //HOST-SPECIFIC PERMISSIONS
 
