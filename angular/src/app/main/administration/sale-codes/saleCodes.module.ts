@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { AppSharedModule } from '@app/shared/app-shared.module';
 import { AdminSharedModule } from '@app/admin/shared/admin-shared.module';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { SaleCodesRoutingModule } from './saleCodes-routing.module';
 import { SaleCodesComponent } from './saleCodes.component';
 import { ReplicateSaleCodesModalComponent } from './replicate/replicate-saleCodes-modal.component';
@@ -18,6 +20,12 @@ import { CustomerSearchSaleCodesModalComponent } from '../../common/customer-sea
         EqMakeDistSaleCodesModalComponent,
         CustomerSearchSaleCodesModalComponent,
     ],
-    imports: [AppSharedModule, SaleCodesRoutingModule, AdminSharedModule],
+    imports: [
+        AppSharedModule,
+        SaleCodesRoutingModule,
+        AdminSharedModule,
+        CheckboxModule,
+        RadioButtonModule,
+    ],
 })
 export class SaleCodesModule {}

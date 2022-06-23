@@ -18,7 +18,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-4">
-                        <div class="col-xl-6">
+                        <div class="col-lg-4">
                             <label for="">{{ l('CustomerLabel') }} #</label>
                             <div class="input-group">
                                 <input
@@ -32,41 +32,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6">
-                            <div class="checkbox-inline mb-2 mt-8">
-                                <label class="checkbox">
-                                    <input
-                                        type="checkbox"
-                                    />
-                                    <span></span>
-                                    {{ l('NameOnly') }}
-                                </label>
-                                <label class="checkbox">
-                                    <input
-                                        type="checkbox"
-                                    />
-                                    <span></span>
-                                    {{ l('IgnoreCity') }}
-                                </label>
-                                <label class="checkbox">
-                                    <input
-                                        type="checkbox"
-                                    />
-                                    <span></span>
-                                    {{ l('Inactive') }}
-                                </label>
-                                <label class="checkbox">
-                                    <input
-                                        type="checkbox"
-                                    />
-                                    <span></span>
-                                    {{ l('IncludeProspects') }}
-                                </label>
-                            </div>
+                        <div class="col-lg-2 mt-8">
+                            <p-checkbox [label]="l('NameOnly')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-2 mt-lg-8">
+                            <p-checkbox [label]="l('IgnoreCity')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-2 mt-lg-8">
+                            <p-checkbox [label]="l('Inactive')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-2 mt-lg-8">
+                            <p-checkbox [label]="l('IncludeProspects')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
-                        <div class="col-xl-12">
+                        <div class="col-lg-12">
                             <!--<Primeng-TurboTable-Start>-->
                             <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
                                 <p-table
