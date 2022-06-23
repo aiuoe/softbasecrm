@@ -1992,6 +1992,7 @@
 		<text name="EmergencyCostPriority">Emergency Cost Priority</text>
 		<text name="PartsReceiveEmailAddress">Parts Receive Email Address</text>
 
+    <!-- Administration - Branch -->
     <text name="InvSubName">Inv Sub-Name</text>
     <text name="AcountsReceivableGLAccountNumber">Acounts Receivable GL Account #</text>
     <text name="ARAccounts">AR Accounts</text>
