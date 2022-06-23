@@ -2,11 +2,11 @@ import { Component, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
-    selector: 'tvh',
-    templateUrl: './tvh.component.html'
+    selector: 'branchEmail',
+    templateUrl: './branch-email.component.html',
 })
 
-export class TvhComponent extends AppComponentBase {
+export class BranchEmailComponent extends AppComponentBase {
 
     constructor(
         injector: Injector

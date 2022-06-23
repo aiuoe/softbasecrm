@@ -2,11 +2,11 @@ import { Component, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
-    selector: 'taxSetup',
-    templateUrl: './tax-setup.component.html'
+    selector: 'branchFinance',
+    templateUrl: './branch-finance.component.html'
 })
 
-export class TaxSetupComponent extends AppComponentBase {
+export class BranchFinanceComponent extends AppComponentBase {
 
     constructor(
         injector: Injector

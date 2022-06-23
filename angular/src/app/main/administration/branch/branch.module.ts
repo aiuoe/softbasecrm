@@ -5,20 +5,20 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import {BranchRoutingModule} from './branch-routing.module';
 import { BranchComponent } from './branch.component';
-import { EmailComponent } from './email/email.component';
-import { FinanceComponent } from './finance/finance.component';
-import { LogoGraphicComponent } from './logo-graphic/logo-graphic.component';
-import { TaxSetupComponent } from './tax-setup/tax-setup.component';
-import { TvhComponent } from './tvh/tvh.component';
+import { BranchEmailComponent } from './branch-email/branch-email.component';
+import { BranchFinanceComponent } from './branch-finance/branch-finance.component';
+import { BranchLogoGraphicComponent } from './branch-logo-graphic/branch-logo-graphic.component';
+import { BranchTaxSetupComponent } from './branch-tax-setup/branch-tax-setup.component';
+import { BranchTvhComponent } from './branch-tvh/branch-tvh.component';
 
 @NgModule({
     declarations: [
         BranchComponent,
-        TvhComponent,
-        TaxSetupComponent,
-        LogoGraphicComponent,
-        FinanceComponent,
-        EmailComponent
+        BranchTvhComponent,
+        BranchTaxSetupComponent,
+        BranchLogoGraphicComponent,
+        BranchFinanceComponent,
+        BranchEmailComponent
     ],
     imports: [
         AdminSharedModule,
