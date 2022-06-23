@@ -8,7 +8,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
  */
 @Component({
     selector: 'eqMakeDistSaleCodesModal',
-    templateUrl: './eq-make-dist-saleCodes-modal.component.html',
+    templateUrl: './equipment-make-distribution-saleCodes-modal.component.html',
 })
 export class EqMakeDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
     makeSelectItems: SelectItem[] = [

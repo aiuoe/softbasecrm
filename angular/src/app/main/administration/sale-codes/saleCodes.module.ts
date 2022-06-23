@@ -4,9 +4,9 @@ import { AdminSharedModule } from '@app/admin/shared/admin-shared.module';
 import { SaleCodesRoutingModule } from './saleCodes-routing.module';
 import { SaleCodesComponent } from './saleCodes.component';
 import { ReplicateSaleCodesModalComponent } from './replicate/replicate-saleCodes-modal.component';
-import { AddlDistSaleCodesModalComponent } from './addl-dist/addl-dist-saleCodes-modal.component';
-import { EqGroupDistSaleCodesModalComponent } from './eq-group-dist/eq-group-dist-saleCodes-modal.component';
-import { EqMakeDistSaleCodesModalComponent } from './eq-make-dist/eq-make-dist-saleCodes-modal.component';
+import { AddlDistSaleCodesModalComponent } from './additional-distribution/additional-distribution-saleCodes-modal.component';
+import { EqGroupDistSaleCodesModalComponent } from './equipment-group-distribution/equipment-group-distribution-saleCodes-modal.component';
+import { EqMakeDistSaleCodesModalComponent } from './equipment-make-distribution/equipment-make-distribution-saleCodes-modal.component';
 import { CustomerSearchSaleCodesModalComponent } from '../../common/customer-search/customer-search-saleCodes-modal.component';
 
 @NgModule({

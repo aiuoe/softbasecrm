@@ -8,7 +8,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
  */
 @Component({
     selector: 'addlDistSaleCodesModal',
-    templateUrl: './addl-dist-saleCodes-modal.component.html',
+    templateUrl: './additional-distribution-saleCodes-modal.component.html',
 })
 export class AddlDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
     partsGroupSelectItems: SelectItem[] = [

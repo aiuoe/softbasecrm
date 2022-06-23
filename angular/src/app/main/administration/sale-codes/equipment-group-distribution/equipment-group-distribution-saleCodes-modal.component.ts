@@ -8,7 +8,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
  */
 @Component({
     selector: 'eqGroupDistSaleCodesModal',
-    templateUrl: './eq-group-dist-saleCodes-modal.component.html',
+    templateUrl: './equipment-group-distribution-saleCodes-modal.component.html',
 })
 export class EqGroupDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
     groupSelectItems: SelectItem[] = [
