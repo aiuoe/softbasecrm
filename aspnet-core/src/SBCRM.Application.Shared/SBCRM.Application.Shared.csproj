@@ -11,4 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SBCRM.Core.Shared\SBCRM.Core.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\Administration\Branch\Service\" />
+  </ItemGroup>
 </Project>

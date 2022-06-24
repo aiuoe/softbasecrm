@@ -17,6 +17,7 @@
     <EmbeddedResource Include="Localization\SBCRM\*.xml;Net\Emailing\EmailTemplates\default.html" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MediatR.Contracts" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.19" />
@@ -34,6 +35,7 @@
     <PackageReference Include="Abp.MailKit" Version="6.5.0" />
     <PackageReference Include="Abp.Zero.Ldap" Version="6.5.0" />
     <PackageReference Include="Twilio" Version="5.65.3" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SBCRM.Core.Shared\SBCRM.Core.Shared.csproj" />
