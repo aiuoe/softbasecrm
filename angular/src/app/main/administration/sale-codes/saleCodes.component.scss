@@ -1,0 +1,31 @@
+.form-row-header {
+    text-align: left;
+    padding: 1rem 1rem;
+    font-weight: 600;
+    color: #323130;
+    background: #ffffff;
+    transition: box-shadow 0.2s;
+
+    i {
+        color: #263950;
+        margin-right: 1rem;
+    }
+}
+.addl-dist-btn {
+    margin-left: 10px;
+}
+
+.modal-btns,
+.checkbox-inline {
+    margin-top: 2rem;
+}
+
+.checkbox {
+    align-items: flex-start !important;
+}
+
+@media (min-width: 992px) {
+    .align-option-btns {
+        margin-top: 2rem;
+    }
+}

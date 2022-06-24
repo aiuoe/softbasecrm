@@ -8,6 +8,11 @@ import { RouterModule } from '@angular/router';
                 path: '',
                 children: [
                     {
+                        path: 'administration/saleCodes',
+                        loadChildren: () => import('./administration/sale-codes/saleCodes.module').then(m => m.SaleCodesModule),
+                        // data: { permission: 'Pages.ActivityStatuses' }
+                    },
+                    {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
                         data: { permission: 'Pages.ActivityStatuses' }
@@ -151,6 +156,11 @@ import { RouterModule } from '@angular/router';
                         path: 'global-search',
                         loadChildren: () => import('./crm/globalSearch/global-search.module').then((m) => m.GlobalSearchModule),
                         data: { permission: 'Pages.GlobalSearch' },
+                    },
+                    {
+                        path: 'administration/department',
+                        loadChildren: () => import('./administration/department/department.module').then((m) => m.DepartmentModule),
+                        data: { permission: 'Pages.Administration.Tenant.Department' },
                     },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                     { path: '**', redirectTo: 'dashboard' },
