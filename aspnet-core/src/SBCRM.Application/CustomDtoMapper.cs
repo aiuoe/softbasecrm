@@ -37,6 +37,7 @@ using SBCRM.Friendships;
 using SBCRM.Friendships.Cache;
 using SBCRM.Friendships.Dto;
 using SBCRM.Localization.Dto;
+using SBCRM.Modules.Administration.Dtos;
 using SBCRM.MultiTenancy;
 using SBCRM.MultiTenancy.Dto;
 using SBCRM.MultiTenancy.HostDashboard.Dto;
@@ -46,6 +47,7 @@ using SBCRM.Notifications.Dto;
 using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
+using Branch = SBCRM.Core.BaseEntities.Branch;
 
 namespace SBCRM
 {
@@ -253,6 +255,13 @@ namespace SBCRM
                 .ForMember(u => u.LastName, opt => opt.MapFrom(u => u.Surname))
                 .ForMember(u => u.Phone, opt => opt.MapFrom(u => u.PhoneNumber))
                 .ReverseMap();
+
+            #region [Administration mappings]
+
+            configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+
+            #endregion
+
         }
     }
 }
