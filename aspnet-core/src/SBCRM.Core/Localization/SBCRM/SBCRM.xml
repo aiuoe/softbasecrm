@@ -1991,5 +1991,49 @@
 		<text name="DefaultForStock">Default for Stock</text>
 		<text name="EmergencyCostPriority">Emergency Cost Priority</text>
 		<text name="PartsReceiveEmailAddress">Parts Receive Email Address</text>
+
+    <!-- Administration - Branch -->
+    <text name="InvSubName">Inv Sub-Name</text>
+    <text name="AcountsReceivableGLAccountNumber">Acounts Receivable GL Account #</text>
+    <text name="ARAccounts">AR Accounts</text>
+    <text name="ClarkDealerAccessCode">Clark Dealer Access Code</text>
+    <text name="ClarkPartsCode">Clark Parts Code</text>
+    <text name="FedExShopId">Fed Ex Shop Id</text>
+    <text name="FedExVendorId">Fed Ex Vendor Id</text>
+    <text name="DefaultWarehouse">Default Warehouse</text>
+    <text name="SelectDefaultWarehouse">Select Default Warehouse</text>
+    <text name="RentalDeliveryDefaultTime">Rental Delivery Default Time</text>
+    <text name="SelectARAccounts">Select AR Accounts</text>
+    <text name="SelectCurrencyType">Select Currency Type</text>
+    <text name="ARAccountForCurrency">AR Account For Currency</text>
+    <text name="DebitAccount">Debit Account</text>
+    <text name="CreditAccount">Credit Account</text>
+    <text name="Reevaluation">Reevaluation</text>
+    <text name="StateSalesTaxLabel">State Sales Tax Label</text>
+    <text name="UseStateTaxCodeDescription">Use State Tax Code Description</text>
+    <text name="CountrySalesTaxLabel">Country Sales Tax Label</text>
+    <text name="UseCountryTaxCodeDescription">Use Country Tax Code Description</text>
+    <text name="CitySalesTaxLabel">City Sales Tax Label</text>
+    <text name="UseCityTaxCodeDescription">Use City Tax Code Description</text>
+    <text name="LocalSalesTaxLabel">Local Sales Tax Label</text>
+    <text name="UseLocalTaxCodeDescription">Use Local Tax Code Description</text>
+    <text name="ShopSplitSalesTax">Shop Split Sales Tax</text>
+    <text name="WhenTaxedAtDelearshipUseTheFollowing">When "Taxed at Delearship" use the following</text>
+    <text name="StandardTaxCode">Standard Tax Code</text>
+    <text name="UseAbsoluteTaxCodes">Use Absolute Tax Codes</text>
+    <text name="CountryTaxCode">Country Tax Code</text>
+    <text name="TVHAccountNo">TVH Acount #</text>
+    <text name="TVHKey">TVH Key</text>
+    <text name="FinanceChargeGLAccount">Finance Charge GL Account</text>
+    <text name="Rate">Rate</text>
+    <text name="DaysLate">Days Late</text>
+    <text name="UseForCreditPayments">Use for Credit Payments</text>
+    <text name="StoreName">Store Name</text>
+    <text name="CreditCardDebitAccountNo">Credit Card Debit Account #</text>
+    <text name="PrintFinalAutoCcBcc">Print Final Auto cc / bcc</text>
+    <text name="PrintFinalCc">Print Final cc</text>
+    <text name="PrintFinalBcc">Print Final bcc</text>
+    <text name="LogoGraphicFile">Logo Graphic File</text>
+    <text name="UseGraphic">Use Graphic</text>
 	</texts>
 </localizationDictionary>
