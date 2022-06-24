@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using Abp.Domain.Entities;
 using Abp.IdentityFramework;
 using Abp.Runtime.Session;
 using Abp.Threading;
@@ -33,6 +34,14 @@ namespace SBCRM
             else
             {
                 return null;
+            }
+        }
+
+        protected virtual void SetTenant(IMustHaveTenant entity)
+        {
+            if (SBCRMConsts.MultiTenancyEnabled)
+            {
+                entity.TenantId = GetTenantId().Value;
             }
         }
 

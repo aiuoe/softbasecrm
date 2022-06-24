@@ -2,9 +2,14 @@
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.AspNetCore.Mvc.Authorization;
+using Abp.Authorization;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
-using SBCRM.Modules.Administration;
+using SBCRM.Modules.Administration.Branch.Commands;
+using SBCRM.Modules.Administration.Branch.Handlers;
+using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {
@@ -12,17 +17,18 @@ namespace SBCRM.Web.Controllers.Modules.Administration
     /// Branches controller
     /// </summary>
     [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_Branches)]
     public class BranchesController : SBERPControllerBase
     {
-        private readonly IBranchesAppService _branchesAppService;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Base constructor
         /// </summary>
-        /// <param name="branchesAppService"></param>
-        public BranchesController(IBranchesAppService branchesAppService)
+        /// <param name="mediator"></param>
+        public BranchesController(IMediator mediator)
         {
-            _branchesAppService = branchesAppService;
+            _mediator = mediator;
         }
 
 
@@ -33,7 +39,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpGet]
         public async Task<IList<GetLeadForViewDto>> GetAll()
         {
-            return await _branchesAppService.GetAll();
+            return await Task.FromResult(new List<GetLeadForViewDto>());
         }
 
         /// <summary>
@@ -43,7 +49,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpGet]
         public async Task<PagedResultDto<GetLeadForViewDto>> GetAllPaged()
         {
-            return await _branchesAppService.GetAllPaged();
+            return await Task.FromResult(new PagedResultDto<GetLeadForViewDto>());
         }
 
         /// <summary>
@@ -55,18 +61,19 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpGet]
         public async Task<GetLeadForEditOutput> Get([FromRoute] long id)
         {
-            return await _branchesAppService.Get(new EntityDto<long>(id));
+            return await Task.FromResult(new GetLeadForEditOutput());
         }
 
         /// <summary>
         /// Create branch
         /// </summary>
         /// <param name="input"></param>
+        /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<GetLeadForEditOutput> Insert([FromBody] CreateOrEditLeadDto input)
+        public async Task<GetBranchForEditDto> Create([FromBody] CreateBranchCommand input)
         {
-            return await _branchesAppService.Insert(input);
+            return await _mediator.Send(input);
         }
 
         /// <summary>
@@ -77,7 +84,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpPut]
         public async Task<GetLeadForEditOutput> Update([FromBody] CreateOrEditLeadDto input)
         {
-            return await _branchesAppService.Update(input);
+            return await Task.FromResult(new GetLeadForEditOutput());
         }
 
         /// <summary>
@@ -89,7 +96,6 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpDelete]
         public async Task Delete([FromRoute] long id)
         {
-            await _branchesAppService.Delete(new EntityDto<long>(id));
         }
 
     }
