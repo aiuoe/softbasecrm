@@ -2123,8 +2123,6 @@
 		<text name="LaborSummary">Labor Summary</text>
 		<text name="DefaultEquipmentComments">Default Equipment Comments</text>
 		<text name="CommentsToAppearInBodyOfEmail">Comments to Appear in Body of Email</text>
-		<text name="LogoGraphicFile">Logo Graphic File</text>
-		<text name="UseGraphic">Use Graphic</text>
 		<text name="AdministrationCompanyCheckFormatSetup">Company · Check Format Setup</text>
 
 		<!-- Administration - Company - Check Format Setup -->
