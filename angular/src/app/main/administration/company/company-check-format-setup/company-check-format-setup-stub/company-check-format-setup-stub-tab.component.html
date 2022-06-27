@@ -1,0 +1,200 @@
+<div>
+    <div class="row align-items-center form-row-header">
+        {{ l('CoName') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="coNameFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="coNameSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox [binary]="true"></p-checkbox> <i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Vendor') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="vendorFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="vendorSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox [binary]="true"></p-checkbox> <i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Summary') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="summaryFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="summarySizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox [binary]="true"></p-checkbox> <i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Date') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="dateFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="dateSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox [binary]="true"></p-checkbox> <i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox [binary]="true" class="ml-8"></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('InvoiceNumberSymbol') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox [binary]="true"></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Amount') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox [binary]="true"></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+</div>
