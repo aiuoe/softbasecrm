@@ -4,25 +4,27 @@ import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 /***
- * Component for equipment group distribution
+ * Component for equipment make distribution
  */
 @Component({
-    selector: 'eqGroupDistSaleCodesModal',
-    templateUrl: './equipment-group-distribution-saleCodes-modal.component.html',
+    selector: 'eqMakeDistSaleCodesModal',
+    templateUrl: './sale-codes-equipment-make-distribution-modal.component.html',
 })
-export class EqGroupDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
-    groupSelectItems: SelectItem[] = [
-        { label: 'Group 1', value: 'Group 1' },
-        { label: 'Group 2', value: 'Group 2' },
+export class EqMakeDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
+    makeSelectItems: SelectItem[] = [
+        { label: 'Make 1', value: 'Make 1' },
+        { label: 'Make 2', value: 'Make 2' },
     ];
 
-    @ViewChild('eqGroupDistModal', { static: true }) modal: ModalDirective;
+    @ViewChild('eqMakeDistModal', { static: true }) modal: ModalDirective;
 
     constructor(
         injector: Injector,
     ) {
         super(injector);
     }
+
+    ngOnInit(): void {}
 
     /***
      * Method that shows the modal
@@ -37,6 +39,4 @@ export class EqGroupDistSaleCodesModalComponent extends AppComponentBase impleme
     close(): void {
         this.modal.hide();
     }
-
-    ngOnInit(): void {}
 }

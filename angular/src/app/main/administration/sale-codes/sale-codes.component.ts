@@ -2,17 +2,17 @@ import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { SelectItem } from 'primeng/api';
-import { ReplicateSaleCodesModalComponent } from './replicate/replicate-saleCodes-modal.component';
-import { AddlDistSaleCodesModalComponent } from './additional-distribution/additional-distribution-saleCodes-modal.component';
-import { EqGroupDistSaleCodesModalComponent } from './equipment-group-distribution/equipment-group-distribution-saleCodes-modal.component';
-import { EqMakeDistSaleCodesModalComponent } from './equipment-make-distribution/equipment-make-distribution-saleCodes-modal.component';
-import { CustomerSearchSaleCodesModalComponent } from '../../common/customer-search/customer-search-saleCodes-modal.component';
+import { ReplicateSaleCodesModalComponent } from './sale-codes-replicate/sale-codes-replicate-modal.component';
+import { AddlDistSaleCodesModalComponent } from './sale-codes-additional-distribution/sale-codes-additional-distribution-modal.component';
+import { EqGroupDistSaleCodesModalComponent } from './sale-codes-equipment-group-distribution/sale-codes-equipment-group-distribution-modal.component';
+import { EqMakeDistSaleCodesModalComponent } from './sale-codes-equipment-make-distribution/sale-codes-equipment-make-distribution-modal.component';
+import { CustomerSearchModalComponent } from '../../common/customer-search/customer-search-modal.component';
 
 /***
  * Component to manage sale codes
  */
 @Component({
-    templateUrl: './saleCodes.component.html',
+    templateUrl: './sale-codes.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()],
 })
@@ -58,8 +58,8 @@ export class SaleCodesComponent extends AppComponentBase {
     eqGroupDistSaleCodesModal: EqGroupDistSaleCodesModalComponent;
     @ViewChild('eqMakeDistSaleCodesModal', { static: true })
     eqMakeDistSaleCodesModal: EqMakeDistSaleCodesModalComponent;
-    @ViewChild('customerSearchSaleCodesModal', { static: true })
-    customerSearchSaleCodesModal: CustomerSearchSaleCodesModalComponent;
+    @ViewChild('customerSearchModal', { static: true })
+    customerSearchModal: CustomerSearchModalComponent;
 
     /***
      * Class constructor
@@ -101,7 +101,7 @@ export class SaleCodesComponent extends AppComponentBase {
     /***
      * Method that shows the customer search modal
      */
-     customerSearchSaleCodes(): void {
-      this.customerSearchSaleCodesModal.show();
-  }
+     customerSearch(): void {
+      this.customerSearchModal.show();
+    }
 }

@@ -30,7 +30,7 @@
                                             {{ l('Add') }}
                                         </button>
                                         <button class="btn btn-primary blue">
-                                            <i class="fa fa-trash fa-lg"></i>
+                                            <i class="fa fa-times fa-lg"></i>
                                             {{ l('Delete') }}
                                         </button>
                                         <button class="btn btn-primary blue">
@@ -137,7 +137,7 @@
                                             </div>
                                             <div>
                                                 <button
-                                                    class="btn btn-primary addl-dist-btn"
+                                                    class="btn btn-primary ml-3"
                                                     (click)="addlDistSaleCodes()"
                                                 >
                                                     {{ l('AddlDist') }}
@@ -510,7 +510,7 @@
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-lg-6">
-                                        <label for="">{{ l('BillToOnly') }}#</label>
+                                        <label for="">{{ l('BillToNumberSymbol') }}</label>
                                         <div class="input-group">
                                             <input
                                                 type="text"
@@ -519,7 +519,7 @@
                                             <div class="input-group-append">
                                                 <button
                                                     class="btn btn-primary"
-                                                    (click)="customerSearchSaleCodes()"
+                                                    (click)="customerSearch()"
                                                 >
                                                     <i class="flaticon-search-1"></i>
                                                 </button>
@@ -598,6 +598,6 @@
         <addlDistSaleCodesModal #addlDistSaleCodesModal></addlDistSaleCodesModal>
         <eqGroupDistSaleCodesModal #eqGroupDistSaleCodesModal></eqGroupDistSaleCodesModal>
         <eqMakeDistSaleCodesModal #eqMakeDistSaleCodesModal></eqMakeDistSaleCodesModal>
-        <customerSearchSaleCodesModal #customerSearchSaleCodesModal></customerSearchSaleCodesModal>
+        <customerSearchModal #customerSearchModal></customerSearchModal>
     </div>
 </div>

@@ -7,10 +7,10 @@ import { AppComponentBase } from '@shared/common/app-component-base';
  * Component for customer search
  */
 @Component({
-    selector: 'customerSearchSaleCodesModal',
-    templateUrl: './customer-search-saleCodes-modal.component.html',
+    selector: 'customerSearchModal',
+    templateUrl: './customer-search-modal.component.html',
 })
-export class CustomerSearchSaleCodesModalComponent extends AppComponentBase implements OnInit {
+export class CustomerSearchModalComponent extends AppComponentBase implements OnInit {
     @ViewChild('customerSearchModal', { static: true }) modal: ModalDirective;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
 

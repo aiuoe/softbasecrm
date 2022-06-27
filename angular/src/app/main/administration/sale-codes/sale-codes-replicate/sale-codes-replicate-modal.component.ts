@@ -8,7 +8,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
  */
 @Component({
     selector: 'replicateSaleCodesModal',
-    templateUrl: './replicate-saleCodes-modal.component.html',
+    templateUrl: './sale-codes-replicate-modal.component.html',
 })
 export class ReplicateSaleCodesModalComponent extends AppComponentBase implements OnInit {
     branchSelectItems: SelectItem[] = [
@@ -27,6 +27,8 @@ export class ReplicateSaleCodesModalComponent extends AppComponentBase implement
     ) {
         super(injector);
     }
+
+    ngOnInit(): void {}
 
     /***
      * Method that shows the modal
@@ -48,6 +50,4 @@ export class ReplicateSaleCodesModalComponent extends AppComponentBase implement
     close(): void {
         this.modal.hide();
     }
-
-    ngOnInit(): void {}
 }

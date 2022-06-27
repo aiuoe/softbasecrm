@@ -8,7 +8,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
  */
 @Component({
     selector: 'addlDistSaleCodesModal',
-    templateUrl: './additional-distribution-saleCodes-modal.component.html',
+    templateUrl: './sale-codes-additional-distribution-modal.component.html',
 })
 export class AddlDistSaleCodesModalComponent extends AppComponentBase implements OnInit {
     partsGroupSelectItems: SelectItem[] = [
@@ -28,6 +28,8 @@ export class AddlDistSaleCodesModalComponent extends AppComponentBase implements
         super(injector);
     }
 
+    ngOnInit(): void {}
+
     /***
      * Method that shows the modal
      */
@@ -41,6 +43,4 @@ export class AddlDistSaleCodesModalComponent extends AppComponentBase implements
     close(): void {
         this.modal.hide();
     }
-
-    ngOnInit(): void {}
 }

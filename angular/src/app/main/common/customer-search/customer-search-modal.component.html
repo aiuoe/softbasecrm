@@ -19,7 +19,7 @@
                 <div class="modal-body">
                     <div class="row mb-4">
                         <div class="col-lg-4">
-                            <label for="">{{ l('CustomerLabel') }} #</label>
+                            <label for="">{{ l('CustomerNumberSymbol') }}</label>
                             <div class="input-group">
                                 <input
                                     type="text"
@@ -47,7 +47,7 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-12">
-                            <!--<Primeng-TurboTable-Start>-->
+                            <!--<Primeng-Table-Start>-->
                             <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
                                 <p-table
                                     #dataTable
@@ -61,7 +61,7 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th pSortableColumn="tenancyName">
-                                                {{ l('Cust') }} #
+                                                {{ l('CustNumberSymbol') }}
                                                 <p-sortIcon field="tenancyName"></p-sortIcon>
                                             </th>
                                             <th pSortableColumn="name">
@@ -115,7 +115,7 @@
                                     ></p-paginator>
                                 </div>
                             </div>
-                            <!--<Primeng-TurboTable-End>-->
+                            <!--<Primeng-Table-End>-->
                         </div>
                     </div>
                 </div>
