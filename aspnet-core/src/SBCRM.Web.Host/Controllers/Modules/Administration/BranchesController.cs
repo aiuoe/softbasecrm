@@ -9,6 +9,7 @@ using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Handlers;
+using SBCRM.Modules.Administration.Branch.Queries;
 using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
@@ -96,6 +97,17 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpDelete]
         public async Task Delete([FromRoute] long id)
         {
+        }
+
+        /// <summary>
+        /// Get initial dropdowns
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<GetBranchForDropdownDto>> GetInitialDropdowns()
+        {
+            var response = await _mediator.Send(new GetBranchDropdownQuery());
+            return response;
         }
 
     }

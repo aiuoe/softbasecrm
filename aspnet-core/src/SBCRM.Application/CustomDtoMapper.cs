@@ -259,6 +259,7 @@ namespace SBCRM
             #region [Administration mappings]
 
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<Branch, GetBranchForDropdownDto>();
 
             #endregion
 
