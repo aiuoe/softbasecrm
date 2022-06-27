@@ -165,6 +165,12 @@ export class AppNavigationService {
                         '',
                         '',
                         '/app/main/administration/saleCodes'
+                    ),
+                    new AppMenuItem(
+                        'Branch',
+                        '',
+                        '',
+                        '/app/main/administration/branch'
                     )
                     // new AppMenuItem(
                     //     'OrganizationUnits',
