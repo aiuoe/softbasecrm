@@ -48,6 +48,7 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
 
 namespace SBCRM
 {
@@ -260,6 +261,8 @@ namespace SBCRM
 
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
             configuration.CreateMap<Branch, GetBranchForDropdownDto>();
+
+            configuration.CreateMap<BranchArcurrency, GetBranchCurrencyTypeDto>();
 
             #endregion
 

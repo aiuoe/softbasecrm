@@ -100,6 +100,22 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         }
 
         /// <summary>
+        /// Retrieve branch currency type information by branch id and currency type id
+        /// </summary>
+        /// <returns></returns>
+        [Route("{id}/CurrencyType/{currencyTypeId}")]
+        [HttpGet]
+        public async Task<GetBranchCurrencyTypeDto> GetBranchCurrencyType([FromRoute] long id, [FromRoute] long currencyTypeId)
+        {
+            var input = new GetBranchCurrencyTypeQuery()
+            {
+                BranchId = id,
+                CurrencyTypeId = currencyTypeId,
+            };
+            return await _mediator.Send(input);
+        }
+
+        /// <summary>
         /// Get initial dropdowns
         /// </summary>
         /// <returns></returns>
