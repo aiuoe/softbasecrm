@@ -265,12 +265,12 @@ namespace SBCRM
 
             //Branch
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
-            configuration.CreateMap<Branch, BranchesDto>();
-            configuration.CreateMap<ChartOfAccount, ARAccountsInBranchDto>()
+            configuration.CreateMap<Branch, BranchLookupDto>();
+            configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
                 .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
-            configuration.CreateMap<Warehouse, WarehouseInBranchDto>()
+            configuration.CreateMap<Warehouse, WarehouseLookupDto>()
                 .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.Warehouse1));
-            configuration.CreateMap<CurrencyType, CurrencyTypeInBranchDto>()
+            configuration.CreateMap<CurrencyType, CurrencyTypeLookupDto>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();

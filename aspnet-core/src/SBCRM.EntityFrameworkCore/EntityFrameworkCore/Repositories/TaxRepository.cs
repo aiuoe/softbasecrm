@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
+    /// <summary>
+    /// Specific Tax repository implementation
+    /// </summary>
     public class TaxRepository : SBCRMRepositoryBase<Tax, long>, ITaxRepository
     {
         private readonly SBCRMDbContext _dbContext;

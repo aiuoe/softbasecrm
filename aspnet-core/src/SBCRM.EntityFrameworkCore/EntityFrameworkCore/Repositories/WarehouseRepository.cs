@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
+    /// <summary>
+    /// Specific Warehouse repository implementation
+    /// </summary>
     public class WarehouseRepository : SBCRMRepositoryBase<Warehouse, long>, IWarehouseRepository
     {
         private readonly SBCRMDbContext _dbContext;

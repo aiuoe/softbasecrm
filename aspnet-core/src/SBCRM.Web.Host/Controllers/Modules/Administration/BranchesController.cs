@@ -107,8 +107,8 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpGet]
         public async Task<GetInitialValuesForBranchDropdownDto> GetInitialValuesForDropdown()
         {
-            var response = await _mediator.Send(new GetInitialValuesBranchDropdownQuery());
-            return response;
+            return await _mediator.Send(new GetInitialValuesBranchDropdownQuery());
+            
         }
         /// <summary>
         /// Get initial values for dropdowns in Tax Setup tabs
@@ -117,8 +117,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpGet]
         public async Task<GetValuesForDropdownsInTaxSetupBanchDto> GetInitialValuesForDropdownTaxSetup()
         {
-            var response = await _mediator.Send(new GetInitialValuesForTaxSetupDropdownQuery());
-            return response;
+            return await _mediator.Send(new GetInitialValuesForTaxSetupDropdownQuery());
         }
     }
 }

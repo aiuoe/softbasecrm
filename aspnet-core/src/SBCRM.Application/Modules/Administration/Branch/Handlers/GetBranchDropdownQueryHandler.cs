@@ -67,7 +67,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             //};
             var branches = await _branchRepository.GetAllListAsync();
             branches= branches.OrderBy(branch=>branch.Number).ToList();
-            var arAccounts = await _chartOfAccountRepository.GetAllListAsync(account=> account.AccountsRecievable==true);
+            var arAccounts = await _chartOfAccountRepository.GetAllListAsync(account=> (bool)account.AccountsRecievable);
             arAccounts=arAccounts.OrderBy(arAccounts=>arAccounts.AccountNo).ToList();
             var warehouses = await _warehouseRepository.GetAllListAsync();
             warehouses=warehouses.OrderByDescending(w=>w.ServiceVan).ThenByDescending(w=>w.Consignment).ThenBy(w=>w.Warehouse1).ToList();
@@ -76,15 +76,15 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var taxCodes = await _taxRepository.GetAllListAsync();
             taxCodes = taxCodes.OrderBy(t => t.Code).ToList();
 
-            var branchDtoList = ObjectMapper.Map<List<BranchesDto>>(branches);
-            var arAccountDtoList = ObjectMapper.Map<List<ARAccountsInBranchDto>>(arAccounts);
-            var warehouseDtoList = ObjectMapper.Map<List<WarehouseInBranchDto>>(warehouses);
-            var currencyTypeDtoList = ObjectMapper.Map<List<CurrencyTypeInBranchDto>>(currencyTypes);
+            var branchDtoList = ObjectMapper.Map<List<BranchLookupDto>>(branches);
+            var arAccountDtoList = ObjectMapper.Map<List<AccountReceivableInBranchDto>>(arAccounts);
+            var warehouseDtoList = ObjectMapper.Map<List<WarehouseLookupDto>>(warehouses);
+            var currencyTypeDtoList = ObjectMapper.Map<List<CurrencyTypeLookupDto>>(currencyTypes);
             var taxCodeDtoList = ObjectMapper.Map<List<TaxCodeInBranchDto>>(taxCodes);
 
             var brancheDtoResponse = new GetInitialValuesForBranchDropdownDto();
             brancheDtoResponse.Branches = branchDtoList;
-            brancheDtoResponse.ARAccounts = arAccountDtoList;
+            brancheDtoResponse.AccountsReceivables = arAccountDtoList;
             brancheDtoResponse.Warehouses = warehouseDtoList;
             brancheDtoResponse.CurrencyTypes = currencyTypeDtoList;
             brancheDtoResponse.TaxCodes = taxCodeDtoList;

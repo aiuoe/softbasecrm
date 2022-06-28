@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
+    /// <summary>
+    /// Specific ChartOfAccount repository implementation
+    /// </summary>
     public class ChartOfAccountRepository : SBCRMRepositoryBase<ChartOfAccount, long>, IChartOfAccountRepository
     {
         private readonly SBCRMDbContext _dbContext;

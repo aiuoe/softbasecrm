@@ -5,11 +5,11 @@ using System.Text;
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
-    /// DTO for Default Warehouse dropdown
+    /// DTO for CurrencyTypes dropdown
     /// </summary>
-    public class WarehouseInBranchDto
+    public class CurrencyTypeLookupDto
     {
         public long Id { get; set; }
-        public string Warehouse { get; set; }
+        public string CurrencyType { get; set; }
     }
 }

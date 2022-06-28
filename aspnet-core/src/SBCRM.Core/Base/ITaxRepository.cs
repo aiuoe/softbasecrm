@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Base
 {
+    /// <summary>
+    /// Specific Tax repository
+    /// </summary>
     public interface ITaxRepository : Abp.Domain.Repositories.IRepository<Tax, long>
     {
 
