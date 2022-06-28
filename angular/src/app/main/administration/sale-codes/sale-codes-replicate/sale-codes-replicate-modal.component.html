@@ -1,0 +1,53 @@
+<div
+    bsModal
+    #replicateModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="replicateModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <form novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l('BranchDepartmentChoice') }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">{{ l('Branch') }}</label>
+                        <p-dropdown
+                            [options]="branchSelectItems"
+                            [virtualScroll]="true"
+                            [itemSize]="30"
+                            [style]="{ width: '100%' }"
+                        ></p-dropdown>
+                    </div>
+                    <div class="form-group">
+                        <label for="">{{ l('Department') }}</label>
+                        <p-dropdown
+                            [options]="departmentSelectItems"
+                            [virtualScroll]="true"
+                            [itemSize]="30"
+                            [style]="{ width: '100%' }"
+                        ></p-dropdown>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="close()">
+                        {{ l('Cancel') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                    >
+                        <span>{{ l('Ok') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
