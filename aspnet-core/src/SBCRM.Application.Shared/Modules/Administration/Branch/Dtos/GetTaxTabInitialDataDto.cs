@@ -4,7 +4,10 @@ using System.Text;
 
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
-    public class GetValuesForDropdownsInTaxSetupBanchDto
+    /// <summary>
+    /// DTO for fetching initial data for tax tab in branch sub module
+    /// </summary>
+    public class GetTaxTabInitialDataDto
     {
         public List<StateTaxCodeInBranchDto> StateTaxCodes { get; set; }
         public List<CountryTaxCodeInBranchDto> CountryTaxCodes { get; set; }

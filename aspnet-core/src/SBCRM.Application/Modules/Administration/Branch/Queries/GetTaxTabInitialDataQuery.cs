@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Administration.Branch.Queries
 {
-    public class GetInitialValuesForTaxSetupDropdownQuery: IRequest<GetValuesForDropdownsInTaxSetupBanchDto>
+    /// <summary>
+    /// Get tax tab dropdown data in Branch sub module query
+    /// </summary>
+    public class GetTaxTabInitialDataQuery: IRequest<GetTaxTabInitialDataDto>
     {
     }
 }

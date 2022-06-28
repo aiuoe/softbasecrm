@@ -115,9 +115,9 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<GetValuesForDropdownsInTaxSetupBanchDto> GetInitialValuesForDropdownTaxSetup()
+        public async Task<GetTaxTabInitialDataDto> GetTaxTabInitialData()
         {
-            return await _mediator.Send(new GetInitialValuesForTaxSetupDropdownQuery());
+            return await _mediator.Send(new GetTaxTabInitialDataQuery());
         }
     }
 }
