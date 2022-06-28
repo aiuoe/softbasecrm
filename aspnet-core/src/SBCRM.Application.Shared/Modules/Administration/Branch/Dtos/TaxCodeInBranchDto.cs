@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SBCRM.Modules.Administration.Branch.Dtos
+﻿namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for Standard Tax Code dropdown
