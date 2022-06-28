@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
 using SBCRM.Modules.Administration.Branch.Commands;
+using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
 using SBCRM.Modules.Administration.Branch.Queries;
 using SBCRM.Modules.Administration.Dtos;
@@ -109,6 +110,15 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             var response = await _mediator.Send(new GetInitialValuesBranchDropdownQuery());
             return response;
         }
-
+        /// <summary>
+        /// Get initial values for dropdowns in Tax Setup tabs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<GetValuesForDropdownsInTaxSetupBanchDto> GetInitialValuesForDropdownTaxSetup()
+        {
+            var response = await _mediator.Send(new GetInitialValuesForTaxSetupDropdownQuery());
+            return response;
+        }
     }
 }
