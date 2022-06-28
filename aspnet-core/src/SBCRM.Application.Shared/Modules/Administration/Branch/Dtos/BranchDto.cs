@@ -1,6 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 
-namespace SBCRM.Modules.Administration.Dtos
+namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// Branch DTO class

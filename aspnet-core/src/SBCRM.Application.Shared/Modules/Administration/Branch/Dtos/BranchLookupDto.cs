@@ -1,9 +1,9 @@
-﻿namespace SBCRM.Modules.Administration.Dtos
+﻿namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for branch dropdown
     /// </summary>
-    public class GetBranchForDropdownDto
+    public class BranchLookupDto
     {
         public long Id { get; set; }
         public short Number { get; set; }

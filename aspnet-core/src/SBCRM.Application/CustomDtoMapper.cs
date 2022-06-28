@@ -48,6 +48,11 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
+using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
+using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
+using Tax = SBCRM.Core.BaseEntities.Tax;
+using SBCRM.Modules.Administration.Branch.Dtos;
 
 namespace SBCRM
 {
@@ -258,11 +263,18 @@ namespace SBCRM
 
             #region [Administration mappings]
 
+            //Branch
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
-            configuration.CreateMap<Branch, GetBranchForDropdownDto>();
-
+            configuration.CreateMap<Branch, BranchLookupDto>();
+            configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
+                .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
+            configuration.CreateMap<Warehouse, WarehouseLookupDto>()
+                .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.Warehouse1));
+            configuration.CreateMap<CurrencyType, CurrencyTypeLookupDto>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
+                .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
+            configuration.CreateMap<Tax, TaxCodeInBranchDto>();
             #endregion
-
         }
     }
 }
