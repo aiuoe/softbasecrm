@@ -72,7 +72,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var warehouses = await _warehouseRepository.GetAllListAsync();
             warehouses=warehouses.OrderByDescending(w=>w.ServiceVan).ThenByDescending(w=>w.Consignment).ThenBy(w=>w.Warehouse1).ToList();
             var currencyTypes = await _currencyTypeRepository.GetAllListAsync();
-            currencyTypes=currencyTypes.OrderBy(c=>c.CurrencyType1).ToList();
+            currencyTypes=currencyTypes.OrderBy(c=>c.CurrencyTypeName).ToList();
             var taxCodes = await _taxRepository.GetAllListAsync();
             taxCodes = taxCodes.OrderBy(t => t.Code).ToList();
 

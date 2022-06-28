@@ -272,7 +272,7 @@ namespace SBCRM
                 .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.Warehouse1));
             configuration.CreateMap<CurrencyType, CurrencyTypeInBranchDto>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
-                .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyType1));
+                .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();
             #endregion
         }
