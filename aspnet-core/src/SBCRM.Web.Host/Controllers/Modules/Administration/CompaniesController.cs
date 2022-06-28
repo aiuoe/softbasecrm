@@ -1,14 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Abp.AspNetCore.Mvc.Authorization;
+using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SBCRM.Authorization;
 using SBCRM.Modules.Administration.Comapny.Queries;
+using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {
 
     [AbpMvcAuthorize]
-    //[AbpAuthorize(AppPermissions.Pages_Companies)]
+    [AbpAuthorize(AppPermissions.Pages_Branches)]
     public class CompaniesController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -19,13 +23,16 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             _mediator = mediator;
         }
 
+
+        /// <summary>
+        /// Get company all data
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> GetCompaniesData()
+        public async Task<List<GetCompanyDto>> GetCompaniesData()
         {
-            var products = await _mediator.Send(new GetCompanyQuery());
-            return Ok(products);
+            var response = await _mediator.Send(new GetCompanyQuery());
+            return response;
         }
-
-
     }
 }

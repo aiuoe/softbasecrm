@@ -1,12 +1,13 @@
-﻿using Abp.Application.Services.Dto;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SBCRM.Modules.Administration.Dtos
 {
     /// <summary>
-    /// Company DTO class
+    /// DTO for get all company data
     /// </summary>
-    public class CompanyDto : FullAuditedEntityDto<long>
+    public class GetCompanyDto
     {
         public short Number { get; set; }
         public string Name { get; set; }

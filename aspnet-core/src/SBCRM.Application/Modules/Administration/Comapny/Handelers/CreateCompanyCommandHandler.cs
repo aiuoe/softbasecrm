@@ -7,6 +7,9 @@ using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Modules.Administration.Comapny.Handelers
 {
+    /// <summary>
+    /// Create company use case command handler
+    /// </summary>
     public class CreateCompanyCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateCompanyCommand, GetCompanyForEditDto>
     {
         private readonly ICompanyRepository _companyRepository;
@@ -16,7 +19,13 @@ namespace SBCRM.Modules.Administration.Comapny.Handelers
             _companyRepository = companyRepository;
         }
 
-        public Task<GetCompanyForEditDto> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
+        /// <summary>
+        /// Create company use case
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<GetCompanyForEditDto> Handle(CreateCompanyCommand command, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
