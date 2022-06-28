@@ -17,8 +17,8 @@ namespace SBCRM.Web.Controllers.Modules.Administration
     /// <summary>
     /// Branches controller
     /// </summary>
-    [AbpMvcAuthorize]
-    [AbpAuthorize(AppPermissions.Pages_Branches)]
+/*    [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_Branches)]*/
     public class BranchesController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -100,13 +100,13 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         }
 
         /// <summary>
-        /// Get initial dropdowns
+        /// Get initial values for dropdowns
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<GetBranchForDropdownDto>> GetInitialDropdowns()
+        public async Task<GetInitialValuesForBranchDropdownDto> GetInitialValuesForDropdown()
         {
-            var response = await _mediator.Send(new GetBranchDropdownQuery());
+            var response = await _mediator.Send(new GetInitialValuesBranchDropdownQuery());
             return response;
         }
 
