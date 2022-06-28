@@ -9,9 +9,9 @@ namespace SBCRM.Modules.Administration.Comapny.Handelers
 {
     public class CreateCompanyCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateComapnyCommand, GetCompanyForEditDto>
     {
-        private readonly IComapanyRepository _companyRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CreateCompanyCommandHandler(IComapanyRepository companyRepository)
+        public CreateCompanyCommandHandler(ICompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
         }

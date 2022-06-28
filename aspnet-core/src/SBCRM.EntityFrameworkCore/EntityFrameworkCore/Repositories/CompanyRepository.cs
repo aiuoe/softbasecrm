@@ -4,7 +4,7 @@ using SBCRM.Core.BaseEntities;
 
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
-    internal class CompanyRepository : SBCRMRepositoryBase<Company, long>, IComapanyRepository
+    internal class CompanyRepository : SBCRMRepositoryBase<Company, long>, ICompanyRepository
     {
         private readonly SBCRMDbContext _dbContext;
         public CompanyRepository(IDbContextProvider<SBCRMDbContext> dbContextProvider) : base(dbContextProvider)

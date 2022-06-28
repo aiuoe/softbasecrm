@@ -10,9 +10,9 @@ namespace SBCRM.Modules.Administration.Comapny.Handelers
 {
     public class GetCompanyHandler : IRequestHandler<GetCompanyQuery, IEnumerable<Company>>
     {
-        private readonly IComapanyRepository _companyRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-        public GetCompanyHandler(IComapanyRepository companyRepository)
+        public GetCompanyHandler(ICompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
         }
