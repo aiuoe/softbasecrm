@@ -5,7 +5,7 @@ using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Modules.Administration.Comapny.Commands
 {
-    public class CreateComapnyCommand : IRequest<GetCompanyForEditDto>, ICustomValidate
+    public class CreateCompanyCommand : IRequest<GetCompanyForEditDto>, ICustomValidate
     {
         public string Name { get; set; }
 
