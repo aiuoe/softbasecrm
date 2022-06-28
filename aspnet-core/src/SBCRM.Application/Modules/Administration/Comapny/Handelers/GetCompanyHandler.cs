@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Administration.Comapny.Handelers
 {
-    public class GetCompanyHandeler : IRequestHandler<GetCompanyQuery, IEnumerable<Company>>
+    public class GetCompanyHandler : IRequestHandler<GetCompanyQuery, IEnumerable<Company>>
     {
         private readonly IComapanyRepository _companyRepository;
 
-        public GetCompanyHandeler(IComapanyRepository companyRepository)
+        public GetCompanyHandler(IComapanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
         }
