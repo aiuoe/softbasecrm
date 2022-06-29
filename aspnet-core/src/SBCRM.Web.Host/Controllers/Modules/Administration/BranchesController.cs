@@ -162,5 +162,16 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             return await _mediator.Send(new GetTaxTabInitialDataQuery());
         }
 
+        /// <summary>
+        /// Get credit card account no details
+        /// </summary>
+        /// <param name="accountNo"></param>
+        /// <returns></returns>
+        [Route("{accountNo}")]
+        [HttpGet]
+        public async Task<GetChartOfAccountDetailsDto> GetCreditCardAccountDetails(string accountNo)
+        {
+            return await _mediator.Send(new GetCreditCardAccountQuery(accountNo));
+        }
     }
 }

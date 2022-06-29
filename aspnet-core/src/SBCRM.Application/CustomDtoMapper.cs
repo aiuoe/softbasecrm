@@ -287,6 +287,7 @@ namespace SBCRM
             configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
             configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
             configuration.CreateMap<Branch, GetBranchDetailsDto>();
+            configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>();
 
             #endregion
         }
