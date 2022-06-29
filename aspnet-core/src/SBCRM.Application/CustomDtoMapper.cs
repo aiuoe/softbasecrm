@@ -53,6 +53,7 @@ using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
 using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
 using Tax = SBCRM.Core.BaseEntities.Tax;
 using SBCRM.Modules.Administration.Branch.Dtos;
+using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
 
 namespace SBCRM
 {
@@ -274,6 +275,9 @@ namespace SBCRM
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();
+
+            configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
+
             #endregion
         }
     }
