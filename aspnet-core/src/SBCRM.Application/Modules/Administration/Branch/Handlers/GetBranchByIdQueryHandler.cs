@@ -12,7 +12,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// </summary>
     public class GetBranchByIdQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchByIdQuery, GetBranchDetailsDto>
     {
-        public readonly IBranchRepository _branchRepository;
+        private readonly IBranchRepository _branchRepository;
 
         /// <summary>
         /// Base constructor
