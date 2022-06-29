@@ -13,7 +13,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Create branch use case command handler
     /// </summary>
-    public class GetBranchDropdownQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetInitialValuesBranchDropdownQuery, GetInitialValuesForBranchDropdownDto>
+    public class GetBranchInitialDataQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchInitialDataQuery, GetBranchInitialDataDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IChartOfAccountRepository _chartOfAccountRepository;
@@ -29,7 +29,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="warehouseRepository"></param>
         /// <param name="taxRepository"></param>
         /// <param name="currencyTypeRepository"></param>
-        public GetBranchDropdownQueryHandler(IBranchRepository branchRepository,
+        public GetBranchInitialDataQueryHandler(IBranchRepository branchRepository,
             IChartOfAccountRepository chartOfAccountRepository,
             IWarehouseRepository warehouseRepository,
             ITaxRepository taxRepository,
@@ -48,7 +48,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<GetInitialValuesForBranchDropdownDto> Handle(GetInitialValuesBranchDropdownQuery query, CancellationToken cancellationToken)
+        public async Task<GetBranchInitialDataDto> Handle(GetBranchInitialDataQuery query, CancellationToken cancellationToken)
         {
             //var branch = new Core.BaseEntities.Branch
             //{
@@ -82,7 +82,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var currencyTypeDtoList = ObjectMapper.Map<List<CurrencyTypeLookupDto>>(currencyTypes);
             var taxCodeDtoList = ObjectMapper.Map<List<TaxCodeInBranchDto>>(taxCodes);
 
-            var brancheDtoResponse = new GetInitialValuesForBranchDropdownDto();
+            var brancheDtoResponse = new GetBranchInitialDataDto();
             brancheDtoResponse.Branches = branchDtoList;
             brancheDtoResponse.AccountsReceivables = arAccountDtoList;
             brancheDtoResponse.Warehouses = warehouseDtoList;

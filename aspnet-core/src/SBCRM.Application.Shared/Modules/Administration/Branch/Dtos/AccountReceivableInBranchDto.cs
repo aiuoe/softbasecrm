@@ -1,7 +1,4 @@
-﻿
-
-
-namespace SBCRM.Modules.Administration.Branch.Dtos
+﻿namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for ARAccount dropdown

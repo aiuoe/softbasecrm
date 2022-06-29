@@ -6,7 +6,7 @@ namespace SBCRM.Modules.Administration.Branch.Queries
     /// <summary>
     /// Get branch dropdown query
     /// </summary>
-    public class GetInitialValuesBranchDropdownQuery : IRequest<GetInitialValuesForBranchDropdownDto>
+    public class GetBranchInitialDataQuery : IRequest<GetBranchInitialDataDto>
     {
     }
 }

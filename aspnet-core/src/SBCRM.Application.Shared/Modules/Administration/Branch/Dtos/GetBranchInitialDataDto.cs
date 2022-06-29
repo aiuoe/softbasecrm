@@ -6,7 +6,7 @@ namespace SBCRM.Modules.Administration.Dtos
     /// <summary>
     /// DTO for fetching initial data for Branch sub module
     /// </summary>
-    public class GetInitialValuesForBranchDropdownDto
+    public class GetBranchInitialDataDto
     {
         public List<BranchLookupDto> Branches { get; set; }
         public List<AccountReceivableInBranchDto> AccountsReceivables { get; set; }
@@ -15,7 +15,3 @@ namespace SBCRM.Modules.Administration.Dtos
         public List<TaxCodeInBranchDto> TaxCodes { get; set; }
     }
 }
-
-
-
-
