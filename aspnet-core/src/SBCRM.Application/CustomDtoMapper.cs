@@ -48,6 +48,7 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 
 namespace SBCRM
 {
@@ -259,8 +260,10 @@ namespace SBCRM
             #region [Administration mappings]
 
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<GetZipCodeDto, ZipCode>().ReverseMap();
 
             #endregion
+
 
         }
     }
