@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SBCRM.Modules.Administration.Company.Handelers
+namespace SBCRM.Modules.Administration.Company.Handlers
 {
     /// <summary>
     /// Create company use case command handler
