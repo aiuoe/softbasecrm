@@ -3,9 +3,9 @@
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
-    /// DTO for State Tax Code dropdown
+    /// DTO for Country Tax Code dropdown
     /// </summary>
-    public class StateTaxCodeInBranchDto
+    public class CountyTaxCodeInBranchDto
     {
         public long Id { get; set; }
         public string TaxCode { get; set; }

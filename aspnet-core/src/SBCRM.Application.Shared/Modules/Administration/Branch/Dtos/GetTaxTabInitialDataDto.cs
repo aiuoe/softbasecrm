@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
@@ -8,7 +9,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
     public class GetTaxTabInitialDataDto
     {
         public List<StateTaxCodeInBranchDto> StateTaxCodes { get; set; }
-        public List<CountryTaxCodeInBranchDto> CountryTaxCodes { get; set; }
+        public List<CountyTaxCodeInBranchDto> CountyTaxCodes { get; set; }
         public List<CityTaxCodeInBranchDto> CityTaxCodes { get; set; }
         public List<LocalTaxCodeInBranchDto> LocalTaxCodes { get; set; }
     }
