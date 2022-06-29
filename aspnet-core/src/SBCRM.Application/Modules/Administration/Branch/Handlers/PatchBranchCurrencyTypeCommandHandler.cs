@@ -43,7 +43,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var branch = await _branchRepository.FirstOrDefaultAsync(x => x.Id == command.BranchId);
             var currencyType = await _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == command.CurrencyTypeId);
             var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branch.Number && x.CurrencyType == currencyType.CurrencyTypeName);
-            branchCurrencyType.AraccountNo = command.AraccountNo;
+            branchCurrencyType.AraccountNo = command.ArAccountNo;
             branchCurrencyType.DebitAccount = command.DebitAccount;
             branchCurrencyType.CreditAccount = command.CreditAccount;
             branchCurrencyType.DebitAccountReevaluate = command.DebitAccountReevaluate;

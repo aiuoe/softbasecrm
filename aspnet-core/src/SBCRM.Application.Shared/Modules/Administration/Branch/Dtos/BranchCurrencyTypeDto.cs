@@ -5,7 +5,7 @@
     /// </summary>
     public class BranchCurrencyTypeDto
     {
-        public string AraccountNo { get; set; }
+        public string ArAccountNo { get; set; }
         public string DebitAccount { get; set; }
         public string CreditAccount { get; set; }
         public string DebitAccountReevaluate { get; set; }

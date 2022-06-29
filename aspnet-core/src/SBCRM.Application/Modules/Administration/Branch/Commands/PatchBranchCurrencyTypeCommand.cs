@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Commands
     {
         public long BranchId { get; set; }
         public long CurrencyTypeId { get; set; }
-        public string AraccountNo { get; set; }
+        public string ArAccountNo { get; set; }
         public string DebitAccount { get; set; }
         public string CreditAccount { get; set; }
         public string DebitAccountReevaluate { get; set; }
