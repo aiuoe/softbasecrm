@@ -52,8 +52,12 @@ using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
 using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
 using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
 using Tax = SBCRM.Core.BaseEntities.Tax;
-using SBCRM.Modules.Administration.Branch.Dtos;
+using StateTaxCode = SBCRM.Core.BaseEntities.StateTaxCode;
+using LocalTaxCode = SBCRM.Core.BaseEntities.LocalTaxCode;
+using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
+using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 
+using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM
 {
     internal static class CustomDtoMapper
@@ -274,6 +278,12 @@ namespace SBCRM
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();
+
+            configuration.CreateMap<StateTaxCode, StateTaxCodeInBranchDto>();
+            configuration.CreateMap<LocalTaxCode, LocalTaxCodeInBranchDto>();
+            configuration.CreateMap<CityTaxCode, CityTaxCodeInBranchDto>();
+            configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
+
             #endregion
         }
     }
