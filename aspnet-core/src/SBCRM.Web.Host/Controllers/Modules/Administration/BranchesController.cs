@@ -55,15 +55,15 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         }
 
         /// <summary>
-        /// Retrieve branch by id
+        /// Get branch details by branch id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
-        public async Task<GetLeadForEditOutput> Get([FromRoute] long id)
+        public async Task<GetBranchDetailsDto> Get([FromRoute] long id)
         {
-            return await Task.FromResult(new GetLeadForEditOutput());
+            return await _mediator.Send(new GetBranchByIdQuery(id));
         }
 
         /// <summary>
@@ -151,6 +151,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             return await _mediator.Send(new GetBranchInitialDataQuery());
             
         }
+
         /// <summary>
         /// Get initial values for dropdowns in Tax Setup tabs
         /// </summary>
@@ -161,14 +162,5 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             return await _mediator.Send(new GetTaxTabInitialDataQuery());
         }
 
-        /// <summary>
-        /// Get branch details by branch id.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("branch/{id}")]
-        public async Task<GetBranchDetailsDto> GetBranchDetails([FromQuery] int id)
-        {
-            return await _mediator.Send(new GetBranchDetailsQuery());
-        }
     }
 }
