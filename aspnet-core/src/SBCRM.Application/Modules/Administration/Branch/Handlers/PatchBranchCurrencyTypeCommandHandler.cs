@@ -41,5 +41,4 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             return ObjectMapper.Map<BranchCurrencyTypeDto>(branchCurrencyType);
         }
     }
-
 }
