@@ -12,15 +12,24 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// </summary>
     public class GetBranchCurrencyTypeQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchCurrencyTypeQuery, BranchCurrencyTypeDto>
     {
+        private readonly IBranchRepository _branchRepository;
         private readonly IBranchARCurrencyTypeRepository _branchARCurrencyTypeRepository;
+        private readonly ICurrencyTypeRepository _currencyTypeRepository;
 
         /// <summary>
         /// Base constructor
         /// </summary>
+        /// <param name="branchRepository"></param>
         /// <param name="branchARCurrencyTypeRepository"></param>
-        public GetBranchCurrencyTypeQueryHandler(IBranchARCurrencyTypeRepository branchARCurrencyTypeRepository)
+        /// <param name="currencyTypeRepository"></param>
+        public GetBranchCurrencyTypeQueryHandler(
+            IBranchRepository branchRepository,
+            IBranchARCurrencyTypeRepository branchARCurrencyTypeRepository,
+            ICurrencyTypeRepository currencyTypeRepository)
         {
+            _branchRepository = branchRepository;
             _branchARCurrencyTypeRepository = branchARCurrencyTypeRepository;
+            _currencyTypeRepository = currencyTypeRepository;
         }
 
         /// <summary>
@@ -31,7 +40,10 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchCurrencyTypeDto> Handle(GetBranchCurrencyTypeQuery query, CancellationToken cancellationToken)
         {
-            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == query.Branch && x.CurrencyType == query.CurrencyType);
+            var branchTask = _branchRepository.FirstOrDefaultAsync(x => x.Id == query.BranchId);
+            var currencyTypeTask = _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == query.CurrencyTypeId);
+            await Task.WhenAll(branchTask, currencyTypeTask);
+            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branchTask.Result.Number && x.CurrencyType == currencyTypeTask.Result.CurrencyTypeName);
             return ObjectMapper.Map<BranchCurrencyTypeDto>(branchCurrencyType);
         }
     }

@@ -103,21 +103,30 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Retrieve branch currency type information by branch id and currency type id
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="currencyTypeId"></param>
         /// <see cref="GetBranchCurrencyTypeQueryHandler"/>
         /// <returns></returns>
         [Route("{id}/CurrencyType/{currencyTypeId}")]
         [HttpGet]
         public async Task<BranchCurrencyTypeDto> GetBranchCurrencyType(
             [FromRoute] long id,
-            [FromRoute] long currencyTypeId,
-            [FromQuery] GetBranchCurrencyTypeQuery input)
+            [FromRoute] long currencyTypeId)
         {
+            var input = new GetBranchCurrencyTypeQuery()
+            {
+                BranchId = id,
+                CurrencyTypeId = currencyTypeId,
+            };
             return await _mediator.Send(input);
         }
 
         /// <summary>
         /// Patch branch currency type information by branch id and currency type id
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="currencyTypeId"></param>
+        /// <param name="requestDro"></param>
         /// <see cref="PatchBranchCurrencyTypeCommandHandler"/>
         /// <returns></returns>
         [Route("{id}/CurrencyType/{currencyTypeId}")]
@@ -125,8 +134,18 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         public async Task<BranchCurrencyTypeDto> PatchBranchCurrencyType(
             [FromRoute] long id,
             [FromRoute] long currencyTypeId, 
-            [FromBody] PatchBranchCurrencyTypeCommand input)
+            [FromBody] BranchCurrencyTypeDto requestDro)
         {
+            var input = new PatchBranchCurrencyTypeCommand()
+            {
+                BranchId = id,
+                CurrencyTypeId = currencyTypeId,
+                AraccountNo = requestDro.AraccountNo,
+                DebitAccount = requestDro.DebitAccount,
+                CreditAccount = requestDro.CreditAccount,
+                DebitAccountReevaluate = requestDro.DebitAccountReevaluate,
+                CreditAccountReevaluate = requestDro.CreditAccountReevaluate,
+            };
             return await _mediator.Send(input);
         }
 

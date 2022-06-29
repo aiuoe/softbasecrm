@@ -12,15 +12,24 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// </summary>
     public class PatchBranchCurrencyTypeCommandHandler : SBCRMAppServiceBase, IRequestHandler<PatchBranchCurrencyTypeCommand, BranchCurrencyTypeDto>
     {
+        private readonly IBranchRepository _branchRepository;
         private readonly IBranchARCurrencyTypeRepository _branchARCurrencyTypeRepository;
+        private readonly ICurrencyTypeRepository _currencyTypeRepository;
 
         /// <summary>
         /// Base constructor
         /// </summary>
+        /// <param name="branchRepository"></param>
         /// <param name="branchARCurrencyTypeRepository"></param>
-        public PatchBranchCurrencyTypeCommandHandler(IBranchARCurrencyTypeRepository branchARCurrencyTypeRepository)
+        /// <param name="currencyTypeRepository"></param>
+        public PatchBranchCurrencyTypeCommandHandler(
+            IBranchRepository branchRepository,
+            IBranchARCurrencyTypeRepository branchARCurrencyTypeRepository,
+            ICurrencyTypeRepository currencyTypeRepository)
         {
+            _branchRepository = branchRepository;
             _branchARCurrencyTypeRepository = branchARCurrencyTypeRepository;
+            _currencyTypeRepository = currencyTypeRepository;
         }
 
         /// <summary>
@@ -31,12 +40,15 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchCurrencyTypeDto> Handle(PatchBranchCurrencyTypeCommand command, CancellationToken cancellationToken)
         {
-            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == command.Branch && x.CurrencyType == command.CurrencyType);
-            branchCurrencyType.AraccountNo = command.request.AraccountNo;
-            branchCurrencyType.DebitAccount = command.request.DebitAccount;
-            branchCurrencyType.CreditAccount = command.request.CreditAccount;
-            branchCurrencyType.DebitAccountReevaluate = command.request.DebitAccountReevaluate;
-            branchCurrencyType.CreditAccountReevaluate = command.request.CreditAccountReevaluate;
+            var branchTask = _branchRepository.FirstOrDefaultAsync(x => x.Id == command.BranchId);
+            var currencyTypeTask = _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == command.CurrencyTypeId);
+            await Task.WhenAll(branchTask, currencyTypeTask);
+            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branchTask.Result.Number && x.CurrencyType == currencyTypeTask.Result.CurrencyTypeName);
+            branchCurrencyType.AraccountNo = command.AraccountNo;
+            branchCurrencyType.DebitAccount = command.DebitAccount;
+            branchCurrencyType.CreditAccount = command.CreditAccount;
+            branchCurrencyType.DebitAccountReevaluate = command.DebitAccountReevaluate;
+            branchCurrencyType.CreditAccountReevaluate = command.CreditAccountReevaluate;
             await _branchARCurrencyTypeRepository.UpdateAsync(branchCurrencyType);
             return ObjectMapper.Map<BranchCurrencyTypeDto>(branchCurrencyType);
         }
