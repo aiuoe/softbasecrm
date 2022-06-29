@@ -4,7 +4,7 @@ using SBCRM.Modules.Administration.Dtos;
 namespace SBCRM.Modules.Administration.Branch.Commands
 {
     /// <summary>
-    /// Pathch branch cuurrency type command
+    /// Patch branch cuurrency type command
     /// </summary>
     public class PatchBranchCurrencyTypeCommand : IRequest<BranchCurrencyTypeDto>
     {
