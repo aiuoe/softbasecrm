@@ -1,4 +1,6 @@
-﻿namespace SBCRM.Modules.Administration.Dtos
+﻿using SBCRM.Modules.Administration.Branch.Dtos;
+
+namespace SBCRM.Modules.Administration.Dtos
 {
     /// <summary>
     /// Extended DTO fro branch edition

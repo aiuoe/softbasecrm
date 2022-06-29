@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
 using SBCRM.Modules.Administration.Branch.Commands;
+using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
 using SBCRM.Modules.Administration.Branch.Queries;
 using SBCRM.Modules.Administration.Dtos;
@@ -17,8 +18,8 @@ namespace SBCRM.Web.Controllers.Modules.Administration
     /// <summary>
     /// Branches controller
     /// </summary>
-    [AbpMvcAuthorize]
-    [AbpAuthorize(AppPermissions.Pages_Branches)]
+    //[AbpMvcAuthorize]
+    //[AbpAuthorize(AppPermissions.Pages_Branches)]
     public class BranchesController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -120,11 +121,19 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<GetBranchForDropdownDto>> GetInitialDropdowns()
+        public async Task<GetBranchInitialDataDto> GetInitialData()
         {
-            var response = await _mediator.Send(new GetBranchDropdownQuery());
-            return response;
+            return await _mediator.Send(new GetBranchInitialDataQuery());
+            
         }
-
+        /// <summary>
+        /// Get initial values for dropdowns in Tax Setup tabs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<GetTaxTabInitialDataDto> GetTaxTabInitialData()
+        {
+            return await _mediator.Send(new GetTaxTabInitialDataQuery());
+        }
     }
 }
