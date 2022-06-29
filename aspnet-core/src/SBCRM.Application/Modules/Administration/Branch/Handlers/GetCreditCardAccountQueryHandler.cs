@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SBCRM.Modules.Administration.Branch.Handlers
 {
     /// <summary>
-    /// Get Credit card account data by account no query handler
+    /// Get Credit card account data by accountno query handler
     /// </summary>
     public class GetCreditCardAccountQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetCreditCardAccountQuery, GetChartOfAccountDetailsDto>
     {
@@ -26,7 +26,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
 
 
         /// <summary>
-        /// Handles request for getting branch details data
+        /// Handles request for getting credit card account details data
         /// </summary>
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
