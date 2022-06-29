@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using MediatR;
 using SBCRM.Base;
-using SBCRM.Modules.Administration.Comapny.Commands;
+using SBCRM.Modules.Administration.Company.Commands;
 using SBCRM.Modules.Administration.Dtos;
 
-namespace SBCRM.Modules.Administration.Comapny.Handelers
+namespace SBCRM.Modules.Administration.Company.Handelers
 {
     /// <summary>
     /// Create company use case command handler

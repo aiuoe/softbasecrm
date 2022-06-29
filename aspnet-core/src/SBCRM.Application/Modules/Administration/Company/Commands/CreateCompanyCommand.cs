@@ -3,7 +3,7 @@ using Abp.Runtime.Validation;
 using MediatR;
 using SBCRM.Modules.Administration.Dtos;
 
-namespace SBCRM.Modules.Administration.Comapny.Commands
+namespace SBCRM.Modules.Administration.Company.Commands
 {
     /// <summary>
     /// Create company use case command

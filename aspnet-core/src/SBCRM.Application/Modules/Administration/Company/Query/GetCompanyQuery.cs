@@ -3,7 +3,7 @@ using SBCRM.Core.BaseEntities;
 using SBCRM.Modules.Administration.Dtos;
 using System.Collections.Generic;
 
-namespace SBCRM.Modules.Administration.Comapny.Queries
+namespace SBCRM.Modules.Administration.Company.Queries
 {
     /// <summary>
     /// Get company query

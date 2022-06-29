@@ -1,18 +1,18 @@
 ﻿using MediatR;
 using SBCRM.Base;
 using SBCRM.Core.BaseEntities;
-using SBCRM.Modules.Administration.Comapny.Queries;
+using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SBCRM.Modules.Administration.Comapny.Handelers
+namespace SBCRM.Modules.Administration.Company.Handelers
 {
     /// <summary>
     /// Create company use case command handler
     /// </summary>
-    public class GetCompanyHandler : SBCRMAppServiceBase, IRequestHandler<GetCompanyQuery, List<GetCompanyDto>>
+    public class GetCompanyQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetCompanyQuery, List<GetCompanyDto>>
     {
         private readonly ICompanyRepository _companyRepository;
 
@@ -20,7 +20,7 @@ namespace SBCRM.Modules.Administration.Comapny.Handelers
         /// Base constructor
         /// </summary>
         /// <param name="companyRepository"></param>
-        public GetCompanyHandler(ICompanyRepository companyRepository)
+        public GetCompanyQueryHandler(ICompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
         }

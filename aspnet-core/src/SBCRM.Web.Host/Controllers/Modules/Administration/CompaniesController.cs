@@ -5,7 +5,7 @@ using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
-using SBCRM.Modules.Administration.Comapny.Queries;
+using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
