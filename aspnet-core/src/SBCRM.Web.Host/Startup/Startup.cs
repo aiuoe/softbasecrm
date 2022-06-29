@@ -33,6 +33,7 @@ using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 using GraphQL.Server.Ui.Playground;
 using HealthChecks.UI.Client;
 using IdentityServer4.Configuration;
+using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
@@ -73,6 +74,10 @@ namespace SBCRM.Web.Startup
                 options.Filters.Add<AppExceptionFilterAttribute>();
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
             }).AddNewtonsoftJson();
+
+            services.AddMediatR(typeof(SBCRMApplicationModule).Assembly);
+
+            services.AddApiVersioning();
 
             services.AddSingleton<IConfiguration>(_appConfiguration);
             services.AddSignalR();

@@ -6,6 +6,10 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_Branches = "Pages.Branches";
+
+
+
         public const string Pages_OpportunityAttachments = "Pages.OpportunityAttachments";
         public const string Pages_OpportunityAttachments_Create = "Pages.OpportunityAttachments.Create";
         public const string Pages_OpportunityAttachments_Edit = "Pages.OpportunityAttachments.Edit";
@@ -312,6 +316,7 @@
         public const string Pages_Administration_Tenant_Settings = "Pages.Administration.Tenant.Settings";
 
         public const string Pages_Administration_Tenant_SubscriptionManagement = "Pages.Administration.Tenant.SubscriptionManagement";
+        public const string Pages_Administration_Department = "Pages.Administration.Tenant.Department";
 
         //HOST-SPECIFIC PERMISSIONS
 
