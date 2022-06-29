@@ -40,10 +40,9 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchCurrencyTypeDto> Handle(GetBranchCurrencyTypeQuery query, CancellationToken cancellationToken)
         {
-            var branchTask = _branchRepository.FirstOrDefaultAsync(x => x.Id == query.BranchId);
-            var currencyTypeTask = _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == query.CurrencyTypeId);
-            await Task.WhenAll(branchTask, currencyTypeTask);
-            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branchTask.Result.Number && x.CurrencyType == currencyTypeTask.Result.CurrencyTypeName);
+            var branch = await _branchRepository.FirstOrDefaultAsync(x => x.Id == query.BranchId);
+            var currencyType = await _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == query.CurrencyTypeId);
+            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branch.Number && x.CurrencyType == currencyType.CurrencyTypeName);
             return ObjectMapper.Map<BranchCurrencyTypeDto>(branchCurrencyType);
         }
     }

@@ -40,10 +40,9 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchCurrencyTypeDto> Handle(PatchBranchCurrencyTypeCommand command, CancellationToken cancellationToken)
         {
-            var branchTask = _branchRepository.FirstOrDefaultAsync(x => x.Id == command.BranchId);
-            var currencyTypeTask = _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == command.CurrencyTypeId);
-            await Task.WhenAll(branchTask, currencyTypeTask);
-            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branchTask.Result.Number && x.CurrencyType == currencyTypeTask.Result.CurrencyTypeName);
+            var branch = await _branchRepository.FirstOrDefaultAsync(x => x.Id == command.BranchId);
+            var currencyType = await _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == command.CurrencyTypeId);
+            var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branch.Number && x.CurrencyType == currencyType.CurrencyTypeName);
             branchCurrencyType.AraccountNo = command.AraccountNo;
             branchCurrencyType.DebitAccount = command.DebitAccount;
             branchCurrencyType.CreditAccount = command.CreditAccount;
