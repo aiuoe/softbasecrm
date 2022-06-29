@@ -126,7 +126,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// </summary>
         /// <param name="id"></param>
         /// <param name="currencyTypeId"></param>
-        /// <param name="requestDro"></param>
+        /// <param name="input"></param>
         /// <see cref="PatchBranchCurrencyTypeCommandHandler"/>
         /// <returns></returns>
         [Route("{id}/CurrencyType/{currencyTypeId}")]
@@ -134,18 +134,10 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         public async Task<BranchCurrencyTypeDto> PatchBranchCurrencyType(
             [FromRoute] long id,
             [FromRoute] long currencyTypeId, 
-            [FromBody] BranchCurrencyTypeDto requestDro)
+            [FromBody] PatchBranchCurrencyTypeCommand input)
         {
-            var input = new PatchBranchCurrencyTypeCommand()
-            {
-                BranchId = id,
-                CurrencyTypeId = currencyTypeId,
-                AraccountNo = requestDro.AraccountNo,
-                DebitAccount = requestDro.DebitAccount,
-                CreditAccount = requestDro.CreditAccount,
-                DebitAccountReevaluate = requestDro.DebitAccountReevaluate,
-                CreditAccountReevaluate = requestDro.CreditAccountReevaluate,
-            };
+            input.BranchId = id;
+            input.CurrencyTypeId = currencyTypeId;
             return await _mediator.Send(input);
         }
 
