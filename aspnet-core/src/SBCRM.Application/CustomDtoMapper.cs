@@ -276,7 +276,7 @@ namespace SBCRM
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();
 
-            configuration.CreateMap<BranchArcurrency, GetBranchCurrencyTypeDto>();
+            configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
 
             #endregion
         }

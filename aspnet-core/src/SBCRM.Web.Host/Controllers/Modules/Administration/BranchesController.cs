@@ -103,16 +103,30 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Retrieve branch currency type information by branch id and currency type id
         /// </summary>
+        /// <see cref="GetBranchCurrencyTypeQueryHandler"/>
         /// <returns></returns>
         [Route("{id}/CurrencyType/{currencyTypeId}")]
         [HttpGet]
-        public async Task<GetBranchCurrencyTypeDto> GetBranchCurrencyType([FromRoute] long id, [FromRoute] long currencyTypeId)
+        public async Task<BranchCurrencyTypeDto> GetBranchCurrencyType(
+            [FromRoute] long id,
+            [FromRoute] long currencyTypeId,
+            [FromQuery] GetBranchCurrencyTypeQuery input)
         {
-            var input = new GetBranchCurrencyTypeQuery()
-            {
-                BranchId = id,
-                CurrencyTypeId = currencyTypeId,
-            };
+            return await _mediator.Send(input);
+        }
+
+        /// <summary>
+        /// Patch branch currency type information by branch id and currency type id
+        /// </summary>
+        /// <see cref="PatchBranchCurrencyTypeCommandHandler"/>
+        /// <returns></returns>
+        [Route("{id}/CurrencyType/{currencyTypeId}")]
+        [HttpPatch]
+        public async Task<BranchCurrencyTypeDto> PatchBranchCurrencyType(
+            [FromRoute] long id,
+            [FromRoute] long currencyTypeId, 
+            [FromBody] PatchBranchCurrencyTypeCommand input)
+        {
             return await _mediator.Send(input);
         }
 

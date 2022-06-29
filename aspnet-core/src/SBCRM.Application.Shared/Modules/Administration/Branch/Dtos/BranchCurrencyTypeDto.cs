@@ -3,7 +3,7 @@
     /// <summary>
     /// DTO for branch currency type
     /// </summary>
-    public class GetBranchCurrencyTypeDto
+    public class BranchCurrencyTypeDto
     {
         public string AraccountNo { get; set; }
         public string DebitAccount { get; set; }

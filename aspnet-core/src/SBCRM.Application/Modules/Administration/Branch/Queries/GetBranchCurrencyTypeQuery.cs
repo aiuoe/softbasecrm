@@ -6,9 +6,9 @@ namespace SBCRM.Modules.Administration.Branch.Queries
     /// <summary>
     /// Get branch currency type query
     /// </summary>
-    public class GetBranchCurrencyTypeQuery : IRequest<GetBranchCurrencyTypeDto>
+    public class GetBranchCurrencyTypeQuery : IRequest<BranchCurrencyTypeDto>
     {
-        public long BranchId { get; set; }
-        public long CurrencyTypeId { get; set; }
+        public int Branch { get; set; }
+        public string CurrencyType { get; set; }
     }
 }
