@@ -160,5 +160,15 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         {
             return await _mediator.Send(new GetTaxTabInitialDataQuery());
         }
+
+        /// <summary>
+        /// Get branch details by branch id.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("branch/{id}")]
+        public async Task<GetBranchDetailsDto> GetBranchDetails([FromQuery] int id)
+        {
+            return await _mediator.Send(new GetBranchDetailsQuery());
+        }
     }
 }
