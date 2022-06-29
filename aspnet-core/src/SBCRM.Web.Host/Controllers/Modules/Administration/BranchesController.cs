@@ -101,7 +101,48 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         }
 
         /// <summary>
-        /// Get initial values for dropdowns
+        /// Retrieve branch currency type information by branch id and currency type id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="currencyTypeId"></param>
+        /// <see cref="GetBranchCurrencyTypeQueryHandler"/>
+        /// <returns></returns>
+        [Route("{id}/CurrencyType/{currencyTypeId}")]
+        [HttpGet]
+        public async Task<BranchCurrencyTypeDto> GetBranchCurrencyType(
+            [FromRoute] long id,
+            [FromRoute] long currencyTypeId)
+        {
+            var input = new GetBranchCurrencyTypeQuery()
+            {
+                BranchId = id,
+                CurrencyTypeId = currencyTypeId,
+            };
+            return await _mediator.Send(input);
+        }
+
+        /// <summary>
+        /// Patch branch currency type information by branch id and currency type id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="currencyTypeId"></param>
+        /// <param name="input"></param>
+        /// <see cref="PatchBranchCurrencyTypeCommandHandler"/>
+        /// <returns></returns>
+        [Route("{id}/CurrencyType/{currencyTypeId}")]
+        [HttpPatch]
+        public async Task<BranchCurrencyTypeDto> PatchBranchCurrencyType(
+            [FromRoute] long id,
+            [FromRoute] long currencyTypeId, 
+            [FromBody] PatchBranchCurrencyTypeCommand input)
+        {
+            input.BranchId = id;
+            input.CurrencyTypeId = currencyTypeId;
+            return await _mediator.Send(input);
+        }
+
+        /// <summary>
+        /// Get initial dropdowns
         /// </summary>
         /// <returns></returns>
         [HttpGet]
