@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.AspNetCore.Mvc.Authorization;
-using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SBCRM.Authorization;
 using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {
-
-    [AbpMvcAuthorize]
-    [AbpAuthorize(AppPermissions.Pages_Branches)]
+    /// <summary>
+    /// Company Controller
+    /// </summary>
+  /*  [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_Companies)]*/
     public class CompaniesController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -34,5 +33,21 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             var response = await _mediator.Send(new GetCompanyQuery());
             return response;
         }
+
+        /// <summary>
+        /// Get City & State using ZipCode
+        /// </summary>
+        /// <param name="zipCode"></param>
+        /// <returns>City & State of the zip code</returns>
+        [HttpGet("{zipCode}")]
+        public async Task<List<GetZipCodeDto>> GetZipCodeInfo(string zipCode)
+        {
+            return await _mediator.Send(new GetZipCodeQuery(zipCode));
+        }
+
+
+
+
+
     }
 }

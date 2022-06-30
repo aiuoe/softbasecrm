@@ -7,6 +7,7 @@ namespace SBCRM.Base
     /// </summary>
     public interface ICompanyRepository : Abp.Domain.Repositories.IRepository<Company, long>
     {
-        
+
+
     }
 }
