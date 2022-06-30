@@ -7,6 +7,7 @@ namespace SBCRM.Modules.Accounting.Dtos
     /// </summary>
     public class GetChartOfAccountDetailsDto
     {
+        public long Id { get; set; }
         public string Description { get; set; }
     }
 }
