@@ -70,23 +70,30 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Create branch
         /// </summary>
         /// <param name="input"></param>
-        /// <see cref="CreateBranchCommandHandler"/>
+        /// <see cref="CreateOrUpdateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<GetBranchForEditDto> Create([FromBody] CreateBranchCommand input)
+        public async Task<BranchForEditDto> Create([FromBody] CreateOrUpdateBranchCommand input)
         {
+            input.Id = 0;
             return await _mediator.Send(input);
         }
 
         /// <summary>
         /// Update branch
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="input"></param>
+        /// <see cref="CreateOrUpdateBranchCommandHandler"/>
         /// <returns></returns>
+        [Route("{id}")]
         [HttpPut]
-        public async Task<GetLeadForEditOutput> Update([FromBody] CreateOrEditLeadDto input)
+        public async Task<BranchForEditDto> Update(
+            [FromRoute] long id,
+            [FromBody] CreateOrUpdateBranchCommand input)
         {
-            return await Task.FromResult(new GetLeadForEditOutput());
+            input.Id = id;
+            return await _mediator.Send(input);
         }
 
         /// <summary>

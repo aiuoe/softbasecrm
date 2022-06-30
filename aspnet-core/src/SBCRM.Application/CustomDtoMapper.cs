@@ -271,6 +271,8 @@ namespace SBCRM
 
             //Branch
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<Branch, BranchForEditDto>();
+            
             configuration.CreateMap<Branch, BranchLookupDto>();
             configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
                 .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
