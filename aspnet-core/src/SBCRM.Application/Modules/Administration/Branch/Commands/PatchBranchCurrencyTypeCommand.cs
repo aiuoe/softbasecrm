@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SBCRM.Modules.Administration.Dtos;
+using SBCRM.Modules.Administration.Branch.Dtos;
 
 namespace SBCRM.Modules.Administration.Branch.Commands
 {

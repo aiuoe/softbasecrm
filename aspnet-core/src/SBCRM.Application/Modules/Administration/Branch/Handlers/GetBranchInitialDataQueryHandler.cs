@@ -6,7 +6,6 @@ using MediatR;
 using SBCRM.Base;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Queries;
-using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Modules.Administration.Branch.Handlers
 {

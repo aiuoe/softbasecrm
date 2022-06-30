@@ -1,4 +1,4 @@
-﻿namespace SBCRM.Modules.Administration.Dtos
+﻿namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for branch currency type

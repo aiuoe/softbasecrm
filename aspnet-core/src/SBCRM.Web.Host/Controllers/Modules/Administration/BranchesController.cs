@@ -11,7 +11,6 @@ using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
 using SBCRM.Modules.Administration.Branch.Queries;
-using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {

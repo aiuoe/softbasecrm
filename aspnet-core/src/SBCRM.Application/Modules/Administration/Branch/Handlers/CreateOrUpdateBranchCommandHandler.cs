@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using SBCRM.Base;
 using SBCRM.Modules.Administration.Branch.Commands;
-using SBCRM.Modules.Administration.Dtos;
+using SBCRM.Modules.Administration.Branch.Dtos;
 
 namespace SBCRM.Modules.Administration.Branch.Handlers
 {
