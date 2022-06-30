@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Abp.UI;
 using MediatR;
 using SBCRM.Base;
 using SBCRM.Modules.Administration.Branch.Commands;
@@ -8,9 +9,9 @@ using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM.Modules.Administration.Branch.Handlers
 {
     /// <summary>
-    /// Create or update branch command handler
+    /// Create branch command handler
     /// </summary>
-    public class CreateOrUpdateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateOrUpdateBranchCommand, BranchForEditDto>
+    public class CreateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateBranchCommand, BranchForEditDto>
     {
         private readonly IBranchRepository _branchRepository;
 
@@ -18,29 +19,27 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// Base constructor
         /// </summary>
         /// <param name="branchRepository"></param>
-        public CreateOrUpdateBranchCommandHandler(IBranchRepository branchRepository)
+        public CreateBranchCommandHandler(IBranchRepository branchRepository)
         {
             _branchRepository = branchRepository;
         }
 
         /// <summary>
-        /// Create or update branch use case
+        /// Create branch use case
         /// </summary>
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<BranchForEditDto> Handle(CreateOrUpdateBranchCommand command, CancellationToken cancellationToken)
+        public async Task<BranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
         {
-            //TO:DO return error if Number is not unique.
             var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Number == command.Number);
             if (branchWithSameNumber != null)
             {
-                //throw error.
+                throw new UserFriendlyException("BranchNumberUnique");
             }
 
             var branch = new Core.BaseEntities.Branch
             {
-                Id = command.Id,
                 Number = command.Number,
                 Name = command.Name,
                 SubName = command.SubName,
@@ -90,11 +89,9 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 TvhWarehouse = command.TvhWarehouse,
             };
 
-            //TO:DO set proper tenant id
-            //SetTenant(branch);
-            branch.TenantId = 1;
+            SetTenant(branch);
 
-            branch.Id = await _branchRepository.InsertOrUpdateAndGetIdAsync(branch);
+            branch.Id = await _branchRepository.InsertAndGetIdAsync(branch);
             return ObjectMapper.Map<BranchForEditDto>(branch);
         }
     }

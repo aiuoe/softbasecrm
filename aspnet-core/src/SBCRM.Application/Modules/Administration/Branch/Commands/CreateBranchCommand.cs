@@ -7,11 +7,10 @@ using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM.Modules.Administration.Branch.Commands
 {
     /// <summary>
-    /// Create or update branch command
+    /// Create branch command
     /// </summary>
-    public class CreateOrUpdateBranchCommand : IRequest<BranchForEditDto>, ICustomValidate
+    public class CreateBranchCommand : IRequest<BranchForEditDto>, ICustomValidate
     {
-        public long Id { get; set; }
         public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }

@@ -69,12 +69,11 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Create branch
         /// </summary>
         /// <param name="input"></param>
-        /// <see cref="CreateOrUpdateBranchCommandHandler"/>
+        /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<BranchForEditDto> Create([FromBody] CreateOrUpdateBranchCommand input)
+        public async Task<BranchForEditDto> Create([FromBody] CreateBranchCommand input)
         {
-            input.Id = 0;
             return await _mediator.Send(input);
         }
 
@@ -83,13 +82,13 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// </summary>
         /// <param name="id"></param>
         /// <param name="input"></param>
-        /// <see cref="CreateOrUpdateBranchCommandHandler"/>
+        /// <see cref="UpdateBranchCommandHandler"/>
         /// <returns></returns>
         [Route("{id}")]
         [HttpPut]
         public async Task<BranchForEditDto> Update(
             [FromRoute] long id,
-            [FromBody] CreateOrUpdateBranchCommand input)
+            [FromBody] UpdateBranchCommand input)
         {
             input.Id = id;
             return await _mediator.Send(input);
