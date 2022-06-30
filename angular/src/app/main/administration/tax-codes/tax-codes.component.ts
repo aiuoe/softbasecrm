@@ -8,6 +8,7 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
     animations: [appModuleAnimation()]
 })
 
+// main Tax Codes component - where tabs are maintained
 export class TaxCodesComponent extends AppComponentBase {
 
     breadcrumbs: BreadcrumbItem[] = [
@@ -15,6 +16,7 @@ export class TaxCodesComponent extends AppComponentBase {
         new BreadcrumbItem(this.l('TaxCodes'))
     ];
 
+    // constructor
     constructor(
         injector: Injector
     ) {

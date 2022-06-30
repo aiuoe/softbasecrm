@@ -6,26 +6,31 @@ import { AppComponentBase } from '@shared/common/app-component-base';
     templateUrl: './tax-codes-standard.component.html'
 })
 
+// Used for displaying the Standard Tax Codes Details
 export class TaxCodesStandardComponent extends AppComponentBase {
 
     saving: boolean = false;
     taxCodes: any[];
 
+    // constructor
     constructor(
         injector: Injector
     ) {
         super(injector);
     }
 
-    add() {
+    // TODO: replace placeholder function during implementation
+    add(){
 
     }
 
-    delete() {
+    // TODO: replace placeholder function during implementation
+    update(){
 
     }
 
-    update() {
-
-    }
+    // TODO: replace placeholder function during implementation
+    delete(){
+        
+    } 
 }

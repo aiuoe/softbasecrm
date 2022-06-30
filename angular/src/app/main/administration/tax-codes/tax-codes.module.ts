@@ -32,4 +32,6 @@ import { TaxCodesDefaultTaxCodeComponent } from './tax-codes-default-tax-code/ta
         MultiSelectModule
     ]
 })
+
+// tax codes module
 export class TaxCodesModule {}

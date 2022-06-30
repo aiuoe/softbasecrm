@@ -12,4 +12,6 @@ const routes: Routes = [{
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
+
+// Tax code routing module
 export class TaxCodesRoutingModule {}
