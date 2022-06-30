@@ -178,12 +178,13 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Get zip code details
         /// </summary>
         /// <param name="zipCode"></param>
+        /// <see cref="GetZipCodeDetailsQueryHandler"/>
         /// <returns></returns>
         [Route("{zipCode}")]
         [HttpGet]
-        public async Task<GetChartOfAccountDetailsDto> GetZipCodeDetails(string zipCode)
+        public async Task<GetZipCodeDetailsDto> GetZipCodeDetails([FromRoute] string zipCode)
         {
-            return await _mediator.Send(new GetCreditCardAccountQuery(accountNo));
+            return await _mediator.Send(new GetZipCodeDetailsQuery(zipCode));
         }
     }
 }

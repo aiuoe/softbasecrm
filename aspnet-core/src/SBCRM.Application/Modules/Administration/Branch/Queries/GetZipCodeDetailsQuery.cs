@@ -1,6 +1,4 @@
-﻿
-
-using MediatR;
+﻿using MediatR;
 using SBCRM.Modules.Administration.Branch.Dtos;
 
 namespace SBCRM.Modules.Administration.Branch.Queries
