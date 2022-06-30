@@ -173,5 +173,17 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         {
             return await _mediator.Send(new GetCreditCardAccountQuery(accountNo));
         }
+
+        /// <summary>
+        /// Get zip code details
+        /// </summary>
+        /// <param name="zipCode"></param>
+        /// <returns></returns>
+        [Route("{zipCode}")]
+        [HttpGet]
+        public async Task<GetChartOfAccountDetailsDto> GetZipCodeDetails(string zipCode)
+        {
+            return await _mediator.Send(new GetCreditCardAccountQuery(accountNo));
+        }
     }
 }
