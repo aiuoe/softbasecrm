@@ -25,4 +25,8 @@
     <ProjectReference Include="..\SBCRM.EntityFrameworkCore\SBCRM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\SBCRM.Infrastructure\SBCRM.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\Accounting\ChartOfAccounts\Commands\" />
+    <Folder Include="Modules\Accounting\ChartOfAccounts\Services\" />
+  </ItemGroup>
 </Project>

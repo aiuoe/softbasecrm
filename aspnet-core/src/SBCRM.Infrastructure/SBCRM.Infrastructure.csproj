@@ -6,6 +6,12 @@
 	
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="4.5.3.3" />
+		<PackageReference Include="Azure.Core" Version="1.21.0" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\SBCRM.Application.Shared\SBCRM.Application.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
