@@ -13,6 +13,7 @@ using Abp.Extensions;
 using Abp.Hangfire;
 using Abp.PlugIns;
 using Abp.Timing;
+using Azure.Storage.Blobs;
 using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
 using Hangfire;
@@ -46,7 +47,10 @@ using HealthChecksUISettings = HealthChecks.UI.Configuration.Settings;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
+using SBCRM.Blob;
+using SBCRM.Blob.Dto;
 using SBCRM.EntityFrameworkCore.Repositories;
+using SBCRM.Infrastructure.BlobStorage;
 using SBCRM.Web.Filter;
 using SBCRM.Web.Middleware;
 
@@ -81,6 +85,12 @@ namespace SBCRM.Web.Startup
 
             services.AddSingleton<IConfiguration>(_appConfiguration);
             services.AddSignalR();
+
+            services.AddSingleton(_ => new BlobServiceClient(_appConfiguration["AzureStorage:ConnectionString"]));
+            services.Configure<AzureStorageSettings>(_appConfiguration.GetSection("AzureStorage"));
+
+            services.AddSingleton<IBlobStorageService, AzureBlobStorageService>();
+            services.AddSingleton<IApplicationStorageService, ApplicationStorageService>();
 
             //Configure CORS for angular2 UI
             services.AddCors(options =>

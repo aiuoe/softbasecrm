@@ -1,8 +1,9 @@
-﻿using MediatR;
-using SBCRM.Modules.Administration.Branch.Dtos;
+﻿
 
+using MediatR;
+using SBCRM.Modules.Accounting.Dtos;
 
-namespace SBCRM.Modules.Administration.Branch.Queries
+namespace SBCRM.Modules.Accounting.ChartOfAccounts.Queries
 {
     /// <summary>
     /// Get ChartOfAccount by account no query

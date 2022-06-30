@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using SBCRM.Base;
-using SBCRM.Modules.Administration.Branch.Dtos;
-using SBCRM.Modules.Administration.Branch.Queries;
+using SBCRM.Modules.Accounting.ChartOfAccounts.Queries;
+using SBCRM.Modules.Accounting.Dtos;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SBCRM.Modules.Administration.Branch.Handlers
+namespace SBCRM.Modules.Accounting.ChartOfAccounts.Handlers
 {
     /// <summary>
     /// Get Credit card account data by accountno query handler
@@ -33,7 +33,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<GetChartOfAccountDetailsDto> Handle(GetChartOfAccountQuery query, CancellationToken cancellationToken)
         {
-            var chartOfAccount= await _chartOfAccountRepository.FirstOrDefaultAsync(account=>account.AccountNo==query.AccountNo);
+            var chartOfAccount = await _chartOfAccountRepository.FirstOrDefaultAsync(account => account.AccountNo == query.AccountNo);
             return ObjectMapper.Map<GetChartOfAccountDetailsDto>(chartOfAccount);
         }
     }
