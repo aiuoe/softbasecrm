@@ -29,6 +29,8 @@ namespace SBCRM.Core.BaseEntities
         [StringLength(20)]
         public string ZipCode { get; set; }
         [StringLength(50)]
+        public string Country { get; set; }
+        [StringLength(50)]
         public string Phone { get; set; }
         [StringLength(50)]
         public string Fax { get; set; }
