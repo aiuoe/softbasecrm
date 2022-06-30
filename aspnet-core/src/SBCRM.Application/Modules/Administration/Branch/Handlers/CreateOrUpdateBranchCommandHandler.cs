@@ -84,10 +84,10 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 PrintFinalBcc = command.PrintFinalBcc,
                 StoreName = command.StoreName,
                 CreditCardAccountNo = command.CreditCardAccountNo,
-                TvhaccountNo = command.TvhAccountNo,
-                Tvhkey = command.TvhKey,
-                Tvhcountry = command.TvhCountry,
-                Tvhwarehouse = command.TvhWarehouse,
+                TvhAccountNo = command.TvhAccountNo,
+                TvhKey = command.TvhKey,
+                TvhCountry = command.TvhCountry,
+                TvhWarehouse = command.TvhWarehouse,
             };
 
             //TO:DO set proper tenant id

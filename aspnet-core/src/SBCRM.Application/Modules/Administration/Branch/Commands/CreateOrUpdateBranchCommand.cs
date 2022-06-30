@@ -24,7 +24,7 @@ namespace SBCRM.Modules.Administration.Branch.Commands
         public string Fax { get; set; }
         public string Receivable { get; set; }
         public string FinanceCharge { get; set; }
-        public string FinanceRate { get; set; }
+        public decimal? FinanceRate { get; set; }
         public short? FinanceDays { get; set; }
         public string StateTaxLabel { get; set; }
         public string CountyTaxLabel { get; set; }
@@ -69,11 +69,6 @@ namespace SBCRM.Modules.Administration.Branch.Commands
             if (string.IsNullOrWhiteSpace(Name))
             {
                 context.Results.Add(new ValidationResult(context.GetLocalizationMessage("NameIsRequired")));
-            }
-
-            if (FinanceRate.Length > 4)
-            {
-                context.Results.Add(new ValidationResult(context.GetLocalizationMessage("FinanceRateMaxLength4")));
             }
         }
     }
