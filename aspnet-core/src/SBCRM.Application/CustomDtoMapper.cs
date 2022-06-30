@@ -58,7 +58,8 @@ using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
 using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
-using SBCRM.Modules.Accounting.Dtos;
+using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
+using SBCRM.Modules.Accounting.Dtos; 
 
 using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM
@@ -287,6 +288,8 @@ namespace SBCRM
             configuration.CreateMap<CityTaxCode, CityTaxCodeInBranchDto>();
             configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
             configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
+            configuration.CreateMap<Branch, GetBranchDetailsDto>();
+            configuration.CreateMap<ZipCode, GetZipCodeDetailsDto>();
 
             #endregion
             #region [Accounting mappings]

@@ -7,6 +7,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
 using SBCRM.Crm.Dtos;
+using SBCRM.Modules.Accounting.ChartOfAccounts.Handlers;
+using SBCRM.Modules.Accounting.ChartOfAccounts.Queries;
+using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
@@ -55,15 +58,16 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         }
 
         /// <summary>
-        /// Retrieve branch by id
+        /// Get branch details by branch id.
         /// </summary>
         /// <param name="id"></param>
+        /// <see cref="GetBranchByIdQueryHandler"/>
         /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
-        public async Task<GetLeadForEditOutput> Get([FromRoute] long id)
+        public async Task<GetBranchDetailsDto> Get([FromRoute] long id)
         {
-            return await Task.FromResult(new GetLeadForEditOutput());
+            return await _mediator.Send(new GetBranchByIdQuery(id));
         }
 
         /// <summary>
@@ -144,21 +148,51 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Get initial dropdowns
         /// </summary>
+        /// <see cref="GetBranchInitialDataQueryHandler"/>
         /// <returns></returns>
         [HttpGet]
         public async Task<GetBranchInitialDataDto> GetInitialData()
         {
             return await _mediator.Send(new GetBranchInitialDataQuery());
-            
         }
+
+
         /// <summary>
         /// Get initial values for dropdowns in Tax Setup tabs
         /// </summary>
+        ///  <see cref="GetTaxTabInitialDataQueryHandler"/>
         /// <returns></returns>
         [HttpGet]
         public async Task<GetTaxTabInitialDataDto> GetTaxTabInitialData()
         {
             return await _mediator.Send(new GetTaxTabInitialDataQuery());
+        }
+
+        /// <summary>
+        /// Get ChartOfAccount details by account No
+        /// </summary>
+        /// <param name="accountNo"></param>
+        /// <see cref="GetChartOfAccountQueryHandler"/>
+        /// <returns></returns>
+        [Route("{accountNo}")]
+        [HttpGet]
+        public async Task<GetChartOfAccountDetailsDto> GetChartOfAccountDetails([FromRoute] string accountNo)
+        {
+            return await _mediator.Send(new GetChartOfAccountQuery(accountNo));
+        }
+
+
+        /// <summary>
+        /// Get zip code details
+        /// </summary>
+        /// <param name="zipCode"></param>
+        /// <see cref="GetZipCodeDetailsQueryHandler"/>
+        /// <returns></returns>
+        [Route("{zipCode}")]
+        [HttpGet]
+        public async Task<GetZipCodeDetailsDto> GetZipCodeDetails([FromRoute] string zipCode)
+        {
+            return await _mediator.Send(new GetZipCodeDetailsQuery(zipCode));
         }
     }
 }
