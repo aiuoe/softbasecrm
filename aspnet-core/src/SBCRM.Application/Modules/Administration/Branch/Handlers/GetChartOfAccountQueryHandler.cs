@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get Credit card account data by accountno query handler
     /// </summary>
-    public class GetCreditCardAccountQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetCreditCardAccountQuery, GetChartOfAccountDetailsDto>
+    public class GetChartOfAccountQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetChartOfAccountQuery, GetChartOfAccountDetailsDto>
     {
         private readonly IChartOfAccountRepository _chartOfAccountRepository;
 
@@ -19,7 +19,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// Base constructor
         /// </summary>
         /// <param name="chartOfAccountRepository"></param>
-        public GetCreditCardAccountQueryHandler(IChartOfAccountRepository chartOfAccountRepository)
+        public GetChartOfAccountQueryHandler(IChartOfAccountRepository chartOfAccountRepository)
         {
             _chartOfAccountRepository = chartOfAccountRepository;
         }
@@ -31,7 +31,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<GetChartOfAccountDetailsDto> Handle(GetCreditCardAccountQuery query, CancellationToken cancellationToken)
+        public async Task<GetChartOfAccountDetailsDto> Handle(GetChartOfAccountQuery query, CancellationToken cancellationToken)
         {
             var chartOfAccount= await _chartOfAccountRepository.FirstOrDefaultAsync(account=>account.AccountNo==query.AccountNo);
             return ObjectMapper.Map<GetChartOfAccountDetailsDto>(chartOfAccount);

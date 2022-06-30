@@ -163,16 +163,18 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         }
 
         /// <summary>
-        /// Get credit card account no details
+        /// Get ChartOfAccount details by account No
         /// </summary>
         /// <param name="accountNo"></param>
+        /// <see cref="GetChartOfAccountQueryHandler"/>
         /// <returns></returns>
         [Route("{accountNo}")]
         [HttpGet]
-        public async Task<GetChartOfAccountDetailsDto> GetCreditCardAccountDetails(string accountNo)
+        public async Task<GetChartOfAccountDetailsDto> GetChartOfAccountDetails(string accountNo)
         {
-            return await _mediator.Send(new GetCreditCardAccountQuery(accountNo));
+            return await _mediator.Send(new GetChartOfAccountQuery(accountNo));
         }
+
 
         /// <summary>
         /// Get zip code details

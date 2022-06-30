@@ -5,9 +5,9 @@ using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM.Modules.Administration.Branch.Queries
 {
     /// <summary>
-    /// Get Credit card account no query
+    /// Get ChartOfAccount by account no query
     /// </summary>
-    public class GetCreditCardAccountQuery : IRequest<GetChartOfAccountDetailsDto>
+    public class GetChartOfAccountQuery : IRequest<GetChartOfAccountDetailsDto>
     {
         public string AccountNo { get; set; }
 
@@ -15,7 +15,7 @@ namespace SBCRM.Modules.Administration.Branch.Queries
         /// Base constructor
         /// </summary>
         /// <param name="accountNo"></param>
-        public GetCreditCardAccountQuery(string accountNo)
+        public GetChartOfAccountQuery(string accountNo)
         {
             AccountNo = accountNo;
         }
