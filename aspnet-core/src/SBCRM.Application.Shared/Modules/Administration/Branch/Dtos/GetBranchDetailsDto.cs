@@ -19,7 +19,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string Fax { get; set; }
         public string Receivable { get; set; }
         public string FinanceCharge { get; set; }
-        public string FinanceRate { get; set; }
+        public Decimal? FinanceRate { get; set; }
         public short? FinanceDays { get; set; }
         public string StateTaxLabel { get; set; }
         public string CountyTaxLabel { get; set; }

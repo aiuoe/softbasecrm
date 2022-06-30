@@ -145,17 +145,19 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Get initial dropdowns
         /// </summary>
+        /// <see cref="GetBranchInitialDataQueryHandler"/>
         /// <returns></returns>
         [HttpGet]
         public async Task<GetBranchInitialDataDto> GetInitialData()
         {
             return await _mediator.Send(new GetBranchInitialDataQuery());
-            
         }
+
 
         /// <summary>
         /// Get initial values for dropdowns in Tax Setup tabs
         /// </summary>
+        ///  <see cref="GetTaxTabInitialDataQueryHandler"/>
         /// <returns></returns>
         [HttpGet]
         public async Task<GetTaxTabInitialDataDto> GetTaxTabInitialData()
