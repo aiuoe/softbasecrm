@@ -48,6 +48,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 City = command.City,
                 State = command.State,
                 ZipCode = command.ZipCode,
+                Country = command.Country,
                 Phone = command.Phone,
                 Fax = command.Fax,
                 Receivable = command.Receivable,
