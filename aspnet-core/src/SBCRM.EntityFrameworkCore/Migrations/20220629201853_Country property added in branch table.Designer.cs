@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SBCRM.EntityFrameworkCore;
 
 namespace SBCRM.Migrations
 {
     [DbContext(typeof(SBCRMDbContext))]
-    partial class SBCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220629201853_Country property added in branch table")]
+    partial class Countrypropertyaddedinbranchtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4027,8 +4029,9 @@ namespace SBCRM.Migrations
                     b.Property<short?>("FinanceDays")
                         .HasColumnType("smallint");
 
-                    b.Property<decimal?>("FinanceRate")
-                        .HasColumnType("decimal(19,4)");
+                    b.Property<string>("FinanceRate")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -4124,22 +4127,22 @@ namespace SBCRM.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TvhAccountNo")
+                    b.Property<string>("TvhaccountNo")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("TVHAccountNo");
 
-                    b.Property<string>("TvhCountry")
+                    b.Property<string>("Tvhcountry")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("TVHCountry");
 
-                    b.Property<string>("TvhKey")
+                    b.Property<string>("Tvhkey")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("TVHKey");
 
-                    b.Property<string>("TvhWarehouse")
+                    b.Property<string>("Tvhwarehouse")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("TVHWarehouse");
