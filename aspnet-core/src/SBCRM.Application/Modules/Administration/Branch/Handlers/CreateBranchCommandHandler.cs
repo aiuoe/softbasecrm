@@ -38,57 +38,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 throw new UserFriendlyException("BranchNumberUnique");
             }
 
-            var branch = new Core.BaseEntities.Branch
-            {
-                Number = command.Number,
-                Name = command.Name,
-                SubName = command.SubName,
-                Address = command.Address,
-                City = command.City,
-                State = command.State,
-                ZipCode = command.ZipCode,
-                Country = command.Country,
-                Phone = command.Phone,
-                Fax = command.Fax,
-                Receivable = command.Receivable,
-                FinanceCharge = command.FinanceCharge,
-                FinanceRate = command.FinanceRate,
-                FinanceDays = command.FinanceDays,
-                StateTaxLabel = command.StateTaxLabel,
-                CountyTaxLabel = command.CountyTaxLabel,
-                ShowSplitSalesTax = command.ShowSplitSalesTax,
-                CityTaxLabel = command.CityTaxLabel,
-                LocalTaxLabel = command.LocalTaxLabel,
-                DefaultWarehouse = command.DefaultWarehouse,
-                ClarkPartsCode = command.ClarkPartsCode,
-                ClarkDealerAccessCode = command.ClarkDealerAccessCode,
-                UseStateTaxCodeDescription = command.UseStateTaxCodeDescription,
-                UseCountyTaxCodeDescription = command.UseCountyTaxCodeDescription,
-                UseCityTaxCodeDescription = command.UseCityTaxCodeDescription,
-                UseLocalTaxCodeDescription = command.UseLocalTaxCodeDescription,
-                RentalDeliveryDefaultTime = command.RentalDeliveryDefaultTime,
-                StateTaxCode = command.StateTaxCode,
-                CountyTaxCode = command.CountyTaxCode,
-                CityTaxCode = command.CityTaxCode,
-                LocalTaxCode = command.LocalTaxCode,
-                TaxCode = command.TaxCode,
-                UseAbsoluteTaxCodes = command.UseAbsoluteTaxCodes,
-                SmallSubName = command.SmallSubName,
-                ShopId = command.ShopId,
-                Image = command.Image,
-                UseImage = command.UseImage,
-                LogoFile = command.LogoFile,
-                VendorId = command.VendorId,
-                PrintFinalCc = command.PrintFinalCc,
-                PrintFinalBcc = command.PrintFinalBcc,
-                StoreName = command.StoreName,
-                CreditCardAccountNo = command.CreditCardAccountNo,
-                TvhAccountNo = command.TvhAccountNo,
-                TvhKey = command.TvhKey,
-                TvhCountry = command.TvhCountry,
-                TvhWarehouse = command.TvhWarehouse,
-            };
-
+            var branch = ObjectMapper.Map<Core.BaseEntities.Branch>(command);
             SetTenant(branch);
 
             branch.Id = await _branchRepository.InsertAndGetIdAsync(branch);
