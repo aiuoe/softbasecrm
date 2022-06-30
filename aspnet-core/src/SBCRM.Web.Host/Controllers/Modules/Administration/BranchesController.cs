@@ -58,6 +58,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Get branch details by branch id.
         /// </summary>
         /// <param name="id"></param>
+        /// <see cref="GetBranchByIdQueryHandler"/>
         /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
@@ -170,7 +171,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <returns></returns>
         [Route("{accountNo}")]
         [HttpGet]
-        public async Task<GetChartOfAccountDetailsDto> GetChartOfAccountDetails(string accountNo)
+        public async Task<GetChartOfAccountDetailsDto> GetChartOfAccountDetails([FromRoute] string accountNo)
         {
             return await _mediator.Send(new GetChartOfAccountQuery(accountNo));
         }
