@@ -59,7 +59,7 @@ using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
-using SBCRM.Modules.Accounting.Dtos;
+using SBCRM.Modules.Accounting.Dtos; 
 
 using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM
