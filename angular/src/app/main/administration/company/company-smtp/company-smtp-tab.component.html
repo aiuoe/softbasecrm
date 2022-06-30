@@ -1,0 +1,93 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+        <div class="form">
+            <form>
+                <div class="form-body">
+                    <div class="row mb-4">
+                        <div class="col-lg-3">
+                            <div>
+                                <label for="">{{ l('EmailMethod') }}</label>
+                            </div>
+                            <p-radioButton [label]="l('CURL')"></p-radioButton>
+                        </div>
+                        <div class="col-lg-3 mt-lg-8">
+                            <p-radioButton [label]="l('Native')"></p-radioButton>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('SMTPServer') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-3 mt-lg-8">
+                            <p-radioButton [label]="l('Office365')"></p-radioButton>
+                        </div>
+                        <div class="col-lg-3 mt-lg-8">
+                            <p-radioButton [label]="l('MSExchange')"></p-radioButton>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('SMTPUserName') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('SMTPPassword') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('FromEmailAddress') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('FromMobileEmailAddress') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('SmtpPort') | titlecase }}</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                />
+                                <div class="ml-3">
+                                    <p-checkbox [label]="l('Secure')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4 mt-8">
+                        <div class="col-lg-6">
+                            <p-dropdown
+                                [options]="selectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                            ></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </form> 
+        </div>
+        <div class="mt-30">
+            <p class="font-italic">{{ l('ChangedBy') }}: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+        </div>
+    </div>
+</div>

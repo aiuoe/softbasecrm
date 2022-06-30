@@ -1,6 +1,7 @@
 ﻿using System;
 using Abp.Localization;
 using Castle.MicroKernel.Registration;
+using Microsoft.AspNetCore.StaticFiles;
 using SBCRM.Test.Base;
 
 namespace SBCRM.Tests
@@ -15,6 +16,22 @@ namespace SBCRM.Tests
         public AppTestBase()
         {
             Localization = Resolve<ILocalizationManager>();
+        }
+
+        /// <summary>
+        /// Get the content type from a file
+        /// </summary>
+        /// <param name="fullPathFile"></param>
+        /// <returns></returns>
+        public string GetContentType(string fullPathFile)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            var defaultContentType = "application/octet-stream";
+            if (!provider.TryGetContentType(fullPathFile, out string contentType))
+            {
+                contentType = defaultContentType;
+            }
+            return contentType;
         }
 
         /// <summary>

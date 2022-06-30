@@ -48,6 +48,8 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
+using SBCRM.Modules.Accounting.Dtos;
 
 namespace SBCRM
 {
@@ -261,7 +263,11 @@ namespace SBCRM
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
 
             #endregion
+            #region [Accounting mappings]
 
+            configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>().ReverseMap();
+
+            #endregion
         }
     }
 }

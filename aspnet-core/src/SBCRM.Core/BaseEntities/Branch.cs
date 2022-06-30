@@ -29,6 +29,8 @@ namespace SBCRM.Core.BaseEntities
         [StringLength(20)]
         public string ZipCode { get; set; }
         [StringLength(50)]
+        public string Country { get; set; }
+        [StringLength(50)]
         public string Phone { get; set; }
         [StringLength(50)]
         public string Fax { get; set; }
@@ -36,8 +38,8 @@ namespace SBCRM.Core.BaseEntities
         public string Receivable { get; set; }
         [StringLength(50)]
         public string FinanceCharge { get; set; }
-        [StringLength(4)]
-        public string FinanceRate { get; set; }
+        [Column(TypeName = "decimal(19, 4)")]
+        public decimal? FinanceRate { get; set; }
         public short? FinanceDays { get; set; }
         [StringLength(50)]
         public string StateTaxLabel { get; set; }
@@ -94,16 +96,16 @@ namespace SBCRM.Core.BaseEntities
         public string CreditCardAccountNo { get; set; }
         [Column("TVHAccountNo")]
         [StringLength(50)]
-        public string TvhaccountNo { get; set; }
+        public string TvhAccountNo { get; set; }
         [Column("TVHKey")]
         [StringLength(100)]
-        public string Tvhkey { get; set; }
+        public string TvhKey { get; set; }
         [Column("TVHCountry")]
         [StringLength(50)]
-        public string Tvhcountry { get; set; }
+        public string TvhCountry { get; set; }
         [Column("TVHWarehouse")]
         [StringLength(50)]
-        public string Tvhwarehouse { get; set; }
+        public string TvhWarehouse { get; set; }
         [StringLength(50)]
         public string AddedBy { get; set; }
         [StringLength(50)]

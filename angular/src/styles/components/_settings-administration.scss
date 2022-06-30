@@ -1,0 +1,29 @@
+.form-row-header {
+    text-align: left;
+    padding: 1rem 1rem;
+    font-weight: 600;
+    color: #323130;
+    background: #ffffff;
+    transition: box-shadow 0.2s;
+
+    i {
+        color: #263950;
+        margin-right: 1rem;
+    }
+}
+.tab-container ul li a span {
+    font-weight: 600;
+    color: #3f4254;
+}
+.tab-container ul li.active a span,
+.checkbox-icon-label i {
+    color: #3250B8;
+}
+.tab-container .card {
+    border-radius: 0 0 0.42rem 0.42rem !important;
+}
+
+.p-tabview ul.p-tabview-nav,
+.p-tabview ul.p-tabview-nav a.p-tabview-nav-link {
+    border-bottom: 2px solid #f3f6f9;
+}
