@@ -1,0 +1,127 @@
+<div class="card card-custom card-in-tab gutter-b">
+    <div class="card-body">
+        <form class="form">
+            <div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-custom card-in-tab gutter-b">
+                            <div class="card-body">
+                                <div class="row pb-3">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button
+                                            (click)="delete()"
+                                            class="btn btn-primary blue"
+                                            [buttonBusy]="saving"
+                                        >
+                                            <i class="fa fa-times pr-3"></i>
+                                            <span>{{ l('Delete') }}</span>
+                                        </button>
+                                        <button
+                                            (click)="update()"
+                                            class="btn btn-primary blue"
+                                            [buttonBusy]="saving"
+                                        >
+                                            <i class="fa fa-check pr-3"></i>
+                                            <span>{{ l('Update') }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 d-flex align-items-center justify-content-between">
+                                        <div class="form-group flex-grow-1 pr-2">
+                                            <label for="Parts">
+                                                {{ l('Parts') }}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="Parts"
+                                                class="form-control"
+                                                [placeholder]="l('Parts')"
+                                                name="Parts"
+                                            />
+                                        </div>
+                                        <button class="btn btn-primary text-primary p-2 mt-1">
+                                            <i class="fa fa-search p-0"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center justify-content-between">
+                                        <div class="form-group flex-grow-1 pr-2">
+                                            <label for="Labor">
+                                                {{ l('Labor') }}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="Labor"
+                                                class="form-control"
+                                                [placeholder]="l('Labor')"
+                                                name="Labor"
+                                            />
+                                        </div>
+                                        <button class="btn btn-primary text-primary p-2 mt-1">
+                                            <i class="fa fa-search p-0"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 d-flex align-items-center justify-content-between">
+                                        <div class="form-group flex-grow-1 pr-2">
+                                            <label for="Miscellaneous">
+                                                {{ l('Miscellaneous') }}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="Miscellaneous"
+                                                class="form-control"
+                                                [placeholder]="l('Miscellaneous')"
+                                                name="Miscellaneous"
+                                            />
+                                        </div>
+                                        <button class="btn btn-primary text-primary p-2 mt-1">
+                                            <i class="fa fa-search p-0"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center justify-content-between">
+                                        <div class="form-group flex-grow-1 pr-2">
+                                            <label for="Rental">
+                                                {{ l('Rental') }}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="Rental"
+                                                class="form-control"
+                                                [placeholder]="l('Rental')"
+                                                name="Rental"
+                                            />
+                                        </div>
+                                        <button class="btn btn-primary text-primary p-2 mt-1">
+                                            <i class="fa fa-search p-0"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 d-flex align-items-center justify-content-between">
+                                        <div class="form-group flex-grow-1 pr-2">
+                                            <label for="Equipment">
+                                                {{ l('Equipment') }}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="Equipment"
+                                                class="form-control"
+                                                [placeholder]="l('Equipment')"
+                                                name="Equipment"
+                                            />
+                                        </div>
+                                        <button class="btn btn-primary text-primary p-2 mt-1">
+                                            <i class="fa fa-search p-0"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

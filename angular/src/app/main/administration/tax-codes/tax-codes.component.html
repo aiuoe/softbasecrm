@@ -1,0 +1,65 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration' | localize" [breadcrumbs]="breadcrumbs">
+            <div role="actions">
+                <button class="btn btn-secondary text-prmary float-left">
+                    <span>{{ l('Close') }}</span>
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <tabset>                
+                <tab heading="{{ l('Standard') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesStandard></taxCodesStandard>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('StateGov') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesStateGov></taxCodesStateGov>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('CountryProv') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesCountryProv></taxCodesCountryProv>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('City') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesCity></taxCodesCity>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('Local') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesLocal></taxCodesLocal>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('SalesTaxIntegration') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesSalesTax></taxCodesSalesTax>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="{{ l('DefaultTaxCode') }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <taxCodesDefaultTaxCode></taxCodesDefaultTaxCode>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

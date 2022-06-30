@@ -171,6 +171,12 @@ export class AppNavigationService {
                         '',
                         '',
                         '/app/main/administration/branch'
+                    ),
+                    new AppMenuItem(
+                        'Tax Codes',
+                        '',
+                        '',
+                        '/app/main/administration/taxCodes'
                     )
                     // new AppMenuItem(
                     //     'OrganizationUnits',

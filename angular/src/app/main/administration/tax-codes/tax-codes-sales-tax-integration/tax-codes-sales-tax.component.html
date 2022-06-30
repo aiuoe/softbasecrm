@@ -1,0 +1,198 @@
+<div class="card card-custom card-in-tab gutter-b">
+    <div class="card-body">
+        <form class="form" autocomplete="off">
+            <div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-custom card-in-tab gutter-b">
+                            <div class="card-body">
+                                <div class="row pb-3">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button
+                                            (click)="delete()"
+                                            class="btn btn-primary blue"
+                                            [buttonBusy]="saving"
+                                        >
+                                            <i class="fa fa-times pr-3"></i>
+                                            <span>{{ l('Delete') }}</span>
+                                        </button>
+                                        <button
+                                            (click)="update()"
+                                            class="btn btn-primary blue"
+                                            [buttonBusy]="saving"
+                                        >
+                                            <i class="fa fa-check pr-3"></i>
+                                            <span>{{ l('Update') }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="SalesTaxProvider">{{ l('SalesTaxProvider') }}</label>                                                                
+                                                    <p-dropdown 
+                                                                id="SalesTaxProvider"
+                                                                options="salesTaxProviders"
+                                                                optionLabel="displayName"
+                                                                [showClear]="true"
+                                                                optionValue="code">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="AccountNumber">{{ l('AccountNumber') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        id="AccountNumber"
+                                                        class="form-control"
+                                                        [placeholder]="l('AccountNumber')"
+                                                        name="AccountNumber"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">                                            
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="LicenseKey">{{ l('LicenseKey') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        id="LicenseKey"
+                                                        class="form-control"
+                                                        [placeholder]="l('LicenseKey')"
+                                                        name="LicenseKey"
+                                                    />
+                                                </div>
+                                            </div>                                            
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="ServiceURL">{{ l('ServiceURL') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        id="ServiceURL"
+                                                        class="form-control"
+                                                        [placeholder]="l('ServiceURL')"
+                                                        name="ServiceURL"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="CompanyCode">{{ l('CompanyCode') }}</label>                                                                
+                                                    <p-dropdown 
+                                                                id="CompanyCode"
+                                                                options="companyCodes"
+                                                                optionLabel="displayName"
+                                                                [showClear]="true"
+                                                                optionValue="code">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="RequestTimeoutSec">{{ l('RequestTimeoutSec') }}</label>
+                                                    <input
+                                                        type="text"
+                                                        id="RequestTimeoutSec"
+                                                        class="form-control"
+                                                        [placeholder]="l('RequestTimeoutSec')"
+                                                        name="RequestTimeoutSec"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button
+                                                    (click)="testConnection()"
+                                                    class="btn btn-primary blue"
+                                                >
+                                                {{ l('TestConnection') }}
+                                                </button>
+                                            </div>
+                                        </div>                                                                          
+                                        <div class="row">                                            
+                                            <div class="col-3 d-flex align-items-center mt-5">
+                                                <div class="form-group">
+                                                    <label class="checkbox checkbox-outline">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="DisableAddressVerification"
+                                                        />
+                                                        <span></span>
+                                                        {{ l('DisableAddressVerification') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 d-flex align-items-center mt-5">
+                                                <div class="form-group">
+                                                    <label class="checkbox checkbox-outline">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="DisableDocumentRecording"
+                                                        />
+                                                        <span></span>
+                                                        {{ l('DisableDocumentRecording') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 d-flex align-items-center mt-5">
+                                                <div class="form-group">
+                                                    <label class="checkbox checkbox-outline">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="EnableLogging"
+                                                        />
+                                                        <span></span>
+                                                        {{ l('EnableLogging') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 d-flex align-items-center justify-content-between">
+                                                <div class="form-group flex-grow-1 pr-2">
+                                                    <label for="TaxAccountOverrideNo">
+                                                        {{ l('TaxAccountOverrideNo') }}
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="TaxAccountOverrideNo"
+                                                        class="form-control"
+                                                        [placeholder]="l('TaxAccountOverrideNo')"
+                                                        name="TaxAccountOverrideNo"
+                                                    />
+                                                </div>
+                                                <button class="btn btn-primary text-primary p-2 mt-1">
+                                                    <i class="fa fa-search p-0"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-end align-items-center">
+                                                <button
+                                                    (click)="viewLog()"
+                                                    class="btn btn-primary blue"
+                                                >
+                                                {{ l('View Log') }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
