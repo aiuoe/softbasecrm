@@ -260,7 +260,9 @@ namespace SBCRM
             #region [Administration mappings]
 
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
-            configuration.CreateMap<GetZipCodeDto, ZipCode>().ReverseMap();
+            configuration.CreateMap<GetZipCodeDto, ZipCode>()
+                .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))
+                .ReverseMap();
 
             #endregion
 

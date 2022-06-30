@@ -1,24 +1,26 @@
 ﻿using MediatR;
 using SBCRM.Base;
-using SBCRM.Core.BaseEntities;
 using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Administration.Company.Handlers
 {
+    /// <summary>
+    /// Get Zip Code Query Handler
+    /// </summary>
     public class GetZipCodeQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetZipCodeQuery, List<GetZipCodeDto>>
     {
-        private readonly ICompanyRepository _companyRepository;
-
-        public GetZipCodeQueryHandler(ICompanyRepository companyRepository)
+        private readonly IZipCodeRepository _zipCodeRepository;
+        /// <summary>
+        /// Base Constructor
+        /// </summary>
+        /// <param name="zipCodeRepository"></param>
+        public GetZipCodeQueryHandler(IZipCodeRepository zipCodeRepository)
         {
-            _companyRepository = companyRepository;
+            _zipCodeRepository = zipCodeRepository;
         }
 
 
@@ -30,10 +32,11 @@ namespace SBCRM.Modules.Administration.Company.Handlers
         /// <returns>Filtered search result using _zipCode</returns>
         public async Task<List<GetZipCodeDto>> Handle(GetZipCodeQuery request, CancellationToken cancellationToken)
         {
-            var zipCodeInfo = await _companyRepository.GetZipCode(request._zipCode);
-            var result = ObjectMapper.Map<List<GetZipCodeDto>>(zipCodeInfo);
-            return result;
+            var zipCodeInfo = await _zipCodeRepository.GetZipCode(request.ZipCode);
+            return ObjectMapper.Map<List<GetZipCodeDto>>(zipCodeInfo); ;
         }
+
+       
 
 
 

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace SBCRM.Modules.Administration.Dtos
 {
+    /// <summary>
+    /// Dto for get city and state for a zipcode
+    /// </summary>
     public class GetZipCodeDto
     {
 
-        public string ZipCode1 { get; set; }
+        public string ZipCode { get; set; }
         public string City { get; set; }
         public string State { get; set; }
 

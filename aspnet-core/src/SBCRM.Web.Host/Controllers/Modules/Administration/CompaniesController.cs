@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.AspNetCore.Mvc.Authorization;
-using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SBCRM.Authorization;
-using SBCRM.Core.BaseEntities;
-using SBCRM.Legacy.Dtos;
 using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
 
@@ -47,8 +42,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpGet("{zipCode}")]
         public async Task<List<GetZipCodeDto>> GetZipCodeInfo(string zipCode)
         {
-            var response = await _mediator.Send(new GetZipCodeQuery(zipCode));
-            return response;
+            return await _mediator.Send(new GetZipCodeQuery(zipCode));
         }
 
 

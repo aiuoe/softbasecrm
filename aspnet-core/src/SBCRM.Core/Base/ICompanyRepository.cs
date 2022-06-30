@@ -1,6 +1,4 @@
 ﻿using SBCRM.Core.BaseEntities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SBCRM.Base
 {
@@ -9,7 +7,7 @@ namespace SBCRM.Base
     /// </summary>
     public interface ICompanyRepository : Abp.Domain.Repositories.IRepository<Company, long>
     {
-        Task<List<ZipCode>> GetZipCode(string zipCode);
+
 
     }
 }
