@@ -100,11 +100,17 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Delete branch
         /// </summary>
         /// <param name="id"></param>
+        /// <see cref="DeleteBranchCommandHandler"/>
         /// <returns></returns>
         [Route("{id}")]
         [HttpDelete]
         public async Task Delete([FromRoute] long id)
         {
+            var input = new DeleteBranchCommand()
+            {
+                BranchId = id,
+            };
+            await _mediator.Send(input);
         }
 
         /// <summary>
