@@ -21,7 +21,7 @@ namespace SBCRM.Web.Controllers.Common
         }
 
         /// <summary>
-        /// Retrieve dept by branch #
+        /// Retrieve ChartOfAccount by AccountNo
         /// </summary>
         /// <param name="branchNo"></param>
         /// <returns></returns>
