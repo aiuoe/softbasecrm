@@ -30,11 +30,8 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<Unit> Handle(DeleteBranchCommand command, CancellationToken cancellationToken)
         {
-            var branch = await _branchRepository.FirstOrDefaultAsync(x => x.Id == command.BranchId);
-            if (branch != null)
-            {
-                await _branchRepository.DeleteAsync(branch);
-            }
+            var branch = await _branchRepository.GetAsync(command.BranchId);
+            await _branchRepository.DeleteAsync(branch);
             return Unit.Value;
         }
     }
