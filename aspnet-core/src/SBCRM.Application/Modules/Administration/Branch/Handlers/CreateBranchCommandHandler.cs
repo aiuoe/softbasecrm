@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Abp.UI;
 using MediatR;
 using SBCRM.Base;
+using SBCRM.Common;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 
@@ -33,10 +34,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<BranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
         {
             var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Number == command.Number);
-            if (branchWithSameNumber != null)
-            {
-                throw new UserFriendlyException(L("BranchNumberUnique"));
-            }
+            GuardHelper.ThrowIf(branchWithSameNumber != null, new UserFriendlyException(L("BranchNumberUnique")));
 
             var branch = ObjectMapper.Map<Core.BaseEntities.Branch>(command);
             SetTenant(branch);
