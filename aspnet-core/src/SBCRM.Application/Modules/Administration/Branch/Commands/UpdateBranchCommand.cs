@@ -12,7 +12,6 @@ namespace SBCRM.Modules.Administration.Branch.Commands
     public class UpdateBranchCommand : IRequest<BranchForEditDto>, ICustomValidate
     {
         public long Id { get; set; }
-        public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
         public string Address { get; set; }

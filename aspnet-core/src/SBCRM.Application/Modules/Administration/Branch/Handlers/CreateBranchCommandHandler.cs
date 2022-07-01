@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Abp.Domain.Uow;
 using Abp.UI;
 using MediatR;
 using SBCRM.Base;
@@ -14,14 +15,19 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// </summary>
     public class CreateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateBranchCommand, BranchForEditDto>
     {
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IBranchRepository _branchRepository;
 
         /// <summary>
         /// Base constructor
         /// </summary>
+        /// <param name="unitOfWorkManager"></param>
         /// <param name="branchRepository"></param>
-        public CreateBranchCommandHandler(IBranchRepository branchRepository)
+        public CreateBranchCommandHandler(
+            IUnitOfWorkManager unitOfWorkManager,
+            IBranchRepository branchRepository)
         {
+            _unitOfWorkManager = unitOfWorkManager;
             _branchRepository = branchRepository;
         }
 
@@ -33,8 +39,11 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
         {
-            var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Number == command.Number);
-            GuardHelper.ThrowIf(branchWithSameNumber != null, new UserFriendlyException(L("BranchNumberUnique")));
+            using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
+            {
+                var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Number == command.Number);
+                GuardHelper.ThrowIf(branchWithSameNumber != null, new UserFriendlyException(L("BranchNumberUnique")));
+            }
 
             var branch = ObjectMapper.Map<Core.BaseEntities.Branch>(command);
             SetTenant(branch);
