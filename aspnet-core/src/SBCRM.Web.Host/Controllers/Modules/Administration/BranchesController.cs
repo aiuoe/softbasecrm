@@ -14,7 +14,6 @@ using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
 using SBCRM.Modules.Administration.Branch.Queries;
-using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {
@@ -77,7 +76,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<GetBranchForEditDto> Create([FromBody] CreateBranchCommand input)
+        public async Task<BranchForEditDto> Create([FromBody] CreateBranchCommand input)
         {
             return await _mediator.Send(input);
         }
@@ -85,23 +84,35 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Update branch
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="input"></param>
+        /// <see cref="UpdateBranchCommandHandler"/>
         /// <returns></returns>
+        [Route("{id}")]
         [HttpPut]
-        public async Task<GetLeadForEditOutput> Update([FromBody] CreateOrEditLeadDto input)
+        public async Task<BranchForEditDto> Update(
+            [FromRoute] long id,
+            [FromBody] UpdateBranchCommand input)
         {
-            return await Task.FromResult(new GetLeadForEditOutput());
+            input.Id = id;
+            return await _mediator.Send(input);
         }
 
         /// <summary>
         /// Delete branch
         /// </summary>
         /// <param name="id"></param>
+        /// <see cref="DeleteBranchCommandHandler"/>
         /// <returns></returns>
         [Route("{id}")]
         [HttpDelete]
         public async Task Delete([FromRoute] long id)
         {
+            var input = new DeleteBranchCommand()
+            {
+                BranchId = id,
+            };
+            await _mediator.Send(input);
         }
 
         /// <summary>

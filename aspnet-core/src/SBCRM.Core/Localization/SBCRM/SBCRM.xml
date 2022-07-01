@@ -2162,6 +2162,8 @@
 		<text name="Type">Type</text>
 
 		<!-- Administration - Branch -->
+		<text name="BranchNumberUnique">Branch number needs to be unique</text>
+		<text name="BranchNameRequired">Name field is required</text>
 		<text name="InvSubName">Inv Sub-Name</text>
 		<text name="AcountsReceivableGLAccountNumber">Acounts Receivable GL Account #</text>
 		<text name="ARAccounts">AR Accounts</text>

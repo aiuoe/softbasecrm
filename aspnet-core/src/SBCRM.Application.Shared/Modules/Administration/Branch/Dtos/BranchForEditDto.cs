@@ -1,16 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Abp.Runtime.Validation;
-using MediatR;
-using SBCRM.Modules.Administration.Branch.Dtos;
 
-namespace SBCRM.Modules.Administration.Branch.Commands
+namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
-    /// Create branch command
+    /// DTO for branch edit
     /// </summary>
-    public class CreateBranchCommand : IRequest<BranchForEditDto>, ICustomValidate
+    public class BranchForEditDto
     {
+        public long Id { get; set; }
         public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
@@ -58,17 +55,5 @@ namespace SBCRM.Modules.Administration.Branch.Commands
         public string TvhKey { get; set; }
         public string TvhCountry { get; set; }
         public string TvhWarehouse { get; set; }
-
-        /// <summary>
-        /// Validation command
-        /// </summary>
-        /// <param name="context"></param>
-        public void AddValidationErrors(CustomValidationContext context)
-        {
-            if (string.IsNullOrWhiteSpace(Name))
-            {
-                context.Results.Add(new ValidationResult(context.GetLocalizationMessage("BranchNameRequired")));
-            }
-        }
     }
 }

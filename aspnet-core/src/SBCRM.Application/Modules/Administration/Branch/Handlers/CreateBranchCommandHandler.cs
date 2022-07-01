@@ -1,26 +1,33 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Abp.Domain.Uow;
+using Abp.UI;
 using MediatR;
 using SBCRM.Base;
+using SBCRM.Common;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
-using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM.Modules.Administration.Branch.Handlers
 {
     /// <summary>
-    /// Create branch use case command handler
+    /// Create branch command handler
     /// </summary>
-    public class CreateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateBranchCommand, GetBranchForEditDto>
+    public class CreateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateBranchCommand, BranchForEditDto>
     {
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IBranchRepository _branchRepository;
 
         /// <summary>
         /// Base constructor
         /// </summary>
+        /// <param name="unitOfWorkManager"></param>
         /// <param name="branchRepository"></param>
-        public CreateBranchCommandHandler(IBranchRepository branchRepository)
+        public CreateBranchCommandHandler(
+            IUnitOfWorkManager unitOfWorkManager,
+            IBranchRepository branchRepository)
         {
+            _unitOfWorkManager = unitOfWorkManager;
             _branchRepository = branchRepository;
         }
 
@@ -30,23 +37,19 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<GetBranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
+        public async Task<BranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
         {
-            var branch = new Core.BaseEntities.Branch
+            using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
             {
-                Name = command.Name,
-                Number = command.Number,
-                SubName = command.SubName,
-                Address = command.Address
-            };
+                var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Number == command.Number);
+                GuardHelper.ThrowIf(branchWithSameNumber != null, new UserFriendlyException(L("BranchNumberUnique")));
+            }
+
+            var branch = ObjectMapper.Map<Core.BaseEntities.Branch>(command);
             SetTenant(branch);
+
             branch.Id = await _branchRepository.InsertAndGetIdAsync(branch);
-            return new GetBranchForEditDto
-            {
-                AdditionalPropertyA = "A",
-                AdditionalPropertyB = "B",
-                Branch = ObjectMapper.Map<BranchDto>(branch)
-            };
+            return ObjectMapper.Map<BranchForEditDto>(branch);
         }
     }
 

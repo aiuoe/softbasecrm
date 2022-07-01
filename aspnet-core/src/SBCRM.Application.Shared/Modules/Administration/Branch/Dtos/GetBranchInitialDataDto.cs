@@ -1,7 +1,6 @@
-﻿using SBCRM.Modules.Administration.Branch.Dtos;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SBCRM.Modules.Administration.Dtos
+namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for fetching initial data for Branch sub module

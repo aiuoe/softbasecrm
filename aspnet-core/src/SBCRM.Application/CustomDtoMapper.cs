@@ -37,7 +37,7 @@ using SBCRM.Friendships;
 using SBCRM.Friendships.Cache;
 using SBCRM.Friendships.Dto;
 using SBCRM.Localization.Dto;
-using SBCRM.Modules.Administration.Dtos;
+using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.MultiTenancy;
 using SBCRM.MultiTenancy.Dto;
 using SBCRM.MultiTenancy.HostDashboard.Dto;
@@ -56,12 +56,10 @@ using StateTaxCode = SBCRM.Core.BaseEntities.StateTaxCode;
 using LocalTaxCode = SBCRM.Core.BaseEntities.LocalTaxCode;
 using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
 using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
-using SBCRM.Modules.Administration.Branch.Dtos;
 using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 using SBCRM.Modules.Accounting.Dtos; 
 
-using SBCRM.Modules.Administration.Branch.Dtos;
 namespace SBCRM
 {
     internal static class CustomDtoMapper
@@ -273,6 +271,8 @@ namespace SBCRM
 
             //Branch
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<Branch, BranchForEditDto>();
+            
             configuration.CreateMap<Branch, BranchLookupDto>();
             configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
                 .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
