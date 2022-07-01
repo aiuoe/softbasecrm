@@ -68,7 +68,7 @@ namespace SBCRM.Modules.Administration.Branch.Commands
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-                context.Results.Add(new ValidationResult(context.GetLocalizationMessage("NameIsRequired")));
+                context.Results.Add(new ValidationResult(context.GetLocalizationMessage("BranchNameRequired")));
             }
         }
     }

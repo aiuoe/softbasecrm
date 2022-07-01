@@ -35,7 +35,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Id != command.Id && x.Number == command.Number);
             if (branchWithSameNumber != null)
             {
-                throw new UserFriendlyException("BranchNumberUnique");
+                throw new UserFriendlyException(L("BranchNumberUnique"));
             }
 
             var branch = ObjectMapper.Map<Core.BaseEntities.Branch>(command);
