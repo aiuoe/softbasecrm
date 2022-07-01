@@ -265,7 +265,7 @@ namespace SBCRM
             #endregion
             #region [Accounting mappings]
 
-            configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>().ReverseMap();
+            configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>();
 
             #endregion
         }
