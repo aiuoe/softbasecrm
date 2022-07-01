@@ -1,6 +1,8 @@
 ﻿using Abp.AspNetCore.Mvc.Authorization;
+using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SBCRM.Authorization;
 using SBCRM.Modules.Accounting.ChartOfAccounts.Queries;
 using SBCRM.Modules.Accounting.Dtos;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ namespace SBCRM.Web.Controllers.Common
     /// ReadCommonShareController controller
     /// </summary>
     [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
     public class ReadCommonShareController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
