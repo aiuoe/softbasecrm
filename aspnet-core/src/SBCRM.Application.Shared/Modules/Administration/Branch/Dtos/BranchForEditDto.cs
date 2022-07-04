@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SBCRM.Modules.Common.Dto;
+using System;
 
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for branch edit
     /// </summary>
-    public class BranchForEditDto
+    public class BranchForEditDto : AuditDto
     {
         public string Name { get; set; }
         public string SubName { get; set; }
@@ -53,9 +54,5 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string TvhKey { get; set; }
         public string TvhCountry { get; set; }
         public string TvhWarehouse { get; set; }
-        public string CreatorUserName { get; set; }
-        public DateTime CreationTime { get; set; }
-        public string LastModifierUserName { get; set; }
-        public DateTime? LastModificationTime { get; set; }
     }
 }
