@@ -286,8 +286,7 @@ namespace SBCRM
             configuration.CreateMap<StateTaxCode, StateTaxCodeInBranchDto>();
             configuration.CreateMap<LocalTaxCode, LocalTaxCodeInBranchDto>();
             configuration.CreateMap<CityTaxCode, CityTaxCodeInBranchDto>();
-            configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
-            configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
+            cocnfiguration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
             configuration.CreateMap<Branch, GetBranchDetailsDto>();
             configuration.CreateMap<ZipCode, GetZipCodeDetailsDto>();
 

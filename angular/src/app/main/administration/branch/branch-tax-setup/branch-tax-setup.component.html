@@ -111,7 +111,6 @@
                         <input
                             type="checkbox"
                             name="ShopSplitSalesTax"
-                            value="true"
                         />
                         <span></span>
                         {{ l('ShopSplitSalesTax') }}
@@ -128,13 +127,13 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_StandardTaxCode"
-                        class="form-control"
-                        [placeholder]="l('StandardTaxCode')"
-                        name="TaxSetup_StandardTaxCode"
-                    />
+                    <p-dropdown 
+                        id="Branch_StandardTaxCode"
+                        [options]="standardTaxCodes"
+                        optionLabel="taxCode"
+                        [showClear]="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-6 d-flex align-items-center mt-5">
@@ -144,6 +143,7 @@
                             type="checkbox"
                             name="UseAbsoluteTaxCodes"
                             value="true"
+                            (change)="onChangeUseAbsoluteTaxCodesStatus()"
                         />
                         <span></span>
                         {{ l('UseAbsoluteTaxCodes') }}
@@ -155,25 +155,27 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_StateTaxCode"
-                        class="form-control"
-                        [placeholder]="l('StateTaxCode')"
-                        name="TaxSetup_StateTaxCode"
-                    />
+                    <p-dropdown 
+                        *ngIf="isUseAbsoluteTaxCodesChecked"
+                        id="Branch_StateTaxCode"
+                        [options]="stateTaxCodes"
+                        optionLabel="taxCode"
+                        [showClear]="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_CountryTaxCode"
-                        class="form-control"
-                        [placeholder]="l('CountryTaxCode')"
-                        name="TaxSetup_CountryTaxCode"
-                    />
+                    <p-dropdown
+                        *ngIf="isUseAbsoluteTaxCodesChecked" 
+                        id="Branch_CountryTaxCode"
+                        [options]="countyTaxCodes"
+                        optionLabel="taxCode"
+                        [showClear]="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
         </div>
@@ -181,25 +183,27 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_CityTaxCode"
-                        class="form-control"
-                        [placeholder]="l('CityTaxCode')"
-                        name="TaxSetup_CityTaxCode"
-                    />
+                    <p-dropdown
+                        *ngIf="isUseAbsoluteTaxCodesChecked" 
+                        id="Branch_CityTaxCode"
+                        [options]="cityTaxCodes"
+                        optionLabel="taxCode"
+                        [showClear]="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_LocalTaxCode"
-                        class="form-control"
-                        [placeholder]="l('LocalTaxCode')"
-                        name="TaxSetup_LocalTaxCode"
-                    />
+                    <p-dropdown
+                        *ngIf="isUseAbsoluteTaxCodesChecked"
+                        id="Branch_LocalTaxCode"
+                        [options]="localTaxCodes"
+                        optionLabel="taxCode"
+                        [showClear]="true"
+                        optionValue="id">
+                    </p-dropdown>
                 </div>
             </div>
         </div>
