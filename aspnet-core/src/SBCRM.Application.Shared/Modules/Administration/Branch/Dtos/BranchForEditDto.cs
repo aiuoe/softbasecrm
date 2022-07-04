@@ -7,8 +7,6 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
     /// </summary>
     public class BranchForEditDto
     {
-        public long Id { get; set; }
-        public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
         public string Address { get; set; }
@@ -55,5 +53,9 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string TvhKey { get; set; }
         public string TvhCountry { get; set; }
         public string TvhWarehouse { get; set; }
+        public string CreatorUserName { get; set; }
+        public DateTime CreationTime { get; set; }
+        public string LastModifierUserName { get; set; }
+        public DateTime? LastModificationTime { get; set; }
     }
 }

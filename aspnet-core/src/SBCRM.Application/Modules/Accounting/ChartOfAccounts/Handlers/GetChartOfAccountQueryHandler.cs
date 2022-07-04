@@ -14,7 +14,6 @@ namespace SBCRM.Modules.Accounting.ChartOfAccounts.Handlers
     {
         private readonly IChartOfAccountRepository _chartOfAccountRepository;
 
-
         /// <summary>
         /// Base constructor
         /// </summary>
@@ -23,7 +22,6 @@ namespace SBCRM.Modules.Accounting.ChartOfAccounts.Handlers
         {
             _chartOfAccountRepository = chartOfAccountRepository;
         }
-
 
         /// <summary>
         /// Handles request for getting credit card account details data
