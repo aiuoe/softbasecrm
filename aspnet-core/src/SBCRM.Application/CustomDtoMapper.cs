@@ -50,6 +50,7 @@ using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
 using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
 using SBCRM.Modules.Accounting.Dtos;
+using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 
 namespace SBCRM
 {
@@ -261,6 +262,9 @@ namespace SBCRM
             #region [Administration mappings]
 
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<GetZipCodeDto, ZipCode>()
+                .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))
+                .ReverseMap();
 
             #endregion
             #region [Accounting mappings]
