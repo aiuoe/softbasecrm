@@ -1,0 +1,137 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+        <div class="form">
+            <form>
+                <div class="form-body">
+                    <div class="row mb-4">
+                        <div class="col-lg-3">
+                            <label for="">{{ l('FinancialInvoiceCopiesToPrint') }}</label>
+                            <p-dropdown
+                                [options]="financialInvoiceCopiesSelectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                            ></p-dropdown>
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('AutomaticInvoiceDate')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="">{{ l('PastCurrencyFormat') }}</label>
+                            <p-dropdown
+                                [options]="pastCurrencyFormatSelectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                            ></p-dropdown>
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('AutoCheckSalesGroup')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-3">
+                            <label for="">{{ l('DefaultWhole') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('DisableMilesCalculation')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="">{{ l('DefaultDecimal') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('DispatchManualRefresh')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-3">
+                            <label for="">{{ l('QuotedPartsNotAvailable') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('QuoteToOrderHoldPartsFromPosting')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="">{{ l('DefaultLaborStartTime') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('QuoteToOrderAllowPartialQtyBO')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <p-checkbox [label]="l('QuoteToOrderPromptToEachBO')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row align-items-center form-row-header mt-15">
+                        <i class="fa fa-user"></i>
+                        {{ l('SoftbaseMobileParameters') }}
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('LaborImportRounding') }}</label>
+                            <p-dropdown
+                                [options]="laborImportRoundingSelectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                            ></p-dropdown>
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox [label]="l('IncludeMiscInMobileRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3 mt-lg-8">
+                            <p-checkbox [label]="l('IncludeLaborTimesOnMobileRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-3">
+                            <p-checkbox [label]="l('SuppressParOnRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3">
+                            <p-checkbox [label]="l('DontClearSignature')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3">
+                            <p-checkbox [label]="l('AddHoursAndSerialOnTimeCard')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                        <div class="col-lg-3">
+                            <p-checkbox [label]="l('IncludeRawHoursOnMechsLaborDoc')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <p-checkbox [label]="l('AutoDocCenterMobileRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberOfHoursOfChangeAllowed') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </form> 
+        </div>
+        <div class="mt-30">
+            <p class="font-italic">{{ l('ChangedBy') }}: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+        </div>
+    </div>
+</div>

@@ -3978,6 +3978,10 @@ namespace SBCRM.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Country")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("CountyTaxCode")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -4023,9 +4027,8 @@ namespace SBCRM.Migrations
                     b.Property<short?>("FinanceDays")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("FinanceRate")
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                    b.Property<decimal?>("FinanceRate")
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -4121,22 +4124,22 @@ namespace SBCRM.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TvhaccountNo")
+                    b.Property<string>("TvhAccountNo")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("TVHAccountNo");
 
-                    b.Property<string>("Tvhcountry")
+                    b.Property<string>("TvhCountry")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("TVHCountry");
 
-                    b.Property<string>("Tvhkey")
+                    b.Property<string>("TvhKey")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("TVHKey");
 
-                    b.Property<string>("Tvhwarehouse")
+                    b.Property<string>("TvhWarehouse")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("TVHWarehouse");
@@ -6707,16 +6710,15 @@ namespace SBCRM.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ChangedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<decimal?>("ConversionRate")
                         .HasColumnType("decimal(19,4)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -6724,20 +6726,29 @@ namespace SBCRM.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CurrencyDate")
-                        .HasColumnType("datetime");
+                    b.Property<string>("CurrencyMessage")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CurrencyType1")
+                    b.Property<string>("CurrencyTypeName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("CurrencyType");
+
+                    b.Property<string>("DecimalVerbage")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ExchangeAccount")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -6754,11 +6765,22 @@ namespace SBCRM.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("WholeVerbage")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "TenantId" }, "CurrencyTypes_TenantId_index");
 
-                    b.HasIndex(new[] { "CurrencyType1", "TenantId" }, "UC_CurrencyTypes")
+                    b.HasIndex(new[] { "CurrencyTypeName", "TenantId" }, "UC_CurrencyTypes")
                         .IsUnique();
 
                     b.ToTable("CurrencyTypes", "web");

@@ -1,0 +1,87 @@
+<div
+    bsModal
+    #eqGroupDistModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="eqGroupDistModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l('EquipmentGroupDistribution') }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-xl-6">
+                            <label for="">{{ l('ModelGroup') }}</label>
+                            <p-dropdown
+                                [options]="groupSelectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                            ></p-dropdown>
+                        </div>
+                        <div class="col-xl-6">
+                            <label for="">{{ l('SaleAccount') }}</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary">
+                                        <i class="flaticon-search-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-xl-6">
+                            <label for="">{{ l('CostAccount') }}</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary">
+                                        <i class="flaticon-search-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 text-right mt-8">
+                            <button class="btn btn-primary blue">
+                                <i class="fa fa-plus fa-lg"></i>
+                                {{ l('Add') }}
+                            </button>
+                            <button class="btn btn-primary blue">
+                                <i class="fa fa-trash fa-lg"></i>
+                                {{ l('Delete') }}
+                            </button>
+                            <button class="btn btn-primary blue">
+                                <i class="fa fa-check fa-lg"></i>
+                                {{ l('Update') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        class="btn btn-primary blue"
+                        (click)="close()"
+                    >
+                        <span>{{ l('Done') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
