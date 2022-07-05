@@ -54,7 +54,8 @@
                                                             <div class="form-group">
                                                                 <label for="Branch_Name">{{ l('Name') }}</label>
                                                                 <input type="text" id="Branch_Name" class="form-control"
-                                                                    [placeholder]="l('Name')" name="Name" />
+                                                                    [placeholder]="l('Name')" name="Name"
+                                                                    [(ngModel)]="branchForEdit.name" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -66,7 +67,8 @@
                                                                 </label>
                                                                 <input type="text" id="Branch_SubName"
                                                                     class="form-control" [placeholder]="l('SubName')"
-                                                                    name="SubName" />
+                                                                    name="SubName" 
+                                                                    [(ngModel)]="branchForEdit.subName"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
@@ -76,7 +78,8 @@
                                                                 </label>
                                                                 <input type="text" id="Branch_InvSubName"
                                                                     class="form-control" [placeholder]="l('InvSubName')"
-                                                                    name="InvSubName" />
+                                                                    name="InvSubName" 
+                                                                    [(ngModel)]="branchForEdit.smallSubName"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -88,7 +91,8 @@
                                                                 </label>
                                                                 <input type="text" id="Branch_Address"
                                                                     class="form-control" [placeholder]="l('Address')"
-                                                                    name="Address" />
+                                                                    name="Address" 
+                                                                    [(ngModel)]="branchForEdit.address"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
@@ -97,7 +101,8 @@
                                                                     {{ l('City') }}
                                                                 </label>
                                                                 <input type="text" id="Branch_City" class="form-control"
-                                                                    [placeholder]="l('City')" name="City" />
+                                                                    [placeholder]="l('City')" name="City" 
+                                                                    [(ngModel)]="branchForEdit.city"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
@@ -107,7 +112,8 @@
                                                                 </label>
                                                                 <input type="text" id="Branch_State"
                                                                     class="form-control" [placeholder]="l('State')"
-                                                                    name="State" />
+                                                                    name="State" 
+                                                                    [(ngModel)]="branchForEdit.state"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
@@ -117,7 +123,8 @@
                                                                 </label>
                                                                 <input type="text" id="Branch_ZipCode"
                                                                     class="form-control" [placeholder]="l('ZipCode')"
-                                                                    name="ZipCode" />
+                                                                    name="ZipCode" 
+                                                                    [(ngModel)]="branchForEdit.zipCode"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -125,10 +132,13 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label for="Branch_Country">{{ l('Country') }}</label>
-                                                                <p-dropdown id="Branch_Country" options="countries"
+                                                                <p-dropdown id="Branch_Country" [options]="countries"
                                                                     optionLabel="displayName"
                                                                     [placeholder]="l('SelectCountry')"
-                                                                    [showClear]="true" optionValue="code">
+                                                                    [showClear]="true" optionValue="value"
+                                                                    [(ngModel)]="branchForEdit.country"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    >
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>
@@ -137,7 +147,8 @@
                                                                 <label for="Branch_Phone">{{ l('Phone') }}</label>
                                                                 <input type="text" id="Branch_Phone"
                                                                     class="form-control" [placeholder]="l('Phone')"
-                                                                    name="Phone" />
+                                                                    name="Phone" 
+                                                                    [(ngModel)]="branchForEdit.phone"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -148,7 +159,8 @@
                                                                     {{ l('Fax') }}
                                                                 </label>
                                                                 <input type="text" id="Branch_Fax" class="form-control"
-                                                                    [placeholder]="l('Fax')" name="Fax" />
+                                                                    [placeholder]="l('Fax')" name="Fax" 
+                                                                    [(ngModel)]="branchForEdit.fax"/>
                                                             </div>
                                                         </div>
                                                         <div
@@ -161,7 +173,8 @@
                                                                     id="Branch_AcountsReceivableGLAccountNumber"
                                                                     class="form-control"
                                                                     [placeholder]="l('AcountsReceivableGLAccountNumber')"
-                                                                    name="AcountsReceivableGLAccountNumber" />
+                                                                    name="AcountsReceivableGLAccountNumber" 
+                                                                    [(ngModel)]="branchForEdit.receivable"/>
 
                                                             </div>
                                                             <button class="btn btn-primary text-primary p-2 mt-1">
@@ -189,7 +202,8 @@
                                                                 <input type="text" id="Branch_ClarkDealerAccessCode"
                                                                     class="form-control"
                                                                     [placeholder]="l('ClarkDealerAccessCode')"
-                                                                    name="ClarkDealerAccessCode" />
+                                                                    name="ClarkDealerAccessCode" 
+                                                                    [(ngModel)]="branchForEdit.clarkDealerAccessCode"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -201,7 +215,8 @@
                                                                 <input type="text" id="Branch_ClarkPartsCode"
                                                                     class="form-control"
                                                                     [placeholder]="l('ClarkPartsCode')"
-                                                                    name="Branch_ClarkPartsCode" />
+                                                                    name="Branch_ClarkPartsCode" 
+                                                                    [(ngModel)]="branchForEdit.clarkPartsCode"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
@@ -211,7 +226,8 @@
                                                                 <input type="text" id="Branch_FedExShopId"
                                                                     class="form-control"
                                                                     [placeholder]="l('FedExShopId')"
-                                                                    name="FedExShopId" />
+                                                                    name="FedExShopId" 
+                                                                    [(ngModel)]="branchForEdit.shopId"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
@@ -221,7 +237,8 @@
                                                                 <input type="text" id="Branch_FedExVendorId"
                                                                     class="form-control"
                                                                     [placeholder]="l('FedExVendorId')"
-                                                                    name="FedExVendorId" />
+                                                                    name="FedExVendorId" 
+                                                                    [(ngModel)]="branchForEdit.vendorId"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -234,7 +251,9 @@
                                                                     [options]="warehouses" optionValue="id"
                                                                     optionLabel="warehouse"
                                                                     [placeholder]="l('SelectDefaultWarehouse')"
-                                                                    [showClear]="true">
+                                                                    [showClear]="true"
+                                                                    [(ngModel)]="branchForEdit.defaultWarehouse"
+                                                                    [ngModelOptions]="{standalone: true}">
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>
@@ -245,7 +264,8 @@
                                                                 <input type="text" id="Branch_RentalDeliveryDefaultTime"
                                                                     class="form-control"
                                                                     [placeholder]="l('RentalDeliveryDefaultTime')"
-                                                                    name="RentalDeliveryDefaultTime" />
+                                                                    name="RentalDeliveryDefaultTime" 
+                                                                    [(ngModel)]="branchForEdit.rentalDeliveryDefaultTime"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -258,7 +278,8 @@
                                                                     [options]="currencyTypes" optionValue="code"
                                                                     optionLabel="currencyType"
                                                                     [placeholder]="l('SelectCurrencyType')"
-                                                                    [showClear]="true">
+                                                                    [showClear]="true"
+                                                                    >
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>
@@ -269,7 +290,8 @@
                                                                 <input type="text" id="Branch_ARAccountForCurrency"
                                                                     class="form-control"
                                                                     [placeholder]="l('ARAccountForCurrency')"
-                                                                    name="ARAccountForCurrency" />
+                                                                    name="ARAccountForCurrency" 
+                                                                    />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -347,7 +369,7 @@
                 <tab heading="{{ l('TaxSetup') }}">
                     <div class="row">
                         <div class="col-12">
-                            <branchTaxSetup [taxCodes]="taxCodes"></branchTaxSetup>
+                            <branchTaxSetup [taxCodes]="taxCodes" [branchForEdit]="branchForEdit"></branchTaxSetup>
                         </div>
                     </div>
                 </tab>

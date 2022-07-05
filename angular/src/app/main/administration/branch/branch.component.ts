@@ -24,14 +24,20 @@ export class BranchComponent extends AppComponentBase implements OnInit {
     ];
 
     branches: IBranchLookupDto[] = [];
-    countries: ICustomerCountryLookupTableDto[] = [];
     accountsReceivables: IAccountReceivableInBranchDto[] = [];
     warehouses: IWarehouseLookupDto[] = [];
     currencyTypes: ICurrencyTypeLookupDto[] = [];
     taxCodes: ITaxCodeInBranchDto[] = [];
 
-    branchForEdit:BranchForEditDto=new BranchForEditDto();
-    branchId:number;
+    branchForEdit: BranchForEditDto = new BranchForEditDto();
+    branchId: number;
+
+    countries: any[] = [
+        { displayName: "US", value: "US" },
+        { displayName: "Canada", value: "Canada" },
+        { displayName: "Mexico", value: "Mexico" },
+    ];
+
 
     constructor(
         injector: Injector,
@@ -58,7 +64,7 @@ export class BranchComponent extends AppComponentBase implements OnInit {
         this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
         });
-        
+
     }
     add() {
 
