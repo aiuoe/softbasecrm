@@ -1,6 +1,4 @@
-﻿
-
-using MediatR;
+﻿using MediatR;
 using SBCRM.Modules.Accounting.Dtos;
 
 namespace SBCRM.Modules.Accounting.ChartOfAccounts.Queries

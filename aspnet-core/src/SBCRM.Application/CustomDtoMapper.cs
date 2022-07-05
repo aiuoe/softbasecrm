@@ -280,7 +280,6 @@ namespace SBCRM
             configuration.CreateMap<Warehouse, WarehouseLookupDto>()
                 .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.Warehouse1));
             configuration.CreateMap<CurrencyType, CurrencyTypeLookupDto>()
-                .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();
 
@@ -289,7 +288,6 @@ namespace SBCRM
             configuration.CreateMap<CityTaxCode, CityTaxCodeInBranchDto>();
             configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
             configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
-            configuration.CreateMap<Branch, GetBranchDetailsDto>();
             configuration.CreateMap<ZipCode, GetZipCodeDetailsDto>();
             configuration.CreateMap<GetZipCodeDto, ZipCode>()
                 .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))

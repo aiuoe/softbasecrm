@@ -26,15 +26,16 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="stateTaxCodeRepository"></param>
         /// <param name="cityTaxCodeRepository"></param>
         /// <param name="localTaxCodeRepository"></param>
-        public GetTaxTabInitialDataQueryHandler(ICountyTaxCodeRepository countyTaxCodeRepository,
+        public GetTaxTabInitialDataQueryHandler(
+            ICountyTaxCodeRepository countyTaxCodeRepository,
             IStateTaxCodeRepository stateTaxCodeRepository,
             ICityTaxCodeRepository cityTaxCodeRepository,
             ILocalTaxCodeRepository localTaxCodeRepository)
         {
-            _countyTaxCodeRepository= countyTaxCodeRepository;
-            _stateTaxCodeRepository= stateTaxCodeRepository;
-            _cityTaxCodeRepository= cityTaxCodeRepository;
-            _localTaxCodeRepository= localTaxCodeRepository;
+            _countyTaxCodeRepository = countyTaxCodeRepository;
+            _stateTaxCodeRepository = stateTaxCodeRepository;
+            _cityTaxCodeRepository = cityTaxCodeRepository;
+            _localTaxCodeRepository = localTaxCodeRepository;
         }
 
         /// <summary>

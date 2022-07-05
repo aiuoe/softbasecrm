@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch data by id query handler
     /// </summary>
-    public class GetBranchByIdQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchByIdQuery, GetBranchDetailsDto>
+    public class GetBranchByIdQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchByIdQuery, BranchForEditDto>
     {
         private readonly IBranchRepository _branchRepository;
 
@@ -29,10 +29,10 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<GetBranchDetailsDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
+        public async Task<BranchForEditDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
         {
-            var branch= await _branchRepository.FirstOrDefaultAsync(branch => branch.Id == query.Id);
-            return ObjectMapper.Map<GetBranchDetailsDto>(branch);
+            var branch = await _branchRepository.FirstOrDefaultAsync(branch => branch.Id == query.Id);
+            return ObjectMapper.Map<BranchForEditDto>(branch);
         }
     }
 }
