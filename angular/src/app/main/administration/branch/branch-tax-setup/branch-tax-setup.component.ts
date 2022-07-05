@@ -1,5 +1,6 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { ITaxCodeInBranchDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
     selector: 'branchTaxSetup',
@@ -7,6 +8,8 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 })
 
 export class BranchTaxSetupComponent extends AppComponentBase {
+
+    @Input() taxCodes: ITaxCodeInBranchDto[] = [];
 
     constructor(
         injector: Injector

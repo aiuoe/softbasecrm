@@ -3,24 +3,15 @@
         <div class="row">
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_StateSalesTaxLabel">{{ l('StateSalesTaxLabel') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_StateSalesTaxLabel"
-                        class="form-control"
-                        [placeholder]="l('StateSalesTaxLabel')"
-                        name="TaxSetup_StateSalesTaxLabel"
-                    />
+                    <label for="Branch_TaxSetup_StateSalesTaxLabel">{{ l('StateSalesTaxLabel') }}</label>
+                    <input type="text" id="Branch_TaxSetup_StateSalesTaxLabel" class="form-control"
+                        [placeholder]="l('StateSalesTaxLabel')" name="Branch_TaxSetup_StateSalesTaxLabel" />
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-center align-items-center mt-5">
                 <div class="form-group">
                     <label class="checkbox checkbox-outline">
-                        <input
-                            type="checkbox"
-                            name="UseStateTaxCodeDescription"
-                            value="true"
-                        />
+                        <input type="checkbox" name="UseStateTaxCodeDescription" value="true" />
                         <span></span>
                         {{ l('UseStateTaxCodeDescription') }}
                     </label>
@@ -28,24 +19,15 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_CountrySalesTaxLabel">{{ l('CountrySalesTaxLabel') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_CountrySalesTaxLabel"
-                        class="form-control"
-                        [placeholder]="l('CountrySalesTaxLabel')"
-                        name="TaxSetup_CountrySalesTaxLabel"
-                    />
+                    <label for="Branch_TaxSetup_CountrySalesTaxLabel">{{ l('CountrySalesTaxLabel') }}</label>
+                    <input type="text" id="Branch_TaxSetup_CountrySalesTaxLabel" class="form-control"
+                        [placeholder]="l('CountrySalesTaxLabel')" name="Branch_TaxSetup_CountrySalesTaxLabel" />
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-center align-items-center mt-5">
                 <div class="form-group">
                     <label class="checkbox checkbox-outline">
-                        <input
-                            type="checkbox"
-                            name="UseCountryTaxCodeDescription"
-                            value="true"
-                        />
+                        <input type="checkbox" name="UseCountryTaxCodeDescription" value="true" />
                         <span></span>
                         {{ l('UseCountryTaxCodeDescription') }}
                     </label>
@@ -55,24 +37,15 @@
         <div class="row">
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_CitySalesTaxLabel">{{ l('CitySalesTaxLabel') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_CitySalesTaxLabel"
-                        class="form-control"
-                        [placeholder]="l('CitySalesTaxLabel')"
-                        name="TaxSetup_CitySalesTaxLabel"
-                    />
+                    <label for="Branch_TaxSetup_CitySalesTaxLabel">{{ l('CitySalesTaxLabel') }}</label>
+                    <input type="text" id="Branch_TaxSetup_CitySalesTaxLabel" class="form-control"
+                        [placeholder]="l('CitySalesTaxLabel')" name="Branch_TaxSetup_CitySalesTaxLabel" />
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-center align-items-center mt-5">
                 <div class="form-group">
                     <label class="checkbox checkbox-outline">
-                        <input
-                            type="checkbox"
-                            name="UseCityTaxCodeDescription"
-                            value="true"
-                        />
+                        <input type="checkbox" name="UseCityTaxCodeDescription" value="true" />
                         <span></span>
                         {{ l('UseCityTaxCodeDescription') }}
                     </label>
@@ -80,24 +53,15 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_LocalSalesTaxLabel">{{ l('LocalSalesTaxLabel') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_LocalSalesTaxLabel"
-                        class="form-control"
-                        [placeholder]="l('LocalSalesTaxLabel')"
-                        name="TaxSetup_LocalSalesTaxLabel"
-                    />
+                    <label for="Branch_TaxSetup_LocalSalesTaxLabel">{{ l('LocalSalesTaxLabel') }}</label>
+                    <input type="text" id="Branch_TaxSetup_LocalSalesTaxLabel" class="form-control"
+                        [placeholder]="l('LocalSalesTaxLabel')" name="Branch_TaxSetup_LocalSalesTaxLabel" />
                 </div>
             </div>
             <div class="col-3 d-flex justify-content-center align-items-center mt-5">
                 <div class="form-group">
                     <label class="checkbox checkbox-outline">
-                        <input
-                            type="checkbox"
-                            name="UseLocalTaxCodeDescription"
-                            value="true"
-                        />
+                        <input type="checkbox" name="UseLocalTaxCodeDescription" value="true" />
                         <span></span>
                         {{ l('UseLocalTaxCodeDescription') }}
                     </label>
@@ -108,11 +72,7 @@
             <div class="col-3 d-flex align-items-center mt-5">
                 <div class="form-group">
                     <label class="checkbox checkbox-outline">
-                        <input
-                            type="checkbox"
-                            name="ShopSplitSalesTax"
-                            value="true"
-                        />
+                        <input type="checkbox" name="ShopSplitSalesTax" value="true" />
                         <span></span>
                         {{ l('ShopSplitSalesTax') }}
                     </label>
@@ -127,24 +87,16 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_StandardTaxCode"
-                        class="form-control"
-                        [placeholder]="l('StandardTaxCode')"
-                        name="TaxSetup_StandardTaxCode"
-                    />
+                    <label for="Branch_TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
+                    <p-dropdown id="Branch_TaxSetup_StandardTaxCode" [options]="taxCodes" optionValue="id"
+                        optionLabel="code" [placeholder]="l('StandardTaxCode')" [showClear]="true">
+                    </p-dropdown>
                 </div>
             </div>
             <div class="col-6 d-flex align-items-center mt-5">
                 <div class="form-group">
                     <label class="checkbox checkbox-outline">
-                        <input
-                            type="checkbox"
-                            name="UseAbsoluteTaxCodes"
-                            value="true"
-                        />
+                        <input type="checkbox" name="UseAbsoluteTaxCodes" value="true" />
                         <span></span>
                         {{ l('UseAbsoluteTaxCodes') }}
                     </label>
@@ -154,59 +106,33 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_StateTaxCode"
-                        class="form-control"
-                        [placeholder]="l('StateTaxCode')"
-                        name="TaxSetup_StateTaxCode"
-                    />
+                    <label for="Branch_TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
+                    <input type="text" id="Branch_TaxSetup_StateTaxCode" class="form-control"
+                        [placeholder]="l('StateTaxCode')" name="Branch_TaxSetup_StateTaxCode" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_CountryTaxCode"
-                        class="form-control"
-                        [placeholder]="l('CountryTaxCode')"
-                        name="TaxSetup_CountryTaxCode"
-                    />
+                    <label for="Branch_TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
+                    <input type="text" id="Branch_TaxSetup_CountryTaxCode" class="form-control"
+                        [placeholder]="l('CountryTaxCode')" name="Branch_TaxSetup_CountryTaxCode" />
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_CityTaxCode"
-                        class="form-control"
-                        [placeholder]="l('CityTaxCode')"
-                        name="TaxSetup_CityTaxCode"
-                    />
+                    <label for="Branch_TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
+                    <input type="text" id="Branch_TaxSetup_CityTaxCode" class="form-control"
+                        [placeholder]="l('CityTaxCode')" name="Branch_TaxSetup_CityTaxCode" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
-                    <input
-                        type="text"
-                        id="TaxSetup_LocalTaxCode"
-                        class="form-control"
-                        [placeholder]="l('LocalTaxCode')"
-                        name="TaxSetup_LocalTaxCode"
-                    />
+                    <label for="Branch_TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
+                    <input type="text" id="Branch_TaxSetup_LocalTaxCode" class="form-control"
+                        [placeholder]="l('LocalTaxCode')" name="Branch_TaxSetup_LocalTaxCode" />
                 </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
-                <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
             </div>
         </div>
     </div>

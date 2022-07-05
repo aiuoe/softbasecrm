@@ -15,6 +15,7 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.ActivitySourceTypesServiceProxy,
         ApiServiceProxies.ActivityPrioritiesServiceProxy,
         ApiServiceProxies.AccountUsersServiceProxy,
+        ApiServiceProxies.BranchesServiceProxy,
         ApiServiceProxies.CountriesServiceProxy,
         ApiServiceProxies.ActivityStatusesServiceProxy,
         ApiServiceProxies.ActivityTaskTypesServiceProxy,
@@ -78,4 +79,4 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true },
     ],
 })
-export class ServiceProxyModule {}
+export class ServiceProxyModule { }
