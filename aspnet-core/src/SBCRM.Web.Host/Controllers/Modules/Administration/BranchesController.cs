@@ -122,7 +122,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <param name="currencyTypeId"></param>
         /// <see cref="GetBranchCurrencyTypeQueryHandler"/>
         /// <returns></returns>
-        [Route("{id}/CurrencyType/{currencyTypeId}")]
+        [Route("{id}/{currencyTypeId}")]
         [HttpGet]
         public async Task<BranchCurrencyTypeDto> GetBranchCurrencyType(
             [FromRoute] long id,
@@ -144,11 +144,11 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <param name="input"></param>
         /// <see cref="PatchBranchCurrencyTypeCommandHandler"/>
         /// <returns></returns>
-        [Route("{id}/CurrencyType/{currencyTypeId}")]
+        [Route("{id}/{currencyTypeId}")]
         [HttpPatch]
         public async Task<BranchCurrencyTypeDto> PatchBranchCurrencyType(
             [FromRoute] long id,
-            [FromRoute] long currencyTypeId, 
+            [FromRoute] long currencyTypeId,
             [FromBody] PatchBranchCurrencyTypeCommand input)
         {
             input.BranchId = id;
