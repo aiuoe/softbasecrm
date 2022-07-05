@@ -92,6 +92,8 @@ namespace SBCRM.Web.Startup
             services.AddSingleton<IBlobStorageService, AzureBlobStorageService>();
             services.AddSingleton<IApplicationStorageService, ApplicationStorageService>();
 
+            services.AddHttpClient();
+
             //Configure CORS for angular2 UI
             services.AddCors(options =>
             {
