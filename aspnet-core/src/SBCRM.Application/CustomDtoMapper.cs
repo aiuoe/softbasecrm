@@ -48,8 +48,10 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
 using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
 using SBCRM.Modules.Accounting.Dtos;
+using SBCRM.Dto;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 
 namespace SBCRM
@@ -258,6 +260,9 @@ namespace SBCRM
                 .ForMember(u => u.LastName, opt => opt.MapFrom(u => u.Surname))
                 .ForMember(u => u.Phone, opt => opt.MapFrom(u => u.PhoneNumber))
                 .ReverseMap();
+
+
+            configuration.CreateMap<SalesTaxIntegration, AvalaraConnectionDataDto>();
 
             #region [Administration mappings]
 
