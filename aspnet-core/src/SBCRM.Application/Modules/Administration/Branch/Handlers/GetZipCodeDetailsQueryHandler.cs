@@ -1,6 +1,4 @@
-﻿
-
-using MediatR;
+﻿using MediatR;
 using SBCRM.Base;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Queries;
@@ -26,14 +24,14 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         }
 
         /// <summary>
-        /// Handles query for getting zipcode details
+        /// Handles query for getting zip code details
         /// </summary>
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<GetZipCodeDetailsDto> Handle(GetZipCodeDetailsQuery query, CancellationToken cancellationToken)
         {
-            var zipCode = await _zipCodeRepository.FirstOrDefaultAsync(zc=>zc.ZipCode1==query.ZipCode);
+            var zipCode = await _zipCodeRepository.FirstOrDefaultAsync(zc => zc.ZipCode1 == query.ZipCode);
             return ObjectMapper.Map<GetZipCodeDetailsDto>(zipCode);
         }
     }

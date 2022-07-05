@@ -58,7 +58,8 @@ using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
 using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
-using SBCRM.Modules.Accounting.Dtos; 
+using SBCRM.Modules.Accounting.Dtos;
+using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM
 {
@@ -279,16 +280,19 @@ namespace SBCRM
             configuration.CreateMap<Warehouse, WarehouseLookupDto>()
                 .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.Warehouse1));
             configuration.CreateMap<CurrencyType, CurrencyTypeLookupDto>()
-                .ForMember(dto => dto.Id, opt => opt.MapFrom(ct => ct.Id))
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();
 
             configuration.CreateMap<StateTaxCode, StateTaxCodeInBranchDto>();
             configuration.CreateMap<LocalTaxCode, LocalTaxCodeInBranchDto>();
             configuration.CreateMap<CityTaxCode, CityTaxCodeInBranchDto>();
-            cocnfiguration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
+            configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
+            configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
             configuration.CreateMap<Branch, GetBranchDetailsDto>();
             configuration.CreateMap<ZipCode, GetZipCodeDetailsDto>();
+            configuration.CreateMap<GetZipCodeDto, ZipCode>()
+                .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))
+                .ReverseMap();
 
             #endregion
             #region [Accounting mappings]

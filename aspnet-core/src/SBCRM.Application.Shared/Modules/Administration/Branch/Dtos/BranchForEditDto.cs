@@ -1,14 +1,13 @@
-﻿using System;
+﻿using SBCRM.Modules.Common.Dto;
+using System;
 
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
     /// DTO for branch edit
     /// </summary>
-    public class BranchForEditDto
+    public class BranchForEditDto : AuditDto
     {
-        public long Id { get; set; }
-        public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
         public string Address { get; set; }

@@ -64,7 +64,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
-        public async Task<GetBranchDetailsDto> Get([FromRoute] long id)
+        public async Task<BranchForEditDto> Get([FromRoute] long id)
         {
             return await _mediator.Send(new GetBranchByIdQuery(id));
         }
@@ -167,11 +167,10 @@ namespace SBCRM.Web.Controllers.Modules.Administration
             return await _mediator.Send(new GetBranchInitialDataQuery());
         }
 
-
         /// <summary>
         /// Get initial values for dropdowns in Tax Setup tabs
         /// </summary>
-        ///  <see cref="GetTaxTabInitialDataQueryHandler"/>
+        /// <see cref="GetTaxTabInitialDataQueryHandler"/>
         /// <returns></returns>
         [HttpGet]
         public async Task<GetTaxTabInitialDataDto> GetTaxTabInitialData()
@@ -191,7 +190,6 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         {
             return await _mediator.Send(new GetChartOfAccountQuery(accountNo));
         }
-
 
         /// <summary>
         /// Get zip code details
