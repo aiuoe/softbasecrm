@@ -9,7 +9,7 @@
         public const string Pages_Branches = "Pages.Branches";
 
 
-
+        public const string Pages_ReadCommonShare = "Pages.ReadCommonShare";
         public const string Pages_OpportunityAttachments = "Pages.OpportunityAttachments";
         public const string Pages_OpportunityAttachments_Create = "Pages.OpportunityAttachments.Create";
         public const string Pages_OpportunityAttachments_Edit = "Pages.OpportunityAttachments.Edit";
