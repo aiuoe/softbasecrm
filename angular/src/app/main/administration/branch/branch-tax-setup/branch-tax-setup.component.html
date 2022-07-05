@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_StateSalesTaxLabel">{{ l('StateSalesTaxLabel') }}</label>
+                    <label for="Branch_TaxSetup_StateSalesTaxLabel">{{ l('StateSalesTaxLabel') }}</label>
                     <input
                         type="text"
-                        id="TaxSetup_StateSalesTaxLabel"
+                        id="Branch_TaxSetup_StateSalesTaxLabel"
                         class="form-control"
                         [placeholder]="l('StateSalesTaxLabel')"
-                        name="TaxSetup_StateSalesTaxLabel"
+                        name="Branch_TaxSetup_StateSalesTaxLabel"
                     />
                 </div>
             </div>
@@ -28,13 +28,13 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_CountrySalesTaxLabel">{{ l('CountrySalesTaxLabel') }}</label>
+                    <label for="Branch_TaxSetup_CountrySalesTaxLabel">{{ l('CountrySalesTaxLabel') }}</label>
                     <input
                         type="text"
-                        id="TaxSetup_CountrySalesTaxLabel"
+                        id="Branch_TaxSetup_CountrySalesTaxLabel"
                         class="form-control"
                         [placeholder]="l('CountrySalesTaxLabel')"
-                        name="TaxSetup_CountrySalesTaxLabel"
+                        name="Branch_TaxSetup_CountrySalesTaxLabel"
                     />
                 </div>
             </div>
@@ -55,13 +55,13 @@
         <div class="row">
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_CitySalesTaxLabel">{{ l('CitySalesTaxLabel') }}</label>
+                    <label for="Branch_TaxSetup_CitySalesTaxLabel">{{ l('CitySalesTaxLabel') }}</label>
                     <input
                         type="text"
-                        id="TaxSetup_CitySalesTaxLabel"
+                        id="Branch_TaxSetup_CitySalesTaxLabel"
                         class="form-control"
                         [placeholder]="l('CitySalesTaxLabel')"
-                        name="TaxSetup_CitySalesTaxLabel"
+                        name="Branch_TaxSetup_CitySalesTaxLabel"
                     />
                 </div>
             </div>
@@ -80,13 +80,13 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label for="TaxSetup_LocalSalesTaxLabel">{{ l('LocalSalesTaxLabel') }}</label>
+                    <label for="Branch_TaxSetup_LocalSalesTaxLabel">{{ l('LocalSalesTaxLabel') }}</label>
                     <input
                         type="text"
-                        id="TaxSetup_LocalSalesTaxLabel"
+                        id="Branch_TaxSetup_LocalSalesTaxLabel"
                         class="form-control"
                         [placeholder]="l('LocalSalesTaxLabel')"
-                        name="TaxSetup_LocalSalesTaxLabel"
+                        name="Branch_TaxSetup_LocalSalesTaxLabel"
                     />
                 </div>
             </div>
@@ -126,11 +126,11 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
+                    <label for="Branch_TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
                     <p-dropdown 
-                        id="Branch_StandardTaxCode"
+                        id="Branch_TaxSetup_StandardTaxCode"
                         [options]="taxCodes"
-                        optionLabel="taxCode"
+                        optionLabel="code"
                         [showClear]="true"
                         optionValue="id">
                     </p-dropdown>
@@ -154,10 +154,10 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
+                    <label for="Branch_TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
                     <p-dropdown 
                         *ngIf="isUseAbsoluteTaxCodesChecked"
-                        id="Branch_StateTaxCode"
+                        id="Branch_TaxSetup_StateTaxCode"
                         [options]="stateTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
@@ -167,10 +167,10 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
+                    <label for="Branch_TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
                     <p-dropdown
                         *ngIf="isUseAbsoluteTaxCodesChecked" 
-                        id="Branch_CountryTaxCode"
+                        id="Branch_TaxSetup_CountryTaxCode"
                         [options]="countyTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
@@ -182,10 +182,10 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
+                    <label for="Branch_TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
                     <p-dropdown
                         *ngIf="isUseAbsoluteTaxCodesChecked" 
-                        id="Branch_CityTaxCode"
+                        id="Branch_TaxSetup_CityTaxCode"
                         [options]="cityTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
@@ -195,22 +195,16 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
+                    <label for="Branch_TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
                     <p-dropdown
                         *ngIf="isUseAbsoluteTaxCodesChecked"
-                        id="Branch_LocalTaxCode"
+                        id="Branch_TaxSetup_LocalTaxCode"
                         [options]="localTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id">
                     </p-dropdown>
                 </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
-                <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
             </div>
         </div>
     </div>

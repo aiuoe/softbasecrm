@@ -7,19 +7,20 @@ import { BranchesServiceProxy, CityTaxCodeInBranchDto, CountyTaxCodeInBranchDto,
     templateUrl: './branch-tax-setup.component.html'
 })
 
-export class BranchTaxSetupComponent extends AppComponentBase{
+export class BranchTaxSetupComponent extends AppComponentBase {
 
-    @Input() taxCodes:TaxCodeInBranchDto[]=[];
-    stateTaxCodes:StateTaxCodeInBranchDto[]=[];
-    countyTaxCodes:CountyTaxCodeInBranchDto[]=[];
-    localTaxCodes:LocalTaxCodeInBranchDto[]=[];
-    cityTaxCodes:CityTaxCodeInBranchDto[]=[];
+    @Input() taxCodes: TaxCodeInBranchDto[] = [];
+    stateTaxCodes: StateTaxCodeInBranchDto[] = [];
+    countyTaxCodes: CountyTaxCodeInBranchDto[] = [];
+    localTaxCodes: LocalTaxCodeInBranchDto[] = [];
+    cityTaxCodes: CityTaxCodeInBranchDto[] = [];
 
-    isUseAbsoluteTaxCodesChecked:boolean=false;
+    isUseAbsoluteTaxCodesChecked: boolean = false;
+    hasDropDownData: boolean = false;
 
     constructor(
         injector: Injector,
-        private branchesService:BranchesServiceProxy
+        private branchesService: BranchesServiceProxy
     ) {
         super(injector);
 
@@ -28,17 +29,18 @@ export class BranchTaxSetupComponent extends AppComponentBase{
     /**
      * This method gets executed whenever user updates the UseAbsoluteTaxCodes checkbox.
      */
-    onChangeUseAbsoluteTaxCodesStatus(){
-        this.isUseAbsoluteTaxCodesChecked=!this.isUseAbsoluteTaxCodesChecked;
-
-        //if UseAbsoluteTaxCodes is checked, populate State,County,Local and City taxcodes.
-        if(this.isUseAbsoluteTaxCodesChecked){ 
+    onChangeUseAbsoluteTaxCodesStatus() {
+        this.isUseAbsoluteTaxCodesChecked = !this.isUseAbsoluteTaxCodesChecked;
+        //hasDropDownData flag lets the api called only once,no matter how many times UseAbsoluteTaxCodes is checked
+        if (!this.hasDropDownData) {
             this.branchesService.getTaxTabInitialData().subscribe(
-                (response:GetTaxTabInitialDataDto)=>{
-                      this.stateTaxCodes=response.stateTaxCodes;
-                      this.countyTaxCodes=response.countyTaxCodes;
-                      this.localTaxCodes=response.localTaxCodes;
-                      this.cityTaxCodes=response.cityTaxCodes;                  
+                (response: GetTaxTabInitialDataDto) => {
+                    this.stateTaxCodes = response.stateTaxCodes;
+                    this.countyTaxCodes = response.countyTaxCodes;
+                    this.localTaxCodes = response.localTaxCodes;
+                    this.cityTaxCodes = response.cityTaxCodes;
+
+                    this.hasDropDownData = true;
                 }
             );
         }
