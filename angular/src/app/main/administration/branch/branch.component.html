@@ -19,20 +19,20 @@
                                         <div class="card-body">
                                             <div class="row pb-3">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button (click)="add()" class="btn btn-primary blue"
+                                                    <button (click)="addBranch()" class="btn btn-primary blue"
                                                         [buttonBusy]="saving">
                                                         <i class="fa fa-plus pr-3"></i>
                                                         <span>{{ l('Add') }}</span>
                                                     </button>
-                                                    <button (click)="delete()" class="btn btn-primary blue"
-                                                        [buttonBusy]="saving">
-                                                        <i class="fa fa-times pr-3"></i>
-                                                        <span>{{ l('Delete') }}</span>
-                                                    </button>
-                                                    <button (click)="update()" class="btn btn-primary blue"
+                                                    <button (click)="updateBranch()" class="btn btn-primary blue"
                                                         [buttonBusy]="saving">
                                                         <i class="fa fa-check pr-3"></i>
                                                         <span>{{ l('Update') }}</span>
+                                                    </button>
+                                                    <button (click)="deleteBranch()" class="btn btn-primary blue"
+                                                        [buttonBusy]="saving">
+                                                        <i class="fa fa-times pr-3"></i>
+                                                        <span>{{ l('Delete') }}</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -41,11 +41,12 @@
                                                     <div class="row">
                                                         <div class="col-6">
                                                             <div class="form-group">
-                                                                <label for="Branch_Number">{{ l('Branch') }}</label>
-                                                                <p-dropdown id="Branch_Number" [options]="branches"
+                                                                <label for="Branch_Id">{{ l('Branch') }}</label>
+                                                                <p-dropdown id="Branch_Id" name="branchId"
+                                                                    [(ngModel)]="branchId" [options]="branches"
                                                                     optionValue="id" optionLabel="number"
-                                                                    [placeholder]="l('SelectBranch')"
-                                                                    [showClear]="true">
+                                                                    [placeholder]="l('SelectBranch')" [showClear]="true"
+                                                                    (onChange)="branchNumberOnChange()">
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>
@@ -254,43 +255,51 @@
                                                                 <label for="Branch_CurrencyType">{{ l('CurrencyType')
                                                                     }}</label>
                                                                 <p-dropdown id="Branch_CurrencyType"
-                                                                    [options]="currencyTypes" optionValue="code"
+                                                                    name="currencyTypeId" [(ngModel)]="currencyTypeId"
+                                                                    [options]="currencyTypes" optionValue="id"
                                                                     optionLabel="currencyType"
                                                                     [placeholder]="l('SelectCurrencyType')"
-                                                                    [showClear]="true">
+                                                                    [showClear]="true"
+                                                                    (onChange)="currencyTypeOnChange()">
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
                                                             <div class="form-group">
-                                                                <label for="Branch_ARAccountForCurrency">{{
+                                                                <label for="Branch_CurrencyType_ARAccountNo">{{
                                                                     l('ARAccountForCurrency') }}</label>
-                                                                <input type="text" id="Branch_ARAccountForCurrency"
+                                                                <input type="text" id="Branch_CurrencyType_ARAccountNo"
                                                                     class="form-control"
                                                                     [placeholder]="l('ARAccountForCurrency')"
-                                                                    name="ARAccountForCurrency" />
+                                                                    name="arAccountNo"
+                                                                    [(ngModel)]="branchCurrencyType.arAccountNo" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-3">
                                                             <div class="form-group">
-                                                                <label for="Branch_DebitAccount">{{ l('DebitAccount')
+                                                                <label for="Branch_CurrencyType_DebitAccount">{{
+                                                                    l('DebitAccount')
                                                                     }}</label>
-                                                                <input type="text" id="Branch_DebitAccount"
+                                                                <input type="text" id="Branch_CurrencyType_DebitAccount"
                                                                     class="form-control"
                                                                     [placeholder]="l('DebitAccount')"
-                                                                    name="DebitAccount" />
+                                                                    name="debitAccount"
+                                                                    [(ngModel)]="branchCurrencyType.debitAccount" />
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
                                                             <div class="form-group">
-                                                                <label for="Branch_CreditAccount">{{ l('CreditAccount')
+                                                                <label for="Branch_CurrencyType_CreditAccount">{{
+                                                                    l('CreditAccount')
                                                                     }}</label>
-                                                                <input type="text" id="Branch_CreditAccount"
+                                                                <input type="text"
+                                                                    id="Branch_CurrencyType_CreditAccount"
                                                                     class="form-control"
                                                                     [placeholder]="l('CreditAccount')"
-                                                                    name="CreditAccount" />
+                                                                    name="creditAccount"
+                                                                    [(ngModel)]="branchCurrencyType.creditAccount" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -303,30 +312,38 @@
                                                     <div class="row">
                                                         <div class="col-3">
                                                             <div class="form-group">
-                                                                <label for="Branch_ReevaluationDebitAccount">{{
+                                                                <label
+                                                                    for="Branch_CurrencyType_DebitAccountReevaluate">{{
                                                                     l('DebitAccount') }}</label>
-                                                                <input type="text" id="Branch_ReevaluationDebitAccount"
+                                                                <input type="text"
+                                                                    id="Branch_CurrencyType_DebitAccountReevaluate"
                                                                     class="form-control"
                                                                     [placeholder]="l('DebitAccount')"
-                                                                    name="ReevaluationDebitAccount" />
+                                                                    name="debitAccountReevaluate"
+                                                                    [(ngModel)]="branchCurrencyType.debitAccountReevaluate" />
                                                             </div>
                                                         </div>
                                                         <div class="col-3">
                                                             <div class="form-group">
-                                                                <label for="Branch_ReevaluationCreditAccount">{{
+                                                                <label
+                                                                    for="Branch_CurrencyType_CreditAccountReevaluate">{{
                                                                     l('CreditAccount') }}</label>
-                                                                <input type="text" id="Branch_ReevaluationCreditAccount"
+                                                                <input type="text"
+                                                                    id="Branch_CurrencyType_CreditAccountReevaluate"
                                                                     class="form-control"
                                                                     [placeholder]="l('CreditAccount')"
-                                                                    name="ReevaluationCreditAccount" />
+                                                                    name="creditAccountReevaluate"
+                                                                    [(ngModel)]="branchCurrencyType.creditAccountReevaluate" />
                                                             </div>
                                                         </div>
                                                         <div
                                                             class="col-6 d-flex align-items-center justify-content-end">
-                                                            <button (click)="delete" class="btn btn-primary">
+                                                            <button (click)="deleteBranchCurrencyType()"
+                                                                class="btn btn-primary">
                                                                 <span>{{ l('Delete') }}</span>
                                                             </button>
-                                                            <button (click)="update" class="btn btn-primary">
+                                                            <button (click)="updateBranchCurrencyType()"
+                                                                class="btn btn-primary">
                                                                 <span>{{ l('Update') }}</span>
                                                             </button>
                                                         </div>
