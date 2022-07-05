@@ -6,7 +6,7 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 import {
     BranchCurrencyTypeDto,
     BranchesServiceProxy, BranchForEditDto, IAccountReceivableInBranchDto, IBranchCurrencyTypeDto, IBranchLookupDto, ICurrencyTypeLookupDto,
-    ICustomerCountryLookupTableDto, IGetBranchInitialDataDto, IPatchBranchCurrencyTypeCommand, ITaxCodeInBranchDto, IWarehouseLookupDto, PatchBranchCurrencyTypeCommand
+    ICustomerCountryLookupTableDto, IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, IPatchBranchCurrencyTypeCommand, ITaxCodeInBranchDto, IWarehouseLookupDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
 
@@ -36,9 +36,12 @@ export class BranchComponent extends AppComponentBase implements OnInit {
     currencyTypes: ICurrencyTypeLookupDto[] = [];
     taxCodes: ITaxCodeInBranchDto[] = [];
 
+    isAccountNumberValid: boolean = true;
+
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
+        private _commonServiceProxy: ReadCommonShareServiceProxy,
     ) {
         super(injector);
     }
@@ -99,6 +102,15 @@ export class BranchComponent extends AppComponentBase implements OnInit {
             this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
                 .pipe(takeUntil(this.destroy$)).subscribe((x: IBranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
+                });
+        }
+    }
+
+    acountsReceivableGLAccountNumberOnKeyUp(): void {
+        if (this.branchForEdit.receivable) {
+            this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
+                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
+                    this.isAccountNumberValid = !!x.id;
                 });
         }
     }
