@@ -4,7 +4,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
-    BranchesServiceProxy, IAccountReceivableInBranchDto, IBranchLookupDto, ICurrencyTypeLookupDto,
+    BranchesServiceProxy, BranchForEditDto, IAccountReceivableInBranchDto, IBranchLookupDto, ICurrencyTypeLookupDto,
     ICustomerCountryLookupTableDto, IGetBranchInitialDataDto, ITaxCodeInBranchDto, IWarehouseLookupDto
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
@@ -30,6 +30,9 @@ export class BranchComponent extends AppComponentBase implements OnInit {
     currencyTypes: ICurrencyTypeLookupDto[] = [];
     taxCodes: ITaxCodeInBranchDto[] = [];
 
+    branchForEdit:BranchForEditDto=new BranchForEditDto();
+    branchId:number;
+
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
@@ -51,6 +54,12 @@ export class BranchComponent extends AppComponentBase implements OnInit {
         this.destroy$.next();
     }
 
+    branchNumberOnChange(): void {
+        this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+            this.branchForEdit = x;
+        });
+        
+    }
     add() {
 
     }
@@ -66,4 +75,5 @@ export class BranchComponent extends AppComponentBase implements OnInit {
     logoGraphicClear() {
 
     }
+
 }

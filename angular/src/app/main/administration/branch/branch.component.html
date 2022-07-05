@@ -42,10 +42,11 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label for="Branch_Number">{{ l('Branch') }}</label>
-                                                                <p-dropdown id="Branch_Number" [options]="branches"
+                                                                <p-dropdown id="Branch_Id" name="branchId"
+                                                                    [(ngModel)]="branchId" [options]="branches"
                                                                     optionValue="id" optionLabel="number"
-                                                                    [placeholder]="l('SelectBranch')"
-                                                                    [showClear]="true">
+                                                                    [placeholder]="l('SelectBranch')" [showClear]="true"
+                                                                    (onChange)="branchNumberOnChange()">
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>

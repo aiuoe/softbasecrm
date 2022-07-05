@@ -9,7 +9,7 @@ import { BranchesServiceProxy, CityTaxCodeInBranchDto, CountyTaxCodeInBranchDto,
 
 export class BranchTaxSetupComponent extends AppComponentBase{
 
-    @Input() standardTaxCodes:TaxCodeInBranchDto[]=[];
+    @Input() taxCodes:TaxCodeInBranchDto[]=[];
     stateTaxCodes:StateTaxCodeInBranchDto[]=[];
     countyTaxCodes:CountyTaxCodeInBranchDto[]=[];
     localTaxCodes:LocalTaxCodeInBranchDto[]=[];
