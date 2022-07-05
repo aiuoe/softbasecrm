@@ -30,6 +30,7 @@ using SBCRM.Authorization.Users.Importing.Dto;
 using SBCRM.Authorization.Users.Profile.Dto;
 using SBCRM.Chat;
 using SBCRM.Chat.Dto;
+using SBCRM.Dto;
 using SBCRM.DynamicEntityProperties.Dto;
 using SBCRM.Editions;
 using SBCRM.Editions.Dto;
@@ -37,7 +38,9 @@ using SBCRM.Friendships;
 using SBCRM.Friendships.Cache;
 using SBCRM.Friendships.Dto;
 using SBCRM.Localization.Dto;
+using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Modules.Administration.Branch.Dtos;
+using SBCRM.Modules.Administration.Dtos;
 using SBCRM.MultiTenancy;
 using SBCRM.MultiTenancy.Dto;
 using SBCRM.MultiTenancy.HostDashboard.Dto;
@@ -48,6 +51,7 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
 using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
 using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
 using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
@@ -58,8 +62,6 @@ using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
 using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
-using SBCRM.Modules.Accounting.Dtos;
-using SBCRM.Modules.Administration.Dtos;
 
 namespace SBCRM
 {
@@ -267,6 +269,9 @@ namespace SBCRM
                 .ForMember(u => u.LastName, opt => opt.MapFrom(u => u.Surname))
                 .ForMember(u => u.Phone, opt => opt.MapFrom(u => u.PhoneNumber))
                 .ReverseMap();
+
+
+            configuration.CreateMap<SalesTaxIntegration, AvalaraConnectionDataDto>();
 
             #region [Administration mappings]
 
