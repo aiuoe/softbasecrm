@@ -1,12 +1,11 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
-    BranchCurrencyTypeDto,
-    BranchesServiceProxy, BranchForEditDto, GetBranchInitialDataDto, IAccountReceivableInBranchDto, IBranchCurrencyTypeDto, IBranchLookupDto, ICurrencyTypeLookupDto,
-    ICustomerCountryLookupTableDto, IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, IPatchBranchCurrencyTypeCommand, ITaxCodeInBranchDto, IWarehouseLookupDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
+    BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, GetBranchInitialDataDto, IBranchCurrencyTypeDto,
+    IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
 
@@ -15,7 +14,7 @@ import { Subject } from 'rxjs';
     animations: [appModuleAnimation()]
 })
 
-export class BranchComponent extends AppComponentBase implements OnInit {
+export class BranchComponent extends AppComponentBase implements OnInit, OnDestroy {
 
     destroy$ = new Subject();
     saving: boolean = false;
