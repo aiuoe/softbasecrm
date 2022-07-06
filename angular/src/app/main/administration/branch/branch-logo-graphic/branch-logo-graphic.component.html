@@ -5,7 +5,8 @@
                 <div class="form-group">
                     <label for="Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
                     <input type="file" id="Finance_LogoGraphicFile" class="form-control"
-                        [placeholder]="l('LogoGraphicFile')" name="Finance_LogoGraphicFile" />
+                        [placeholder]="l('LogoGraphicFile')" name="Finance_LogoGraphicFile" 
+                        [(ngModel)]="branchForEdit.printFinalCc">
                 </div>
                 <div>
                     <!-- preview image here -->

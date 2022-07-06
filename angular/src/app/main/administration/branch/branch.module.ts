@@ -4,7 +4,7 @@ import {AppSharedModule} from '@app/shared/app-shared.module';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import {BranchRoutingModule} from './branch-routing.module';
-import { BranchComponent } from './branch.component';
+import { BranchComponent, dateFormatPipe } from './branch.component';
 import { BranchEmailComponent } from './branch-email/branch-email.component';
 import { BranchFinanceComponent } from './branch-finance/branch-finance.component';
 import { BranchLogoGraphicComponent } from './branch-logo-graphic/branch-logo-graphic.component';
@@ -18,7 +18,8 @@ import { BranchTvhComponent } from './branch-tvh/branch-tvh.component';
         BranchTaxSetupComponent,
         BranchLogoGraphicComponent,
         BranchFinanceComponent,
-        BranchEmailComponent
+        BranchEmailComponent,
+        dateFormatPipe
     ],
     imports: [
         AdminSharedModule,

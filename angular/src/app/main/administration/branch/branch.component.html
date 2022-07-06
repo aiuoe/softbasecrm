@@ -265,7 +265,9 @@
                                                                     class="form-control"
                                                                     [placeholder]="l('RentalDeliveryDefaultTime')"
                                                                     name="RentalDeliveryDefaultTime" 
-                                                                    [(ngModel)]="branchForEdit.rentalDeliveryDefaultTime"/>
+                                                                    [(ngModel)]="branchForEdit.rentalDeliveryDefaultTime"
+                                                                    [ngModel]="branchForEdit.rentalDeliveryDefaultTime|dateFormatPipe"
+                                                                    />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -376,28 +378,28 @@
                 <tab heading="{{ l('TVH') }}">
                     <div class="row">
                         <div class="col-12">
-                            <branchTvh></branchTvh>
+                            <branchTvh [branchForEdit]="branchForEdit"></branchTvh>
                         </div>
                     </div>
                 </tab>
                 <tab heading="{{ l('Finance') }}">
                     <div class="row">
                         <div class="col-12">
-                            <branchFinance></branchFinance>
+                            <branchFinance [branchForEdit]="branchForEdit"></branchFinance>
                         </div>
                     </div>
                 </tab>
                 <tab heading="{{ l('Email') }}">
                     <div class="row">
                         <div class="col-12">
-                            <branchEmail></branchEmail>
+                            <branchEmail [branchForEdit]="branchForEdit"></branchEmail>
                         </div>
                     </div>
                 </tab>
                 <tab heading="{{ l('LogoGraphic') }}">
                     <div class="row">
                         <div class="col-12">
-                            <branchLogoGraphic></branchLogoGraphic>
+                            <branchLogoGraphic [branchForEdit]="branchForEdit"></branchLogoGraphic>
                         </div>
                     </div>
                 </tab>

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -8,6 +8,7 @@ import {
     ICustomerCountryLookupTableDto, IGetBranchInitialDataDto, ITaxCodeInBranchDto, IWarehouseLookupDto
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
     templateUrl: './branch.component.html',
@@ -82,4 +83,16 @@ export class BranchComponent extends AppComponentBase implements OnInit {
 
     }
 
+}
+
+
+@Pipe({
+    name: 'dateFormatPipe',
+})
+export class dateFormatPipe implements PipeTransform {
+    transform(value: any) {
+       var datePipe = new DatePipe("en-US");
+        value = datePipe.transform(value, 'h:mm a');
+        return value;
+    }
 }

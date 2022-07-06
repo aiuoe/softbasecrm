@@ -5,13 +5,16 @@
                 <div class="form-group">
                     <label for="TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
                     <input type="text" id="TVH_AccountNo" class="form-control" [placeholder]="l('TVHAccountNo')"
-                        name="TVH_AccountNo" />
+                        name="TVH_AccountNo"
+                        [(ngModel)]="branchForEdit.tvhAccountNo"
+                        />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="TVH_Key">{{ l('TVHKey') }}</label>
-                    <input type="text" id="TVH_Key" class="form-control" [placeholder]="l('TVHKey')" name="TVH_Key" />
+                    <input type="text" id="TVH_Key" class="form-control" [placeholder]="l('TVHKey')" name="TVH_Key" 
+                    [(ngModel)]="branchForEdit.tvhKey"/>
                 </div>
             </div>
         </div>
@@ -19,16 +22,20 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="TVH_Country">{{ l('Country') }}</label>
-                    <p-dropdown id="TVH_Country" options="countries" optionLabel="displayName"
-                        [placeholder]="l('Country')" [showClear]="true" optionValue="code">
+                    <p-dropdown id="TVH_Country" [options]="countries" optionLabel="displayName"
+                        [placeholder]="l('Country')" [showClear]="true" optionValue="value"
+                        [(ngModel)]="branchForEdit.tvhCountry"
+                        [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="TVH_Warehouse">{{ l('Warehouse') }}</label>
-                    <p-dropdown id="TVH_Warehouse" options="warehouses" optionLabel="displayName"
-                        [placeholder]="l('Warehouse')" [showClear]="true" optionValue="code">
+                    <p-dropdown id="TVH_Warehouse" [options]="warehouses" optionLabel="displayName"
+                        [placeholder]="l('Warehouse')" [showClear]="true" optionValue="value"
+                        [(ngModel)]="branchForEdit.tvhWarehouse"
+                        [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
                 </div>
             </div>

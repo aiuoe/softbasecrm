@@ -5,7 +5,8 @@
                 <div class="form-group flex-grow-1 pr-2">
                     <label for="Finance_ChargeGLAccount">{{ l('FinanceChargeGLAccount') }}</label>
                     <input type="text" id="Finance_ChargeGLAccount" class="form-control"
-                        [placeholder]="l('FinanceChargeGLAccount')" name="Finance_ChargeGLAccount" />
+                        [placeholder]="l('FinanceChargeGLAccount')" name="Finance_ChargeGLAccount" 
+                        [(ngModel)]="branchForEdit.financeCharge"/>
 
                 </div>
                 <button class="btn btn-primary text-primary p-2 mt-1">
@@ -16,7 +17,8 @@
                 <div class="form-group">
                     <label for="Finance_Rate">{{ l('Rate') }}</label>
                     <input type="text" id="Finance_Rate" class="form-control" [placeholder]="l('Rate')"
-                        name="Finance_Rate" />
+                        name="Finance_Rate" 
+                        [(ngModel)]="branchForEdit.financeRate"/>
                 </div>
             </div>
         </div>
@@ -25,7 +27,8 @@
                 <div class="form-group">
                     <label for="Finance_DaysLate">{{ l('DaysLate') }}</label>
                     <input type="text" id="Finance_DaysLate" class="form-control" [placeholder]="l('DaysLate')"
-                        name="Finance_DaysLate" />
+                        name="Finance_DaysLate" 
+                        [(ngModel)]="branchForEdit.financeDays"/>
                 </div>
             </div>
         </div>
@@ -40,14 +43,16 @@
                 <div class="form-group">
                     <label for="Finance_StoreName">{{ l('StoreName') }}</label>
                     <input type="text" id="Finance_StoreName" class="form-control" [placeholder]="l('StoreName')"
-                        name="Finance_StoreName" />
+                        name="Finance_StoreName" 
+                        [(ngModel)]="branchForEdit.storeName"/>
                 </div>
             </div>
             <div class="col-6 d-flex align-items-center justify-content-between">
                 <div class="form-group flex-grow-1 pr-2">
                     <label for="Finance_CreditCardDebitAccountNo">{{ l('CreditCardDebitAccountNo') }}</label>
                     <input type="text" id="Finance_CreditCardDebitAccountNo" class="form-control"
-                        [placeholder]="l('CreditCardDebitAccountNo')" name="Finance_CreditCardDebitAccountNo" />
+                        [placeholder]="l('CreditCardDebitAccountNo')" name="Finance_CreditCardDebitAccountNo" 
+                        [(ngModel)]="branchForEdit.creditCardAccountNo"/>
 
                 </div>
                 <button class="btn btn-primary text-primary p-2 mt-1">

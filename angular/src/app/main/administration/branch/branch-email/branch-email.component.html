@@ -10,14 +10,16 @@
                 <div class="form-group">
                     <label for="Finance_PrintFinalCc">{{ l('PrintFinalCc') }}</label>
                     <input type="text" id="Finance_PrintFinalCc" class="form-control" [placeholder]="l('PrintFinalCc')"
-                        name="Finance_PrintFinalCc" />
+                        name="Finance_PrintFinalCc" 
+                        [(ngModel)]="branchForEdit.printFinalCc"/>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="Finance_PrintFinalBcc">{{ l('PrintFinalBcc') }}</label>
                     <input type="text" id="Finance_PrintFinalBcc" class="form-control"
-                        [placeholder]="l('PrintFinalBcc')" name="Finance_PrintFinalBcc" />
+                        [placeholder]="l('PrintFinalBcc')" name="Finance_PrintFinalBcc" 
+                        [(ngModel)]="branchForEdit.printFinalBcc">
                 </div>
             </div>
         </div>
