@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SBCRM.Crm.Dtos;
+using System.Collections.Generic;
 
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
@@ -12,5 +13,6 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public List<WarehouseLookupDto> Warehouses { get; set; }
         public List<CurrencyTypeLookupDto> CurrencyTypes { get; set; }
         public List<TaxCodeInBranchDto> TaxCodes { get; set; }
+        public List<CountryDto> Countries { get; set; }
     }
 }
