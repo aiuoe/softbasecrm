@@ -155,11 +155,13 @@
                         </div>
                         <div class="col-6 form-group">
                             <label for="Branch_RentalDeliveryDefaultTime">{{ l('RentalDeliveryDefaultTime') }}</label>
-                            <input type="text" id="Branch_RentalDeliveryDefaultTime"
-                                name="branchRentalDeliveryDefaultTime" class="form-control"
+                            <p-calendar [(ngModel)]="selectedDate" [timeOnly]="true" inputId="timeonly"
+                                hourFormat="12"
+                                id="Branch_RentalDeliveryDefaultTime"
+                                name="branchRentalDeliveryDefaultTime"
                                 [placeholder]="l('RentalDeliveryDefaultTime')"
-                                [(ngModel)]="branchForEdit.rentalDeliveryDefaultTime"
-                                [ngModel]="branchForEdit.rentalDeliveryDefaultTime | dateFormatPipe" />
+                                >
+                            </p-calendar>
                         </div>
                     </div>
                     <div class="row">

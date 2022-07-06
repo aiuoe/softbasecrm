@@ -33,6 +33,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     initialDropdownData: IGetBranchInitialDataDto = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
 
+    selectedDate: Date = new Date();
+
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
@@ -54,6 +56,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchNumberOnChange(): void {
         this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
+            this.selectedDate=this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
         });
     }
 
