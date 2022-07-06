@@ -68,21 +68,21 @@
                                 {{ l('City') }}
                             </label>
                             <input type="text" id="Branch_City" class="form-control" [placeholder]="l('City')"
-                                name="City" />
+                                name="City" [(ngModel)]="branchForEdit.city" />
                         </div>
                         <div class="col-3 form-group">
                             <label for="Branch_State">
                                 {{ l('State') }}
                             </label>
                             <input type="text" id="Branch_State" class="form-control" [placeholder]="l('State')"
-                                name="State" />
+                                name="State" [(ngModel)]="branchForEdit.state" />
                         </div>
                         <div class="col-3 form-group">
                             <label for="Branch_ZipCode">
                                 {{ l('ZipCode') }}
                             </label>
                             <input type="text" id="Branch_ZipCode" class="form-control" [placeholder]="l('ZipCode')"
-                                name="ZipCode" />
+                                name="ZipCode" [(ngModel)]="branchForEdit.zipCode" (keyup)="zipCodeOnKeyUp()" />
                         </div>
                     </div>
                     <div class="row">

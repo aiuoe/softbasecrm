@@ -1,11 +1,13 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { isEmpty as _isEmpty } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
     BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, GetBranchInitialDataDto, IBranchCurrencyTypeDto,
-    IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
+    IBranchForEditDto, IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto,
+    PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
 
@@ -17,6 +19,10 @@ import { Subject } from 'rxjs';
 export class BranchComponent extends AppComponentBase implements OnInit, OnDestroy {
 
     destroy$ = new Subject();
+    debouncer: { [key: string]: Subject<any> } = {
+        receivable: new Subject<string>(),
+        zipCode: new Subject<string>(),
+    };
     saving: boolean = false;
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Administration')),
@@ -27,7 +33,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchNumber: number;
     currencyTypeId: number;
     branchCurrencyType: IBranchCurrencyTypeDto = new BranchCurrencyTypeDto();
-    branchForEdit: BranchForEditDto = new BranchForEditDto();
+    branchForEdit: IBranchForEditDto = new BranchForEditDto();
     initialDropdownData: IGetBranchInitialDataDto = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
 
@@ -43,6 +49,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: IGetBranchInitialDataDto) => {
             this.initialDropdownData = x;
         });
+        this.setReceivableValidator();
+        this.getZipCodeDetails();
     }
 
     ngOnDestroy(): void {
@@ -97,10 +105,13 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     acountsReceivableGLAccountNumberOnKeyUp(): void {
         if (this.branchForEdit.receivable) {
-            this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
-                    this.isAccountNumberValid = !!x.id;
-                });
+            this.debouncer.receivable.next(this.branchForEdit.receivable);
+        }
+    }
+
+    zipCodeOnKeyUp(): void {
+        if (this.branchForEdit.zipCode) {
+            this.debouncer.zipCode.next(this.branchForEdit.zipCode);
         }
     }
 
@@ -118,5 +129,25 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     logoGraphicClear() {
 
+    }
+
+    private setReceivableValidator(): void {
+        this.debouncer.receivable.pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(() => {
+            this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
+                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
+                    this.isAccountNumberValid = !!x.id;
+                });
+        });
+    }
+
+    private getZipCodeDetails(): void {
+        this.debouncer.zipCode.pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(() => {
+            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode).pipe(takeUntil(this.destroy$)).subscribe((x: IGetZipCodeDetailsDto) => {
+                if (!_isEmpty(x)) {
+                    this.branchForEdit.city = x.city;
+                    this.branchForEdit.state = x.state;
+                }
+            });
+        });
     }
 }
