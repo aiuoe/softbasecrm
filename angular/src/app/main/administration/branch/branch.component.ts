@@ -19,14 +19,7 @@ import { Subject } from 'rxjs';
 export class BranchComponent extends AppComponentBase implements OnInit, OnDestroy {
 
     destroy$ = new Subject();
-    debouncer: { [key: string]: Subject<any> } = {
-        receivable: new Subject<string>(),
-        zipCode: new Subject<string>(),
-        addBranch: new Subject<number>(),
-        updateBranch: new Subject<number>(),
-        deleteBranch: new Subject<number>(),
-    };
-    saving: boolean = false;
+    loading: boolean = false;
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
@@ -52,9 +45,6 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: IGetBranchInitialDataDto) => {
             this.initialDropdownData = x;
         });
-        this.setReceivableValidator$();
-        this.getZipCodeDetails$();
-        this.deleteBranch$();
     }
 
     ngOnDestroy(): void {
@@ -107,15 +97,23 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         }
     }
 
-    acountsReceivableGLAccountNumberOnKeyUp(): void {
+    acountsReceivableGLAccountNumberOnChange(): void {
         if (this.branchForEdit.receivable) {
-            this.debouncer.receivable.next(this.branchForEdit.receivable);
+            this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
+                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
+                    this.isAccountNumberValid = !!x.id;
+                });
         }
     }
 
-    zipCodeOnKeyUp(): void {
+    zipCodeOnChange(): void {
         if (this.branchForEdit.zipCode) {
-            this.debouncer.zipCode.next(this.branchForEdit.zipCode);
+            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode).pipe(takeUntil(this.destroy$)).subscribe((x: IGetZipCodeDetailsDto) => {
+                if (!_isEmpty(x)) {
+                    this.branchForEdit.city = x.city;
+                    this.branchForEdit.state = x.state;
+                }
+            });
         }
     }
 
@@ -129,36 +127,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     deleteBranch(): void {
         if (this.branchId) {
-            this.debouncer.deleteBranch.next(this.branchId);
-        }
-    }
-
-    logoGraphicClear() {
-
-    }
-
-    private setReceivableValidator$(): void {
-        this.debouncer.receivable.pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(() => {
-            this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
-                    this.isAccountNumberValid = !!x.id;
-                });
-        });
-    }
-
-    private getZipCodeDetails$(): void {
-        this.debouncer.zipCode.pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(() => {
-            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode).pipe(takeUntil(this.destroy$)).subscribe((x: IGetZipCodeDetailsDto) => {
-                if (!_isEmpty(x)) {
-                    this.branchForEdit.city = x.city;
-                    this.branchForEdit.state = x.state;
-                }
-            });
-        });
-    }
-
-    private deleteBranch$(): void {
-        this.debouncer.deleteBranch.pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(() => {
+            this.loading = true;
             this._branchesService.delete(this.branchId).subscribe(() => {
                 this.initialDropdownData.branches = this.initialDropdownData.branches.filter(x => x.id !== this.branchId);
                 this.branchCurrencyType = new BranchCurrencyTypeDto();
@@ -166,7 +135,15 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
                 this.branchId = null;
                 this.branchNumber = null;
                 this.currencyTypeId = null;
+            }, () => {
+
+            }, () => {
+                this.loading = false;
             });
-        });
+        }
+    }
+
+    logoGraphicClear() {
+
     }
 }
