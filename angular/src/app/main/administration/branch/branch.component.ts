@@ -34,6 +34,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     isAccountNumberValid: boolean = true;
 
     selectedDate: Date = new Date();
+    creationTime: Date = new Date();
+    lastModificationTime: Date = new Date();
 
     constructor(
         injector: Injector,
@@ -56,8 +58,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchNumberOnChange(): void {
         this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
-            this.branchForEdit.localTaxCodeId=-11;
-            this.selectedDate=this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            this.branchForEdit.localTaxCodeId = -11;
+            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            this.creationTime = this.branchForEdit.creationTime.toJSDate();
+            this.lastModificationTime = this.branchForEdit.lastModificationTime.toJSDate();
         });
     }
 

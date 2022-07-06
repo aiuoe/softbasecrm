@@ -148,19 +148,16 @@
                         <div class="col-6 form-group">
                             <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>
                             <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
-                                [(ngModel)]="branchForEdit.defaultWarehouseId" [options]="initialDropdownData.warehouses"
-                                optionValue="id" optionLabel="warehouse" [placeholder]="l('SelectDefaultWarehouse')"
-                                [showClear]="true">
+                                [(ngModel)]="branchForEdit.defaultWarehouseId"
+                                [options]="initialDropdownData.warehouses" optionValue="id" optionLabel="warehouse"
+                                [placeholder]="l('SelectDefaultWarehouse')" [showClear]="true">
                             </p-dropdown>
                         </div>
                         <div class="col-6 form-group">
                             <label for="Branch_RentalDeliveryDefaultTime">{{ l('RentalDeliveryDefaultTime') }}</label>
-                            <p-calendar [(ngModel)]="selectedDate" [timeOnly]="true" inputId="timeonly"
-                                hourFormat="12"
-                                id="Branch_RentalDeliveryDefaultTime"
-                                name="branchRentalDeliveryDefaultTime"
-                                [placeholder]="l('RentalDeliveryDefaultTime')"
-                                >
+                            <p-calendar [(ngModel)]="selectedDate" [timeOnly]="true" inputId="timeonly" hourFormat="12"
+                                id="Branch_RentalDeliveryDefaultTime" name="branchRentalDeliveryDefaultTime"
+                                [placeholder]="l('RentalDeliveryDefaultTime')">
                             </p-calendar>
                         </div>
                     </div>
@@ -245,8 +242,11 @@
             </tabset>
         </div>
         <div class="mt-5" [class]="containerClass">
-            <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
-            <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+            <p>{{ l('AddedBy') }} : {{branchForEdit.creatorUserName ? branchForEdit.creatorUserName : 'Not Available'}} on {{
+                creationTime | date:'medium'}} </p>
+            <p>{{ l('ChangedBy') }} : {{branchForEdit.lastModifierUserName ? branchForEdit.lastModifierUserName : 'Not Available'}} on {{ lastModificationTime |
+                date:'medium'}}
+            </p>
         </div>
     </form>
 </div>
