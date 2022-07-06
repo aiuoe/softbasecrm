@@ -5,7 +5,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
     BranchCurrencyTypeDto,
-    BranchesServiceProxy, BranchForEditDto, IAccountReceivableInBranchDto, IBranchCurrencyTypeDto, IBranchLookupDto, ICurrencyTypeLookupDto,
+    BranchesServiceProxy, BranchForEditDto, GetBranchInitialDataDto, IAccountReceivableInBranchDto, IBranchCurrencyTypeDto, IBranchLookupDto, ICurrencyTypeLookupDto,
     ICustomerCountryLookupTableDto, IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, IPatchBranchCurrencyTypeCommand, ITaxCodeInBranchDto, IWarehouseLookupDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
@@ -29,13 +29,7 @@ export class BranchComponent extends AppComponentBase implements OnInit {
     currencyTypeId: number;
     branchCurrencyType: IBranchCurrencyTypeDto = new BranchCurrencyTypeDto();
     branchForEdit: BranchForEditDto = new BranchForEditDto();
-    branches: IBranchLookupDto[] = [];
-    countries: ICustomerCountryLookupTableDto[] = [];
-    accountsReceivables: IAccountReceivableInBranchDto[] = [];
-    warehouses: IWarehouseLookupDto[] = [];
-    currencyTypes: ICurrencyTypeLookupDto[] = [];
-    taxCodes: ITaxCodeInBranchDto[] = [];
-
+    initialDropdownData: IGetBranchInitialDataDto = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
 
     constructor(
@@ -48,11 +42,7 @@ export class BranchComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: IGetBranchInitialDataDto) => {
-            this.branches = x.branches;
-            this.accountsReceivables = x.accountsReceivables;
-            this.warehouses = x.warehouses;
-            this.currencyTypes = x.currencyTypes;
-            this.taxCodes = x.taxCodes;
+            this.initialDropdownData = x;
         });
     }
 
