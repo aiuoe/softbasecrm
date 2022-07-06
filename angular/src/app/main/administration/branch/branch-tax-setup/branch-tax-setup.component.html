@@ -35,7 +35,7 @@
                         type="text"
                         id="Branch_TaxSetup_CountrySalesTaxLabel"
                         class="form-control"
-                        [placeholder]="l('CountrySalesTaxLabel')"
+                        [placeholder]=""
                         name="Branch_TaxSetup_CountrySalesTaxLabel"
                         [(ngModel)]="branchForEdit.countyTaxLabel"
                     />
@@ -142,6 +142,7 @@
                         optionLabel="code"
                         [showClear]="true"
                         optionValue="id"
+                        [placeholder]="l('SelectStandardTaxCode')"
                         [(ngModel)]="branchForEdit.taxCodeId"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
@@ -174,6 +175,7 @@
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
+                        [placeholder]="l('SelectStateTaxCode')"
                         [(ngModel)]="branchForEdit.stateTaxCodeId"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
@@ -189,6 +191,7 @@
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
+                        [placeholder]="l('SelectCountryTaxCode')"
                         [(ngModel)]="branchForEdit.countyTaxCodeId"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
@@ -206,6 +209,7 @@
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
+                        [placeholder]="l('SelectCityTaxCode')"
                         [(ngModel)]="branchForEdit.cityTaxCodeId"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
@@ -221,6 +225,7 @@
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
+                        [placeholder]="l('SelectLocalTaxCode')"
                         [(ngModel)]="branchForEdit.localTaxCodeId"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
