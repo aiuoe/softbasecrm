@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -56,6 +56,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchNumberOnChange(): void {
         this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
+            this.branchForEdit.localTaxCodeId=-11;
             this.selectedDate=this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
         });
     }
@@ -132,14 +133,3 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 }
 
-
-@Pipe({
-    name: 'dateFormatPipe',
-})
-export class dateFormatPipe implements PipeTransform {
-    transform(value: any) {
-        var datePipe = new DatePipe("en-US");
-        value = datePipe.transform(value, 'h:mm a');
-        return value;
-    }
-}

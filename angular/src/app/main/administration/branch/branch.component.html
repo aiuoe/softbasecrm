@@ -148,7 +148,7 @@
                         <div class="col-6 form-group">
                             <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>
                             <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
-                                [(ngModel)]="branchForEdit.defaultWarehouse" [options]="initialDropdownData.warehouses"
+                                [(ngModel)]="branchForEdit.defaultWarehouseId" [options]="initialDropdownData.warehouses"
                                 optionValue="id" optionLabel="warehouse" [placeholder]="l('SelectDefaultWarehouse')"
                                 [showClear]="true">
                             </p-dropdown>
