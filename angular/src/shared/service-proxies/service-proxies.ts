@@ -40919,6 +40919,7 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
     warehouses!: WarehouseLookupDto[] | undefined;
     currencyTypes!: CurrencyTypeLookupDto[] | undefined;
     taxCodes!: TaxCodeInBranchDto[] | undefined;
+    countries!: CountryDto[] | undefined;
 
     constructor(data?: IGetBranchInitialDataDto) {
         if (data) {
@@ -40955,6 +40956,11 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
                 this.taxCodes = [] as any;
                 for (let item of _data["taxCodes"])
                     this.taxCodes!.push(TaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["countries"])) {
+                this.countries = [] as any;
+                for (let item of _data["countries"])
+                    this.countries!.push(CountryDto.fromJS(item));
             }
         }
     }
@@ -40993,6 +40999,11 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
             for (let item of this.taxCodes)
                 data["taxCodes"].push(item.toJSON());
         }
+        if (Array.isArray(this.countries)) {
+            data["countries"] = [];
+            for (let item of this.countries)
+                data["countries"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -41003,6 +41014,7 @@ export interface IGetBranchInitialDataDto {
     warehouses: WarehouseLookupDto[] | undefined;
     currencyTypes: CurrencyTypeLookupDto[] | undefined;
     taxCodes: TaxCodeInBranchDto[] | undefined;
+    countries: CountryDto[] | undefined;
 }
 
 export class GetBranchInitialDataQuery implements IGetBranchInitialDataQuery {

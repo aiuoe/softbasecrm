@@ -3,7 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
+using SBCRM.Crm;
+using SBCRM.Crm.Dtos;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Queries;
 
@@ -19,6 +22,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         private readonly IWarehouseRepository _warehouseRepository;
         private readonly ITaxRepository _taxRepository;
         private readonly ICurrencyTypeRepository _currencyTypeRepository;
+        private readonly IRepository<Country> _countryRepository;
 
         /// <summary>
         /// Base constructor
@@ -33,13 +37,15 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             IChartOfAccountRepository chartOfAccountRepository,
             IWarehouseRepository warehouseRepository,
             ITaxRepository taxRepository,
-            ICurrencyTypeRepository currencyTypeRepository)
+            ICurrencyTypeRepository currencyTypeRepository,
+            IRepository<Country> countryRepository)
         {
             _branchRepository = branchRepository;
             _chartOfAccountRepository = chartOfAccountRepository;
             _warehouseRepository = warehouseRepository;
             _taxRepository = taxRepository;
             _currencyTypeRepository = currencyTypeRepository;
+            _countryRepository = countryRepository;
         }
 
         /// <summary>
@@ -60,6 +66,8 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             currencyTypes = currencyTypes.OrderBy(c=>c.CurrencyTypeName).ToList();
             var taxCodes = await _taxRepository.GetAllListAsync();
             taxCodes = taxCodes.OrderBy(t => t.Code).ToList();
+            var countries = await _countryRepository.GetAll().ToListAsync();
+            countries = countries.OrderBy(t => t.Code).ToList();
 
             return new GetBranchInitialDataDto()
             {
@@ -68,6 +76,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 Warehouses = ObjectMapper.Map<List<WarehouseLookupDto>>(warehouses),
                 CurrencyTypes = ObjectMapper.Map<List<CurrencyTypeLookupDto>>(currencyTypes),
                 TaxCodes = ObjectMapper.Map<List<TaxCodeInBranchDto>>(taxCodes),
+                Countries = ObjectMapper.Map<List<CountryDto>>(countries),
             };
         }
     }
