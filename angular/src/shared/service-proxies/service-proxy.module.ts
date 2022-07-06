@@ -16,6 +16,7 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.ActivityPrioritiesServiceProxy,
         ApiServiceProxies.AccountUsersServiceProxy,
         ApiServiceProxies.BranchesServiceProxy,
+        ApiServiceProxies.ReadCommonShareServiceProxy,
         ApiServiceProxies.CountriesServiceProxy,
         ApiServiceProxies.ActivityStatusesServiceProxy,
         ApiServiceProxies.ActivityTaskTypesServiceProxy,

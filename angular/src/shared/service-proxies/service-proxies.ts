@@ -5602,6 +5602,125 @@ export class BranchesServiceProxy {
     /**
      * @return Success
      */
+    getBranchCurrencyType(id: number, currencyTypeId: number): Observable<BranchCurrencyTypeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetBranchCurrencyType/{id}/{currencyTypeId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (currencyTypeId === undefined || currencyTypeId === null)
+            throw new Error("The parameter 'currencyTypeId' must be defined.");
+        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBranchCurrencyType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBranchCurrencyType(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBranchCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchCurrencyTypeDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    patchBranchCurrencyType(id: number, currencyTypeId: number, body: PatchBranchCurrencyTypeCommand | undefined): Observable<BranchCurrencyTypeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/PatchBranchCurrencyType/{id}/{currencyTypeId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (currencyTypeId === undefined || currencyTypeId === null)
+            throw new Error("The parameter 'currencyTypeId' must be defined.");
+        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPatchBranchCurrencyType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPatchBranchCurrencyType(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPatchBranchCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchCurrencyTypeDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
     getInitialData(): Observable<GetBranchInitialDataDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetInitialData";
         url_ = url_.replace(/[?&]$/, "");
@@ -5807,149 +5926,6 @@ export class BranchesServiceProxy {
             }));
         }
         return _observableOf<GetZipCodeDetailsDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class GetBranchCurrencyTypeServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @return Success
-     */
-    currencyType(id: number, currencyTypeId: number): Observable<BranchCurrencyTypeDto> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetBranchCurrencyType/{id}/CurrencyType/{currencyTypeId}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        if (currencyTypeId === undefined || currencyTypeId === null)
-            throw new Error("The parameter 'currencyTypeId' must be defined.");
-        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCurrencyType(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCurrencyType(<any>response_);
-                } catch (e) {
-                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BranchCurrencyTypeDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class PatchBranchCurrencyTypeServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    currencyType(id: number, currencyTypeId: number, body: PatchBranchCurrencyTypeCommand | undefined): Observable<BranchCurrencyTypeDto> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Branches/PatchBranchCurrencyType/{id}/CurrencyType/{currencyTypeId}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        if (currencyTypeId === undefined || currencyTypeId === null)
-            throw new Error("The parameter 'currencyTypeId' must be defined.");
-        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCurrencyType(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCurrencyType(<any>response_);
-                } catch (e) {
-                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BranchCurrencyTypeDto>(<any>null);
     }
 }
 
@@ -25684,6 +25660,72 @@ export class ProfileServiceProxy {
 }
 
 @Injectable()
+export class ReadCommonShareServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getChartOfAccountByAcNo(accountNo: string): Observable<GetChartOfAccountDetailsDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetChartOfAccountByAcNo/{accountNo}";
+        if (accountNo === undefined || accountNo === null)
+            throw new Error("The parameter 'accountNo' must be defined.");
+        url_ = url_.replace("{accountNo}", encodeURIComponent("" + accountNo));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetChartOfAccountByAcNo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChartOfAccountByAcNo(<any>response_);
+                } catch (e) {
+                    return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChartOfAccountByAcNo(response: HttpResponseBase): Observable<GetChartOfAccountDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetChartOfAccountDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetChartOfAccountDetailsDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -40877,6 +40919,7 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
     warehouses!: WarehouseLookupDto[] | undefined;
     currencyTypes!: CurrencyTypeLookupDto[] | undefined;
     taxCodes!: TaxCodeInBranchDto[] | undefined;
+    countries!: CountryDto[] | undefined;
 
     constructor(data?: IGetBranchInitialDataDto) {
         if (data) {
@@ -40913,6 +40956,11 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
                 this.taxCodes = [] as any;
                 for (let item of _data["taxCodes"])
                     this.taxCodes!.push(TaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["countries"])) {
+                this.countries = [] as any;
+                for (let item of _data["countries"])
+                    this.countries!.push(CountryDto.fromJS(item));
             }
         }
     }
@@ -40951,6 +40999,11 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
             for (let item of this.taxCodes)
                 data["taxCodes"].push(item.toJSON());
         }
+        if (Array.isArray(this.countries)) {
+            data["countries"] = [];
+            for (let item of this.countries)
+                data["countries"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -40961,6 +41014,7 @@ export interface IGetBranchInitialDataDto {
     warehouses: WarehouseLookupDto[] | undefined;
     currencyTypes: CurrencyTypeLookupDto[] | undefined;
     taxCodes: TaxCodeInBranchDto[] | undefined;
+    countries: CountryDto[] | undefined;
 }
 
 export class GetBranchInitialDataQuery implements IGetBranchInitialDataQuery {
