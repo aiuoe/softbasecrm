@@ -41,6 +41,7 @@ using SBCRM.Localization.Dto;
 using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Dtos;
+using SBCRM.Modules.Common.AdditionalCharges.Dto;
 using SBCRM.MultiTenancy;
 using SBCRM.MultiTenancy.Dto;
 using SBCRM.MultiTenancy.HostDashboard.Dto;
@@ -50,17 +51,18 @@ using SBCRM.Notifications.Dto;
 using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
+using AdditionalCharge = SBCRM.Core.BaseEntities.AdditionalCharge;
 using Branch = SBCRM.Core.BaseEntities.Branch;
-using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
-using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
-using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
-using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
-using Tax = SBCRM.Core.BaseEntities.Tax;
-using StateTaxCode = SBCRM.Core.BaseEntities.StateTaxCode;
-using LocalTaxCode = SBCRM.Core.BaseEntities.LocalTaxCode;
-using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
-using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
+using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
+using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
+using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
+using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
+using LocalTaxCode = SBCRM.Core.BaseEntities.LocalTaxCode;
+using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
+using StateTaxCode = SBCRM.Core.BaseEntities.StateTaxCode;
+using Tax = SBCRM.Core.BaseEntities.Tax;
+using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 
 namespace SBCRM
@@ -302,6 +304,13 @@ namespace SBCRM
             #region [Accounting mappings]
 
             configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>();
+
+            #endregion
+
+            #region[AdditionalCharges mappings]
+
+            configuration.CreateMap<AdditionalChargeDto, AdditionalCharge>().ReverseMap();
+            configuration.CreateMap<AdditionalCharge, GetAdditionalChargeDto>();
 
             #endregion
         }
