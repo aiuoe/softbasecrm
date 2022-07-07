@@ -1,12 +1,13 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { isEmpty as _isEmpty } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
     BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, GetBranchInitialDataDto, IBranchCurrencyTypeDto,
-    IBranchForEditDto,
-    IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
+    IBranchForEditDto, IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto,
+    PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -19,7 +20,7 @@ import { DatePipe } from '@angular/common';
 export class BranchComponent extends AppComponentBase implements OnInit, OnDestroy {
 
     destroy$ = new Subject();
-    saving: boolean = false;
+    loading: boolean = false;
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
@@ -105,7 +106,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         }
     }
 
-    acountsReceivableGLAccountNumberOnKeyUp(): void {
+    acountsReceivableGLAccountNumberOnChange(): void {
         if (this.branchForEdit.receivable) {
             this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
                 .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
@@ -114,6 +115,17 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         }
     }
 
+    zipCodeOnChange(): void {
+        if (this.branchForEdit.zipCode) {
+            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode).pipe(takeUntil(this.destroy$)).subscribe((x: IGetZipCodeDetailsDto) => {
+                if (!_isEmpty(x)) {
+                    this.branchForEdit.city = x.city;
+                    this.branchForEdit.state = x.state;
+                }
+            });
+        }
+    }
+    
     branchAccountsReceivablesOnChange(e: any): void {
         if (e.value) {
             this.branchForEdit.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
@@ -129,7 +141,21 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     deleteBranch(): void {
+        if (this.branchId) {
+            this.loading = true;
+            this._branchesService.delete(this.branchId).subscribe(() => {
+                this.initialDropdownData.branches = this.initialDropdownData.branches.filter(x => x.id !== this.branchId);
+                this.branchCurrencyType = new BranchCurrencyTypeDto();
+                this.branchForEdit = new BranchForEditDto();
+                this.branchId = null;
+                this.branchNumber = null;
+                this.currencyTypeId = null;
+            }, () => {
 
+            }, () => {
+                this.loading = false;
+            });
+        }
     }
 
     logoGraphicClear() {

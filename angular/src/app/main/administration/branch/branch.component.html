@@ -11,15 +11,15 @@
             <div class="card card-custom gutter-b">
                 <div class="card-body">
                     <div class="pb-3 d-flex justify-content-end">
-                        <button (click)="addBranch()" class="btn btn-primary blue" [buttonBusy]="saving">
+                        <button (click)="addBranch()" class="btn btn-primary blue" [buttonBusy]="loading">
                             <i class="fa fa-plus pr-3"></i>
                             <span>{{ l('Add') }}</span>
                         </button>
-                        <button (click)="updateBranch()" class="btn btn-primary blue" [buttonBusy]="saving">
+                        <button (click)="updateBranch()" class="btn btn-primary blue" [buttonBusy]="loading">
                             <i class="fa fa-check pr-3"></i>
                             <span>{{ l('Update') }}</span>
                         </button>
-                        <button (click)="deleteBranch()" class="btn btn-primary blue" [buttonBusy]="saving">
+                        <button (click)="deleteBranch()" class="btn btn-primary blue" [buttonBusy]="loading">
                             <i class="fa fa-times pr-3"></i>
                             <span>{{ l('Delete') }}</span>
                         </button>
@@ -70,7 +70,7 @@
                         <div class="col-3 form-group">
                             <label for="Branch_ZipCode">{{ l('ZipCode') }}</label>
                             <input type="text" id="Branch_ZipCode" name="branchZipCode" class="form-control"
-                                [placeholder]="l('ZipCode')" [(ngModel)]="branchForEdit.zipCode" />
+                                [placeholder]="l('ZipCode')" [(ngModel)]="branchForEdit.zipCode" (change)="zipCodeOnChange()" />
                         </div>
                     </div>
                     <div class="row">
@@ -103,7 +103,7 @@
                                     [ngClass]="{'is-invalid': !isAccountNumberValid}"
                                     [placeholder]="l('AcountsReceivableGLAccountNumber')"
                                     [(ngModel)]="branchForEdit.receivable"
-                                    (keyup)="acountsReceivableGLAccountNumberOnKeyUp()" />
+                                    (change)="acountsReceivableGLAccountNumberOnChange()" />
                             </div>
                             <button class="btn btn-primary text-primary p-2 mt-1">
                                 <i class="fa fa-search p-0"></i>
