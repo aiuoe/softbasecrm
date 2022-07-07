@@ -32,6 +32,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="warehouseRepository"></param>
         /// <param name="taxRepository"></param>
         /// <param name="currencyTypeRepository"></param>
+        /// <param name="countryRepository"></param>
         public GetBranchInitialDataQueryHandler(
             IBranchRepository branchRepository,
             IChartOfAccountRepository chartOfAccountRepository,
@@ -57,13 +58,13 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<GetBranchInitialDataDto> Handle(GetBranchInitialDataQuery query, CancellationToken cancellationToken)
         {
             var branches = await _branchRepository.GetAllListAsync();
-            branches = branches.OrderBy(branch=>branch.Number).ToList();
-            var arAccounts = await _chartOfAccountRepository.GetAllListAsync(account=> (bool)account.AccountsRecievable);
-            arAccounts = arAccounts.OrderBy(arAccounts=>arAccounts.AccountNo).ToList();
+            branches = branches.OrderBy(branch => branch.Number).ToList();
+            var arAccounts = await _chartOfAccountRepository.GetAllListAsync(account => (bool)account.AccountsRecievable);
+            arAccounts = arAccounts.OrderBy(arAccounts => arAccounts.AccountNo).ToList();
             var warehouses = await _warehouseRepository.GetAllListAsync();
-            warehouses = warehouses.OrderByDescending(w=>w.ServiceVan).ThenByDescending(w=>w.Consignment).ThenBy(w=>w.Warehouse1).ToList();
+            warehouses = warehouses.OrderByDescending(w => w.ServiceVan).ThenByDescending(w => w.Consignment).ThenBy(w => w.WarehouseName).ToList();
             var currencyTypes = await _currencyTypeRepository.GetAllListAsync();
-            currencyTypes = currencyTypes.OrderBy(c=>c.CurrencyTypeName).ToList();
+            currencyTypes = currencyTypes.OrderBy(c => c.CurrencyTypeName).ToList();
             var taxCodes = await _taxRepository.GetAllListAsync();
             taxCodes = taxCodes.OrderBy(t => t.Code).ToList();
             var countries = await _countryRepository.GetAll().ToListAsync();
@@ -74,9 +75,30 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 Branches = ObjectMapper.Map<List<BranchLookupDto>>(branches),
                 AccountsReceivables = ObjectMapper.Map<List<AccountReceivableInBranchDto>>(arAccounts),
                 Warehouses = ObjectMapper.Map<List<WarehouseLookupDto>>(warehouses),
+                TvhWarehouses = GetTvhWarehouses(),
                 CurrencyTypes = ObjectMapper.Map<List<CurrencyTypeLookupDto>>(currencyTypes),
                 TaxCodes = ObjectMapper.Map<List<TaxCodeInBranchDto>>(taxCodes),
                 Countries = ObjectMapper.Map<List<CountryDto>>(countries),
+            };
+        }
+
+        private List<TvhWarehouseLookupDto> GetTvhWarehouses()
+        {
+            return new List<TvhWarehouseLookupDto>()
+            {
+                new TvhWarehouseLookupDto() { Key = "0", Name = "All, US" },
+                new TvhWarehouseLookupDto() { Key = "1", Name = "Kansas, US" },
+                new TvhWarehouseLookupDto() { Key = "2", Name = "California, US" },
+                new TvhWarehouseLookupDto() { Key = "3", Name = "Oregon, US" },
+                new TvhWarehouseLookupDto() { Key = "5", Name = "South Carolina, US" },
+                new TvhWarehouseLookupDto() { Key = "6", Name = "Pennsylvania, US" },
+                new TvhWarehouseLookupDto() { Key = "7", Name = "Illinois, US" },
+                new TvhWarehouseLookupDto() { Key = "8", Name = "Lousiana, US" },
+                new TvhWarehouseLookupDto() { Key = "9", Name = "Florida, US" },
+                new TvhWarehouseLookupDto() { Key = "21", Name = "Ontario, Canada" },
+                new TvhWarehouseLookupDto() { Key = "22", Name = "British Columbia, Canada" },
+                new TvhWarehouseLookupDto() { Key = "51", Name = "Mexico City, Mexico" },
+                new TvhWarehouseLookupDto() { Key = "52", Name = "Monterrey, Mexico" },
             };
         }
     }

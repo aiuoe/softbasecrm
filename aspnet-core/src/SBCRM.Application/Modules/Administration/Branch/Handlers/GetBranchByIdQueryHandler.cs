@@ -30,7 +30,8 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="localTaxCodeRepository"></param>
         /// <param name="cityTaxCodeRepository"></param>
         /// <param name="countyTaxCodeRepository"></param>
-        public GetBranchByIdQueryHandler(IBranchRepository branchRepository,
+        public GetBranchByIdQueryHandler(
+            IBranchRepository branchRepository,
             IWarehouseRepository warehouseRepository,
             ITaxRepository taxRepository,
             IStateTaxCodeRepository stateTaxCodeRepository,
@@ -56,17 +57,17 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<BranchForEditDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.GetAsync(query.Id);
-            var warehouse = await _warehouseRepository.FirstOrDefaultAsync(warehouse => warehouse.Warehouse1 == branch.DefaultWarehouse);
-            var tax = await _taxRepository.FirstOrDefaultAsync(tax => tax.Code == branch.TaxCode);
+            var warehouse = await _warehouseRepository.FirstOrDefaultAsync(warehouse => warehouse.WarehouseName == branch.DefaultWarehouse);
+            var taxCode = await _taxRepository.FirstOrDefaultAsync(tax => tax.Code == branch.TaxCode);
             var stateTaxCode = await _stateTaxCodeRepository.FirstOrDefaultAsync(stateTaxCode => stateTaxCode.TaxCode == branch.StateTaxCode);
             var localTaxCode = await _localTaxCodeRepository.FirstOrDefaultAsync(localTaxCode => localTaxCode.TaxCode == branch.LocalTaxCode);
             var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(countyTaxCode => countyTaxCode.TaxCode == branch.CountyTaxCode);
-            var cityTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(cityTaxCode => cityTaxCode.TaxCode == branch.CityTaxCode);
+            var cityTaxCode = await _cityTaxCodeRepository.FirstOrDefaultAsync(cityTaxCode => cityTaxCode.TaxCode == branch.CityTaxCode);
 
             var branchForEditDto= ObjectMapper.Map<BranchForEditDto>(branch);
 
             branchForEditDto.DefaultWarehouseId = warehouse?.Id;
-            branchForEditDto.TaxCodeId = tax?.Id;
+            branchForEditDto.TaxCodeId = taxCode?.Id;
             branchForEditDto.StateTaxCodeId = stateTaxCode?.Id;
             branchForEditDto.LocalTaxCodeId = localTaxCode?.Id;
             branchForEditDto.CountyTaxCodeId = countyTaxCode?.Id;
