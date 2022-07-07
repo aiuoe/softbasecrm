@@ -33027,7 +33027,7 @@ export class BranchForEditDto implements IBranchForEditDto {
     city!: string | undefined;
     state!: string | undefined;
     zipCode!: string | undefined;
-    country!: string | undefined;
+    countryId!: number | undefined;
     phone!: string | undefined;
     fax!: string | undefined;
     receivable!: string | undefined;
@@ -33040,7 +33040,6 @@ export class BranchForEditDto implements IBranchForEditDto {
     cityTaxLabel!: string | undefined;
     localTaxLabel!: string | undefined;
     defaultWarehouseId!: number | undefined;
-    defaultWarehouse!: string | undefined;
     clarkPartsCode!: string | undefined;
     clarkDealerAccessCode!: string | undefined;
     useStateTaxCodeDescription!: boolean | undefined;
@@ -33049,15 +33048,10 @@ export class BranchForEditDto implements IBranchForEditDto {
     useLocalTaxCodeDescription!: boolean | undefined;
     rentalDeliveryDefaultTime!: DateTime | undefined;
     stateTaxCodeId!: number | undefined;
-    stateTaxCode!: string | undefined;
     countyTaxCodeId!: number | undefined;
-    countyTaxCode!: string | undefined;
     cityTaxCodeId!: number | undefined;
-    cityTaxCode!: string | undefined;
     localTaxCodeId!: number | undefined;
-    localTaxCode!: string | undefined;
     taxCodeId!: number | undefined;
-    taxCode!: string | undefined;
     useAbsoluteTaxCodes!: boolean | undefined;
     smallSubName!: string | undefined;
     shopId!: string | undefined;
@@ -33071,7 +33065,7 @@ export class BranchForEditDto implements IBranchForEditDto {
     creditCardAccountNo!: string | undefined;
     tvhAccountNo!: string | undefined;
     tvhKey!: string | undefined;
-    tvhCountry!: string | undefined;
+    tvhCountryId!: number | undefined;
     tvhWarehouse!: string | undefined;
     creatorUserName!: string | undefined;
     creationTime!: DateTime;
@@ -33095,7 +33089,7 @@ export class BranchForEditDto implements IBranchForEditDto {
             this.city = _data["city"];
             this.state = _data["state"];
             this.zipCode = _data["zipCode"];
-            this.country = _data["country"];
+            this.countryId = _data["countryId"];
             this.phone = _data["phone"];
             this.fax = _data["fax"];
             this.receivable = _data["receivable"];
@@ -33108,7 +33102,6 @@ export class BranchForEditDto implements IBranchForEditDto {
             this.cityTaxLabel = _data["cityTaxLabel"];
             this.localTaxLabel = _data["localTaxLabel"];
             this.defaultWarehouseId = _data["defaultWarehouseId"];
-            this.defaultWarehouse = _data["defaultWarehouse"];
             this.clarkPartsCode = _data["clarkPartsCode"];
             this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
             this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
@@ -33117,15 +33110,10 @@ export class BranchForEditDto implements IBranchForEditDto {
             this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
             this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
             this.stateTaxCodeId = _data["stateTaxCodeId"];
-            this.stateTaxCode = _data["stateTaxCode"];
             this.countyTaxCodeId = _data["countyTaxCodeId"];
-            this.countyTaxCode = _data["countyTaxCode"];
             this.cityTaxCodeId = _data["cityTaxCodeId"];
-            this.cityTaxCode = _data["cityTaxCode"];
             this.localTaxCodeId = _data["localTaxCodeId"];
-            this.localTaxCode = _data["localTaxCode"];
             this.taxCodeId = _data["taxCodeId"];
-            this.taxCode = _data["taxCode"];
             this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
             this.smallSubName = _data["smallSubName"];
             this.shopId = _data["shopId"];
@@ -33139,7 +33127,7 @@ export class BranchForEditDto implements IBranchForEditDto {
             this.creditCardAccountNo = _data["creditCardAccountNo"];
             this.tvhAccountNo = _data["tvhAccountNo"];
             this.tvhKey = _data["tvhKey"];
-            this.tvhCountry = _data["tvhCountry"];
+            this.tvhCountryId = _data["tvhCountryId"];
             this.tvhWarehouse = _data["tvhWarehouse"];
             this.creatorUserName = _data["creatorUserName"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
@@ -33163,7 +33151,7 @@ export class BranchForEditDto implements IBranchForEditDto {
         data["city"] = this.city;
         data["state"] = this.state;
         data["zipCode"] = this.zipCode;
-        data["country"] = this.country;
+        data["countryId"] = this.countryId;
         data["phone"] = this.phone;
         data["fax"] = this.fax;
         data["receivable"] = this.receivable;
@@ -33176,7 +33164,6 @@ export class BranchForEditDto implements IBranchForEditDto {
         data["cityTaxLabel"] = this.cityTaxLabel;
         data["localTaxLabel"] = this.localTaxLabel;
         data["defaultWarehouseId"] = this.defaultWarehouseId;
-        data["defaultWarehouse"] = this.defaultWarehouse;
         data["clarkPartsCode"] = this.clarkPartsCode;
         data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
         data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
@@ -33185,15 +33172,10 @@ export class BranchForEditDto implements IBranchForEditDto {
         data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
         data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
         data["stateTaxCodeId"] = this.stateTaxCodeId;
-        data["stateTaxCode"] = this.stateTaxCode;
         data["countyTaxCodeId"] = this.countyTaxCodeId;
-        data["countyTaxCode"] = this.countyTaxCode;
         data["cityTaxCodeId"] = this.cityTaxCodeId;
-        data["cityTaxCode"] = this.cityTaxCode;
         data["localTaxCodeId"] = this.localTaxCodeId;
-        data["localTaxCode"] = this.localTaxCode;
         data["taxCodeId"] = this.taxCodeId;
-        data["taxCode"] = this.taxCode;
         data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
         data["smallSubName"] = this.smallSubName;
         data["shopId"] = this.shopId;
@@ -33207,7 +33189,7 @@ export class BranchForEditDto implements IBranchForEditDto {
         data["creditCardAccountNo"] = this.creditCardAccountNo;
         data["tvhAccountNo"] = this.tvhAccountNo;
         data["tvhKey"] = this.tvhKey;
-        data["tvhCountry"] = this.tvhCountry;
+        data["tvhCountryId"] = this.tvhCountryId;
         data["tvhWarehouse"] = this.tvhWarehouse;
         data["creatorUserName"] = this.creatorUserName;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
@@ -33224,7 +33206,7 @@ export interface IBranchForEditDto {
     city: string | undefined;
     state: string | undefined;
     zipCode: string | undefined;
-    country: string | undefined;
+    countryId: number | undefined;
     phone: string | undefined;
     fax: string | undefined;
     receivable: string | undefined;
@@ -33237,7 +33219,6 @@ export interface IBranchForEditDto {
     cityTaxLabel: string | undefined;
     localTaxLabel: string | undefined;
     defaultWarehouseId: number | undefined;
-    defaultWarehouse: string | undefined;
     clarkPartsCode: string | undefined;
     clarkDealerAccessCode: string | undefined;
     useStateTaxCodeDescription: boolean | undefined;
@@ -33246,15 +33227,10 @@ export interface IBranchForEditDto {
     useLocalTaxCodeDescription: boolean | undefined;
     rentalDeliveryDefaultTime: DateTime | undefined;
     stateTaxCodeId: number | undefined;
-    stateTaxCode: string | undefined;
     countyTaxCodeId: number | undefined;
-    countyTaxCode: string | undefined;
     cityTaxCodeId: number | undefined;
-    cityTaxCode: string | undefined;
     localTaxCodeId: number | undefined;
-    localTaxCode: string | undefined;
     taxCodeId: number | undefined;
-    taxCode: string | undefined;
     useAbsoluteTaxCodes: boolean | undefined;
     smallSubName: string | undefined;
     shopId: string | undefined;
@@ -33268,7 +33244,7 @@ export interface IBranchForEditDto {
     creditCardAccountNo: string | undefined;
     tvhAccountNo: string | undefined;
     tvhKey: string | undefined;
-    tvhCountry: string | undefined;
+    tvhCountryId: number | undefined;
     tvhWarehouse: string | undefined;
     creatorUserName: string | undefined;
     creationTime: DateTime;
@@ -34576,7 +34552,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
     city!: string | undefined;
     state!: string | undefined;
     zipCode!: string | undefined;
-    country!: string | undefined;
+    countryId!: number | undefined;
     phone!: string | undefined;
     fax!: string | undefined;
     receivable!: string | undefined;
@@ -34588,7 +34564,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
     showSplitSalesTax!: boolean | undefined;
     cityTaxLabel!: string | undefined;
     localTaxLabel!: string | undefined;
-    defaultWarehouse!: string | undefined;
+    defaultWarehouseId!: number | undefined;
     clarkPartsCode!: string | undefined;
     clarkDealerAccessCode!: string | undefined;
     useStateTaxCodeDescription!: boolean | undefined;
@@ -34596,11 +34572,11 @@ export class CreateBranchCommand implements ICreateBranchCommand {
     useCityTaxCodeDescription!: boolean | undefined;
     useLocalTaxCodeDescription!: boolean | undefined;
     rentalDeliveryDefaultTime!: DateTime | undefined;
-    stateTaxCode!: string | undefined;
-    countyTaxCode!: string | undefined;
-    cityTaxCode!: string | undefined;
-    localTaxCode!: string | undefined;
-    taxCode!: string | undefined;
+    stateTaxCodeId!: number | undefined;
+    countyTaxCodeId!: number | undefined;
+    cityTaxCodeId!: number | undefined;
+    localTaxCodeId!: number | undefined;
+    taxCodeId!: number | undefined;
     useAbsoluteTaxCodes!: boolean | undefined;
     smallSubName!: string | undefined;
     shopId!: string | undefined;
@@ -34614,7 +34590,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
     creditCardAccountNo!: string | undefined;
     tvhAccountNo!: string | undefined;
     tvhKey!: string | undefined;
-    tvhCountry!: string | undefined;
+    tvhCountryId!: number | undefined;
     tvhWarehouse!: string | undefined;
 
     constructor(data?: ICreateBranchCommand) {
@@ -34635,7 +34611,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
             this.city = _data["city"];
             this.state = _data["state"];
             this.zipCode = _data["zipCode"];
-            this.country = _data["country"];
+            this.countryId = _data["countryId"];
             this.phone = _data["phone"];
             this.fax = _data["fax"];
             this.receivable = _data["receivable"];
@@ -34647,7 +34623,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
             this.showSplitSalesTax = _data["showSplitSalesTax"];
             this.cityTaxLabel = _data["cityTaxLabel"];
             this.localTaxLabel = _data["localTaxLabel"];
-            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.defaultWarehouseId = _data["defaultWarehouseId"];
             this.clarkPartsCode = _data["clarkPartsCode"];
             this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
             this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
@@ -34655,11 +34631,11 @@ export class CreateBranchCommand implements ICreateBranchCommand {
             this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
             this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
             this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
-            this.stateTaxCode = _data["stateTaxCode"];
-            this.countyTaxCode = _data["countyTaxCode"];
-            this.cityTaxCode = _data["cityTaxCode"];
-            this.localTaxCode = _data["localTaxCode"];
-            this.taxCode = _data["taxCode"];
+            this.stateTaxCodeId = _data["stateTaxCodeId"];
+            this.countyTaxCodeId = _data["countyTaxCodeId"];
+            this.cityTaxCodeId = _data["cityTaxCodeId"];
+            this.localTaxCodeId = _data["localTaxCodeId"];
+            this.taxCodeId = _data["taxCodeId"];
             this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
             this.smallSubName = _data["smallSubName"];
             this.shopId = _data["shopId"];
@@ -34673,7 +34649,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
             this.creditCardAccountNo = _data["creditCardAccountNo"];
             this.tvhAccountNo = _data["tvhAccountNo"];
             this.tvhKey = _data["tvhKey"];
-            this.tvhCountry = _data["tvhCountry"];
+            this.tvhCountryId = _data["tvhCountryId"];
             this.tvhWarehouse = _data["tvhWarehouse"];
         }
     }
@@ -34694,7 +34670,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
         data["city"] = this.city;
         data["state"] = this.state;
         data["zipCode"] = this.zipCode;
-        data["country"] = this.country;
+        data["countryId"] = this.countryId;
         data["phone"] = this.phone;
         data["fax"] = this.fax;
         data["receivable"] = this.receivable;
@@ -34706,7 +34682,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
         data["showSplitSalesTax"] = this.showSplitSalesTax;
         data["cityTaxLabel"] = this.cityTaxLabel;
         data["localTaxLabel"] = this.localTaxLabel;
-        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["defaultWarehouseId"] = this.defaultWarehouseId;
         data["clarkPartsCode"] = this.clarkPartsCode;
         data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
         data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
@@ -34714,11 +34690,11 @@ export class CreateBranchCommand implements ICreateBranchCommand {
         data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
         data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
         data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
-        data["stateTaxCode"] = this.stateTaxCode;
-        data["countyTaxCode"] = this.countyTaxCode;
-        data["cityTaxCode"] = this.cityTaxCode;
-        data["localTaxCode"] = this.localTaxCode;
-        data["taxCode"] = this.taxCode;
+        data["stateTaxCodeId"] = this.stateTaxCodeId;
+        data["countyTaxCodeId"] = this.countyTaxCodeId;
+        data["cityTaxCodeId"] = this.cityTaxCodeId;
+        data["localTaxCodeId"] = this.localTaxCodeId;
+        data["taxCodeId"] = this.taxCodeId;
         data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
         data["smallSubName"] = this.smallSubName;
         data["shopId"] = this.shopId;
@@ -34732,7 +34708,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
         data["creditCardAccountNo"] = this.creditCardAccountNo;
         data["tvhAccountNo"] = this.tvhAccountNo;
         data["tvhKey"] = this.tvhKey;
-        data["tvhCountry"] = this.tvhCountry;
+        data["tvhCountryId"] = this.tvhCountryId;
         data["tvhWarehouse"] = this.tvhWarehouse;
         return data; 
     }
@@ -34746,7 +34722,7 @@ export interface ICreateBranchCommand {
     city: string | undefined;
     state: string | undefined;
     zipCode: string | undefined;
-    country: string | undefined;
+    countryId: number | undefined;
     phone: string | undefined;
     fax: string | undefined;
     receivable: string | undefined;
@@ -34758,7 +34734,7 @@ export interface ICreateBranchCommand {
     showSplitSalesTax: boolean | undefined;
     cityTaxLabel: string | undefined;
     localTaxLabel: string | undefined;
-    defaultWarehouse: string | undefined;
+    defaultWarehouseId: number | undefined;
     clarkPartsCode: string | undefined;
     clarkDealerAccessCode: string | undefined;
     useStateTaxCodeDescription: boolean | undefined;
@@ -34766,11 +34742,11 @@ export interface ICreateBranchCommand {
     useCityTaxCodeDescription: boolean | undefined;
     useLocalTaxCodeDescription: boolean | undefined;
     rentalDeliveryDefaultTime: DateTime | undefined;
-    stateTaxCode: string | undefined;
-    countyTaxCode: string | undefined;
-    cityTaxCode: string | undefined;
-    localTaxCode: string | undefined;
-    taxCode: string | undefined;
+    stateTaxCodeId: number | undefined;
+    countyTaxCodeId: number | undefined;
+    cityTaxCodeId: number | undefined;
+    localTaxCodeId: number | undefined;
+    taxCodeId: number | undefined;
     useAbsoluteTaxCodes: boolean | undefined;
     smallSubName: string | undefined;
     shopId: string | undefined;
@@ -34784,7 +34760,7 @@ export interface ICreateBranchCommand {
     creditCardAccountNo: string | undefined;
     tvhAccountNo: string | undefined;
     tvhKey: string | undefined;
-    tvhCountry: string | undefined;
+    tvhCountryId: number | undefined;
     tvhWarehouse: string | undefined;
 }
 
@@ -40941,6 +40917,7 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
     branches!: BranchLookupDto[] | undefined;
     accountsReceivables!: AccountReceivableInBranchDto[] | undefined;
     warehouses!: WarehouseLookupDto[] | undefined;
+    tvhWarehouses!: TvhWarehouseLookupDto[] | undefined;
     currencyTypes!: CurrencyTypeLookupDto[] | undefined;
     taxCodes!: TaxCodeInBranchDto[] | undefined;
     countries!: CountryDto[] | undefined;
@@ -40970,6 +40947,11 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
                 this.warehouses = [] as any;
                 for (let item of _data["warehouses"])
                     this.warehouses!.push(WarehouseLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["tvhWarehouses"])) {
+                this.tvhWarehouses = [] as any;
+                for (let item of _data["tvhWarehouses"])
+                    this.tvhWarehouses!.push(TvhWarehouseLookupDto.fromJS(item));
             }
             if (Array.isArray(_data["currencyTypes"])) {
                 this.currencyTypes = [] as any;
@@ -41013,6 +40995,11 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
             for (let item of this.warehouses)
                 data["warehouses"].push(item.toJSON());
         }
+        if (Array.isArray(this.tvhWarehouses)) {
+            data["tvhWarehouses"] = [];
+            for (let item of this.tvhWarehouses)
+                data["tvhWarehouses"].push(item.toJSON());
+        }
         if (Array.isArray(this.currencyTypes)) {
             data["currencyTypes"] = [];
             for (let item of this.currencyTypes)
@@ -41036,6 +41023,7 @@ export interface IGetBranchInitialDataDto {
     branches: BranchLookupDto[] | undefined;
     accountsReceivables: AccountReceivableInBranchDto[] | undefined;
     warehouses: WarehouseLookupDto[] | undefined;
+    tvhWarehouses: TvhWarehouseLookupDto[] | undefined;
     currencyTypes: CurrencyTypeLookupDto[] | undefined;
     taxCodes: TaxCodeInBranchDto[] | undefined;
     countries: CountryDto[] | undefined;
@@ -54751,6 +54739,46 @@ export interface ITopStatsData {
     newSubscriptionAmount: number;
     dashboardPlaceholder1: number;
     dashboardPlaceholder2: number;
+}
+
+export class TvhWarehouseLookupDto implements ITvhWarehouseLookupDto {
+    key!: string | undefined;
+    name!: string | undefined;
+
+    constructor(data?: ITvhWarehouseLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.key = _data["key"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): TvhWarehouseLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TvhWarehouseLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface ITvhWarehouseLookupDto {
+    key: string | undefined;
+    name: string | undefined;
 }
 
 export class TwitterExternalLoginProviderSettings implements ITwitterExternalLoginProviderSettings {
