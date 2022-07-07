@@ -154,10 +154,11 @@
                             </p-dropdown>
                         </div>
                         <div class="col-6 form-group">
-                            <label for="Branch_RentalDeliveryDefaultTime">{{ l('RentalDeliveryDefaultTime') }}</label>
+                            <label for="Branch_RentalDeliveryDefaultTime" [style]="{'display':'block'}">{{ l('RentalDeliveryDefaultTime') }}</label>
                             <p-calendar [(ngModel)]="selectedDate" [timeOnly]="true" inputId="timeonly" hourFormat="12"
                                 id="Branch_RentalDeliveryDefaultTime" name="branchRentalDeliveryDefaultTime"
-                                [placeholder]="l('RentalDeliveryDefaultTime')">
+                                [placeholder]="l('RentalDeliveryDefaultTime')"
+                                [style]="{'width':'100%'}">
                             </p-calendar>
                         </div>
                     </div>
