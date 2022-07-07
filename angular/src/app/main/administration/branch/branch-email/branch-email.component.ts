@@ -11,7 +11,6 @@ export class BranchEmailComponent extends AppComponentBase {
 
     @Input() branchForEdit: BranchForEditDto;
 
-
     constructor(
         injector: Injector
     ) {

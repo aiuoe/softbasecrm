@@ -48,5 +48,4 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
             );
         }
     }
-
 }

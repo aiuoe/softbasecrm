@@ -1,43 +1,31 @@
 <div class="card card-custom card-in-tab gutter-b">
     <div class="card-body">
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
-                    <input type="text" id="TVH_AccountNo" class="form-control" [placeholder]="l('TVHAccountNo')"
-                        name="TVH_AccountNo"
-                        [(ngModel)]="branchForEdit.tvhAccountNo"
-                        />
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
+                <input type="text" id="Branch_TVH_AccountNo" name="branchTvhAccountNo" class="form-control"
+                    [placeholder]="l('TVHAccountNo')" [(ngModel)]="branchForEdit.tvhAccountNo" />
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_Key">{{ l('TVHKey') }}</label>
-                    <input type="text" id="TVH_Key" class="form-control" [placeholder]="l('TVHKey')" name="TVH_Key" 
-                    [(ngModel)]="branchForEdit.tvhKey"/>
-                </div>
+            <div class="col-6 form-group">
+                <label for="Brancb_TVH_Key">{{ l('TVHKey') }}</label>
+                <input type="text" id="Brancb_TVH_Key" name="branchTvhKey" class="form-control"
+                    [placeholder]="l('TVHKey')" [(ngModel)]="branchForEdit.tvhKey" />
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_Country">{{ l('Country') }}</label>
-                    <p-dropdown id="TVH_Country" [options]="countries" optionValue="id" optionLabel="name"
-                        [placeholder]="l('Country')" [showClear]="true" 
-                        [(ngModel)]="branchForEdit.tvhCountryId"
-                        [ngModelOptions]="{standalone: true}">
-                    </p-dropdown>
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_TVH_Country">{{ l('Country') }}</label>
+                <p-dropdown id="Branch_TVH_Country" name="branchTvhCountry" [placeholder]="l('Country')"
+                    [(ngModel)]="branchForEdit.tvhCountryId" [options]="countries" optionValue="id" optionLabel="name"
+                    [showClear]="true">
+                </p-dropdown>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_Warehouse">{{ l('Warehouse') }}</label>
-                    <p-dropdown id="TVH_Warehouse" [options]="tvhWarehouses" optionValue="key" optionLabel="name"
-                        [placeholder]="l('Warehouse')" [showClear]="true" 
-                        [(ngModel)]="branchForEdit.tvhWarehouse"
-                        [ngModelOptions]="{standalone: true}">
-                    </p-dropdown>
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_TVH_Warehouse">{{ l('Warehouse') }}</label>
+                <p-dropdown id="Branch_TVH_Warehouse" name="branchTvhWarehouse" [placeholder]="l('Warehouse')"
+                    [(ngModel)]="branchForEdit.tvhWarehouse" [options]="tvhWarehouses" optionValue="key"
+                    optionLabel="name" [showClear]="true">
+                </p-dropdown>
             </div>
         </div>
     </div>
