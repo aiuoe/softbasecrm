@@ -22,9 +22,9 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="TVH_Country">{{ l('Country') }}</label>
-                    <p-dropdown id="TVH_Country" [options]="countries" optionLabel="displayName"
-                        [placeholder]="l('Country')" [showClear]="true" optionValue="value"
-                        [(ngModel)]="branchForEdit.tvhCountry"
+                    <p-dropdown id="TVH_Country" [options]="countries" optionValue="id" optionLabel="name"
+                        [placeholder]="l('Country')" [showClear]="true" 
+                        [(ngModel)]="branchForEdit.tvhCountryId"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>
                 </div>
@@ -32,8 +32,8 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="TVH_Warehouse">{{ l('Warehouse') }}</label>
-                    <p-dropdown id="TVH_Warehouse" [options]="warehouses" optionLabel="displayName"
-                        [placeholder]="l('Warehouse')" [showClear]="true" optionValue="value"
+                    <p-dropdown id="TVH_Warehouse" [options]="tvhWarehouses" optionValue="key" optionLabel="name"
+                        [placeholder]="l('Warehouse')" [showClear]="true" 
                         [(ngModel)]="branchForEdit.tvhWarehouse"
                         [ngModelOptions]="{standalone: true}">
                     </p-dropdown>

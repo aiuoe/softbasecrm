@@ -76,7 +76,7 @@
                     <div class="row">
                         <div class="col-6 form-group">
                             <label for="Branch_Country">{{ l('Country') }}</label>
-                            <p-dropdown id="Branch_Country" name="branchCountry" [(ngModel)]="branchForEdit.country"
+                            <p-dropdown id="Branch_Country" name="branchCountry" [(ngModel)]="branchForEdit.countryId"
                                 [options]="initialDropdownData.countries" optionValue="id" optionLabel="name"
                                 [placeholder]="l('SelectCountry')" [showClear]="true">
                             </p-dropdown>
@@ -229,7 +229,7 @@
                     </branchTaxSetup>
                 </tab>
                 <tab heading="{{ l('TVH') }}">
-                    <branchTvh [branchForEdit]="branchForEdit"></branchTvh>
+                    <branchTvh [branchForEdit]="branchForEdit" [countries]="initialDropdownData.countries" [tvhWarehouses]="initialDropdownData.tvhWarehouses"></branchTvh>
                 </tab>
                 <tab heading="{{ l('Finance') }}">
                     <branchFinance [branchForEdit]="branchForEdit"></branchFinance>

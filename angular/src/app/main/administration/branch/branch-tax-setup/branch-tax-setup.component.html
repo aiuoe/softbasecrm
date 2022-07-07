@@ -161,7 +161,7 @@
                             type="checkbox"
                             name="UseAbsoluteTaxCodes"
                             value="true"
-                            (change)="onChangeUseAbsoluteTaxCodesStatus()"
+                            (change)="useAbsoluteTaxCodesStatusOnChange()"
                             [(ngModel)]="branchForEdit.useAbsoluteTaxCodes"
                         />
                         <span></span>
@@ -175,9 +175,9 @@
                 <div class="form-group">
                     <label for="Branch_TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
                     <p-dropdown 
-                        *ngIf="isUseAbsoluteTaxCodesChecked"
+                        *ngIf="branchForEdit.useAbsoluteTaxCodes"
                         id="Branch_TaxSetup_StateTaxCode"
-                        [options]="stateTaxCodes"
+                        [options]="taxTabInitialData.stateTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
@@ -191,9 +191,9 @@
                 <div class="form-group">
                     <label for="Branch_TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
                     <p-dropdown
-                        *ngIf="isUseAbsoluteTaxCodesChecked" 
+                        *ngIf="branchForEdit.useAbsoluteTaxCodes" 
                         id="Branch_TaxSetup_CountryTaxCode"
-                        [options]="countyTaxCodes"
+                        [options]="taxTabInitialData.countyTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
@@ -209,9 +209,9 @@
                 <div class="form-group">
                     <label for="Branch_TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
                     <p-dropdown
-                        *ngIf="isUseAbsoluteTaxCodesChecked" 
+                        *ngIf="branchForEdit.useAbsoluteTaxCodes" 
                         id="Branch_TaxSetup_CityTaxCode"
-                        [options]="cityTaxCodes"
+                        [options]="taxTabInitialData.cityTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
@@ -225,9 +225,9 @@
                 <div class="form-group">
                     <label for="Branch_TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
                     <p-dropdown
-                        *ngIf="isUseAbsoluteTaxCodesChecked"
+                        *ngIf="branchForEdit.useAbsoluteTaxCodes"
                         id="Branch_TaxSetup_LocalTaxCode"
-                        [options]="localTaxCodes"
+                        [options]="taxTabInitialData.localTaxCodes"
                         optionLabel="taxCode"
                         [showClear]="true"
                         optionValue="id"
