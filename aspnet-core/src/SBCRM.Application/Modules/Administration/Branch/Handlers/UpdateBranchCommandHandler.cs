@@ -73,7 +73,16 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             branch.CountyTaxCode = countyTaxCode?.TaxCode;
 
             await _branchRepository.UpdateAsync(branch);
-            return ObjectMapper.Map<BranchForEditDto>(branch);
+            var branchForEditDto = ObjectMapper.Map<BranchForEditDto>(branch);
+
+            branchForEditDto.DefaultWarehouseId = warehouse?.Id;
+            branchForEditDto.TaxCodeId = taxCode?.Id;
+            branchForEditDto.StateTaxCodeId = stateTaxCode?.Id;
+            branchForEditDto.LocalTaxCodeId = localTaxCode?.Id;
+            branchForEditDto.CountyTaxCodeId = countyTaxCode?.Id;
+            branchForEditDto.CityTaxCodeId = cityTaxCode?.Id;
+
+            return branchForEditDto;
         }
     }
 
