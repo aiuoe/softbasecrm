@@ -10,6 +10,7 @@ import {
     PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
     templateUrl: './branch.component.html',
@@ -33,6 +34,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     initialDropdownData: IGetBranchInitialDataDto = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
 
+    selectedDate: Date = new Date();
+    creationTime: Date = new Date();
+    lastModificationTime: Date = new Date();
+
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
@@ -54,6 +59,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchNumberOnChange(): void {
         this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
+            this.branchForEdit.localTaxCodeId = -11;
+            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            this.creationTime = this.branchForEdit.creationTime.toJSDate();
+            this.lastModificationTime = this.branchForEdit.lastModificationTime.toJSDate();
         });
     }
 
@@ -116,6 +125,12 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             });
         }
     }
+    
+    branchAccountsReceivablesOnChange(e: any): void {
+        if (e.value) {
+            this.branchForEdit.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
+        }
+    }
 
     addBranch(): void {
 
@@ -147,3 +162,4 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     }
 }
+

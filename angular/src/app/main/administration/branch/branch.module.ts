@@ -10,6 +10,7 @@ import { BranchFinanceComponent } from './branch-finance/branch-finance.componen
 import { BranchLogoGraphicComponent } from './branch-logo-graphic/branch-logo-graphic.component';
 import { BranchTaxSetupComponent } from './branch-tax-setup/branch-tax-setup.component';
 import { BranchTvhComponent } from './branch-tvh/branch-tvh.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { BranchTvhComponent } from './branch-tvh/branch-tvh.component';
         AppSharedModule, 
         BranchRoutingModule,
         CheckboxModule,
-        MultiSelectModule
+        MultiSelectModule,
+        CalendarModule
     ]
 })
 export class BranchModule {}
