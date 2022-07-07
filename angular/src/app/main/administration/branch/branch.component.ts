@@ -7,7 +7,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
     BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, CreateBranchCommand, GetBranchInitialDataDto,
-    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
+    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy, UpdateBranchCommand
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
@@ -142,7 +142,13 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     updateBranch(): void {
-
+        if (this.branchId && this.branchForEdit.name) {
+            var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit});
+            this._branchesService.update(this.branchId, requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+                this.branchForEdit = x;
+                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            });
+        }
     }
 
     deleteBranch(): void {
