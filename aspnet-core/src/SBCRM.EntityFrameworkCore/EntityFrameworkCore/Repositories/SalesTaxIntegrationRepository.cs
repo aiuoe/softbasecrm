@@ -47,7 +47,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         public async Task<bool> CheckUseDefaultTaxCodeCalc()
         {
             var result = await _dbContext.SalesTaxIntegrations.FirstAsync();
-            return result.SalesTaxProvider.ToLower() != "SoftBase".ToLower();
+            return result.SalesTaxProvider.ToLower() == "SoftBase".ToLower();
         }
     }
 

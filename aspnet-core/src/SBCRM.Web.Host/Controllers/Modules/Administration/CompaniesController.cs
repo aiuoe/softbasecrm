@@ -60,7 +60,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <param name="address"></param>
         /// <returns>verified address</returns>
         [HttpPost]
-        public async Task<GetVerifyAddressDto> GetVerrifyAddress([FromBody] GetVerifyAddressInputDto address )
+        public async Task<GetVerifyAddressDto> GetVerifyAddress([FromBody] GetVerifyAddressInputDto address )
         {
             return await _mediator.Send(new GetVerifyAddressQuery(address));
         }
