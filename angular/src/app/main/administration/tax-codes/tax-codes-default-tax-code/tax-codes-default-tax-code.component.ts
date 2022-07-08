@@ -1,12 +1,14 @@
 import { Component, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
+/***
+ * Sub Component to manage tax codes sales default
+ */
 @Component({
     selector: 'taxCodesDefaultTaxCode',
     templateUrl: './tax-codes-default-tax-code.component.html'
 })
 
-// Used for displaying the Default Tax Codes Details
 export class TaxCodesDefaultTaxCodeComponent extends AppComponentBase {
     saving: boolean;
 
