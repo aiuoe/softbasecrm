@@ -34,8 +34,8 @@ namespace SBCRM.Modules.Administration.Company.Handlers
         public async Task<GetVerifyAddressDto> Handle(GetVerifyAddressQuery request, CancellationToken cancellationToken)
         {
 
-            var is_true = await _salesTaxIntegrationRepository.UseDefaultTaxCodeCalc();
-            if (!is_true)
+            var useDefaultTaxCodeCalc = await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc();
+            if (!useDefaultTaxCodeCalc)
             {
                 return new GetVerifyAddressDto()
                 {
@@ -44,6 +44,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
                     ZipCode = "",
                     City = "",
                     State = "",
+                    Country = ""
 
                 };
             }

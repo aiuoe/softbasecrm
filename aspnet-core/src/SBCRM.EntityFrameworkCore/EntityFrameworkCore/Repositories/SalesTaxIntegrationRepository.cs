@@ -9,11 +9,19 @@ using System.Threading.Tasks;
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
     /// <summary>
+    /// Constant class
+    /// </summary>
+    public static class Constant
+    {
+        public const string SalesTaxProvider = "Softbase";
+    }
+    /// <summary>
     /// Implementation of SalesTaxIntegrationRepository
     /// </summary>
     public class SalesTaxIntegrationRepository : SBCRMRepositoryBase<SalesTaxIntegration, long>, ISalesTaxIntegrationRepository
     {
         private readonly SBCRMDbContext _dbContext;
+        
         public SalesTaxIntegrationRepository(IDbContextProvider<SBCRMDbContext> dbContextProvider) : base(dbContextProvider)
         {
             _dbContext = dbContextProvider.GetDbContext();
@@ -44,10 +52,10 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         /// Return if SalesTaxProvider is Softbase or not
         /// </summary>
         /// <returns>boolean</returns>
-        public async Task<bool> UseDefaultTaxCodeCalc()
+        public async Task<bool> CheckUseDefaultTaxCodeCalc()
         {
             var result = await _dbContext.SalesTaxIntegrations.FirstAsync();
-            return result.SalesTaxProvider.ToLower() != "SoftBase".ToLower();
+            return result.SalesTaxProvider.ToLower() != Constant.SalesTaxProvider.ToLower();
         }
     }
 
