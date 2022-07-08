@@ -2213,5 +2213,51 @@
 		<text name="PrintFinalBcc">Print Final bcc</text>
 		<text name="LogoGraphicFile">Logo Graphic File</text>
 		<text name="UseGraphic">Use Graphic</text>
+  
+		<!-- Administration - Tax Codes -->
+		<text name="Standard">Standard</text>
+		<text name="AdminTaxCodeLabel">Tax Code</text>
+		<text name="OverRideType">Over-Ride Type</text>
+		<text name="TotalRate">Total Rate</text>
+		<text name="AccountNo">Account #</text>
+		<text name="RentalAccountNo">Rental Account #</text>
+		<text name="CountryPortionRate">Country Portion Rate</text>
+		<text name="MaximumAmount">Maximum Amount</text>
+		<text name="AccountNoOncePaid">Account # Once Paid</text>
+		<text name="PartsNonTaxable">Parts Non-Taxable</text>
+		<text name="LaborNonTaxable">Labor Non-Taxable</text>
+		<text name="MiscNonTaxable">Misc Non-Taxable</text>
+		<text name="RentalNonTaxable">Rental Non-Taxable</text>
+		<text name="EquipmentNonTaxable">Equipment Non-Taxable</text>
+		<text name="StateGov">State/Gov</text>
+		<text name="TaxCodesSetup">Tax Codes Setup</text>
+		<text name="StateGovTaxCode">State/Gov Tax Code</text>
+		<text name="EQSaleRate">EQ Sale Rate</text>
+		<text name="TaxAccount">Tax Account</text>
+		<text name="StateCode">State Code</text>
+		<text name="CountryProvTaxCode">Country/Prov Tax Code</text>
+		<text name="CountryCode">Country Code</text>
+		<text name="CountrySpecialFlag">Country Special Flag</text>
+		<text name="Quebec">Quebec</text>
+		<text name="StateAccount">State Account</text>
+		<text name="StateRate">State Rate</text>
+		<text name="StateMin">State Min</text>
+		<text name="StateMax">State Max</text>
+		<text name="AccountNumber">Account Number</text>
+		<text name="SalesTaxIntegration">Sales Tax Integration</text>
+		<text name="SalesTaxProvider">Sales Tax Provider</text>
+		<text name="LicenseKey">License Key</text>
+		<text name="ServiceURL">Service URL</text>
+		<text name="CompanyCode">Company Code</text>
+		<text name="RequestTimeoutSec">Request Timeout Sec</text>
+		<text name="DisableAddressVerification">Disable Address Verification</text>
+		<text name="DisableDocumentRecording">Disable Document Recording</text>
+		<text name="EnableLogging">Enable Logging</text>
+		<text name="TaxAccountOverrideNo">Tax Account Override #</text>
+		<text name="DefaultTaxCode">Default Tax Code</text>
+		<text name="Miscellaneous">Miscellaneous</text>
+		<text name="CityCode">City Code</text>
+		<text name="TestConnection">Test Connection</text>
+		<text name="LocalCode">Local Code</text>
 	</texts>
 </localizationDictionary>
