@@ -44,10 +44,10 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         /// Return if SalesTaxProvider is Softbase or not
         /// </summary>
         /// <returns>boolean</returns>
-        public async Task<bool> CheckUseDefaultTaxCodeCalc()
+        public async Task<bool> UseDefaultTaxCodeCalc()
         {
             var result = await _dbContext.SalesTaxIntegrations.FirstAsync();
-            return result.SalesTaxProvider.ToLower() == "SoftBase".ToLower();
+            return result.SalesTaxProvider.ToLower() != "SoftBase".ToLower();
         }
     }
 

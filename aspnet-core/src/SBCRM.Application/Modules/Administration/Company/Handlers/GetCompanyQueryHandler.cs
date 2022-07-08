@@ -16,7 +16,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
     /// </summary>
     public class GetCompanyQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetCompanyQuery, List<GetCompanyDto>>
     {
-        private ICompanyRepository _companyRepository;
+        private readonly ICompanyRepository _companyRepository;
         /// <summary>
         /// Base constructor
         /// </summary>

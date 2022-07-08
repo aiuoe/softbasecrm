@@ -34,7 +34,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
         public async Task<GetVerifyAddressDto> Handle(GetVerifyAddressQuery request, CancellationToken cancellationToken)
         {
 
-            var is_true = await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc();
+            var is_true = await _salesTaxIntegrationRepository.UseDefaultTaxCodeCalc();
             if (!is_true)
             {
                 return new GetVerifyAddressDto()
@@ -48,7 +48,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
                 };
             }
 
-            var connection = _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();
+            var connection = await _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();
             var address = new AddressDto()
             {
                 Address = request.Address,
@@ -59,7 +59,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
 
             };
 
-            var verifiedAddress = await _avalaraService.VerifyAddress(connection.Result, address);
+            var verifiedAddress = await _avalaraService.VerifyAddress(connection, address);
 
             return verifiedAddress;
 
