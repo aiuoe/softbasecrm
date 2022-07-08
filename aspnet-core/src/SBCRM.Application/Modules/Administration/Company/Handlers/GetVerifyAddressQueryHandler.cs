@@ -40,10 +40,10 @@ namespace SBCRM.Modules.Administration.Company.Handlers
                 return new GetVerifyAddressDto()
                 {
                     CheckUseDefaultTaxCodeCalc = false,
-                    Address = request.Address,
-                    ZipCode = request.ZipCode,
-                    City = request.City,
-                    State = request.State,
+                    Address = "",
+                    ZipCode = "",
+                    City = "",
+                    State = "",
 
                 };
             }
