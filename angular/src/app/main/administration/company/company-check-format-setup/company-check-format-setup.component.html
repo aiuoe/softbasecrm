@@ -7,6 +7,7 @@
                     routerLinkActive="active"
                     ariaCurrentWhenActive="page"
                     class="btn btn-secondary blue"
+                    id="companyCheckFormatSetupCloseBtn"
                 >
                     {{ l('Close') }}
                 </a>
@@ -21,16 +22,23 @@
                             <div class="form-body">
                                 <div class="row mb-4">
                                     <div class="col-lg-12 text-right">
-                                        <button class="btn btn-primary blue">
+                                        <button
+                                            class="btn btn-primary blue"
+                                            id="companyCheckFormatSetupDeleteCheckFormatBtn"
+                                        >
                                             <i class="fa fa-times fa-lg"></i>
                                             {{ l('DeleteCheckFormat') }}
                                         </button>
-                                        <button class="btn btn-primary blue">
+                                        <button
+                                            class="btn btn-primary blue"
+                                            id="companyCheckFormatSetupDuplicateFormatBtn"
+                                        >
                                             <i class="fa fa-copy fa-lg"></i>
                                             {{ l('DuplicateFormat') }}
                                         </button>
                                         <button
                                             class="btn btn-primary blue"
+                                            id="companyCheckFormatSetupPreviewFormatBtn"
                                             (click)="previewFormat()"
                                         >
                                             <i class="fa fa-eye fa-lg"></i>
@@ -46,13 +54,14 @@
                                             [virtualScroll]="true"
                                             [itemSize]="30"
                                             [style]="{ width: '100%' }"
+                                            id="companyCheckFormatSetupCheckFormatDropdown"
                                         ></p-dropdown>
                                     </div>
                                     <div class="col-lg-4 col-sm-3 mt-8">
-                                        <button class="btn btn-primary blue">
+                                        <button class="btn btn-primary blue" id="companyCheckFormatSetupCheckBtn">
                                             <i class="fa fa-check fa-lg"></i>
                                         </button>
-                                        <button class="btn btn-primary blue ml-3">
+                                        <button class="btn btn-primary blue ml-3" id="companyCheckFormatSetupImportBtn">
                                             <i class="fa fa-file-import fa-lg"></i>
                                         </button>
                                     </div>
@@ -65,6 +74,7 @@
                                             [virtualScroll]="true"
                                             [itemSize]="30"
                                             [style]="{ width: '100%' }"
+                                            id="companyCheckFormatSetupFormat1Dropdown"
                                         ></p-dropdown>
                                     </div>
                                     <div class="col-lg-2">
@@ -74,6 +84,7 @@
                                             [virtualScroll]="true"
                                             [itemSize]="30"
                                             [style]="{ width: '100%' }"
+                                            id="companyCheckFormatSetupFormat2Dropdown"
                                         ></p-dropdown>
                                     </div>
                                 </div>
