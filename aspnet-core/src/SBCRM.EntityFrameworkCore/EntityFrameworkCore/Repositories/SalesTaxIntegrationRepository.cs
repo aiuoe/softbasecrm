@@ -27,7 +27,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         /// <returns>AvalaraConnectionDataDto</returns>
         public async Task<AvalaraConnectionDataDto> GetAvalaraConnectionSettings()
         {
-            var result = await _dbContext.SalesTaxIntegrations.LastAsync();
+            var result = await _dbContext.SalesTaxIntegrations.FirstAsync();
             return new AvalaraConnectionDataDto()
             {
                 SalesTaxProvider = result.SalesTaxProvider,
@@ -39,6 +39,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
             };
         }
 
+
         /// <summary>
         /// Return if SalesTaxProvider is Softbase or not
         /// </summary>
@@ -46,7 +47,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         public async Task<bool> CheckUseDefaultTaxCodeCalc()
         {
             var result = await _dbContext.SalesTaxIntegrations.FirstAsync();
-            return result.SalesTaxProvider == "SoftBase";
+            return result.SalesTaxProvider.ToLower() == "SoftBase".ToLower();
         }
     }
 
