@@ -1,73 +1,69 @@
 <div class="card card-custom card-in-tab gutter-b">
     <form class="card-body form" autocomplete="off">
-        <div class="card card-custom card-in-tab gutter-b">
-            <div class="card-body">
-                <div class="pb-3 d-flex justify-content-end">
-                    <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
-                        <i class="fa fa-times pr-3"></i>
-                        <span>{{ l('Delete') }}</span>
-                    </button>
-                    <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
-                        <i class="fa fa-check pr-3"></i>
-                        <span>{{ l('Update') }}</span>
-                    </button>
+        <div class="pb-3 d-flex justify-content-end">
+            <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-times pr-3"></i>
+                <span>{{ l('Delete') }}</span>
+            </button>
+            <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-check pr-3"></i>
+                <span>{{ l('Update') }}</span>
+            </button>
+        </div>
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Default_Parts">{{ l('Parts') }}</label>
+                    <input type="text" id="TaxCode_Default_Parts" name="taxCodeDefaultParts" class="form-control"
+                        [placeholder]="l('Parts')" />
                 </div>
-                <div class="row">
-                    <div class="col-6 d-flex align-items-center justify-content-between">
-                        <div class="form-group flex-grow-1 pr-2">
-                            <label for="TaxCode_Default_Parts">{{ l('Parts') }}</label>
-                            <input type="text" id="TaxCode_Default_Parts" name="taxCodeDefaultParts"
-                                class="form-control" [placeholder]="l('Parts')" />
-                        </div>
-                        <button class="btn btn-primary text-primary p-2 mt-1">
-                            <i class="fa fa-search p-0"></i>
-                        </button>
-                    </div>
-                    <div class="col-6 d-flex align-items-center justify-content-between">
-                        <div class="form-group flex-grow-1 pr-2">
-                            <label for="TaxCode_Default_Labor">{{ l('Labor') }}</label>
-                            <input type="text" id="TaxCode_Default_Labor" name="taxCodeDefaultLabor"
-                                class="form-control" [placeholder]="l('Labor')" />
-                        </div>
-                        <button class="btn btn-primary text-primary p-2 mt-1">
-                            <i class="fa fa-search p-0"></i>
-                        </button>
-                    </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Default_Labor">{{ l('Labor') }}</label>
+                    <input type="text" id="TaxCode_Default_Labor" name="taxCodeDefaultLabor" class="form-control"
+                        [placeholder]="l('Labor')" />
                 </div>
-                <div class="row">
-                    <div class="col-6 d-flex align-items-center justify-content-between">
-                        <div class="form-group flex-grow-1 pr-2">
-                            <label for="TaxCode_Default_Miscellaneous">{{ l('Miscellaneous') }}</label>
-                            <input type="text" id="TaxCode_Default_Miscellaneous" name="taxCodeDefaultMiscellaneous"
-                                class="form-control" [placeholder]="l('Miscellaneous')" />
-                        </div>
-                        <button class="btn btn-primary text-primary p-2 mt-1">
-                            <i class="fa fa-search p-0"></i>
-                        </button>
-                    </div>
-                    <div class="col-6 d-flex align-items-center justify-content-between">
-                        <div class="form-group flex-grow-1 pr-2">
-                            <label for="TaxCode_Default_Rental">{{ l('Rental') }}</label>
-                            <input type="text" id="TaxCode_Default_Rental" name="taxCodeDefaultRental"
-                                class="form-control" [placeholder]="l('Rental')" />
-                        </div>
-                        <button class="btn btn-primary text-primary p-2 mt-1">
-                            <i class="fa fa-search p-0"></i>
-                        </button>
-                    </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Default_Miscellaneous">{{ l('Miscellaneous') }}</label>
+                    <input type="text" id="TaxCode_Default_Miscellaneous" name="taxCodeDefaultMiscellaneous"
+                        class="form-control" [placeholder]="l('Miscellaneous')" />
                 </div>
-                <div class="row">
-                    <div class="col-6 d-flex align-items-center justify-content-between">
-                        <div class="form-group flex-grow-1 pr-2">
-                            <label for="TaxCode_Default_Equipment">{{ l('Equipment') }}</label>
-                            <input type="text" id="TaxCode_Default_Equipment" name="taxCodeDefaultEquipment"
-                                class="form-control" [placeholder]="l('Equipment')" />
-                        </div>
-                        <button class="btn btn-primary text-primary p-2 mt-1">
-                            <i class="fa fa-search p-0"></i>
-                        </button>
-                    </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Default_Rental">{{ l('Rental') }}</label>
+                    <input type="text" id="TaxCode_Default_Rental" name="taxCodeDefaultRental" class="form-control"
+                        [placeholder]="l('Rental')" />
                 </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Default_Equipment">{{ l('Equipment') }}</label>
+                    <input type="text" id="TaxCode_Default_Equipment" name="taxCodeDefaultEquipment"
+                        class="form-control" [placeholder]="l('Equipment')" />
+                </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
             </div>
         </div>
     </form>

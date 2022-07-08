@@ -1,99 +1,94 @@
 <div class="card card-custom card-in-tab gutter-b">
     <form class="card-body form" autocomplete="off">
-        <div class="card card-custom card-in-tab gutter-b">
-            <div class="card-body">
-                <div class="pb-3 d-flex justify-content-end">
-                    <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
-                        <i class="fa fa-times pr-3"></i>
-                        <span>{{ l('Delete') }}</span>
-                    </button>
-                    <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
-                        <i class="fa fa-check pr-3"></i>
-                        <span>{{ l('Update') }}</span>
-                    </button>
+        <div class="pb-3 d-flex justify-content-end">
+            <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-times pr-3"></i>
+                <span>{{ l('Delete') }}</span>
+            </button>
+            <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-check pr-3"></i>
+                <span>{{ l('Update') }}</span>
+            </button>
+        </div>
+        <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_SalesTax_Provider">{{ l('SalesTaxProvider') }}</label>
+                <p-dropdown id="TaxCode_SalesTax_Provider" name="taxCodeSalesTaxProvider" options="salesTaxProviders"
+                    optionValue="code" optionLabel="displayName" [showClear]="true">
+                </p-dropdown>
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_SalesTax_AccountNumber">{{ l('AccountNumber') }}</label>
+                <input type="text" id="TaxCode_SalesTax_AccountNumber" name="taxCodeSalesTaxAccountNumber"
+                    class="form-control" [placeholder]="l('AccountNumber')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_SalesTax_LicenseKey">{{ l('LicenseKey') }}</label>
+                <input type="text" id="TaxCode_SalesTax_LicenseKey" name="taxCodeSalesTaxLicenseKey"
+                    class="form-control" [placeholder]="l('LicenseKey')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_SalesTax_ServiceURL">{{ l('ServiceURL') }}</label>
+                <input type="text" id="TaxCode_SalesTax_ServiceURL" name="taxCodeSalesTaxServiceURL"
+                    class="form-control" [placeholder]="l('ServiceURL')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_SalesTax_CompanyCode">{{ l('CompanyCode') }}</label>
+                <p-dropdown id="TaxCode_SalesTax_CompanyCode" name="taxCodeSalesTaxCompanyCode" options="companyCodes"
+                    optionValue="code" optionLabel="displayName" [showClear]="true">
+                </p-dropdown>
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_SalesTax_RequestTimeoutSec">{{ l('RequestTimeoutSec') }}</label>
+                <input type="text" id="TaxCode_SalesTax_RequestTimeoutSec" name="taxCodeSalesTaxRequestTimeoutSec"
+                    class="form-control" [placeholder]="l('RequestTimeoutSec')" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button (click)="testConnection()" class="btn btn-primary blue">{{ l('TestConnection') }}</button>
+        </div>
+        <div class="row">
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="DisableAddressVerification" />
+                    <span></span>
+                    {{ l('DisableAddressVerification') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="DisableDocumentRecording" />
+                    <span></span>
+                    {{ l('DisableDocumentRecording') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="EnableLogging" />
+                    <span></span>
+                    {{ l('EnableLogging') }}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_SalesTax_TaxAccountOverrideNo">{{ l('TaxAccountOverrideNo') }}</label>
+                    <input type="text" id="TaxCode_SalesTax_TaxAccountOverrideNo"
+                        name="taxCodeSalesTaxTaxAccountOverrideNo" class="form-control"
+                        [placeholder]="l('TaxAccountOverrideNo')" />
                 </div>
-                <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="TaxCode_SalesTax_Provider">{{ l('SalesTaxProvider') }}</label>
-                        <p-dropdown id="TaxCode_SalesTax_Provider" name="taxCodeSalesTaxProvider"
-                            options="salesTaxProviders" optionValue="code" optionLabel="displayName" [showClear]="true">
-                        </p-dropdown>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="TaxCode_SalesTax_AccountNumber">{{ l('AccountNumber') }}</label>
-                        <input type="text" id="TaxCode_SalesTax_AccountNumber" name="taxCodeSalesTaxAccountNumber"
-                            class="form-control" [placeholder]="l('AccountNumber')" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="TaxCode_SalesTax_LicenseKey">{{ l('LicenseKey') }}</label>
-                        <input type="text" id="TaxCode_SalesTax_LicenseKey" name="taxCodeSalesTaxLicenseKey"
-                            class="form-control" [placeholder]="l('LicenseKey')" />
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="TaxCode_SalesTax_ServiceURL">{{ l('ServiceURL') }}</label>
-                        <input type="text" id="TaxCode_SalesTax_ServiceURL" name="taxCodeSalesTaxServiceURL"
-                            class="form-control" [placeholder]="l('ServiceURL')" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="TaxCode_SalesTax_CompanyCode">{{ l('CompanyCode') }}</label>
-                        <p-dropdown id="TaxCode_SalesTax_CompanyCode" name="taxCodeSalesTaxCompanyCode"
-                            options="companyCodes" optionValue="code" optionLabel="displayName" [showClear]="true">
-                        </p-dropdown>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="TaxCode_SalesTax_RequestTimeoutSec">{{ l('RequestTimeoutSec') }}</label>
-                        <input type="text" id="TaxCode_SalesTax_RequestTimeoutSec"
-                            name="taxCodeSalesTaxRequestTimeoutSec" class="form-control"
-                            [placeholder]="l('RequestTimeoutSec')" />
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button (click)="testConnection()" class="btn btn-primary blue">{{ l('TestConnection') }}</button>
-                </div>
-                <div class="row">
-                    <div class="col-3 d-flex align-items-center mt-5 form-group">
-                        <label class="checkbox checkbox-outline">
-                            <input type="checkbox" name="DisableAddressVerification" />
-                            <span></span>
-                            {{ l('DisableAddressVerification') }}
-                        </label>
-                    </div>
-                    <div class="col-3 d-flex align-items-center mt-5 form-group">
-                        <label class="checkbox checkbox-outline">
-                            <input type="checkbox" name="DisableDocumentRecording" />
-                            <span></span>
-                            {{ l('DisableDocumentRecording') }}
-                        </label>
-                    </div>
-                    <div class="col-3 d-flex align-items-center mt-5 form-group">
-                        <label class="checkbox checkbox-outline">
-                            <input type="checkbox" name="EnableLogging" />
-                            <span></span>
-                            {{ l('EnableLogging') }}
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 d-flex align-items-center justify-content-between">
-                        <div class="form-group flex-grow-1 pr-2">
-                            <label for="TaxCode_SalesTax_TaxAccountOverrideNo">{{ l('TaxAccountOverrideNo') }}</label>
-                            <input type="text" id="TaxCode_SalesTax_TaxAccountOverrideNo"
-                                name="taxCodeSalesTaxTaxAccountOverrideNo" class="form-control"
-                                [placeholder]="l('TaxAccountOverrideNo')" />
-                        </div>
-                        <button class="btn btn-primary text-primary p-2 mt-1">
-                            <i class="fa fa-search p-0"></i>
-                        </button>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end align-items-center">
-                        <button (click)="viewLog()" class="btn btn-primary blue">{{ l('View Log') }}</button>
-                    </div>
-                </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+            <div class="col-6 d-flex justify-content-end align-items-center">
+                <button (click)="viewLog()" class="btn btn-primary blue">{{ l('View Log') }}</button>
             </div>
         </div>
     </form>
