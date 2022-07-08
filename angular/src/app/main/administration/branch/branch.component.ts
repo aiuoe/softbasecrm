@@ -1,16 +1,14 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { isEmpty as _isEmpty } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
-    BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, GetBranchInitialDataDto, IBranchCurrencyTypeDto,
-    IBranchForEditDto, IGetBranchInitialDataDto, IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto,
-    PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy
+    BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, CreateBranchCommand, GetBranchInitialDataDto,
+    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy, UpdateBranchCommand
 } from '@shared/service-proxies/service-proxies';
-import { Subject } from 'rxjs';
-import { DatePipe } from '@angular/common';
 
 @Component({
     templateUrl: './branch.component.html',
@@ -29,14 +27,14 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchId: number;
     branchNumber: number;
     currencyTypeId: number;
-    branchCurrencyType: IBranchCurrencyTypeDto = new BranchCurrencyTypeDto();
-    branchForEdit: IBranchForEditDto = new BranchForEditDto();
-    initialDropdownData: IGetBranchInitialDataDto = new GetBranchInitialDataDto();
+    branchCurrencyType = new BranchCurrencyTypeDto();
+    branchForEdit = new BranchForEditDto();
+    initialDropdownData = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
 
-    selectedDate: Date = new Date();
-    creationTime: Date = new Date();
-    lastModificationTime: Date = new Date();
+    selectedDate = new Date();
+    creationTime = new Date();
+    lastModificationTime = new Date();
 
     constructor(
         injector: Injector,
@@ -47,7 +45,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     ngOnInit(): void {
-        this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: IGetBranchInitialDataDto) => {
+        this.initBranch();
+        this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: GetBranchInitialDataDto) => {
             this.initialDropdownData = x;
         });
     }
@@ -59,17 +58,14 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchNumberOnChange(): void {
         this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
-            this.branchForEdit.localTaxCodeId = -11;
             this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
-            this.creationTime = this.branchForEdit.creationTime.toJSDate();
-            this.lastModificationTime = this.branchForEdit.lastModificationTime.toJSDate();
         });
     }
 
     currencyTypeOnChange(): void {
         if (this.branchId && this.currencyTypeId) {
             this._branchesService.getBranchCurrencyType(this.branchId, this.currencyTypeId)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IBranchCurrencyTypeDto) => {
+                .pipe(takeUntil(this.destroy$)).subscribe((x: BranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
                 });
         }
@@ -80,7 +76,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             this.branchCurrencyType = new BranchCurrencyTypeDto();
             const patchBranchCurrencyTypeCommand = new PatchBranchCurrencyTypeCommand();
             this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IBranchCurrencyTypeDto) => {
+                .pipe(takeUntil(this.destroy$)).subscribe((x: BranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
                 });
         }
@@ -100,7 +96,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
 
             this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IBranchCurrencyTypeDto) => {
+                .pipe(takeUntil(this.destroy$)).subscribe((x: BranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
                 });
         }
@@ -133,11 +129,26 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     addBranch(): void {
+        if (this.branchForEdit.name) {
+            var requestBody = new CreateBranchCommand({ number: 1, ...this.branchForEdit});
+            this._branchesService.create(requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+                this.branchForEdit = x;
+                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
 
+                //TODO: add new branch to dropdown
+                //this.initialDropdownData.branches.push(new BranchLookupDto({id: 1, number: 1}));
+            });
+        }
     }
 
     updateBranch(): void {
-
+        if (this.branchId && this.branchForEdit.name) {
+            var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit});
+            this._branchesService.update(this.branchId, requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+                this.branchForEdit = x;
+                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            });
+        }
     }
 
     deleteBranch(): void {
@@ -160,6 +171,61 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     logoGraphicClear() {
 
+    }
+
+    private initBranch(): void {
+        this.branchForEdit = new BranchForEditDto({
+            name: null,
+            subName: null,
+            address: null,
+            city: null,
+            state: null,
+            zipCode: null,
+            countryId: null,
+            phone: null,
+            fax: null,
+            receivable: null,
+            financeCharge: null,
+            financeRate: null,
+            financeDays: null,
+            stateTaxLabel: null,
+            countyTaxLabel: null,
+            showSplitSalesTax: null,
+            cityTaxLabel: null,
+            localTaxLabel: null,
+            defaultWarehouseId: null,
+            clarkPartsCode: null,
+            clarkDealerAccessCode: null,
+            useStateTaxCodeDescription: null,
+            useCountyTaxCodeDescription: null,
+            useCityTaxCodeDescription: null,
+            useLocalTaxCodeDescription: null,
+            rentalDeliveryDefaultTime: null,
+            stateTaxCodeId: null,
+            countyTaxCodeId: null,
+            cityTaxCodeId: null,
+            localTaxCodeId: null,
+            taxCodeId: null,
+            useAbsoluteTaxCodes: null,
+            smallSubName: null,
+            shopId: null,
+            image: null,
+            useImage: null,
+            logoFile: null,
+            vendorId: null,
+            printFinalCc: null,
+            printFinalBcc: null,
+            storeName: null,
+            creditCardAccountNo: null,
+            tvhAccountNo: null,
+            tvhKey: null,
+            tvhCountryId: null,
+            tvhWarehouse: null,
+            creatorUserName: null,
+            creationTime: null,
+            lastModifierUserName: null,
+            lastModificationTime: null
+          });
     }
 }
 

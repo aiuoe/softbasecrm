@@ -1,26 +1,16 @@
 <div class="card card-custom card-in-tab gutter-b">
     <div class="card-body">
+        <h3>{{ l('PrintFinalAutoCcBcc') }}</h3>
         <div class="row">
-            <div class="col-12">
-                <h3>{{ l('PrintFinalAutoCcBcc') }}</h3>
+            <div class="col-6 form-group">
+                <label for="Branch_Email_PrintFinalCc">{{ l('PrintFinalCc') }}</label>
+                <input type="text" id="Branch_Email_PrintFinalCc" name="branchEmailPrintFinalCc" class="form-control"
+                    [placeholder]="l('PrintFinalCc')" [(ngModel)]="branchForEdit.printFinalCc" />
             </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="Finance_PrintFinalCc">{{ l('PrintFinalCc') }}</label>
-                    <input type="text" id="Finance_PrintFinalCc" class="form-control" [placeholder]="l('PrintFinalCc')"
-                        name="Finance_PrintFinalCc" 
-                        [(ngModel)]="branchForEdit.printFinalCc"/>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="Finance_PrintFinalBcc">{{ l('PrintFinalBcc') }}</label>
-                    <input type="text" id="Finance_PrintFinalBcc" class="form-control"
-                        [placeholder]="l('PrintFinalBcc')" name="Finance_PrintFinalBcc" 
-                        [(ngModel)]="branchForEdit.printFinalBcc">
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_Email_PrintFinalBcc">{{ l('PrintFinalBcc') }}</label>
+                <input type="text" id="Branch_Email_PrintFinalBcc" name="branchEmailPrintFinalBcc" class="form-control"
+                    [placeholder]="l('PrintFinalBcc')" [(ngModel)]="branchForEdit.printFinalBcc">
             </div>
         </div>
     </div>

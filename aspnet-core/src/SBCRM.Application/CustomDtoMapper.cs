@@ -64,6 +64,7 @@ using StateTaxCode = SBCRM.Core.BaseEntities.StateTaxCode;
 using Tax = SBCRM.Core.BaseEntities.Tax;
 using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
+using System;
 
 namespace SBCRM
 {
@@ -279,13 +280,15 @@ namespace SBCRM
 
             //Branch
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
-            configuration.CreateMap<Branch, BranchForEditDto>();
-            
+            configuration.CreateMap<Branch, BranchForEditDto>()
+                .ForMember(dto => dto.CountryId, opt => opt.MapFrom(a => a.Country))
+                .ForMember(dto => dto.TvhCountryId, opt => opt.MapFrom(a => a.TvhCountry));
+
             configuration.CreateMap<Branch, BranchLookupDto>();
             configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
                 .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
             configuration.CreateMap<Warehouse, WarehouseLookupDto>()
-                .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.Warehouse1));
+                .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.WarehouseName));
             configuration.CreateMap<CurrencyType, CurrencyTypeLookupDto>()
                 .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
             configuration.CreateMap<Tax, TaxCodeInBranchDto>();

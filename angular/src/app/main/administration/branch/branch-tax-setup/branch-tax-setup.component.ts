@@ -1,51 +1,51 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BranchesServiceProxy, BranchForEditDto, CityTaxCodeInBranchDto, CountyTaxCodeInBranchDto, GetTaxTabInitialDataDto, LocalTaxCodeInBranchDto, StateTaxCodeInBranchDto, TaxCodeInBranchDto } from '@shared/service-proxies/service-proxies';
+import { BranchesServiceProxy, BranchForEditDto, GetTaxTabInitialDataDto, TaxCodeInBranchDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
     selector: 'branchTaxSetup',
     templateUrl: './branch-tax-setup.component.html'
 })
 
-export class BranchTaxSetupComponent extends AppComponentBase {
-
+export class BranchTaxSetupComponent extends AppComponentBase implements OnChanges, OnDestroy {
+    destroy$ = new Subject();
     @Input() taxCodes: TaxCodeInBranchDto[] = [];
     @Input() branchForEdit: BranchForEditDto;
+    private hasInitialData = false;
 
-    stateTaxCodes: StateTaxCodeInBranchDto[] = [];
-    countyTaxCodes: CountyTaxCodeInBranchDto[] = [];
-    localTaxCodes: LocalTaxCodeInBranchDto[] = [];
-    cityTaxCodes: CityTaxCodeInBranchDto[] = [];
-
-    isUseAbsoluteTaxCodesChecked: boolean = false;
-    hasDropDownData: boolean = false;
+    taxTabInitialData = new GetTaxTabInitialDataDto();
 
     constructor(
         injector: Injector,
-        private branchesService: BranchesServiceProxy
+        private _branchesService: BranchesServiceProxy
     ) {
         super(injector);
-
     }
 
-    /**
-     * This method gets executed whenever user updates the UseAbsoluteTaxCodes checkbox.
-     */
-    onChangeUseAbsoluteTaxCodesStatus() {
-        this.isUseAbsoluteTaxCodesChecked = !this.isUseAbsoluteTaxCodesChecked;
-        //hasDropDownData flag lets the api called only once,no matter how many times UseAbsoluteTaxCodes is checked
-        if (!this.hasDropDownData) {
-            this.branchesService.getTaxTabInitialData().subscribe(
-                (response: GetTaxTabInitialDataDto) => {
-                    this.stateTaxCodes = response.stateTaxCodes;
-                    this.countyTaxCodes = response.countyTaxCodes;
-                    this.localTaxCodes = response.localTaxCodes;
-                    this.cityTaxCodes = response.cityTaxCodes;
+    ngOnChanges(changes: SimpleChanges): void {
+        if(changes.branchForEdit) {
+            this.setTaxTabInitialData();
+        }
+    }
 
-                    this.hasDropDownData = true;
+    ngOnDestroy(): void {
+        this.destroy$.next();
+    }
+
+    useAbsoluteTaxCodesStatusOnChange(): void {
+        this.setTaxTabInitialData();
+    }
+
+    private setTaxTabInitialData(): void {
+        if (!this.hasInitialData) {
+            this._branchesService.getTaxTabInitialData().pipe(takeUntil(this.destroy$)).subscribe(
+                (x: GetTaxTabInitialDataDto) => {
+                    this.taxTabInitialData = x;
+                    this.hasInitialData = true;
                 }
             );
         }
     }
-
 }

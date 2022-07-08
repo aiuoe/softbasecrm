@@ -1,21 +1,16 @@
 <div class="card card-custom card-in-tab gutter-b">
     <div class="card-body">
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
-                    <input  id="Finance_LogoGraphicFile" class="form-control" [disabled]="true"
-                        [placeholder]="l('LogoGraphicFile')" name="Finance_LogoGraphicFile" 
-                        [(ngModel)]="branchForEdit.logoFile">
-                </div>
-                <div>
-                    <!-- preview image here -->
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
+                <input id="Branch_Finance_LogoGraphicFile" name="branchFinanceLogoGraphicFile" class="form-control"
+                    [disabled]="true" [placeholder]="l('LogoGraphicFile')" [(ngModel)]="branchForEdit.logoFile">
             </div>
             <div class="col-6 d-flex justify-content-center align-items-center mt-5">
                 <div class="form-group flex-grow-1 d-flex justify-content-between align-items-center">
                     <label class="checkbox checkbox-outline">
-                        <input id="Branch_LogoGraphic_UseGraphic" type="checkbox" name="UseGraphic" [(ngModel)]="branchForEdit.useImage" />
+                        <input id="Branch_LogoGraphic_UseGraphic" type="checkbox" name="UseGraphic"
+                            [(ngModel)]="branchForEdit.useImage" />
                         <span></span>
                         {{ l('UseGraphic') }}
                     </label>
@@ -25,6 +20,9 @@
                     </button>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <!-- preview image here -->
         </div>
     </div>
 </div>
