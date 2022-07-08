@@ -1,0 +1,166 @@
+<div class="card card-custom card-in-tab gutter-b">
+    <form class="card-body form" autocomplete="off">
+        <div class="pb-3 d-flex justify-content-end">
+            <button (click)="add()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-plus pr-3"></i>
+                <span>{{ l('Add') }}</span>
+            </button>
+            <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-times pr-3"></i>
+                <span>{{ l('Delete') }}</span>
+            </button>
+            <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-check pr-3"></i>
+                <span>{{ l('Update') }}</span>
+            </button>
+        </div>
+        <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_TaxCode">{{ l('CountryProvTaxCode') }}</label>
+                <p-dropdown id="TaxCode_CountryProv_TaxCode" name="taxCodeCountryProvTaxCode" options="taxCodes"
+                    optionValue="code" optionLabel="displayName" [showClear]="true">
+                </p-dropdown>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="radio">
+                    <input type="radio" name="Code" />
+                    <span></span>
+                    {{ l('Code') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="radio">
+                    <input type="radio" name="Description" />
+                    <span></span>
+                    {{ l('Description') }}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_TaxRate">{{ l('TaxRate') }}</label>
+                <input type="text" id="TaxCode_CountryProv_TaxRate" name="taxCodeCountryProvTaxRate"
+                    class="form-control" [placeholder]="l('TaxRate')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_RentalRate">{{ l('RentalRate') }}</label>
+                <input type="text" id="TaxCode_CountryProv_RentalRate" name="taxCodeCountryProvRentalRate"
+                    class="form-control" [placeholder]="l('RentalRate')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_EQSaleRate">{{ l('EQSaleRate') }}</label>
+                <input type="text" id="TaxCode_CountryProv_EQSaleRate" name="taxCodeCountryProvEQSaleRate"
+                    class="form-control" [placeholder]="l('EQSaleRate')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_Description">{{ l('Description') }}</label>
+                <input type="text" id="TaxCode_CountryProv_Description" name="taxCodeCountryProvDescription"
+                    class="form-control" [placeholder]="l('Description')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_CountryProv_TaxAccount">{{ l('TaxAccount') }}</label>
+                    <input type="text" id="TaxCode_CountryProv_TaxAccount" name="taxCodeCountryProvTaxAccount"
+                        class="form-control" [placeholder]="l('TaxAccount')" />
+                </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_CountryCode">{{ l('CountryCode') }}</label>
+                <input type="text" id="TaxCode_CountryProv_CountryCode" name="taxCodeCountryProvCountryCode"
+                    class="form-control" [placeholder]="l('CountryCode')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_MaxAmount">{{ l('MaxAmount') }}</label>
+                <input type="text" id="TaxCode_CountryProv_MaxAmount" name="taxCodeCountryProvMaxAmount"
+                    class="form-control" [placeholder]="l('MaxAmount')" />
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="PartsNonTaxable" />
+                    <span></span>
+                    {{ l('PartsNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="LaborNonTaxable" />
+                    <span></span>
+                    {{ l('LaborNonTaxable') }}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="MiscNonTaxable" />
+                    <span></span>
+                    {{ l('MiscNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="RentalNonTaxable" />
+                    <span></span>
+                    {{ l('RentalNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="EquipmentNonTaxable" />
+                    <span></span>
+                    {{ l('EquipmentNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="CountrySpecialFlag" />
+                    <span></span>
+                    {{ l('CountrySpecialFlag') }}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="Quebec" />
+                    <span></span>
+                    {{ l('Quebec') }}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_StateAccount">{{ l('StateAccount') }}</label>
+                <input type="text" id="TaxCode_CountryProv_StateAccount" name="taxCodeCountryProvStateAccount"
+                    class="form-control" [placeholder]="l('StateAccount')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_StateRate">{{ l('StateRate') }}</label>
+                <input type="text" id="TaxCode_CountryProv_StateRate" name="taxCodeCountryProvStateRate"
+                    class="form-control" [placeholder]="l('StateRate')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_StateMin">{{ l('StateMin') }}</label>
+                <input type="text" id="TaxCode_CountryProv_StateMin" name="taxCodeCountryProvStateMin"
+                    class="form-control" [placeholder]="l('StateMin')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_CountryProv_StateMax">{{ l('StateMax') }}</label>
+                <input type="text" id="TaxCode_CountryProv_StateMax" name="taxCodeCountryProvStateMax"
+                    class="form-control" [placeholder]="l('StateMax')" />
+            </div>
+        </div>
+    </form>
+</div>
