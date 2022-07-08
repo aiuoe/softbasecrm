@@ -1,276 +1,137 @@
 <div class="card card-custom card-in-tab gutter-b">
-    <div class="card-body">
-        <form class="form" autocomplete="off">
-            <div>
+    <form class="card-body form" autocomplete="off">
+        <div class="card card-custom card-in-tab gutter-b">
+            <div class="card-body">
+                <div class="d-flex justify-content-end pb-3">
+                    <button (click)="add()" class="btn btn-primary blue" [buttonBusy]="saving">
+                        <i class="fa fa-plus pr-3"></i>
+                        <span>{{ l('Add') }}</span>
+                    </button>
+                    <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
+                        <i class="fa fa-times pr-3"></i>
+                        <span>{{ l('Delete') }}</span>
+                    </button>
+                    <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
+                        <i class="fa fa-check pr-3"></i>
+                        <span>{{ l('Update') }}</span>
+                    </button>
+                </div>
+                <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card card-custom card-in-tab gutter-b">
-                            <div class="card-body">
-                                <div class="row pb-3">
-                                    <div class="col-12 d-flex justify-content-end">
-                                        <button
-                                            (click)="add()"
-                                            class="btn btn-primary blue"
-                                            [buttonBusy]="saving"
-                                        >
-                                            <i class="fa fa-plus pr-3"></i>
-                                            <span>{{ l('Add') }}</span>
-                                        </button>
-                                        <button
-                                            (click)="delete()"
-                                            class="btn btn-primary blue"
-                                            [buttonBusy]="saving"
-                                        >
-                                            <i class="fa fa-times pr-3"></i>
-                                            <span>{{ l('Delete') }}</span>
-                                        </button>
-                                        <button
-                                            (click)="update()"
-                                            class="btn btn-primary blue"
-                                            [buttonBusy]="saving"
-                                        >
-                                            <i class="fa fa-check pr-3"></i>
-                                            <span>{{ l('Update') }}</span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="TaxCode">{{ l('StateGovTaxCode') }}</label>                                                                
-                                                    <p-dropdown 
-                                                                id="StateGovTaxCode"
-                                                                options="taxCodes"
-                                                                optionLabel="displayName"
-                                                                [showClear]="true"
-                                                                optionValue="code">
-                                                    </p-dropdown>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="radio">
-                                                        <input
-                                                            type="radio"
-                                                            name="Code"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('Code') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="radio">
-                                                        <input
-                                                            type="radio"
-                                                            name="Description"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('Description') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">                                            
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="TaxRate">
-                                                        {{ l('TaxRate') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="TaxRate"
-                                                        class="form-control"
-                                                        [placeholder]="l('TaxRate')"
-                                                        name="TaxRate"
-                                                    />
-                                                </div>
-                                            </div>                                            
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="RentalRate">
-                                                        {{ l('RentalRate') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="RentalRate"
-                                                        class="form-control"
-                                                        [placeholder]="l('RentalRate')"
-                                                        name="RentalRate"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="EQSaleRate">
-                                                        {{ l('EQSaleRate') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="EQSaleRate"
-                                                        class="form-control"
-                                                        [placeholder]="l('EQSaleRate')"
-                                                        name="EQSaleRate"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="LaborRate">
-                                                        {{ l('LaborRate') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="LaborRate"
-                                                        class="form-control"
-                                                        [placeholder]="l('LaborRate')"
-                                                        name="LaborRate"
-                                                    />
-                                                </div>
-                                            </div>                                            
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="Description">{{ l('Description') }}</label>
-                                                    <input
-                                                        type="text"
-                                                        id="Description"
-                                                        class="form-control"
-                                                        [placeholder]="l('Description')"
-                                                        name="Description"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-6 d-flex align-items-center justify-content-between">
-                                                <div class="form-group flex-grow-1 pr-2">
-                                                    <label for="TaxAccount">
-                                                        {{ l('TaxAccount') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="TaxAccount"
-                                                        class="form-control"
-                                                        [placeholder]="l('TaxAccount')"
-                                                        name="TaxAccount"
-                                                    />
-                                                </div>
-                                                <button class="btn btn-primary text-primary p-2 mt-1">
-                                                    <i class="fa fa-search p-0"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="StateCode">
-                                                        {{ l('StateCode') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="StateCode"
-                                                        class="form-control"
-                                                        [placeholder]="l('StateCode')"
-                                                        name="StateCode"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="MaxAmount">
-                                                        {{ l('MaxAmount') }}
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="MaxAmount"
-                                                        class="form-control"
-                                                        [placeholder]="l('MaxAmount')"
-                                                        name="MaxAmount"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>                                        
-                                        <div class="row">
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="checkbox checkbox-outline">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="PartsNonTaxable"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('PartsNonTaxable') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="checkbox checkbox-outline">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="LaborNonTaxable"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('LaborNonTaxable') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="checkbox checkbox-outline">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="MiscNonTaxable"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('MiscNonTaxable') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="checkbox checkbox-outline">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="RentalNonTaxable"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('RentalNonTaxable') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-3 d-flex align-items-center mt-5">
-                                                <div class="form-group">
-                                                    <label class="checkbox checkbox-outline">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="EquipmentNonTaxable"
-                                                        />
-                                                        <span></span>
-                                                        {{ l('EquipmentNonTaxable') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_TaxCode">{{ l('StateGovTaxCode') }}</label>
+                        <p-dropdown id="TaxCode_StateGov_TaxCode" name="taxCodeStateGovTaxCode" options="taxCodes"
+                            optionValue="code" optionLabel="displayName" [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="radio">
+                            <input type="radio" name="Code" />
+                            <span></span>
+                            {{ l('Code') }}
+                        </label>
+                    </div>
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="radio">
+                            <input type="radio" name="Description" />
+                            <span></span>
+                            {{ l('Description') }}
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_TaxRate">{{ l('TaxRate') }}</label>
+                        <input type="text" id="TaxCode_StateGov_TaxRate" name="taxCodeStateGovTaxRate"
+                            class="form-control" [placeholder]="l('TaxRate')" />
+                    </div>
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_RentalRate">{{ l('RentalRate') }}</label>
+                        <input type="text" id="TaxCode_StateGov_RentalRate" name="taxCodeStateGovRentalRate"
+                            class="form-control" [placeholder]="l('RentalRate')" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_EQSaleRate">{{ l('EQSaleRate') }}</label>
+                        <input type="text" id="TaxCode_StateGov_EQSaleRate" name="TaxCodeStateGovEQSaleRate"
+                            class="form-control" [placeholder]="l('EQSaleRate')" />
+                    </div>
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_LaborRate">{{ l('LaborRate') }}</label>
+                        <input type="text" id="TaxCode_StateGov_LaborRate" name="taxCodeStateGovLaborRate"
+                            class="form-control" [placeholder]="l('LaborRate')" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_Description">{{ l('Description') }}</label>
+                        <input type="text" id="TaxCode_StateGov_Description" name="taxCodeStateGovDescription"
+                            class="form-control" [placeholder]="l('Description')" />
+                    </div>
+                    <div class="col-6 d-flex align-items-center justify-content-between">
+                        <div class="form-group flex-grow-1 pr-2">
+                            <label for="TaxCode_StateGov_TaxAccount">{{ l('TaxAccount') }}</label>
+                            <input type="text" id="TaxCode_StateGov_TaxAccount" name="taxCodeStateGovTaxAccount"
+                                class="form-control" [placeholder]="l('TaxAccount')" />
                         </div>
+                        <button class="btn btn-primary text-primary p-2 mt-1">
+                            <i class="fa fa-search p-0"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_StateCode">{{ l('StateCode') }}</label>
+                        <input type="text" id="TaxCode_StateGov_StateCode" name="taxCodeStateGovStateCode"
+                            class="form-control" [placeholder]="l('StateCode')" />
+                    </div>
+                    <div class="col-6 form-group">
+                        <label for="TaxCode_StateGov_MaxAmount">{{ l('MaxAmount') }}</label>
+                        <input type="text" id="TaxCode_StateGov_MaxAmount" name="taxCodeStateGovMaxAmount"
+                            class="form-control" [placeholder]="l('MaxAmount')" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="checkbox checkbox-outline">
+                            <input type="checkbox" name="PartsNonTaxable" />
+                            <span></span>
+                            {{ l('PartsNonTaxable') }}
+                        </label>
+                    </div>
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="checkbox checkbox-outline">
+                            <input type="checkbox" name="LaborNonTaxable" />
+                            <span></span>
+                            {{ l('LaborNonTaxable') }}
+                        </label>
+                    </div>
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="checkbox checkbox-outline">
+                            <input type="checkbox" name="MiscNonTaxable" />
+                            <span></span>
+                            {{ l('MiscNonTaxable') }}
+                        </label>
+                    </div>
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="checkbox checkbox-outline">
+                            <input type="checkbox" name="RentalNonTaxable" />
+                            <span></span>
+                            {{ l('RentalNonTaxable') }}
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center mt-5 form-group">
+                        <label class="checkbox checkbox-outline">
+                            <input type="checkbox" name="EquipmentNonTaxable" />
+                            <span></span>
+                            {{ l('EquipmentNonTaxable') }}
+                        </label>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
