@@ -273,6 +273,8 @@ namespace SBCRM
                 .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))
                 .ReverseMap();
 
+            configuration.CreateMap<Branch, GetBranchDto>();
+
             #endregion
             #region [Accounting mappings]
 
