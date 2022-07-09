@@ -1,0 +1,36 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration' | localize" [breadcrumbs]="breadcrumbs">
+            <div role="actions">
+                <button class="btn btn-secondary text-prmary float-left">
+                    <span>{{ l('Close') }}</span>
+                </button>
+            </div>
+        </sub-header>
+        <div [class]="containerClass">
+            <tabset>
+                <tab heading="{{ l('Standard') }}">
+                    <taxCodesStandard></taxCodesStandard>
+                </tab>
+                <tab heading="{{ l('StateGov') }}">
+                    <taxCodesStateGov></taxCodesStateGov>
+                </tab>
+                <tab heading="{{ l('CountryProv') }}">
+                    <taxCodesCountryProv></taxCodesCountryProv>
+                </tab>
+                <tab heading="{{ l('City') }}">
+                    <taxCodesCity></taxCodesCity>
+                </tab>
+                <tab heading="{{ l('Local') }}">
+                    <taxCodesLocal></taxCodesLocal>
+                </tab>
+                <tab heading="{{ l('SalesTaxIntegration') }}">
+                    <taxCodesSalesTax></taxCodesSalesTax>
+                </tab>
+                <tab heading="{{ l('DefaultTaxCode') }}">
+                    <taxCodesDefaultTaxCode></taxCodesDefaultTaxCode>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>
