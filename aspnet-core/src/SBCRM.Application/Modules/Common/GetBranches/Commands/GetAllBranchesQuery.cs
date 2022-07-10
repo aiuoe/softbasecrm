@@ -11,14 +11,8 @@ namespace SBCRM.Modules.Common.GetBranches.Commands
     /// <summary>
     /// Used to get branch by branch number
     /// </summary>
-    public class GetBranchesByNoQuery : IRequest<BranchForDepartmentDto>
-    {
-        public GetBranchesByNoQuery(short number)
-        {
-            Number = number;
-        }
-
-        public short Number { get; set; }   
+    public class GetAllBranchesQuery : IRequest<List<BranchForDepartmentDto>>
+    {  
 
     }
 }

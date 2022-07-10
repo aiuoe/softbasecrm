@@ -14,20 +14,20 @@ namespace SBCRM.Modules.Common.GetBranches.Handlers
     /// <summary>
     /// Used to handle query branch by Branch number
     /// </summary>
-    public class GetBranchesByNoQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchesByNoQuery, BranchForDepartmentDto>
+    public class GetAllBranchesQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetAllBranchesQuery, List<BranchForDepartmentDto>>
     {
         private readonly IBranchRepository _branchRepository;
 
-        public GetBranchesByNoQueryHandler(IBranchRepository branchRepository)
+        public GetAllBranchesQueryHandler(IBranchRepository branchRepository)
         {
             _branchRepository = branchRepository;
         }
 
-        public async Task<BranchForDepartmentDto> Handle(GetBranchesByNoQuery request, CancellationToken cancellationToken)
+        public async Task<List<BranchForDepartmentDto>> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
         {
-            var branches = await _branchRepository.GetAllListAsync(b => b.Number == request.Number);
+            var branches = await _branchRepository.GetAllListAsync();
 
-            return ObjectMapper.Map<BranchForDepartmentDto>(branches.FirstOrDefault());
+            return ObjectMapper.Map(branches, new List<BranchForDepartmentDto>());
         }
     }
 }

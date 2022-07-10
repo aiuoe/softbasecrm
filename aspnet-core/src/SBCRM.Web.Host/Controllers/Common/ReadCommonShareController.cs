@@ -73,14 +73,13 @@ namespace SBCRM.Web.Controllers.Common
         }
 
 
-        /// API to Get Branch details (Name & Subname) by Branch #.  <summary>
+        /// API to Get List of Branch details (Name & Subname)  <summary>
         /// </summary>
         /// <returns></returns>
-        [Route("{branchNo}")]
         [HttpGet]
-        public async Task<BranchForDepartmentDto> GetBranchesByNo([FromRoute] short branchNo)
+        public async Task<List<BranchForDepartmentDto>> GetAllBranches()
         {
-            return await _mediator.Send(new GetBranchesByNoQuery(branchNo));
+            return await _mediator.Send(new GetAllBranchesQuery());
         }
     }
 }
