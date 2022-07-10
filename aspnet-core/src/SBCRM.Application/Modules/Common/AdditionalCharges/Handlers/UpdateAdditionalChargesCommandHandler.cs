@@ -18,6 +18,8 @@ namespace SBCRM.Modules.Common.AdditionalCharges.Handlers
         public async Task<Unit> Handle(UpdateAdditionalChargesCommand request, CancellationToken cancellationToken)
         {
             var addnlCharge = await _additionalChargesRepository.GetAsync(request.Id);
+            /// making the Ids same as its an update operation
+            request.AdditionalCharge.Id = addnlCharge.Id.ToString();
             if (addnlCharge != null)
             {
                 await _additionalChargesRepository.UpdateAsync(ObjectMapper.Map(request.AdditionalCharge, addnlCharge));

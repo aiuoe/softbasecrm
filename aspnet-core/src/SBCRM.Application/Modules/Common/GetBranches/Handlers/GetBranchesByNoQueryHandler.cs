@@ -11,20 +11,23 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Common.GetBranches.Handlers
 {
-    public class GetBranchesByNoCommandHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchesByNoCommand, List<GetBranchDto>>
+    /// <summary>
+    /// Used to handle query branch by Branch number
+    /// </summary>
+    public class GetBranchesByNoQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchesByNoQuery, BranchForDepartmentDto>
     {
         private readonly IBranchRepository _branchRepository;
 
-        public GetBranchesByNoCommandHandler(IBranchRepository branchRepository)
+        public GetBranchesByNoQueryHandler(IBranchRepository branchRepository)
         {
             _branchRepository = branchRepository;
         }
 
-        public async Task<List<GetBranchDto>> Handle(GetBranchesByNoCommand request, CancellationToken cancellationToken)
+        public async Task<BranchForDepartmentDto> Handle(GetBranchesByNoQuery request, CancellationToken cancellationToken)
         {
             var branches = await _branchRepository.GetAllListAsync(b => b.Number == request.Number);
 
-            return ObjectMapper.Map(branches, new List<GetBranchDto>());
+            return ObjectMapper.Map<BranchForDepartmentDto>(branches.FirstOrDefault());
         }
     }
 }

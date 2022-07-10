@@ -17,8 +17,8 @@ namespace SBCRM.Web.Controllers.Common
     /// <summary>
     /// ReadCommonShareController controller
     /// </summary>
-    [AbpMvcAuthorize]
-    [AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
+    /// [AbpMvcAuthorize]
+    /// [AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
     public class ReadCommonShareController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -67,7 +67,7 @@ namespace SBCRM.Web.Controllers.Common
         /// <returns></returns>
         [Route("{branchNo}/{departmentNo}")]
         [HttpGet]
-        public async Task<List<GetAdditionalChargeDto>> GetAdditionalChargesByBranchAndDepartment([FromRoute] int branchNo, [FromRoute] int departmentNo)
+        public async Task<List<AdditionalChargeDto>> GetAdditionalChargesByBranchAndDepartment([FromRoute] int branchNo, [FromRoute] int departmentNo)
         {
             return await _mediator.Send(new GetAdditionalChargesByBranchAndDepartmentCommand(branchNo,departmentNo));
         }
@@ -78,9 +78,9 @@ namespace SBCRM.Web.Controllers.Common
         /// <returns></returns>
         [Route("{branchNo}")]
         [HttpGet]
-        public async Task<List<GetBranchDto>> GetBranchesByNo([FromRoute] short branchNo)
+        public async Task<BranchForDepartmentDto> GetBranchesByNo([FromRoute] short branchNo)
         {
-            return await _mediator.Send(new GetBranchesByNoCommand(branchNo));
+            return await _mediator.Send(new GetBranchesByNoQuery(branchNo));
         }
     }
 }
