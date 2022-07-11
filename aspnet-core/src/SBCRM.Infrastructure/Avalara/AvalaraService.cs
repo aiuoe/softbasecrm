@@ -1,5 +1,6 @@
 ﻿using SBCRM.Avalara;
 using SBCRM.Dto;
+using SBCRM.Dto.AvalaraConnection.TaxCodes;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -58,5 +59,81 @@ namespace SBCRM.Infrastructure.Avalara
 
         }
 
+        /// <summary>
+        /// Provide url for avalara connection depending on the method to be used
+        /// </summary>
+        /// <param name="connectionDto">Avalara connection information</param>
+        /// <param name="method">Method to be called</param>
+        /// <param name="paramString">Parameters</param>
+        /// <returns></returns>
+        private string GetStandartUrl(AvalaraConnectionDataDto connectionDto, string method, string paramString)
+        {
+            return connectionDto.ServiceUrl + method + paramString;
+        }
+
+        #region GetTaxCodes
+
+        /// <summary>
+        /// Builds the parameter string query according to the parameters filled
+        /// </summary>
+        /// <param name="baseParameterString">Parameters so far added</param>
+        /// <param name="newParameter">New parameter to add</param>
+        /// <returns>Parameters string query</returns>
+        private string FirstParameter(string baseParameterString, string newParameter)
+        {
+            if (string.IsNullOrEmpty(baseParameterString))
+            {
+                return "?" + newParameter;
+            }
+            else
+            {
+                return baseParameterString + "&" + newParameter;
+            }
+        }
+
+        /// <summary>
+        /// Builds the GetTaxCodes method query string
+        /// </summary>
+        /// <param name="getTaxCodesParametersDto">parameters selected</param>
+        /// <returns>Query String for the Get method</returns>
+        private string GetTaxCodesParamString(GetTaxCodesParametersDto getTaxCodesParametersDto)
+        {
+            string parameterString = String.Empty;
+            if (getTaxCodesParametersDto != null && !string.IsNullOrWhiteSpace(getTaxCodesParametersDto.Filter))
+            {
+                parameterString = FirstParameter(parameterString, "filter=" + getTaxCodesParametersDto.Filter);
+            }
+            if (getTaxCodesParametersDto != null && !string.IsNullOrWhiteSpace(getTaxCodesParametersDto.Include))
+            {
+                parameterString = FirstParameter(parameterString, "include=" + getTaxCodesParametersDto.Include);
+            }
+            if (getTaxCodesParametersDto != null && !string.IsNullOrWhiteSpace(getTaxCodesParametersDto.Top))
+            {
+                parameterString = FirstParameter(parameterString, "top=" + getTaxCodesParametersDto.Top);
+            }
+            if (getTaxCodesParametersDto != null && !string.IsNullOrWhiteSpace(getTaxCodesParametersDto.Skip))
+            {
+                parameterString = FirstParameter(parameterString, "skip=" + getTaxCodesParametersDto.Skip);
+            }
+            if (getTaxCodesParametersDto != null && !string.IsNullOrWhiteSpace(getTaxCodesParametersDto.OrderBy))
+            {
+                parameterString = FirstParameter(parameterString, "order=" + getTaxCodesParametersDto.OrderBy);
+            }
+            return parameterString;
+        }
+
+        public async Task<HttpResponseMessage> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionData, GetTaxCodesParametersDto getTaxCodesParameters)
+        {
+            string paramString = GetTaxCodesParamString(getTaxCodesParameters);
+            string url = GetStandartUrl(avalaraConnectionData, "api/v2/taxcodes", paramString);
+
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            var encodedBase64string = System.Text.Encoding.UTF8.GetBytes(avalaraConnectionData.AccountNumber + ":" + avalaraConnectionData.LicenseKey);
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(encodedBase64string).ToString());
+            return await httpClient.GetAsync(url);
+        }
+
+        #endregion
     }
 }
