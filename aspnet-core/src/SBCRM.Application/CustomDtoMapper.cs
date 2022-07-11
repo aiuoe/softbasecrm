@@ -51,10 +51,14 @@ using Branch = SBCRM.Core.BaseEntities.Branch;
 using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
 using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
 using AdditionalCharge = SBCRM.Core.BaseEntities.AdditionalCharge;
+using Arterm = SBCRM.Core.BaseEntities.Arterm;
 using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Dto;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
+using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
+using SBCRM.Modules.Common.ARTerms.Dto;
+using System.Linq;
 
 namespace SBCRM
 {
@@ -265,6 +269,8 @@ namespace SBCRM
 
 
             configuration.CreateMap<SalesTaxIntegration, AvalaraConnectionDataDto>();
+            configuration.CreateMap<SalesTaxIntegration, SalesTaxIntegrationDto>().ReverseMap();
+            configuration.CreateMap<Arterm, ARTermDto>();
 
             #region [Administration mappings]
 
