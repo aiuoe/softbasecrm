@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using SBCRM.Avalara;
+using SBCRM.Base;
 using SBCRM.Dto;
 using SBCRM.Dto.AvalaraConnection.TaxCodes;
-using SBCRM.Modules.Common.Avalara.Commands;
 using SBCRM.Modules.Common.Avalara.Dto;
+using SBCRM.Modules.Common.Avalara.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,21 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Common.Avalara.Handlers
 {
-    public class GetTaxCodesCommandHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxCodesCommand, List<TaxCodeDto>>
+    public class GetTaxCodesQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxCodesQuery, List<TaxCodeDto>>
     {
         private readonly IAvalaraService _avalaraService;
+        private readonly ISalesTaxIntegrationRepository _salesTaxIntegrationRepository;
 
-        public GetTaxCodesCommandHandler(IAvalaraService avalaraService)
+        public GetTaxCodesQueryHandler(IAvalaraService avalaraService, ISalesTaxIntegrationRepository salesTaxIntegrationRepository)
         {
             _avalaraService = avalaraService;
+            _salesTaxIntegrationRepository = salesTaxIntegrationRepository;
         }
 
-        public Task<List<TaxCodeDto>> Handle(GetTaxCodesCommand request, CancellationToken cancellationToken)
+        public async Task<List<TaxCodeDto>> Handle(GetTaxCodesQuery request, CancellationToken cancellationToken)
         {
             AvalaraConnectionDataDto connectionData = new AvalaraConnectionDataDto();
+            //connectionData = await _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();            
             connectionData.SalesTaxProvider = "Avalara";
             connectionData.AccountNumber = "2001520504";
             connectionData.ServiceUrl = "https://sandbox-rest.avatax.com/";

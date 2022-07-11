@@ -8,9 +8,9 @@ using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Modules.Administration.Dtos;
 using SBCRM.Modules.Common.AdditionalCharges.Commands;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
-using SBCRM.Modules.Common.Avalara.Commands;
 using SBCRM.Modules.Common.Avalara.Dto;
 using SBCRM.Modules.Common.Avalara.Handlers;
+using SBCRM.Modules.Common.Avalara.Queries;
 using SBCRM.Modules.Common.GetBranches.Commands;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,8 +20,8 @@ namespace SBCRM.Web.Controllers.Common
     /// <summary>
     /// ReadCommonShareController controller
     /// </summary>
-    [AbpMvcAuthorize]
-    [AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
+    //[AbpMvcAuthorize]
+    //[AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
     public class ReadCommonShareController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -93,12 +93,12 @@ namespace SBCRM.Web.Controllers.Common
         /// </summary>
         /// <param name="filter">Filter for the list</param>
         /// <returns>Tax Code List</returns>
-        /// <see cref="GetTaxCodesCommandHandler"/>
-        [Route("{filter?}")]
+        /// <see cref="GetTaxCodesQueryHandler"/>
+        [Route("{filter}?")]
         [HttpGet]
         public async Task<List<TaxCodeDto>> GetTaxCodes([FromRoute] string filter = "" )
         {
-            return await _mediator.Send(new GetTaxCodesCommand(filter));
+            return await _mediator.Send(new GetTaxCodesQuery(filter));
         }
 
         #endregion
