@@ -14,17 +14,11 @@ namespace SBCRM.Modules.Administration.Company.Queries
         public string Address { get; set; }
 
         /// <summary>
-        /// input address to query map contructor
+        /// Base Constructor
         /// </summary>
-        /// <param name="address"></param>
-        public GetVerifyAddressQuery(GetVerifyAddressInputDto address)
+        public GetVerifyAddressQuery()
         {
             
-            City = address.City;
-            Country = address.Country;
-            ZipCode = address.ZipCode;
-            State = address.State;
-            Address = address.Address;
         }
 
     }

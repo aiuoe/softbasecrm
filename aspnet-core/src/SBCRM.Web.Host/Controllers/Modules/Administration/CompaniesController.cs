@@ -62,7 +62,8 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         [HttpPost]
         public async Task<GetVerifyAddressDto> GetVerifyAddress([FromBody] GetVerifyAddressInputDto address )
         {
-            return await _mediator.Send(new GetVerifyAddressQuery(address));
+            var getVerifyAddressQuery = ObjectMapper.Map<GetVerifyAddressQuery>(address);
+            return await _mediator.Send(getVerifyAddressQuery);
         }
 
 
