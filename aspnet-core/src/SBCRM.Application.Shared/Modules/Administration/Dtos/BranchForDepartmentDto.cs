@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SBCRM.Modules.Administration.Dtos
 {
-    public class GetBranchDto
+    public class BranchForDepartmentDto
     {
         public long Id { get; set; }    
         public short Number { get; set; }
