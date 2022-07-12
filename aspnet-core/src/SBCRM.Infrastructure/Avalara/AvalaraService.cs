@@ -60,15 +60,7 @@ namespace SBCRM.Infrastructure.Avalara
             }
             catch (Exception ex)
             {
-                return new GetVerifyAddressDto()
-                {
-                    CheckUseDefaultTaxCodeCalc = false,
-                    Address = "",
-                    City = "",
-                    State = "",
-                    ZipCode = "",
-                    Country = ""
-                };
+                return new GetVerifyAddressDto();
             }
 
         }

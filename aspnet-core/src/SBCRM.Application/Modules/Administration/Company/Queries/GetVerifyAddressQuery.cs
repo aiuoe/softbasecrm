@@ -13,13 +13,5 @@ namespace SBCRM.Modules.Administration.Company.Queries
         public string State { get; set; }
         public string Address { get; set; }
 
-        /// <summary>
-        /// Base Constructor
-        /// </summary>
-        public GetVerifyAddressQuery()
-        {
-            
-        }
-
     }
 }

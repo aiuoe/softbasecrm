@@ -267,6 +267,8 @@ namespace SBCRM
             configuration.CreateMap<SalesTaxIntegration, AvalaraConnectionDataDto>();
             configuration.CreateMap<GetCompanyDto, Company>().ReverseMap();
             configuration.CreateMap<GetVerifyAddressQuery, GetVerifyAddressInputDto>().ReverseMap();
+            configuration.CreateMap<AddressDto, GetVerifyAddressQuery>().ReverseMap();
+          
 
             #region [Administration mappings]
 
