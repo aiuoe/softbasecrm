@@ -3,25 +3,20 @@ using SBCRM.Avalara;
 using SBCRM.Dto;
 using SBCRM.Modules.Administration.Dtos;
 using System;
-using System.Collections.Generic;
+
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SBCRM.Infrastructure.Avalara
 {
-    /// <summary>
-    /// Constant class
-    /// </summary>
-    public static class Constants
-    {
-        public const string UnknownAddressType = "UnknownAddressType";
-    }
+   
     /// <summary>
     /// Class to implement avalara services
     /// </summary>
     public class AvalaraService : IAvalaraService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        public const string UNKNOWN_ADDRESS_TYPE = "UnknownAddressType";
         public AvalaraService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
@@ -49,7 +44,7 @@ namespace SBCRM.Infrastructure.Avalara
                 var response = await responseMessage.Content.ReadAsStringAsync();
                 var avalaraAddress = JObject.Parse(response)["validatedAddresses"][0];
 
-                if (avalaraAddress["addressType"].ToString().ToLower() == Constants.UnknownAddressType.ToLower())
+                if (avalaraAddress["addressType"].ToString().ToLower() == UNKNOWN_ADDRESS_TYPE.ToLower())
                 {
                     throw new Exception();
                 }

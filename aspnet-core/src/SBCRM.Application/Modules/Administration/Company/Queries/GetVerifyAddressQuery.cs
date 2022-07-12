@@ -19,6 +19,7 @@ namespace SBCRM.Modules.Administration.Company.Queries
         /// <param name="address"></param>
         public GetVerifyAddressQuery(GetVerifyAddressInputDto address)
         {
+            
             City = address.City;
             Country = address.Country;
             ZipCode = address.ZipCode;
