@@ -94,11 +94,11 @@ namespace SBCRM.Web.Controllers.Common
         /// <param name="filter">Filter for the list</param>
         /// <returns>Tax Code List</returns>
         /// <see cref="GetTaxCodesQueryHandler"/>
-        [Route("{filter}?")]
+        //[Route("{filter?}")]
         [HttpGet]
-        public async Task<List<TaxCodeDto>> GetTaxCodes([FromRoute] string filter = "" )
+        public async Task<List<TaxCodeDto>> GetTaxCodes(/*[FromRoute] string filter = "" */)
         {
-            return await _mediator.Send(new GetTaxCodesQuery(filter));
+            return await _mediator.Send(new GetTaxCodesQuery(string.Empty));
         }
 
         #endregion

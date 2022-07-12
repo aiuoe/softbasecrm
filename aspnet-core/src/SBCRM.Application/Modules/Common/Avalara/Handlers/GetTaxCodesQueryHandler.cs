@@ -17,12 +17,12 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
     public class GetTaxCodesQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxCodesQuery, List<TaxCodeDto>>
     {
         private readonly IAvalaraService _avalaraService;
-        private readonly ISalesTaxIntegrationRepository _salesTaxIntegrationRepository;
+        //private readonly ISalesTaxIntegrationRepository _salesTaxIntegrationRepository;
 
-        public GetTaxCodesQueryHandler(IAvalaraService avalaraService, ISalesTaxIntegrationRepository salesTaxIntegrationRepository)
+        public GetTaxCodesQueryHandler(IAvalaraService avalaraService/*, ISalesTaxIntegrationRepository salesTaxIntegrationRepository*/)
         {
             _avalaraService = avalaraService;
-            _salesTaxIntegrationRepository = salesTaxIntegrationRepository;
+            //_salesTaxIntegrationRepository = salesTaxIntegrationRepository;
         }
 
         public async Task<List<TaxCodeDto>> Handle(GetTaxCodesQuery request, CancellationToken cancellationToken)
