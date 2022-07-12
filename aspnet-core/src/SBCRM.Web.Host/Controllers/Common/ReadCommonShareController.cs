@@ -21,8 +21,8 @@ namespace SBCRM.Web.Controllers.Common
     /// <summary>
     /// ReadCommonShareController controller
     /// </summary>
-    /// [AbpMvcAuthorize]
-    /// [AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
+    [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_ReadCommonShare)]
     public class ReadCommonShareController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
