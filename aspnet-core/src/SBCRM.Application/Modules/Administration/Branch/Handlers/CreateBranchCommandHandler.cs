@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Create branch use case command handler
     /// </summary>
-    public class CreateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateBranchCommand, GetBranchForEditDto>
+    public class CreateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<CreateBranchCommand, GetBranchForEditDto>
     {
         private readonly IBranchRepository _branchRepository;
 
