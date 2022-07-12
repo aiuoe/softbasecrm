@@ -14,7 +14,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Create branch command handler
     /// </summary>
-    public class CreateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<CreateBranchCommand, BranchForEditDto>
+    public class CreateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<CreateBranchCommand, BranchForEditDto>
     {
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IBranchRepository _branchRepository;
