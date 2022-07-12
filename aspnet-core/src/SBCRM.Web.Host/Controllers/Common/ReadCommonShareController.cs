@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
 using SBCRM.Modules.Accounting.ChartOfAccounts.Queries;
 using SBCRM.Modules.Accounting.Dtos;
+using SBCRM.Modules.Administration.Dtos;
 using SBCRM.Modules.Common.AdditionalCharges.Commands;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
+using SBCRM.Modules.Common.GetBranches.Commands;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -68,6 +70,17 @@ namespace SBCRM.Web.Controllers.Common
         public async Task<List<GetAdditionalChargeDto>> GetAdditionalChargesByBranchAndDepartment([FromRoute] int branchNo, [FromRoute] int departmentNo)
         {
             return await _mediator.Send(new GetAdditionalChargesByBranchAndDepartmentCommand(branchNo,departmentNo));
+        }
+
+
+        /// API to Get Branch details (Name & Subname) by Branch #.  <summary>
+        /// </summary>
+        /// <returns></returns>
+        [Route("{branchNo}")]
+        [HttpGet]
+        public async Task<List<GetBranchDto>> GetBranchesByNo([FromRoute] short branchNo)
+        {
+            return await _mediator.Send(new GetBranchesByNoCommand(branchNo));
         }
     }
 }
