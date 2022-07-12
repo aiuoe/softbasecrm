@@ -10,14 +10,32 @@ namespace SBCRM.Modules.Common.Avalara.Queries
 {
     public class GetTaxCodesQuery : IRequest<List<TaxCodeDto>>
     {
-        public GetTaxCodesQuery(string filter = "")
+        public GetTaxCodesQuery( string taxCodeType = "", string taxCode = "", string parentTaxCode = "", string description = "")
         {
-            if(!string.IsNullOrWhiteSpace(filter))
+            if(!string.IsNullOrWhiteSpace(taxCodeType))
             {
-                Filter = filter;
+                TaxCodeType = taxCodeType;
+            }
+            if (!string.IsNullOrWhiteSpace(taxCode))
+            {
+                TaxCode = taxCode;
+            }
+            if (!string.IsNullOrWhiteSpace(parentTaxCode))
+            {
+                ParentTaxCode = parentTaxCode;
+            }
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                Description = description;
             }
         }
 
-        public string Filter { get; set; }
+        public string TaxCodeType { get; set; }
+
+        public string TaxCode { get; set; }
+
+        public string ParentTaxCode { get; set; }
+
+        public string Description { get; set; }
     }
 }

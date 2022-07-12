@@ -1,6 +1,8 @@
 ﻿
 using SBCRM.Dto;
 using SBCRM.Dto.AvalaraConnection.TaxCodes;
+using SBCRM.Modules.Common.Avalara.Dto;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,6 +15,6 @@ namespace SBCRM.Avalara
     {
         void VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
 
-        Task<HttpResponseMessage> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionDataDto, GetTaxCodesParametersDto getTaxCodesParameters);
+        Task<List<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionDataDto, GetTaxCodesParametersDto getTaxCodesParameters);
     }
 }

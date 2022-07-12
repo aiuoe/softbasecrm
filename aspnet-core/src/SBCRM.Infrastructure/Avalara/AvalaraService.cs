@@ -1,8 +1,11 @@
 ﻿using SBCRM.Avalara;
 using SBCRM.Dto;
 using SBCRM.Dto.AvalaraConnection.TaxCodes;
+using SBCRM.Modules.Common.Avalara.Dto;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SBCRM.Infrastructure.Avalara
@@ -83,11 +86,11 @@ namespace SBCRM.Infrastructure.Avalara
         {
             if (string.IsNullOrEmpty(baseParameterString))
             {
-                return "?" + newParameter;
+                return "?$" + newParameter;
             }
             else
             {
-                return baseParameterString + "&" + newParameter;
+                return baseParameterString + "&$" + newParameter;
             }
         }
 
@@ -122,16 +125,25 @@ namespace SBCRM.Infrastructure.Avalara
             return parameterString;
         }
 
-        public async Task<HttpResponseMessage> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionData, GetTaxCodesParametersDto getTaxCodesParameters)
-        {
+        public async Task<List<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionData, GetTaxCodesParametersDto getTaxCodesParameters)
+        {            
             string paramString = GetTaxCodesParamString(getTaxCodesParameters);
-            string url = GetStandartUrl(avalaraConnectionData, "api/v2/taxcodes", paramString);
+            string url = GetStandartUrl(avalaraConnectionData, "api/v2/definitions/taxcodes", paramString);
 
             var httpClient = _httpClientFactory.CreateClient();
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             var encodedBase64string = System.Text.Encoding.UTF8.GetBytes(avalaraConnectionData.AccountNumber + ":" + avalaraConnectionData.LicenseKey);
             httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(encodedBase64string).ToString());
-            return await httpClient.GetAsync(url);
+            var streamTask = httpClient.GetStreamAsync(url);
+            try
+            {
+                var response = JsonSerializer.DeserializeAsync<GetTaxCodesDto>(await streamTask);
+                return response.Result.value;
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         #endregion

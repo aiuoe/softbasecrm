@@ -53,6 +53,8 @@ using SBCRM.EntityFrameworkCore.Repositories;
 using SBCRM.Infrastructure.BlobStorage;
 using SBCRM.Web.Filter;
 using SBCRM.Web.Middleware;
+using SBCRM.Infrastructure.Avalara;
+using SBCRM.Avalara;
 
 namespace SBCRM.Web.Startup
 {
@@ -212,6 +214,10 @@ namespace SBCRM.Web.Startup
                 options.IocManager.IocContainer.Register(
                     Component.For<ISoftBaseCustomerInvoiceRepository>()
                     .ImplementedBy<SoftBaseCustomerInvoiceRepository>().LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
+                    Component.For<IAvalaraService>()
+                    .ImplementedBy<AvalaraService>().LifestyleTransient());
 
                 options.IocManager.IocContainer.Register(
                     Component.For<ISoftBaseCustomerEquipmentRepository>()
