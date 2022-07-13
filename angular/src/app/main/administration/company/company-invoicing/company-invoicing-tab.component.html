@@ -11,10 +11,16 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companyInvoicingFinancialCopiesDropdown"
                             ></p-dropdown>
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('AutomaticInvoiceDate')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('AutomaticInvoiceDate')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingAutomaticInvoiceDateCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3">
                             <label for="">{{ l('PastCurrencyFormat') }}</label>
@@ -23,10 +29,16 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companyInvoicingPastCurrencyFormatDropdown"
                             ></p-dropdown>
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('AutoCheckSalesGroup')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('AutoCheckSalesGroup')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingAutoCheckSalesGroupCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
@@ -35,20 +47,32 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyInvoicingDefaultWholeInput"
                             />
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('DisableMilesCalculation')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('DisableMilesCalculation')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingDisableMilesCalculationCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3">
                             <label for="">{{ l('DefaultDecimal') }}</label>
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyInvoicingDefaultDecimalInput"
                             />
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('DispatchManualRefresh')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('DispatchManualRefresh')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingDispatchManualRefreshCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
@@ -57,25 +81,42 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyInvoicingQuotedPartsNotAvailableInput"
                             />
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('QuoteToOrderHoldPartsFromPosting')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('QuoteToOrderHoldPartsFromPosting')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingQuoteToOrderHoldPartsFromPostingCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3">
                             <label for="">{{ l('DefaultLaborStartTime') }}</label>
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyInvoicingDefaultLaborStartTimeInput"
                             />
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('QuoteToOrderAllowPartialQtyBO')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('QuoteToOrderAllowPartialQtyBO')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingQuoteToOrderAllowPartialCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-6">
-                            <p-checkbox [label]="l('QuoteToOrderPromptToEachBO')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('QuoteToOrderPromptToEachBO')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingQuoteToOrderPromptToEachBOCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row align-items-center form-row-header mt-15">
@@ -90,32 +131,68 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companyInvoicingLaborImportRoundingDropdown"
                             ></p-dropdown>
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('IncludeMiscInMobileRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('IncludeMiscInMobileRecap')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingIncludeMiscInMobileRecapCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3 mt-lg-8">
-                            <p-checkbox [label]="l('IncludeLaborTimesOnMobileRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('IncludeLaborTimesOnMobileRecap')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingIncludeLaborTimesOnMobileRecapCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-3">
-                            <p-checkbox [label]="l('SuppressParOnRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('SuppressParOnRecap')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingSuppressParOnRecapCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3">
-                            <p-checkbox [label]="l('DontClearSignature')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('DontClearSignature')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingDontClearSignatureCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3">
-                            <p-checkbox [label]="l('AddHoursAndSerialOnTimeCard')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('AddHoursAndSerialOnTimeCard')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingAddHoursAndSerialCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3">
-                            <p-checkbox [label]="l('IncludeRawHoursOnMechsLaborDoc')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('IncludeRawHoursOnMechsLaborDoc')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingIncludeRawHoursCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-6">
-                            <p-checkbox [label]="l('AutoDocCenterMobileRecap')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('AutoDocCenterMobileRecap')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyInvoicingAutoDocCenterCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
@@ -124,6 +201,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyInvoicingNumberOfHoursInput"
                             />
                         </div>
                     </div>
