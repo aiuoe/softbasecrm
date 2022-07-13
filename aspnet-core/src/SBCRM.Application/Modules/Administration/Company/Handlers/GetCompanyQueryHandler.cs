@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using SBCRM.Avalara;
 using SBCRM.Base;
 using SBCRM.Core.BaseEntities;
+using SBCRM.Dto;
 using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
 using System.Collections.Generic;
@@ -15,13 +17,13 @@ namespace SBCRM.Modules.Administration.Company.Handlers
     public class GetCompanyQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetCompanyQuery, List<GetCompanyDto>>
     {
         private readonly ICompanyRepository _companyRepository;
-
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="companyRepository"></param>
         public GetCompanyQueryHandler(ICompanyRepository companyRepository)
         {
+           
             _companyRepository = companyRepository;
         }
 
@@ -34,6 +36,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
         public async Task<List<GetCompanyDto>> Handle(GetCompanyQuery query, CancellationToken cancellationToken)
         {
             var companies = await _companyRepository.GetAllListAsync();
+            
             return ObjectMapper.Map<List<GetCompanyDto>>(companies);
         }
     }
