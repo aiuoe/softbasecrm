@@ -8,31 +8,45 @@
                             <div>
                                 <label for="">{{ l('EmailMethod') }}</label>
                             </div>
-                            <p-radioButton [label]="l('CURL')"></p-radioButton>
+                            <p-radioButton
+                                [label]="l('CURL')"
+                                id="companySMTPCURLRadioBtn"
+                            ></p-radioButton>
                         </div>
                         <div class="col-lg-3 mt-lg-8">
-                            <p-radioButton [label]="l('Native')"></p-radioButton>
+                            <p-radioButton
+                                [label]="l('Native')"
+                                id="companySMTPNativeRadioBtn"
+                            ></p-radioButton>
                         </div>
                         <div class="col-lg-6">
                             <label for="">{{ l('SMTPServer') }}</label>
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companySMTPServerInput"
                             />
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-3 mt-lg-8">
-                            <p-radioButton [label]="l('Office365')"></p-radioButton>
+                            <p-radioButton
+                                [label]="l('Office365')"
+                                id="companySMTPOfficeRadioBtn"
+                            ></p-radioButton>
                         </div>
                         <div class="col-lg-3 mt-lg-8">
-                            <p-radioButton [label]="l('MSExchange')"></p-radioButton>
+                            <p-radioButton
+                                [label]="l('MSExchange')"
+                                id="companySMTPMSExchangeRadioBtn"
+                            ></p-radioButton>
                         </div>
                         <div class="col-lg-6">
                             <label for="">{{ l('SMTPUserName') }}</label>
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companySMTPUserNameInput"
                             />
                         </div>
                     </div>
@@ -42,6 +56,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companySMTPPasswordInput"
                             />
                         </div>
                         <div class="col-lg-6">
@@ -49,6 +64,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companySMTPEmailAddressInput"
                             />
                         </div>
                     </div>
@@ -58,6 +74,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companySMTPMobileEmailAddressInput"
                             />
                         </div>
                         <div class="col-lg-6">
@@ -66,9 +83,15 @@
                                 <input
                                     type="text"
                                     class="form-control"
+                                    id="companySMTPPortInput"
                                 />
                                 <div class="ml-3">
-                                    <p-checkbox [label]="l('Secure')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    <p-checkbox
+                                        [label]="l('Secure')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companySMTPSecureCheckbox"
+                                    ></p-checkbox>
                                 </div>
                             </div>
                         </div>
@@ -80,6 +103,7 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companySMTPDropdown"
                             ></p-dropdown>
                         </div>
                     </div>

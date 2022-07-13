@@ -1,5 +1,6 @@
 ﻿
 using SBCRM.Dto;
+using SBCRM.Modules.Administration.Dtos;
 using System.Threading.Tasks;
 
 namespace SBCRM.Avalara
@@ -9,6 +10,6 @@ namespace SBCRM.Avalara
     /// </summary>
     public interface IAvalaraService
     {
-        void VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
+        Task<GetVerifyAddressDto> VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
     }
 }

@@ -9,6 +9,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsEliftUserNameInput"
                             />
                         </div>
                         <div class="col-lg-6">
@@ -17,9 +18,15 @@
                                 <input
                                     type="text"
                                     class="form-control"
+                                    id="companyLoginsEliftPasswordInput"
                                 />
                                 <div class="ml-3">
-                                    <p-checkbox [label]="l('Test')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    <p-checkbox
+                                        [label]="l('Test')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companyLoginsTestCheckbox"
+                                    ></p-checkbox>
                                 </div>
                             </div>
                         </div>
@@ -30,6 +37,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsPartsDealerNumberInput"
                             />
                         </div>
                         <div class="col-lg-3">
@@ -37,6 +45,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsSMHDealerNumberInput"
                             />
                         </div>
                         <div class="col-lg-3">
@@ -44,6 +53,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsIntrupaNumberInput"
                             />
                         </div>
                         <div class="col-lg-3">
@@ -51,6 +61,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsErentKeyInput"
                             />
                         </div>
                     </div>
@@ -64,6 +75,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsHostInput"
                             />
                         </div>
                         <div class="col-lg-6">
@@ -71,6 +83,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsUserNameInput"
                             />
                         </div>
                     </div>
@@ -80,6 +93,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsPasswordInput"
                             />
                         </div>
                         <div class="col-lg-6">
@@ -87,6 +101,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsPortInput"
                             />
                         </div>
                     </div>
@@ -97,12 +112,23 @@
                                 <input
                                     type="text"
                                     class="form-control"
+                                    id="companyLoginsStatementDayInput"
                                 />
                                 <div class="ml-3">
-                                    <p-checkbox [label]="l('LastDay')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    <p-checkbox
+                                        [label]="l('LastDay')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companyLoginsLastDayCheckbox"
+                                    ></p-checkbox>
                                 </div>
                                 <div class="ml-3">
-                                    <p-checkbox [label]="l('ExcludeNoInvoices')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                    <p-checkbox
+                                        [label]="l('ExcludeNoInvoices')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companyLoginsExcludeInvoicesCheckbox"
+                                    ></p-checkbox>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +137,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLoginsCompanyInput"
                             />
                         </div>
                     </div>
@@ -120,33 +147,78 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('COD')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('COD')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsCODCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('CreditCard')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('CreditCard')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsCreditCardCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('DueNow')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('DueNow')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsDueNowCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('Net10')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('Net10')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNet10Checkbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('Net15')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('Net15')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNet15Checkbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('Net30')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('Net30')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNet30Checkbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('NetDue')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('NetDue')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNetDueCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('PMTerms')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('PMTerms')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsPMTermsCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-2">
-                            <p-checkbox [label]="l('Prospect')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('Prospect')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsProspectCheckbox"
+                            ></p-checkbox>
                         </div>
                     </div>
                 </div>
