@@ -25,22 +25,22 @@ namespace SBCRM.Core.BaseEntities
         public string State { get; set; }
         [StringLength(255)]
         public string County { get; set; }
-        public bool? Branch { get; set; }
+        public int? Branch { get; set; }
         [StringLength(255)]
         public string TaxCode { get; set; }
-        public bool? Group1 { get; set; }
-        public bool? Group2 { get; set; }
-        public bool? Group3 { get; set; }
-        public bool? Group4 { get; set; }
-        public bool? Group5 { get; set; }
-        public bool? Group6 { get; set; }
+        public int? Group1 { get; set; }
+        public int? Group2 { get; set; }
+        public int? Group3 { get; set; }
+        public int? Group4 { get; set; }
+        public int? Group5 { get; set; }
+        public int? Group6 { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal? Latitude { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal? Longitude { get; set; }
         [StringLength(50)]
         public string AreaCode { get; set; }
-        public bool? TimeZone { get; set; }
+        public int? TimeZone { get; set; }
         public int? Elevation { get; set; }
         [StringLength(50)]
         public string AddedBy { get; set; }
