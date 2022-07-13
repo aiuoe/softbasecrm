@@ -4518,6 +4518,81 @@ export class ARTermsServiceProxy {
 }
 
 @Injectable()
+export class ARTermsQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: ARTermsQuery | undefined): Observable<ARTermDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ARTermsQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<ARTermDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ARTermDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<ARTermDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ARTermDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ARTermDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class AuditEventsServiceServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -6468,6 +6543,122 @@ export class CommonLookupServiceProxy {
 }
 
 @Injectable()
+export class CommonSettingsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateTenentLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenentLevelSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateTenentLevelSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateTenentLevelSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateTenentLevelSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateUserLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateUserLevelSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserLevelSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserLevelSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateUserLevelSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class CompaniesServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -6595,6 +6786,62 @@ export class CompaniesServiceProxy {
             }));
         }
         return _observableOf<GetZipCodeDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getVerifyAddress(body: GetVerifyAddressInputDto | undefined): Observable<GetVerifyAddressDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Companies/GetVerifyAddress";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVerifyAddress(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVerifyAddress(<any>response_);
+                } catch (e) {
+                    return <Observable<GetVerifyAddressDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetVerifyAddressDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVerifyAddress(response: HttpResponseBase): Observable<GetVerifyAddressDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetVerifyAddressDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetVerifyAddressDto>(<any>null);
     }
 }
 
@@ -12432,7 +12679,7 @@ export class GetAdditionalChargesByBranchAndDepartmentCommandHandlerServiceProxy
      * @param body (optional) 
      * @return Success
      */
-    handle(body: GetAdditionalChargesByBranchAndDepartmentCommand | undefined): Observable<GetAdditionalChargeDto[]> {
+    handle(body: GetAdditionalChargesByBranchAndDepartmentCommand | undefined): Observable<AdditionalChargeDto[]> {
         let url_ = this.baseUrl + "/api/services/app/GetAdditionalChargesByBranchAndDepartmentCommandHandler/Handle";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12455,14 +12702,14 @@ export class GetAdditionalChargesByBranchAndDepartmentCommandHandlerServiceProxy
                 try {
                     return this.processHandle(<any>response_);
                 } catch (e) {
-                    return <Observable<GetAdditionalChargeDto[]>><any>_observableThrow(e);
+                    return <Observable<AdditionalChargeDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetAdditionalChargeDto[]>><any>_observableThrow(response_);
+                return <Observable<AdditionalChargeDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processHandle(response: HttpResponseBase): Observable<GetAdditionalChargeDto[]> {
+    protected processHandle(response: HttpResponseBase): Observable<AdditionalChargeDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12476,7 +12723,7 @@ export class GetAdditionalChargesByBranchAndDepartmentCommandHandlerServiceProxy
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetAdditionalChargeDto.fromJS(item));
+                    result200!.push(AdditionalChargeDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -12488,12 +12735,12 @@ export class GetAdditionalChargesByBranchAndDepartmentCommandHandlerServiceProxy
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetAdditionalChargeDto[]>(<any>null);
+        return _observableOf<AdditionalChargeDto[]>(<any>null);
     }
 }
 
 @Injectable()
-export class GetBranchesByNoCommandHandlerServiceProxy {
+export class GetAllBranchesQueryHandlerServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -12507,8 +12754,8 @@ export class GetBranchesByNoCommandHandlerServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    handle(body: GetBranchesByNoCommand | undefined): Observable<GetBranchDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/GetBranchesByNoCommandHandler/Handle";
+    handle(body: GetAllBranchesQuery | undefined): Observable<BranchForDepartmentDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/GetAllBranchesQueryHandler/Handle";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -12530,14 +12777,14 @@ export class GetBranchesByNoCommandHandlerServiceProxy {
                 try {
                     return this.processHandle(<any>response_);
                 } catch (e) {
-                    return <Observable<GetBranchDto[]>><any>_observableThrow(e);
+                    return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetBranchDto[]>><any>_observableThrow(response_);
+                return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processHandle(response: HttpResponseBase): Observable<GetBranchDto[]> {
+    protected processHandle(response: HttpResponseBase): Observable<BranchForDepartmentDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12551,7 +12798,7 @@ export class GetBranchesByNoCommandHandlerServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetBranchDto.fromJS(item));
+                    result200!.push(BranchForDepartmentDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -12563,7 +12810,7 @@ export class GetBranchesByNoCommandHandlerServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetBranchDto[]>(<any>null);
+        return _observableOf<BranchForDepartmentDto[]>(<any>null);
     }
 }
 
@@ -12707,6 +12954,74 @@ export class GetCompanyQueryHandlerServiceProxy {
             }));
         }
         return _observableOf<GetCompanyDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetVerifyAddressQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetVerifyAddressQuery | undefined): Observable<GetVerifyAddressDto> {
+        let url_ = this.baseUrl + "/api/services/app/GetVerifyAddressQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetVerifyAddressDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetVerifyAddressDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetVerifyAddressDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetVerifyAddressDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetVerifyAddressDto>(<any>null);
     }
 }
 
@@ -25658,7 +25973,7 @@ export class ReadCommonShareServiceProxy {
     /**
      * @return Success
      */
-    getAdditionalChargesByBranchAndDepartment(branchNo: number, departmentNo: number): Observable<GetAdditionalChargeDto[]> {
+    getAdditionalChargesByBranchAndDepartment(branchNo: number, departmentNo: number): Observable<AdditionalChargeDto[]> {
         let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetAdditionalChargesByBranchAndDepartment/{branchNo}/{departmentNo}";
         if (branchNo === undefined || branchNo === null)
             throw new Error("The parameter 'branchNo' must be defined.");
@@ -25683,14 +25998,14 @@ export class ReadCommonShareServiceProxy {
                 try {
                     return this.processGetAdditionalChargesByBranchAndDepartment(<any>response_);
                 } catch (e) {
-                    return <Observable<GetAdditionalChargeDto[]>><any>_observableThrow(e);
+                    return <Observable<AdditionalChargeDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetAdditionalChargeDto[]>><any>_observableThrow(response_);
+                return <Observable<AdditionalChargeDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAdditionalChargesByBranchAndDepartment(response: HttpResponseBase): Observable<GetAdditionalChargeDto[]> {
+    protected processGetAdditionalChargesByBranchAndDepartment(response: HttpResponseBase): Observable<AdditionalChargeDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -25704,7 +26019,7 @@ export class ReadCommonShareServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetAdditionalChargeDto.fromJS(item));
+                    result200!.push(AdditionalChargeDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -25716,17 +26031,14 @@ export class ReadCommonShareServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetAdditionalChargeDto[]>(<any>null);
+        return _observableOf<AdditionalChargeDto[]>(<any>null);
     }
 
     /**
      * @return Success
      */
-    getBranchesByNo(branchNo: number): Observable<GetBranchDto[]> {
-        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetBranchesByNo/{branchNo}";
-        if (branchNo === undefined || branchNo === null)
-            throw new Error("The parameter 'branchNo' must be defined.");
-        url_ = url_.replace("{branchNo}", encodeURIComponent("" + branchNo));
+    getAllBranches(): Observable<BranchForDepartmentDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetAllBranches";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -25738,20 +26050,20 @@ export class ReadCommonShareServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetBranchesByNo(response_);
+            return this.processGetAllBranches(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetBranchesByNo(<any>response_);
+                    return this.processGetAllBranches(<any>response_);
                 } catch (e) {
-                    return <Observable<GetBranchDto[]>><any>_observableThrow(e);
+                    return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetBranchDto[]>><any>_observableThrow(response_);
+                return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetBranchesByNo(response: HttpResponseBase): Observable<GetBranchDto[]> {
+    protected processGetAllBranches(response: HttpResponseBase): Observable<BranchForDepartmentDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -25765,7 +26077,7 @@ export class ReadCommonShareServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetBranchDto.fromJS(item));
+                    result200!.push(BranchForDepartmentDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -25777,7 +26089,116 @@ export class ReadCommonShareServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetBranchDto[]>(<any>null);
+        return _observableOf<BranchForDepartmentDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getSalesTaxIntegration(): Observable<SalesTaxIntegrationDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetSalesTaxIntegration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSalesTaxIntegration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSalesTaxIntegration(<any>response_);
+                } catch (e) {
+                    return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSalesTaxIntegration(response: HttpResponseBase): Observable<SalesTaxIntegrationDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SalesTaxIntegrationDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SalesTaxIntegrationDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getARTerms(): Observable<ARTermDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetARTerms";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetARTerms(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetARTerms(<any>response_);
+                } catch (e) {
+                    return <Observable<ARTermDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ARTermDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetARTerms(response: HttpResponseBase): Observable<ARTermDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ARTermDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ARTermDto[]>(<any>null);
     }
 }
 
@@ -26006,6 +26427,74 @@ export class RoleServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class SalesTaxIntegrationQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: SalesTaxIntegrationQuery | undefined): Observable<SalesTaxIntegrationDto> {
+        let url_ = this.baseUrl + "/api/services/app/SalesTaxIntegrationQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<SalesTaxIntegrationDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SalesTaxIntegrationDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SalesTaxIntegrationDto>(<any>null);
     }
 }
 
@@ -32231,6 +32720,7 @@ export class AdditionalChargeDto implements IAdditionalChargeDto {
     createdBy!: string | undefined;
     updated!: DateTime | undefined;
     updatedBy!: string | undefined;
+    id!: string | undefined;
 
     constructor(data?: IAdditionalChargeDto) {
         if (data) {
@@ -32257,6 +32747,7 @@ export class AdditionalChargeDto implements IAdditionalChargeDto {
             this.createdBy = _data["createdBy"];
             this.updated = _data["updated"] ? DateTime.fromISO(_data["updated"].toString()) : <any>undefined;
             this.updatedBy = _data["updatedBy"];
+            this.id = _data["id"];
         }
     }
 
@@ -32283,6 +32774,7 @@ export class AdditionalChargeDto implements IAdditionalChargeDto {
         data["createdBy"] = this.createdBy;
         data["updated"] = this.updated ? this.updated.toString() : <any>undefined;
         data["updatedBy"] = this.updatedBy;
+        data["id"] = this.id;
         return data; 
     }
 }
@@ -32302,6 +32794,7 @@ export interface IAdditionalChargeDto {
     createdBy: string | undefined;
     updated: DateTime | undefined;
     updatedBy: string | undefined;
+    id: string | undefined;
 }
 
 export class AddNewPageInput implements IAddNewPageInput {
@@ -32700,6 +33193,74 @@ export interface IAppSettingsJsonDto {
     languages: NameValue[] | undefined;
 }
 
+export class ARTermDto implements IARTermDto {
+    id!: string | undefined;
+    terms!: string | undefined;
+    cod!: string | undefined;
+    daysDue!: string | undefined;
+    days!: string | undefined;
+    dayOfMonth!: string | undefined;
+    day!: string | undefined;
+    printWaterMark!: string | undefined;
+    creditCard!: boolean | undefined;
+
+    constructor(data?: IARTermDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.terms = _data["terms"];
+            this.cod = _data["cod"];
+            this.daysDue = _data["daysDue"];
+            this.days = _data["days"];
+            this.dayOfMonth = _data["dayOfMonth"];
+            this.day = _data["day"];
+            this.printWaterMark = _data["printWaterMark"];
+            this.creditCard = _data["creditCard"];
+        }
+    }
+
+    static fromJS(data: any): ARTermDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ARTermDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["terms"] = this.terms;
+        data["cod"] = this.cod;
+        data["daysDue"] = this.daysDue;
+        data["days"] = this.days;
+        data["dayOfMonth"] = this.dayOfMonth;
+        data["day"] = this.day;
+        data["printWaterMark"] = this.printWaterMark;
+        data["creditCard"] = this.creditCard;
+        return data; 
+    }
+}
+
+export interface IARTermDto {
+    id: string | undefined;
+    terms: string | undefined;
+    cod: string | undefined;
+    daysDue: string | undefined;
+    days: string | undefined;
+    dayOfMonth: string | undefined;
+    day: string | undefined;
+    printWaterMark: string | undefined;
+    creditCard: boolean | undefined;
+}
+
 export class ARTermsDto implements IARTermsDto {
     terms!: string | undefined;
     cod!: number | undefined;
@@ -32778,6 +33339,36 @@ export interface IARTermsDto {
     changedBy: string | undefined;
     dateChanged: DateTime | undefined;
     creditCard: number | undefined;
+}
+
+export class ARTermsQuery implements IARTermsQuery {
+
+    constructor(data?: IARTermsQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): ARTermsQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new ARTermsQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IARTermsQuery {
 }
 
 export class AuditEventDto implements IAuditEventDto {
@@ -33162,6 +33753,54 @@ export interface IBranchCurrencyTypeDto {
     creditAccount: string | undefined;
     debitAccountReevaluate: string | undefined;
     creditAccountReevaluate: string | undefined;
+}
+
+export class BranchForDepartmentDto implements IBranchForDepartmentDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+
+    constructor(data?: IBranchForDepartmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+        }
+    }
+
+    static fromJS(data: any): BranchForDepartmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchForDepartmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        return data; 
+    }
+}
+
+export interface IBranchForDepartmentDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
 }
 
 export class BranchForEditDto implements IBranchForEditDto {
@@ -40689,98 +41328,6 @@ export interface IGetActivityTaskTypeForViewDto {
     activityTaskType: ActivityTaskTypeDto;
 }
 
-export class GetAdditionalChargeDto implements IGetAdditionalChargeDto {
-    id!: string | undefined;
-    branch!: string | undefined;
-    dept!: string | undefined;
-    miscDescription!: string | undefined;
-    miscPercentage!: string | undefined;
-    miscSaleAccount!: string | undefined;
-    amountLimit!: string | undefined;
-    laborOnly!: boolean | undefined;
-    partsOnly!: boolean | undefined;
-    taxable!: boolean | undefined;
-    amountMin!: string | undefined;
-    created!: DateTime | undefined;
-    createdBy!: string | undefined;
-    updated!: DateTime | undefined;
-    updatedBy!: string | undefined;
-
-    constructor(data?: IGetAdditionalChargeDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.branch = _data["branch"];
-            this.dept = _data["dept"];
-            this.miscDescription = _data["miscDescription"];
-            this.miscPercentage = _data["miscPercentage"];
-            this.miscSaleAccount = _data["miscSaleAccount"];
-            this.amountLimit = _data["amountLimit"];
-            this.laborOnly = _data["laborOnly"];
-            this.partsOnly = _data["partsOnly"];
-            this.taxable = _data["taxable"];
-            this.amountMin = _data["amountMin"];
-            this.created = _data["created"] ? DateTime.fromISO(_data["created"].toString()) : <any>undefined;
-            this.createdBy = _data["createdBy"];
-            this.updated = _data["updated"] ? DateTime.fromISO(_data["updated"].toString()) : <any>undefined;
-            this.updatedBy = _data["updatedBy"];
-        }
-    }
-
-    static fromJS(data: any): GetAdditionalChargeDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetAdditionalChargeDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["branch"] = this.branch;
-        data["dept"] = this.dept;
-        data["miscDescription"] = this.miscDescription;
-        data["miscPercentage"] = this.miscPercentage;
-        data["miscSaleAccount"] = this.miscSaleAccount;
-        data["amountLimit"] = this.amountLimit;
-        data["laborOnly"] = this.laborOnly;
-        data["partsOnly"] = this.partsOnly;
-        data["taxable"] = this.taxable;
-        data["amountMin"] = this.amountMin;
-        data["created"] = this.created ? this.created.toString() : <any>undefined;
-        data["createdBy"] = this.createdBy;
-        data["updated"] = this.updated ? this.updated.toString() : <any>undefined;
-        data["updatedBy"] = this.updatedBy;
-        return data; 
-    }
-}
-
-export interface IGetAdditionalChargeDto {
-    id: string | undefined;
-    branch: string | undefined;
-    dept: string | undefined;
-    miscDescription: string | undefined;
-    miscPercentage: string | undefined;
-    miscSaleAccount: string | undefined;
-    amountLimit: string | undefined;
-    laborOnly: boolean | undefined;
-    partsOnly: boolean | undefined;
-    taxable: boolean | undefined;
-    amountMin: string | undefined;
-    created: DateTime | undefined;
-    createdBy: string | undefined;
-    updated: DateTime | undefined;
-    updatedBy: string | undefined;
-}
-
 export class GetAdditionalChargesByBranchAndDepartmentCommand implements IGetAdditionalChargesByBranchAndDepartmentCommand {
     branchNo!: number;
     departmentNo!: number;
@@ -40863,6 +41410,36 @@ export interface IGetAllAvailableWebhooksOutput {
     name: string | undefined;
     displayName: string | undefined;
     description: string | undefined;
+}
+
+export class GetAllBranchesQuery implements IGetAllBranchesQuery {
+
+    constructor(data?: IGetAllBranchesQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): GetAllBranchesQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllBranchesQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IGetAllBranchesQuery {
 }
 
 export class GetAllDynamicEntityPropertyValuesOutput implements IGetAllDynamicEntityPropertyValuesOutput {
@@ -41223,90 +41800,6 @@ export class GetARTermsForViewDto implements IGetARTermsForViewDto {
 
 export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
-}
-
-export class GetBranchDto implements IGetBranchDto {
-    id!: number;
-    number!: number;
-    name!: string | undefined;
-    subName!: string | undefined;
-
-    constructor(data?: IGetBranchDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.number = _data["number"];
-            this.name = _data["name"];
-            this.subName = _data["subName"];
-        }
-    }
-
-    static fromJS(data: any): GetBranchDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetBranchDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["number"] = this.number;
-        data["name"] = this.name;
-        data["subName"] = this.subName;
-        return data; 
-    }
-}
-
-export interface IGetBranchDto {
-    id: number;
-    number: number;
-    name: string | undefined;
-    subName: string | undefined;
-}
-
-export class GetBranchesByNoCommand implements IGetBranchesByNoCommand {
-    number!: number;
-
-    constructor(data?: IGetBranchesByNoCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.number = _data["number"];
-        }
-    }
-
-    static fromJS(data: any): GetBranchesByNoCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetBranchesByNoCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["number"] = this.number;
-        return data; 
-    }
-}
-
-export interface IGetBranchesByNoCommand {
-    number: number;
 }
 
 export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
@@ -45449,6 +45942,166 @@ export interface IGetUsersInput {
     sorting: string | undefined;
     maxResultCount: number;
     skipCount: number;
+}
+
+export class GetVerifyAddressDto implements IGetVerifyAddressDto {
+    checkUseDefaultTaxCodeCalc!: boolean;
+    city!: string | undefined;
+    country!: string | undefined;
+    zipCode!: string | undefined;
+    state!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: IGetVerifyAddressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.checkUseDefaultTaxCodeCalc = _data["checkUseDefaultTaxCodeCalc"];
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.zipCode = _data["zipCode"];
+            this.state = _data["state"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): GetVerifyAddressDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetVerifyAddressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["checkUseDefaultTaxCodeCalc"] = this.checkUseDefaultTaxCodeCalc;
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["zipCode"] = this.zipCode;
+        data["state"] = this.state;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IGetVerifyAddressDto {
+    checkUseDefaultTaxCodeCalc: boolean;
+    city: string | undefined;
+    country: string | undefined;
+    zipCode: string | undefined;
+    state: string | undefined;
+    address: string | undefined;
+}
+
+export class GetVerifyAddressInputDto implements IGetVerifyAddressInputDto {
+    city!: string | undefined;
+    country!: string | undefined;
+    zipCode!: string | undefined;
+    state!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: IGetVerifyAddressInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.zipCode = _data["zipCode"];
+            this.state = _data["state"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): GetVerifyAddressInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetVerifyAddressInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["zipCode"] = this.zipCode;
+        data["state"] = this.state;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IGetVerifyAddressInputDto {
+    city: string | undefined;
+    country: string | undefined;
+    zipCode: string | undefined;
+    state: string | undefined;
+    address: string | undefined;
+}
+
+export class GetVerifyAddressQuery implements IGetVerifyAddressQuery {
+    city!: string | undefined;
+    country!: string | undefined;
+    zipCode!: string | undefined;
+    state!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: IGetVerifyAddressQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.zipCode = _data["zipCode"];
+            this.state = _data["state"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): GetVerifyAddressQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetVerifyAddressQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["zipCode"] = this.zipCode;
+        data["state"] = this.state;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IGetVerifyAddressQuery {
+    city: string | undefined;
+    country: string | undefined;
+    zipCode: string | undefined;
+    state: string | undefined;
+    address: string | undefined;
 }
 
 export class GetZipCodeDetailsDto implements IGetZipCodeDetailsDto {
@@ -53035,6 +53688,160 @@ export enum SalesSummaryDatePeriod {
     Monthly = 3,
 }
 
+export class SalesTaxIntegrationDto implements ISalesTaxIntegrationDto {
+    id!: number;
+    tenantId!: number;
+    legacyId!: number | undefined;
+    salesTaxProvider!: string | undefined;
+    accountNumber!: string | undefined;
+    licenseKey!: string | undefined;
+    serviceUrl!: string | undefined;
+    companyCode!: string | undefined;
+    requestTimeout!: number;
+    disableAddressVerification!: boolean | undefined;
+    disableDocumentRecording!: boolean | undefined;
+    enableLogging!: boolean | undefined;
+    enableAvataxUpc!: boolean | undefined;
+    defaultTaxCodesParts!: string | undefined;
+    defaultTaxCodesPartsDesc!: string | undefined;
+    defaultTaxCodesLabor!: string | undefined;
+    defaultTaxCodesLaborDesc!: string | undefined;
+    defaultTaxCodesMisc!: string | undefined;
+    defaultTaxCodesMiscDesc!: string | undefined;
+    defaultTaxCodesRental!: string | undefined;
+    defaultTaxCodesRentalDesc!: string | undefined;
+    defaultTaxCodesEquip!: string | undefined;
+    defaultTaxCodesEquipDesc!: string | undefined;
+
+    constructor(data?: ISalesTaxIntegrationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.tenantId = _data["tenantId"];
+            this.legacyId = _data["legacyId"];
+            this.salesTaxProvider = _data["salesTaxProvider"];
+            this.accountNumber = _data["accountNumber"];
+            this.licenseKey = _data["licenseKey"];
+            this.serviceUrl = _data["serviceUrl"];
+            this.companyCode = _data["companyCode"];
+            this.requestTimeout = _data["requestTimeout"];
+            this.disableAddressVerification = _data["disableAddressVerification"];
+            this.disableDocumentRecording = _data["disableDocumentRecording"];
+            this.enableLogging = _data["enableLogging"];
+            this.enableAvataxUpc = _data["enableAvataxUpc"];
+            this.defaultTaxCodesParts = _data["defaultTaxCodesParts"];
+            this.defaultTaxCodesPartsDesc = _data["defaultTaxCodesPartsDesc"];
+            this.defaultTaxCodesLabor = _data["defaultTaxCodesLabor"];
+            this.defaultTaxCodesLaborDesc = _data["defaultTaxCodesLaborDesc"];
+            this.defaultTaxCodesMisc = _data["defaultTaxCodesMisc"];
+            this.defaultTaxCodesMiscDesc = _data["defaultTaxCodesMiscDesc"];
+            this.defaultTaxCodesRental = _data["defaultTaxCodesRental"];
+            this.defaultTaxCodesRentalDesc = _data["defaultTaxCodesRentalDesc"];
+            this.defaultTaxCodesEquip = _data["defaultTaxCodesEquip"];
+            this.defaultTaxCodesEquipDesc = _data["defaultTaxCodesEquipDesc"];
+        }
+    }
+
+    static fromJS(data: any): SalesTaxIntegrationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SalesTaxIntegrationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["tenantId"] = this.tenantId;
+        data["legacyId"] = this.legacyId;
+        data["salesTaxProvider"] = this.salesTaxProvider;
+        data["accountNumber"] = this.accountNumber;
+        data["licenseKey"] = this.licenseKey;
+        data["serviceUrl"] = this.serviceUrl;
+        data["companyCode"] = this.companyCode;
+        data["requestTimeout"] = this.requestTimeout;
+        data["disableAddressVerification"] = this.disableAddressVerification;
+        data["disableDocumentRecording"] = this.disableDocumentRecording;
+        data["enableLogging"] = this.enableLogging;
+        data["enableAvataxUpc"] = this.enableAvataxUpc;
+        data["defaultTaxCodesParts"] = this.defaultTaxCodesParts;
+        data["defaultTaxCodesPartsDesc"] = this.defaultTaxCodesPartsDesc;
+        data["defaultTaxCodesLabor"] = this.defaultTaxCodesLabor;
+        data["defaultTaxCodesLaborDesc"] = this.defaultTaxCodesLaborDesc;
+        data["defaultTaxCodesMisc"] = this.defaultTaxCodesMisc;
+        data["defaultTaxCodesMiscDesc"] = this.defaultTaxCodesMiscDesc;
+        data["defaultTaxCodesRental"] = this.defaultTaxCodesRental;
+        data["defaultTaxCodesRentalDesc"] = this.defaultTaxCodesRentalDesc;
+        data["defaultTaxCodesEquip"] = this.defaultTaxCodesEquip;
+        data["defaultTaxCodesEquipDesc"] = this.defaultTaxCodesEquipDesc;
+        return data; 
+    }
+}
+
+export interface ISalesTaxIntegrationDto {
+    id: number;
+    tenantId: number;
+    legacyId: number | undefined;
+    salesTaxProvider: string | undefined;
+    accountNumber: string | undefined;
+    licenseKey: string | undefined;
+    serviceUrl: string | undefined;
+    companyCode: string | undefined;
+    requestTimeout: number;
+    disableAddressVerification: boolean | undefined;
+    disableDocumentRecording: boolean | undefined;
+    enableLogging: boolean | undefined;
+    enableAvataxUpc: boolean | undefined;
+    defaultTaxCodesParts: string | undefined;
+    defaultTaxCodesPartsDesc: string | undefined;
+    defaultTaxCodesLabor: string | undefined;
+    defaultTaxCodesLaborDesc: string | undefined;
+    defaultTaxCodesMisc: string | undefined;
+    defaultTaxCodesMiscDesc: string | undefined;
+    defaultTaxCodesRental: string | undefined;
+    defaultTaxCodesRentalDesc: string | undefined;
+    defaultTaxCodesEquip: string | undefined;
+    defaultTaxCodesEquipDesc: string | undefined;
+}
+
+export class SalesTaxIntegrationQuery implements ISalesTaxIntegrationQuery {
+
+    constructor(data?: ISalesTaxIntegrationQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): SalesTaxIntegrationQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new SalesTaxIntegrationQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface ISalesTaxIntegrationQuery {
+}
+
 export class SavePageInput implements ISavePageInput {
     dashboardName!: string | undefined;
     application!: string | undefined;
@@ -55729,6 +56536,46 @@ export interface IUpdateBranchCommand {
     tvhKey: string | undefined;
     tvhCountryId: number | undefined;
     tvhWarehouseId: number | undefined;
+}
+
+export class UpdateCommonSettingsInput implements IUpdateCommonSettingsInput {
+    settingName!: string;
+    settingValue!: string;
+
+    constructor(data?: IUpdateCommonSettingsInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.settingName = _data["settingName"];
+            this.settingValue = _data["settingValue"];
+        }
+    }
+
+    static fromJS(data: any): UpdateCommonSettingsInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateCommonSettingsInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["settingName"] = this.settingName;
+        data["settingValue"] = this.settingValue;
+        return data; 
+    }
+}
+
+export interface IUpdateCommonSettingsInput {
+    settingName: string;
+    settingValue: string;
 }
 
 export class UpdateEditionDto implements IUpdateEditionDto {

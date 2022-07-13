@@ -76,6 +76,7 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.TwitterServiceProxy,
         ApiServiceProxies.OpportunitiesDashboardServiceProxy,
         ApiServiceProxies.BranchesServiceProxy,
+        ApiServiceProxies.CommonSettingsServiceProxy,
         { provide: RefreshTokenService, useClass: ZeroRefreshTokenService },
         { provide: AbpHttpConfigurationService, useClass: ZeroTemplateHttpConfigurationService },
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true },
