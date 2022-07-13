@@ -14,8 +14,6 @@ namespace SBCRM.Core.BaseEntities
     [Index(nameof(Number), nameof(TenantId), Name = "UC_Salesman", IsUnique = true)]
     public class Salesman : FullAuditedEntity<long>, IMustHaveTenant
     {
-        [Key]
-        public long Id { get; set; }
         public int TenantId { get; set; }
         public int Number { get; set; }
         [StringLength(50)]

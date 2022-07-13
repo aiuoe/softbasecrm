@@ -58,7 +58,7 @@ namespace SBCRM.Infrastructure.Avalara
                     Country = avalaraAddress["country"].ToString(),
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new GetVerifyAddressDto();
             }

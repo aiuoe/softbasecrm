@@ -10,12 +10,10 @@ using Abp.AspNetCore.SignalR.Hubs;
 using Abp.AspNetZeroCore.Web.Authentication.JwtBearer;
 using Abp.Castle.Logging.Log4Net;
 using Abp.Extensions;
-using Abp.Hangfire;
 using Abp.PlugIns;
 using Abp.Timing;
 using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
-using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -138,15 +136,6 @@ namespace SBCRM.Web.Startup
                 x.SiteSecret = _appConfiguration["Recaptcha:SecretKey"];
             });
 
-            if (WebConsts.HangfireDashboardEnabled)
-            {
-                //Hangfire(Enable to use Hangfire instead of default job manager)
-                services.AddHangfire(config =>
-                {
-                    config.UseSqlServerStorage(_appConfiguration.GetConnectionString("Default"));
-                });
-            }
-
             if (WebConsts.GraphQL.Enabled)
             {
                 services.AddAndConfigureGraphQL();
@@ -262,17 +251,6 @@ namespace SBCRM.Web.Startup
                 {
                     app.UseAbpRequestLocalization();
                 }
-            }
-
-            if (WebConsts.HangfireDashboardEnabled)
-            {
-                //Hangfire dashboard &server(Enable to use Hangfire instead of default job manager)
-                app.UseHangfireDashboard(WebConsts.HangfireDashboardEndPoint, new DashboardOptions
-                {
-                    Authorization = new[]
-                        {new AbpHangfireAuthorizationFilter(AppPermissions.Pages_Administration_HangfireDashboard)}
-                });
-                app.UseHangfireServer();
             }
 
             if (bool.Parse(_appConfiguration["Payment:Stripe:IsActive"]))

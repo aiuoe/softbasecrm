@@ -1,8 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
-using Abp.Domain.Uow;
-using Abp.EntityHistory;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Authorization;
@@ -151,18 +149,12 @@ namespace SBCRM.Crm
             var output = new GetOpportunityUserForViewDto
             { OpportunityUser = ObjectMapper.Map<OpportunityUserDto>(opportunityUser) };
 
-            if (output.OpportunityUser.UserId != null)
-            {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.OpportunityUser.UserId);
-                output.UserName = _lookupUser?.Name?.ToString();
-            }
+            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.OpportunityUser.UserId);
+            output.UserName = lookupUser?.Name;
 
-            if (output.OpportunityUser.OpportunityId != null)
-            {
-                var _lookupOpportunity =
-                    await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.OpportunityUser.OpportunityId);
-                output.OpportunityName = _lookupOpportunity?.Name?.ToString();
-            }
+            var lookupOpportunity =
+                await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.OpportunityUser.OpportunityId);
+            output.OpportunityName = lookupOpportunity?.Name;
 
             return output;
         }
@@ -180,18 +172,12 @@ namespace SBCRM.Crm
             var output = new GetOpportunityUserForEditOutput
             { OpportunityUser = ObjectMapper.Map<CreateOrEditOpportunityUserDto>(opportunityUser) };
 
-            if (output.OpportunityUser.UserId != null)
-            {
-                var _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.OpportunityUser.UserId);
-                output.UserName = _lookupUser?.Name?.ToString();
-            }
+            var lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.OpportunityUser.UserId);
+            output.UserName = lookupUser?.Name;
 
-            if (output.OpportunityUser.OpportunityId != null)
-            {
-                var _lookupOpportunity =
-                    await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.OpportunityUser.OpportunityId);
-                output.OpportunityName = _lookupOpportunity?.Name?.ToString();
-            }
+            var lookupOpportunity =
+                await _lookupOpportunityRepository.FirstOrDefaultAsync((int)output.OpportunityUser.OpportunityId);
+            output.OpportunityName = lookupOpportunity?.Name;
 
             return output;
         }

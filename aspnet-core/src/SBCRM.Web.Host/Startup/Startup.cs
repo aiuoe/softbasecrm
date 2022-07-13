@@ -292,7 +292,9 @@ namespace SBCRM.Web.Startup
                     Authorization = new[]
                         {new AbpHangfireAuthorizationFilter(AppPermissions.Pages_Administration_HangfireDashboard)}
                 });
+#pragma warning disable CS0618
                 app.UseHangfireServer();
+#pragma warning restore CS0618
             }
 
             if (bool.Parse(_appConfiguration["Payment:Stripe:IsActive"]))

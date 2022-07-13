@@ -388,7 +388,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="leads"></param>
         /// <returns></returns>
-        public async Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads)
+        public FileDto GetDuplicatedLeadsToExcel(List<LeadDto> leads)
         {
             return _leadsExcelExporter.ExportDuplicatedLeadsToExcel(leads);
         }
@@ -404,7 +404,7 @@ namespace SBCRM.Crm
         {
             try
             {
-                List<LeadImportedInputDto> leadsToImport = await ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2, allowEverySheet: false);
+                List<LeadImportedInputDto> leadsToImport = ExcelHandler.ReadIntoList<LeadImportedInputDto>(inputFile, startFromRow: 2, allowEverySheet: false);
 
                 List<CreateOrEditLeadDto> duplicatedLeads = new List<CreateOrEditLeadDto>();
 
@@ -1006,7 +1006,7 @@ namespace SBCRM.Crm
             GuardHelper.ThrowIf(convertedStatus is null, new UserFriendlyException(L("LeadStatusNotExist", _convertedStatusCode)));
 
             List<CustomerAccountTypeLookupTableDto> accountTypes = await _customerAppService.GetAllAccountTypeForTableDropdown();
-            CustomerAccountTypeLookupTableDto? accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
+            CustomerAccountTypeLookupTableDto accountType = accountTypes.FirstOrDefault(x => x.IsDefault);
 
             GuardHelper.ThrowIf(accountType is null, new UserFriendlyException(L("ConvertedAccountTypeNotExist", _convertedStatusCode)));
 
