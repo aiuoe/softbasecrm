@@ -1,256 +1,394 @@
 <div [@routerTransition]>
     <form class="content d-flex flex-column flex-column-fluid" autocomplete="off">
-        <sub-header [title]="'Administration' | localize" [breadcrumbs]="breadcrumbs">
+        <sub-header [title]="l('Branch')" [breadcrumbs]="breadcrumbs">
             <div role="actions">
-                <button class="btn btn-secondary text-prmary float-left">
-                    <span>{{ l('Close') }}</span>
+                <button *ngIf="displayButton(actionButtons.Add)" class="btn btn-primary" (click)="addOnClick()">
+                    <i class="fa fa-plus"></i> {{ l('Branch') }}
+                </button>
+                <button *ngIf="displayButton(actionButtons.Cancel)" class="btn btn-secondary" (click)="cancelOnClick()">
+                    {{ l('Cancel') }}
+                </button>
+                <button *ngIf="displayButton(actionButtons.Close)" class="btn btn-secondary" (click)="cancelOnClick()">
+                    {{ l('Close') }}
+                </button>
+                <button *ngIf="displayButton(actionButtons.Delete)" class="btn btn-secondary"
+                    (click)="itemDeleteOnClick()">
+                    {{ l('Delete') }}
+                </button>
+                <button *ngIf="displayButton(actionButtons.Save)" class="btn btn-primary" (click)="saveOnClick()">
+                    <i class="fa fa-save"></i> {{ l('Save') }}
                 </button>
             </div>
         </sub-header>
         <div [class]="containerClass">
-            <div class="card card-custom gutter-b">
+            <div class="card card-custom gutter-b" [ngClass]="{'d-none': activeCrudMode !== branchCrudModes.List}">
                 <div class="card-body">
-                    <div class="pb-3 d-flex justify-content-end">
-                        <button (click)="addBranch()" class="btn btn-primary blue" [buttonBusy]="loading">
-                            <i class="fa fa-plus pr-3"></i>
-                            <span>{{ l('Add') }}</span>
-                        </button>
-                        <button (click)="updateBranch()" class="btn btn-primary blue" [buttonBusy]="loading">
-                            <i class="fa fa-check pr-3"></i>
-                            <span>{{ l('Update') }}</span>
-                        </button>
-                        <button (click)="deleteBranch()" class="btn btn-primary blue" [buttonBusy]="loading">
-                            <i class="fa fa-times pr-3"></i>
-                            <span>{{ l('Delete') }}</span>
-                        </button>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_Id">{{ l('Branch') }}</label>
-                            <p-dropdown id="Branch_Id" name="branchId" [placeholder]="l('SelectBranch')"
-                                [(ngModel)]="branchId" [options]="initialDropdownData.branches" optionValue="id"
-                                optionLabel="number" [showClear]="true" (onChange)="branchNumberOnChange()">
-                            </p-dropdown>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="Branch_Name">{{ l('Name') }}</label>
-                            <input type="text" id="Branch_Name" name="branchName" class="form-control"
-                                [placeholder]="l('Name')" [(ngModel)]="branchForEdit.name" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_SubName">{{ l('SubName') }}</label>
-                            <input type="text" id="Branch_SubName" name="branchSubName" class="form-control"
-                                [placeholder]="l('SubName')" [(ngModel)]="branchForEdit.subName" />
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="Branch_InvSubName">{{ l('InvSubName') }}</label>
-                            <input type="text" id="Branch_InvSubName" name="branchInvSubName" class="form-control"
-                                [placeholder]="l('InvSubName')" [(ngModel)]="branchForEdit.smallSubName" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 form-group">
-                            <label for="Branch_Address">{{ l('Address') }}</label>
-                            <input type="text" id="Branch_Address" name="branchAddress" class="form-control"
-                                [placeholder]="l('Address')" [(ngModel)]="branchForEdit.address" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_City">{{ l('City') }}</label>
-                            <input type="text" id="Branch_City" name="branchCity" class="form-control"
-                                [placeholder]="l('City')" [(ngModel)]="branchForEdit.city" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_State">{{ l('State') }}</label>
-                            <input type="text" id="Branch_State" name="branchState" class="form-control"
-                                [placeholder]="l('State')" [(ngModel)]="branchForEdit.state" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_ZipCode">{{ l('ZipCode') }}</label>
-                            <input type="text" id="Branch_ZipCode" name="branchZipCode" class="form-control"
-                                [placeholder]="l('ZipCode')" [(ngModel)]="branchForEdit.zipCode"
-                                (change)="zipCodeOnChange()" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_Country">{{ l('Country') }}</label>
-                            <p-dropdown id="Branch_Country" name="branchCountry" [placeholder]="l('SelectCountry')"
-                                [(ngModel)]="branchForEdit.countryId" [options]="initialDropdownData.countries"
-                                optionValue="id" optionLabel="name" [showClear]="true">
-                            </p-dropdown>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="Branch_Phone">{{ l('Phone') }}</label>
-                            <input type="text" id="Branch_Phone" name="branchPhone" class="form-control"
-                                [placeholder]="l('Phone')" [(ngModel)]="branchForEdit.phone" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_Fax">{{ l('Fax') }}</label>
-                            <input type="text" id="Branch_Fax" name="branchFax" class="form-control"
-                                [placeholder]="l('Fax')" [(ngModel)]="branchForEdit.fax" />
-                        </div>
-                        <div class="col-6 d-flex align-items-center justify-content-between">
-                            <div class="form-group flex-grow-1 pr-2">
-                                <label for="Branch_AcountsReceivableGLAccountNumber">
-                                    {{ l('AcountsReceivableGLAccountNumber') }}
-                                </label>
-                                <input type="text" id="Branch_AcountsReceivableGLAccountNumber"
-                                    name="acountsReceivableGLAccountNumber" class="form-control"
-                                    [ngClass]="{'is-invalid': !isAccountNumberValid}"
-                                    [placeholder]="l('AcountsReceivableGLAccountNumber')"
-                                    [(ngModel)]="branchForEdit.receivable"
-                                    (change)="acountsReceivableGLAccountNumberOnChange()" />
+                    <form class="form" (submit)="getBrances()" autocomplete="off">
+                        <div class="form-body">
+                            <div class="input-group">
+                                <input type="text" id="Branch_List_Filter_AR_Account" name="branchListFilterARAccount"
+                                    class="form-control" placeholder="{{ l('SearchByArAccounts') }}"
+                                    [(ngModel)]="filters.filterText" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button class="btn btn-primary text-primary p-2 mt-1">
-                                <i class="fa fa-search p-0"></i>
-                            </button>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_ARAccounts">{{ l('ARAccounts') }}</label>
-                            <p-dropdown id="Branch_ARAccounts" name="branchAccountsReceivables"
-                                [placeholder]="l('SelectARAccounts')"
-                                [options]="initialDropdownData.accountsReceivables" optionValue="id"
-                                optionLabel="accountReceivable" [showClear]="true"
-                                (onChange)="branchAccountsReceivablesOnChange($event)">
-                            </p-dropdown>
+                    </form>
+                    <div class="row align-items-center">
+                        <!--<Primeng-TurboTable-Start>-->
+                        <div class="col primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                            <p-table #dataTable sortMode="multiple" (onLazyLoad)="getBrances($event)"
+                                [value]="primengTableHelper.records"
+                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}" [paginator]="false"
+                                [lazy]="true" [responsive]="primengTableHelper.isResponsive">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width: 130px">{{ l('Actions') }}</th>
+                                        <th pSortableColumn="number">
+                                            {{ l('Branch') }}
+                                            <p-sortIcon field="number"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="name">
+                                            {{ l('Name') }}
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="phone">
+                                            {{ l('Phone') }}
+                                            <p-sortIcon field="phone"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="receivable">
+                                            {{ l('ArAccount') }}
+                                            <p-sortIcon field="receivable"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="defaultWarehouse">
+                                            {{ l('Warehouse') }}
+                                            <p-sortIcon field="defaultWarehouse"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="currencyType">
+                                            {{ l('CurrencyType') }}
+                                            <!-- <p-sortIcon field="currencyType"></p-sortIcon> -->
+                                        </th>
+                                        <th pSortableColumn="creationTime">
+                                            {{ l('CreatedOn') }}
+                                            <p-sortIcon field="creationTime"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit">
+                                    <tr>
+                                        <td class="btn-group" dropdown placement="bottom left">
+                                            <button id="dropdownButton" type="button"
+                                                class="btn btn-secondary btn-sm dropdown-toggle" dropdownToggle
+                                                aria-controls="dropdownMenu">
+                                                <i class="fa fa-cog"></i>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdownMenu" class="dropdown-menu" role="menu" *dropdownMenu
+                                                aria-labelledby="dropdownButton">
+                                                <li role="menuitem">
+                                                    <a href="javascript:;" class="dropdown-item"
+                                                        (click)="viewOnClick(record.id)">
+                                                        {{ l('View') }}
+                                                    </a>
+                                                </li>
+                                                <li role="menuitem">
+                                                    <a href="javascript:;" class="dropdown-item"
+                                                        (click)="editOnClick(record.id)">
+                                                        {{ l('Edit') }}
+                                                    </a>
+                                                </li>
+                                                <li role="menuitem">
+                                                    <a href="javascript:;" class="dropdown-item color-red"
+                                                        (click)="rowDeleteOnClick(record)">
+                                                        {{ l('Delete') }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('Branch') }}</span>
+                                            {{ record.number }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('Name') }}</span>
+                                            {{ record.name }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('Phone') }}</span>
+                                            {{ record.phone }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('ArAccount') }}</span>
+                                            {{ record.receivable }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('Warehouse') }}</span>
+                                            {{ record.defaultWarehouse }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('CurrencyType') }}</span>
+                                            {{ record.currencyType }}
+                                        </td>
+                                        <td>
+                                            <span class="p-column-title">{{ l('CreatedOn') }}</span>
+                                            {{ record.creationTime ? (record.creationTime | luxonFormat: 'F') : '-' }}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{ l('NoData') }}
+                            </div>
+                            <div class="primeng-paging-container">
+                                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                                    (onPageChange)="getBrances($event)"
+                                    [totalRecords]="primengTableHelper.totalRecordsCount"
+                                    [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                    [showCurrentPageReport]="true" [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                                    "></p-paginator>
+                            </div>
                         </div>
-                        <div class="col-6 form-group">
-                            <label for="Branch_ClarkDealerAccessCode">{{ l('ClarkDealerAccessCode') }}</label>
-                            <input type="text" id="Branch_ClarkDealerAccessCode" name="branchClarkDealerAccessCode"
-                                class="form-control" [placeholder]="l('ClarkDealerAccessCode')"
-                                [(ngModel)]="branchForEdit.clarkDealerAccessCode" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_ClarkPartsCode">{{ l('ClarkPartsCode') }}</label>
-                            <input type="text" id="Branch_ClarkPartsCode" name="branchClarkPartsCode"
-                                class="form-control" [placeholder]="l('ClarkPartsCode')"
-                                [(ngModel)]="branchForEdit.clarkPartsCode" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_FedExShopId">{{ l('FedExShopId') }}</label>
-                            <input type="text" id="Branch_FedExShopId" name="branchFedExShopId" class="form-control"
-                                [placeholder]="l('FedExShopId')" [(ngModel)]="branchForEdit.shopId" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_FedExVendorId">{{ l('FedExVendorId') }}</label>
-                            <input type="text" id="Branch_FedExVendorId" name="branchFedExVendorId" class="form-control"
-                                [placeholder]="l('FedExVendorId')" [(ngModel)]="branchForEdit.vendorId" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>
-                            <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
-                                [placeholder]="l('SelectDefaultWarehouse')"
-                                [(ngModel)]="branchForEdit.defaultWarehouseId"
-                                [options]="initialDropdownData.warehouses" optionValue="id" optionLabel="warehouse"
-                                [showClear]="true">
-                            </p-dropdown>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="Branch_RentalDeliveryDefaultTime" [style]="{'display':'block'}">{{
-                                l('RentalDeliveryDefaultTime') }}</label>
-                            <p-calendar id="Branch_RentalDeliveryDefaultTime" name="branchRentalDeliveryDefaultTime"
-                                [placeholder]="l('RentalDeliveryDefaultTime')" [(ngModel)]="selectedDate"
-                                [timeOnly]="true" inputId="timeonly" hourFormat="12" [style]="{'width':'100%'}">
-                            </p-calendar>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label for="Branch_CurrencyType">{{ l('CurrencyType') }}</label>
-                            <p-dropdown id="Branch_CurrencyType" name="currencyTypeId"
-                                [placeholder]="l('SelectCurrencyType')" [(ngModel)]="currencyTypeId"
-                                [options]="initialDropdownData.currencyTypes" optionValue="id"
-                                optionLabel="currencyType" [showClear]="true" (onChange)="currencyTypeOnChange()">
-                            </p-dropdown>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="Branch_CurrencyType_ARAccountNo">{{ l('ARAccountForCurrency') }}</label>
-                            <input type="text" id="Branch_CurrencyType_ARAccountNo" name="branchCurrencyTypeArAccountNo"
-                                class="form-control" [placeholder]="l('ARAccountForCurrency')"
-                                [(ngModel)]="branchCurrencyType.arAccountNo" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 form-group">
-                            <label for="Branch_CurrencyType_DebitAccount">{{ l('DebitAccount') }}</label>
-                            <input type="text" id="Branch_CurrencyType_DebitAccount"
-                                name="branchCurrencyTypeDebitAccount" class="form-control"
-                                [placeholder]="l('DebitAccount')" [(ngModel)]="branchCurrencyType.debitAccount" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_CurrencyType_CreditAccount">{{ l('CreditAccount') }}</label>
-                            <input type="text" id="Branch_CurrencyType_CreditAccount"
-                                name="branchCurrencyTypeCreditAccount" class="form-control"
-                                [placeholder]="l('CreditAccount')" [(ngModel)]="branchCurrencyType.creditAccount" />
-                        </div>
-                    </div>
-                    <div class="pt-4">
-                        <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('Reevaluation') }}</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 form-group">
-                            <label for="Branch_CurrencyType_DebitAccountReevaluate">{{ l('DebitAccount') }}</label>
-                            <input type="text" id="Branch_CurrencyType_DebitAccountReevaluate"
-                                name="branchCurrencyTypeDebitAccountReevaluate" class="form-control"
-                                [placeholder]="l('DebitAccount')"
-                                [(ngModel)]="branchCurrencyType.debitAccountReevaluate" />
-                        </div>
-                        <div class="col-3 form-group">
-                            <label for="Branch_CurrencyType_CreditAccountReevaluate">{{ l('CreditAccount') }}</label>
-                            <input type="text" id="Branch_CurrencyType_CreditAccountReevaluate"
-                                name="branchCurrencyTypeCreditAccountReevaluate" class="form-control"
-                                [placeholder]="l('CreditAccount')"
-                                [(ngModel)]="branchCurrencyType.creditAccountReevaluate" />
-                        </div>
-                        <div class="col-6 d-flex align-items-center justify-content-end">
-                            <button (click)="deleteBranchCurrencyType()" class="btn btn-primary">
-                                <span>{{ l('Delete') }}</span>
-                            </button>
-                            <button (click)="updateBranchCurrencyType()" class="btn btn-primary">
-                                <span>{{ l('Update') }}</span>
-                            </button>
-                        </div>
+                        <!--<Primeng-TurboTable-End>-->
                     </div>
                 </div>
             </div>
         </div>
-        <div [class]="containerClass">
-            <tabset>
-                <tab heading="{{ l('TaxSetup') }}">
-                    <branchTaxSetup [taxCodes]="initialDropdownData.taxCodes" [(branchForEdit)]="branchForEdit">
-                    </branchTaxSetup>
-                </tab>
-                <tab heading="{{ l('TVH') }}">
-                    <branchTvh [(branchForEdit)]="branchForEdit" [countries]="initialDropdownData.countries"
-                        [tvhWarehouses]="initialDropdownData.tvhWarehouses"></branchTvh>
-                </tab>
-                <tab heading="{{ l('Finance') }}">
-                    <branchFinance [(branchForEdit)]="branchForEdit"></branchFinance>
-                </tab>
-                <tab heading="{{ l('Email') }}">
-                    <branchEmail [(branchForEdit)]="branchForEdit"></branchEmail>
-                </tab>
-                <tab heading="{{ l('LogoGraphic') }}">
-                    <branchLogoGraphic [(branchForEdit)]="branchForEdit"></branchLogoGraphic>
-                </tab>
-            </tabset>
-        </div>
-        <div class="mt-5" [class]="containerClass">
-            <p>{{ l('AddedBy') }} : {{ branchForEdit.creatorUserName ? branchForEdit.creatorUserName :
-                'Not Available' }} on {{ creationTime | date:'medium'}} </p>
-            <p>{{ l('ChangedBy') }} : {{ branchForEdit.lastModifierUserName ? branchForEdit.lastModifierUserName :
-                'Not Available' }} on {{ lastModificationTime | date:'medium'}}
-            </p>
-        </div>
+
+        <ng-container *ngIf="displayForm()">
+            <div [class]="containerClass">
+                <div class="card card-custom gutter-b">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_Number">{{ l('Branch') }}</label>
+                                <input type="number" id="Branch_Number" name="branchNumber" class="form-control"
+                                    [placeholder]="l('Number')" [(ngModel)]="branchForEdit.number" />
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="Branch_Name">{{ l('Name') }}</label>
+                                <input type="text" id="Branch_Name" name="branchName" class="form-control"
+                                    [placeholder]="l('Name')" [(ngModel)]="branchForEdit.name" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_SubName">{{ l('SubName') }}</label>
+                                <input type="text" id="Branch_SubName" name="branchSubName" class="form-control"
+                                    [placeholder]="l('SubName')" [(ngModel)]="branchForEdit.subName" />
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="Branch_InvSubName">{{ l('InvSubName') }}</label>
+                                <input type="text" id="Branch_InvSubName" name="branchInvSubName" class="form-control"
+                                    [placeholder]="l('InvSubName')" [(ngModel)]="branchForEdit.smallSubName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 form-group">
+                                <label for="Branch_Address">{{ l('Address') }}</label>
+                                <input type="text" id="Branch_Address" name="branchAddress" class="form-control"
+                                    [placeholder]="l('Address')" [(ngModel)]="branchForEdit.address" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_City">{{ l('City') }}</label>
+                                <input type="text" id="Branch_City" name="branchCity" class="form-control"
+                                    [placeholder]="l('City')" [(ngModel)]="branchForEdit.city" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_State">{{ l('State') }}</label>
+                                <input type="text" id="Branch_State" name="branchState" class="form-control"
+                                    [placeholder]="l('State')" [(ngModel)]="branchForEdit.state" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_ZipCode">{{ l('ZipCode') }}</label>
+                                <input type="text" id="Branch_ZipCode" name="branchZipCode" class="form-control"
+                                    [placeholder]="l('ZipCode')" [(ngModel)]="branchForEdit.zipCode"
+                                    (change)="zipCodeOnChange()" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_Country">{{ l('Country') }}</label>
+                                <p-dropdown id="Branch_Country" name="branchCountry" [placeholder]="l('SelectCountry')"
+                                    [(ngModel)]="branchForEdit.countryId" [options]="initialDropdownData.countries"
+                                    optionValue="id" optionLabel="name" [showClear]="true">
+                                </p-dropdown>
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="Branch_Phone">{{ l('Phone') }}</label>
+                                <input type="text" id="Branch_Phone" name="branchPhone" class="form-control"
+                                    [placeholder]="l('Phone')" [(ngModel)]="branchForEdit.phone" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_Fax">{{ l('Fax') }}</label>
+                                <input type="text" id="Branch_Fax" name="branchFax" class="form-control"
+                                    [placeholder]="l('Fax')" [(ngModel)]="branchForEdit.fax" />
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-between">
+                                <div class="form-group flex-grow-1 pr-2">
+                                    <label for="Branch_AcountsReceivableGLAccountNumber">
+                                        {{ l('AcountsReceivableGLAccountNumber') }}
+                                    </label>
+                                    <input type="text" id="Branch_AcountsReceivableGLAccountNumber"
+                                        name="acountsReceivableGLAccountNumber" class="form-control"
+                                        [ngClass]="{'is-invalid': !isAccountNumberValid}"
+                                        [placeholder]="l('AcountsReceivableGLAccountNumber')"
+                                        [(ngModel)]="branchForEdit.receivable"
+                                        (change)="acountsReceivableGLAccountNumberOnChange()" />
+                                </div>
+                                <button class="btn btn-primary text-primary p-2 mt-1">
+                                    <i class="fa fa-search p-0"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_ARAccounts">{{ l('ARAccounts') }}</label>
+                                <p-dropdown id="Branch_ARAccounts" name="branchAccountsReceivables"
+                                    [placeholder]="l('SelectARAccounts')"
+                                    [options]="initialDropdownData.accountsReceivables" optionValue="id"
+                                    optionLabel="accountReceivable" [showClear]="true"
+                                    (onChange)="branchAccountsReceivablesOnChange($event)">
+                                </p-dropdown>
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="Branch_ClarkDealerAccessCode">{{ l('ClarkDealerAccessCode') }}</label>
+                                <input type="text" id="Branch_ClarkDealerAccessCode" name="branchClarkDealerAccessCode"
+                                    class="form-control" [placeholder]="l('ClarkDealerAccessCode')"
+                                    [(ngModel)]="branchForEdit.clarkDealerAccessCode" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_ClarkPartsCode">{{ l('ClarkPartsCode') }}</label>
+                                <input type="text" id="Branch_ClarkPartsCode" name="branchClarkPartsCode"
+                                    class="form-control" [placeholder]="l('ClarkPartsCode')"
+                                    [(ngModel)]="branchForEdit.clarkPartsCode" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_FedExShopId">{{ l('FedExShopId') }}</label>
+                                <input type="text" id="Branch_FedExShopId" name="branchFedExShopId" class="form-control"
+                                    [placeholder]="l('FedExShopId')" [(ngModel)]="branchForEdit.shopId" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_FedExVendorId">{{ l('FedExVendorId') }}</label>
+                                <input type="text" id="Branch_FedExVendorId" name="branchFedExVendorId"
+                                    class="form-control" [placeholder]="l('FedExVendorId')"
+                                    [(ngModel)]="branchForEdit.vendorId" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>
+                                <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
+                                    [placeholder]="l('SelectDefaultWarehouse')"
+                                    [(ngModel)]="branchForEdit.defaultWarehouseId"
+                                    [options]="initialDropdownData.warehouses" optionValue="id" optionLabel="warehouse"
+                                    [showClear]="true">
+                                </p-dropdown>
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="Branch_RentalDeliveryDefaultTime" [style]="{'display':'block'}">{{
+                                    l('RentalDeliveryDefaultTime') }}</label>
+                                <p-calendar id="Branch_RentalDeliveryDefaultTime" name="branchRentalDeliveryDefaultTime"
+                                    [placeholder]="l('RentalDeliveryDefaultTime')" [(ngModel)]="selectedDate"
+                                    [timeOnly]="true" inputId="timeonly" hourFormat="12" [style]="{'width':'100%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <label for="Branch_CurrencyType">{{ l('CurrencyType') }}</label>
+                                <p-dropdown id="Branch_CurrencyType" name="currencyTypeId"
+                                    [placeholder]="l('SelectCurrencyType')" [(ngModel)]="currencyTypeId"
+                                    [options]="initialDropdownData.currencyTypes" optionValue="id"
+                                    optionLabel="currencyType" [showClear]="true" (onChange)="currencyTypeOnChange()">
+                                </p-dropdown>
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="Branch_CurrencyType_ARAccountNo">{{ l('ARAccountForCurrency') }}</label>
+                                <input type="text" id="Branch_CurrencyType_ARAccountNo"
+                                    name="branchCurrencyTypeArAccountNo" class="form-control"
+                                    [placeholder]="l('ARAccountForCurrency')"
+                                    [(ngModel)]="branchCurrencyType.arAccountNo" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 form-group">
+                                <label for="Branch_CurrencyType_DebitAccount">{{ l('DebitAccount') }}</label>
+                                <input type="text" id="Branch_CurrencyType_DebitAccount"
+                                    name="branchCurrencyTypeDebitAccount" class="form-control"
+                                    [placeholder]="l('DebitAccount')" [(ngModel)]="branchCurrencyType.debitAccount" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_CurrencyType_CreditAccount">{{ l('CreditAccount') }}</label>
+                                <input type="text" id="Branch_CurrencyType_CreditAccount"
+                                    name="branchCurrencyTypeCreditAccount" class="form-control"
+                                    [placeholder]="l('CreditAccount')" [(ngModel)]="branchCurrencyType.creditAccount" />
+                            </div>
+                        </div>
+                        <h3 class="pt-4"><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('Reevaluation') }}</h3>
+                        <div class="row">
+                            <div class="col-3 form-group">
+                                <label for="Branch_CurrencyType_DebitAccountReevaluate">{{ l('DebitAccount') }}</label>
+                                <input type="text" id="Branch_CurrencyType_DebitAccountReevaluate"
+                                    name="branchCurrencyTypeDebitAccountReevaluate" class="form-control"
+                                    [placeholder]="l('DebitAccount')"
+                                    [(ngModel)]="branchCurrencyType.debitAccountReevaluate" />
+                            </div>
+                            <div class="col-3 form-group">
+                                <label for="Branch_CurrencyType_CreditAccountReevaluate">{{ l('CreditAccount')
+                                    }}</label>
+                                <input type="text" id="Branch_CurrencyType_CreditAccountReevaluate"
+                                    name="branchCurrencyTypeCreditAccountReevaluate" class="form-control"
+                                    [placeholder]="l('CreditAccount')"
+                                    [(ngModel)]="branchCurrencyType.creditAccountReevaluate" />
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-end">
+                                <button (click)="deleteBranchCurrencyType()" class="btn btn-primary">
+                                    <span>{{ l('Delete') }}</span>
+                                </button>
+                                <button (click)="updateBranchCurrencyType()" class="btn btn-primary">
+                                    <span>{{ l('Update') }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div [class]="containerClass">
+                <tabset>
+                    <tab heading="{{ l('TaxSetup') }}">
+                        <branchTaxSetup [taxCodes]="initialDropdownData.taxCodes" [(branchForEdit)]="branchForEdit">
+                        </branchTaxSetup>
+                    </tab>
+                    <tab heading="{{ l('TVH') }}">
+                        <branchTvh [(branchForEdit)]="branchForEdit" [countries]="initialDropdownData.countries"
+                            [tvhWarehouses]="initialDropdownData.tvhWarehouses"></branchTvh>
+                    </tab>
+                    <tab heading="{{ l('Finance') }}">
+                        <branchFinance [(branchForEdit)]="branchForEdit"></branchFinance>
+                    </tab>
+                    <tab heading="{{ l('Email') }}">
+                        <branchEmail [(branchForEdit)]="branchForEdit"></branchEmail>
+                    </tab>
+                    <tab heading="{{ l('LogoGraphic') }}">
+                        <branchLogoGraphic [(branchForEdit)]="branchForEdit"></branchLogoGraphic>
+                    </tab>
+                </tabset>
+            </div>
+            <div class="mt-5" [class]="containerClass">
+                <p>{{ l('AddedBy') }} : {{ branchForEdit.creatorUserName ? branchForEdit.creatorUserName :
+                    'Not Available' }} on {{ creationTime | date:'medium'}} </p>
+                <p>{{ l('ChangedBy') }} : {{ branchForEdit.lastModifierUserName ? branchForEdit.lastModifierUserName :
+                    'Not Available' }} on {{ lastModificationTime | date:'medium'}}
+                </p>
+            </div>
+        </ng-container>
     </form>
 </div>

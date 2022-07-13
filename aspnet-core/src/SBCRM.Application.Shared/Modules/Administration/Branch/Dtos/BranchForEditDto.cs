@@ -8,6 +8,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
     /// </summary>
     public class BranchForEditDto : AuditDto
     {
+        public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
         public string Address { get; set; }

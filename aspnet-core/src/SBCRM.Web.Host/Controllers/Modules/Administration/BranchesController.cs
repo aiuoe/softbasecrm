@@ -6,7 +6,6 @@ using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
-using SBCRM.Crm.Dtos;
 using SBCRM.Modules.Accounting.ChartOfAccounts.Handlers;
 using SBCRM.Modules.Accounting.ChartOfAccounts.Queries;
 using SBCRM.Modules.Accounting.Dtos;
@@ -41,19 +40,20 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IList<GetLeadForViewDto>> GetAll()
+        public async Task<List<BranchListItemDto>> GetAll()
         {
-            return await Task.FromResult(new List<GetLeadForViewDto>());
+            return await Task.FromResult(new List<BranchListItemDto>());
         }
 
         /// <summary>
         /// Retrieve paged branches
         /// </summary>
+        /// <see cref="GetAllPagedBranchQueryHandler"/>
         /// <returns></returns>
         [HttpGet]
-        public async Task<PagedResultDto<GetLeadForViewDto>> GetAllPaged()
+        public async Task<PagedResultDto<BranchListItemDto>> GetAllPaged([FromQuery] GetAllPagedBranchQuery query)
         {
-            return await Task.FromResult(new PagedResultDto<GetLeadForViewDto>());
+            return await _mediator.Send(query);
         }
 
         /// <summary>

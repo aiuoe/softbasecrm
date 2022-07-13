@@ -126,11 +126,9 @@ export abstract class AppComponentBase implements OnDestroy {
     }
 
     get containerClass(): string {
-        if (this.appSession.theme.baseSettings.layout.layoutType === 'fluid') {
-            return 'container-fluid';
-        }
-
-        return 'container';
+        return this.appSession.theme.baseSettings.layout.layoutType === 'fluid'
+        ? 'container-fluid'
+        : 'container';
     }
 
     showMainSpinner(text?: string): void {

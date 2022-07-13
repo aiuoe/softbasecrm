@@ -284,7 +284,7 @@ namespace SBCRM
                 .ForMember(dto => dto.CountryId, opt => opt.MapFrom(a => a.Country))
                 .ForMember(dto => dto.TvhCountryId, opt => opt.MapFrom(a => a.TvhCountry));
 
-            configuration.CreateMap<Branch, BranchLookupDto>();
+            configuration.CreateMap<Branch, BranchListItemDto>();
             configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
                 .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
             configuration.CreateMap<Warehouse, WarehouseLookupDto>()

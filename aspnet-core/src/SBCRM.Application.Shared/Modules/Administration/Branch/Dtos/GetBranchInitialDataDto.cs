@@ -8,7 +8,6 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
     /// </summary>
     public class GetBranchInitialDataDto
     {
-        public List<BranchLookupDto> Branches { get; set; }
         public List<AccountReceivableInBranchDto> AccountsReceivables { get; set; }
         public List<WarehouseLookupDto> Warehouses { get; set; }
         public List<TvhWarehouseLookupDto> TvhWarehouses { get; set; }

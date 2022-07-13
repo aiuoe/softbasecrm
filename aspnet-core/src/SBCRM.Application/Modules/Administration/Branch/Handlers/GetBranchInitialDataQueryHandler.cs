@@ -72,7 +72,6 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
 
             return new GetBranchInitialDataDto()
             {
-                Branches = ObjectMapper.Map<List<BranchLookupDto>>(branches),
                 AccountsReceivables = ObjectMapper.Map<List<AccountReceivableInBranchDto>>(arAccounts),
                 Warehouses = ObjectMapper.Map<List<WarehouseLookupDto>>(warehouses),
                 TvhWarehouses = GetTvhWarehouses(),

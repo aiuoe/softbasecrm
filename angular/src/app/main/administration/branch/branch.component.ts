@@ -1,14 +1,17 @@
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, finalize } from 'rxjs/operators';
 import { isEmpty as _isEmpty } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
-    BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, CreateBranchCommand, GetBranchInitialDataDto,
-    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy, UpdateBranchCommand
+    BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, BranchListItemDto, CreateBranchCommand, GetBranchInitialDataDto,
+    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy, UpdateBranchCommand
 } from '@shared/service-proxies/service-proxies';
+import { LazyLoadEvent } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Paginator } from 'primeng/paginator';
 
 @Component({
     templateUrl: './branch.component.html',
@@ -19,11 +22,17 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     destroy$ = new Subject();
     loading: boolean = false;
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
     ];
+    actionButtons = BranchActionButtons;
+    branchCrudModes = BranchCrudModes;
+    activeCrudMode = BranchCrudModes.List;
 
+    filters: { filterText: string } = { filterText: '' };
     branchId: number;
     branchNumber: number;
     currencyTypeId: number;
@@ -55,8 +64,91 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this.destroy$.next();
     }
 
-    branchNumberOnChange(): void {
-        this._branchesService.get(this.branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+    displayForm(): boolean {
+        return [this.branchCrudModes.View, this.branchCrudModes.Add, this.branchCrudModes.Edit].includes(this.activeCrudMode);
+    }
+
+    displayButton(actionButton: BranchActionButtons): boolean {
+        switch (actionButton) {
+            case BranchActionButtons.Add:
+                return this.activeCrudMode === this.branchCrudModes.List;
+            case BranchActionButtons.Cancel:
+            case BranchActionButtons.Save:
+                return [this.branchCrudModes.Add, this.branchCrudModes.Edit].includes(this.activeCrudMode);
+            case BranchActionButtons.Close:
+                return this.activeCrudMode === this.branchCrudModes.View;
+            case BranchActionButtons.Add:
+                return this.activeCrudMode === this.branchCrudModes.Edit;
+            default:
+                return false;
+        }
+    }
+
+    addOnClick(): void {
+        this.initBranch();
+        this.activeCrudMode = BranchCrudModes.Add;
+    }
+
+    cancelOnClick(): void {
+        this.activeCrudMode = BranchCrudModes.List;
+    }
+
+    itemDeleteOnClick(): void {
+        if (this.branchId) {
+            this.deleteBranch(this.branchId, this.branchForEdit.name);
+        }
+    }
+
+    saveOnClick(): void {
+        if (this.branchId) {
+            this.updateBranch();
+        } else {
+            this.addBranch();
+        }
+    }
+
+    viewOnClick(branchId: number): void {
+        this.branchId = branchId;
+        this.getBranch(branchId);
+        this.activeCrudMode = BranchCrudModes.View;
+    }
+
+    editOnClick(branchId: number): void {
+        this.branchId = branchId;
+        this.getBranch(branchId);
+        this.activeCrudMode = BranchCrudModes.Edit;
+    }
+
+    rowDeleteOnClick(branch: BranchListItemDto): void {
+        this.deleteBranch(branch.id, branch.name);
+    }
+
+    getBrances(event?: LazyLoadEvent): void {
+        if (!this.dataTable || !this.paginator) {
+            return;
+        }
+        if (this.primengTableHelper.shouldResetPaging(event)) {
+            this.paginator.changePage(0);
+            return;
+        }
+        this.primengTableHelper.showLoadingIndicator();
+
+        this._branchesService.getAllPaged(
+            this.filters.filterText,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event),
+            this.primengTableHelper.getSkipCount(this.paginator, event)
+        ).pipe(
+            takeUntil(this.destroy$),
+            finalize(() => this.primengTableHelper.hideLoadingIndicator())
+        ).subscribe((x: PagedResultDtoOfBranchListItemDto) => {
+            this.primengTableHelper.totalRecordsCount = x.totalCount;
+            this.primengTableHelper.records = x.items;
+        });
+    }
+
+    getBranch(branchId: number): void {
+        this._branchesService.get(branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
             this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
         });
@@ -121,7 +213,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             });
         }
     }
-    
+
     branchAccountsReceivablesOnChange(e: any): void {
         if (e.value) {
             this.branchForEdit.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
@@ -129,44 +221,46 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     addBranch(): void {
-        if (this.branchForEdit.name) {
-            var requestBody = new CreateBranchCommand({ number: 1, ...this.branchForEdit});
-            this._branchesService.create(requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
-                this.branchForEdit = x;
-                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
-
-                //TODO: add new branch to dropdown
-                //this.initialDropdownData.branches.push(new BranchLookupDto({id: 1, number: 1}));
-            });
-        }
+        var requestBody = new CreateBranchCommand({ number: 1, ...this.branchForEdit });
+        this._branchesService.create(requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+            this.branchForEdit = x;
+            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+        });
     }
 
     updateBranch(): void {
-        if (this.branchId && this.branchForEdit.name) {
-            var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit});
-            this._branchesService.update(this.branchId, requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
-                this.branchForEdit = x;
-                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
-            });
-        }
+        var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit });
+        this._branchesService.update(this.branchId, requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
+            this.branchForEdit = x;
+            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+        });
     }
 
-    deleteBranch(): void {
-        if (this.branchId) {
-            this.loading = true;
-            this._branchesService.delete(this.branchId).subscribe(() => {
-                this.initialDropdownData.branches = this.initialDropdownData.branches.filter(x => x.id !== this.branchId);
-                this.branchCurrencyType = new BranchCurrencyTypeDto();
-                this.branchForEdit = new BranchForEditDto();
-                this.branchId = null;
-                this.branchNumber = null;
-                this.currencyTypeId = null;
-            }, () => {
+    deleteBranch(branchId: number, branchName: string): void {
+        this.message.confirm(
+            this.l('BranchDeleteWarningMessage', branchName),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this.loading = true;
+                    this._branchesService.delete(branchId).subscribe(() => {
+                        this.branchCurrencyType = new BranchCurrencyTypeDto();
+                        this.branchForEdit = new BranchForEditDto();
+                        this.branchId = null;
+                        this.branchNumber = null;
+                        this.currencyTypeId = null;
+                        this.paginator.changePage(this.paginator.getPage());
+                        this.notifyService.success(this.l('SuccessfullyDeleted'));
+                    }, () => {
 
-            }, () => {
-                this.loading = false;
-            });
-        }
+                    }, () => {
+                        this.loading = false;
+                    });
+                }
+            }
+        );
+
+
     }
 
     logoGraphicClear() {
@@ -175,6 +269,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     private initBranch(): void {
         this.branchForEdit = new BranchForEditDto({
+            number: null,
             name: null,
             subName: null,
             address: null,
@@ -225,7 +320,21 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             creationTime: null,
             lastModifierUserName: null,
             lastModificationTime: null
-          });
+        });
     }
 }
 
+export enum BranchCrudModes {
+    List = 1,
+    View,
+    Add,
+    Edit
+}
+
+export enum BranchActionButtons {
+    Add = 1,
+    Cancel,
+    Close,
+    Delete,
+    Save
+}
