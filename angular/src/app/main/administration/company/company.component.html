@@ -4,6 +4,7 @@
             <div role="actions">
                 <button
                     class="btn btn-secondary blue"
+                    id="companyCloseBtn"
                 >
                     {{ l('Close') }}
                 </button>
@@ -18,7 +19,7 @@
                             <div class="form-body">
                                 <div class="row mb-4">
                                     <div class="col-lg-12 text-right">
-                                        <button class="btn btn-primary blue">
+                                        <button class="btn btn-primary blue" id="companyUpdateBtn">
                                             <i class="fa fa-check fa-lg"></i>
                                             {{ l('Update') }}
                                         </button>
@@ -34,6 +35,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupNameInput"
                                         />
                                     </div>
                                     <div class="col-lg-3">
@@ -41,6 +43,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupSubNameInput"
                                         />
                                     </div>
                                     <div class="col-lg-3">
@@ -48,6 +51,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupAddressInput"
                                         />
                                     </div>
                                     <div class="col-lg-3">
@@ -55,6 +59,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupCityInput"
                                         />
                                     </div>
                                 </div>
@@ -64,6 +69,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupStateInput"
                                         />
                                     </div>
                                     <div class="col-lg-3">
@@ -71,6 +77,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupZipCodeInput"
                                         />
                                     </div>
                                     <div class="col-lg-6">
@@ -80,6 +87,7 @@
                                             [virtualScroll]="true"
                                             [itemSize]="30"
                                             [style]="{ width: '100%' }"
+                                            id="companySetupCountryDropdown"
                                         ></p-dropdown>
                                     </div>
                                 </div>
@@ -89,6 +97,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupPhoneNumberInput"
                                         />
                                     </div>
                                     <div class="col-lg-3">
@@ -96,10 +105,16 @@
                                         <input
                                             type="text"
                                             class="form-control"
+                                            id="companySetupFaxNumberInput"
                                         />
                                     </div>
                                     <div class="col-lg-6 mt-8">
-                                        <p-checkbox [label]="l('UserPasswordAndUserID')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                                        <p-checkbox
+                                            [label]="l('UserPasswordAndUserID')"
+                                            [binary]="true"
+                                            labelStyleClass="mb-0"
+                                            id="companySetupUserPasswordAndUserIDCheckbox"
+                                        ></p-checkbox>
                                     </div>
                                 </div>
                             </div>

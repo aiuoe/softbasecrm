@@ -9,13 +9,19 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyLogoGraphicFileInput"
                             />
                         </div>
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('UseGraphic')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('UseGraphic')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLogoUseGraphicCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3 text-right mt-8">
-                            <button class="btn btn-primary blue">
+                            <button class="btn btn-primary blue" id="companyLogoClearBtn">
                                 <i class="fa fa-eraser fa-lg"></i>
                                 {{ l('Clear') }}
                             </button>
