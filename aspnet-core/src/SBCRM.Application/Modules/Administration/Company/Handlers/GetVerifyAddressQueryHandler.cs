@@ -35,14 +35,17 @@ namespace SBCRM.Modules.Administration.Company.Handlers
         {
 
             var useDefaultTaxCodeCalc = await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc();
-            if (!useDefaultTaxCodeCalc)
+
+            GetVerifyAddressDto verifiedAddress = new GetVerifyAddressDto();
+
+            if (useDefaultTaxCodeCalc)
             {
-                return new GetVerifyAddressDto();
+                var connection = await _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();
+                var address = ObjectMapper.Map<AddressDto>(request);
+                verifiedAddress = await _avalaraService.VerifyAddress(connection, address);
             }
 
-            var connection = await _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();
-            var address = ObjectMapper.Map<AddressDto>(request);
-            var verifiedAddress = await _avalaraService.VerifyAddress(connection, address);
+           
 
             return verifiedAddress;
 
