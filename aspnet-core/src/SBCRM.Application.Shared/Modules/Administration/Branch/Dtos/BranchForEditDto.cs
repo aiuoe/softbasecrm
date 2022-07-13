@@ -54,6 +54,6 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string TvhAccountNo { get; set; }
         public string TvhKey { get; set; }
         public long? TvhCountryId { get; set; }
-        public string TvhWarehouse { get; set; }
+        public long? TvhWarehouseId { get; set; }
     }
 }

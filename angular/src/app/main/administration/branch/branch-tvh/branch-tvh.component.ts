@@ -1,6 +1,6 @@
 import { Component, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BranchForEditDto } from '@shared/service-proxies/service-proxies';
+import { BranchForEditDto, CountryDto, TvhWarehouseLookupDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
     selector: 'branchTvh',
@@ -10,8 +10,8 @@ import { BranchForEditDto } from '@shared/service-proxies/service-proxies';
 export class BranchTvhComponent extends AppComponentBase {
 
     @Input() branchForEdit: BranchForEditDto;
-    @Input() countries: BranchForEditDto;
-    @Input() tvhWarehouses: BranchForEditDto;
+    @Input() countries: CountryDto[] = [];
+    @Input() tvhWarehouses: TvhWarehouseLookupDto[] = [];
 
     constructor(
         injector: Injector

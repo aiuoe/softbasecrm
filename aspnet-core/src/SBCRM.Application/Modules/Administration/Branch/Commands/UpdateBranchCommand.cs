@@ -57,7 +57,7 @@ namespace SBCRM.Modules.Administration.Branch.Commands
         public string TvhAccountNo { get; set; }
         public string TvhKey { get; set; }
         public long? TvhCountryId { get; set; }
-        public string TvhWarehouse { get; set; }
+        public long? TvhWarehouseId { get; set; }
 
         /// <summary>
         /// Validation command

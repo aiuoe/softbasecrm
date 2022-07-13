@@ -282,7 +282,8 @@ namespace SBCRM
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
             configuration.CreateMap<Branch, BranchForEditDto>()
                 .ForMember(dto => dto.CountryId, opt => opt.MapFrom(a => a.Country))
-                .ForMember(dto => dto.TvhCountryId, opt => opt.MapFrom(a => a.TvhCountry));
+                .ForMember(dto => dto.TvhCountryId, opt => opt.MapFrom(a => a.TvhCountry))
+                .ForMember(dto => dto.TvhWarehouseId, opt => opt.MapFrom(a => a.TvhWarehouse));
 
             configuration.CreateMap<Branch, BranchListItemDto>();
             configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()

@@ -34,7 +34,6 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     filters: { filterText: string } = { filterText: '' };
     branchId: number;
-    branchNumber: number;
     currencyTypeId: number;
     branchCurrencyType = new BranchCurrencyTypeDto();
     branchForEdit = new BranchForEditDto();
@@ -86,6 +85,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     addOnClick(): void {
         this.initBranch();
+        this.branchId = null;
+        this.currencyTypeId = null;
         this.activeCrudMode = BranchCrudModes.Add;
     }
 
@@ -150,7 +151,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     getBranch(branchId: number): void {
         this._branchesService.get(branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
-            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
         });
     }
 
@@ -223,8 +224,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     addBranch(): void {
         var requestBody = new CreateBranchCommand({ number: 1, ...this.branchForEdit });
         this._branchesService.create(requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
-            this.branchForEdit = x;
-            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            this.activeCrudMode = BranchCrudModes.List;
+            this.paginator.changePage(this.paginator.getPage());
         });
     }
 
@@ -232,7 +233,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit });
         this._branchesService.update(this.branchId, requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
             this.branchForEdit = x;
-            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime.toJSDate();
+            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
         });
     }
 
@@ -247,7 +248,6 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
                         this.branchCurrencyType = new BranchCurrencyTypeDto();
                         this.branchForEdit = new BranchForEditDto();
                         this.branchId = null;
-                        this.branchNumber = null;
                         this.currencyTypeId = null;
                         this.paginator.changePage(this.paginator.getPage());
                         this.notifyService.success(this.l('SuccessfullyDeleted'));
@@ -315,7 +315,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             tvhAccountNo: null,
             tvhKey: null,
             tvhCountryId: null,
-            tvhWarehouse: null,
+            tvhWarehouseId: null,
             creatorUserName: null,
             creationTime: null,
             lastModifierUserName: null,
