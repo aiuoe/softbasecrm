@@ -273,59 +273,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private initBranch(): void {
-        this.branchForEdit = new BranchForEditDto({
-            number: null,
-            name: null,
-            subName: null,
-            address: null,
-            city: null,
-            state: null,
-            zipCode: null,
-            countryId: null,
-            phone: null,
-            fax: null,
-            receivable: null,
-            financeCharge: null,
-            financeRate: null,
-            financeDays: null,
-            stateTaxLabel: null,
-            countyTaxLabel: null,
-            showSplitSalesTax: null,
-            cityTaxLabel: null,
-            localTaxLabel: null,
-            defaultWarehouseId: null,
-            clarkPartsCode: null,
-            clarkDealerAccessCode: null,
-            useStateTaxCodeDescription: null,
-            useCountyTaxCodeDescription: null,
-            useCityTaxCodeDescription: null,
-            useLocalTaxCodeDescription: null,
-            rentalDeliveryDefaultTime: null,
-            stateTaxCodeId: null,
-            countyTaxCodeId: null,
-            cityTaxCodeId: null,
-            localTaxCodeId: null,
-            taxCodeId: null,
-            useAbsoluteTaxCodes: null,
-            smallSubName: null,
-            shopId: null,
-            image: null,
-            useImage: null,
-            logoFile: null,
-            vendorId: null,
-            printFinalCc: null,
-            printFinalBcc: null,
-            storeName: null,
-            creditCardAccountNo: null,
-            tvhAccountNo: null,
-            tvhKey: null,
-            tvhCountryId: null,
-            tvhWarehouseId: null,
-            creatorUserName: null,
-            creationTime: null,
-            lastModifierUserName: null,
-            lastModificationTime: null
-        });
+        this.branchForEdit = new BranchForEditDto();
+        this.branchForEdit.init({});
     }
 }
 
