@@ -48,8 +48,17 @@ using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
 using Branch = SBCRM.Core.BaseEntities.Branch;
+using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
 using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
+using AdditionalCharge = SBCRM.Core.BaseEntities.AdditionalCharge;
+using Arterm = SBCRM.Core.BaseEntities.Arterm;
 using SBCRM.Modules.Accounting.Dtos;
+using SBCRM.Dto;
+using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
+using SBCRM.Modules.Common.AdditionalCharges.Dto;
+using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
+using SBCRM.Modules.Common.ARTerms.Dto;
+using System.Linq;
 
 namespace SBCRM
 {
@@ -258,14 +267,30 @@ namespace SBCRM
                 .ForMember(u => u.Phone, opt => opt.MapFrom(u => u.PhoneNumber))
                 .ReverseMap();
 
+
+            configuration.CreateMap<SalesTaxIntegration, AvalaraConnectionDataDto>();
+            configuration.CreateMap<SalesTaxIntegration, SalesTaxIntegrationDto>().ReverseMap();
+            configuration.CreateMap<Arterm, ARTermDto>();
+
             #region [Administration mappings]
 
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<GetZipCodeDto, ZipCode>()
+                .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))
+                .ReverseMap();
+
+            configuration.CreateMap<Branch, BranchForDepartmentDto>().ReverseMap();
 
             #endregion
             #region [Accounting mappings]
 
-            configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>().ReverseMap();
+            configuration.CreateMap<ChartOfAccount, GetChartOfAccountDetailsDto>();
+
+            #endregion
+
+            #region[AdditionalCharges mappings]
+
+            configuration.CreateMap<AdditionalChargeDto, AdditionalCharge>().ReverseMap();
 
             #endregion
         }

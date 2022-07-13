@@ -1,0 +1,135 @@
+﻿using Abp.Application.Services.Dto;
+using System;
+
+namespace SBCRM.Modules.Administration.Dtos
+{
+    /// <summary>
+    /// Company DTO class
+    /// </summary>
+    public class CompanyDto : FullAuditedEntityDto<long>
+    {
+        public short Number { get; set; }
+        public string Name { get; set; }
+        public string SubName { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Group1 { get; set; }
+        public string Group2 { get; set; }
+        public string Group3 { get; set; }
+        public string Group4 { get; set; }
+        public string Group5 { get; set; }
+        public string Group6 { get; set; }
+        public short? InvoiceCopies { get; set; }
+        public bool LastInvoiceCopy { get; set; }
+        public bool AutomaticInvoiceDate { get; set; }
+        public string PartsCurrencyFormat { get; set; }
+        public string AccountingPackage { get; set; }
+        public string AccountingPath { get; set; }
+        public string ApcheckFormat { get; set; }
+        public int? NextPo { get; set; }
+        public int? EqNextPo { get; set; }
+        public DateTime? CurrentFiscalStart { get; set; }
+        public string RetainedEarnings { get; set; }
+        public DateTime? AccountingCutoffDate { get; set; }
+        public bool PrintLaborSummary { get; set; }
+        public bool PrintSerialNo { get; set; }
+        public bool PrintMake { get; set; }
+        public bool PrintModel { get; set; }
+        public bool PrintUnitNo { get; set; }
+        public bool PrintModelGroup { get; set; }
+        public bool PrintModelYear { get; set; }
+        public bool PrintStage { get; set; }
+        public bool PrintUpright { get; set; }
+        public bool PrintDownHeight { get; set; }
+        public bool PrintForks { get; set; }
+        public bool PrintAttachments { get; set; }
+        public bool PrintPower { get; set; }
+        public bool PrintTransmission { get; set; }
+        public bool PrintCapacity { get; set; }
+        public bool PrintTireType { get; set; }
+        public bool PrintLbr { get; set; }
+        public bool PrintEquipmentComments { get; set; }
+        public string DefaultEquipmentComments { get; set; }
+        public string LogoFile { get; set; }
+        public bool AutoSalesGroup { get; set; }
+        public bool DisableMilesCalculation { get; set; }
+        public string InvoiceComments { get; set; }
+        public int? NextCustomerNo { get; set; }
+        public string DefaultCustomerTerms { get; set; }
+        public string LtguruUserName { get; set; }
+        public string LtguruPassword { get; set; }
+        public string DealerNo { get; set; }
+        public string IntrupaDealerNo { get; set; }
+        public string LpmdealerNo { get; set; }
+        public short? ContactFollowupDays { get; set; }
+        public string DefaultWholeVerbage { get; set; }
+        public string DefaultDecimalVerbage { get; set; }
+        public short? InvoiceCutOffDay { get; set; }
+        public bool Wipaccrual { get; set; }
+        public decimal? IncludeWipbalance { get; set; }
+        public string CheckDateFormat { get; set; }
+        public string Smtpserver { get; set; }
+        public string SmtpuserName { get; set; }
+        public string Smtppassword { get; set; }
+        public string EmailAddress { get; set; }
+        public DateTime? FutureCutOffDate { get; set; }
+        public string CustomerNo { get; set; }
+        public string ChangedBy { get; set; }
+        public DateTime? DateChanged { get; set; }
+        public byte[] Image { get; set; }
+        public bool UseImage { get; set; }
+        public int? NextControlNo { get; set; }
+        public short? LaborRounding { get; set; }
+        public string EmailComments { get; set; }
+        public int? Smtpport { get; set; }
+        public bool? UseUserId { get; set; }
+        public string ELiftUserName { get; set; }
+        public string ELiftPassword { get; set; }
+        public short? EliftTest { get; set; }
+        public int? MobileIncludeMisc { get; set; }
+        public int? MobileIncludeTimes { get; set; }
+        public int? MobileAutoDocCenter { get; set; }
+        public string MobileEmailAddress { get; set; }
+        public bool? Smtpsecure { get; set; }
+        public int? SmtpsecureType { get; set; }
+        public DateTime? StartTimeDefault { get; set; }
+        public int? NoClearSignature { get; set; }
+        public int? DispatchManualRefresh { get; set; }
+        public string QuotePartsNa { get; set; }
+        public int? MobileSuppressPartNo { get; set; }
+        public int? MobileAddHours { get; set; }
+        public int? Office365 { get; set; }
+        public int? Msexchange { get; set; }
+        public int? QtoOallowPartialBo { get; set; }
+        public int? HourMeterChangeAllowed { get; set; }
+        public int? EmailOption { get; set; }
+        public bool UsePayByCreditCard { get; set; }
+        public string CreditCardVendor { get; set; }
+        public string AuthLogin { get; set; }
+        public string AuthPwd { get; set; }
+        public string Lcount { get; set; }
+        public string TvhaccountNo { get; set; }
+        public string Tvhkey { get; set; }
+        public string Tvhcountry { get; set; }
+        public string Tvhwarehouse { get; set; }
+        public bool IncludeRawhours { get; set; }
+        public int? QuoteHoldParts { get; set; }
+        public int? EquipmentDeleteTest { get; set; }
+        public int? QtoOpromptEachBo { get; set; }
+        public string ERentKey { get; set; }
+        public bool? Pjtest { get; set; }
+        public bool? TrailerFlag { get; set; }
+        public bool? DisallowAutoPostCc { get; set; }
+        public string BillTrustHost { get; set; }
+        public string BillTrustUserName { get; set; }
+        public string BillTrustPassword { get; set; }
+        public string BillTrustPort { get; set; }
+        public int? BillTrustAgingDay { get; set; }
+        public int TenantId { get; set; }
+        public bool IsMigrated { get; set; }
+    }
+}

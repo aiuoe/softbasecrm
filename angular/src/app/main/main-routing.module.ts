@@ -23,6 +23,11 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.Administration' }
                     },
                     {
+                        path: 'administration/taxCodes',
+                        loadChildren: () => import('./administration/tax-codes/tax-codes.module').then(m => m.TaxCodesModule),
+                        data: { permission: 'Pages.Administration' }
+                    },
+                    {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
                         data: { permission: 'Pages.ActivityStatuses' }
