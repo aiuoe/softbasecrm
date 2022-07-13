@@ -2,22 +2,12 @@
     <form class="content d-flex flex-column flex-column-fluid" autocomplete="off">
         <sub-header [title]="l('Branch')" [breadcrumbs]="breadcrumbs">
             <div role="actions">
-                <button *ngIf="displayButton(actionButtons.Add)" class="btn btn-primary" (click)="addOnClick()">
-                    <i class="fa fa-plus"></i> {{ l('Branch') }}
-                </button>
-                <button *ngIf="displayButton(actionButtons.Cancel)" class="btn btn-secondary" (click)="cancelOnClick()">
-                    {{ l('Cancel') }}
-                </button>
-                <button *ngIf="displayButton(actionButtons.Close)" class="btn btn-secondary" (click)="cancelOnClick()">
-                    {{ l('Close') }}
-                </button>
-                <button *ngIf="displayButton(actionButtons.Delete)" class="btn btn-danger"
-                    (click)="itemDeleteOnClick()">
-                    {{ l('Delete') }}
-                </button>
-                <button *ngIf="displayButton(actionButtons.Save)" class="btn btn-primary" (click)="saveOnClick()">
-                    <i class="fa fa-save"></i> {{ l('Save') }}
-                </button>
+                <ng-container *ngFor="let ab of actionButtons">
+                    <button *ngIf="ab.activeCrudModes.includes(activeCrudMode)" class="btn" [class]="ab.cssClass"
+                        (click)="ab.action()">
+                        <i *ngIf="ab.iconClass" [class]="ab.iconClass"></i> {{ ab.name }}
+                    </button>
+                </ng-container>
             </div>
         </sub-header>
         <div [class]="containerClass">
@@ -158,7 +148,7 @@
             </div>
         </div>
 
-        <ng-container *ngIf="displayForm()">
+        <ng-container *ngIf="activeCrudMode !== branchCrudModes.List">
             <div [class]="containerClass">
                 <div class="card card-custom gutter-b">
                     <div class="card-body">

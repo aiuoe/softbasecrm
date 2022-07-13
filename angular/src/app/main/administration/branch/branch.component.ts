@@ -28,7 +28,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
     ];
-    actionButtons = BranchActionButtons;
+    actionButtons: ActionButton[] = [];
     branchCrudModes = BranchCrudModes;
     activeCrudMode = BranchCrudModes.List;
 
@@ -54,6 +54,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     ngOnInit(): void {
         this.initBranch();
+        this.initActionButtons();
         this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: GetBranchInitialDataDto) => {
             this.initialDropdownData = x;
         });
@@ -65,26 +66,6 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     isViewMode(): boolean {
         return this.activeCrudMode === this.branchCrudModes.View;
-    }
-
-    displayForm(): boolean {
-        return [this.branchCrudModes.View, this.branchCrudModes.Add, this.branchCrudModes.Edit].includes(this.activeCrudMode);
-    }
-
-    displayButton(actionButton: BranchActionButtons): boolean {
-        switch (actionButton) {
-            case BranchActionButtons.Add:
-                return this.activeCrudMode === this.branchCrudModes.List;
-            case BranchActionButtons.Cancel:
-            case BranchActionButtons.Save:
-                return [this.branchCrudModes.Add, this.branchCrudModes.Edit].includes(this.activeCrudMode);
-            case BranchActionButtons.Close:
-                return this.activeCrudMode === this.branchCrudModes.View;
-            case BranchActionButtons.Delete:
-                return this.activeCrudMode === this.branchCrudModes.Edit;
-            default:
-                return false;
-        }
     }
 
     addOnClick(): void {
@@ -114,14 +95,14 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     viewOnClick(branchId: number): void {
         this.branchId = branchId;
-        this.getBranch(branchId);
         this.activeCrudMode = BranchCrudModes.View;
+        this.getBranch(branchId);
     }
 
     editOnClick(branchId: number): void {
         this.branchId = branchId;
-        this.getBranch(branchId);
         this.activeCrudMode = BranchCrudModes.Edit;
+        this.getBranch(branchId);
     }
 
     rowDeleteOnClick(branch: BranchListItemDto): void {
@@ -276,6 +257,24 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this.branchForEdit = new BranchForEditDto();
         this.branchForEdit.init({});
     }
+
+    private initActionButtons(): void {
+        this.actionButtons = [
+            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', activeCrudModes: [BranchCrudModes.List], action: () => this.addOnClick() },
+            { name: this.l('Cancel'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.cancelOnClick() },
+            { name: this.l('Close'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.View], action: () => this.cancelOnClick() },
+            { name: this.l('Delete'), cssClass: 'btn-danger', activeCrudModes: [BranchCrudModes.Edit], action: () => this.itemDeleteOnClick() },
+            { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.saveOnClick() },
+        ];
+    }
+}
+
+export class ActionButton {
+    name: string;
+    cssClass: string;
+    iconClass?: string;
+    activeCrudModes: BranchCrudModes[];
+    action: (argument?: () => any) => void;
 }
 
 export enum BranchCrudModes {
@@ -283,12 +282,4 @@ export enum BranchCrudModes {
     View,
     Add,
     Edit
-}
-
-export enum BranchActionButtons {
-    Add = 1,
-    Cancel,
-    Close,
-    Delete,
-    Save
 }
