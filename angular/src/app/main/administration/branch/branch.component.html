@@ -166,41 +166,48 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_Number">{{ l('Branch') }}</label>
                                 <input type="number" id="Branch_Number" name="branchNumber" class="form-control"
-                                    [placeholder]="l('Number')" [(ngModel)]="branchForEdit.number" [disabled]="isViewMode()" />
+                                    [placeholder]="l('Number')" [(ngModel)]="branchForEdit.number"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 form-group">
                                 <label for="Branch_Name">{{ l('Name') }}</label>
                                 <input type="text" id="Branch_Name" name="branchName" class="form-control"
-                                    [placeholder]="l('Name')" [(ngModel)]="branchForEdit.name" [disabled]="isViewMode()" />
+                                    [placeholder]="l('Name')" [(ngModel)]="branchForEdit.name"
+                                    [disabled]="isViewMode()" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 form-group">
                                 <label for="Branch_SubName">{{ l('SubName') }}</label>
                                 <input type="text" id="Branch_SubName" name="branchSubName" class="form-control"
-                                    [placeholder]="l('SubName')" [(ngModel)]="branchForEdit.subName" [disabled]="isViewMode()" />
+                                    [placeholder]="l('SubName')" [(ngModel)]="branchForEdit.subName"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 form-group">
                                 <label for="Branch_InvSubName">{{ l('InvSubName') }}</label>
                                 <input type="text" id="Branch_InvSubName" name="branchInvSubName" class="form-control"
-                                    [placeholder]="l('InvSubName')" [(ngModel)]="branchForEdit.smallSubName" [disabled]="isViewMode()" />
+                                    [placeholder]="l('InvSubName')" [(ngModel)]="branchForEdit.smallSubName"
+                                    [disabled]="isViewMode()" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-3 form-group">
                                 <label for="Branch_Address">{{ l('Address') }}</label>
                                 <input type="text" id="Branch_Address" name="branchAddress" class="form-control"
-                                    [placeholder]="l('Address')" [(ngModel)]="branchForEdit.address" [disabled]="isViewMode()" />
+                                    [placeholder]="l('Address')" [(ngModel)]="branchForEdit.address"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_City">{{ l('City') }}</label>
                                 <input type="text" id="Branch_City" name="branchCity" class="form-control"
-                                    [placeholder]="l('City')" [(ngModel)]="branchForEdit.city" [disabled]="isViewMode()" />
+                                    [placeholder]="l('City')" [(ngModel)]="branchForEdit.city"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_State">{{ l('State') }}</label>
                                 <input type="text" id="Branch_State" name="branchState" class="form-control"
-                                    [placeholder]="l('State')" [(ngModel)]="branchForEdit.state" [disabled]="isViewMode()" />
+                                    [placeholder]="l('State')" [(ngModel)]="branchForEdit.state"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_ZipCode">{{ l('ZipCode') }}</label>
@@ -220,14 +227,16 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_Phone">{{ l('Phone') }}</label>
                                 <input type="text" id="Branch_Phone" name="branchPhone" class="form-control"
-                                    [placeholder]="l('Phone')" [(ngModel)]="branchForEdit.phone" [disabled]="isViewMode()" />
+                                    [placeholder]="l('Phone')" [(ngModel)]="branchForEdit.phone"
+                                    [disabled]="isViewMode()" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 form-group">
                                 <label for="Branch_Fax">{{ l('Fax') }}</label>
                                 <input type="text" id="Branch_Fax" name="branchFax" class="form-control"
-                                    [placeholder]="l('Fax')" [(ngModel)]="branchForEdit.fax" [disabled]="isViewMode()" />
+                                    [placeholder]="l('Fax')" [(ngModel)]="branchForEdit.fax"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-between">
                                 <div class="form-group flex-grow-1 pr-2">
@@ -239,7 +248,8 @@
                                         [ngClass]="{'is-invalid': !isAccountNumberValid}"
                                         [placeholder]="l('AcountsReceivableGLAccountNumber')"
                                         [(ngModel)]="branchForEdit.receivable"
-                                        (change)="acountsReceivableGLAccountNumberOnChange()" [disabled]="isViewMode()" />
+                                        (change)="acountsReceivableGLAccountNumberOnChange()"
+                                        [disabled]="isViewMode()" />
                                 </div>
                                 <button class="btn btn-primary text-primary p-2 mt-1">
                                     <i class="fa fa-search p-0"></i>
@@ -273,7 +283,8 @@
                             <div class="col-3 form-group">
                                 <label for="Branch_FedExShopId">{{ l('FedExShopId') }}</label>
                                 <input type="text" id="Branch_FedExShopId" name="branchFedExShopId" class="form-control"
-                                    [placeholder]="l('FedExShopId')" [(ngModel)]="branchForEdit.shopId" [disabled]="isViewMode()" />
+                                    [placeholder]="l('FedExShopId')" [(ngModel)]="branchForEdit.shopId"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_FedExVendorId">{{ l('FedExVendorId') }}</label>
@@ -297,7 +308,8 @@
                                     l('RentalDeliveryDefaultTime') }}</label>
                                 <p-calendar id="Branch_RentalDeliveryDefaultTime" name="branchRentalDeliveryDefaultTime"
                                     [placeholder]="l('RentalDeliveryDefaultTime')" [(ngModel)]="selectedDate"
-                                    [timeOnly]="true" inputId="timeonly" hourFormat="12" [style]="{'width':'100%'}" [disabled]="isViewMode()">
+                                    [timeOnly]="true" inputId="timeonly" hourFormat="12" [style]="{'width':'100%'}"
+                                    [disabled]="isViewMode()">
                                 </p-calendar>
                             </div>
                         </div>
@@ -307,7 +319,8 @@
                                 <p-dropdown id="Branch_CurrencyType" name="currencyTypeId"
                                     [placeholder]="l('SelectCurrencyType')" [(ngModel)]="currencyTypeId"
                                     [options]="initialDropdownData.currencyTypes" optionValue="id"
-                                    optionLabel="currencyType" [showClear]="true" (onChange)="currencyTypeOnChange()" [disabled]="isViewMode()">
+                                    optionLabel="currencyType" [showClear]="true" (onChange)="currencyTypeOnChange()"
+                                    [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">
@@ -323,13 +336,15 @@
                                 <label for="Branch_CurrencyType_DebitAccount">{{ l('DebitAccount') }}</label>
                                 <input type="text" id="Branch_CurrencyType_DebitAccount"
                                     name="branchCurrencyTypeDebitAccount" class="form-control"
-                                    [placeholder]="l('DebitAccount')" [(ngModel)]="branchCurrencyType.debitAccount" [disabled]="isViewMode()" />
+                                    [placeholder]="l('DebitAccount')" [(ngModel)]="branchCurrencyType.debitAccount"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_CurrencyType_CreditAccount">{{ l('CreditAccount') }}</label>
                                 <input type="text" id="Branch_CurrencyType_CreditAccount"
                                     name="branchCurrencyTypeCreditAccount" class="form-control"
-                                    [placeholder]="l('CreditAccount')" [(ngModel)]="branchCurrencyType.creditAccount" [disabled]="isViewMode()" />
+                                    [placeholder]="l('CreditAccount')" [(ngModel)]="branchCurrencyType.creditAccount"
+                                    [disabled]="isViewMode()" />
                             </div>
                         </div>
                         <h3 class="pt-4"><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('Reevaluation') }}</h3>
@@ -347,7 +362,8 @@
                                 <input type="text" id="Branch_CurrencyType_CreditAccountReevaluate"
                                     name="branchCurrencyTypeCreditAccountReevaluate" class="form-control"
                                     [placeholder]="l('CreditAccount')"
-                                    [(ngModel)]="branchCurrencyType.creditAccountReevaluate" [disabled]="isViewMode()" />
+                                    [(ngModel)]="branchCurrencyType.creditAccountReevaluate"
+                                    [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-end">
                                 <button (click)="deleteBranchCurrencyType()" class="btn btn-primary">
@@ -364,7 +380,8 @@
             <div [class]="containerClass">
                 <tabset>
                     <tab heading="{{ l('TaxSetup') }}">
-                        <branchTaxSetup [taxCodes]="initialDropdownData.taxCodes" [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()">
+                        <branchTaxSetup [taxCodes]="initialDropdownData.taxCodes" [(branchForEdit)]="branchForEdit"
+                            [isViewMode]="isViewMode()">
                         </branchTaxSetup>
                     </tab>
                     <tab heading="{{ l('TVH') }}">
@@ -378,7 +395,8 @@
                         <branchEmail [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()"></branchEmail>
                     </tab>
                     <tab heading="{{ l('LogoGraphic') }}">
-                        <branchLogoGraphic [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()"></branchLogoGraphic>
+                        <branchLogoGraphic [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()">
+                        </branchLogoGraphic>
                     </tab>
                 </tabset>
             </div>
