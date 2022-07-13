@@ -1,0 +1,149 @@
+<div class="card card-custom card-in-tab gutter-b">
+    <form class="card-body form" autocomplete="off">
+        <div class="pb-3 d-flex justify-content-end">
+            <button (click)="add()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-plus pr-3"></i>
+                <span>{{ l('Add') }}</span>
+            </button>
+            <button (click)="delete()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-times pr-3"></i>
+                <span>{{ l('Delete') }}</span>
+            </button>
+            <button (click)="update()" class="btn btn-primary blue" [buttonBusy]="saving">
+                <i class="fa fa-check pr-3"></i>
+                <span>{{ l('Update') }}</span>
+            </button>
+        </div>
+        <h3><i class="fas fa-user-alt text-dark pr-3"></i>{{ l('TaxCodesSetup') }}</h3>
+        <div class="row">
+            <div class="col-3 form-group">
+                <label for="TaxCode_Standard_TaxCode">{{ l('TaxCode') }}</label>
+                <p-dropdown id="TaxCode_Standard_TaxCode" name="taxCodeStandardTaxCode" options="taxCodes"
+                    optionValue="code" optionLabel="displayName" [showClear]="true">
+                </p-dropdown>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="OverRideType" />
+                    <span></span>
+                    {{ l('OverRideType') }}
+                </label>
+            </div>
+            <div class="col-6 form-group">
+                <label for="TotalRate">{{ l('TotalRate') }}</label>
+                <input type="text" id="TotalRate" name="TotalRate" class="form-control"
+                    [placeholder]="l('TotalRate')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Standard_AccountNo">{{ l('AccountNo') }}</label>
+                    <input type="text" id="TaxCode_Standard_AccountNo" name="taxCodeStandardAccountNo"
+                        class="form-control" [placeholder]="l('AccountNo')" />
+
+                </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Standard_RentalAccountNo">{{ l('RentalAccountNo') }}</label>
+                    <input type="text" id="TaxCode_Standard_RentalAccountNo" name="taxCodeStandardRentalAccountNo"
+                        class="form-control" [placeholder]="l('RentalAccountNo')" />
+
+                </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_Standard_CountryPortionRate">{{ l('CountryPortionRate') }}</label>
+                <input type="text" id="TaxCode_Standard_CountryPortionRate" name="taxCodeStandardCountryPortionRate"
+                    class="form-control" [placeholder]="l('CountryPortionRate')" />
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <div class="form-group flex-grow-1 pr-2">
+                    <label for="TaxCode_Standard_AccountNo">{{ l('AccountNo') }}</label>
+                    <input type="text" id="TaxCode_Standard_AccountNo" name="taxCodeStandardAccountNo"
+                        class="form-control" [placeholder]="l('AccountNo')" />
+
+                </div>
+                <button class="btn btn-primary text-primary p-2 mt-1">
+                    <i class="fa fa-search p-0"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_Standard_MaximumAmount">{{ l('MaximumAmount') }}</label>
+                <input type="text" id="TaxCode_Standard_MaximumAmount" name="taxCodeStandardMaximumAmount"
+                    class="form-control" [placeholder]="l('MaximumAmount')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_Standard_AccountNoOncePaid">{{ l('AccountNoOncePaid') }}</label>
+                <input type="text" id="TaxCode_Standard_AccountNoOncePaid" name="taxCodeStandardAccountNoOncePaid"
+                    class="form-control" [placeholder]="l('AccountNoOncePaid')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <label for="TaxCode_Standard_Description">{{ l('Description') }}</label>
+                <input type="text" id="TaxCode_Standard_Description" name="taxCodeStandardDescription"
+                    class="form-control" [placeholder]="l('Description')" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="TaxCode_Standard_Country">{{ l('Country') }}</label>
+                <input type="text" id="TaxCode_Standard_Country" name="taxCodeStandardCountry" class="form-control"
+                    [placeholder]="l('Country')" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="PartsNonTaxable" />
+                    <span></span>
+                    {{ l('PartsNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="LaborNonTaxable" />
+                    <span></span>
+                    {{ l('LaborNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="MiscNonTaxable" />
+                    <span></span>
+                    {{ l('MiscNonTaxable') }}
+                </label>
+            </div>
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="RentalNonTaxable" />
+                    <span></span>
+                    {{ l('RentalNonTaxable') }}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 d-flex align-items-center mt-5 form-group">
+                <label class="checkbox checkbox-outline">
+                    <input type="checkbox" name="EquipmentNonTaxable" />
+                    <span></span>
+                    {{ l('EquipmentNonTaxable') }}
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="TaxCode_Standard_Comments">{{ l('Comments') }}</label>
+            <textarea id="TaxCode_Standard_Comments" name="taxCodeStandardComments" class="form-control"
+                rows="6"></textarea>
+        </div>
+    </form>
+</div>
