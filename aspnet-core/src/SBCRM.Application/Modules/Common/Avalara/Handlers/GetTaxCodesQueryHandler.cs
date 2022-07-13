@@ -1,4 +1,5 @@
-﻿using Abp.UI;
+﻿using Abp.Application.Services.Dto;
+using Abp.UI;
 using MediatR;
 using SBCRM.Avalara;
 using SBCRM.Base;
@@ -19,7 +20,7 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
     /// <summary>
     /// Handler for the Get Tax Codes Method
     /// </summary>
-    public class GetTaxCodesQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxCodesQuery, List<TaxCodeDto>>
+    public class GetTaxCodesQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxCodesQuery, PagedResultDto<TaxCodeDto>>
     {
         private readonly IAvalaraService _avalaraService;
         private readonly ISalesTaxIntegrationRepository _salesTaxIntegrationRepository;
@@ -30,16 +31,16 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
             _salesTaxIntegrationRepository = salesTaxIntegrationRepository;
         }
 
-        public async Task<List<TaxCodeDto>> Handle(GetTaxCodesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResultDto<TaxCodeDto>> Handle(GetTaxCodesQuery request, CancellationToken cancellationToken)
         {
-            List<TaxCodeDto> taxCodes = new List<TaxCodeDto>();
+            PagedResultDto<TaxCodeDto> taxCodes = new PagedResultDto<TaxCodeDto>();
 
-            if (!await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc())
+            if (await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc())
             {
                 AvalaraConnectionDataDto connectionData = await _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();
                 GuardHelper.ThrowIf(connectionData == null, new UserFriendlyException(L("TenantHasNoIntegrationTaxSettings")));
 
-                GetTaxCodesParametersDto parameters = new GetTaxCodesParametersDto(request.TaxCodeType,
+                GetTaxCodesParametersDto parameters = new GetTaxCodesParametersDto(request.SkipCount, request.MaxResultCount,request.TaxCodeType,
                     request.TaxCode, request.ParentTaxCode, request.Description);
 
                 taxCodes = await _avalaraService.GetTaxCodes(connectionData, parameters);

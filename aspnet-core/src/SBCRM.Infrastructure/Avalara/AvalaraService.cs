@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Abp.Application.Services.Dto;
 
 namespace SBCRM.Infrastructure.Avalara
 {
@@ -161,7 +162,7 @@ namespace SBCRM.Infrastructure.Avalara
         /// <param name="avalaraConnectionData">Credentials needed to connect to Avalara</param>
         /// <param name="getTaxCodesParameters">Search parameters if any to find the tax codes</param>
         /// <returns>List of Tax Codes</returns>
-        public async Task<List<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionData, GetTaxCodesParametersDto getTaxCodesParameters)
+        public async Task<PagedResultDto<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionData, GetTaxCodesParametersDto getTaxCodesParameters)
         {            
             string paramString = GetTaxCodesParamString(getTaxCodesParameters);
             string url = GetStandartUrl(avalaraConnectionData, "api/v2/definitions/taxcodes", paramString);
@@ -174,7 +175,7 @@ namespace SBCRM.Infrastructure.Avalara
             try
             {
                 var response = JsonSerializer.DeserializeAsync<GetTaxCodesDto>(await streamTask);
-                return response.Result.value;
+                return new PagedResultDto<TaxCodeDto>(response.Result.RecordsetCount, response.Result.Value);
             }catch (Exception ex)
             {
                 throw ex;

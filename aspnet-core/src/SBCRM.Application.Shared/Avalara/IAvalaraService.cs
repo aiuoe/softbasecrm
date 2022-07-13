@@ -6,6 +6,7 @@ using SBCRM.Modules.Common.Avalara.Dto;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Abp.Application.Services.Dto;
 
 namespace SBCRM.Avalara
 {
@@ -16,7 +17,7 @@ namespace SBCRM.Avalara
     {
         Task<GetVerifyAddressDto> VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
 
-        Task<List<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionDataDto, GetTaxCodesParametersDto getTaxCodesParameters);
+        Task<PagedResultDto<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionDataDto, GetTaxCodesParametersDto getTaxCodesParameters);
 
         Task<List<TaxCodeTypeDto>> GetTaxCodeTypes(AvalaraConnectionDataDto avalaraConnectionData);
     }

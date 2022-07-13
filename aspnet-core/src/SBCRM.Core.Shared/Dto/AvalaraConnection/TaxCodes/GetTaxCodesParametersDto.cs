@@ -16,7 +16,7 @@ namespace SBCRM.Dto.AvalaraConnection.TaxCodes
         /// <param name="taxCode">Partial tax code</param>
         /// <param name="parentTaxCode">Parent tax code</param>
         /// <param name="description">Partial description</param>
-        public GetTaxCodesParametersDto(string taxCodeType, string taxCode, string parentTaxCode, string description)
+        public GetTaxCodesParametersDto(int skip, int max,string taxCodeType, string taxCode, string parentTaxCode, string description)
         {
             if (!string.IsNullOrWhiteSpace(taxCodeType))
             {
@@ -101,6 +101,8 @@ namespace SBCRM.Dto.AvalaraConnection.TaxCodes
 
             }
             OrderBy = "TaxCode";
+            Skip = skip.ToString();
+            Top = max.ToString();
         }
 
         public string Filter { get; set; }

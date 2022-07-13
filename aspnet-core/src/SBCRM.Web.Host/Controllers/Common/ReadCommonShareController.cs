@@ -1,4 +1,5 @@
-﻿using Abp.AspNetCore.Mvc.Authorization;
+﻿using Abp.Application.Services.Dto;
+using Abp.AspNetCore.Mvc.Authorization;
 using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -112,11 +113,11 @@ namespace SBCRM.Web.Controllers.Common
         /// <param name="description">Partial Description</param>
         /// <returns>Tax Code List</returns>
         /// <see cref="GetTaxCodesQueryHandler"/>
-        [Route("{taxCodeType?}/{taxCode?}/{parentTaxCode?}/{description?}")]
+        [Route("{skip}/{max?}/{taxCodeType?}/{taxCode?}/{parentTaxCode?}/{description?}")]
         [HttpGet]
-        public async Task<List<TaxCodeDto>> GetTaxCodes([FromRoute] string taxCodeType = "", [FromRoute] string taxCode = "", [FromRoute] string parentTaxCode = "", [FromRoute] string description = "")
+        public async Task<PagedResultDto<TaxCodeDto>> GetTaxCodes([FromRoute] int skip, [FromRoute] int max = 10,[FromRoute] string taxCodeType = "", [FromRoute] string taxCode = "", [FromRoute] string parentTaxCode = "", [FromRoute] string description = "")
         {
-            return await _mediator.Send(new GetTaxCodesQuery(taxCodeType,taxCode,parentTaxCode,description));
+            return await _mediator.Send(new GetTaxCodesQuery(skip,max,taxCodeType,taxCode,parentTaxCode,description));
         }
 
         /// <summary>
