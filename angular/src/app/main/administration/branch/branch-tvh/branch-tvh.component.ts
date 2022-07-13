@@ -9,6 +9,7 @@ import { BranchForEditDto, CountryDto, TvhWarehouseLookupDto } from '@shared/ser
 
 export class BranchTvhComponent extends AppComponentBase {
 
+    @Input() isViewMode: boolean;
     @Input() branchForEdit: BranchForEditDto;
     @Input() countries: CountryDto[] = [];
     @Input() tvhWarehouses: TvhWarehouseLookupDto[] = [];

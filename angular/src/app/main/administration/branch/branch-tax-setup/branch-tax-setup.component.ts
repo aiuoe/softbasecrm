@@ -10,9 +10,11 @@ import { BranchesServiceProxy, BranchForEditDto, GetTaxTabInitialDataDto, TaxCod
 })
 
 export class BranchTaxSetupComponent extends AppComponentBase implements OnChanges, OnDestroy {
-    destroy$ = new Subject();
+    
+    @Input() isViewMode: boolean;
     @Input() taxCodes: TaxCodeInBranchDto[] = [];
     @Input() branchForEdit: BranchForEditDto;
+    destroy$ = new Subject();
     private hasInitialData = false;
 
     taxTabInitialData = new GetTaxTabInitialDataDto();

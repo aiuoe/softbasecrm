@@ -9,6 +9,7 @@ import { BranchForEditDto } from '@shared/service-proxies/service-proxies';
 
 export class BranchEmailComponent extends AppComponentBase {
 
+    @Input() isViewMode: boolean;
     @Input() branchForEdit: BranchForEditDto;
 
     constructor(

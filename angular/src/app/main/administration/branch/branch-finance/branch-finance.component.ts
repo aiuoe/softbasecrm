@@ -10,8 +10,10 @@ import { Subject } from 'rxjs';
 })
 
 export class BranchFinanceComponent extends AppComponentBase implements OnDestroy {
-    destroy$ = new Subject();
+    
+    @Input() isViewMode: boolean;
     @Input() branchForEdit: BranchForEditDto;
+    destroy$ = new Subject();
     isAccountNumberValid: boolean = true;
 
     constructor(

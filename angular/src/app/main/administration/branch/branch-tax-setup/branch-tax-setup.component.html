@@ -5,13 +5,13 @@
                 <label for="Branch_TaxSetup_StateSalesTaxLabel">{{ l('StateSalesTaxLabel') }}</label>
                 <input type="text" id="Branch_TaxSetup_StateSalesTaxLabel" name="branchTaxSetupStateSalesTaxLabel"
                     class="form-control" [placeholder]="l('StateSalesTaxLabel')"
-                    [(ngModel)]="branchForEdit.stateTaxLabel" />
+                    [(ngModel)]="branchForEdit.stateTaxLabel" [disabled]="isViewMode" />
             </div>
-            <div class="col-3 d-flex justify-content-center align-items-center mt-5 form-group">
+            <div class="col-3 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input type="checkbox" id="Branch_TaxSetup_UseStateTaxCodeDescription"
                         name="branchTaxSetupUseStateTaxCodeDescription"
-                        [(ngModel)]="branchForEdit.useStateTaxCodeDescription" />
+                        [(ngModel)]="branchForEdit.useStateTaxCodeDescription" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('UseStateTaxCodeDescription') }}
                 </label>
@@ -20,13 +20,13 @@
                 <label for="Branch_TaxSetup_CountrySalesTaxLabel">{{ l('CountrySalesTaxLabel') }}</label>
                 <input type="text" id="Branch_TaxSetup_CountrySalesTaxLabel" name="branchTaxSetupCountrySalesTaxLabel"
                     class="form-control" [placeholder]="l('CountrySalesTaxLabel')"
-                    [(ngModel)]="branchForEdit.countyTaxLabel" />
+                    [(ngModel)]="branchForEdit.countyTaxLabel" [disabled]="isViewMode" />
             </div>
-            <div class="col-3 d-flex justify-content-center align-items-center mt-5 form-group">
+            <div class="col-3 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input type="checkbox" id="Branch_TaxSetup_UseCountryTaxCodeDescription"
                         name="branchTaxSetupUseCountryTaxCodeDescription"
-                        [(ngModel)]="branchForEdit.useCountyTaxCodeDescription" />
+                        [(ngModel)]="branchForEdit.useCountyTaxCodeDescription" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('UseCountryTaxCodeDescription') }}
                 </label>
@@ -37,13 +37,13 @@
                 <label for="Branch_TaxSetup_CitySalesTaxLabel">{{ l('CitySalesTaxLabel') }}</label>
                 <input type="text" id="Branch_TaxSetup_CitySalesTaxLabel" name="branchTaxSetupCitySalesTaxLabel"
                     class="form-control" [placeholder]="l('CitySalesTaxLabel')"
-                    [(ngModel)]="branchForEdit.cityTaxLabel" />
+                    [(ngModel)]="branchForEdit.cityTaxLabel" [disabled]="isViewMode"/>
             </div>
-            <div class="col-3 d-flex justify-content-center align-items-center mt-5 form-group">
+            <div class="col-3 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input type="checkbox" id="Branch_TaxSetup_UseCityTaxCodeDescription"
                         name="branchTaxSetupUseCityTaxCodeDescription"
-                        [(ngModel)]="branchForEdit.useCityTaxCodeDescription" />
+                        [(ngModel)]="branchForEdit.useCityTaxCodeDescription" [disabled]="isViewMode"/>
                     <span></span>
                     {{ l('UseCityTaxCodeDescription') }}
                 </label>
@@ -52,13 +52,13 @@
                 <label for="Branch_TaxSetup_LocalSalesTaxLabel">{{ l('LocalSalesTaxLabel') }}</label>
                 <input type="text" id="Branch_TaxSetup_LocalSalesTaxLabel" name="branchTaxSetupLocalSalesTaxLabel"
                     class="form-control" [placeholder]="l('LocalSalesTaxLabel')"
-                    [(ngModel)]="branchForEdit.localTaxLabel" />
+                    [(ngModel)]="branchForEdit.localTaxLabel" [disabled]="isViewMode"/>
             </div>
-            <div class="col-3 d-flex justify-content-center align-items-center mt-5 form-group">
+            <div class="col-3 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input type="checkbox" id="Branch_TaxSetup_UseLocalTaxCodeDescription"
                         name="branchTaxSetupUseLocalTaxCodeDescription"
-                        [(ngModel)]="branchForEdit.useLocalTaxCodeDescription" />
+                        [(ngModel)]="branchForEdit.useLocalTaxCodeDescription" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('UseLocalTaxCodeDescription') }}
                 </label>
@@ -68,7 +68,7 @@
             <div class="col-3 d-flex align-items-center mt-5 form-group">
                 <label class="checkbox checkbox-outline">
                     <input type="checkbox" id="Branch_TaxSetup_ShopSplitSalesTax" name="branchTaxSetupShopSplitSalesTax"
-                        [(ngModel)]="branchForEdit.showSplitSalesTax" />
+                        [(ngModel)]="branchForEdit.showSplitSalesTax" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('ShopSplitSalesTax') }}
                 </label>
@@ -80,14 +80,14 @@
                 <label for="Branch_TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
                 <p-dropdown id="Branch_TaxSetup_StandardTaxCode" name="branchTaxSetupStandardTaxCode"
                     [placeholder]="l('SelectStandardTaxCode')" [(ngModel)]="branchForEdit.taxCodeId"
-                    [options]="taxCodes" optionValue="id" optionLabel="code" [showClear]="true">
+                    [options]="taxCodes" optionValue="id" optionLabel="code" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
-            <div class="col-6 d-flex align-items-center mt-5 form-group">
+            <div class="col-6 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input type="checkbox" id="Branch_TaxSetup_UseAbsoluteTaxCodes"
                         name="branchTaxSetupUseAbsoluteTaxCodes" [(ngModel)]="branchForEdit.useAbsoluteTaxCodes"
-                        (change)="useAbsoluteTaxCodesStatusOnChange()" />
+                        (change)="useAbsoluteTaxCodesStatusOnChange()" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('UseAbsoluteTaxCodes') }}
                 </label>
@@ -99,7 +99,7 @@
                 <p-dropdown *ngIf="branchForEdit.useAbsoluteTaxCodes" id="Branch_TaxSetup_StateTaxCode"
                     name="branchTaxSetupStateTaxCode" [placeholder]="l('SelectStateTaxCode')"
                     [(ngModel)]="branchForEdit.stateTaxCodeId" [options]="taxTabInitialData.stateTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true">
+                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
             <div class="col-6 form-group">
@@ -107,7 +107,7 @@
                 <p-dropdown *ngIf="branchForEdit.useAbsoluteTaxCodes" id="Branch_TaxSetup_CountryTaxCode"
                     name="branchTaxSetupCountryTaxCode" [placeholder]="l('SelectCountryTaxCode')"
                     [(ngModel)]="branchForEdit.countyTaxCodeId" [options]="taxTabInitialData.countyTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true">
+                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 <p-dropdown *ngIf="branchForEdit.useAbsoluteTaxCodes" id="Branch_TaxSetup_CityTaxCode"
                     name="branchTaxSetupCityTaxCode" [placeholder]="l('SelectCityTaxCode')"
                     [(ngModel)]="branchForEdit.cityTaxCodeId" [options]="taxTabInitialData.cityTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true">
+                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
             <div class="col-6 form-group">
@@ -125,7 +125,7 @@
                 <p-dropdown *ngIf="branchForEdit.useAbsoluteTaxCodes" id="Branch_TaxSetup_LocalTaxCode"
                     name="branchTaxSetupLocalTaxCode" [placeholder]="l('SelectLocalTaxCode')"
                     [(ngModel)]="branchForEdit.localTaxCodeId" [options]="taxTabInitialData.localTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true">
+                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
         </div>

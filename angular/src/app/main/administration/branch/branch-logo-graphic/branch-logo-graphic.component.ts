@@ -9,6 +9,7 @@ import { BranchForEditDto } from '@shared/service-proxies/service-proxies';
 
 export class BranchLogoGraphicComponent extends AppComponentBase {
 
+    @Input() isViewMode: boolean;
     @Input() branchForEdit: BranchForEditDto;
     saving: boolean = false;
     logoGraphicFile: any;

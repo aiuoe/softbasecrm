@@ -63,6 +63,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this.destroy$.next();
     }
 
+    isViewMode(): boolean {
+        return this.activeCrudMode === this.branchCrudModes.View;
+    }
+
     displayForm(): boolean {
         return [this.branchCrudModes.View, this.branchCrudModes.Add, this.branchCrudModes.Edit].includes(this.activeCrudMode);
     }
