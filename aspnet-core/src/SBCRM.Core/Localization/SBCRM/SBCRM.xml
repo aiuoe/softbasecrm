@@ -2161,6 +2161,14 @@
 		<text name="AccountSearch">Account Search</text>
 		<text name="AccountNumberSymbol">Account #</text>
 		<text name="Type">Type</text>
+		<!-- Common Components - Search Tax Codes -->
+		<text name="TaxCodeSearch">Tax Codes Search</text>
+		<text name="TaxCodeType">Tax Code Type</text>
+		<text name="PartialTaxCode">Partial Tax Code</text>
+		<text name="ParentTaxCode">Parent Tax Code</text>
+		<text name="PartialDescription">Partial Description</text>
+		<text name="TaxCodeDescription">Description</text>
+		<text name="SelectTaxType">Please select a tax type...</text>
 
 		<!-- Administration - Branch -->
 		<text name="InvSubName">Inv Sub-Name</text>

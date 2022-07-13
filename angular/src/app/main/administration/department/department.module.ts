@@ -16,6 +16,7 @@ import { DepartmentQuoteComponent } from './department-quote/department-quote.co
 import { DepartmentInvoiceComponent } from './department-invoice/department-invoice.component';
 import { DepartmentMobileComponent } from './department-mobile/department-mobile.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TaxCodeSearchModalComponent } from '../../common/tax-codes-search/tax-code-search-modal.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     DepartmentRentalComponent,
     DepartmentQuoteComponent,
     DepartmentInvoiceComponent,
-    DepartmentMobileComponent
+    DepartmentMobileComponent,
+    //TaxCodeSearchModalComponent
   ],
   imports: [
     AppSharedModule,

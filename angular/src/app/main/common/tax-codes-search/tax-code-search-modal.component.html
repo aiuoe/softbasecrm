@@ -1,0 +1,169 @@
+<div
+    bsModal
+    #taxCodeSearchModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="taxCodeSearchModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <form novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l('TaxCodeSearch') }}</span>
+                    </h4>
+                </div>
+                <div class="modal-body">                    
+                    <div class="row mb-4 align-items-end">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('TaxCodeType') }}</label>
+                            <p-dropdown
+                                [options]="exmTaxCodeTypesSelectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                                id="taxCodeType"
+                                [(ngModel)]="filters.taxCodeType"
+                                name="taxCodeType"
+                                placeholder="{{ 'SelectTaxType' | localize }}"
+                            ></p-dropdown>
+                        </div>
+                        <div class="col-lg-6">        
+                            <button type="button" class="btn btn-primary blue" (click)="searchTaxCodes()">
+                                <span>{{ l('Search') }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('PartialTaxCode') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="PartialTaxCode"
+                                [(ngModel)]="filters.partialTaxCode"
+                                name="partialTaxCode"
+                                placeholder="{{ 'SearchWithThreeDot' | localize }}"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('ParentTaxCode') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="ParentTaxCode"
+                                [(ngModel)]="filters.parentTaxCode"
+                                name="parentTaxCode"
+                                placeholder="{{ 'SearchWithThreeDot' | localize }}"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('TaxCodeDescription') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="Description"
+                                [(ngModel)]="filters.description"
+                                name="description"
+                                placeholder="{{ 'SearchWithThreeDot' | localize }}"
+                            />
+                        </div>
+                        <div class="col-lg-6">                            
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12">
+                            <!--<Primeng-Table-Start>-->
+                            <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                                <p-table
+                                    #dataTable
+                                    sortMode="multiple"                            
+                                    [value]="primengTableHelper.records"
+                                    rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                    [paginator]="false"
+                                    [lazy]="true"
+                                    [responsive]="primengTableHelper.isResponsive"
+                                    [scrollable]="true"
+                                    ScrollWidth="100%"
+                                >
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th pSortableColumn="taxCode">
+                                                {{ l('TaxCode') }}
+                                                <p-sortIcon field="taxCode"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="taxCodeType">
+                                                {{ l('Type') }}
+                                                <p-sortIcon field="taxCodeType"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="description">
+                                                {{ l('TaxCodeDescription') }}
+                                                <p-sortIcon field="description"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="parentTaxCode">
+                                                {{ l('ParentTaxCode') }}
+                                                <p-sortIcon field="parentTaxCode"></p-sortIcon>
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-record="$implicit">
+                                        <tr>
+                                            <td style="width: 30px">
+                                                <span class="p-column-title">{{ 'TaxCode' | localize }}</span>
+                                                {{ record.taxCode }}
+                                            </td>
+                                            <td style="width: 30px">
+                                                <span class="p-column-title">{{ 'TaxCodeType' | localize }}</span>
+                                                {{ record.taxCodeType }}
+                                            </td>
+                                            <td style="width: 150px">
+                                                <span class="p-column-title">{{ 'TaxCodeDescription' | localize }}</span>
+                                                {{ record.description }}
+                                            </td>
+                                            <td style="width: 30px">
+                                                <span class="p-column-title">{{ 'ParentTaxCode' | localize }}</span>
+                                                {{ record.parentTaxCode }}
+                                            </td>                                            
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                                <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                    {{ 'NoData' | localize }}
+                                </div>
+                                <div class="primeng-paging-container">
+                                    <p-paginator
+                                        [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                        #paginator
+                                        [totalRecords]="primengTableHelper.totalRecordsCount"
+                                        [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                        [showCurrentPageReport]="true"
+                                        [currentPageReportTemplate]="
+                                            'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
+                                        "
+                                    ></p-paginator>
+                                </div>
+                            </div>
+                            <!--<Primeng-Table-End>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="close()">
+                        {{ l('Close') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                    >
+                        <span>{{ l('Ok') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
