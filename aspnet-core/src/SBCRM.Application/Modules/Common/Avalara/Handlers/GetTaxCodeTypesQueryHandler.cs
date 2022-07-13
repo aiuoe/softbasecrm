@@ -32,7 +32,7 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
         {
             List<TaxCodeTypeDto> taxCodeTypes = new List<TaxCodeTypeDto>();
 
-            if (!await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc())
+            if (await _salesTaxIntegrationRepository.CheckUseDefaultTaxCodeCalc())
             {
                 AvalaraConnectionDataDto connectionData = await _salesTaxIntegrationRepository.GetAvalaraConnectionSettings();
                 GuardHelper.ThrowIf(connectionData == null, new UserFriendlyException(L("TenantHasNoIntegrationTaxSettings")));
