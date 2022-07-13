@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Common.AdditionalCharges.Handlers
 {
-    public class GetAdditionalChargesByBranchAndDepartmentCommandHandler : SBCRMAppServiceBase, IRequestHandler<GetAdditionalChargesByBranchAndDepartmentCommand, List<GetAdditionalChargeDto>>
+    public class GetAdditionalChargesByBranchAndDepartmentCommandHandler : SBCRMAppServiceBase, IRequestHandler<GetAdditionalChargesByBranchAndDepartmentCommand, List<AdditionalChargeDto>>
     {
         private readonly IAdditionalChargesRepository _additionalChargesRepository;
 
@@ -20,14 +20,14 @@ namespace SBCRM.Modules.Common.AdditionalCharges.Handlers
             _additionalChargesRepository = additionalChargesRepository;
         }
 
-        public async Task<List<GetAdditionalChargeDto>> Handle(GetAdditionalChargesByBranchAndDepartmentCommand request, CancellationToken cancellationToken)
+        public async Task<List<AdditionalChargeDto>> Handle(GetAdditionalChargesByBranchAndDepartmentCommand request, CancellationToken cancellationToken)
         {
             var addnlCharges = await _additionalChargesRepository.GetAllListAsync(ac => ac.Branch == request.BranchNo && ac.Dept == request.DepartmentNo);
-            List<GetAdditionalChargeDto> addnlChargesRes = null;
+            List<AdditionalChargeDto> addnlChargesRes = null;
 
             if (addnlCharges.Count > 0)
             {
-                addnlChargesRes = ObjectMapper.Map(addnlCharges, new List<GetAdditionalChargeDto>());
+                addnlChargesRes = ObjectMapper.Map(addnlCharges, new List<AdditionalChargeDto>());
             }
 
             return addnlChargesRes;

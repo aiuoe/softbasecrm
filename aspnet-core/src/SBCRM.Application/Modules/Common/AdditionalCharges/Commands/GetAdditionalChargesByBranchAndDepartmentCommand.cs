@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Common.AdditionalCharges.Commands
 {
-    public class GetAdditionalChargesByBranchAndDepartmentCommand : IRequest<List<GetAdditionalChargeDto>>
+    public class GetAdditionalChargesByBranchAndDepartmentCommand : IRequest<List<AdditionalChargeDto>>
     {
         public GetAdditionalChargesByBranchAndDepartmentCommand(int branchNo, int departmentNo)
         {

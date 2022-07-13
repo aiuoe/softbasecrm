@@ -7,7 +7,7 @@ namespace SBCRM.Base
     /// <summary>
     /// Repository to provide data access of SalesTaxIntegration
     /// </summary>
-    public interface ISalesTaxIntegrationRepository:  Abp.Domain.Repositories.IRepository<SalesTaxIntegration, long>
+    public interface ISalesTaxIntegrationRepository : Abp.Domain.Repositories.IRepository<SalesTaxIntegration, long>
     {
         Task<AvalaraConnectionDataDto> GetAvalaraConnectionSettings();
         Task<bool> CheckUseDefaultTaxCodeCalc();

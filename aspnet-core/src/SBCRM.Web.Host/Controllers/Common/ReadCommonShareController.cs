@@ -8,10 +8,14 @@ using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Modules.Administration.Dtos;
 using SBCRM.Modules.Common.AdditionalCharges.Commands;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
+using SBCRM.Modules.Common.ARTerms.Dto;
+using SBCRM.Modules.Common.ARTerms.Queries;
 using SBCRM.Modules.Common.Avalara.Dto;
 using SBCRM.Modules.Common.Avalara.Handlers;
 using SBCRM.Modules.Common.Avalara.Queries;
 using SBCRM.Modules.Common.GetBranches.Commands;
+using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
+using SBCRM.Modules.Common.SalesTaxIntegration.Queries;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -70,20 +74,31 @@ namespace SBCRM.Web.Controllers.Common
         /// <returns></returns>
         [Route("{branchNo}/{departmentNo}")]
         [HttpGet]
-        public async Task<List<GetAdditionalChargeDto>> GetAdditionalChargesByBranchAndDepartment([FromRoute] int branchNo, [FromRoute] int departmentNo)
+        public async Task<List<AdditionalChargeDto>> GetAdditionalChargesByBranchAndDepartment([FromRoute] int branchNo, [FromRoute] int departmentNo)
         {
             return await _mediator.Send(new GetAdditionalChargesByBranchAndDepartmentCommand(branchNo,departmentNo));
         }
 
 
-        /// API to Get Branch details (Name & Subname) by Branch #.  <summary>
+        /// API to Get List of Branch details (Name & Subname)  <summary>
         /// </summary>
         /// <returns></returns>
-        [Route("{branchNo}")]
         [HttpGet]
-        public async Task<List<GetBranchDto>> GetBranchesByNo([FromRoute] short branchNo)
+        public async Task<List<BranchForDepartmentDto>> GetAllBranches()
         {
-            return await _mediator.Send(new GetBranchesByNoCommand(branchNo));
+            return await _mediator.Send(new GetAllBranchesQuery());
+        }
+
+        [HttpGet]
+        public async Task<SalesTaxIntegrationDto> GetSalesTaxIntegration()
+        {
+            return await _mediator.Send(new SalesTaxIntegrationQuery());
+        }
+
+        [HttpGet]
+        public async Task<List<ARTermDto>> GetARTerms()
+        {
+            return await _mediator.Send(new ARTermsQuery());
         }
 
         #region Avalara Connection

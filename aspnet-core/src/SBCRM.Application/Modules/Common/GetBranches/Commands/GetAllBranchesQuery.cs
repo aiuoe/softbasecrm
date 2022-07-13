@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Common.GetBranches.Commands
 {
-    public class GetBranchesByNoCommand : IRequest<List<GetBranchDto>>
-    {
-        public GetBranchesByNoCommand(short number)
-        {
-            Number = number;
-        }
-
-        public short Number { get; set; }   
+    /// <summary>
+    /// Used to get branch by branch number
+    /// </summary>
+    public class GetAllBranchesQuery : IRequest<List<BranchForDepartmentDto>>
+    {  
 
     }
 }
