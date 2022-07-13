@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SBCRM.Modules.Common.AdditionalCharges.Dto
 {
@@ -20,5 +18,6 @@ namespace SBCRM.Modules.Common.AdditionalCharges.Dto
         public string CreatedBy { get; set; }
         public DateTime? Updated { get; set; }
         public string UpdatedBy { get; set; }
+        public string Id { get; set; }  
     }
 }

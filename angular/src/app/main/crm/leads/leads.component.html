@@ -38,6 +38,61 @@
             </div>
         </sub-header>
 
+<div class="row">
+    <div class="col-md-12">
+
+        <h2>Common service to manage global user settings</h2>
+
+    <div class="content d-flex flex-row align-items-center">
+
+        <div class = "padding-left-5 margin-left-5">
+            <button
+                (click)="updateUserLevelSettings()"
+                class="btn btn btn-primary blue"
+            >
+            update User Level Settings
+            </button>
+        </div>
+
+        <div class = "padding-left-5">
+            <button
+                (click)="updateTenantLevelSettings()"
+                class="btn btn-primary blue">
+                update Tenant Level Settings
+            </button>
+        </div>
+        
+        <div class = "padding-left-5">
+            <button
+                (click)="getApplicationLevelSettings()"
+                class="btn btn btn-primary blue"
+            >
+               Get Application Level Settings
+            </button>
+        </div>
+
+        <div class = "padding-left-5">
+            <button
+                *ngIf="isGranted('Pages.Leads.Create')"
+                (click)="getTenantLevelSettings()"
+                class="btn btn btn-primary blue"
+            >
+               Get Tenant Level Settings
+            </button>
+        </div>
+            <div class = "padding-left-5">
+                <button
+                    *ngIf="isGranted('Pages.Leads.Create')"
+                    (click)="getUserLevelSettings()"
+                    class="btn btn btn-primary blue"
+                >
+                   Get User Level Settings
+                </button>
+        </div>
+    </div>
+    </div>
+</div>
+
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
