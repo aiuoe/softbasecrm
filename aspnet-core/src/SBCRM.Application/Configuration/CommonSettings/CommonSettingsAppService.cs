@@ -19,18 +19,25 @@ namespace SBCRM.Configuration.CommonSettings
     {
         private readonly ISettingManager _settingManager;
 
-        //Inject ISettingManager in the constructor
+        /// <summary>
+        /// Inject ISettingManager in the constructor
+        /// </summary>
         public CommonSettingsAppService(ISettingManager settingManager)
         {
             _settingManager = settingManager;
         }
 
-        //Updates Tenent Level Settings 
+        /// <summary>
+        /// Updates Tenent Level Settings
+        /// </summary>
         public async Task UpdateTenentLevelSettings(UpdateCommonSettingsInput input)
         {
-                        await _settingManager.ChangeSettingForTenantAsync(AbpSession.TenantId.Value, input.SettingName, input.SettingValue + "Tenant Id:" + AbpSession.TenantId.Value);
+            await _settingManager.ChangeSettingForTenantAsync(AbpSession.TenantId.Value, input.SettingName, input.SettingValue + "Tenant Id:" + AbpSession.TenantId.Value);
         }
-        // Updates User Level Settings
+
+        /// <summary>
+        /// Updates User Level Settings
+        /// </summary>
         public async Task UpdateUserLevelSettings(UpdateCommonSettingsInput input)
         {
             await _settingManager.ChangeSettingForUserAsync(new UserIdentifier(AbpSession.TenantId.Value, AbpSession.UserId.Value) , input.SettingName, input.SettingValue);
