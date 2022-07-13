@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch data by id query handler
     /// </summary>
-    public class GetBranchByIdQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchByIdQuery, BranchForEditDto>
+    public class GetBranchByIdQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchByIdQuery, BranchForEditDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IWarehouseRepository _warehouseRepository;

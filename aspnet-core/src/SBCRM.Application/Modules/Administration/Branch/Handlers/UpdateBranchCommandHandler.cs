@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Update branch command handler
     /// </summary>
-    public class UpdateBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<UpdateBranchCommand, BranchForEditDto>
+    public class UpdateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<UpdateBranchCommand, BranchForEditDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IWarehouseRepository _warehouseRepository;

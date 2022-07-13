@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get zip code details query handler
     /// </summary>
-    public class GetZipCodeDetailsQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetZipCodeDetailsQuery, GetZipCodeDetailsDto>
+    public class GetZipCodeDetailsQueryHandler : UseCaseServiceBase, IRequestHandler<GetZipCodeDetailsQuery, GetZipCodeDetailsDto>
     {
         private readonly IZipCodeRepository _zipCodeRepository;
 

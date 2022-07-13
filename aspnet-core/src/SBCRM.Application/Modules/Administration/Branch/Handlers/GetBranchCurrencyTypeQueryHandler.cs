@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch currency type query handler
     /// </summary>
-    public class GetBranchCurrencyTypeQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchCurrencyTypeQuery, BranchCurrencyTypeDto>
+    public class GetBranchCurrencyTypeQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchCurrencyTypeQuery, BranchCurrencyTypeDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IBranchARCurrencyTypeRepository _branchARCurrencyTypeRepository;

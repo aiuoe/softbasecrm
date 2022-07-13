@@ -18,7 +18,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch data by id query handler
     /// </summary>
-    public class GetAllPagedBranchQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetAllPagedBranchQuery, PagedResultDto<BranchListItemDto>>
+    public class GetAllPagedBranchQueryHandler : UseCaseServiceBase, IRequestHandler<GetAllPagedBranchQuery, PagedResultDto<BranchListItemDto>>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IBranchARCurrencyTypeRepository _branchARCurrencyTypeRepository;

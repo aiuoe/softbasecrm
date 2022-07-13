@@ -15,7 +15,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Create branch use case command handler
     /// </summary>
-    public class GetBranchInitialDataQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchInitialDataQuery, GetBranchInitialDataDto>
+    public class GetBranchInitialDataQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchInitialDataQuery, GetBranchInitialDataDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IChartOfAccountRepository _chartOfAccountRepository;
