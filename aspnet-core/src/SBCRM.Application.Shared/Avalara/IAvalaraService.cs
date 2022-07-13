@@ -16,5 +16,7 @@ namespace SBCRM.Avalara
         void VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
 
         Task<List<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionDataDto, GetTaxCodesParametersDto getTaxCodesParameters);
+
+        Task<List<TaxCodeTypeDto>> GetTaxCodeTypes(AvalaraConnectionDataDto avalaraConnectionData);
     }
 }

@@ -91,7 +91,10 @@ namespace SBCRM.Web.Controllers.Common
         /// <summary>
         /// Api to get Tax Codes List
         /// </summary>
-        /// <param name="filter">Filter for the list</param>
+        /// <param name="taxCodeType">Type of Tax Code (Single Letter)</param>
+        /// <param name="taxCode">Partial Tax Code</param>
+        /// <param name="parentTaxCode">Parent Tax Code</param>
+        /// <param name="description">Partial Description</param>
         /// <returns>Tax Code List</returns>
         /// <see cref="GetTaxCodesQueryHandler"/>
         [Route("{taxCodeType?}/{taxCode?}/{parentTaxCode?}/{description?}")]
@@ -99,6 +102,17 @@ namespace SBCRM.Web.Controllers.Common
         public async Task<List<TaxCodeDto>> GetTaxCodes([FromRoute] string taxCodeType = "", [FromRoute] string taxCode = "", [FromRoute] string parentTaxCode = "", [FromRoute] string description = "")
         {
             return await _mediator.Send(new GetTaxCodesQuery(taxCodeType,taxCode,parentTaxCode,description));
+        }
+
+        /// <summary>
+        /// Api to get the Tax Code Types List
+        /// </summary>
+        /// <returns>Tax Code Types List</returns>
+        /// <see cref="GetTaxCodeTypesQueryHandler"/>
+        [HttpGet]
+        public async Task<List<TaxCodeTypeDto>> GetTaxCodeTypes()
+        {
+            return await _mediator.Send(new GetTaxCodeTypesQuery());
         }
 
         #endregion

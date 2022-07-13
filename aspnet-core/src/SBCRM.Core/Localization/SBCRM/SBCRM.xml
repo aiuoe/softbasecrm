@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="TenantHasNoIntegrationTaxSettings">Tenant has no tax integration settings defined</text>
 		<text name="Branches">Branches</text>
 		<text name="ViewCustomerAttachments">View Account Attachments on All Accounts</text>
 		<text name="ViewCustomerAttachments__Dynamic">View Account Attachments if user is assigned to the Account</text>

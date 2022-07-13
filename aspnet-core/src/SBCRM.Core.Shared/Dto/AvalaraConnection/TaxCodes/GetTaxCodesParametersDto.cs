@@ -4,8 +4,18 @@ using System.Text;
 
 namespace SBCRM.Dto.AvalaraConnection.TaxCodes
 {
+    /// <summary>
+    /// Contains the parameters needed to send requests for Avalara Tax Codes
+    /// </summary>
     public class GetTaxCodesParametersDto
     {
+        /// <summary>
+        /// Constructor , and builder of the requests to be sent to Avalara
+        /// </summary>
+        /// <param name="taxCodeType">Tax code Type (single letter)</param>
+        /// <param name="taxCode">Partial tax code</param>
+        /// <param name="parentTaxCode">Parent tax code</param>
+        /// <param name="description">Partial description</param>
         public GetTaxCodesParametersDto(string taxCodeType, string taxCode, string parentTaxCode, string description)
         {
             if (!string.IsNullOrWhiteSpace(taxCodeType))

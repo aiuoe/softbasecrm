@@ -1,4 +1,6 @@
-﻿using SBCRM.Avalara;
+﻿using Abp.UI;
+using SBCRM.Avalara;
+using SBCRM.Common;
 using SBCRM.Dto;
 using SBCRM.Dto.AvalaraConnection.TaxCodes;
 using SBCRM.Modules.Common.Avalara.Dto;
@@ -125,6 +127,12 @@ namespace SBCRM.Infrastructure.Avalara
             return parameterString;
         }
 
+        /// <summary>
+        /// Search in the Avalara service for the list of Tax codes
+        /// </summary>
+        /// <param name="avalaraConnectionData">Credentials needed to connect to Avalara</param>
+        /// <param name="getTaxCodesParameters">Search parameters if any to find the tax codes</param>
+        /// <returns>List of Tax Codes</returns>
         public async Task<List<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionData, GetTaxCodesParametersDto getTaxCodesParameters)
         {            
             string paramString = GetTaxCodesParamString(getTaxCodesParameters);
@@ -144,6 +152,41 @@ namespace SBCRM.Infrastructure.Avalara
                 throw ex;
             }
             
+        }
+
+        #endregion
+
+        #region TaxCodeTypes
+
+        /// <summary>
+        /// Retrieves from Avalara Tax Code Type list
+        /// </summary>
+        /// <param name="avalaraConnectionData">Credentials needed to connect to Avalara</param>
+        /// <returns>List of tax code types</returns>
+        public async Task<List<TaxCodeTypeDto>> GetTaxCodeTypes(AvalaraConnectionDataDto avalaraConnectionData)
+        {
+            string url = GetStandartUrl(avalaraConnectionData, "api/v2/definitions/taxcodetypes", "");
+
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            var encodedBase64string = System.Text.Encoding.UTF8.GetBytes(avalaraConnectionData.AccountNumber + ":" + avalaraConnectionData.LicenseKey);
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(encodedBase64string).ToString());
+            var streamTask = httpClient.GetStreamAsync(url);
+            List<TaxCodeTypeDto> types = new List<TaxCodeTypeDto>();
+            try
+            {
+                var response = JsonSerializer.DeserializeAsync<GetTaxCodeTypesDto>(await streamTask);
+                foreach ( var key in response.Result.Types)
+                {
+                    types.Add(new TaxCodeTypeDto() { Type = key.Key, Description = key.Value });  
+                }
+                return types;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         #endregion

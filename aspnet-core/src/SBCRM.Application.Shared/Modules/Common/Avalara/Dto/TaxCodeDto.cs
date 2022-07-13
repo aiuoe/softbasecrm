@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace SBCRM.Modules.Common.Avalara.Dto
 {
+    /// <summary>
+    /// Contains the information of a Tax Code from Avalara
+    /// </summary>
     public class TaxCodeDto
     {
         [JsonPropertyName("id")]
