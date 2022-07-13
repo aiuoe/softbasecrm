@@ -541,6 +541,7 @@
 		<text name="InvoiceLanguage">Invoice language</text>
 		<text name="PeopleSoft">People soft</text>
 		<text name="NotPeopleSoft">Not people soft</text>
+		<text name="ArAccounts">Ar Accounts</text>
 		<text name="PSCompany">P s company</text>
 		<text name="PSAccount">P s account</text>
 		<text name="PSLocation">P s location</text>
@@ -708,6 +709,7 @@
 		<text name="CreatingNewRole">Creating new role</text>
 		<text name="DeletingRole">Deleting role</text>
 		<text name="CreationTime">Creation Time</text>
+		<text name="CreatedOn">Created on</text>
 		<text name="LeadCreationTime">Created on</text>
 		<text name="OpportunityCreationTime">Created on</text>
 		<text name="SearchWithThreeDot">Search...</text>
@@ -2213,7 +2215,8 @@
 		<text name="PrintFinalBcc">Print Final bcc</text>
 		<text name="LogoGraphicFile">Logo Graphic File</text>
 		<text name="UseGraphic">Use Graphic</text>
-  
+		<text name="BranchDeleteWarningMessage">Branch {0} will be deleted.</text>
+		
 		<!-- Administration - Tax Codes -->
 		<text name="Standard">Standard</text>
 		<text name="AdminTaxCodeLabel">Tax Code</text>
