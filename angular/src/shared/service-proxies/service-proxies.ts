@@ -5438,8 +5438,8 @@ export class BranchesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insert(body: CreateOrEditLeadDto | undefined): Observable<GetLeadForEditOutput> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Insert";
+    create(body: CreateBranchCommand | undefined): Observable<GetBranchForEditDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Create";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -5455,20 +5455,20 @@ export class BranchesServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processInsert(response_);
+            return this.processCreate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processInsert(<any>response_);
+                    return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<GetLeadForEditOutput>><any>_observableThrow(e);
+                    return <Observable<GetBranchForEditDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetLeadForEditOutput>><any>_observableThrow(response_);
+                return <Observable<GetBranchForEditDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processInsert(response: HttpResponseBase): Observable<GetLeadForEditOutput> {
+    protected processCreate(response: HttpResponseBase): Observable<GetBranchForEditDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5479,7 +5479,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetLeadForEditOutput.fromJS(resultData200);
+            result200 = GetBranchForEditDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5487,7 +5487,7 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetLeadForEditOutput>(<any>null);
+        return _observableOf<GetBranchForEditDto>(<any>null);
     }
 
     /**
@@ -6112,6 +6112,122 @@ export class CommonLookupServiceProxy {
             }));
         }
         return _observableOf<GetDefaultEditionNameOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class CommonSettingsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateTenentLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenentLevelSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateTenentLevelSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateTenentLevelSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateTenentLevelSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateUserLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateUserLevelSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserLevelSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserLevelSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateUserLevelSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -6912,6 +7028,74 @@ export class CountriesServiceProxy {
             }));
         }
         return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class CreateBranchCommandHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: CreateBranchCommand | undefined): Observable<GetBranchForEditDto> {
+        let url_ = this.baseUrl + "/api/services/app/CreateBranchCommandHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetBranchForEditDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetBranchForEditDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetBranchForEditDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetBranchForEditDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetBranchForEditDto>(<any>null);
     }
 }
 
@@ -31501,6 +31685,78 @@ export interface IBlockUserInput {
     tenantId: number | undefined;
 }
 
+export class BranchDto implements IBranchDto {
+    number!: number;
+    name!: string | undefined;
+    isDeleted!: boolean;
+    deleterUserId!: number | undefined;
+    deletionTime!: DateTime | undefined;
+    lastModificationTime!: DateTime | undefined;
+    lastModifierUserId!: number | undefined;
+    creationTime!: DateTime;
+    creatorUserId!: number | undefined;
+    id!: number;
+
+    constructor(data?: IBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? DateTime.fromISO(_data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): BranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IBranchDto {
+    number: number;
+    name: string | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: DateTime | undefined;
+    lastModificationTime: DateTime | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: DateTime;
+    creatorUserId: number | undefined;
+    id: number;
+}
+
 export class BranchLookupTableDto implements IBranchLookupTableDto {
     number!: number;
     name!: string | undefined;
@@ -32115,6 +32371,54 @@ export interface ICountryDto {
     name: string | undefined;
     code: string | undefined;
     id: number;
+}
+
+export class CreateBranchCommand implements ICreateBranchCommand {
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: ICreateBranchCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): CreateBranchCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateBranchCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface ICreateBranchCommand {
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
 }
 
 export class CreateEditionDto implements ICreateEditionDto {
@@ -38076,6 +38380,50 @@ export class GetARTermsForViewDto implements IGetARTermsForViewDto {
 
 export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
+}
+
+export class GetBranchForEditDto implements IGetBranchForEditDto {
+    branch!: BranchDto;
+    additionalPropertyA!: string | undefined;
+    additionalPropertyB!: string | undefined;
+
+    constructor(data?: IGetBranchForEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branch = _data["branch"] ? BranchDto.fromJS(_data["branch"]) : <any>undefined;
+            this.additionalPropertyA = _data["additionalPropertyA"];
+            this.additionalPropertyB = _data["additionalPropertyB"];
+        }
+    }
+
+    static fromJS(data: any): GetBranchForEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetBranchForEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branch"] = this.branch ? this.branch.toJSON() : <any>undefined;
+        data["additionalPropertyA"] = this.additionalPropertyA;
+        data["additionalPropertyB"] = this.additionalPropertyB;
+        return data; 
+    }
+}
+
+export interface IGetBranchForEditDto {
+    branch: BranchDto;
+    additionalPropertyA: string | undefined;
+    additionalPropertyB: string | undefined;
 }
 
 export class GetContactForEditOutput implements IGetContactForEditOutput {
@@ -50954,6 +51302,46 @@ export class UnlinkUserInput implements IUnlinkUserInput {
 export interface IUnlinkUserInput {
     tenantId: number | undefined;
     userId: number;
+}
+
+export class UpdateCommonSettingsInput implements IUpdateCommonSettingsInput {
+    settingName!: string;
+    settingValue!: string;
+
+    constructor(data?: IUpdateCommonSettingsInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.settingName = _data["settingName"];
+            this.settingValue = _data["settingValue"];
+        }
+    }
+
+    static fromJS(data: any): UpdateCommonSettingsInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateCommonSettingsInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["settingName"] = this.settingName;
+        data["settingValue"] = this.settingValue;
+        return data; 
+    }
+}
+
+export interface IUpdateCommonSettingsInput {
+    settingName: string;
+    settingValue: string;
 }
 
 export class UpdateEditionDto implements IUpdateEditionDto {
