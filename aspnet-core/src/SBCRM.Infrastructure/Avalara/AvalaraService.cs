@@ -93,6 +93,8 @@ namespace SBCRM.Infrastructure.Avalara
 
         }
 
+        #region Standard Connection Methods
+
         /// <summary>
         /// Provide url for avalara connection depending on the method to be used
         /// </summary>
@@ -104,6 +106,22 @@ namespace SBCRM.Infrastructure.Avalara
         {
             return connectionDto.ServiceUrl + method + paramString;
         }
+
+        /// <summary>
+        /// Instantiates an HttpClient using Avalara credentials and setting up the authentication by default
+        /// </summary>
+        /// <param name="connectionCredentials">Credentials needed to login into Avalara Api</param>
+        /// <returns>Http Client ready for sending request to Avalara Api</returns>
+        private HttpClient GetAvalaraHttpAuthenticatedconnection(AvalaraConnectionDataDto connectionCredentials)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            var encodedBase64string = System.Text.Encoding.UTF8.GetBytes(connectionCredentials.AccountNumber + ":" + connectionCredentials.LicenseKey);
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(encodedBase64string).ToString());
+            return httpClient;
+        }
+
+        #endregion
 
         #region GetTaxCodes
 
@@ -166,11 +184,7 @@ namespace SBCRM.Infrastructure.Avalara
         {            
             string paramString = GetTaxCodesParamString(getTaxCodesParameters);
             string url = GetStandartUrl(avalaraConnectionData, "api/v2/definitions/taxcodes", paramString);
-
-            var httpClient = _httpClientFactory.CreateClient();
-            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            var encodedBase64string = System.Text.Encoding.UTF8.GetBytes(avalaraConnectionData.AccountNumber + ":" + avalaraConnectionData.LicenseKey);
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(encodedBase64string).ToString());
+            var httpClient = GetAvalaraHttpAuthenticatedconnection(avalaraConnectionData);
             var streamTask = httpClient.GetStreamAsync(url);
             try
             {
@@ -195,11 +209,7 @@ namespace SBCRM.Infrastructure.Avalara
         public async Task<List<TaxCodeTypeDto>> GetTaxCodeTypes(AvalaraConnectionDataDto avalaraConnectionData)
         {
             string url = GetStandartUrl(avalaraConnectionData, "api/v2/definitions/taxcodetypes", "");
-
-            var httpClient = _httpClientFactory.CreateClient();
-            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            var encodedBase64string = System.Text.Encoding.UTF8.GetBytes(avalaraConnectionData.AccountNumber + ":" + avalaraConnectionData.LicenseKey);
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(encodedBase64string).ToString());
+            var httpClient = GetAvalaraHttpAuthenticatedconnection(avalaraConnectionData);
             var streamTask = httpClient.GetStreamAsync(url);
             List<TaxCodeTypeDto> types = new List<TaxCodeTypeDto>();
             try

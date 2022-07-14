@@ -16,25 +16,6 @@ namespace SBCRM.Modules.Common.Avalara.Queries
     public class GetTaxCodesQuery : IRequest<PagedResultDto<TaxCodeDto>>
     {
         /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="skip">Results to Skip</param>
-        /// <param name="max">Max result number</param>
-        /// <param name="taxCodeType">Type of tax code (single letter)</param>
-        /// <param name="taxCode">Partial tax code</param>
-        /// <param name="parentTaxCode">Parent tax code</param>
-        /// <param name="description">Partial description</param>
-        public GetTaxCodesQuery(int skip, int max = AppConsts.DefaultPageSize, string taxCodeType = "", string taxCode = "", string parentTaxCode = "", string description = "")
-        {
-            TaxCodeType = taxCodeType?.Trim();
-            TaxCode = taxCode?.Trim();
-            ParentTaxCode = parentTaxCode?.Trim();
-            Description = description?.Trim();
-            MaxResultCount = max;
-            SkipCount = skip;
-        }
-
-        /// <summary>
         /// Tax code type
         /// </summary>
         public string TaxCodeType { get; set; }
@@ -66,5 +47,23 @@ namespace SBCRM.Modules.Common.Avalara.Queries
         [Range(0, int.MaxValue)]
         public int SkipCount { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="skip">Results to Skip</param>
+        /// <param name="max">Max result number</param>
+        /// <param name="taxCodeType">Type of tax code (single letter)</param>
+        /// <param name="taxCode">Partial tax code</param>
+        /// <param name="parentTaxCode">Parent tax code</param>
+        /// <param name="description">Partial description</param>
+        public GetTaxCodesQuery(int skip, int max = AppConsts.DefaultPageSize, string taxCodeType = "", string taxCode = "", string parentTaxCode = "", string description = "")
+        {
+            TaxCodeType = taxCodeType?.Trim();
+            TaxCode = taxCode?.Trim();
+            ParentTaxCode = parentTaxCode?.Trim();
+            Description = description?.Trim();
+            MaxResultCount = max;
+            SkipCount = skip;
+        }
     }
 }

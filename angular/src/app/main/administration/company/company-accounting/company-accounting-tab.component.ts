@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountSearchModalComponent } from '../../../common/account-search/account-search-modal.component';

@@ -88,7 +88,9 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
             });
     }
 
-    //** Reload the page with the next set of rows */
+    /***
+     *  Reload the page with the next set of rows
+     */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
@@ -99,17 +101,23 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
         this.primengTableHelper.hideLoadingIndicator();
     }
 
-    //**Notifies that a tax code has been selected */
+    /***
+     * Notifies that a tax code has been selected 
+     */
     onRowSelect(event) {
         this.selected = true;
     }
 
-    //**Notifies when there is no tax code selected */
+    /***
+     * Notifies when there is no tax code selected 
+     */
     onRowUnselect(event) {
         this.selected = false;
     }
 
-    //** By clicking Okey Button notifies the parent of the tax code selected */
+    /***
+     *  By clicking Okey Button notifies the parent of the tax code selected 
+     */
     taxCodeSelected(): void {
         this.messageEvent.emit(this.selectedTaxCodeData.taxCode);
         this.modal.hide();

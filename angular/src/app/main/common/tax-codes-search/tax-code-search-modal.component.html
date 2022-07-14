@@ -13,7 +13,7 @@
                         <div class="form-body">
                             <div class="row mb-4 align-items-end">
                                 <div class="col-lg-6">
-                                    <label for="">{{ l('TaxCodeType') }}</label>
+                                    <label for="taxCodeType">{{ l('TaxCodeType') }}</label>
                                     <p-dropdown [options]="taxCodeTypeItems" optionLabel="description"
                                         optionValue="type" [showClear]="true"
                                         placeholder="{{ 'SelectTaxType' | localize }}" [virtualScroll]="true"
@@ -28,13 +28,13 @@
                             </div>
                             <div class="row mb-4">
                                 <div class="col-lg-6">
-                                    <label for="">{{ l('PartialTaxCode') }}</label>
+                                    <label for="PartialTaxCode">{{ l('PartialTaxCode') }}</label>
                                     <input type="text" class="form-control" id="PartialTaxCode"
                                         [(ngModel)]="partialTaxCode" name="partialTaxCode"
                                         placeholder="{{ 'SearchWithThreeDot' | localize }}" />
                                 </div>
                                 <div class="col-lg-6">
-                                    <label for="">{{ l('ParentTaxCode') }}</label>
+                                    <label for="ParentTaxCode">{{ l('ParentTaxCode') }}</label>
                                     <input type="text" class="form-control" id="ParentTaxCode"
                                         [(ngModel)]="parentTaxCode" name="parentTaxCode"
                                         placeholder="{{ 'SearchWithThreeDot' | localize }}" />
@@ -42,7 +42,7 @@
                             </div>
                             <div class="row mb-4">
                                 <div class="col-lg-6">
-                                    <label for="">{{ l('TaxCodeDescription') }}</label>
+                                    <label for="Description">{{ l('TaxCodeDescription') }}</label>
                                     <input type="text" class="form-control" id="Description" [(ngModel)]="description"
                                         name="description" placeholder="{{ 'SearchWithThreeDot' | localize }}" />
                                 </div>
