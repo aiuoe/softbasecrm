@@ -6,6 +6,7 @@ import * as rtlDetect from 'rtl-detect';
 export class PrimengTableHelper {
     predefinedRecordsCountPerPage = [5, 10, 30, 50, 100, 250, 500];
 
+    defaultRecordsCountPerPopup = 10;
     defaultRecordsCountPerPage = 30;
     defaultRecordsCountPerPageForWidget = 5;
 

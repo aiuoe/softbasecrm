@@ -24,19 +24,19 @@
                                     <label for="">{{ l('TaxCodeType') }}</label>
                                     <p-dropdown
                                         [options]="taxCodeTypeItems"
-                                        optionLabel="description" 
+                                        optionLabel="description"
                                         optionValue="type"
-                                        [showClear]="true" 
+                                        [showClear]="true"
                                         placeholder="{{ 'SelectTaxType' | localize }}"
                                         [virtualScroll]="true"
                                         [itemSize]="30"
                                         [style]="{ width: '100%' }"
                                         id="taxCodeType"
                                         [(ngModel)]="taxCodeType"
-                                        name="taxCodeType"                                                                               
+                                        name="taxCodeType"
                                     ></p-dropdown>
                                 </div>
-                                <div class="col-lg-6">        
+                                <div class="col-lg-6">
                                     <button type="submit" class="btn btn-primary blue" (click)="searchTaxCodes()">
                                         <span>{{ l('Search') }}</span>
                                     </button>
@@ -78,21 +78,21 @@
                                         placeholder="{{ 'SearchWithThreeDot' | localize }}"
                                     />
                                 </div>
-                                <div class="col-lg-6">                            
+                                <div class="col-lg-6">
                                 </div>
                             </div>
-                        </div>                        
-                    </form> 
-                </div>                
+                        </div>
+                    </form>
+                </div>
                 <div class="row align-items-center">
                     <!--<Primeng-Table-Start>-->
                         <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
                             <p-table
                                 #dataTable
-                                sortMode="single"    
-                                (onLazyLoad)="searchTaxCodes($event)"                                                      
+                                sortMode="single"
+                                (onLazyLoad)="searchTaxCodes($event)"
                                 [value]="primengTableHelper.records"
-                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                rows="{{ primengTableHelper.defaultRecordsCountPerPopup }}"
                                 [paginator]="false"
                                 [lazy]="true"
                                 [responsive]="primengTableHelper.isResponsive"
@@ -137,7 +137,7 @@
                                         <td style="width: 20%">
                                             <span class="p-column-title">{{ 'ParentTaxCode' | localize }}</span>
                                             {{ record.parentTaxCode }}
-                                        </td>                                            
+                                        </td>
                                     </tr>
                                 </ng-template>
                             </p-table>
@@ -146,8 +146,9 @@
                             </div>
                             <div class="primeng-paging-container">
                                 <p-paginator
-                                    [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                    [rows]="primengTableHelper.defaultRecordsCountPerPopup"
                                     #paginator
+                                    (onPageChange)="searchTaxCodes($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"
                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                     [showCurrentPageReport]="true"
@@ -155,9 +156,9 @@
                                 ></p-paginator>
                             </div>
                         </div>
-                        <!--<Primeng-Table-End>-->                    
+                        <!--<Primeng-Table-End>-->
                 </div>
-            </div>            
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="close()">
                     {{ l('Close') }}

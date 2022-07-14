@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountSearchModalComponent } from '../../../common/account-search/account-search-modal.component';
@@ -10,6 +10,7 @@ import { TaxCodeDto } from '@shared/service-proxies/service-proxies';
  */
 @Component({
     selector: 'accountingCompanyTab',
+    encapsulation: ViewEncapsulation.None,
     templateUrl: './company-accounting-tab.component.html'
 })
 export class AccountingCompanyTabComponent extends AppComponentBase implements OnInit {
@@ -27,7 +28,7 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
     ];
 
 
-    
+
     @ViewChild('accountSearchModal', { static: true })
     accountSearchModal: AccountSearchModalComponent;
     @ViewChild('taxCodeSearchModal', { static: true })
@@ -47,7 +48,7 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
 
     ngOnInit(): void {
     }
-    
+
     /***
      * Method that shows the account search modal
      */
