@@ -26,22 +26,10 @@ namespace SBCRM.Modules.Common.Avalara.Queries
         /// <param name="description">Partial description</param>
         public GetTaxCodesQuery(int skip, int max = AppConsts.DefaultPageSize, string taxCodeType = "", string taxCode = "", string parentTaxCode = "", string description = "")
         {
-            if(!string.IsNullOrWhiteSpace(taxCodeType))
-            {
-                TaxCodeType = taxCodeType;
-            }
-            if (!string.IsNullOrWhiteSpace(taxCode))
-            {
-                TaxCode = taxCode;
-            }
-            if (!string.IsNullOrWhiteSpace(parentTaxCode))
-            {
-                ParentTaxCode = parentTaxCode;
-            }
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                Description = description;
-            }
+            TaxCodeType = taxCodeType?.Trim();
+            TaxCode = taxCode?.Trim();
+            ParentTaxCode = parentTaxCode?.Trim();
+            Description = description?.Trim();
             MaxResultCount = max;
             SkipCount = skip;
         }

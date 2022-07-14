@@ -18,7 +18,7 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
     /// <summary>
     /// Handler for the Get Tax Code Types Query
     /// </summary>
-    public class GetTaxCodeTypesQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxCodeTypesQuery, List<TaxCodeTypeDto>>
+    public class GetTaxCodeTypesQueryHandler : UseCaseServiceBase, IRequestHandler<GetTaxCodeTypesQuery, List<TaxCodeTypeDto>>
     {
         private readonly IAvalaraService _avalaraService;
         private readonly ISalesTaxIntegrationRepository _salesTaxIntegrationRepository;
