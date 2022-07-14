@@ -7,12 +7,16 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
     BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, BranchListItemDto, CreateBranchCommand, GetBranchInitialDataDto,
-    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand, ReadCommonShareServiceProxy, UpdateBranchCommand
+    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand,
+    ReadCommonShareServiceProxy, UpdateBranchCommand
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 
+/**
+ * Main component for branch
+ */
 @Component({
     templateUrl: './branch.component.html',
     animations: [appModuleAnimation()]
@@ -31,7 +35,6 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     actionButtons: ActionButton[] = [];
     branchCrudModes = BranchCrudModes;
     activeCrudMode = BranchCrudModes.List;
-
     filters: { filterText: string } = { filterText: '' };
     branchId: number;
     currencyTypeId: number;
@@ -39,7 +42,6 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchForEdit = new BranchForEditDto();
     initialDropdownData = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
-
     selectedDate = new Date();
     creationTime = new Date();
     lastModificationTime = new Date();
@@ -55,9 +57,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     ngOnInit(): void {
         this.initBranch();
         this.initActionButtons();
-        this._branchesService.getInitialData().pipe(takeUntil(this.destroy$)).subscribe((x: GetBranchInitialDataDto) => {
-            this.initialDropdownData = x;
-        });
+        this.setInitialDropdownData();
     }
 
     ngOnDestroy(): void {
@@ -136,7 +136,9 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     currencyTypeOnChange(): void {
         if (this.branchId && this.currencyTypeId) {
             this._branchesService.getBranchCurrencyType(this.branchId, this.currencyTypeId)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: BranchCurrencyTypeDto) => {
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: BranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
                 });
         }
@@ -147,7 +149,9 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             this.branchCurrencyType = new BranchCurrencyTypeDto();
             const patchBranchCurrencyTypeCommand = new PatchBranchCurrencyTypeCommand();
             this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: BranchCurrencyTypeDto) => {
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: BranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
                 });
         }
@@ -165,9 +169,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
                 creditAccountReevaluate: this.branchCurrencyType.creditAccountReevaluate,
             });
 
-
             this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: BranchCurrencyTypeDto) => {
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: BranchCurrencyTypeDto) => {
                     this.branchCurrencyType = x;
                 });
         }
@@ -176,7 +181,9 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     acountsReceivableGLAccountNumberOnChange(): void {
         if (this.branchForEdit.receivable) {
             this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: IGetChartOfAccountDetailsDto) => {
                     this.isAccountNumberValid = !!x.id;
                 });
         }
@@ -184,12 +191,15 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     zipCodeOnChange(): void {
         if (this.branchForEdit.zipCode) {
-            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode).pipe(takeUntil(this.destroy$)).subscribe((x: IGetZipCodeDetailsDto) => {
-                if (!_isEmpty(x)) {
-                    this.branchForEdit.city = x.city;
-                    this.branchForEdit.state = x.state;
-                }
-            });
+            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode)
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: IGetZipCodeDetailsDto) => {
+                    if (!_isEmpty(x)) {
+                        this.branchForEdit.city = x.city;
+                        this.branchForEdit.state = x.state;
+                    }
+                });
         }
     }
 
@@ -199,33 +209,47 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         }
     }
 
-    logoGraphicClear() {
-
+    private setInitialDropdownData(): void {
+        this._branchesService.getInitialData()
+            .pipe(
+                takeUntil(this.destroy$)
+            ).subscribe((x: GetBranchInitialDataDto) => {
+                this.initialDropdownData = x;
+            });
     }
 
     private getBranch(branchId: number): void {
-        this._branchesService.get(branchId).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
-            this.branchForEdit = x;
-            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
-        });
+        this._branchesService.get(branchId)
+            .pipe(
+                takeUntil(this.destroy$)
+            ).subscribe((x: BranchForEditDto) => {
+                this.branchForEdit = x;
+                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
+            });
     }
 
     private addBranch(): void {
         var requestBody = new CreateBranchCommand({ number: 1, ...this.branchForEdit });
-        this._branchesService.create(requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
-            this.activeCrudMode = BranchCrudModes.List;
-            this.paginator.changePage(this.paginator.getPage());
-            this.notifyService.success(this.l('SuccessfullyAdded'));
-        });
+        this._branchesService.create(requestBody)
+            .pipe(
+                takeUntil(this.destroy$)
+            ).subscribe((x: BranchForEditDto) => {
+                this.activeCrudMode = BranchCrudModes.List;
+                this.paginator.changePage(this.paginator.getPage());
+                this.notifyService.success(this.l('SuccessfullyAdded'));
+            });
     }
 
     private updateBranch(): void {
         var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit });
-        this._branchesService.update(this.branchId, requestBody).pipe(takeUntil(this.destroy$)).subscribe((x: BranchForEditDto) => {
-            this.branchForEdit = x;
-            this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
-            this.notifyService.success(this.l('UpdateSuccessfully'));
-        });
+        this._branchesService.update(this.branchId, requestBody)
+            .pipe(
+                takeUntil(this.destroy$)
+            ).subscribe((x: BranchForEditDto) => {
+                this.branchForEdit = x;
+                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
+                this.notifyService.success(this.l('UpdateSuccessfully'));
+            });
     }
 
     private deleteBranch(branchId: number, branchName: string): void {
