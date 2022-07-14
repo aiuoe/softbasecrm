@@ -56,7 +56,9 @@ close(): void {
 
 /***
  * This method search the Api using the GetTaxCodes to look for Avalara Tax Codes
- */
+* searchTaxCodes
+* @param event
+*/
 searchTaxCodes(event?: LazyLoadEvent) {
   if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
