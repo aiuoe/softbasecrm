@@ -14,7 +14,7 @@ import { BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ng
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { SubheaderModule } from '@app/shared/common/sub-header/subheader.module';
-
+import { TableModule} from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 
@@ -36,6 +36,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot(),
         SubheaderModule,
         DropdownModule,
+        TableModule,
         MultiSelectModule,
     ],
     declarations: [

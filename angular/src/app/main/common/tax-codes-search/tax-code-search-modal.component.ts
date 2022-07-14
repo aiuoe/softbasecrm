@@ -1,11 +1,11 @@
-import { Component, ViewChild, Injector, OnInit } from '@angular/core';
+import { Component, ViewChild, Injector, OnInit, EventEmitter, Output } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { SelectItem } from 'primeng/api';
 import { LazyLoadEvent } from 'primeng/api';
-import { ReadCommonShareServiceProxy, TaxCodeTypeDto } from '@shared/service-proxies/service-proxies';
+import { ReadCommonShareServiceProxy, TaxCodeDto, TaxCodeTypeDto } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 
 /***
@@ -20,11 +20,14 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
   @ViewChild('dataTable', { static: true }) dataTable: Table;
   @ViewChild('paginator', { static: true }) paginator: Paginator;
 
+@Output() messageEvent = new EventEmitter<string>();
+selectedTaxCode: TaxCodeDto;
 taxCodeTypeItems: TaxCodeTypeDto[];
 taxCodeType: string;
 partialTaxCode: string;
 parentTaxCode: string;
 description: string;
+selected: boolean = false;
 
   constructor(
     injector: Injector,
@@ -78,10 +81,10 @@ searchTaxCodes(event?: LazyLoadEvent) {
   this._taxCodesServiceProxy.getTaxCodes(
   this.primengTableHelper.getSkipCount(this.paginator, event),
   this.primengTableHelper.getMaxResultCount(this.paginator, event),
-  this.taxCodeType != undefined && this.taxCodeType.length > 0 ? this.taxCodeType : " ",
-  this.partialTaxCode != undefined && this.partialTaxCode.length > 0 ? this.partialTaxCode : " ",
-  this.parentTaxCode != undefined && this.parentTaxCode.length > 0 ? this.parentTaxCode : " ",
-  this.description != undefined && this.description.length > 0 ? this.description : " ")
+  this.taxCodeType != undefined && this.taxCodeType != null ? this.taxCodeType.trim() : " ",
+  this.partialTaxCode != undefined && this.partialTaxCode != null ? this.partialTaxCode.trim() : " ",
+  this.parentTaxCode != undefined && this.parentTaxCode != null ? this.parentTaxCode.trim() : " ",
+  this.description != undefined && this.description != null ? this.description.trim() : " ")
   .pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator()))
   .subscribe((result) => {
       this.primengTableHelper.totalRecordsCount = result.totalCount;
@@ -99,5 +102,19 @@ ngOnInit(): void {
     this.primengTableHelper.showLoadingIndicator();
     this.primengTableHelper.hideLoadingIndicator();
 }
+
+onRowSelect(event) {
+  this.selected = true;
+}
+
+onRowUnselect(event) {
+  this.selected = false;
+}
+
+taxCodeSelected(): void{  
+  this.messageEvent.emit(this.selectedTaxCode.taxCode);
+  this.modal.hide();
+}
+
 
 }

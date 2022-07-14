@@ -89,7 +89,7 @@
                         <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
                             <p-table
                                 #dataTable
-                                sortMode="multiple"    
+                                sortMode="single"    
                                 (onLazyLoad)="searchTaxCodes($event)"                                                      
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
@@ -97,6 +97,8 @@
                                 [lazy]="true"
                                 [responsive]="primengTableHelper.isResponsive"
                                 [scrollable]="true"
+                                selectionMode="single"
+                                [(selection)]="selectedTaxCode"
                             >
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -161,9 +163,10 @@
                     {{ l('Close') }}
                 </button>
                 <button
+                    [disabled]="!selected"
                     type="submit"
                     class="btn btn-primary blue"
-                >
+                    (click)="taxCodeSelected()">
                     <span>{{ l('Ok') }}</span>
                 </button>
             </div>
