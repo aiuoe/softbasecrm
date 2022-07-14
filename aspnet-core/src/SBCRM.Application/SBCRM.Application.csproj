@@ -28,6 +28,7 @@
   <ItemGroup>
     <Folder Include="Modules\Accounting\ChartOfAccounts\Commands\" />
     <Folder Include="Modules\Accounting\ChartOfAccounts\Services\" />
+    <Folder Include="Modules\Common\Avalara\Commands\" />
   </ItemGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<NoWarn>1701,1702,1591,1572,1573,1570</NoWarn>

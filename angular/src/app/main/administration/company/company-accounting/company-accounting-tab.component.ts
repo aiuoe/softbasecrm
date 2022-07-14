@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountSearchModalComponent } from '../../../common/account-search/account-search-modal.component';
@@ -8,7 +8,8 @@ import { AccountSearchModalComponent } from '../../../common/account-search/acco
  */
 @Component({
     selector: 'accountingCompanyTab',
-    templateUrl: './company-accounting-tab.component.html',
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: './company-accounting-tab.component.html'
 })
 export class AccountingCompanyTabComponent extends AppComponentBase implements OnInit {
     invoiceCutOffDaySelectItems: SelectItem[] = [
@@ -23,7 +24,9 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
         { label: 'Format 1', value: 'Format 1' },
         { label: 'Format 2', value: 'Format 2' },
     ];
-    
+
+
+
     @ViewChild('accountSearchModal', { static: true })
     accountSearchModal: AccountSearchModalComponent;
 
@@ -35,11 +38,11 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
 
     ngOnInit(): void {
     }
-    
+
     /***
      * Method that shows the account search modal
      */
-     accountSearch(): void {
+    accountSearch(): void {
         this.accountSearchModal.show();
     }
 }
