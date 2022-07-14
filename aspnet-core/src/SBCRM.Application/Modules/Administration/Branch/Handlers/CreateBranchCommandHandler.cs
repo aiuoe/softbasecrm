@@ -64,10 +64,6 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
         {
-            //TO:DO generating number for now. will change based on client decision.
-            command.Number = await _branchRepository.GetAll().MaxAsync(x => x.Number);
-            command.Number++;
-
             using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
             {
                 var branchWithSameNumber = await _branchRepository.FirstOrDefaultAsync(x => x.Number == command.Number);

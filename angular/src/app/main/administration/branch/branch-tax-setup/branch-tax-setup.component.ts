@@ -4,15 +4,20 @@ import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { BranchesServiceProxy, BranchForEditDto, GetTaxTabInitialDataDto, TaxCodeInBranchDto } from '@shared/service-proxies/service-proxies';
 
+/**
+ * Sub component for branch tax setup tab
+ */
 @Component({
     selector: 'branchTaxSetup',
     templateUrl: './branch-tax-setup.component.html'
 })
 
 export class BranchTaxSetupComponent extends AppComponentBase implements OnChanges, OnDestroy {
-    destroy$ = new Subject();
+
+    @Input() isViewMode: boolean;
     @Input() taxCodes: TaxCodeInBranchDto[] = [];
     @Input() branchForEdit: BranchForEditDto;
+    destroy$ = new Subject();
     private hasInitialData = false;
 
     taxTabInitialData = new GetTaxTabInitialDataDto();
@@ -25,7 +30,7 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if(changes.branchForEdit) {
+        if (changes.branchForEdit) {
             this.setTaxTabInitialData();
         }
     }
@@ -40,12 +45,13 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
 
     private setTaxTabInitialData(): void {
         if (!this.hasInitialData) {
-            this._branchesService.getTaxTabInitialData().pipe(takeUntil(this.destroy$)).subscribe(
-                (x: GetTaxTabInitialDataDto) => {
+            this._branchesService.getTaxTabInitialData()
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: GetTaxTabInitialDataDto) => {
                     this.taxTabInitialData = x;
                     this.hasInitialData = true;
-                }
-            );
+                });
         }
     }
 }

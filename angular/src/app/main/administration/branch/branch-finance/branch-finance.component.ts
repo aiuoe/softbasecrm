@@ -4,14 +4,19 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { BranchesServiceProxy, BranchForEditDto, IGetChartOfAccountDetailsDto } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
 
+/**
+ * Sub component for branch finance tab
+ */
 @Component({
     selector: 'branchFinance',
     templateUrl: './branch-finance.component.html'
 })
 
 export class BranchFinanceComponent extends AppComponentBase implements OnDestroy {
-    destroy$ = new Subject();
+
+    @Input() isViewMode: boolean;
     @Input() branchForEdit: BranchForEditDto;
+    destroy$ = new Subject();
     isAccountNumberValid: boolean = true;
 
     constructor(
@@ -27,10 +32,16 @@ export class BranchFinanceComponent extends AppComponentBase implements OnDestro
 
     creditCardDebitAccountNoOnKeyUp(): void {
         if (this.branchForEdit.creditCardAccountNo) {
-            this._branchesService.getChartOfAccountDetails(this.branchForEdit.creditCardAccountNo)
-                .pipe(takeUntil(this.destroy$)).subscribe((x: IGetChartOfAccountDetailsDto) => {
-                    this.isAccountNumberValid = !!x.id;
-                });
+            this.setAccountNumberValidity();
         }
+    }
+
+    private setAccountNumberValidity(): void {
+        this._branchesService.getChartOfAccountDetails(this.branchForEdit.creditCardAccountNo)
+            .pipe(
+                takeUntil(this.destroy$)
+            ).subscribe((x: IGetChartOfAccountDetailsDto) => {
+                this.isAccountNumberValid = !!x.id;
+            });
     }
 }

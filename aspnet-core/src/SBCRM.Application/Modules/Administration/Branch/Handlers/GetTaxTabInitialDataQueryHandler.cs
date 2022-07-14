@@ -12,7 +12,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get initial tax tab data query handler
     /// </summary>
-    public class GetTaxTabInitialDataQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetTaxTabInitialDataQuery, GetTaxTabInitialDataDto>
+    public class GetTaxTabInitialDataQueryHandler : UseCaseServiceBase, IRequestHandler<GetTaxTabInitialDataQuery, GetTaxTabInitialDataDto>
     {
         private readonly ICountyTaxCodeRepository _countyTaxCodeRepository;
         private readonly IStateTaxCodeRepository _stateTaxCodeRepository;

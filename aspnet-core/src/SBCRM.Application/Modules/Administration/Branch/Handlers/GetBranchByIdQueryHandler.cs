@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch data by id query handler
     /// </summary>
-    public class GetBranchByIdQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchByIdQuery, BranchForEditDto>
+    public class GetBranchByIdQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchByIdQuery, BranchForEditDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IWarehouseRepository _warehouseRepository;
@@ -57,12 +57,12 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<BranchForEditDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.GetAsync(query.Id);
-            var warehouse = await _warehouseRepository.FirstOrDefaultAsync(warehouse => warehouse.WarehouseName == branch.DefaultWarehouse);
-            var taxCode = await _taxRepository.FirstOrDefaultAsync(tax => tax.Code == branch.TaxCode);
-            var stateTaxCode = await _stateTaxCodeRepository.FirstOrDefaultAsync(stateTaxCode => stateTaxCode.TaxCode == branch.StateTaxCode);
-            var localTaxCode = await _localTaxCodeRepository.FirstOrDefaultAsync(localTaxCode => localTaxCode.TaxCode == branch.LocalTaxCode);
-            var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(countyTaxCode => countyTaxCode.TaxCode == branch.CountyTaxCode);
-            var cityTaxCode = await _cityTaxCodeRepository.FirstOrDefaultAsync(cityTaxCode => cityTaxCode.TaxCode == branch.CityTaxCode);
+            var warehouse = await _warehouseRepository.FirstOrDefaultAsync(x => x.WarehouseName == branch.DefaultWarehouse);
+            var taxCode = await _taxRepository.FirstOrDefaultAsync(x => x.Code == branch.TaxCode);
+            var stateTaxCode = await _stateTaxCodeRepository.FirstOrDefaultAsync(x => x.TaxCode == branch.StateTaxCode);
+            var localTaxCode = await _localTaxCodeRepository.FirstOrDefaultAsync(x => x.TaxCode == branch.LocalTaxCode);
+            var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(x => x.TaxCode == branch.CountyTaxCode);
+            var cityTaxCode = await _cityTaxCodeRepository.FirstOrDefaultAsync(x => x.TaxCode == branch.CityTaxCode);
 
             var branchForEditDto= ObjectMapper.Map<BranchForEditDto>(branch);
 

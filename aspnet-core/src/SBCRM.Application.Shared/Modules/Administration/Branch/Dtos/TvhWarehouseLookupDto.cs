@@ -5,7 +5,7 @@
     /// </summary>
     public class TvhWarehouseLookupDto
     {
-        public string Key { get; set; }
+        public long Key { get; set; }
         public string Name { get; set; }
     }
 }

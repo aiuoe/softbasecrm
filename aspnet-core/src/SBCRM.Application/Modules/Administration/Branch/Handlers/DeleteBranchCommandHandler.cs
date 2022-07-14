@@ -9,7 +9,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Delete branch command handler
     /// </summary>
-    public class DeleteBranchCommandHandler : SBCRMAppServiceBase, IRequestHandler<DeleteBranchCommand>
+    public class DeleteBranchCommandHandler : UseCaseServiceBase, IRequestHandler<DeleteBranchCommand>
     {
         private readonly IBranchRepository _branchRepository;
 

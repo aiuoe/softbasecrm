@@ -8,6 +8,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
     /// </summary>
     public class BranchForEditDto : AuditDto
     {
+        public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
         public string Address { get; set; }
@@ -53,6 +54,6 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string TvhAccountNo { get; set; }
         public string TvhKey { get; set; }
         public long? TvhCountryId { get; set; }
-        public string TvhWarehouse { get; set; }
+        public long? TvhWarehouseId { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Create branch use case command handler
     /// </summary>
-    public class GetBranchInitialDataQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchInitialDataQuery, GetBranchInitialDataDto>
+    public class GetBranchInitialDataQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchInitialDataQuery, GetBranchInitialDataDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IChartOfAccountRepository _chartOfAccountRepository;
@@ -72,7 +72,6 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
 
             return new GetBranchInitialDataDto()
             {
-                Branches = ObjectMapper.Map<List<BranchLookupDto>>(branches),
                 AccountsReceivables = ObjectMapper.Map<List<AccountReceivableInBranchDto>>(arAccounts),
                 Warehouses = ObjectMapper.Map<List<WarehouseLookupDto>>(warehouses),
                 TvhWarehouses = GetTvhWarehouses(),
@@ -86,19 +85,19 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         {
             return new List<TvhWarehouseLookupDto>()
             {
-                new TvhWarehouseLookupDto() { Key = "0", Name = "All, US" },
-                new TvhWarehouseLookupDto() { Key = "1", Name = "Kansas, US" },
-                new TvhWarehouseLookupDto() { Key = "2", Name = "California, US" },
-                new TvhWarehouseLookupDto() { Key = "3", Name = "Oregon, US" },
-                new TvhWarehouseLookupDto() { Key = "5", Name = "South Carolina, US" },
-                new TvhWarehouseLookupDto() { Key = "6", Name = "Pennsylvania, US" },
-                new TvhWarehouseLookupDto() { Key = "7", Name = "Illinois, US" },
-                new TvhWarehouseLookupDto() { Key = "8", Name = "Lousiana, US" },
-                new TvhWarehouseLookupDto() { Key = "9", Name = "Florida, US" },
-                new TvhWarehouseLookupDto() { Key = "21", Name = "Ontario, Canada" },
-                new TvhWarehouseLookupDto() { Key = "22", Name = "British Columbia, Canada" },
-                new TvhWarehouseLookupDto() { Key = "51", Name = "Mexico City, Mexico" },
-                new TvhWarehouseLookupDto() { Key = "52", Name = "Monterrey, Mexico" },
+                new TvhWarehouseLookupDto() { Key = 0, Name = "All, US" },
+                new TvhWarehouseLookupDto() { Key = 1, Name = "Kansas, US" },
+                new TvhWarehouseLookupDto() { Key = 2, Name = "California, US" },
+                new TvhWarehouseLookupDto() { Key = 3, Name = "Oregon, US" },
+                new TvhWarehouseLookupDto() { Key = 5, Name = "South Carolina, US" },
+                new TvhWarehouseLookupDto() { Key = 6, Name = "Pennsylvania, US" },
+                new TvhWarehouseLookupDto() { Key = 7, Name = "Illinois, US" },
+                new TvhWarehouseLookupDto() { Key = 8, Name = "Lousiana, US" },
+                new TvhWarehouseLookupDto() { Key = 9, Name = "Florida, US" },
+                new TvhWarehouseLookupDto() { Key = 21, Name = "Ontario, Canada" },
+                new TvhWarehouseLookupDto() { Key = 22, Name = "British Columbia, Canada" },
+                new TvhWarehouseLookupDto() { Key = 51, Name = "Mexico City, Mexico" },
+                new TvhWarehouseLookupDto() { Key = 52, Name = "Monterrey, Mexico" },
             };
         }
     }

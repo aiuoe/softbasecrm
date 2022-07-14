@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Patch branch currency type query handler
     /// </summary>
-    public class PatchBranchCurrencyTypeCommandHandler : SBCRMAppServiceBase, IRequestHandler<PatchBranchCurrencyTypeCommand, BranchCurrencyTypeDto>
+    public class PatchBranchCurrencyTypeCommandHandler : UseCaseServiceBase, IRequestHandler<PatchBranchCurrencyTypeCommand, BranchCurrencyTypeDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IBranchARCurrencyTypeRepository _branchARCurrencyTypeRepository;

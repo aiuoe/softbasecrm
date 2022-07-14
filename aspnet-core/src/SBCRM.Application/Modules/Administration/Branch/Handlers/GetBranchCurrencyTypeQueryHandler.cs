@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch currency type query handler
     /// </summary>
-    public class GetBranchCurrencyTypeQueryHandler : SBCRMAppServiceBase, IRequestHandler<GetBranchCurrencyTypeQuery, BranchCurrencyTypeDto>
+    public class GetBranchCurrencyTypeQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchCurrencyTypeQuery, BranchCurrencyTypeDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IBranchARCurrencyTypeRepository _branchARCurrencyTypeRepository;
@@ -40,8 +40,8 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <returns></returns>
         public async Task<BranchCurrencyTypeDto> Handle(GetBranchCurrencyTypeQuery query, CancellationToken cancellationToken)
         {
-            var branch = await _branchRepository.FirstOrDefaultAsync(x => x.Id == query.BranchId);
-            var currencyType = await _currencyTypeRepository.FirstOrDefaultAsync(x => x.Id == query.CurrencyTypeId);
+            var branch = await _branchRepository.GetAsync(query.BranchId);
+            var currencyType = await _currencyTypeRepository.GetAsync(query.CurrencyTypeId);
             var branchCurrencyType = await _branchARCurrencyTypeRepository.FirstOrDefaultAsync(x => x.Branch == branch.Number && x.CurrencyType == currencyType.CurrencyTypeName);
             return ObjectMapper.Map<BranchCurrencyTypeDto>(branchCurrencyType);
         }

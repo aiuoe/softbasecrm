@@ -5349,7 +5349,7 @@ export class BranchesServiceProxy {
     /**
      * @return Success
      */
-    getAll(): Observable<GetLeadForViewDto[]> {
+    getAll(): Observable<BranchListItemDto[]> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5368,14 +5368,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<GetLeadForViewDto[]>><any>_observableThrow(e);
+                    return <Observable<BranchListItemDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetLeadForViewDto[]>><any>_observableThrow(response_);
+                return <Observable<BranchListItemDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<GetLeadForViewDto[]> {
+    protected processGetAll(response: HttpResponseBase): Observable<BranchListItemDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5389,7 +5389,7 @@ export class BranchesServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetLeadForViewDto.fromJS(item));
+                    result200!.push(BranchListItemDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -5401,14 +5401,34 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetLeadForViewDto[]>(<any>null);
+        return _observableOf<BranchListItemDto[]>(<any>null);
     }
 
     /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
      * @return Success
      */
-    getAllPaged(): Observable<PagedResultDtoOfGetLeadForViewDto> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAllPaged";
+    getAllPaged(filter: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfBranchListItemDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAllPaged?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5426,14 +5446,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processGetAllPaged(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetLeadForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfBranchListItemDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetLeadForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfBranchListItemDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllPaged(response: HttpResponseBase): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    protected processGetAllPaged(response: HttpResponseBase): Observable<PagedResultDtoOfBranchListItemDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5444,7 +5464,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfGetLeadForViewDto.fromJS(resultData200);
+            result200 = PagedResultDtoOfBranchListItemDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5452,7 +5472,7 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetLeadForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfBranchListItemDto>(<any>null);
     }
 
     /**
@@ -9905,74 +9925,6 @@ export class DeleteAdditionalChargesCommandHandlerServiceProxy {
 }
 
 @Injectable()
-export class DeleteBranchCommandHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: DeleteBranchCommand | undefined): Observable<Unit> {
-        let url_ = this.baseUrl + "/api/services/app/DeleteBranchCommandHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<Unit>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<Unit>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<Unit> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = Unit.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<Unit>(<any>null);
-    }
-}
-
-@Injectable()
 export class DemoUiComponentsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -12863,210 +12815,6 @@ export class GetAllBranchesQueryHandlerServiceProxy {
 }
 
 @Injectable()
-export class GetBranchByIdQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetBranchByIdQuery | undefined): Observable<BranchForEditDto> {
-        let url_ = this.baseUrl + "/api/services/app/GetBranchByIdQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<BranchForEditDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BranchForEditDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<BranchForEditDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchForEditDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BranchForEditDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class GetBranchCurrencyTypeQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetBranchCurrencyTypeQuery | undefined): Observable<BranchCurrencyTypeDto> {
-        let url_ = this.baseUrl + "/api/services/app/GetBranchCurrencyTypeQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BranchCurrencyTypeDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class GetBranchInitialDataQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetBranchInitialDataQuery | undefined): Observable<GetBranchInitialDataDto> {
-        let url_ = this.baseUrl + "/api/services/app/GetBranchInitialDataQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<GetBranchInitialDataDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetBranchInitialDataDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<GetBranchInitialDataDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetBranchInitialDataDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetBranchInitialDataDto>(<any>null);
-    }
-}
-
-@Injectable()
 export class GetChartOfAccountQueryHandlerServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -13210,74 +12958,6 @@ export class GetCompanyQueryHandlerServiceProxy {
 }
 
 @Injectable()
-export class GetTaxTabInitialDataQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetTaxTabInitialDataQuery | undefined): Observable<GetTaxTabInitialDataDto> {
-        let url_ = this.baseUrl + "/api/services/app/GetTaxTabInitialDataQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<GetTaxTabInitialDataDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetTaxTabInitialDataDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<GetTaxTabInitialDataDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetTaxTabInitialDataDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetTaxTabInitialDataDto>(<any>null);
-    }
-}
-
-@Injectable()
 export class GetVerifyAddressQueryHandlerServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -13342,74 +13022,6 @@ export class GetVerifyAddressQueryHandlerServiceProxy {
             }));
         }
         return _observableOf<GetVerifyAddressDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class GetZipCodeDetailsQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetZipCodeDetailsQuery | undefined): Observable<GetZipCodeDetailsDto> {
-        let url_ = this.baseUrl + "/api/services/app/GetZipCodeDetailsQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<GetZipCodeDetailsDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetZipCodeDetailsDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<GetZipCodeDetailsDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetZipCodeDetailsDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetZipCodeDetailsDto>(<any>null);
     }
 }
 
@@ -23945,74 +23557,6 @@ export class OrganizationUnitServiceProxy {
 }
 
 @Injectable()
-export class PatchBranchCurrencyTypeCommandHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: PatchBranchCurrencyTypeCommand | undefined): Observable<BranchCurrencyTypeDto> {
-        let url_ = this.baseUrl + "/api/services/app/PatchBranchCurrencyTypeCommandHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BranchCurrencyTypeDto>(<any>null);
-    }
-}
-
-@Injectable()
 export class PaymentServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -30087,74 +29631,6 @@ export class UpdateAdditionalChargesCommandHandlerServiceProxy {
 }
 
 @Injectable()
-export class UpdateBranchCommandHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: UpdateBranchCommand | undefined): Observable<BranchForEditDto> {
-        let url_ = this.baseUrl + "/api/services/app/UpdateBranchCommandHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<BranchForEditDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<BranchForEditDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<BranchForEditDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchForEditDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<BranchForEditDto>(<any>null);
-    }
-}
-
-@Injectable()
 export class UserServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -34328,6 +33804,7 @@ export interface IBranchForDepartmentDto {
 }
 
 export class BranchForEditDto implements IBranchForEditDto {
+    number!: number;
     name!: string | undefined;
     subName!: string | undefined;
     address!: string | undefined;
@@ -34373,7 +33850,7 @@ export class BranchForEditDto implements IBranchForEditDto {
     tvhAccountNo!: string | undefined;
     tvhKey!: string | undefined;
     tvhCountryId!: number | undefined;
-    tvhWarehouse!: string | undefined;
+    tvhWarehouseId!: number | undefined;
     creatorUserName!: string | undefined;
     creationTime!: DateTime;
     lastModifierUserName!: string | undefined;
@@ -34390,6 +33867,7 @@ export class BranchForEditDto implements IBranchForEditDto {
 
     init(_data?: any) {
         if (_data) {
+            this.number = _data["number"];
             this.name = _data["name"];
             this.subName = _data["subName"];
             this.address = _data["address"];
@@ -34435,7 +33913,7 @@ export class BranchForEditDto implements IBranchForEditDto {
             this.tvhAccountNo = _data["tvhAccountNo"];
             this.tvhKey = _data["tvhKey"];
             this.tvhCountryId = _data["tvhCountryId"];
-            this.tvhWarehouse = _data["tvhWarehouse"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
             this.creatorUserName = _data["creatorUserName"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.lastModifierUserName = _data["lastModifierUserName"];
@@ -34452,6 +33930,7 @@ export class BranchForEditDto implements IBranchForEditDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
         data["name"] = this.name;
         data["subName"] = this.subName;
         data["address"] = this.address;
@@ -34497,7 +33976,7 @@ export class BranchForEditDto implements IBranchForEditDto {
         data["tvhAccountNo"] = this.tvhAccountNo;
         data["tvhKey"] = this.tvhKey;
         data["tvhCountryId"] = this.tvhCountryId;
-        data["tvhWarehouse"] = this.tvhWarehouse;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
         data["creatorUserName"] = this.creatorUserName;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["lastModifierUserName"] = this.lastModifierUserName;
@@ -34507,6 +33986,7 @@ export class BranchForEditDto implements IBranchForEditDto {
 }
 
 export interface IBranchForEditDto {
+    number: number;
     name: string | undefined;
     subName: string | undefined;
     address: string | undefined;
@@ -34552,18 +34032,24 @@ export interface IBranchForEditDto {
     tvhAccountNo: string | undefined;
     tvhKey: string | undefined;
     tvhCountryId: number | undefined;
-    tvhWarehouse: string | undefined;
+    tvhWarehouseId: number | undefined;
     creatorUserName: string | undefined;
     creationTime: DateTime;
     lastModifierUserName: string | undefined;
     lastModificationTime: DateTime | undefined;
 }
 
-export class BranchLookupDto implements IBranchLookupDto {
+export class BranchListItemDto implements IBranchListItemDto {
     id!: number;
     number!: number;
+    name!: string | undefined;
+    phone!: string | undefined;
+    receivable!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    currencyType!: string | undefined;
+    creationTime!: DateTime;
 
-    constructor(data?: IBranchLookupDto) {
+    constructor(data?: IBranchListItemDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -34576,12 +34062,18 @@ export class BranchLookupDto implements IBranchLookupDto {
         if (_data) {
             this.id = _data["id"];
             this.number = _data["number"];
+            this.name = _data["name"];
+            this.phone = _data["phone"];
+            this.receivable = _data["receivable"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.currencyType = _data["currencyType"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): BranchLookupDto {
+    static fromJS(data: any): BranchListItemDto {
         data = typeof data === 'object' ? data : {};
-        let result = new BranchLookupDto();
+        let result = new BranchListItemDto();
         result.init(data);
         return result;
     }
@@ -34590,13 +34082,25 @@ export class BranchLookupDto implements IBranchLookupDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["number"] = this.number;
+        data["name"] = this.name;
+        data["phone"] = this.phone;
+        data["receivable"] = this.receivable;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["currencyType"] = this.currencyType;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         return data; 
     }
 }
 
-export interface IBranchLookupDto {
+export interface IBranchListItemDto {
     id: number;
     number: number;
+    name: string | undefined;
+    phone: string | undefined;
+    receivable: string | undefined;
+    defaultWarehouse: string | undefined;
+    currencyType: string | undefined;
+    creationTime: DateTime;
 }
 
 export class BranchLookupTableDto implements IBranchLookupTableDto {
@@ -35934,7 +35438,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
     tvhAccountNo!: string | undefined;
     tvhKey!: string | undefined;
     tvhCountryId!: number | undefined;
-    tvhWarehouse!: string | undefined;
+    tvhWarehouseId!: number | undefined;
 
     constructor(data?: ICreateBranchCommand) {
         if (data) {
@@ -35993,7 +35497,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
             this.tvhAccountNo = _data["tvhAccountNo"];
             this.tvhKey = _data["tvhKey"];
             this.tvhCountryId = _data["tvhCountryId"];
-            this.tvhWarehouse = _data["tvhWarehouse"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
         }
     }
 
@@ -36052,7 +35556,7 @@ export class CreateBranchCommand implements ICreateBranchCommand {
         data["tvhAccountNo"] = this.tvhAccountNo;
         data["tvhKey"] = this.tvhKey;
         data["tvhCountryId"] = this.tvhCountryId;
-        data["tvhWarehouse"] = this.tvhWarehouse;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
         return data; 
     }
 }
@@ -36104,7 +35608,7 @@ export interface ICreateBranchCommand {
     tvhAccountNo: string | undefined;
     tvhKey: string | undefined;
     tvhCountryId: number | undefined;
-    tvhWarehouse: string | undefined;
+    tvhWarehouseId: number | undefined;
 }
 
 export class CreateCompanyCommand implements ICreateCompanyCommand {
@@ -39200,42 +38704,6 @@ export class DeleteAdditionalChargesCommand implements IDeleteAdditionalChargesC
 
 export interface IDeleteAdditionalChargesCommand {
     id: number;
-}
-
-export class DeleteBranchCommand implements IDeleteBranchCommand {
-    branchId!: number;
-
-    constructor(data?: IDeleteBranchCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.branchId = _data["branchId"];
-        }
-    }
-
-    static fromJS(data: any): DeleteBranchCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new DeleteBranchCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["branchId"] = this.branchId;
-        return data; 
-    }
-}
-
-export interface IDeleteBranchCommand {
-    branchId: number;
 }
 
 export class DepartmentLookupTableDto implements IDepartmentLookupTableDto {
@@ -42334,84 +41802,7 @@ export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
 }
 
-export class GetBranchByIdQuery implements IGetBranchByIdQuery {
-    id!: number;
-
-    constructor(data?: IGetBranchByIdQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): GetBranchByIdQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetBranchByIdQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IGetBranchByIdQuery {
-    id: number;
-}
-
-export class GetBranchCurrencyTypeQuery implements IGetBranchCurrencyTypeQuery {
-    branchId!: number;
-    currencyTypeId!: number;
-
-    constructor(data?: IGetBranchCurrencyTypeQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.branchId = _data["branchId"];
-            this.currencyTypeId = _data["currencyTypeId"];
-        }
-    }
-
-    static fromJS(data: any): GetBranchCurrencyTypeQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetBranchCurrencyTypeQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["branchId"] = this.branchId;
-        data["currencyTypeId"] = this.currencyTypeId;
-        return data; 
-    }
-}
-
-export interface IGetBranchCurrencyTypeQuery {
-    branchId: number;
-    currencyTypeId: number;
-}
-
 export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
-    branches!: BranchLookupDto[] | undefined;
     accountsReceivables!: AccountReceivableInBranchDto[] | undefined;
     warehouses!: WarehouseLookupDto[] | undefined;
     tvhWarehouses!: TvhWarehouseLookupDto[] | undefined;
@@ -42430,11 +41821,6 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
 
     init(_data?: any) {
         if (_data) {
-            if (Array.isArray(_data["branches"])) {
-                this.branches = [] as any;
-                for (let item of _data["branches"])
-                    this.branches!.push(BranchLookupDto.fromJS(item));
-            }
             if (Array.isArray(_data["accountsReceivables"])) {
                 this.accountsReceivables = [] as any;
                 for (let item of _data["accountsReceivables"])
@@ -42477,11 +41863,6 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.branches)) {
-            data["branches"] = [];
-            for (let item of this.branches)
-                data["branches"].push(item.toJSON());
-        }
         if (Array.isArray(this.accountsReceivables)) {
             data["accountsReceivables"] = [];
             for (let item of this.accountsReceivables)
@@ -42517,43 +41898,12 @@ export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
 }
 
 export interface IGetBranchInitialDataDto {
-    branches: BranchLookupDto[] | undefined;
     accountsReceivables: AccountReceivableInBranchDto[] | undefined;
     warehouses: WarehouseLookupDto[] | undefined;
     tvhWarehouses: TvhWarehouseLookupDto[] | undefined;
     currencyTypes: CurrencyTypeLookupDto[] | undefined;
     taxCodes: TaxCodeInBranchDto[] | undefined;
     countries: CountryDto[] | undefined;
-}
-
-export class GetBranchInitialDataQuery implements IGetBranchInitialDataQuery {
-
-    constructor(data?: IGetBranchInitialDataQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): GetBranchInitialDataQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetBranchInitialDataQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface IGetBranchInitialDataQuery {
 }
 
 export class GetChartOfAccountDetailsDto implements IGetChartOfAccountDetailsDto {
@@ -46242,36 +45592,6 @@ export interface IGetTaxTabInitialDataDto {
     localTaxCodes: LocalTaxCodeInBranchDto[] | undefined;
 }
 
-export class GetTaxTabInitialDataQuery implements IGetTaxTabInitialDataQuery {
-
-    constructor(data?: IGetTaxTabInitialDataQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): GetTaxTabInitialDataQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetTaxTabInitialDataQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface IGetTaxTabInitialDataQuery {
-}
-
 export class GetTenantFeaturesEditOutput implements IGetTenantFeaturesEditOutput {
     featureValues!: NameValueDto[] | undefined;
     features!: FlatFeatureDto[] | undefined;
@@ -46822,42 +46142,6 @@ export class GetZipCodeDetailsDto implements IGetZipCodeDetailsDto {
 export interface IGetZipCodeDetailsDto {
     city: string | undefined;
     state: string | undefined;
-}
-
-export class GetZipCodeDetailsQuery implements IGetZipCodeDetailsQuery {
-    zipCode!: string | undefined;
-
-    constructor(data?: IGetZipCodeDetailsQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.zipCode = _data["zipCode"];
-        }
-    }
-
-    static fromJS(data: any): GetZipCodeDetailsQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetZipCodeDetailsQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["zipCode"] = this.zipCode;
-        return data; 
-    }
-}
-
-export interface IGetZipCodeDetailsQuery {
-    zipCode: string | undefined;
 }
 
 export class GetZipCodeDto implements IGetZipCodeDto {
@@ -51293,6 +50577,54 @@ export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLo
 export interface IPagedResultDtoOfAuditLogListDto {
     totalCount: number;
     items: AuditLogListDto[] | undefined;
+}
+
+export class PagedResultDtoOfBranchListItemDto implements IPagedResultDtoOfBranchListItemDto {
+    totalCount!: number;
+    items!: BranchListItemDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfBranchListItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(BranchListItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfBranchListItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfBranchListItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfBranchListItemDto {
+    totalCount: number;
+    items: BranchListItemDto[] | undefined;
 }
 
 export class PagedResultDtoOfCustomerEquipmentViewDto implements IPagedResultDtoOfCustomerEquipmentViewDto {
@@ -56553,7 +55885,7 @@ export interface ITopStatsData {
 }
 
 export class TvhWarehouseLookupDto implements ITvhWarehouseLookupDto {
-    key!: string | undefined;
+    key!: number;
     name!: string | undefined;
 
     constructor(data?: ITvhWarehouseLookupDto) {
@@ -56588,7 +55920,7 @@ export class TvhWarehouseLookupDto implements ITvhWarehouseLookupDto {
 }
 
 export interface ITvhWarehouseLookupDto {
-    key: string | undefined;
+    key: number;
     name: string | undefined;
 }
 
@@ -57033,7 +56365,7 @@ export class UpdateBranchCommand implements IUpdateBranchCommand {
     tvhAccountNo!: string | undefined;
     tvhKey!: string | undefined;
     tvhCountryId!: number | undefined;
-    tvhWarehouse!: string | undefined;
+    tvhWarehouseId!: number | undefined;
 
     constructor(data?: IUpdateBranchCommand) {
         if (data) {
@@ -57092,7 +56424,7 @@ export class UpdateBranchCommand implements IUpdateBranchCommand {
             this.tvhAccountNo = _data["tvhAccountNo"];
             this.tvhKey = _data["tvhKey"];
             this.tvhCountryId = _data["tvhCountryId"];
-            this.tvhWarehouse = _data["tvhWarehouse"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
         }
     }
 
@@ -57151,7 +56483,7 @@ export class UpdateBranchCommand implements IUpdateBranchCommand {
         data["tvhAccountNo"] = this.tvhAccountNo;
         data["tvhKey"] = this.tvhKey;
         data["tvhCountryId"] = this.tvhCountryId;
-        data["tvhWarehouse"] = this.tvhWarehouse;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
         return data; 
     }
 }
@@ -57203,7 +56535,7 @@ export interface IUpdateBranchCommand {
     tvhAccountNo: string | undefined;
     tvhKey: string | undefined;
     tvhCountryId: number | undefined;
-    tvhWarehouse: string | undefined;
+    tvhWarehouseId: number | undefined;
 }
 
 export class UpdateCommonSettingsInput implements IUpdateCommonSettingsInput {
