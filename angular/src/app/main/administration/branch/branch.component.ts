@@ -13,6 +13,7 @@ import {
 import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
+import { Router } from '@angular/router';
 
 /**
  * Main component for branch
@@ -50,6 +51,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
         private _commonServiceProxy: ReadCommonShareServiceProxy,
+        private _router: Router,
     ) {
         super(injector);
     }
@@ -76,21 +78,17 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     cancelOnClick(): void {
-        this.activeCrudMode = BranchCrudModes.List;
-    }
-
-    itemDeleteOnClick(): void {
-        if (this.branchId) {
-            this.deleteBranch(this.branchId, this.branchForEdit.name);
+        if (this.activeCrudMode === BranchCrudModes.List) {
+            this._router.navigate(['app', 'main', 'administration']);
+        } else {
+            this.activeCrudMode = BranchCrudModes.List;
         }
     }
 
     saveOnClick(): void {
-        if (this.branchId) {
-            this.updateBranch();
-        } else {
-            this.addBranch();
-        }
+        return this.branchId
+            ? this.updateBranch()
+            : this.addBranch();
     }
 
     viewOnClick(branchId: number): void {
@@ -103,6 +101,12 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this.branchId = branchId;
         this.activeCrudMode = BranchCrudModes.Edit;
         this.getBranch(branchId);
+    }
+
+    itemDeleteOnClick(): void {
+        if (this.branchId) {
+            this.deleteBranch(this.branchId, this.branchForEdit.name);
+        }
     }
 
     rowDeleteOnClick(branch: BranchListItemDto): void {
@@ -285,10 +289,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     private initActionButtons(): void {
         this.actionButtons = [
             { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', activeCrudModes: [BranchCrudModes.List], action: () => this.addOnClick() },
-            { name: this.l('Cancel'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.cancelOnClick() },
-            { name: this.l('Close'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.View], action: () => this.cancelOnClick() },
-            { name: this.l('Delete'), cssClass: 'btn-danger', activeCrudModes: [BranchCrudModes.Edit], action: () => this.itemDeleteOnClick() },
             { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.saveOnClick() },
+            { name: this.l('Delete'), cssClass: 'btn-danger', activeCrudModes: [BranchCrudModes.Edit], action: () => this.itemDeleteOnClick() },
+            { name: this.l('Cancel'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.cancelOnClick() },
+            { name: this.l('Close'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.List, BranchCrudModes.View], action: () => this.cancelOnClick() },
         ];
     }
 }
