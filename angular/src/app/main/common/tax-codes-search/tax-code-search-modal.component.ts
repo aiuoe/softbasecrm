@@ -71,6 +71,7 @@ searchTaxCodes(event?: LazyLoadEvent) {
   console.log(this.taxCodeType);
   console.log(this.parentTaxCode);
   console.log(this.description);
+  debugger;
   if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;

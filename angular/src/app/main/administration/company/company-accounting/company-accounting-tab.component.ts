@@ -1,14 +1,16 @@
-import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountSearchModalComponent } from '../../../common/account-search/account-search-modal.component';
+import { TaxCodeSearchModalComponent } from '../../../common/tax-codes-search/tax-code-search-modal.component';
+import { TaxCodeDto } from '@shared/service-proxies/service-proxies';
 
 /***
  * Component for accounting
  */
 @Component({
     selector: 'accountingCompanyTab',
-    templateUrl: './company-accounting-tab.component.html',
+    templateUrl: './company-accounting-tab.component.html'
 })
 export class AccountingCompanyTabComponent extends AppComponentBase implements OnInit {
     invoiceCutOffDaySelectItems: SelectItem[] = [
@@ -23,9 +25,19 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
         { label: 'Format 1', value: 'Format 1' },
         { label: 'Format 2', value: 'Format 2' },
     ];
+
+
     
     @ViewChild('accountSearchModal', { static: true })
     accountSearchModal: AccountSearchModalComponent;
+    @ViewChild('taxCodeSearchModal', { static: true })
+    taxCodeSearchModal: TaxCodeSearchModalComponent;
+
+    taxCode:string;
+
+    receiveMessage($event) {
+        this.taxCode = $event
+    }
 
     constructor(
         injector: Injector,
@@ -40,6 +52,7 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
      * Method that shows the account search modal
      */
      accountSearch(): void {
-        this.accountSearchModal.show();
+        //this.accountSearchModal.show();
+        this.taxCodeSearchModal.show();
     }
 }

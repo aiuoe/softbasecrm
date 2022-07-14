@@ -66,6 +66,8 @@
                                 <input
                                     type="text"
                                     class="form-control"
+                                    [(ngModel)]="taxCode"
+                                    name="taxCode"
                                     id="companyAccountingRetainedEarningsAccountInput"
                                 />
                                 <div class="input-group-append">
@@ -204,3 +206,4 @@
     </div>
 </div>
 <accountSearchModal #accountSearchModal></accountSearchModal>
+<taxCodeSearchModal #taxCodeSearchModal (messageEvent)="receiveMessage($event)"></taxCodeSearchModal>
