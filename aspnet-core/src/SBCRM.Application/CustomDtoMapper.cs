@@ -55,6 +55,8 @@ using Arterm = SBCRM.Core.BaseEntities.Arterm;
 using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Dto;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
+using Company = SBCRM.Core.BaseEntities.Company;
+using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
 using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
 using SBCRM.Modules.Common.ARTerms.Dto;
@@ -271,6 +273,9 @@ namespace SBCRM
             configuration.CreateMap<SalesTaxIntegration, AvalaraConnectionDataDto>();
             configuration.CreateMap<SalesTaxIntegration, SalesTaxIntegrationDto>().ReverseMap();
             configuration.CreateMap<Arterm, ARTermDto>();
+            configuration.CreateMap<GetCompanyDto, Company>().ReverseMap();
+            configuration.CreateMap<GetVerifyAddressQuery, GetVerifyAddressInputDto>().ReverseMap();
+            configuration.CreateMap<AddressDto, GetVerifyAddressQuery>().ReverseMap();
 
             #region [Administration mappings]
 

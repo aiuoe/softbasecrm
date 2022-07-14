@@ -10,7 +10,9 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     LeadUserUserLookupTableDto,
-    GetLeadForViewDto
+    GetLeadForViewDto,
+    CommonSettingsServiceProxy,
+    UpdateCommonSettingsInput
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -113,6 +115,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      */
     constructor(
         injector: Injector,
+        private _commonSettingsServiceProxy: CommonSettingsServiceProxy,
         private _leadsServiceProxy: LeadsServiceProxy,
         private _leadStatusesServiceProxy: LeadStatusesServiceProxy,
         private _prioritiesServiceProxy: PrioritiesServiceProxy,
@@ -166,7 +169,55 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     */
     delaySearchLeads = debounce(this.getLeads, AppConsts.SearchBarDelayMilliseconds);
 
+    /***
+     * Update Tenant Level  Settings
+     */
+    updateTenantLevelSettings() {
+        const updateCommonServiceInput = new UpdateCommonSettingsInput();
+        updateCommonServiceInput.settingName = "TenentLevelSettings";
+        updateCommonServiceInput.settingValue = "ChangedValue"+ Math.floor(1000 + Math.random() * 9000);
 
+        this._commonSettingsServiceProxy.updateTenentLevelSettings(updateCommonServiceInput).subscribe(() => {
+            this.getTenantLevelSettings();
+        })
+    }
+
+    /***
+     * Update User Level Settings
+     */
+     updateUserLevelSettings() {
+        const updateCommonServiceInput = new UpdateCommonSettingsInput();
+        updateCommonServiceInput.settingName = "UserLevelSettings";
+        updateCommonServiceInput.settingValue = "Changed Value"+ Math.floor(1000 + Math.random() * 9000);
+
+        this._commonSettingsServiceProxy.updateUserLevelSettings(updateCommonServiceInput).subscribe(() => {
+            this.getUserLevelSettings();
+        })
+    }
+
+    /***
+   * Get Application Level Settings
+   */
+    getApplicationLevelSettings() {
+        var defaultTenant = abp.setting.get("ApplicationLevelSettings");
+        console.log("Application Level Settings: " + defaultTenant);
+    }
+
+    /***
+    * Get Tenent Level Settings
+    */
+    getTenantLevelSettings() {
+        var defaultTenant = abp.setting.get("TenentLevelSettings");
+        console.log("Tenant Level Settings: " + defaultTenant);
+    }
+
+    /***
+   * Get User Level Settings
+   */
+    getUserLevelSettings() {
+        var defaultTenant = abp.setting.get("UserLevelSettings");
+        console.log("User Level Settings: " + defaultTenant);
+    }
     /***
      * Get leads on page load/filter changes
      * @param event
@@ -246,7 +297,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      */
     exportToExcel(): void {
 
-        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+        this.timeZone = this._dateTimeService.getLocalTimeZone();
 
         this._leadsServiceProxy
             .getLeadsToExcel(
@@ -350,7 +401,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
    * Opens modal to create an activity given an activity type for Schedule Call
    * @param activityType 
    */
-    createActivityScheduleCallHandler(idLeadToStore: string){
+    createActivityScheduleCallHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
@@ -360,7 +411,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Opens modal to create an activity given an activity type - for Schedule Meeting
      * @param activityType 
      */
-    createActivityScheduleMeetingHandler(idLeadToStore: string){
+    createActivityScheduleMeetingHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
@@ -370,7 +421,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Opens modal to create an activity given an activity type - for Email Reminder
      * @param activityType 
      */
-    createActivityEmailReminderHandler(idLeadToStore: string){
+    createActivityEmailReminderHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
@@ -380,9 +431,11 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      * Opens modal to create an activity given an activity type - for To-Do Reminder
      * @param activityType 
      */
-    createActivityToDoReminderHandler(idLeadToStore: string){
+    createActivityToDoReminderHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
     }
+
+
 }

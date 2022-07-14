@@ -31976,8 +31976,8 @@ namespace SBCRM.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool?>("Branch")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Branch")
+                        .HasColumnType("int");
 
                     b.Property<string>("ChangedBy")
                         .HasMaxLength(50)
@@ -32012,23 +32012,23 @@ namespace SBCRM.Migrations
                     b.Property<int?>("Elevation")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Group1")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Group1")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Group2")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Group2")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Group3")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Group3")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Group4")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Group4")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Group5")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Group5")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Group6")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Group6")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -32059,8 +32059,8 @@ namespace SBCRM.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("TimeZone")
-                        .HasColumnType("bit");
+                    b.Property<int?>("TimeZone")
+                        .HasColumnType("int");
 
                     b.Property<string>("ZipCode1")
                         .IsRequired()

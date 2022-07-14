@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
+   
     /// <summary>
     /// Implementation of SalesTaxIntegrationRepository
     /// </summary>
     public class SalesTaxIntegrationRepository : SBCRMRepositoryBase<SalesTaxIntegration, long>, ISalesTaxIntegrationRepository
     {
         private readonly SBCRMDbContext _dbContext;
+
+        public const string SOFTBASE_TAX_PROVIDER = "Softbase";
+
         public SalesTaxIntegrationRepository(IDbContextProvider<SBCRMDbContext> dbContextProvider) : base(dbContextProvider)
         {
             _dbContext = dbContextProvider.GetDbContext();
@@ -27,17 +31,23 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         /// <returns>AvalaraConnectionDataDto</returns>
         public async Task<AvalaraConnectionDataDto> GetAvalaraConnectionSettings()
         {
-            var result = await _dbContext.SalesTaxIntegrations.LastAsync();
-            return new AvalaraConnectionDataDto()
-            {
-                SalesTaxProvider = result.SalesTaxProvider,
-                AccountNumber = result.AccountNumber,
-                LicenseKey = result.LicenseKey,
-                ServiceUrl = result.ServiceUrl,
-                RequestTimeout = result.RequestTimeout
+            AvalaraConnectionDataDto result = null;
 
-            };
+            var salesTaxIntegration = await _dbContext.SalesTaxIntegrations.FirstOrDefaultAsync();
+            if (salesTaxIntegration != null)
+            {
+                result = new AvalaraConnectionDataDto
+                {
+                    SalesTaxProvider = salesTaxIntegration.SalesTaxProvider,
+                    AccountNumber = salesTaxIntegration.AccountNumber,
+                    LicenseKey = salesTaxIntegration.LicenseKey,
+                    ServiceUrl = salesTaxIntegration.ServiceUrl,
+                    RequestTimeout = salesTaxIntegration.RequestTimeout
+                };
+            }
+            return result;
         }
+
 
         /// <summary>
         /// Return if SalesTaxProvider is Softbase or not
@@ -46,7 +56,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         public async Task<bool> CheckUseDefaultTaxCodeCalc()
         {
             var result = await _dbContext.SalesTaxIntegrations.FirstAsync();
-            return result.SalesTaxProvider == "SoftBase";
+            return result.SalesTaxProvider.ToLower() != SOFTBASE_TAX_PROVIDER.ToLower();
         }
     }
 

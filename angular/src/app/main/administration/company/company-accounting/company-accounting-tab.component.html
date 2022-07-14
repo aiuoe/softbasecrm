@@ -5,16 +5,27 @@
                 <div class="form-body">
                     <div class="row mb-4">
                         <div class="col-lg-3 mt-8">
-                            <p-checkbox [label]="l('AccrueWIPEntries')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('AccrueWIPEntries')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyAccountingAccrueWIPEntriesCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-3 mt-lg-8">
-                            <p-checkbox [label]="l('IncludeWIPInARCreditLimitChecks')" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                            <p-checkbox
+                                [label]="l('IncludeWIPInARCreditLimitChecks')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyAccountingIncludeWIPInARCreditLimitChecksCheckbox"
+                            ></p-checkbox>
                         </div>
                         <div class="col-lg-6">
                             <label for="">{{ l('CurrentFiscalYearStarted') }}</label>
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyAccountingCurrentFiscalYearStartedInput"
                             />
                         </div>
                     </div>
@@ -25,6 +36,7 @@
                                 bsDatepicker
                                 placeholder="{{ 'InputCloseDate' | localize }}"
                                 class="form-control"
+                                id="companyAccountingCutOffDateBetweenDatepicker"
                             />
                         </div>
                         <div class="col-lg-6">
@@ -33,6 +45,7 @@
                                 bsDatepicker
                                 placeholder="{{ 'InputCloseDate' | localize }}"
                                 class="form-control"
+                                id="companyAccountingAndDatepicker"
                             />
                         </div>
                     </div>
@@ -44,6 +57,7 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companyAccountingInvoiceCutOffDayDropdown"
                             ></p-dropdown>
                         </div>
                         <div class="col-lg-6">
@@ -51,11 +65,13 @@
                             <div class="input-group">
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control"                                    
+                                    id="companyAccountingRetainedEarningsAccountInput"
                                 />
                                 <div class="input-group-append">
                                     <button
                                         class="btn btn-primary"
+                                        id="companyAccountingRetainedEarningsAccountBtn"
                                         (click)="accountSearch()"
                                     >
                                         <i class="flaticon-search-1"></i>
@@ -72,6 +88,7 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companyAccountingAPCheckFormatDropdown"
                             ></p-dropdown>
                         </div>
                         <div class="col-lg-6">
@@ -81,6 +98,7 @@
                                 [virtualScroll]="true"
                                 [itemSize]="30"
                                 [style]="{ width: '100%' }"
+                                id="companyAccountingCanadianDateFormatDropdown"
                             ></p-dropdown>
                         </div>
                     </div>
@@ -90,6 +108,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyAccountingNextControlNumberInput"
                             />
                         </div>
                         <div class="col-lg-6 text-right mt-8">
@@ -98,6 +117,7 @@
                                 routerLinkActive="active"
                                 ariaCurrentWhenActive="page"
                                 class="btn btn-primary blue text-white"
+                                id="companyAccountingAPChecksFormatEditorBtn"
                             >
                                 <i class="fa fa-money-check fa-lg"></i>
                                 {{ l('APChecksFormatEditor') }}
@@ -117,6 +137,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalPrefixJournalInput"
                             />
                         </div>
                         <div class="col-lg-2">
@@ -124,6 +145,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalPrefixCashPostInput"
                             />
                         </div>
                         <div class="col-lg-2">
@@ -131,6 +153,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalPrefixAPInvoiceInput"
                             />
                         </div>
                     </div>
@@ -142,6 +165,7 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalNextJournalNumberInput"
                             />
                         </div>
                     </div>
@@ -153,18 +177,21 @@
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalSuffixJournalInput"
                             />
                         </div>
                         <div class="col-lg-2">
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalSuffixCashPostInput"
                             />
                         </div>
                         <div class="col-lg-2">
                             <input
                                 type="text"
                                 class="form-control"
+                                id="companyNextJournalSuffixAPInvoiceInput"
                             />
                         </div>
                     </div>
@@ -177,3 +204,4 @@
     </div>
 </div>
 <accountSearchModal #accountSearchModal></accountSearchModal>
+
