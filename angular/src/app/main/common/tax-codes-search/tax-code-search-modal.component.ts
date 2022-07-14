@@ -16,12 +16,12 @@ import { finalize } from 'rxjs/operators';
     templateUrl: './tax-code-search-modal.component.html',
 })
 export class TaxCodeSearchModalComponent extends AppComponentBase implements OnInit {
-    @ViewChild('taxCodeSearchModal', {static: true}) modal: ModalDirective;
-    @ViewChild('dataTable', {static: true}) dataTable: Table;
-    @ViewChild('paginator', {static: true}) paginator: Paginator;
+    @ViewChild('taxCodeSearchModal', { static: true }) modal: ModalDirective;
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     @Output() messageEvent = new EventEmitter<string>();
-    selectedTaxCode: TaxCodeDto;
+    selectedTaxCodeData: TaxCodeDto;
     taxCodeTypeItems: TaxCodeTypeDto[];
     taxCodeType: string;
     partialTaxCode: string;
@@ -58,7 +58,6 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
             .subscribe((result) => {
                 this.taxCodeTypeItems = result;
             });
-        console.log(this.taxCodeTypeItems);
     }
 
     /***
@@ -67,10 +66,6 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
      * @param event
      */
     searchTaxCodes(event?: LazyLoadEvent) {
-        console.log(this.partialTaxCode);
-        console.log(this.taxCodeType);
-        console.log(this.parentTaxCode);
-        console.log(this.description);
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
@@ -93,6 +88,7 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
             });
     }
 
+    //** Reload the page with the next set of rows */
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
@@ -103,16 +99,19 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
         this.primengTableHelper.hideLoadingIndicator();
     }
 
+    //**Notifies that a tax code has been selected */
     onRowSelect(event) {
         this.selected = true;
     }
 
+    //**Notifies when there is no tax code selected */
     onRowUnselect(event) {
         this.selected = false;
     }
 
+    //** By clicking Okey Button notifies the parent of the tax code selected */
     taxCodeSelected(): void {
-        this.messageEvent.emit(this.selectedTaxCode.taxCode);
+        this.messageEvent.emit(this.selectedTaxCodeData.taxCode);
         this.modal.hide();
     }
 

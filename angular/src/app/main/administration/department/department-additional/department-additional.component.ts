@@ -17,11 +17,14 @@ export class DepartmentAdditionalComponent extends AppComponentBase implements O
   department: CreateOrEditDepartmentDto = new CreateOrEditDepartmentDto();
 
   @ViewChild('taxCodeSearchModal', { static: true })
-    taxCodeSearchModal: TaxCodeSearchModalComponent;
+  taxCodeSearchModal: TaxCodeSearchModalComponent;
+
+  taxCode: string;
+
 
   constructor(
     injector: Injector
-  ) { 
+  ) {
     super(injector);
   }
 
@@ -32,7 +35,14 @@ export class DepartmentAdditionalComponent extends AppComponentBase implements O
 
   }
 
-  searchTaxCode(): void{
+  //**Receives the tax code string from the Search Tax Code modal */
+  receiveMessage($event) {
+    this.taxCode = $event
+  }
+
+
+  //** Pulls up the Search Tax Codes Modal */
+  searchTaxCode(): void {
     this.taxCodeSearchModal.show();
   }
 }

@@ -46,9 +46,10 @@
                     <div class="form-group">
                         <label for="taxCodeOverride">{{ l('TaxCodeOverride') }}</label>
                         <div class="p-inputgroup">
-                            <input pInputText id="taxCodeOverride" name="taxCodeOverride" class="form-control">
+                            <input pInputText id="taxCodeOverride" name="taxCodeOverride" [(ngModel)]="taxCode"
+                                class="form-control">
                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary"
-                                (click)="searchAccount()"></button>
+                                (click)="searchTaxCode()"></button>
                         </div>
                     </div>
                 </div>
@@ -56,22 +57,28 @@
             <div class="col-md-12 d-flex px-0">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <p-checkbox [label]="l('RentalReoccur')" name="rentalReoccur" [(ngModel)]="department.allowPartsPricingOverride" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        <p-checkbox [label]="l('RentalReoccur')" name="rentalReoccur"
+                            [(ngModel)]="department.allowPartsPricingOverride" [binary]="true" labelStyleClass="mb-0">
+                        </p-checkbox>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <p-checkbox [label]="l('Taxable')" name="taxable" [(ngModel)]="department.suppressLaborHours" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        <p-checkbox [label]="l('Taxable')" name="taxable" [(ngModel)]="department.suppressLaborHours"
+                            [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <p-checkbox [label]="l('CalculateOnLaborOnly')" name="calculateOnLaborOnly" [(ngModel)]="department.taxAtDealer" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        <p-checkbox [label]="l('CalculateOnLaborOnly')" name="calculateOnLaborOnly"
+                            [(ngModel)]="department.taxAtDealer" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <p-checkbox [label]="l('CalculateOnPartsOnly')" name="calculateOnPartsOnly" [(ngModel)]="department.noCreditCardTransactions" [binary]="true" labelStyleClass="mb-0"></p-checkbox>
+                        <p-checkbox [label]="l('CalculateOnPartsOnly')" name="calculateOnPartsOnly"
+                            [(ngModel)]="department.noCreditCardTransactions" [binary]="true" labelStyleClass="mb-0">
+                        </p-checkbox>
                     </div>
                 </div>
             </div>
@@ -96,7 +103,8 @@
                     <div class="form-group">
                         <label for="taxCodeOverride">{{ l('AdditionalSaleAccount') }}</label>
                         <div class="p-inputgroup">
-                            <input pInputText id="additionalSaleAccount" name="additionalSaleAccount" class="form-control">
+                            <input pInputText id="additionalSaleAccount" name="additionalSaleAccount"
+                                class="form-control">
                             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-primary"
                                 (click)="searchTaxCode()"></button>
                         </div>
@@ -115,4 +123,4 @@
         </div>
     </div>
 </div>
-<!-- <taxCodeSearchModal #taxCodeSearchModal></taxCodeSearchModal> -->
+<taxCodeSearchModal #taxCodeSearchModal (messageEvent)="receiveMessage($event)"></taxCodeSearchModal>

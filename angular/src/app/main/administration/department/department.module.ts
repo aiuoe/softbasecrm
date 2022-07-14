@@ -29,7 +29,7 @@ import { TaxCodeSearchModalComponent } from '../../common/tax-codes-search/tax-c
     DepartmentQuoteComponent,
     DepartmentInvoiceComponent,
     DepartmentMobileComponent,
-    //TaxCodeSearchModalComponent
+    TaxCodeSearchModalComponent
   ],
   imports: [
     AppSharedModule,

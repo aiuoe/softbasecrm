@@ -17,7 +17,6 @@ import { PrintFieldsCompanyTabComponent } from './company-print-fields/company-p
 import { EquipmentCommentsCompanyTabComponent } from './company-equipment-comments/company-equipment-comments-tab.component';
 import { InvoiceCommentsCompanyTabComponent } from './company-invoice-comments/company-invoice-comments-tab.component';
 import { LogoCompanyTabComponent } from './company-logo/company-logo-tab.component';
-import { TaxCodeSearchModalComponent } from '../../common/tax-codes-search/tax-code-search-modal.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +32,6 @@ import { TaxCodeSearchModalComponent } from '../../common/tax-codes-search/tax-c
         EquipmentCommentsCompanyTabComponent,
         InvoiceCommentsCompanyTabComponent,
         LogoCompanyTabComponent,
-        TaxCodeSearchModalComponent
     ],
     imports: [
         AppSharedModule,

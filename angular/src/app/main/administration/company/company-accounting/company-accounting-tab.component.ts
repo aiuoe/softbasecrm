@@ -2,8 +2,6 @@ import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, ViewEncap
 import { SelectItem } from 'primeng/api';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AccountSearchModalComponent } from '../../../common/account-search/account-search-modal.component';
-import { TaxCodeSearchModalComponent } from '../../../common/tax-codes-search/tax-code-search-modal.component';
-import { TaxCodeDto } from '@shared/service-proxies/service-proxies';
 
 /***
  * Component for accounting
@@ -31,14 +29,6 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
 
     @ViewChild('accountSearchModal', { static: true })
     accountSearchModal: AccountSearchModalComponent;
-    @ViewChild('taxCodeSearchModal', { static: true })
-    taxCodeSearchModal: TaxCodeSearchModalComponent;
-
-    taxCode:string;
-
-    receiveMessage($event) {
-        this.taxCode = $event
-    }
 
     constructor(
         injector: Injector,
@@ -52,8 +42,7 @@ export class AccountingCompanyTabComponent extends AppComponentBase implements O
     /***
      * Method that shows the account search modal
      */
-     accountSearch(): void {
-        //this.accountSearchModal.show();
-        this.taxCodeSearchModal.show();
+    accountSearch(): void {
+        this.accountSearchModal.show();
     }
 }
