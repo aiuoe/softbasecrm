@@ -5,7 +5,7 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { SelectItem } from 'primeng/api';
 import { LazyLoadEvent } from 'primeng/api';
-import { ReadCommonShareServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ReadCommonShareServiceProxy, TaxCodeTypeDto } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 
 /***
@@ -20,18 +20,11 @@ export class TaxCodeSearchModalComponent extends AppComponentBase implements OnI
   @ViewChild('dataTable', { static: true }) dataTable: Table;
   @ViewChild('paginator', { static: true }) paginator: Paginator;
 
-  exmTaxCodeTypesSelectItems: SelectItem[] = [
-    { label: 'D-Digital', value: 'D' },
-    { label: 'F-Freight', value: 'F' },
-    { label: 'O-Other', value: 'O' },
-];
-
-filters: {
-  taxCodeType: string;
-  partialTaxCode: string;
-  parentTaxCode: string;
-  description: string;
-} = <any>{};
+taxCodeTypeItems: TaxCodeTypeDto[];
+taxCodeType: string;
+partialTaxCode: string;
+parentTaxCode: string;
+description: string;
 
   constructor(
     injector: Injector,
@@ -54,12 +47,27 @@ close(): void {
     this.modal.hide();
 }
 
+/**
+ * This methods gets the tax code types that Avalara has available
+ */
+getTaxCodeTypes(){
+this._taxCodesServiceProxy.getTaxCodeTypes()
+.subscribe((result) => {
+  this.taxCodeTypeItems = result;
+});
+console.log(this.taxCodeTypeItems);
+}
+
 /***
  * This method search the Api using the GetTaxCodes to look for Avalara Tax Codes
 * searchTaxCodes
 * @param event
 */
 searchTaxCodes(event?: LazyLoadEvent) {
+  console.log(this.partialTaxCode);
+  console.log(this.taxCodeType);
+  console.log(this.parentTaxCode);
+  console.log(this.description);
   if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;
@@ -70,10 +78,10 @@ searchTaxCodes(event?: LazyLoadEvent) {
   this._taxCodesServiceProxy.getTaxCodes(
   this.primengTableHelper.getSkipCount(this.paginator, event),
   this.primengTableHelper.getMaxResultCount(this.paginator, event),
-  this.filters.taxCodeType != undefined && this.filters.taxCodeType.length > 0 ? this.filters.taxCodeType : " ",
-  this.filters.partialTaxCode != undefined && this.filters.partialTaxCode.length > 0 ? this.filters.partialTaxCode : " ",
-  this.filters.parentTaxCode != undefined && this.filters.parentTaxCode.length > 0 ? this.filters.parentTaxCode : " ",
-  this.filters.description != undefined && this.filters.description.length > 0 ? this.filters.description : " ")
+  this.taxCodeType != undefined && this.taxCodeType.length > 0 ? this.taxCodeType : " ",
+  this.partialTaxCode != undefined && this.partialTaxCode.length > 0 ? this.partialTaxCode : " ",
+  this.parentTaxCode != undefined && this.parentTaxCode.length > 0 ? this.parentTaxCode : " ",
+  this.description != undefined && this.description.length > 0 ? this.description : " ")
   .pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator()))
   .subscribe((result) => {
       this.primengTableHelper.totalRecordsCount = result.totalCount;
@@ -87,6 +95,7 @@ reloadPage(): void {
 }
 
 ngOnInit(): void {
+    this.getTaxCodeTypes();
     this.primengTableHelper.showLoadingIndicator();
     this.primengTableHelper.hideLoadingIndicator();
 }
