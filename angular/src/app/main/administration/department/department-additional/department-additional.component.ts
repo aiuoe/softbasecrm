@@ -1,7 +1,8 @@
-import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { BranchLookupTableDto, CreateOrEditDepartmentDto } from '@shared/service-proxies/service-proxies';
+import { TaxCodeSearchModalComponent } from '../../../common/tax-codes-search/tax-code-search-modal.component';
 
 @Component({
   selector: 'app-department-additional',
@@ -15,9 +16,15 @@ export class DepartmentAdditionalComponent extends AppComponentBase implements O
   miscDescriptions: BranchLookupTableDto[]; // TODO
   department: CreateOrEditDepartmentDto = new CreateOrEditDepartmentDto();
 
+  @ViewChild('taxCodeSearchModal', { static: true })
+  taxCodeSearchModal: TaxCodeSearchModalComponent;
+
+  taxCode: string;
+
+
   constructor(
     injector: Injector
-  ) { 
+  ) {
     super(injector);
   }
 
@@ -26,5 +33,16 @@ export class DepartmentAdditionalComponent extends AppComponentBase implements O
 
   searchAccount(): void {
 
+  }
+
+  //**Receives the tax code string from the Search Tax Code modal */
+  receiveMessage($event) {
+    this.taxCode = $event
+  }
+
+
+  //** Pulls up the Search Tax Codes Modal */
+  searchTaxCode(): void {
+    this.taxCodeSearchModal.show();
   }
 }

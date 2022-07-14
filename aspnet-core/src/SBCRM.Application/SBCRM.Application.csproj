@@ -28,5 +28,6 @@
   <ItemGroup>
     <Folder Include="Modules\Accounting\ChartOfAccounts\Commands\" />
     <Folder Include="Modules\Accounting\ChartOfAccounts\Services\" />
+    <Folder Include="Modules\Common\Avalara\Commands\" />
   </ItemGroup>
 </Project>
