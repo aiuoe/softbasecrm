@@ -5,12 +5,12 @@
             <div class="col-6 form-group">
                 <label for="Branch_Email_PrintFinalCc">{{ l('PrintFinalCc') }}</label>
                 <input type="text" id="Branch_Email_PrintFinalCc" name="branchEmailPrintFinalCc" class="form-control"
-                    [placeholder]="l('PrintFinalCc')" [(ngModel)]="branchForEdit.printFinalCc" [disabled]="isViewMode" />
+                    [placeholder]="l('PrintFinalCc')" [(ngModel)]="upsertBranchDto.printFinalCc" [disabled]="isViewMode" />
             </div>
             <div class="col-6 form-group">
                 <label for="Branch_Email_PrintFinalBcc">{{ l('PrintFinalBcc') }}</label>
                 <input type="text" id="Branch_Email_PrintFinalBcc" name="branchEmailPrintFinalBcc" class="form-control"
-                    [placeholder]="l('PrintFinalBcc')" [(ngModel)]="branchForEdit.printFinalBcc" [disabled]="isViewMode" />
+                    [placeholder]="l('PrintFinalBcc')" [(ngModel)]="upsertBranchDto.printFinalBcc" [disabled]="isViewMode" />
             </div>
         </div>
     </div>

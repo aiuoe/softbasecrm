@@ -156,13 +156,13 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_Number">{{ l('Branch') }}</label>
                                 <input type="number" id="Branch_Number" name="branchNumber" class="form-control"
-                                    [placeholder]="l('Number')" [(ngModel)]="branchForEdit.number"
-                                    [disabled]="isViewMode()" />
+                                    [placeholder]="l('Number')" [(ngModel)]="upsertBranchDto.number"
+                                    [disabled]="[branchCrudModes.View, branchCrudModes.Edit].includes(activeCrudMode)" />
                             </div>
                             <div class="col-6 form-group">
                                 <label for="Branch_Name">{{ l('Name') }}</label>
                                 <input type="text" id="Branch_Name" name="branchName" class="form-control"
-                                    [placeholder]="l('Name')" [(ngModel)]="branchForEdit.name"
+                                    [placeholder]="l('Name')" [(ngModel)]="upsertBranchDto.name"
                                     [disabled]="isViewMode()" />
                             </div>
                         </div>
@@ -170,13 +170,13 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_SubName">{{ l('SubName') }}</label>
                                 <input type="text" id="Branch_SubName" name="branchSubName" class="form-control"
-                                    [placeholder]="l('SubName')" [(ngModel)]="branchForEdit.subName"
+                                    [placeholder]="l('SubName')" [(ngModel)]="upsertBranchDto.subName"
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 form-group">
                                 <label for="Branch_InvSubName">{{ l('InvSubName') }}</label>
                                 <input type="text" id="Branch_InvSubName" name="branchInvSubName" class="form-control"
-                                    [placeholder]="l('InvSubName')" [(ngModel)]="branchForEdit.smallSubName"
+                                    [placeholder]="l('InvSubName')" [(ngModel)]="upsertBranchDto.smallSubName"
                                     [disabled]="isViewMode()" />
                             </div>
                         </div>
@@ -184,25 +184,25 @@
                             <div class="col-3 form-group">
                                 <label for="Branch_Address">{{ l('Address') }}</label>
                                 <input type="text" id="Branch_Address" name="branchAddress" class="form-control"
-                                    [placeholder]="l('Address')" [(ngModel)]="branchForEdit.address"
+                                    [placeholder]="l('Address')" [(ngModel)]="upsertBranchDto.address"
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_City">{{ l('City') }}</label>
                                 <input type="text" id="Branch_City" name="branchCity" class="form-control"
-                                    [placeholder]="l('City')" [(ngModel)]="branchForEdit.city"
+                                    [placeholder]="l('City')" [(ngModel)]="upsertBranchDto.city"
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_State">{{ l('State') }}</label>
                                 <input type="text" id="Branch_State" name="branchState" class="form-control"
-                                    [placeholder]="l('State')" [(ngModel)]="branchForEdit.state"
+                                    [placeholder]="l('State')" [(ngModel)]="upsertBranchDto.state"
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_ZipCode">{{ l('ZipCode') }}</label>
                                 <input type="text" id="Branch_ZipCode" name="branchZipCode" class="form-control"
-                                    [placeholder]="l('ZipCode')" [(ngModel)]="branchForEdit.zipCode"
+                                    [placeholder]="l('ZipCode')" [(ngModel)]="upsertBranchDto.zipCode"
                                     (change)="zipCodeOnChange()" [disabled]="isViewMode()" />
                             </div>
                         </div>
@@ -210,14 +210,14 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_Country">{{ l('Country') }}</label>
                                 <p-dropdown id="Branch_Country" name="branchCountry" [placeholder]="l('SelectCountry')"
-                                    [(ngModel)]="branchForEdit.countryId" [options]="initialDropdownData.countries"
+                                    [(ngModel)]="upsertBranchDto.countryId" [options]="initialDropdownData.countries"
                                     optionValue="id" optionLabel="name" [showClear]="true" [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">
                                 <label for="Branch_Phone">{{ l('Phone') }}</label>
                                 <input type="text" id="Branch_Phone" name="branchPhone" class="form-control"
-                                    [placeholder]="l('Phone')" [(ngModel)]="branchForEdit.phone"
+                                    [placeholder]="l('Phone')" [(ngModel)]="upsertBranchDto.phone"
                                     [disabled]="isViewMode()" />
                             </div>
                         </div>
@@ -225,7 +225,7 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_Fax">{{ l('Fax') }}</label>
                                 <input type="text" id="Branch_Fax" name="branchFax" class="form-control"
-                                    [placeholder]="l('Fax')" [(ngModel)]="branchForEdit.fax"
+                                    [placeholder]="l('Fax')" [(ngModel)]="upsertBranchDto.fax"
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-between">
@@ -237,7 +237,7 @@
                                         name="acountsReceivableGLAccountNumber" class="form-control"
                                         [ngClass]="{'is-invalid': !isAccountNumberValid}"
                                         [placeholder]="l('AcountsReceivableGLAccountNumber')"
-                                        [(ngModel)]="branchForEdit.receivable"
+                                        [(ngModel)]="upsertBranchDto.receivable"
                                         (change)="acountsReceivableGLAccountNumberOnChange()"
                                         [disabled]="isViewMode()" />
                                 </div>
@@ -260,7 +260,7 @@
                                 <label for="Branch_ClarkDealerAccessCode">{{ l('ClarkDealerAccessCode') }}</label>
                                 <input type="text" id="Branch_ClarkDealerAccessCode" name="branchClarkDealerAccessCode"
                                     class="form-control" [placeholder]="l('ClarkDealerAccessCode')"
-                                    [(ngModel)]="branchForEdit.clarkDealerAccessCode" [disabled]="isViewMode()" />
+                                    [(ngModel)]="upsertBranchDto.clarkDealerAccessCode" [disabled]="isViewMode()" />
                             </div>
                         </div>
                         <div class="row">
@@ -268,19 +268,19 @@
                                 <label for="Branch_ClarkPartsCode">{{ l('ClarkPartsCode') }}</label>
                                 <input type="text" id="Branch_ClarkPartsCode" name="branchClarkPartsCode"
                                     class="form-control" [placeholder]="l('ClarkPartsCode')"
-                                    [(ngModel)]="branchForEdit.clarkPartsCode" [disabled]="isViewMode()" />
+                                    [(ngModel)]="upsertBranchDto.clarkPartsCode" [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_FedExShopId">{{ l('FedExShopId') }}</label>
                                 <input type="text" id="Branch_FedExShopId" name="branchFedExShopId" class="form-control"
-                                    [placeholder]="l('FedExShopId')" [(ngModel)]="branchForEdit.shopId"
+                                    [placeholder]="l('FedExShopId')" [(ngModel)]="upsertBranchDto.shopId"
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-3 form-group">
                                 <label for="Branch_FedExVendorId">{{ l('FedExVendorId') }}</label>
                                 <input type="text" id="Branch_FedExVendorId" name="branchFedExVendorId"
                                     class="form-control" [placeholder]="l('FedExVendorId')"
-                                    [(ngModel)]="branchForEdit.vendorId" [disabled]="isViewMode()" />
+                                    [(ngModel)]="upsertBranchDto.vendorId" [disabled]="isViewMode()" />
                             </div>
                         </div>
                         <div class="row">
@@ -288,7 +288,7 @@
                                 <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>
                                 <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
                                     [placeholder]="l('SelectDefaultWarehouse')"
-                                    [(ngModel)]="branchForEdit.defaultWarehouseId"
+                                    [(ngModel)]="upsertBranchDto.defaultWarehouseId"
                                     [options]="initialDropdownData.warehouses" optionValue="id" optionLabel="warehouse"
                                     [showClear]="true" [disabled]="isViewMode()">
                                 </p-dropdown>
@@ -370,30 +370,30 @@
             <div [class]="containerClass">
                 <tabset>
                     <tab heading="{{ l('TaxSetup') }}">
-                        <branchTaxSetup [taxCodes]="initialDropdownData.taxCodes" [(branchForEdit)]="branchForEdit"
+                        <branchTaxSetup [taxCodes]="initialDropdownData.taxCodes" [(upsertBranchDto)]="upsertBranchDto"
                             [isViewMode]="isViewMode()">
                         </branchTaxSetup>
                     </tab>
                     <tab heading="{{ l('TVH') }}">
-                        <branchTvh [(branchForEdit)]="branchForEdit" [countries]="initialDropdownData.countries"
+                        <branchTvh [(upsertBranchDto)]="upsertBranchDto" [countries]="initialDropdownData.countries"
                             [tvhWarehouses]="initialDropdownData.tvhWarehouses" [isViewMode]="isViewMode()"></branchTvh>
                     </tab>
                     <tab heading="{{ l('Finance') }}">
-                        <branchFinance [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()"></branchFinance>
+                        <branchFinance [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()"></branchFinance>
                     </tab>
                     <tab heading="{{ l('Email') }}">
-                        <branchEmail [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()"></branchEmail>
+                        <branchEmail [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()"></branchEmail>
                     </tab>
                     <tab heading="{{ l('LogoGraphic') }}">
-                        <branchLogoGraphic [(branchForEdit)]="branchForEdit" [isViewMode]="isViewMode()">
+                        <branchLogoGraphic [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()">
                         </branchLogoGraphic>
                     </tab>
                 </tabset>
             </div>
             <div class="mt-5" [class]="containerClass">
-                <p>{{ l('AddedBy') }} : {{ branchForEdit.creatorUserName ? branchForEdit.creatorUserName :
+                <p>{{ l('AddedBy') }} : {{ upsertBranchDto.creatorUserName ? upsertBranchDto.creatorUserName :
                     'Not Available' }} on {{ creationTime | date:'medium'}} </p>
-                <p>{{ l('ChangedBy') }} : {{ branchForEdit.lastModifierUserName ? branchForEdit.lastModifierUserName :
+                <p>{{ l('ChangedBy') }} : {{ upsertBranchDto.lastModifierUserName ? upsertBranchDto.lastModifierUserName :
                     'Not Available' }} on {{ lastModificationTime | date:'medium'}}
                 </p>
             </div>

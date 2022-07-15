@@ -64,7 +64,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
-        public async Task<BranchForEditDto> Get([FromRoute] long id)
+        public async Task<UpsertBranchDto> Get([FromRoute] long id)
         {
             return await _mediator.Send(new GetBranchByIdQuery(id));
         }
@@ -72,12 +72,13 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Create branch
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="dto"></param>
         /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<BranchForEditDto> Create([FromBody] CreateBranchCommand input)
+        public async Task<UpsertBranchDto> Create([FromBody] UpsertBranchDto dto)
         {
+            var input = ObjectMapper.Map<CreateBranchCommand>(dto);
             return await _mediator.Send(input);
         }
 
@@ -85,15 +86,16 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Update branch
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="input"></param>
+        /// <param name="dto"></param>
         /// <see cref="UpdateBranchCommandHandler"/>
         /// <returns></returns>
         [Route("{id}")]
         [HttpPut]
-        public async Task<BranchForEditDto> Update(
+        public async Task<UpsertBranchDto> Update(
             [FromRoute] long id,
-            [FromBody] UpdateBranchCommand input)
+            [FromBody] UpsertBranchDto dto)
         {
+            var input = ObjectMapper.Map<UpdateBranchCommand>(dto);
             input.Id = id;
             return await _mediator.Send(input);
         }

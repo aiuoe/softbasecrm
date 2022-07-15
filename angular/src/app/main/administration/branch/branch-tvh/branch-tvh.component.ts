@@ -1,6 +1,6 @@
 import { Component, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BranchForEditDto, CountryDto, TvhWarehouseLookupDto } from '@shared/service-proxies/service-proxies';
+import { CountryDto, TvhWarehouseLookupDto, UpsertBranchDto } from '@shared/service-proxies/service-proxies';
 
 /**
  * Sub component for branch tvh tab
@@ -13,7 +13,7 @@ import { BranchForEditDto, CountryDto, TvhWarehouseLookupDto } from '@shared/ser
 export class BranchTvhComponent extends AppComponentBase {
 
     @Input() isViewMode: boolean;
-    @Input() branchForEdit: BranchForEditDto;
+    @Input() upsertBranchDto: UpsertBranchDto;
     @Input() countries: CountryDto[] = [];
     @Input() tvhWarehouses: TvhWarehouseLookupDto[] = [];
 

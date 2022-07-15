@@ -9,7 +9,7 @@ namespace SBCRM.Modules.Administration.Branch.Commands
     /// <summary>
     /// Create branch command
     /// </summary>
-    public class CreateBranchCommand : IRequest<BranchForEditDto>, ICustomValidate
+    public class CreateBranchCommand : IRequest<UpsertBranchDto>, ICustomValidate
     {
         public short Number { get; set; }
         public string Name { get; set; }

@@ -14,7 +14,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Create branch command handler
     /// </summary>
-    public class CreateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<CreateBranchCommand, BranchForEditDto>
+    public class CreateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<CreateBranchCommand, UpsertBranchDto>
     {
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IBranchRepository _branchRepository;
@@ -62,7 +62,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<BranchForEditDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
+        public async Task<UpsertBranchDto> Handle(CreateBranchCommand command, CancellationToken cancellationToken)
         {
             using (_unitOfWorkManager.Current.DisableFilter(AbpDataFilters.SoftDelete))
             {
@@ -89,7 +89,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             branch.TenantId = 1;
 
             branch.Id = await _branchRepository.InsertAndGetIdAsync(branch);
-            var branchForEditDto = ObjectMapper.Map<BranchForEditDto>(branch);
+            var branchForEditDto = ObjectMapper.Map<UpsertBranchDto>(branch);
 
             branchForEditDto.DefaultWarehouseId = warehouse?.Id;
             branchForEditDto.TaxCodeId = taxCode?.Id;

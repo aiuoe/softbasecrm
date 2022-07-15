@@ -1,6 +1,6 @@
 import { Component, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BranchForEditDto } from '@shared/service-proxies/service-proxies';
+import { UpsertBranchDto } from '@shared/service-proxies/service-proxies';
 
 /**
  * Sub component for branch logo tab
@@ -13,7 +13,7 @@ import { BranchForEditDto } from '@shared/service-proxies/service-proxies';
 export class BranchLogoGraphicComponent extends AppComponentBase {
 
     @Input() isViewMode: boolean;
-    @Input() branchForEdit: BranchForEditDto;
+    @Input() upsertBranchDto: UpsertBranchDto;
     saving: boolean = false;
     logoGraphicFile: any;
 

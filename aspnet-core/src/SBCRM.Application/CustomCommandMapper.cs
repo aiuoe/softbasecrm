@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Branch = SBCRM.Core.BaseEntities.Branch;
 using SBCRM.Modules.Administration.Branch.Commands;
+using SBCRM.Modules.Administration.Branch.Dtos;
 
 namespace SBCRM
 {
@@ -9,6 +10,9 @@ namespace SBCRM
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
             #region [Branch mappings]
+
+            configuration.CreateMap<UpsertBranchDto, CreateBranchCommand>();
+                configuration.CreateMap<UpsertBranchDto, UpdateBranchCommand>();
 
             configuration.CreateMap<CreateBranchCommand, Branch>()
                 .ForMember(dto => dto.Country, opt => opt.MapFrom(a => a.CountryId))

@@ -2,7 +2,7 @@ import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BranchesServiceProxy, BranchForEditDto, GetTaxTabInitialDataDto, TaxCodeInBranchDto } from '@shared/service-proxies/service-proxies';
+import { BranchesServiceProxy, GetTaxTabInitialDataDto, TaxCodeInBranchDto, UpsertBranchDto } from '@shared/service-proxies/service-proxies';
 
 /**
  * Sub component for branch tax setup tab
@@ -16,7 +16,7 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
 
     @Input() isViewMode: boolean;
     @Input() taxCodes: TaxCodeInBranchDto[] = [];
-    @Input() branchForEdit: BranchForEditDto;
+    @Input() upsertBranchDto: UpsertBranchDto;
     destroy$ = new Subject();
     private hasInitialData = false;
 
@@ -30,7 +30,7 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.branchForEdit) {
+        if (changes.upsertBranchDto) {
             this.setTaxTabInitialData();
         }
     }

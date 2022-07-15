@@ -1,7 +1,7 @@
 import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BranchesServiceProxy, BranchForEditDto, IGetChartOfAccountDetailsDto } from '@shared/service-proxies/service-proxies';
+import { BranchesServiceProxy, UpsertBranchDto, IGetChartOfAccountDetailsDto } from '@shared/service-proxies/service-proxies';
 import { Subject } from 'rxjs';
 
 /**
@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
 export class BranchFinanceComponent extends AppComponentBase implements OnDestroy {
 
     @Input() isViewMode: boolean;
-    @Input() branchForEdit: BranchForEditDto;
+    @Input() upsertBranchDto: UpsertBranchDto;
     destroy$ = new Subject();
     isAccountNumberValid: boolean = true;
 
@@ -31,13 +31,13 @@ export class BranchFinanceComponent extends AppComponentBase implements OnDestro
     }
 
     creditCardDebitAccountNoOnKeyUp(): void {
-        if (this.branchForEdit.creditCardAccountNo) {
+        if (this.upsertBranchDto.creditCardAccountNo) {
             this.setAccountNumberValidity();
         }
     }
 
     private setAccountNumberValidity(): void {
-        this._branchesService.getChartOfAccountDetails(this.branchForEdit.creditCardAccountNo)
+        this._branchesService.getChartOfAccountDetails(this.upsertBranchDto.creditCardAccountNo)
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: IGetChartOfAccountDetailsDto) => {

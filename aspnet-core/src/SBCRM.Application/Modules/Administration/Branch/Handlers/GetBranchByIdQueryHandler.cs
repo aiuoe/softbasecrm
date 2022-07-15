@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Get branch data by id query handler
     /// </summary>
-    public class GetBranchByIdQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchByIdQuery, BranchForEditDto>
+    public class GetBranchByIdQueryHandler : UseCaseServiceBase, IRequestHandler<GetBranchByIdQuery, UpsertBranchDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IWarehouseRepository _warehouseRepository;
@@ -54,7 +54,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="query"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<BranchForEditDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
+        public async Task<UpsertBranchDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.GetAsync(query.Id);
             var warehouse = await _warehouseRepository.FirstOrDefaultAsync(x => x.WarehouseName == branch.DefaultWarehouse);
@@ -64,7 +64,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(x => x.TaxCode == branch.CountyTaxCode);
             var cityTaxCode = await _cityTaxCodeRepository.FirstOrDefaultAsync(x => x.TaxCode == branch.CityTaxCode);
 
-            var branchForEditDto= ObjectMapper.Map<BranchForEditDto>(branch);
+            var branchForEditDto= ObjectMapper.Map<UpsertBranchDto>(branch);
 
             branchForEditDto.DefaultWarehouseId = warehouse?.Id;
             branchForEditDto.TaxCodeId = taxCode?.Id;

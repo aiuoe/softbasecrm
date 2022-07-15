@@ -6,9 +6,9 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
-    BranchCurrencyTypeDto, BranchesServiceProxy, BranchForEditDto, BranchListItemDto, CreateBranchCommand, GetBranchInitialDataDto,
+    BranchCurrencyTypeDto, BranchesServiceProxy, UpsertBranchDto, BranchListItemDto, GetBranchInitialDataDto,
     IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand,
-    ReadCommonShareServiceProxy, UpdateBranchCommand
+    ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -40,7 +40,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchId: number;
     currencyTypeId: number;
     branchCurrencyType = new BranchCurrencyTypeDto();
-    branchForEdit = new BranchForEditDto();
+    upsertBranchDto = new UpsertBranchDto();
     initialDropdownData = new GetBranchInitialDataDto();
     isAccountNumberValid: boolean = true;
     selectedDate = new Date();
@@ -105,7 +105,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     itemDeleteOnClick(): void {
         if (this.branchId) {
-            this.deleteBranch(this.branchId, this.branchForEdit.name);
+            this.deleteBranch(this.branchId, this.upsertBranchDto.name);
         }
     }
 
@@ -183,8 +183,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     acountsReceivableGLAccountNumberOnChange(): void {
-        if (this.branchForEdit.receivable) {
-            this._branchesService.getChartOfAccountDetails(this.branchForEdit.receivable)
+        if (this.upsertBranchDto.receivable) {
+            this._branchesService.getChartOfAccountDetails(this.upsertBranchDto.receivable)
                 .pipe(
                     takeUntil(this.destroy$)
                 ).subscribe((x: IGetChartOfAccountDetailsDto) => {
@@ -194,14 +194,14 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     zipCodeOnChange(): void {
-        if (this.branchForEdit.zipCode) {
-            this._branchesService.getZipCodeDetails(this.branchForEdit.zipCode)
+        if (this.upsertBranchDto.zipCode) {
+            this._branchesService.getZipCodeDetails(this.upsertBranchDto.zipCode)
                 .pipe(
                     takeUntil(this.destroy$)
                 ).subscribe((x: IGetZipCodeDetailsDto) => {
                     if (!_isEmpty(x)) {
-                        this.branchForEdit.city = x.city;
-                        this.branchForEdit.state = x.state;
+                        this.upsertBranchDto.city = x.city;
+                        this.upsertBranchDto.state = x.state;
                     }
                 });
         }
@@ -209,7 +209,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     branchAccountsReceivablesOnChange(e: any): void {
         if (e.value) {
-            this.branchForEdit.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
+            this.upsertBranchDto.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
         }
     }
 
@@ -226,18 +226,17 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         this._branchesService.get(branchId)
             .pipe(
                 takeUntil(this.destroy$)
-            ).subscribe((x: BranchForEditDto) => {
-                this.branchForEdit = x;
-                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
+            ).subscribe((x: UpsertBranchDto) => {
+                this.upsertBranchDto = x;
+                this.selectedDate = this.upsertBranchDto.rentalDeliveryDefaultTime?.toJSDate();
             });
     }
 
     private addBranch(): void {
-        var requestBody = new CreateBranchCommand({ number: 1, ...this.branchForEdit });
-        this._branchesService.create(requestBody)
+        this._branchesService.create(this.upsertBranchDto)
             .pipe(
                 takeUntil(this.destroy$)
-            ).subscribe((x: BranchForEditDto) => {
+            ).subscribe((x: UpsertBranchDto) => {
                 this.activeCrudMode = BranchCrudModes.List;
                 this.paginator.changePage(this.paginator.getPage());
                 this.notifyService.success(this.l('SuccessfullyAdded'));
@@ -245,13 +244,12 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private updateBranch(): void {
-        var requestBody = new UpdateBranchCommand({ id: 1, ...this.branchForEdit });
-        this._branchesService.update(this.branchId, requestBody)
+        this._branchesService.update(this.branchId, this.upsertBranchDto)
             .pipe(
                 takeUntil(this.destroy$)
-            ).subscribe((x: BranchForEditDto) => {
-                this.branchForEdit = x;
-                this.selectedDate = this.branchForEdit.rentalDeliveryDefaultTime?.toJSDate();
+            ).subscribe((x: UpsertBranchDto) => {
+                this.upsertBranchDto = x;
+                this.selectedDate = this.upsertBranchDto.rentalDeliveryDefaultTime?.toJSDate();
                 this.notifyService.success(this.l('UpdateSuccessfully'));
             });
     }
@@ -265,7 +263,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
                     this.loading = true;
                     this._branchesService.delete(branchId).subscribe(() => {
                         this.branchCurrencyType = new BranchCurrencyTypeDto();
-                        this.branchForEdit = new BranchForEditDto();
+                        this.initBranch();
                         this.branchId = null;
                         this.currencyTypeId = null;
                         this.activeCrudMode = BranchCrudModes.List;
@@ -282,8 +280,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private initBranch(): void {
-        this.branchForEdit = new BranchForEditDto();
-        this.branchForEdit.init({});
+        this.upsertBranchDto = new UpsertBranchDto();
+        this.upsertBranchDto.init({});
     }
 
     private initActionButtons(): void {

@@ -4,10 +4,11 @@ using System;
 namespace SBCRM.Modules.Administration.Branch.Dtos
 {
     /// <summary>
-    /// DTO for branch edit
+    /// DTO for branch create or edit
     /// </summary>
-    public class BranchForEditDto : AuditDto
+    public class UpsertBranchDto : AuditDto
     {
+        public long Id { get; set; }
         public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }

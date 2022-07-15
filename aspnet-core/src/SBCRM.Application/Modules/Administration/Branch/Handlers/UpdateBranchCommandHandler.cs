@@ -10,7 +10,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     /// <summary>
     /// Update branch command handler
     /// </summary>
-    public class UpdateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<UpdateBranchCommand, BranchForEditDto>
+    public class UpdateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<UpdateBranchCommand, UpsertBranchDto>
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IWarehouseRepository _warehouseRepository;
@@ -54,7 +54,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<BranchForEditDto> Handle(UpdateBranchCommand command, CancellationToken cancellationToken)
+        public async Task<UpsertBranchDto> Handle(UpdateBranchCommand command, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.GetAsync(command.Id);
             var warehouse = await _warehouseRepository.FirstOrDefaultAsync(x => x.Id == command.DefaultWarehouseId);
@@ -73,7 +73,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             branch.CountyTaxCode = countyTaxCode?.TaxCode;
 
             await _branchRepository.UpdateAsync(branch);
-            var branchForEditDto = ObjectMapper.Map<BranchForEditDto>(branch);
+            var branchForEditDto = ObjectMapper.Map<UpsertBranchDto>(branch);
 
             branchForEditDto.DefaultWarehouseId = warehouse?.Id;
             branchForEditDto.TaxCodeId = taxCode?.Id;

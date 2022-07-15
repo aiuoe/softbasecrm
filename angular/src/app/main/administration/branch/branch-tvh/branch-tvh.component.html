@@ -4,26 +4,26 @@
             <div class="col-6 form-group">
                 <label for="Branch_TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
                 <input type="text" id="Branch_TVH_AccountNo" name="branchTvhAccountNo" class="form-control"
-                    [placeholder]="l('TVHAccountNo')" [(ngModel)]="branchForEdit.tvhAccountNo" [disabled]="isViewMode" />
+                    [placeholder]="l('TVHAccountNo')" [(ngModel)]="upsertBranchDto.tvhAccountNo" [disabled]="isViewMode" />
             </div>
             <div class="col-6 form-group">
                 <label for="Brancb_TVH_Key">{{ l('TVHKey') }}</label>
                 <input type="text" id="Brancb_TVH_Key" name="branchTvhKey" class="form-control"
-                    [placeholder]="l('TVHKey')" [(ngModel)]="branchForEdit.tvhKey" [disabled]="isViewMode" />
+                    [placeholder]="l('TVHKey')" [(ngModel)]="upsertBranchDto.tvhKey" [disabled]="isViewMode" />
             </div>
         </div>
         <div class="row">
             <div class="col-6 form-group">
                 <label for="Branch_TVH_Country">{{ l('Country') }}</label>
                 <p-dropdown id="Branch_TVH_Country" name="branchTvhCountry" [placeholder]="l('Country')"
-                    [(ngModel)]="branchForEdit.tvhCountryId" [options]="countries" optionValue="id" optionLabel="name"
+                    [(ngModel)]="upsertBranchDto.tvhCountryId" [options]="countries" optionValue="id" optionLabel="name"
                     [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
             <div class="col-6 form-group">
                 <label for="Branch_TVH_Warehouse">{{ l('Warehouse') }}</label>
                 <p-dropdown id="Branch_TVH_Warehouse" name="branchTvhWarehouse" [placeholder]="l('Warehouse')"
-                    [(ngModel)]="branchForEdit.tvhWarehouseId" [options]="tvhWarehouses" optionValue="key"
+                    [(ngModel)]="upsertBranchDto.tvhWarehouseId" [options]="tvhWarehouses" optionValue="key"
                     optionLabel="name" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>

@@ -4,12 +4,12 @@
             <div class="col-6 form-group">
                 <label for="Branch_Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
                 <input id="Branch_Finance_LogoGraphicFile" name="branchFinanceLogoGraphicFile" class="form-control"
-                    [disabled]="true" [placeholder]="l('LogoGraphicFile')" [(ngModel)]="branchForEdit.logoFile">
+                    [disabled]="true" [placeholder]="l('LogoGraphicFile')" [(ngModel)]="upsertBranchDto.logoFile">
             </div>
             <div class="col-3 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input id="Branch_LogoGraphic_UseGraphic" type="checkbox" name="UseGraphic"
-                        [(ngModel)]="branchForEdit.useImage" [disabled]="isViewMode" />
+                        [(ngModel)]="upsertBranchDto.useImage" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('UseGraphic') }}
                 </label>

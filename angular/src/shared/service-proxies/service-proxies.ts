@@ -5478,7 +5478,7 @@ export class BranchesServiceProxy {
     /**
      * @return Success
      */
-    get(id: number): Observable<BranchForEditDto> {
+    get(id: number): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Get/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -5500,14 +5500,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<BranchForEditDto>><any>_observableThrow(e);
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BranchForEditDto>><any>_observableThrow(response_);
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<BranchForEditDto> {
+    protected processGet(response: HttpResponseBase): Observable<UpsertBranchDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5518,7 +5518,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchForEditDto.fromJS(resultData200);
+            result200 = UpsertBranchDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5526,14 +5526,14 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BranchForEditDto>(<any>null);
+        return _observableOf<UpsertBranchDto>(<any>null);
     }
 
     /**
      * @param body (optional) 
      * @return Success
      */
-    create(body: CreateBranchCommand | undefined): Observable<BranchForEditDto> {
+    create(body: UpsertBranchDto | undefined): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5556,14 +5556,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<BranchForEditDto>><any>_observableThrow(e);
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BranchForEditDto>><any>_observableThrow(response_);
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<BranchForEditDto> {
+    protected processCreate(response: HttpResponseBase): Observable<UpsertBranchDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5574,7 +5574,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchForEditDto.fromJS(resultData200);
+            result200 = UpsertBranchDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5582,14 +5582,14 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BranchForEditDto>(<any>null);
+        return _observableOf<UpsertBranchDto>(<any>null);
     }
 
     /**
      * @param body (optional) 
      * @return Success
      */
-    update(id: number, body: UpdateBranchCommand | undefined): Observable<BranchForEditDto> {
+    update(id: number, body: UpsertBranchDto | undefined): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Update/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -5615,14 +5615,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processUpdate(<any>response_);
                 } catch (e) {
-                    return <Observable<BranchForEditDto>><any>_observableThrow(e);
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BranchForEditDto>><any>_observableThrow(response_);
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processUpdate(response: HttpResponseBase): Observable<BranchForEditDto> {
+    protected processUpdate(response: HttpResponseBase): Observable<UpsertBranchDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5633,7 +5633,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BranchForEditDto.fromJS(resultData200);
+            result200 = UpsertBranchDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5641,7 +5641,7 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BranchForEditDto>(<any>null);
+        return _observableOf<UpsertBranchDto>(<any>null);
     }
 
     /**
@@ -33930,242 +33930,6 @@ export interface IBranchForDepartmentDto {
     subName: string | undefined;
 }
 
-export class BranchForEditDto implements IBranchForEditDto {
-    number!: number;
-    name!: string | undefined;
-    subName!: string | undefined;
-    address!: string | undefined;
-    city!: string | undefined;
-    state!: string | undefined;
-    zipCode!: string | undefined;
-    countryId!: number | undefined;
-    phone!: string | undefined;
-    fax!: string | undefined;
-    receivable!: string | undefined;
-    financeCharge!: string | undefined;
-    financeRate!: number | undefined;
-    financeDays!: number | undefined;
-    stateTaxLabel!: string | undefined;
-    countyTaxLabel!: string | undefined;
-    showSplitSalesTax!: boolean | undefined;
-    cityTaxLabel!: string | undefined;
-    localTaxLabel!: string | undefined;
-    defaultWarehouseId!: number | undefined;
-    clarkPartsCode!: string | undefined;
-    clarkDealerAccessCode!: string | undefined;
-    useStateTaxCodeDescription!: boolean | undefined;
-    useCountyTaxCodeDescription!: boolean | undefined;
-    useCityTaxCodeDescription!: boolean | undefined;
-    useLocalTaxCodeDescription!: boolean | undefined;
-    rentalDeliveryDefaultTime!: DateTime | undefined;
-    stateTaxCodeId!: number | undefined;
-    countyTaxCodeId!: number | undefined;
-    cityTaxCodeId!: number | undefined;
-    localTaxCodeId!: number | undefined;
-    taxCodeId!: number | undefined;
-    useAbsoluteTaxCodes!: boolean | undefined;
-    smallSubName!: string | undefined;
-    shopId!: string | undefined;
-    image!: string | undefined;
-    useImage!: boolean | undefined;
-    logoFile!: string | undefined;
-    vendorId!: string | undefined;
-    printFinalCc!: string | undefined;
-    printFinalBcc!: string | undefined;
-    storeName!: string | undefined;
-    creditCardAccountNo!: string | undefined;
-    tvhAccountNo!: string | undefined;
-    tvhKey!: string | undefined;
-    tvhCountryId!: number | undefined;
-    tvhWarehouseId!: number | undefined;
-    creatorUserName!: string | undefined;
-    creationTime!: DateTime;
-    lastModifierUserName!: string | undefined;
-    lastModificationTime!: DateTime | undefined;
-
-    constructor(data?: IBranchForEditDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.number = _data["number"];
-            this.name = _data["name"];
-            this.subName = _data["subName"];
-            this.address = _data["address"];
-            this.city = _data["city"];
-            this.state = _data["state"];
-            this.zipCode = _data["zipCode"];
-            this.countryId = _data["countryId"];
-            this.phone = _data["phone"];
-            this.fax = _data["fax"];
-            this.receivable = _data["receivable"];
-            this.financeCharge = _data["financeCharge"];
-            this.financeRate = _data["financeRate"];
-            this.financeDays = _data["financeDays"];
-            this.stateTaxLabel = _data["stateTaxLabel"];
-            this.countyTaxLabel = _data["countyTaxLabel"];
-            this.showSplitSalesTax = _data["showSplitSalesTax"];
-            this.cityTaxLabel = _data["cityTaxLabel"];
-            this.localTaxLabel = _data["localTaxLabel"];
-            this.defaultWarehouseId = _data["defaultWarehouseId"];
-            this.clarkPartsCode = _data["clarkPartsCode"];
-            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
-            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
-            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
-            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
-            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
-            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
-            this.stateTaxCodeId = _data["stateTaxCodeId"];
-            this.countyTaxCodeId = _data["countyTaxCodeId"];
-            this.cityTaxCodeId = _data["cityTaxCodeId"];
-            this.localTaxCodeId = _data["localTaxCodeId"];
-            this.taxCodeId = _data["taxCodeId"];
-            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
-            this.smallSubName = _data["smallSubName"];
-            this.shopId = _data["shopId"];
-            this.image = _data["image"];
-            this.useImage = _data["useImage"];
-            this.logoFile = _data["logoFile"];
-            this.vendorId = _data["vendorId"];
-            this.printFinalCc = _data["printFinalCc"];
-            this.printFinalBcc = _data["printFinalBcc"];
-            this.storeName = _data["storeName"];
-            this.creditCardAccountNo = _data["creditCardAccountNo"];
-            this.tvhAccountNo = _data["tvhAccountNo"];
-            this.tvhKey = _data["tvhKey"];
-            this.tvhCountryId = _data["tvhCountryId"];
-            this.tvhWarehouseId = _data["tvhWarehouseId"];
-            this.creatorUserName = _data["creatorUserName"];
-            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifierUserName = _data["lastModifierUserName"];
-            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): BranchForEditDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new BranchForEditDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["number"] = this.number;
-        data["name"] = this.name;
-        data["subName"] = this.subName;
-        data["address"] = this.address;
-        data["city"] = this.city;
-        data["state"] = this.state;
-        data["zipCode"] = this.zipCode;
-        data["countryId"] = this.countryId;
-        data["phone"] = this.phone;
-        data["fax"] = this.fax;
-        data["receivable"] = this.receivable;
-        data["financeCharge"] = this.financeCharge;
-        data["financeRate"] = this.financeRate;
-        data["financeDays"] = this.financeDays;
-        data["stateTaxLabel"] = this.stateTaxLabel;
-        data["countyTaxLabel"] = this.countyTaxLabel;
-        data["showSplitSalesTax"] = this.showSplitSalesTax;
-        data["cityTaxLabel"] = this.cityTaxLabel;
-        data["localTaxLabel"] = this.localTaxLabel;
-        data["defaultWarehouseId"] = this.defaultWarehouseId;
-        data["clarkPartsCode"] = this.clarkPartsCode;
-        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
-        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
-        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
-        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
-        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
-        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
-        data["stateTaxCodeId"] = this.stateTaxCodeId;
-        data["countyTaxCodeId"] = this.countyTaxCodeId;
-        data["cityTaxCodeId"] = this.cityTaxCodeId;
-        data["localTaxCodeId"] = this.localTaxCodeId;
-        data["taxCodeId"] = this.taxCodeId;
-        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
-        data["smallSubName"] = this.smallSubName;
-        data["shopId"] = this.shopId;
-        data["image"] = this.image;
-        data["useImage"] = this.useImage;
-        data["logoFile"] = this.logoFile;
-        data["vendorId"] = this.vendorId;
-        data["printFinalCc"] = this.printFinalCc;
-        data["printFinalBcc"] = this.printFinalBcc;
-        data["storeName"] = this.storeName;
-        data["creditCardAccountNo"] = this.creditCardAccountNo;
-        data["tvhAccountNo"] = this.tvhAccountNo;
-        data["tvhKey"] = this.tvhKey;
-        data["tvhCountryId"] = this.tvhCountryId;
-        data["tvhWarehouseId"] = this.tvhWarehouseId;
-        data["creatorUserName"] = this.creatorUserName;
-        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
-        data["lastModifierUserName"] = this.lastModifierUserName;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IBranchForEditDto {
-    number: number;
-    name: string | undefined;
-    subName: string | undefined;
-    address: string | undefined;
-    city: string | undefined;
-    state: string | undefined;
-    zipCode: string | undefined;
-    countryId: number | undefined;
-    phone: string | undefined;
-    fax: string | undefined;
-    receivable: string | undefined;
-    financeCharge: string | undefined;
-    financeRate: number | undefined;
-    financeDays: number | undefined;
-    stateTaxLabel: string | undefined;
-    countyTaxLabel: string | undefined;
-    showSplitSalesTax: boolean | undefined;
-    cityTaxLabel: string | undefined;
-    localTaxLabel: string | undefined;
-    defaultWarehouseId: number | undefined;
-    clarkPartsCode: string | undefined;
-    clarkDealerAccessCode: string | undefined;
-    useStateTaxCodeDescription: boolean | undefined;
-    useCountyTaxCodeDescription: boolean | undefined;
-    useCityTaxCodeDescription: boolean | undefined;
-    useLocalTaxCodeDescription: boolean | undefined;
-    rentalDeliveryDefaultTime: DateTime | undefined;
-    stateTaxCodeId: number | undefined;
-    countyTaxCodeId: number | undefined;
-    cityTaxCodeId: number | undefined;
-    localTaxCodeId: number | undefined;
-    taxCodeId: number | undefined;
-    useAbsoluteTaxCodes: boolean | undefined;
-    smallSubName: string | undefined;
-    shopId: string | undefined;
-    image: string | undefined;
-    useImage: boolean | undefined;
-    logoFile: string | undefined;
-    vendorId: string | undefined;
-    printFinalCc: string | undefined;
-    printFinalBcc: string | undefined;
-    storeName: string | undefined;
-    creditCardAccountNo: string | undefined;
-    tvhAccountNo: string | undefined;
-    tvhKey: string | undefined;
-    tvhCountryId: number | undefined;
-    tvhWarehouseId: number | undefined;
-    creatorUserName: string | undefined;
-    creationTime: DateTime;
-    lastModifierUserName: string | undefined;
-    lastModificationTime: DateTime | undefined;
-}
-
 export class BranchListItemDto implements IBranchListItemDto {
     id!: number;
     number!: number;
@@ -35516,226 +35280,6 @@ export class CreateAdditionalChargesCommand implements ICreateAdditionalChargesC
 
 export interface ICreateAdditionalChargesCommand {
     additionalCharges: AdditionalChargeDto;
-}
-
-export class CreateBranchCommand implements ICreateBranchCommand {
-    number!: number;
-    name!: string | undefined;
-    subName!: string | undefined;
-    address!: string | undefined;
-    city!: string | undefined;
-    state!: string | undefined;
-    zipCode!: string | undefined;
-    countryId!: number | undefined;
-    phone!: string | undefined;
-    fax!: string | undefined;
-    receivable!: string | undefined;
-    financeCharge!: string | undefined;
-    financeRate!: number | undefined;
-    financeDays!: number | undefined;
-    stateTaxLabel!: string | undefined;
-    countyTaxLabel!: string | undefined;
-    showSplitSalesTax!: boolean | undefined;
-    cityTaxLabel!: string | undefined;
-    localTaxLabel!: string | undefined;
-    defaultWarehouseId!: number | undefined;
-    clarkPartsCode!: string | undefined;
-    clarkDealerAccessCode!: string | undefined;
-    useStateTaxCodeDescription!: boolean | undefined;
-    useCountyTaxCodeDescription!: boolean | undefined;
-    useCityTaxCodeDescription!: boolean | undefined;
-    useLocalTaxCodeDescription!: boolean | undefined;
-    rentalDeliveryDefaultTime!: DateTime | undefined;
-    stateTaxCodeId!: number | undefined;
-    countyTaxCodeId!: number | undefined;
-    cityTaxCodeId!: number | undefined;
-    localTaxCodeId!: number | undefined;
-    taxCodeId!: number | undefined;
-    useAbsoluteTaxCodes!: boolean | undefined;
-    smallSubName!: string | undefined;
-    shopId!: string | undefined;
-    image!: string | undefined;
-    useImage!: boolean | undefined;
-    logoFile!: string | undefined;
-    vendorId!: string | undefined;
-    printFinalCc!: string | undefined;
-    printFinalBcc!: string | undefined;
-    storeName!: string | undefined;
-    creditCardAccountNo!: string | undefined;
-    tvhAccountNo!: string | undefined;
-    tvhKey!: string | undefined;
-    tvhCountryId!: number | undefined;
-    tvhWarehouseId!: number | undefined;
-
-    constructor(data?: ICreateBranchCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.number = _data["number"];
-            this.name = _data["name"];
-            this.subName = _data["subName"];
-            this.address = _data["address"];
-            this.city = _data["city"];
-            this.state = _data["state"];
-            this.zipCode = _data["zipCode"];
-            this.countryId = _data["countryId"];
-            this.phone = _data["phone"];
-            this.fax = _data["fax"];
-            this.receivable = _data["receivable"];
-            this.financeCharge = _data["financeCharge"];
-            this.financeRate = _data["financeRate"];
-            this.financeDays = _data["financeDays"];
-            this.stateTaxLabel = _data["stateTaxLabel"];
-            this.countyTaxLabel = _data["countyTaxLabel"];
-            this.showSplitSalesTax = _data["showSplitSalesTax"];
-            this.cityTaxLabel = _data["cityTaxLabel"];
-            this.localTaxLabel = _data["localTaxLabel"];
-            this.defaultWarehouseId = _data["defaultWarehouseId"];
-            this.clarkPartsCode = _data["clarkPartsCode"];
-            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
-            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
-            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
-            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
-            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
-            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
-            this.stateTaxCodeId = _data["stateTaxCodeId"];
-            this.countyTaxCodeId = _data["countyTaxCodeId"];
-            this.cityTaxCodeId = _data["cityTaxCodeId"];
-            this.localTaxCodeId = _data["localTaxCodeId"];
-            this.taxCodeId = _data["taxCodeId"];
-            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
-            this.smallSubName = _data["smallSubName"];
-            this.shopId = _data["shopId"];
-            this.image = _data["image"];
-            this.useImage = _data["useImage"];
-            this.logoFile = _data["logoFile"];
-            this.vendorId = _data["vendorId"];
-            this.printFinalCc = _data["printFinalCc"];
-            this.printFinalBcc = _data["printFinalBcc"];
-            this.storeName = _data["storeName"];
-            this.creditCardAccountNo = _data["creditCardAccountNo"];
-            this.tvhAccountNo = _data["tvhAccountNo"];
-            this.tvhKey = _data["tvhKey"];
-            this.tvhCountryId = _data["tvhCountryId"];
-            this.tvhWarehouseId = _data["tvhWarehouseId"];
-        }
-    }
-
-    static fromJS(data: any): CreateBranchCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateBranchCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["number"] = this.number;
-        data["name"] = this.name;
-        data["subName"] = this.subName;
-        data["address"] = this.address;
-        data["city"] = this.city;
-        data["state"] = this.state;
-        data["zipCode"] = this.zipCode;
-        data["countryId"] = this.countryId;
-        data["phone"] = this.phone;
-        data["fax"] = this.fax;
-        data["receivable"] = this.receivable;
-        data["financeCharge"] = this.financeCharge;
-        data["financeRate"] = this.financeRate;
-        data["financeDays"] = this.financeDays;
-        data["stateTaxLabel"] = this.stateTaxLabel;
-        data["countyTaxLabel"] = this.countyTaxLabel;
-        data["showSplitSalesTax"] = this.showSplitSalesTax;
-        data["cityTaxLabel"] = this.cityTaxLabel;
-        data["localTaxLabel"] = this.localTaxLabel;
-        data["defaultWarehouseId"] = this.defaultWarehouseId;
-        data["clarkPartsCode"] = this.clarkPartsCode;
-        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
-        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
-        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
-        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
-        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
-        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
-        data["stateTaxCodeId"] = this.stateTaxCodeId;
-        data["countyTaxCodeId"] = this.countyTaxCodeId;
-        data["cityTaxCodeId"] = this.cityTaxCodeId;
-        data["localTaxCodeId"] = this.localTaxCodeId;
-        data["taxCodeId"] = this.taxCodeId;
-        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
-        data["smallSubName"] = this.smallSubName;
-        data["shopId"] = this.shopId;
-        data["image"] = this.image;
-        data["useImage"] = this.useImage;
-        data["logoFile"] = this.logoFile;
-        data["vendorId"] = this.vendorId;
-        data["printFinalCc"] = this.printFinalCc;
-        data["printFinalBcc"] = this.printFinalBcc;
-        data["storeName"] = this.storeName;
-        data["creditCardAccountNo"] = this.creditCardAccountNo;
-        data["tvhAccountNo"] = this.tvhAccountNo;
-        data["tvhKey"] = this.tvhKey;
-        data["tvhCountryId"] = this.tvhCountryId;
-        data["tvhWarehouseId"] = this.tvhWarehouseId;
-        return data; 
-    }
-}
-
-export interface ICreateBranchCommand {
-    number: number;
-    name: string | undefined;
-    subName: string | undefined;
-    address: string | undefined;
-    city: string | undefined;
-    state: string | undefined;
-    zipCode: string | undefined;
-    countryId: number | undefined;
-    phone: string | undefined;
-    fax: string | undefined;
-    receivable: string | undefined;
-    financeCharge: string | undefined;
-    financeRate: number | undefined;
-    financeDays: number | undefined;
-    stateTaxLabel: string | undefined;
-    countyTaxLabel: string | undefined;
-    showSplitSalesTax: boolean | undefined;
-    cityTaxLabel: string | undefined;
-    localTaxLabel: string | undefined;
-    defaultWarehouseId: number | undefined;
-    clarkPartsCode: string | undefined;
-    clarkDealerAccessCode: string | undefined;
-    useStateTaxCodeDescription: boolean | undefined;
-    useCountyTaxCodeDescription: boolean | undefined;
-    useCityTaxCodeDescription: boolean | undefined;
-    useLocalTaxCodeDescription: boolean | undefined;
-    rentalDeliveryDefaultTime: DateTime | undefined;
-    stateTaxCodeId: number | undefined;
-    countyTaxCodeId: number | undefined;
-    cityTaxCodeId: number | undefined;
-    localTaxCodeId: number | undefined;
-    taxCodeId: number | undefined;
-    useAbsoluteTaxCodes: boolean | undefined;
-    smallSubName: string | undefined;
-    shopId: string | undefined;
-    image: string | undefined;
-    useImage: boolean | undefined;
-    logoFile: string | undefined;
-    vendorId: string | undefined;
-    printFinalCc: string | undefined;
-    printFinalBcc: string | undefined;
-    storeName: string | undefined;
-    creditCardAccountNo: string | undefined;
-    tvhAccountNo: string | undefined;
-    tvhKey: string | undefined;
-    tvhCountryId: number | undefined;
-    tvhWarehouseId: number | undefined;
 }
 
 export class CreateCompanyCommand implements ICreateCompanyCommand {
@@ -56593,226 +56137,6 @@ export interface IUpdateAdditionalChargesCommand {
     id: number;
 }
 
-export class UpdateBranchCommand implements IUpdateBranchCommand {
-    id!: number;
-    name!: string | undefined;
-    subName!: string | undefined;
-    address!: string | undefined;
-    city!: string | undefined;
-    state!: string | undefined;
-    zipCode!: string | undefined;
-    countryId!: number | undefined;
-    phone!: string | undefined;
-    fax!: string | undefined;
-    receivable!: string | undefined;
-    financeCharge!: string | undefined;
-    financeRate!: number | undefined;
-    financeDays!: number | undefined;
-    stateTaxLabel!: string | undefined;
-    countyTaxLabel!: string | undefined;
-    showSplitSalesTax!: boolean | undefined;
-    cityTaxLabel!: string | undefined;
-    localTaxLabel!: string | undefined;
-    defaultWarehouseId!: number | undefined;
-    clarkPartsCode!: string | undefined;
-    clarkDealerAccessCode!: string | undefined;
-    useStateTaxCodeDescription!: boolean | undefined;
-    useCountyTaxCodeDescription!: boolean | undefined;
-    useCityTaxCodeDescription!: boolean | undefined;
-    useLocalTaxCodeDescription!: boolean | undefined;
-    rentalDeliveryDefaultTime!: DateTime | undefined;
-    stateTaxCodeId!: number | undefined;
-    countyTaxCodeId!: number | undefined;
-    cityTaxCodeId!: number | undefined;
-    localTaxCodeId!: number | undefined;
-    taxCodeId!: number | undefined;
-    useAbsoluteTaxCodes!: boolean | undefined;
-    smallSubName!: string | undefined;
-    shopId!: string | undefined;
-    image!: string | undefined;
-    useImage!: boolean | undefined;
-    logoFile!: string | undefined;
-    vendorId!: string | undefined;
-    printFinalCc!: string | undefined;
-    printFinalBcc!: string | undefined;
-    storeName!: string | undefined;
-    creditCardAccountNo!: string | undefined;
-    tvhAccountNo!: string | undefined;
-    tvhKey!: string | undefined;
-    tvhCountryId!: number | undefined;
-    tvhWarehouseId!: number | undefined;
-
-    constructor(data?: IUpdateBranchCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.subName = _data["subName"];
-            this.address = _data["address"];
-            this.city = _data["city"];
-            this.state = _data["state"];
-            this.zipCode = _data["zipCode"];
-            this.countryId = _data["countryId"];
-            this.phone = _data["phone"];
-            this.fax = _data["fax"];
-            this.receivable = _data["receivable"];
-            this.financeCharge = _data["financeCharge"];
-            this.financeRate = _data["financeRate"];
-            this.financeDays = _data["financeDays"];
-            this.stateTaxLabel = _data["stateTaxLabel"];
-            this.countyTaxLabel = _data["countyTaxLabel"];
-            this.showSplitSalesTax = _data["showSplitSalesTax"];
-            this.cityTaxLabel = _data["cityTaxLabel"];
-            this.localTaxLabel = _data["localTaxLabel"];
-            this.defaultWarehouseId = _data["defaultWarehouseId"];
-            this.clarkPartsCode = _data["clarkPartsCode"];
-            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
-            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
-            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
-            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
-            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
-            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
-            this.stateTaxCodeId = _data["stateTaxCodeId"];
-            this.countyTaxCodeId = _data["countyTaxCodeId"];
-            this.cityTaxCodeId = _data["cityTaxCodeId"];
-            this.localTaxCodeId = _data["localTaxCodeId"];
-            this.taxCodeId = _data["taxCodeId"];
-            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
-            this.smallSubName = _data["smallSubName"];
-            this.shopId = _data["shopId"];
-            this.image = _data["image"];
-            this.useImage = _data["useImage"];
-            this.logoFile = _data["logoFile"];
-            this.vendorId = _data["vendorId"];
-            this.printFinalCc = _data["printFinalCc"];
-            this.printFinalBcc = _data["printFinalBcc"];
-            this.storeName = _data["storeName"];
-            this.creditCardAccountNo = _data["creditCardAccountNo"];
-            this.tvhAccountNo = _data["tvhAccountNo"];
-            this.tvhKey = _data["tvhKey"];
-            this.tvhCountryId = _data["tvhCountryId"];
-            this.tvhWarehouseId = _data["tvhWarehouseId"];
-        }
-    }
-
-    static fromJS(data: any): UpdateBranchCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new UpdateBranchCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["subName"] = this.subName;
-        data["address"] = this.address;
-        data["city"] = this.city;
-        data["state"] = this.state;
-        data["zipCode"] = this.zipCode;
-        data["countryId"] = this.countryId;
-        data["phone"] = this.phone;
-        data["fax"] = this.fax;
-        data["receivable"] = this.receivable;
-        data["financeCharge"] = this.financeCharge;
-        data["financeRate"] = this.financeRate;
-        data["financeDays"] = this.financeDays;
-        data["stateTaxLabel"] = this.stateTaxLabel;
-        data["countyTaxLabel"] = this.countyTaxLabel;
-        data["showSplitSalesTax"] = this.showSplitSalesTax;
-        data["cityTaxLabel"] = this.cityTaxLabel;
-        data["localTaxLabel"] = this.localTaxLabel;
-        data["defaultWarehouseId"] = this.defaultWarehouseId;
-        data["clarkPartsCode"] = this.clarkPartsCode;
-        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
-        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
-        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
-        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
-        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
-        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
-        data["stateTaxCodeId"] = this.stateTaxCodeId;
-        data["countyTaxCodeId"] = this.countyTaxCodeId;
-        data["cityTaxCodeId"] = this.cityTaxCodeId;
-        data["localTaxCodeId"] = this.localTaxCodeId;
-        data["taxCodeId"] = this.taxCodeId;
-        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
-        data["smallSubName"] = this.smallSubName;
-        data["shopId"] = this.shopId;
-        data["image"] = this.image;
-        data["useImage"] = this.useImage;
-        data["logoFile"] = this.logoFile;
-        data["vendorId"] = this.vendorId;
-        data["printFinalCc"] = this.printFinalCc;
-        data["printFinalBcc"] = this.printFinalBcc;
-        data["storeName"] = this.storeName;
-        data["creditCardAccountNo"] = this.creditCardAccountNo;
-        data["tvhAccountNo"] = this.tvhAccountNo;
-        data["tvhKey"] = this.tvhKey;
-        data["tvhCountryId"] = this.tvhCountryId;
-        data["tvhWarehouseId"] = this.tvhWarehouseId;
-        return data; 
-    }
-}
-
-export interface IUpdateBranchCommand {
-    id: number;
-    name: string | undefined;
-    subName: string | undefined;
-    address: string | undefined;
-    city: string | undefined;
-    state: string | undefined;
-    zipCode: string | undefined;
-    countryId: number | undefined;
-    phone: string | undefined;
-    fax: string | undefined;
-    receivable: string | undefined;
-    financeCharge: string | undefined;
-    financeRate: number | undefined;
-    financeDays: number | undefined;
-    stateTaxLabel: string | undefined;
-    countyTaxLabel: string | undefined;
-    showSplitSalesTax: boolean | undefined;
-    cityTaxLabel: string | undefined;
-    localTaxLabel: string | undefined;
-    defaultWarehouseId: number | undefined;
-    clarkPartsCode: string | undefined;
-    clarkDealerAccessCode: string | undefined;
-    useStateTaxCodeDescription: boolean | undefined;
-    useCountyTaxCodeDescription: boolean | undefined;
-    useCityTaxCodeDescription: boolean | undefined;
-    useLocalTaxCodeDescription: boolean | undefined;
-    rentalDeliveryDefaultTime: DateTime | undefined;
-    stateTaxCodeId: number | undefined;
-    countyTaxCodeId: number | undefined;
-    cityTaxCodeId: number | undefined;
-    localTaxCodeId: number | undefined;
-    taxCodeId: number | undefined;
-    useAbsoluteTaxCodes: boolean | undefined;
-    smallSubName: string | undefined;
-    shopId: string | undefined;
-    image: string | undefined;
-    useImage: boolean | undefined;
-    logoFile: string | undefined;
-    vendorId: string | undefined;
-    printFinalCc: string | undefined;
-    printFinalBcc: string | undefined;
-    storeName: string | undefined;
-    creditCardAccountNo: string | undefined;
-    tvhAccountNo: string | undefined;
-    tvhKey: string | undefined;
-    tvhCountryId: number | undefined;
-    tvhWarehouseId: number | undefined;
-}
-
 export class UpdateCommonSettingsInput implements IUpdateCommonSettingsInput {
     settingName!: string;
     settingValue!: string;
@@ -57437,6 +56761,246 @@ export interface IUpdateUserSignInTokenOutput {
     signInToken: string | undefined;
     encodedUserId: string | undefined;
     encodedTenantId: string | undefined;
+}
+
+export class UpsertBranchDto implements IUpsertBranchDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    countryId!: number | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouseId!: number | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCodeId!: number | undefined;
+    countyTaxCodeId!: number | undefined;
+    cityTaxCodeId!: number | undefined;
+    localTaxCodeId!: number | undefined;
+    taxCodeId!: number | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.countryId = _data["countryId"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouseId = _data["defaultWarehouseId"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCodeId = _data["stateTaxCodeId"];
+            this.countyTaxCodeId = _data["countyTaxCodeId"];
+            this.cityTaxCodeId = _data["cityTaxCodeId"];
+            this.localTaxCodeId = _data["localTaxCodeId"];
+            this.taxCodeId = _data["taxCodeId"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["countryId"] = this.countryId;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouseId"] = this.defaultWarehouseId;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCodeId"] = this.stateTaxCodeId;
+        data["countyTaxCodeId"] = this.countyTaxCodeId;
+        data["cityTaxCodeId"] = this.cityTaxCodeId;
+        data["localTaxCodeId"] = this.localTaxCodeId;
+        data["taxCodeId"] = this.taxCodeId;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    countryId: number | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouseId: number | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCodeId: number | undefined;
+    countyTaxCodeId: number | undefined;
+    cityTaxCodeId: number | undefined;
+    localTaxCodeId: number | undefined;
+    taxCodeId: number | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
 }
 
 export class UserAssignedDto implements IUserAssignedDto {
