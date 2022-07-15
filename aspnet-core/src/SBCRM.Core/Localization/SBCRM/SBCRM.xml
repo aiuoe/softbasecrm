@@ -2,6 +2,7 @@
 
 <localizationDictionary culture="en">
 	<texts>
+		<text name="TenantHasNoIntegrationTaxSettings">Tenant has no tax integration settings defined</text>
 		<text name="Branches">Branches</text>
 		<text name="ViewCustomerAttachments">View Account Attachments on All Accounts</text>
 		<text name="ViewCustomerAttachments__Dynamic">View Account Attachments if user is assigned to the Account</text>
@@ -2167,6 +2168,14 @@
 		<text name="AccountSearch">Account Search</text>
 		<text name="AccountNumberSymbol">Account #</text>
 		<text name="Type">Type</text>
+		<!-- Common Components - Search Tax Codes -->
+		<text name="TaxCodeSearch">Tax Codes Search</text>
+		<text name="TaxCodeType">Tax Code Type</text>
+		<text name="PartialTaxCode">Partial Tax Code</text>
+		<text name="ParentTaxCode">Parent Tax Code</text>
+		<text name="PartialDescription">Partial Description</text>
+		<text name="TaxCodeDescription">Description</text>
+		<text name="SelectTaxType">Please select a tax type...</text>
 
 		<!-- Administration - Branch -->
 		<text name="BranchNumberUnique">Branch number needs to be unique</text>

@@ -26200,6 +26200,133 @@ export class ReadCommonShareServiceProxy {
         }
         return _observableOf<ARTermDto[]>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getTaxCodes(skip: number, max: number, taxCodeType: string, taxCode: string, parentTaxCode: string, description: string): Observable<PagedResultDtoOfTaxCodeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetTaxCodes/{skip}/{max}/{taxCodeType}/{taxCode}/{parentTaxCode}/{description}";
+        if (skip === undefined || skip === null)
+            throw new Error("The parameter 'skip' must be defined.");
+        url_ = url_.replace("{skip}", encodeURIComponent("" + skip));
+        if (max === undefined || max === null)
+            throw new Error("The parameter 'max' must be defined.");
+        url_ = url_.replace("{max}", encodeURIComponent("" + max));
+        if (taxCodeType === undefined || taxCodeType === null)
+            throw new Error("The parameter 'taxCodeType' must be defined.");
+        url_ = url_.replace("{taxCodeType}", encodeURIComponent("" + taxCodeType));
+        if (taxCode === undefined || taxCode === null)
+            throw new Error("The parameter 'taxCode' must be defined.");
+        url_ = url_.replace("{taxCode}", encodeURIComponent("" + taxCode));
+        if (parentTaxCode === undefined || parentTaxCode === null)
+            throw new Error("The parameter 'parentTaxCode' must be defined.");
+        url_ = url_.replace("{parentTaxCode}", encodeURIComponent("" + parentTaxCode));
+        if (description === undefined || description === null)
+            throw new Error("The parameter 'description' must be defined.");
+        url_ = url_.replace("{description}", encodeURIComponent("" + description));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTaxCodes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaxCodes(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfTaxCodeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfTaxCodeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTaxCodes(response: HttpResponseBase): Observable<PagedResultDtoOfTaxCodeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfTaxCodeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfTaxCodeDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTaxCodeTypes(): Observable<TaxCodeTypeDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetTaxCodeTypes";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTaxCodeTypes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaxCodeTypes(<any>response_);
+                } catch (e) {
+                    return <Observable<TaxCodeTypeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TaxCodeTypeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTaxCodeTypes(response: HttpResponseBase): Observable<TaxCodeTypeDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(TaxCodeTypeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TaxCodeTypeDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -52451,6 +52578,54 @@ export interface IPagedResultDtoOfSubscriptionPaymentListDto {
     items: SubscriptionPaymentListDto[] | undefined;
 }
 
+export class PagedResultDtoOfTaxCodeDto implements IPagedResultDtoOfTaxCodeDto {
+    totalCount!: number;
+    items!: TaxCodeDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfTaxCodeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(TaxCodeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfTaxCodeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfTaxCodeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfTaxCodeDto {
+    totalCount: number;
+    items: TaxCodeDto[] | undefined;
+}
+
 export class PagedResultDtoOfTenantListDto implements IPagedResultDtoOfTenantListDto {
     totalCount!: number;
     items!: TenantListDto[] | undefined;
@@ -54814,6 +54989,66 @@ export interface ISwitchToLinkedAccountOutput {
     tenancyName: string | undefined;
 }
 
+export class TaxCodeDto implements ITaxCodeDto {
+    id!: number;
+    companyId!: number;
+    taxCode!: string | undefined;
+    taxCodeTypeId!: string | undefined;
+    description!: string | undefined;
+    parentTaxCode!: string | undefined;
+    isActive!: boolean;
+
+    constructor(data?: ITaxCodeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.companyId = _data["companyId"];
+            this.taxCode = _data["taxCode"];
+            this.taxCodeTypeId = _data["taxCodeTypeId"];
+            this.description = _data["description"];
+            this.parentTaxCode = _data["parentTaxCode"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): TaxCodeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxCodeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["companyId"] = this.companyId;
+        data["taxCode"] = this.taxCode;
+        data["taxCodeTypeId"] = this.taxCodeTypeId;
+        data["description"] = this.description;
+        data["parentTaxCode"] = this.parentTaxCode;
+        data["isActive"] = this.isActive;
+        return data; 
+    }
+}
+
+export interface ITaxCodeDto {
+    id: number;
+    companyId: number;
+    taxCode: string | undefined;
+    taxCodeTypeId: string | undefined;
+    description: string | undefined;
+    parentTaxCode: string | undefined;
+    isActive: boolean;
+}
+
 export class TaxCodeInBranchDto implements ITaxCodeInBranchDto {
     id!: number;
     code!: string | undefined;
@@ -54852,6 +55087,46 @@ export class TaxCodeInBranchDto implements ITaxCodeInBranchDto {
 export interface ITaxCodeInBranchDto {
     id: number;
     code: string | undefined;
+}
+
+export class TaxCodeTypeDto implements ITaxCodeTypeDto {
+    type!: string | undefined;
+    description!: string | undefined;
+
+    constructor(data?: ITaxCodeTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.type = _data["type"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): TaxCodeTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxCodeTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["description"] = this.description;
+        return data; 
+    }
+}
+
+export interface ITaxCodeTypeDto {
+    type: string | undefined;
+    description: string | undefined;
 }
 
 export enum TenantAvailabilityState {
