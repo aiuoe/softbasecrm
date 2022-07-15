@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 using Abp.Domain.Uow;
 using Abp.UI;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
+using SBCRM.Blob;
 using SBCRM.Common;
+using SBCRM.Infrastructure.BlobStorage;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 
@@ -24,6 +25,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         private readonly ILocalTaxCodeRepository _localTaxCodeRepository;
         private readonly ICityTaxCodeRepository _cityTaxCodeRepository;
         private readonly ICountyTaxCodeRepository _countyTaxCodeRepository;
+        private readonly IApplicationStorageService _applicationStorageService;
 
         /// <summary>
         /// Base constructor
@@ -44,7 +46,8 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             IStateTaxCodeRepository stateTaxCodeRepository,
             ILocalTaxCodeRepository localTaxCodeRepository,
             ICityTaxCodeRepository cityTaxCodeRepository,
-            ICountyTaxCodeRepository countyTaxCodeRepository)
+            ICountyTaxCodeRepository countyTaxCodeRepository,
+            IApplicationStorageService applicationStorageService)
         {
             _unitOfWorkManager = unitOfWorkManager;
             _branchRepository = branchRepository;
@@ -54,6 +57,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             _localTaxCodeRepository = localTaxCodeRepository;
             _cityTaxCodeRepository = cityTaxCodeRepository;
             _countyTaxCodeRepository = countyTaxCodeRepository;
+            _applicationStorageService = applicationStorageService;
         }
 
         /// <summary>
@@ -78,6 +82,10 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.CountyTaxCodeId);
 
             var branch = ObjectMapper.Map<Core.BaseEntities.Branch>(command);
+            if (command.BinaryLogoFile is not null)
+            {
+                branch.Image = await _applicationStorageService.UploadBlobFile($"branches/{command.Number}", command.BinaryLogoFile, command.LogoFile, command.FileType);
+            }
             branch.DefaultWarehouse = warehouse?.WarehouseName;
             branch.TaxCode = taxCode?.Code;
             branch.StateTaxCode = stateTaxCode?.TaxCode;

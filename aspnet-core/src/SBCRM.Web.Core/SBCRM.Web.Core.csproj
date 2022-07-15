@@ -46,4 +46,7 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="5.0.10" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dto\Modules\Administration\" />
+  </ItemGroup>
 </Project>

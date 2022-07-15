@@ -5530,21 +5530,29 @@ export class BranchesServiceProxy {
     }
 
     /**
-     * @param body (optional) 
+     * @param upsertBranchDto (optional) 
+     * @param file (optional) 
      * @return Success
      */
-    create(body: UpsertBranchDto | undefined): Observable<UpsertBranchDto> {
+    create(upsertBranchDto: UpsertBranchDto2 | undefined, file: FileParameter | undefined): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (upsertBranchDto === null || upsertBranchDto === undefined)
+            throw new Error("The parameter 'upsertBranchDto' cannot be null.");
+        else
+            content_.append("UpsertBranchDto", JSON.stringify(upsertBranchDto));
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -5586,24 +5594,32 @@ export class BranchesServiceProxy {
     }
 
     /**
-     * @param body (optional) 
+     * @param upsertBranchDto (optional) 
+     * @param file (optional) 
      * @return Success
      */
-    update(id: number, body: UpsertBranchDto | undefined): Observable<UpsertBranchDto> {
+    update(id: number, upsertBranchDto: UpsertBranchDto3 | undefined, file: FileParameter | undefined): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Update/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (upsertBranchDto === null || upsertBranchDto === undefined)
+            throw new Error("The parameter 'upsertBranchDto' cannot be null.");
+        else
+            content_.append("UpsertBranchDto", JSON.stringify(upsertBranchDto));
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -56812,6 +56828,8 @@ export class UpsertBranchDto implements IUpsertBranchDto {
     tvhKey!: string | undefined;
     tvhCountryId!: number | undefined;
     tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    binaryLogoFile!: string | undefined;
     creatorUserName!: string | undefined;
     creationTime!: DateTime;
     lastModifierUserName!: string | undefined;
@@ -56876,6 +56894,8 @@ export class UpsertBranchDto implements IUpsertBranchDto {
             this.tvhKey = _data["tvhKey"];
             this.tvhCountryId = _data["tvhCountryId"];
             this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.binaryLogoFile = _data["binaryLogoFile"];
             this.creatorUserName = _data["creatorUserName"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.lastModifierUserName = _data["lastModifierUserName"];
@@ -56940,6 +56960,8 @@ export class UpsertBranchDto implements IUpsertBranchDto {
         data["tvhKey"] = this.tvhKey;
         data["tvhCountryId"] = this.tvhCountryId;
         data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["binaryLogoFile"] = this.binaryLogoFile;
         data["creatorUserName"] = this.creatorUserName;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["lastModifierUserName"] = this.lastModifierUserName;
@@ -56997,6 +57019,8 @@ export interface IUpsertBranchDto {
     tvhKey: string | undefined;
     tvhCountryId: number | undefined;
     tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    binaryLogoFile: string | undefined;
     creatorUserName: string | undefined;
     creationTime: DateTime;
     lastModifierUserName: string | undefined;
@@ -58100,6 +58124,502 @@ export interface IZipCodeDto {
     dateChanged: DateTime | undefined;
 }
 
+export class UpsertBranchDto2 implements IUpsertBranchDto2 {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    countryId!: number | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouseId!: number | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCodeId!: number | undefined;
+    countyTaxCodeId!: number | undefined;
+    cityTaxCodeId!: number | undefined;
+    localTaxCodeId!: number | undefined;
+    taxCodeId!: number | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    binaryLogoFile!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto2) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.countryId = _data["countryId"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouseId = _data["defaultWarehouseId"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCodeId = _data["stateTaxCodeId"];
+            this.countyTaxCodeId = _data["countyTaxCodeId"];
+            this.cityTaxCodeId = _data["cityTaxCodeId"];
+            this.localTaxCodeId = _data["localTaxCodeId"];
+            this.taxCodeId = _data["taxCodeId"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.binaryLogoFile = _data["binaryLogoFile"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto2 {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto2();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["countryId"] = this.countryId;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouseId"] = this.defaultWarehouseId;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCodeId"] = this.stateTaxCodeId;
+        data["countyTaxCodeId"] = this.countyTaxCodeId;
+        data["cityTaxCodeId"] = this.cityTaxCodeId;
+        data["localTaxCodeId"] = this.localTaxCodeId;
+        data["taxCodeId"] = this.taxCodeId;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["binaryLogoFile"] = this.binaryLogoFile;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto2 {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    countryId: number | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouseId: number | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCodeId: number | undefined;
+    countyTaxCodeId: number | undefined;
+    cityTaxCodeId: number | undefined;
+    localTaxCodeId: number | undefined;
+    taxCodeId: number | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    binaryLogoFile: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
+export class UpsertBranchDto3 implements IUpsertBranchDto3 {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    countryId!: number | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouseId!: number | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCodeId!: number | undefined;
+    countyTaxCodeId!: number | undefined;
+    cityTaxCodeId!: number | undefined;
+    localTaxCodeId!: number | undefined;
+    taxCodeId!: number | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    binaryLogoFile!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto3) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.countryId = _data["countryId"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouseId = _data["defaultWarehouseId"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCodeId = _data["stateTaxCodeId"];
+            this.countyTaxCodeId = _data["countyTaxCodeId"];
+            this.cityTaxCodeId = _data["cityTaxCodeId"];
+            this.localTaxCodeId = _data["localTaxCodeId"];
+            this.taxCodeId = _data["taxCodeId"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.binaryLogoFile = _data["binaryLogoFile"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto3 {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto3();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["countryId"] = this.countryId;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouseId"] = this.defaultWarehouseId;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCodeId"] = this.stateTaxCodeId;
+        data["countyTaxCodeId"] = this.countyTaxCodeId;
+        data["cityTaxCodeId"] = this.cityTaxCodeId;
+        data["localTaxCodeId"] = this.localTaxCodeId;
+        data["taxCodeId"] = this.taxCodeId;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["binaryLogoFile"] = this.binaryLogoFile;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto3 {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    countryId: number | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouseId: number | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCodeId: number | undefined;
+    countyTaxCodeId: number | undefined;
+    cityTaxCodeId: number | undefined;
+    localTaxCodeId: number | undefined;
+    taxCodeId: number | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    binaryLogoFile: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
 export class AdditionalData implements IAdditionalData {
     paypal!: { [key: string]: string; };
     stripe!: { [key: string]: string; };
@@ -58162,6 +58682,11 @@ export class AdditionalData implements IAdditionalData {
 export interface IAdditionalData {
     paypal: { [key: string]: string; };
     stripe: { [key: string]: string; };
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

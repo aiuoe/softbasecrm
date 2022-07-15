@@ -11,6 +11,7 @@ namespace SBCRM.Modules.Administration.Branch.Commands
     /// </summary>
     public class CreateBranchCommand : IRequest<UpsertBranchDto>, ICustomValidate
     {
+      //  public long Id { get; set; }
         public short Number { get; set; }
         public string Name { get; set; }
         public string SubName { get; set; }
@@ -58,6 +59,9 @@ namespace SBCRM.Modules.Administration.Branch.Commands
         public string TvhKey { get; set; }
         public long? TvhCountryId { get; set; }
         public long? TvhWarehouseId { get; set; }
+        public string FileType { get; set; }
+        public byte[] BinaryLogoFile { get; set; }
+
 
         /// <summary>
         /// Validation command

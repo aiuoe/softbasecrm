@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using SBCRM.Base;
+using SBCRM.Blob;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 
@@ -19,6 +20,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         private readonly ILocalTaxCodeRepository _localTaxCodeRepository;
         private readonly ICityTaxCodeRepository _cityTaxCodeRepository;
         private readonly ICountyTaxCodeRepository _countyTaxCodeRepository;
+        private readonly IApplicationStorageService _applicationStorageService;
 
         /// <summary>
         /// Base constructor
@@ -37,7 +39,8 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             IStateTaxCodeRepository stateTaxCodeRepository,
             ILocalTaxCodeRepository localTaxCodeRepository,
             ICityTaxCodeRepository cityTaxCodeRepository,
-            ICountyTaxCodeRepository countyTaxCodeRepository)
+            ICountyTaxCodeRepository countyTaxCodeRepository,
+            IApplicationStorageService applicationStorageService)
         {
             _branchRepository = branchRepository;
             _warehouseRepository = warehouseRepository;
@@ -46,6 +49,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             _localTaxCodeRepository = localTaxCodeRepository;
             _cityTaxCodeRepository = cityTaxCodeRepository;
             _countyTaxCodeRepository = countyTaxCodeRepository;
+            _applicationStorageService = applicationStorageService;
         }
 
         /// <summary>
@@ -65,6 +69,10 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.CountyTaxCodeId);
 
             ObjectMapper.Map(command, branch);
+            if (command.BinaryLogoFile is not null)
+            {
+                branch.Image = await _applicationStorageService.UploadBlobFile("Branches", command.BinaryLogoFile, command.LogoFile, command.FileType);
+            }
             branch.DefaultWarehouse = warehouse?.WarehouseName;
             branch.TaxCode = taxCode?.Code;
             branch.StateTaxCode = stateTaxCode?.TaxCode;

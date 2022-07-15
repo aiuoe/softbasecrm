@@ -8,7 +8,8 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 import {
     BranchCurrencyTypeDto, BranchesServiceProxy, UpsertBranchDto, BranchListItemDto, GetBranchInitialDataDto,
     IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand,
-    ReadCommonShareServiceProxy
+    ReadCommonShareServiceProxy,
+    FileParameter
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -42,6 +43,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchCurrencyType = new BranchCurrencyTypeDto();
     upsertBranchDto = new UpsertBranchDto();
     initialDropdownData = new GetBranchInitialDataDto();
+
+    createBranchCommand: any;
+    logoFile: File = null;
+
     isAccountNumberValid: boolean = true;
     selectedDate = new Date();
     creationTime = new Date();
@@ -233,7 +238,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private addBranch(): void {
-        this._branchesService.create(this.upsertBranchDto)
+        let fileParameter: FileParameter = { data: this.logoFile, fileName: this.logoFile.name };
+        this._branchesService.create(this.upsertBranchDto, fileParameter)
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
@@ -244,7 +250,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private updateBranch(): void {
-        this._branchesService.update(this.branchId, this.upsertBranchDto)
+        let fileParameter: FileParameter = { data: this.logoFile, fileName: this.logoFile.name };
+        this._branchesService.update(this.upsertBranchDto.id, this.upsertBranchDto, fileParameter)
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
@@ -292,6 +299,10 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             { name: this.l('Cancel'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.cancelOnClick() },
             { name: this.l('Close'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.List, BranchCrudModes.View], action: () => this.cancelOnClick() },
         ];
+    }
+
+    onChangeFile(event: File) {
+        this.logoFile = event;
     }
 }
 

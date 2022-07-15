@@ -56,5 +56,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string TvhKey { get; set; }
         public long? TvhCountryId { get; set; }
         public long? TvhWarehouseId { get; set; }
+        public string FileType { get; set; }
+        public byte[] BinaryLogoFile { get; set; }
     }
 }

@@ -13,6 +13,8 @@ using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
 using SBCRM.Modules.Administration.Branch.Queries;
+using SBCRM.Web.Common;
+using SBCRM.Web.Dto.Modules.Administration;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {
@@ -76,10 +78,14 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UpsertBranchDto> Create([FromBody] UpsertBranchDto dto)
+        [Consumes("multipart/form-data")]
+        public async Task<UpsertBranchDto> Create([FromForm] UpsertBranchWrapperDto input)
         {
-            var input = ObjectMapper.Map<CreateBranchCommand>(dto);
-            return await _mediator.Send(input);
+            var createBranchCommand = ObjectMapper.Map<CreateBranchCommand>(input.UpsertBranchDto);
+            createBranchCommand.FileType = input.File.ContentType;
+            createBranchCommand.LogoFile = input.File.FileName;
+            createBranchCommand.BinaryLogoFile = await input.File.GetBytes();
+            return await _mediator.Send(createBranchCommand);
         }
 
         /// <summary>
@@ -91,13 +97,17 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <returns></returns>
         [Route("{id}")]
         [HttpPut]
+        [Consumes("multipart/form-data")]
         public async Task<UpsertBranchDto> Update(
             [FromRoute] long id,
-            [FromBody] UpsertBranchDto dto)
+            [FromForm] UpsertBranchWrapperDto input)
         {
-            var input = ObjectMapper.Map<UpdateBranchCommand>(dto);
-            input.Id = id;
-            return await _mediator.Send(input);
+            var updateBranchCommand = ObjectMapper.Map<UpdateBranchCommand>(input.UpsertBranchDto);
+            updateBranchCommand.Id = id;
+            updateBranchCommand.FileType = input.File.ContentType;
+            updateBranchCommand.LogoFile = input.File.FileName;
+            updateBranchCommand.BinaryLogoFile = await input.File.GetBytes();
+            return await _mediator.Send(updateBranchCommand);
         }
 
         /// <summary>

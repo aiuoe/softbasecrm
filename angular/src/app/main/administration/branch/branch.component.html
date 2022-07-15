@@ -356,10 +356,10 @@
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-end">
-                                <button (click)="deleteBranchCurrencyType()" class="btn btn-primary">
+                                <button (click)="deleteBranchCurrencyType()" class="btn btn-primary" [disabled]="isViewMode()" >
                                     <span>{{ l('Delete') }}</span>
                                 </button>
-                                <button (click)="updateBranchCurrencyType()" class="btn btn-primary">
+                                <button (click)="updateBranchCurrencyType()" class="btn btn-primary" [disabled]="isViewMode()" >
                                     <span>{{ l('Update') }}</span>
                                 </button>
                             </div>
@@ -385,16 +385,17 @@
                         <branchEmail [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()"></branchEmail>
                     </tab>
                     <tab heading="{{ l('LogoGraphic') }}">
-                        <branchLogoGraphic [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()">
+                        <branchLogoGraphic [(upsertBranchDto)]="upsertBranchDto" (fileChanged)="onChangeFile($event)" 
+                            [isViewMode]="isViewMode()">
                         </branchLogoGraphic>
                     </tab>
                 </tabset>
             </div>
             <div class="mt-5" [class]="containerClass">
                 <p>{{ l('AddedBy') }} : {{ upsertBranchDto.creatorUserName ? upsertBranchDto.creatorUserName :
-                    'Not Available' }} on {{ creationTime | date:'medium'}} </p>
+                    '       ' }} on {{ creationTime | date:'medium'}} </p>
                 <p>{{ l('ChangedBy') }} : {{ upsertBranchDto.lastModifierUserName ? upsertBranchDto.lastModifierUserName :
-                    'Not Available' }} on {{ lastModificationTime | date:'medium'}}
+                    '       ' }} on {{ lastModificationTime | date:'medium'}}
                 </p>
             </div>
         </ng-container>
