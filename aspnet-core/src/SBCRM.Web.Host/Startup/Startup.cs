@@ -83,6 +83,8 @@ namespace SBCRM.Web.Startup
 
             services.AddMediatR(typeof(SBCRMApplicationModule).Assembly);
 
+            services.AddApplicationInsightsTelemetry();
+
             services.AddApiVersioning();
 
             services.AddSingleton<IConfiguration>(_appConfiguration);
