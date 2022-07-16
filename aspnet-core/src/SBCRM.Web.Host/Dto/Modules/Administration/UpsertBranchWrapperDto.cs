@@ -8,6 +8,6 @@ namespace SBCRM.Web.Dto.Modules.Administration
     {
         [FromJson]
         public UpsertBranchDto UpsertBranchDto { get; set; }
-        public IFormFile? File { get; set; }
+        public IFormFile File { get; set; }
     }
 }

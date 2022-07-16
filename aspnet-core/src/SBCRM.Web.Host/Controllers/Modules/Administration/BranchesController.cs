@@ -74,7 +74,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <summary>
         /// Create branch
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="input"></param>
         /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
@@ -82,9 +82,9 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         public async Task<UpsertBranchDto> Create([FromForm] UpsertBranchWrapperDto input)
         {
             var createBranchCommand = ObjectMapper.Map<CreateBranchCommand>(input.UpsertBranchDto);
+            createBranchCommand.BinaryLogoFile = await input.File.GetBytes();
             createBranchCommand.FileType = input.File.ContentType;
             createBranchCommand.LogoFile = input.File.FileName;
-            createBranchCommand.BinaryLogoFile = await input.File.GetBytes();
             return await _mediator.Send(createBranchCommand);
         }
 
@@ -92,7 +92,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// Update branch
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="dto"></param>
+        /// <param name="input"></param>
         /// <see cref="UpdateBranchCommandHandler"/>
         /// <returns></returns>
         [Route("{id}")]
@@ -104,9 +104,9 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         {
             var updateBranchCommand = ObjectMapper.Map<UpdateBranchCommand>(input.UpsertBranchDto);
             updateBranchCommand.Id = id;
+            updateBranchCommand.BinaryLogoFile = await input.File.GetBytes();
             updateBranchCommand.FileType = input.File.ContentType;
             updateBranchCommand.LogoFile = input.File.FileName;
-            updateBranchCommand.BinaryLogoFile = await input.File.GetBytes();
             return await _mediator.Send(updateBranchCommand);
         }
 

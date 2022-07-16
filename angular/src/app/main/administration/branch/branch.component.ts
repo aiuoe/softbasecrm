@@ -238,8 +238,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private addBranch(): void {
-        let fileParameter: FileParameter = { data: this.logoFile, fileName: this.logoFile.name };
-        this._branchesService.create(this.upsertBranchDto, fileParameter)
+        this._branchesService.create(this.upsertBranchDto, this.getFileParameterFromFile(this.logoFile))
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
@@ -250,8 +249,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     private updateBranch(): void {
-        let fileParameter: FileParameter = { data: this.logoFile, fileName: this.logoFile.name };
-        this._branchesService.update(this.upsertBranchDto.id, this.upsertBranchDto, fileParameter)
+        this._branchesService.update(this.upsertBranchDto.id, this.upsertBranchDto, this.getFileParameterFromFile(this.logoFile))
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {

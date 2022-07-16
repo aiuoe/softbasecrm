@@ -56829,7 +56829,6 @@ export class UpsertBranchDto implements IUpsertBranchDto {
     tvhCountryId!: number | undefined;
     tvhWarehouseId!: number | undefined;
     fileType!: string | undefined;
-    binaryLogoFile!: string | undefined;
     creatorUserName!: string | undefined;
     creationTime!: DateTime;
     lastModifierUserName!: string | undefined;
@@ -56895,7 +56894,6 @@ export class UpsertBranchDto implements IUpsertBranchDto {
             this.tvhCountryId = _data["tvhCountryId"];
             this.tvhWarehouseId = _data["tvhWarehouseId"];
             this.fileType = _data["fileType"];
-            this.binaryLogoFile = _data["binaryLogoFile"];
             this.creatorUserName = _data["creatorUserName"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.lastModifierUserName = _data["lastModifierUserName"];
@@ -56961,7 +56959,6 @@ export class UpsertBranchDto implements IUpsertBranchDto {
         data["tvhCountryId"] = this.tvhCountryId;
         data["tvhWarehouseId"] = this.tvhWarehouseId;
         data["fileType"] = this.fileType;
-        data["binaryLogoFile"] = this.binaryLogoFile;
         data["creatorUserName"] = this.creatorUserName;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["lastModifierUserName"] = this.lastModifierUserName;
@@ -57020,7 +57017,6 @@ export interface IUpsertBranchDto {
     tvhCountryId: number | undefined;
     tvhWarehouseId: number | undefined;
     fileType: string | undefined;
-    binaryLogoFile: string | undefined;
     creatorUserName: string | undefined;
     creationTime: DateTime;
     lastModifierUserName: string | undefined;
@@ -58174,7 +58170,6 @@ export class UpsertBranchDto2 implements IUpsertBranchDto2 {
     tvhCountryId!: number | undefined;
     tvhWarehouseId!: number | undefined;
     fileType!: string | undefined;
-    binaryLogoFile!: string | undefined;
     creatorUserName!: string | undefined;
     creationTime!: DateTime;
     lastModifierUserName!: string | undefined;
@@ -58240,7 +58235,6 @@ export class UpsertBranchDto2 implements IUpsertBranchDto2 {
             this.tvhCountryId = _data["tvhCountryId"];
             this.tvhWarehouseId = _data["tvhWarehouseId"];
             this.fileType = _data["fileType"];
-            this.binaryLogoFile = _data["binaryLogoFile"];
             this.creatorUserName = _data["creatorUserName"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.lastModifierUserName = _data["lastModifierUserName"];
@@ -58306,7 +58300,6 @@ export class UpsertBranchDto2 implements IUpsertBranchDto2 {
         data["tvhCountryId"] = this.tvhCountryId;
         data["tvhWarehouseId"] = this.tvhWarehouseId;
         data["fileType"] = this.fileType;
-        data["binaryLogoFile"] = this.binaryLogoFile;
         data["creatorUserName"] = this.creatorUserName;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["lastModifierUserName"] = this.lastModifierUserName;
@@ -58365,7 +58358,6 @@ export interface IUpsertBranchDto2 {
     tvhCountryId: number | undefined;
     tvhWarehouseId: number | undefined;
     fileType: string | undefined;
-    binaryLogoFile: string | undefined;
     creatorUserName: string | undefined;
     creationTime: DateTime;
     lastModifierUserName: string | undefined;
@@ -58422,7 +58414,6 @@ export class UpsertBranchDto3 implements IUpsertBranchDto3 {
     tvhCountryId!: number | undefined;
     tvhWarehouseId!: number | undefined;
     fileType!: string | undefined;
-    binaryLogoFile!: string | undefined;
     creatorUserName!: string | undefined;
     creationTime!: DateTime;
     lastModifierUserName!: string | undefined;
@@ -58488,7 +58479,6 @@ export class UpsertBranchDto3 implements IUpsertBranchDto3 {
             this.tvhCountryId = _data["tvhCountryId"];
             this.tvhWarehouseId = _data["tvhWarehouseId"];
             this.fileType = _data["fileType"];
-            this.binaryLogoFile = _data["binaryLogoFile"];
             this.creatorUserName = _data["creatorUserName"];
             this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
             this.lastModifierUserName = _data["lastModifierUserName"];
@@ -58554,7 +58544,6 @@ export class UpsertBranchDto3 implements IUpsertBranchDto3 {
         data["tvhCountryId"] = this.tvhCountryId;
         data["tvhWarehouseId"] = this.tvhWarehouseId;
         data["fileType"] = this.fileType;
-        data["binaryLogoFile"] = this.binaryLogoFile;
         data["creatorUserName"] = this.creatorUserName;
         data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
         data["lastModifierUserName"] = this.lastModifierUserName;
@@ -58613,7 +58602,6 @@ export interface IUpsertBranchDto3 {
     tvhCountryId: number | undefined;
     tvhWarehouseId: number | undefined;
     fileType: string | undefined;
-    binaryLogoFile: string | undefined;
     creatorUserName: string | undefined;
     creationTime: DateTime;
     lastModifierUserName: string | undefined;
