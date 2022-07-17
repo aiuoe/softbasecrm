@@ -11,6 +11,8 @@ import { BranchLogoGraphicComponent } from './branch-logo-graphic/branch-logo-gr
 import { BranchTaxSetupComponent } from './branch-tax-setup/branch-tax-setup.component';
 import { BranchTvhComponent } from './branch-tvh/branch-tvh.component';
 import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
     declarations: [
@@ -27,7 +29,9 @@ import { CalendarModule } from 'primeng/calendar';
         BranchRoutingModule,
         CheckboxModule,
         MultiSelectModule,
-        CalendarModule
+        CalendarModule,
+        InputTextModule,
+        ButtonModule
     ]
 })
 export class BranchModule {}

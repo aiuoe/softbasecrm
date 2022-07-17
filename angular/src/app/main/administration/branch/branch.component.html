@@ -36,7 +36,7 @@
                                 [lazy]="true" [responsive]="primengTableHelper.isResponsive">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th style="width: 130px">{{ l('Actions') }}</th>
+                                        <th class="w-100px">{{ l('Actions') }}</th>
                                         <th pSortableColumn="number">
                                             {{ l('Branch') }}
                                             <p-sortIcon field="number"></p-sortIcon>
@@ -124,7 +124,7 @@
                                         </td>
                                         <td>
                                             <span class="p-column-title">{{ l('CreatedOn') }}</span>
-                                            {{ record.creationTime ? (record.creationTime | luxonFormat: 'F') : '-' }}
+                                            {{ record.creationTime ? (record.creationTime | date: 'shortDate') : '-' }}
                                         </td>
                                     </tr>
                                 </ng-template>

@@ -6,7 +6,6 @@ using MediatR;
 using SBCRM.Base;
 using SBCRM.Blob;
 using SBCRM.Common;
-using SBCRM.Infrastructure.BlobStorage;
 using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 
@@ -38,6 +37,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="localTaxCodeRepository"></param>
         /// <param name="cityTaxCodeRepository"></param>
         /// <param name="countyTaxCodeRepository"></param>
+        /// <param name="applicationStorageService"></param>
         public CreateBranchCommandHandler(
             IUnitOfWorkManager unitOfWorkManager,
             IBranchRepository branchRepository,

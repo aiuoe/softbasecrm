@@ -10,7 +10,7 @@ import { UpsertBranchDto } from '@shared/service-proxies/service-proxies';
     templateUrl: './branch-logo-graphic.component.html',
 })
 
-export class BranchLogoGraphicComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
+export class BranchLogoGraphicComponent extends AppComponentBase implements OnChanges {
 
     @Input() isViewMode: boolean;
     @Input() upsertBranchDto: UpsertBranchDto;
@@ -26,18 +26,16 @@ export class BranchLogoGraphicComponent extends AppComponentBase implements OnIn
         super(injector);
     }
 
-    ngOnInit() {
-        // this.imageSrc = this.upsertBranchDto.image;        
-    }
-    ngAfterViewInit() {
-        // this.imageSrc = this.upsertBranchDto.image;        
-    }
     ngOnChanges() {
         this.imageSrc = this.upsertBranchDto.image;
     }
+
     logoGraphicClear() {
         this.imageSrc = null;
         this.upsertBranchDto.image = null;
+        this.upsertBranchDto.logoFile = null;
+        this.fileChanged.emit(null);
+
     }
 
     onFileSelected(event) {

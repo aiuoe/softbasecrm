@@ -32,6 +32,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         /// <param name="localTaxCodeRepository"></param>
         /// <param name="cityTaxCodeRepository"></param>
         /// <param name="countyTaxCodeRepository"></param>
+        /// <param name="applicationStorageService"></param>
         public UpdateBranchCommandHandler(
             IBranchRepository branchRepository,
             IWarehouseRepository warehouseRepository,
@@ -69,6 +70,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
             var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.CountyTaxCodeId);
 
             ObjectMapper.Map(command, branch);
+
             if (command.BinaryLogoFile is not null)
             {
                 branch.Image = await _applicationStorageService.UploadBlobFile("Branches", command.BinaryLogoFile, command.LogoFile, command.FileType);

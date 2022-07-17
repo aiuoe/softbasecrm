@@ -2223,6 +2223,7 @@
 		<text name="PrintFinalCc">Print Final cc</text>
 		<text name="PrintFinalBcc">Print Final bcc</text>
 		<text name="LogoGraphicFile">Logo Graphic File</text>
+		<text name="BrowseFile">Browse</text>
 		<text name="UseGraphic">Use Graphic</text>
 		<text name="BranchDeleteWarningMessage">Branch {0} will be deleted.</text>
 		
