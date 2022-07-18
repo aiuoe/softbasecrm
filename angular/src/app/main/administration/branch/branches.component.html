@@ -15,8 +15,8 @@
                 <form class="form" (submit)="getBrances()" autocomplete="off">
                     <div class="form-body">
                         <div class="input-group">
-                            <input type="text" id="Branch_List_Filter_AR_Account" name="branchListFilterARAccount"
-                                class="form-control" placeholder="{{ l('SearchByArAccounts') }}"
+                            <input type="text" id="Branch_List_Filter_Name" name="branchListFilterName"
+                                class="form-control" placeholder="{{ l('SearchByBranchName') }}"
                                 [(ngModel)]="filters.filterText" />
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">

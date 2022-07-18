@@ -2228,6 +2228,7 @@
 		<text name="BranchDeleteWarningMessage">Branch {0} will be deleted.</text>
 		<text name="TaxSetup">Tax Setup</text>
 		<text name="LogoGraphic">Logo Graphic</text>
+		<text name="SearchByBranchName">Search by Branch name</text>
 		
 		<!-- Administration - Tax Codes -->
 		<text name="Standard">Standard</text>
