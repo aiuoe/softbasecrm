@@ -4,6 +4,9 @@ using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Attributes;
 
 namespace SBCRM.Web.Dto.Modules.Administration
 {
+    /// <summary>
+    /// Request DTO for create and update Branch
+    /// </summary>
     public class UpsertBranchWrapperDto
     {
         [FromJson]

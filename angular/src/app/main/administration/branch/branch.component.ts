@@ -42,10 +42,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     branchCurrencyType = new BranchCurrencyTypeDto();
     upsertBranchDto = new UpsertBranchDto();
     initialDropdownData = new GetBranchInitialDataDto();
-
-    createBranchCommand: any;
     logoFile: File = null;
-
     isAccountNumberValid: boolean = true;
     selectedDate = new Date();
     creationTime = new Date();

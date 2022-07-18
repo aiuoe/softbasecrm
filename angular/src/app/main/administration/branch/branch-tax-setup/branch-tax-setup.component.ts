@@ -19,7 +19,6 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
     @Input() upsertBranchDto: UpsertBranchDto;
     destroy$ = new Subject();
     private hasInitialData = false;
-
     taxTabInitialData = new GetTaxTabInitialDataDto();
 
     constructor(

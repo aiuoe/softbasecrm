@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnChanges, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { UpsertBranchDto } from '@shared/service-proxies/service-proxies';
 
@@ -7,6 +7,7 @@ import { UpsertBranchDto } from '@shared/service-proxies/service-proxies';
  */
 @Component({
     selector: 'branchLogoGraphic',
+    styleUrls: ['./branch-logo-graphic.component.scss'],
     templateUrl: './branch-logo-graphic.component.html',
 })
 
@@ -14,11 +15,9 @@ export class BranchLogoGraphicComponent extends AppComponentBase implements OnCh
 
     @Input() isViewMode: boolean;
     @Input() upsertBranchDto: UpsertBranchDto;
-    @Output() fileAndFileTypeChanged = new EventEmitter<any>();
     @Output() fileChanged = new EventEmitter<File>();
     imageSrc: string = null;
     saving: boolean = false;
-    logoGraphicFile: any;
 
     constructor(
         injector: Injector
