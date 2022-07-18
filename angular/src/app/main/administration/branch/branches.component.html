@@ -12,7 +12,7 @@
     <div [class]="containerClass">
         <div class="card card-custom gutter-b">
             <div class="card-body">
-                <form class="form" (submit)="getBrances()" autocomplete="off">
+                <form class="form" (submit)="getBranches()" autocomplete="off">
                     <div class="form-body">
                         <div class="input-group">
                             <input type="text" id="Branch_List_Filter_Name" name="branchListFilterName"
@@ -29,7 +29,7 @@
                 <div class="row align-items-center">
                     <!--<Primeng-TurboTable-Start>-->
                     <div class="col primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
-                        <p-table #dataTable sortMode="multiple" (onLazyLoad)="getBrances($event)"
+                        <p-table #dataTable sortMode="multiple" (onLazyLoad)="getBranches($event)"
                             [value]="primengTableHelper.records"
                             rows="{{ primengTableHelper.defaultRecordsCountPerPage }}" [paginator]="false" [lazy]="true"
                             [responsive]="primengTableHelper.isResponsive">
@@ -133,7 +133,7 @@
                         </div>
                         <div class="primeng-paging-container">
                             <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
-                                (onPageChange)="getBrances($event)"
+                                (onPageChange)="getBranches($event)"
                                 [totalRecords]="primengTableHelper.totalRecordsCount"
                                 [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                 [currentPageReportTemplate]="l('TotalRecordsCount') | localize: primengTableHelper.totalRecordsCount"

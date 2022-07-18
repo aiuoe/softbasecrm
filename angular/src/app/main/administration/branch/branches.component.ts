@@ -88,7 +88,7 @@ export class BranchesComponent extends AppComponentBase implements OnDestroy {
     /**
      * get paged branch list
      */
-    getBrances(event?: LazyLoadEvent): void {
+    getBranches(event?: LazyLoadEvent): void {
         if (!this.dataTable || !this.paginator) {
             return;
         }
