@@ -96,7 +96,7 @@ namespace SBCRM.Crm
         /// </summary>
         /// <param name="leads"></param>
         /// <returns></returns>
-        Task<FileDto> GetDuplicatedLeadsToExcel(List<LeadDto> leads);
+        FileDto GetDuplicatedLeadsToExcel(List<LeadDto> leads);
 
 
         /// <summary>

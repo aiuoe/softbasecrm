@@ -161,11 +161,8 @@ namespace SBCRM.Crm
             GetAccountUserForEditOutput output = new GetAccountUserForEditOutput
             { AccountUser = ObjectMapper.Map<CreateOrEditAccountUserDto>(accountUser) };
 
-            if (output.AccountUser.UserId != null)
-            {
-                User _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
-                output.UserName = _lookupUser?.Name?.ToString();
-            }
+            User _lookupUser = await _lookupUserRepository.FirstOrDefaultAsync((long)output.AccountUser.UserId);
+            output.UserName = _lookupUser?.Name;
 
             return output;
         }

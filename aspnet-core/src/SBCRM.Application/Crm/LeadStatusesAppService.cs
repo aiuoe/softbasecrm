@@ -217,7 +217,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_LeadStatuses_Delete)]
         public async Task Delete(EntityDto input)
         {
-            _leadStatusRepository.Delete(input.Id);            
+            await _leadStatusRepository.DeleteAsync(input.Id);            
         } 
     }
 }

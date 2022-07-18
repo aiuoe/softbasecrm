@@ -21,7 +21,7 @@ namespace SBCRM.Tests.Crm
             var userCanViewWidget = await Resolve<IAccountUsersAppService>().GetCanViewAssignedUsersWidget(customerNumber);
 
             // Assert
-            Assert.NotNull(userCanViewWidget);
+            Assert.True(userCanViewWidget);
         }
     }
 }

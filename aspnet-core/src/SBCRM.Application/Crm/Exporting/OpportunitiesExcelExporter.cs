@@ -15,10 +15,6 @@ namespace SBCRM.Crm.Exporting
     /// </summary>
     public class OpportunitiesExcelExporter : NpoiExcelExporterBase, IOpportunitiesExcelExporter
     {
-
-        private readonly ITimeZoneConverter _timeZoneConverter;
-        private readonly IAbpSession _abpSession;
-
         /// <summary>
         /// Base constructor
         /// </summary>

@@ -27,14 +27,7 @@ namespace SBCRM
 
         protected virtual int? GetTenantId()
         {
-            if (SBCRMConsts.MultiTenancyEnabled)
-            {
-                return AbpSession?.TenantId;
-            }
-            else
-            {
-                return null;
-            }
+            return AbpSession?.TenantId;
         }
 
         protected virtual void SetTenant(IMustHaveTenant entity)

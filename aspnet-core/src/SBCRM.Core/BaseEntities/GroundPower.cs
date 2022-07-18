@@ -15,8 +15,6 @@ namespace SBCRM.Core.BaseEntities
     [Index(nameof(PartNo), nameof(TenantId), Name = "UC_GroundPower", IsUnique = true)]
     public class GroundPower : FullAuditedEntity<long>, IMustHaveTenant
     {
-        [Key]
-        public long Id { get; set; }
         public int TenantId { get; set; }
         [Required]
         [StringLength(50)]
@@ -44,12 +42,5 @@ namespace SBCRM.Core.BaseEntities
         [Column(TypeName = "datetime")]
         public DateTime? DateChanged { get; set; }
         public bool IsMigrated { get; set; }
-        public DateTime CreationTime { get; set; }
-        public long? CreatorUserId { get; set; }
-        public DateTime? LastModificationTime { get; set; }
-        public long? LastModifierUserId { get; set; }
-        public bool IsDeleted { get; set; }
-        public long? DeleterUserId { get; set; }
-        public DateTime? DeletionTime { get; set; }
     }
 }

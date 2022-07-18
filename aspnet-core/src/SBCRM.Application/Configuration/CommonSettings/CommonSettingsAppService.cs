@@ -2,12 +2,8 @@
 using Abp.Authorization;
 using Abp.Configuration;
 using SBCRM.Authorization;
-using SBCRM.Configuration.CommonSettings.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using SBCRM.Configuration.Dto;
 
 namespace SBCRM.Configuration.CommonSettings
 {
@@ -30,7 +26,7 @@ namespace SBCRM.Configuration.CommonSettings
         /// <summary>
         /// Updates Tenent Level Settings
         /// </summary>
-        public async Task UpdateTenentLevelSettings(UpdateCommonSettingsInput input)
+        public async Task UpdateTenantLevelSettings(UpdateCommonSettingsInput input)
         {
             await _settingManager.ChangeSettingForTenantAsync(AbpSession.TenantId.Value, input.SettingName, input.SettingValue + "Tenant Id:" + AbpSession.TenantId.Value);
         }
