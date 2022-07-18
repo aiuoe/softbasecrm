@@ -1,10 +1,10 @@
 <div class="card card-custom card-in-tab gutter-b">
     <div class="card-body">
-        <label for="Branch_Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
+        <label for="Branch_LogoGraphic_File">{{ l('LogoGraphicFile') }}</label>
         <div class="row align-items-center">
             <div class="col-6 input-group">
                 <div class="p-inputgroup">
-                    <input id="Branch_Finance_LogoGraphicFile" name="branchFinanceLogoGraphicFile" type="text" pInputText [disabled]="true" [(ngModel)]="upsertBranchDto.logoFile">
+                    <input id="Branch_LogoGraphic_File" name="branchLogoGraphicFile" type="text" pInputText [disabled]="true" [(ngModel)]="upsertBranchDto.logoFile">
                     <span class="p-inputgroup-addon" (click)="fileSelectInputDialog.click()">{{l('BrowseFile')}}</span>
                     <input style="display:none" #fileSelectInputDialog id="Branch_LogoGraphicFile_Logo_Upload_Button" type="file" accept="image/*" [disabled]="isViewMode" (change)="onFileSelected($event)" />
                 </div>
