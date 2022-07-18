@@ -45,7 +45,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<PagedResultDto<BranchListItemDto>> Handle(GetAllPagedBranchQuery query, CancellationToken cancellationToken)
         {
             var dbQuery = _branchRepository.GetAll()
-                .WhereIf(!query.Filter.IsNullOrWhiteSpace(), t => t.Receivable.Contains(query.Filter));
+                .WhereIf(!query.Filter.IsNullOrWhiteSpace(), t => t.Name.Contains(query.Filter));
 
             var branchCount = await dbQuery.CountAsync(cancellationToken);
             var branches = await dbQuery.OrderBy(query.Sorting).PageBy(query).ToListAsync(cancellationToken);
