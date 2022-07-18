@@ -293,7 +293,6 @@ namespace SBCRM
             configuration.CreateMap<CreateBranchCommand, UpsertBranchDto>().ReverseMap();
 
             configuration.CreateMap<Branch, UpsertBranchDto>()
-                .ForMember(dto => dto.CountryId, opt => opt.MapFrom(a => a.Country))
                 .ForMember(dto => dto.TvhCountryId, opt => opt.MapFrom(a => a.TvhCountry))
                 .ForMember(dto => dto.TvhWarehouseId, opt => opt.MapFrom(a => a.TvhWarehouse));
 

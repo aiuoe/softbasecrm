@@ -15,12 +15,10 @@ namespace SBCRM
                 configuration.CreateMap<UpsertBranchDto, UpdateBranchCommand>();
 
             configuration.CreateMap<CreateBranchCommand, Branch>()
-                .ForMember(dto => dto.Country, opt => opt.MapFrom(a => a.CountryId))
                 .ForMember(dto => dto.TvhCountry, opt => opt.MapFrom(a => a.TvhCountryId))
                 .ForMember(dto => dto.TvhWarehouse, opt => opt.MapFrom(a => a.TvhWarehouseId));
 
             configuration.CreateMap<UpdateBranchCommand, Branch>()
-                .ForMember(dto => dto.Country, opt => opt.MapFrom(a => a.CountryId))
                 .ForMember(dto => dto.TvhCountry, opt => opt.MapFrom(a => a.TvhCountryId))
                 .ForMember(dto => dto.TvhWarehouse, opt => opt.MapFrom(a => a.TvhWarehouseId));
 

@@ -8,8 +8,7 @@ import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.compone
 import {
     BranchCurrencyTypeDto, BranchesServiceProxy, UpsertBranchDto, BranchListItemDto, GetBranchInitialDataDto,
     IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand,
-    ReadCommonShareServiceProxy,
-    FileParameter
+    ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -86,6 +85,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
         if (this.activeCrudMode === BranchCrudModes.List) {
             this._router.navigate(['app', 'main', 'administration']);
         } else {
+            this.paginator.changePage(this.paginator.getPage());
             this.activeCrudMode = BranchCrudModes.List;
         }
     }
@@ -291,11 +291,11 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     private initActionButtons(): void {
         this.actionButtons = [
-            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', activeCrudModes: [BranchCrudModes.List], action: () => this.addOnClick() },
-            { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.saveOnClick() },
-            { name: this.l('Delete'), cssClass: 'btn-danger', activeCrudModes: [BranchCrudModes.Edit], action: () => this.itemDeleteOnClick() },
             { name: this.l('Cancel'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.cancelOnClick() },
             { name: this.l('Close'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.List, BranchCrudModes.View], action: () => this.cancelOnClick() },
+            { name: this.l('Delete'), cssClass: 'btn-danger', activeCrudModes: [BranchCrudModes.Edit], action: () => this.itemDeleteOnClick() },
+            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', activeCrudModes: [BranchCrudModes.List], action: () => this.addOnClick() },
+            { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.saveOnClick() },
         ];
     }
 

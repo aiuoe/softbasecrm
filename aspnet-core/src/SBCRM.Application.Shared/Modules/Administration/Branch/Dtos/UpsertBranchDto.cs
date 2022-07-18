@@ -16,7 +16,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-        public long? CountryId { get; set; }
+        public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Receivable { get; set; }
@@ -28,7 +28,7 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public bool? ShowSplitSalesTax { get; set; }
         public string CityTaxLabel { get; set; }
         public string LocalTaxLabel { get; set; }
-        public long? DefaultWarehouseId { get; set; }
+        public string DefaultWarehouse { get; set; }
         public string ClarkPartsCode { get; set; }
         public string ClarkDealerAccessCode { get; set; }
         public bool? UseStateTaxCodeDescription { get; set; }
@@ -36,11 +36,11 @@ namespace SBCRM.Modules.Administration.Branch.Dtos
         public bool? UseCityTaxCodeDescription { get; set; }
         public bool? UseLocalTaxCodeDescription { get; set; }
         public DateTime? RentalDeliveryDefaultTime { get; set; }
-        public long? StateTaxCodeId { get; set; }
-        public long? CountyTaxCodeId { get; set; }
-        public long? CityTaxCodeId { get; set; }
-        public long? LocalTaxCodeId { get; set; }
-        public long? TaxCodeId { get; set; }
+        public string StateTaxCode { get; set; }
+        public string CountyTaxCode { get; set; }
+        public string CityTaxCode { get; set; }
+        public string LocalTaxCode { get; set; }
+        public string TaxCode { get; set; }
         public bool? UseAbsoluteTaxCodes { get; set; }
         public string SmallSubName { get; set; }
         public string ShopId { get; set; }

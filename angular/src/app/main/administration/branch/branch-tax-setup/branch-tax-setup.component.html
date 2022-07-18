@@ -79,8 +79,8 @@
             <div class="col-6 form-group">
                 <label for="Branch_TaxSetup_StandardTaxCode">{{ l('StandardTaxCode') }}</label>
                 <p-dropdown id="Branch_TaxSetup_StandardTaxCode" name="branchTaxSetupStandardTaxCode"
-                    [placeholder]="l('SelectStandardTaxCode')" [(ngModel)]="upsertBranchDto.taxCodeId"
-                    [options]="taxCodes" optionValue="id" optionLabel="code" [showClear]="true" [disabled]="isViewMode">
+                    [placeholder]="l('SelectStandardTaxCode')" [(ngModel)]="upsertBranchDto.taxCode"
+                    [options]="taxCodes" optionValue="code" optionLabel="code" editable="true" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
             <div class="col-6 d-flex align-items-center mt-8 form-group">
@@ -98,16 +98,16 @@
                 <label for="Branch_TaxSetup_StateTaxCode">{{ l('StateTaxCode') }}</label>
                 <p-dropdown *ngIf="upsertBranchDto.useAbsoluteTaxCodes" id="Branch_TaxSetup_StateTaxCode"
                     name="branchTaxSetupStateTaxCode" [placeholder]="l('SelectStateTaxCode')"
-                    [(ngModel)]="upsertBranchDto.stateTaxCodeId" [options]="taxTabInitialData.stateTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
+                    [(ngModel)]="upsertBranchDto.stateTaxCode" [options]="taxTabInitialData.stateTaxCodes"
+                    optionValue="taxCode" optionLabel="taxCode" editable="true" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
             <div class="col-6 form-group">
                 <label for="Branch_TaxSetup_CountryTaxCode">{{ l('CountryTaxCode') }}</label>
                 <p-dropdown *ngIf="upsertBranchDto.useAbsoluteTaxCodes" id="Branch_TaxSetup_CountryTaxCode"
                     name="branchTaxSetupCountryTaxCode" [placeholder]="l('SelectCountryTaxCode')"
-                    [(ngModel)]="upsertBranchDto.countyTaxCodeId" [options]="taxTabInitialData.countyTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
+                    [(ngModel)]="upsertBranchDto.countyTaxCode" [options]="taxTabInitialData.countyTaxCodes"
+                    optionValue="taxCode" optionLabel="taxCode" editable="true" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
         </div>
@@ -116,16 +116,16 @@
                 <label for="Branch_TaxSetup_CityTaxCode">{{ l('CityTaxCode') }}</label>
                 <p-dropdown *ngIf="upsertBranchDto.useAbsoluteTaxCodes" id="Branch_TaxSetup_CityTaxCode"
                     name="branchTaxSetupCityTaxCode" [placeholder]="l('SelectCityTaxCode')"
-                    [(ngModel)]="upsertBranchDto.cityTaxCodeId" [options]="taxTabInitialData.cityTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
+                    [(ngModel)]="upsertBranchDto.cityTaxCode" [options]="taxTabInitialData.cityTaxCodes"
+                    optionValue="taxCode" optionLabel="taxCode" editable="true" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
             <div class="col-6 form-group">
                 <label for="Branch_TaxSetup_LocalTaxCode">{{ l('LocalTaxCode') }}</label>
                 <p-dropdown *ngIf="upsertBranchDto.useAbsoluteTaxCodes" id="Branch_TaxSetup_LocalTaxCode"
                     name="branchTaxSetupLocalTaxCode" [placeholder]="l('SelectLocalTaxCode')"
-                    [(ngModel)]="upsertBranchDto.localTaxCodeId" [options]="taxTabInitialData.localTaxCodes"
-                    optionValue="id" optionLabel="taxCode" [showClear]="true" [disabled]="isViewMode">
+                    [(ngModel)]="upsertBranchDto.localTaxCode" [options]="taxTabInitialData.localTaxCodes"
+                    optionValue="taxCode" optionLabel="taxCode" editable="true" [showClear]="true" [disabled]="isViewMode">
                 </p-dropdown>
             </div>
         </div>

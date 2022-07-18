@@ -210,8 +210,8 @@
                             <div class="col-6 form-group">
                                 <label for="Branch_Country">{{ l('Country') }}</label>
                                 <p-dropdown id="Branch_Country" name="branchCountry" [placeholder]="l('SelectCountry')"
-                                    [(ngModel)]="upsertBranchDto.countryId" [options]="initialDropdownData.countries"
-                                    optionValue="id" optionLabel="name" [showClear]="true" [disabled]="isViewMode()">
+                                    [(ngModel)]="upsertBranchDto.country" [options]="initialDropdownData.countries"
+                                    optionValue="name" optionLabel="name" editable="true" [showClear]="true" [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">
@@ -288,9 +288,9 @@
                                 <label for="Branch_DefaultWarehouse">{{ l('DefaultWarehouse') }}</label>
                                 <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
                                     [placeholder]="l('SelectDefaultWarehouse')"
-                                    [(ngModel)]="upsertBranchDto.defaultWarehouseId"
-                                    [options]="initialDropdownData.warehouses" optionValue="id" optionLabel="warehouse"
-                                    [showClear]="true" [disabled]="isViewMode()">
+                                    [(ngModel)]="upsertBranchDto.defaultWarehouse"
+                                    [options]="initialDropdownData.warehouses" optionValue="warehouse" optionLabel="warehouse"
+                                    editable="true" [showClear]="true" [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">

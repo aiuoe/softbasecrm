@@ -62,37 +62,15 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<UpsertBranchDto> Handle(UpdateBranchCommand command, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.GetAsync(command.Id);
-            var warehouse = await _warehouseRepository.FirstOrDefaultAsync(x => x.Id == command.DefaultWarehouseId);
-            var taxCode = await _taxRepository.FirstOrDefaultAsync(x => x.Id == command.TaxCodeId);
-            var stateTaxCode = await _stateTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.StateTaxCodeId);
-            var localTaxCode = await _localTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.LocalTaxCodeId);
-            var cityTaxCode = await _cityTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.CityTaxCodeId);
-            var countyTaxCode = await _countyTaxCodeRepository.FirstOrDefaultAsync(x => x.Id == command.CountyTaxCodeId);
-
             ObjectMapper.Map(command, branch);
 
             if (command.BinaryLogoFile is not null)
             {
                 branch.Image = await _applicationStorageService.UploadBlobFile("Branches", command.BinaryLogoFile, command.LogoFile, command.FileType);
             }
-            branch.DefaultWarehouse = warehouse?.WarehouseName;
-            branch.TaxCode = taxCode?.Code;
-            branch.StateTaxCode = stateTaxCode?.TaxCode;
-            branch.LocalTaxCode = localTaxCode?.TaxCode;
-            branch.CityTaxCode = cityTaxCode?.TaxCode;
-            branch.CountyTaxCode = countyTaxCode?.TaxCode;
 
             await _branchRepository.UpdateAsync(branch);
-            var branchForEditDto = ObjectMapper.Map<UpsertBranchDto>(branch);
-
-            branchForEditDto.DefaultWarehouseId = warehouse?.Id;
-            branchForEditDto.TaxCodeId = taxCode?.Id;
-            branchForEditDto.StateTaxCodeId = stateTaxCode?.Id;
-            branchForEditDto.LocalTaxCodeId = localTaxCode?.Id;
-            branchForEditDto.CountyTaxCodeId = countyTaxCode?.Id;
-            branchForEditDto.CityTaxCodeId = cityTaxCode?.Id;
-
-            return branchForEditDto;
+            return ObjectMapper.Map<UpsertBranchDto>(branch);
         }
     }
 
