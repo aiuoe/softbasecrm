@@ -105,7 +105,7 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
      * cancel butone on click action
      */
     cancelOnClick(): void {
-        this._router.navigate(['app', 'main', 'administration', 'branch']);
+        this.redirectToBranchListPage();
     }
 
     /**
@@ -228,7 +228,7 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
                 this.notifyService.success(this.l('SuccessfullyAdded'));
-                this._router.navigate(['app', 'main', 'administration', 'branch']);
+                this.redirectToBranchListPage();
             });
     }
 
@@ -241,7 +241,7 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
                 this.notifyService.success(this.l('UpdateSuccessfully'));
-                this._router.navigate(['app', 'main', 'administration', 'branch']);
+                this.redirectToBranchListPage();
             });
     }
 
@@ -257,7 +257,7 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
                     this.loading = true;
                     this._branchesService.delete(branchId).subscribe(() => {
                         this.notifyService.success(this.l('SuccessfullyDeleted'));
-                        this._router.navigate(['app', 'main', 'administration', 'branch']);
+                        this.redirectToBranchListPage();
                     }, () => {
 
                     }, () => {
@@ -314,6 +314,13 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
     private initBranch(): void {
         this.upsertBranchDto = new UpsertBranchDto();
         this.upsertBranchDto.init({});
+    }
+
+    /**
+     * branch list page redirection
+     */
+    private redirectToBranchListPage(): void {
+        this._router.navigate(['app', 'main', 'administration', 'branch']);
     }
 }
 
