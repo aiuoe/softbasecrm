@@ -2,14 +2,15 @@
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="l('Branch')" [breadcrumbs]="breadcrumbs">
             <div role="actions">
-                <button *ngIf="pageMode === pageModes.Edit" class="btn btn-danger" (click)="deleteOnClick()" [buttonBusy]="loading">
+                <button *ngIf="pageMode === pageModes.Edit" class="btn btn-secondary" (click)="deleteOnClick()"
+                    [buttonBusy]="loading">
                     {{ l('Delete') }}
                 </button>
                 <button class="btn btn-secondary" (click)="cancelOnClick()" [buttonBusy]="loading">
                     {{ l('Close') }}
                 </button>
-                <button *ngIf="[pageModes.Add, pageModes.Edit].includes(pageMode)" class="btn btn-primary" (click)="saveOnClick()"
-                    [buttonBusy]="loading">
+                <button *ngIf="[pageModes.Add, pageModes.Edit].includes(pageMode)" class="btn btn-primary"
+                    (click)="saveOnClick()" [buttonBusy]="loading">
                     <i class="fa fa-save"></i> {{ l('Save') }}
                 </button>
             </div>
