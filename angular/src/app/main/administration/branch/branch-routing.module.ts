@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageMode } from '@shared/AppEnums';
 import { BranchUpsertComponent } from './branch-upsert/branch-upsert.component';
-import { BrowseMode } from './branch.model';
 import { BranchesComponent } from './branches.component';
 
 const routes: Routes = [
@@ -13,19 +13,19 @@ const routes: Routes = [
     {
         path: 'add',
         component: BranchUpsertComponent,
-        data: { browseMode: BrowseMode.Add },
+        data: { pageMode: PageMode.Add },
         pathMatch: 'full'
     },
     {
         path: ':id/view',
         component: BranchUpsertComponent,
-        data: { browseMode: BrowseMode.View },
+        data: { pageMode: PageMode.View },
         pathMatch: 'full'
     },
     {
         path: ':id/edit',
         component: BranchUpsertComponent,
-        data: { browseMode: BrowseMode.Edit },
+        data: { pageMode: PageMode.Edit },
         pathMatch: 'full'
     },
 ];

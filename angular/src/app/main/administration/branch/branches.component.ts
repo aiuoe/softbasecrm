@@ -1,7 +1,7 @@
 import { Component, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
-import { isEmpty as _isEmpty } from 'lodash-es';
+import { debounce as _debounce, isEmpty as _isEmpty } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
@@ -12,6 +12,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { Router } from '@angular/router';
+import { AppConsts } from '@shared/AppConsts';
 
 /**
  * Main component for branch
@@ -86,12 +87,14 @@ export class BranchesComponent extends AppComponentBase implements OnDestroy {
     }
 
     /**
+     * branch name search filter on input action
+     */
+    branchNameSearchOnInput = _debounce(this.getBranches, AppConsts.SearchBarDelayMilliseconds);
+
+    /**
      * get paged branch list
      */
     getBranches(event?: LazyLoadEvent): void {
-        if (!this.dataTable || !this.paginator) {
-            return;
-        }
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;

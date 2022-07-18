@@ -13,7 +13,7 @@ import {
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BrowseMode } from '../branch.model';
+import { PageMode } from '@shared/AppEnums';
 
 /**
  * Main component for branch edit
@@ -27,8 +27,8 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
 
     destroy$ = new Subject();
     loading: boolean = false;
-    browseMode: BrowseMode;
-    browseModes = BrowseMode;
+    pageMode: PageMode;
+    pageModes = PageMode;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     breadcrumbs: BreadcrumbItem[] = [
@@ -64,7 +64,7 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
      * OnInit
      */
     ngOnInit(): void {
-        this.browseMode = this._activatedRoute.snapshot.data.browseMode;
+        this.pageMode = this._activatedRoute.snapshot.data.pageMode;
         if (this._activatedRoute.snapshot.params.id) {
             this.branchId = this._activatedRoute.snapshot.params.id;
             this.getBranch(this.branchId);
@@ -84,14 +84,14 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
      * check if input is in view mode
      */
     isViewMode(): boolean {
-        return this.browseMode === BrowseMode.View;
+        return this.pageMode === PageMode.View;
     }
 
     /**
      * check if branch number field is disable
      */
     isBranchNumberFieldDisabled(): boolean {
-        return [BrowseMode.View, BrowseMode.Edit].includes(this.browseMode);
+        return [PageMode.View, PageMode.Edit].includes(this.pageMode);
     }
 
     /**

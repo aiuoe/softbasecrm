@@ -13,12 +13,12 @@
         <div [class]="containerClass">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
-                    <form class="form" (submit)="getBranches()" autocomplete="off">
+                    <form class="form" autocomplete="off">
                         <div class="form-body">
                             <div class="input-group">
                                 <input type="text" id="Branch_List_Filter_Name" name="branchListFilterName"
-                                    class="form-control" placeholder="{{ l('SearchByBranchName') }}"
-                                    [(ngModel)]="filters.filterText" />
+                                    class="form-control" autoFocus placeholder="{{ l('SearchByBranchName') }}"
+                                    [(ngModel)]="filters.filterText" (input)="branchNameSearchOnInput()" />
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
