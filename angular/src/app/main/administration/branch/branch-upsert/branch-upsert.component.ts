@@ -13,7 +13,7 @@ import {
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BrowseMode, IActionButton } from '../branch.model';
+import { BrowseMode } from '../branch.model';
 
 /**
  * Main component for branch edit
@@ -28,13 +28,13 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
     destroy$ = new Subject();
     loading: boolean = false;
     browseMode: BrowseMode;
+    browseModes = BrowseMode;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
     ];
-    actionButtons: IActionButton[] = [];
     filters: { filterText: string } = { filterText: '' };
     branchId: number;
     currencyTypeId: number;
@@ -70,7 +70,6 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
             this.getBranch(this.branchId);
         }
         this.initBranch();
-        this.initActionButtons();
         this.setInitialDropdownData();
     }
 
@@ -124,22 +123,6 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
     deleteOnClick(): void {
         if (this.branchId) {
             this.deleteBranch(this.branchId, this.upsertBranchDto.name);
-        }
-    }
-
-    /**
-     * check if a button is active
-     */
-    isButtonActive(button: string): boolean {
-        switch (button) {
-            case 'close':
-                return true;
-            case 'delete':
-                return this.browseMode === BrowseMode.Edit;
-            case 'save':
-                return [BrowseMode.Add, BrowseMode.Edit].includes(this.browseMode);
-            default:
-                return false;
         }
     }
 
@@ -332,17 +315,6 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
     private initBranch(): void {
         this.upsertBranchDto = new UpsertBranchDto();
         this.upsertBranchDto.init({});
-    }
-
-    /**
-     * initialize action buttons
-     */
-    private initActionButtons(): void {
-        this.actionButtons = [
-            { name: this.l('Close'), cssClass: 'btn-secondary', isActive: () => this.isButtonActive('close'), action: () => this.cancelOnClick() },
-            { name: this.l('Delete'), cssClass: 'btn-danger', isActive: () => this.isButtonActive('delete'), action: () => this.deleteOnClick() },
-            { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', isActive: () => this.isButtonActive('save'), action: () => this.saveOnClick() },
-        ];
     }
 }
 

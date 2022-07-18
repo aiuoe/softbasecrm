@@ -1,12 +1,12 @@
 <div [@routerTransition] class="content d-flex flex-column flex-column-fluid">
     <sub-header [title]="l('Branch')" [breadcrumbs]="breadcrumbs">
         <div role="actions">
-            <ng-container *ngFor="let ab of actionButtons">
-                <button *ngIf="ab.isActive()" class="btn" [class]="ab.cssClass" (click)="ab.action()"
-                    [buttonBusy]="loading">
-                    <i *ngIf="ab.iconClass" [class]="ab.iconClass"></i> {{ ab.name }}
-                </button>
-            </ng-container>
+            <button class="btn btn-secondary" (click)="closeOnClick()" [buttonBusy]="loading">
+                {{ l('Close') }}
+            </button>
+            <button class="btn btn-primary" (click)="addOnClick()" [buttonBusy]="loading">
+                <i class="fa fa-plus"></i> {{ l('Branch') }}
+            </button>
         </div>
     </sub-header>
     <div [class]="containerClass">

@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { isEmpty as _isEmpty } from 'lodash-es';
@@ -12,7 +12,6 @@ import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { Router } from '@angular/router';
-import { IActionButton } from './branch.model';
 
 /**
  * Main component for branch
@@ -22,8 +21,7 @@ import { IActionButton } from './branch.model';
     animations: [appModuleAnimation()]
 })
 
-export class BranchesComponent extends AppComponentBase implements OnInit, OnDestroy {
-
+export class BranchesComponent extends AppComponentBase implements OnDestroy {
     destroy$ = new Subject();
     loading: boolean = false;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
@@ -32,7 +30,6 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
     ];
-    actionButtons: IActionButton[] = [];
     filters: { filterText: string } = { filterText: '' };
 
     /**
@@ -44,13 +41,6 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
         private _router: Router,
     ) {
         super(injector);
-    }
-
-    /**
-     * OnInit
-     */
-    ngOnInit(): void {
-        this.initActionButtons();
     }
 
     /**
@@ -143,15 +133,5 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
                 }
             }
         );
-    }
-
-    /**
-     * setup action buttons
-     */
-    private initActionButtons(): void {
-        this.actionButtons = [
-            { name: this.l('Close'), cssClass: 'btn-secondary', isActive: () => { return true; }, action: () => this.closeOnClick() },
-            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', isActive: () => { return true; }, action: () => this.addOnClick() },
-        ];
     }
 }
