@@ -14,42 +14,18 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
     public class UpdateBranchCommandHandler : UseCaseServiceBase, IRequestHandler<UpdateBranchCommand, UpsertBranchDto>
     {
         private readonly IBranchRepository _branchRepository;
-        private readonly IWarehouseRepository _warehouseRepository;
-        private readonly ITaxRepository _taxRepository;
-        private readonly IStateTaxCodeRepository _stateTaxCodeRepository;
-        private readonly ILocalTaxCodeRepository _localTaxCodeRepository;
-        private readonly ICityTaxCodeRepository _cityTaxCodeRepository;
-        private readonly ICountyTaxCodeRepository _countyTaxCodeRepository;
         private readonly IApplicationStorageService _applicationStorageService;
 
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="branchRepository"></param>
-        /// <param name="warehouseRepository"></param>
-        /// <param name="taxRepository"></param>
-        /// <param name="stateTaxCodeRepository"></param>
-        /// <param name="localTaxCodeRepository"></param>
-        /// <param name="cityTaxCodeRepository"></param>
-        /// <param name="countyTaxCodeRepository"></param>
         /// <param name="applicationStorageService"></param>
         public UpdateBranchCommandHandler(
             IBranchRepository branchRepository,
-            IWarehouseRepository warehouseRepository,
-            ITaxRepository taxRepository,
-            IStateTaxCodeRepository stateTaxCodeRepository,
-            ILocalTaxCodeRepository localTaxCodeRepository,
-            ICityTaxCodeRepository cityTaxCodeRepository,
-            ICountyTaxCodeRepository countyTaxCodeRepository,
             IApplicationStorageService applicationStorageService)
         {
             _branchRepository = branchRepository;
-            _warehouseRepository = warehouseRepository;
-            _taxRepository = taxRepository;
-            _stateTaxCodeRepository = stateTaxCodeRepository;
-            _localTaxCodeRepository = localTaxCodeRepository;
-            _cityTaxCodeRepository = cityTaxCodeRepository;
-            _countyTaxCodeRepository = countyTaxCodeRepository;
             _applicationStorageService = applicationStorageService;
         }
 
