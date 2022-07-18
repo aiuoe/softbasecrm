@@ -66,7 +66,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
 
             if (command.BinaryLogoFile is not null)
             {
-                branch.Image = await _applicationStorageService.UploadBlobFile("Branches", command.BinaryLogoFile, command.LogoFile, command.FileType);
+                branch.Image = await _applicationStorageService.UploadBlobFile($"branches/{branch.Number}", command.BinaryLogoFile, command.LogoFile, command.FileType);
             }
 
             await _branchRepository.UpdateAsync(branch);
