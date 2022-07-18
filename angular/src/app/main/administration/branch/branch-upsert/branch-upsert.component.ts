@@ -1,41 +1,40 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, finalize } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { isEmpty as _isEmpty } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 import {
-    BranchCurrencyTypeDto, BranchesServiceProxy, UpsertBranchDto, BranchListItemDto, GetBranchInitialDataDto,
-    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PagedResultDtoOfBranchListItemDto, PatchBranchCurrencyTypeCommand,
+    BranchCurrencyTypeDto, BranchesServiceProxy, UpsertBranchDto, GetBranchInitialDataDto,
+    IGetChartOfAccountDetailsDto, IGetZipCodeDetailsDto, PatchBranchCurrencyTypeCommand,
     ReadCommonShareServiceProxy
 } from '@shared/service-proxies/service-proxies';
-import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BrowseMode, IActionButton } from '../branch.model';
 
 /**
- * Main component for branch
+ * Main component for branch edit
  */
 @Component({
-    templateUrl: './branch.component.html',
-    animations: [appModuleAnimation()]
+    templateUrl: './branch-upsert.component.html',
+    animations: [appModuleAnimation()],
 })
 
-export class BranchComponent extends AppComponentBase implements OnInit, OnDestroy {
+export class BranchUpsertComponent extends AppComponentBase implements OnInit, OnDestroy {
 
     destroy$ = new Subject();
     loading: boolean = false;
+    browseMode: BrowseMode;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Administration')),
         new BreadcrumbItem(this.l('Branch'))
     ];
-    actionButtons: ActionButton[] = [];
-    branchCrudModes = BranchCrudModes;
-    activeCrudMode = BranchCrudModes.List;
+    actionButtons: IActionButton[] = [];
     filters: { filterText: string } = { filterText: '' };
     branchId: number;
     currencyTypeId: number;
@@ -50,6 +49,7 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     constructor(
         injector: Injector,
+        private _activatedRoute: ActivatedRoute,
         private _branchesService: BranchesServiceProxy,
         private _commonServiceProxy: ReadCommonShareServiceProxy,
         private _router: Router,
@@ -58,6 +58,11 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     ngOnInit(): void {
+        this.browseMode = this._activatedRoute.snapshot.data.browseMode;
+        if (this._activatedRoute.snapshot.params.id) {
+            this.branchId = this._activatedRoute.snapshot.params.id;
+            this.getBranch(this.branchId);
+        }
         this.initBranch();
         this.initActionButtons();
         this.setInitialDropdownData();
@@ -68,23 +73,19 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
     }
 
     isViewMode(): boolean {
-        return this.activeCrudMode === this.branchCrudModes.View;
+        return this.browseMode === BrowseMode.View;
     }
 
-    addOnClick(): void {
-        this.initBranch();
-        this.branchId = null;
-        this.currencyTypeId = null;
-        this.activeCrudMode = BranchCrudModes.Add;
+    isBranchNumberFieldDisabled(): boolean {
+        return [BrowseMode.View, BrowseMode.Edit].includes(this.browseMode);
+    }
+
+    onChangeFile(event: File) {
+        this.logoFile = event;
     }
 
     cancelOnClick(): void {
-        if (this.activeCrudMode === BranchCrudModes.List) {
-            this._router.navigate(['app', 'main', 'administration']);
-        } else {
-            this.paginator.changePage(this.paginator.getPage());
-            this.activeCrudMode = BranchCrudModes.List;
-        }
+        this._router.navigate(['app', 'main', 'administration', 'branch']);
     }
 
     saveOnClick(): void {
@@ -93,50 +94,23 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             : this.addBranch();
     }
 
-    viewOnClick(branchId: number): void {
-        this.branchId = branchId;
-        this.activeCrudMode = BranchCrudModes.View;
-        this.getBranch(branchId);
-    }
-
-    editOnClick(branchId: number): void {
-        this.branchId = branchId;
-        this.activeCrudMode = BranchCrudModes.Edit;
-        this.getBranch(branchId);
-    }
-
-    itemDeleteOnClick(): void {
+    deleteOnClick(): void {
         if (this.branchId) {
             this.deleteBranch(this.branchId, this.upsertBranchDto.name);
         }
     }
 
-    rowDeleteOnClick(branch: BranchListItemDto): void {
-        this.deleteBranch(branch.id, branch.name);
-    }
-
-    getBrances(event?: LazyLoadEvent): void {
-        if (!this.dataTable || !this.paginator) {
-            return;
+    isButtonActive(button: string): boolean {
+        switch (button) {
+            case 'close':
+                return true;
+            case 'delete':
+                return this.browseMode === BrowseMode.Edit;
+            case 'save':
+                return [BrowseMode.Add, BrowseMode.Edit].includes(this.browseMode);
+            default:
+                return false;
         }
-        if (this.primengTableHelper.shouldResetPaging(event)) {
-            this.paginator.changePage(0);
-            return;
-        }
-        this.primengTableHelper.showLoadingIndicator();
-
-        this._branchesService.getAllPaged(
-            this.filters.filterText,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event),
-            this.primengTableHelper.getSkipCount(this.paginator, event)
-        ).pipe(
-            takeUntil(this.destroy$),
-            finalize(() => this.primengTableHelper.hideLoadingIndicator())
-        ).subscribe((x: PagedResultDtoOfBranchListItemDto) => {
-            this.primengTableHelper.totalRecordsCount = x.totalCount;
-            this.primengTableHelper.records = x.items;
-        });
     }
 
     currencyTypeOnChange(): void {
@@ -239,9 +213,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
-                this.activeCrudMode = BranchCrudModes.List;
-                this.paginator.changePage(this.paginator.getPage());
                 this.notifyService.success(this.l('SuccessfullyAdded'));
+                this._router.navigate(['app', 'main', 'administration', 'branch']);
             });
     }
 
@@ -264,13 +237,8 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
                 if (isConfirmed) {
                     this.loading = true;
                     this._branchesService.delete(branchId).subscribe(() => {
-                        this.branchCurrencyType = new BranchCurrencyTypeDto();
-                        this.initBranch();
-                        this.branchId = null;
-                        this.currencyTypeId = null;
-                        this.activeCrudMode = BranchCrudModes.List;
-                        this.paginator.changePage(this.paginator.getPage());
                         this.notifyService.success(this.l('SuccessfullyDeleted'));
+                        this._router.navigate(['app', 'main', 'administration', 'branch']);
                     }, () => {
 
                     }, () => {
@@ -288,30 +256,11 @@ export class BranchComponent extends AppComponentBase implements OnInit, OnDestr
 
     private initActionButtons(): void {
         this.actionButtons = [
-            { name: this.l('Cancel'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.cancelOnClick() },
-            { name: this.l('Close'), cssClass: 'btn-secondary', activeCrudModes: [BranchCrudModes.List, BranchCrudModes.View], action: () => this.cancelOnClick() },
-            { name: this.l('Delete'), cssClass: 'btn-danger', activeCrudModes: [BranchCrudModes.Edit], action: () => this.itemDeleteOnClick() },
-            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', activeCrudModes: [BranchCrudModes.List], action: () => this.addOnClick() },
-            { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', activeCrudModes: [BranchCrudModes.Add, BranchCrudModes.Edit], action: () => this.saveOnClick() },
+            { name: this.l('Close'), cssClass: 'btn-secondary', isActive: () => this.isButtonActive('close'), action: () => this.cancelOnClick() },
+            { name: this.l('Delete'), cssClass: 'btn-danger', isActive: () => this.isButtonActive('delete'), action: () => this.deleteOnClick() },
+            { name: this.l('Save'), cssClass: 'btn-primary', iconClass: 'fa fa-save', isActive: () => this.isButtonActive('save'), action: () => this.saveOnClick() },
         ];
     }
-
-    onChangeFile(event: File) {
-        this.logoFile = event;
-    }
 }
 
-export class ActionButton {
-    name: string;
-    cssClass: string;
-    iconClass?: string;
-    activeCrudModes: BranchCrudModes[];
-    action: (argument?: () => any) => void;
-}
 
-export enum BranchCrudModes {
-    List = 1,
-    View,
-    Add,
-    Edit
-}

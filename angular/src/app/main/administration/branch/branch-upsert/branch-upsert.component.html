@@ -1,154 +1,16 @@
 <div [@routerTransition]>
-    <form class="content d-flex flex-column flex-column-fluid" autocomplete="off">
+    <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="l('Branch')" [breadcrumbs]="breadcrumbs">
             <div role="actions">
                 <ng-container *ngFor="let ab of actionButtons">
-                    <button *ngIf="ab.activeCrudModes.includes(activeCrudMode)" class="btn" [class]="ab.cssClass"
-                        (click)="ab.action()">
+                    <button *ngIf="ab.isActive()" class="btn" [class]="ab.cssClass" (click)="ab.action()"
+                        [buttonBusy]="loading">
                         <i *ngIf="ab.iconClass" [class]="ab.iconClass"></i> {{ ab.name }}
                     </button>
                 </ng-container>
             </div>
         </sub-header>
-        <div [class]="containerClass">
-            <div class="card card-custom gutter-b" [ngClass]="{'d-none': activeCrudMode !== branchCrudModes.List}">
-                <div class="card-body">
-                    <form class="form" (submit)="getBrances()" autocomplete="off">
-                        <div class="form-body">
-                            <div class="input-group">
-                                <input type="text" id="Branch_List_Filter_AR_Account" name="branchListFilterARAccount"
-                                    class="form-control" placeholder="{{ l('SearchByArAccounts') }}"
-                                    [(ngModel)]="filters.filterText" />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="row align-items-center">
-                        <!--<Primeng-TurboTable-Start>-->
-                        <div class="col primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
-                            <p-table #dataTable sortMode="multiple" (onLazyLoad)="getBrances($event)"
-                                [value]="primengTableHelper.records"
-                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}" [paginator]="false"
-                                [lazy]="true" [responsive]="primengTableHelper.isResponsive">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th class="w-100px">{{ l('Actions') }}</th>
-                                        <th pSortableColumn="number">
-                                            {{ l('Branch') }}
-                                            <p-sortIcon field="number"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="name">
-                                            {{ l('Name') }}
-                                            <p-sortIcon field="name"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="phone">
-                                            {{ l('Phone') }}
-                                            <p-sortIcon field="phone"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="receivable">
-                                            {{ l('ArAccounts') }}
-                                            <p-sortIcon field="receivable"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="defaultWarehouse">
-                                            {{ l('Warehouse') }}
-                                            <p-sortIcon field="defaultWarehouse"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="currencyType">
-                                            {{ l('CurrencyType') }}
-                                            <!-- <p-sortIcon field="currencyType"></p-sortIcon> -->
-                                        </th>
-                                        <th pSortableColumn="creationTime">
-                                            {{ l('CreatedOn') }}
-                                            <p-sortIcon field="creationTime"></p-sortIcon>
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-record="$implicit">
-                                    <tr>
-                                        <td class="btn-group" dropdown placement="bottom left">
-                                            <button id="dropdownButton" type="button"
-                                                class="btn btn-secondary btn-sm dropdown-toggle" dropdownToggle
-                                                aria-controls="dropdownMenu">
-                                                <i class="fa fa-cog"></i>
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul id="dropdownMenu" class="dropdown-menu" role="menu" *dropdownMenu
-                                                aria-labelledby="dropdownButton">
-                                                <li role="menuitem">
-                                                    <a href="javascript:;" class="dropdown-item"
-                                                        (click)="viewOnClick(record.id)">
-                                                        {{ l('View') }}
-                                                    </a>
-                                                </li>
-                                                <li role="menuitem">
-                                                    <a href="javascript:;" class="dropdown-item"
-                                                        (click)="editOnClick(record.id)">
-                                                        {{ l('Edit') }}
-                                                    </a>
-                                                </li>
-                                                <li role="menuitem">
-                                                    <a href="javascript:;" class="dropdown-item color-red"
-                                                        (click)="rowDeleteOnClick(record)">
-                                                        {{ l('Delete') }}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('Branch') }}</span>
-                                            {{ record.number }}
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('Name') }}</span>
-                                            {{ record.name }}
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('Phone') }}</span>
-                                            {{ record.phone }}
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('ArAccount') }}</span>
-                                            {{ record.receivable }}
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('Warehouse') }}</span>
-                                            {{ record.defaultWarehouse }}
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('CurrencyType') }}</span>
-                                            {{ record.currencyType }}
-                                        </td>
-                                        <td>
-                                            <span class="p-column-title">{{ l('CreatedOn') }}</span>
-                                            {{ record.creationTime ? (record.creationTime | date: 'shortDate') : '-' }}
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
-                                {{ l('NoData') }}
-                            </div>
-                            <div class="primeng-paging-container">
-                                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
-                                    (onPageChange)="getBrances($event)"
-                                    [totalRecords]="primengTableHelper.totalRecordsCount"
-                                    [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
-                                    [showCurrentPageReport]="true" [currentPageReportTemplate]="
-                                        'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount
-                                    "></p-paginator>
-                            </div>
-                        </div>
-                        <!--<Primeng-TurboTable-End>-->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <ng-container *ngIf="activeCrudMode !== branchCrudModes.List">
+        <form autocomplete="off">
             <div [class]="containerClass">
                 <div class="card card-custom gutter-b">
                     <div class="card-body">
@@ -157,7 +19,7 @@
                                 <label for="Branch_Number">{{ l('Branch') }}</label>
                                 <input type="number" id="Branch_Number" name="branchNumber" class="form-control"
                                     [placeholder]="l('Number')" [(ngModel)]="upsertBranchDto.number"
-                                    [disabled]="[branchCrudModes.View, branchCrudModes.Edit].includes(activeCrudMode)" />
+                                    [disabled]="isBranchNumberFieldDisabled()" />
                             </div>
                             <div class="col-6 form-group">
                                 <label for="Branch_Name">{{ l('Name') }}</label>
@@ -211,7 +73,8 @@
                                 <label for="Branch_Country">{{ l('Country') }}</label>
                                 <p-dropdown id="Branch_Country" name="branchCountry" [placeholder]="l('SelectCountry')"
                                     [(ngModel)]="upsertBranchDto.country" [options]="initialDropdownData.countries"
-                                    optionValue="name" optionLabel="name" editable="true" [showClear]="true" [disabled]="isViewMode()">
+                                    optionValue="name" optionLabel="name" editable="true" [showClear]="true"
+                                    [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">
@@ -289,8 +152,9 @@
                                 <p-dropdown id="Branch_DefaultWarehouse" name="branchDefaultWarehouse"
                                     [placeholder]="l('SelectDefaultWarehouse')"
                                     [(ngModel)]="upsertBranchDto.defaultWarehouse"
-                                    [options]="initialDropdownData.warehouses" optionValue="warehouse" optionLabel="warehouse"
-                                    editable="true" [showClear]="true" [disabled]="isViewMode()">
+                                    [options]="initialDropdownData.warehouses" optionValue="warehouse"
+                                    optionLabel="warehouse" editable="true" [showClear]="true"
+                                    [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">
@@ -356,10 +220,12 @@
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-end">
-                                <button (click)="deleteBranchCurrencyType()" class="btn btn-primary" [disabled]="isViewMode()" >
+                                <button (click)="deleteBranchCurrencyType()" class="btn btn-primary"
+                                    [disabled]="isViewMode()">
                                     <span>{{ l('Delete') }}</span>
                                 </button>
-                                <button (click)="updateBranchCurrencyType()" class="btn btn-primary" [disabled]="isViewMode()" >
+                                <button (click)="updateBranchCurrencyType()" class="btn btn-primary"
+                                    [disabled]="isViewMode()">
                                     <span>{{ l('Update') }}</span>
                                 </button>
                             </div>
@@ -379,25 +245,26 @@
                             [tvhWarehouses]="initialDropdownData.tvhWarehouses" [isViewMode]="isViewMode()"></branchTvh>
                     </tab>
                     <tab heading="{{ l('Finance') }}">
-                        <branchFinance [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()"></branchFinance>
+                        <branchFinance [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()">
+                        </branchFinance>
                     </tab>
                     <tab heading="{{ l('Email') }}">
                         <branchEmail [(upsertBranchDto)]="upsertBranchDto" [isViewMode]="isViewMode()"></branchEmail>
                     </tab>
                     <tab heading="{{ l('LogoGraphic') }}">
-                        <branchLogoGraphic [(upsertBranchDto)]="upsertBranchDto" (fileChanged)="onChangeFile($event)" 
+                        <branchLogoGraphic [(upsertBranchDto)]="upsertBranchDto" (fileChanged)="onChangeFile($event)"
                             [isViewMode]="isViewMode()">
                         </branchLogoGraphic>
                     </tab>
                 </tabset>
             </div>
-            <div class="mt-5" [class]="containerClass">
-                <p>{{ l('AddedBy') }} : {{ upsertBranchDto.creatorUserName ? upsertBranchDto.creatorUserName :
-                    '       ' }} on {{ creationTime | date:'medium'}} </p>
-                <p>{{ l('ChangedBy') }} : {{ upsertBranchDto.lastModifierUserName ? upsertBranchDto.lastModifierUserName :
-                    '       ' }} on {{ lastModificationTime | date:'medium'}}
-                </p>
-            </div>
-        </ng-container>
-    </form>
+        </form>
+        <div class="mt-5" [class]="containerClass">
+            <p>{{ l('AddedBy') }} : {{ upsertBranchDto.creatorUserName ? upsertBranchDto.creatorUserName :
+                ' ' }} on {{ creationTime | date:'medium'}} </p>
+            <p>{{ l('ChangedBy') }} : {{ upsertBranchDto.lastModifierUserName ? upsertBranchDto.lastModifierUserName :
+                ' ' }} on {{ lastModificationTime | date:'medium'}}
+            </p>
+        </div>
+    </div>
 </div>
