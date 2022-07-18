@@ -56,8 +56,7 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
                 branch.Image = await _applicationStorageService.UploadBlobFile($"branches/{command.Number}", command.BinaryLogoFile, command.LogoFile, command.FileType);
             }
 
-            //SetTenant(branch);
-            branch.TenantId = 1;
+            SetTenant(branch);
 
             branch.Id = await _branchRepository.InsertAndGetIdAsync(branch);
             return ObjectMapper.Map<UpsertBranchDto>(branch);
