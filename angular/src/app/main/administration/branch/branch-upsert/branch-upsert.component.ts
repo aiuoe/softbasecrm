@@ -240,9 +240,8 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
             .pipe(
                 takeUntil(this.destroy$)
             ).subscribe((x: UpsertBranchDto) => {
-                this.upsertBranchDto = x;
-                this.selectedDate = this.upsertBranchDto.rentalDeliveryDefaultTime?.toJSDate();
                 this.notifyService.success(this.l('UpdateSuccessfully'));
+                this._router.navigate(['app', 'main', 'administration', 'branch']);
             });
     }
 
