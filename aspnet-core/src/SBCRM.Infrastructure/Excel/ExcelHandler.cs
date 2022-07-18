@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace SBCRM.Infrastructure.Excel
 {
@@ -19,7 +18,7 @@ namespace SBCRM.Infrastructure.Excel
         /// <param name="startFromRow">Row position to start</param>
         /// <param name="allowEverySheet">Flag to see wheter it's needed to read every worksheet or not</param>
         /// <returns></returns>
-        public static async Task<List<T>> ReadIntoList<T>(byte[] bin, int startFromRow = 1, bool allowEverySheet = true)
+        public static List<T> ReadIntoList<T>(byte[] bin, int startFromRow = 1, bool allowEverySheet = true)
         {
             //create a list to hold all the values
             List<T> excelData = new List<T>();

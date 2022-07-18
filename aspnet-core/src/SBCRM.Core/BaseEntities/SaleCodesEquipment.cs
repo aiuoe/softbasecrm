@@ -13,8 +13,6 @@ namespace SBCRM.Core.BaseEntities
     [Index(nameof(Branch), nameof(Dept), nameof(Code), nameof(ModelGroup), nameof(TenantId), Name = "UC_SaleCodesEquipment", IsUnique = true)]
     public class SaleCodesEquipment : FullAuditedEntity<long>, IMustHaveTenant
     {
-        [Key]
-        public long Id { get; set; }
         public int TenantId { get; set; }
         public short Branch { get; set; }
         public short Dept { get; set; }

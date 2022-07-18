@@ -46,4 +46,7 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="5.0.10" />
   </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<NoWarn>1701,1702,1591,1572,1573,1570</NoWarn>
+	</PropertyGroup>
 </Project>

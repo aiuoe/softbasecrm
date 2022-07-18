@@ -83,6 +83,8 @@ namespace SBCRM.Web.Startup
 
             services.AddMediatR(typeof(SBCRMApplicationModule).Assembly);
 
+            services.AddApplicationInsightsTelemetry();
+
             services.AddApiVersioning();
 
             services.AddSingleton<IConfiguration>(_appConfiguration);
@@ -295,7 +297,9 @@ namespace SBCRM.Web.Startup
                     Authorization = new[]
                         {new AbpHangfireAuthorizationFilter(AppPermissions.Pages_Administration_HangfireDashboard)}
                 });
+#pragma warning disable CS0618
                 app.UseHangfireServer();
+#pragma warning restore CS0618
             }
 
             if (bool.Parse(_appConfiguration["Payment:Stripe:IsActive"]))

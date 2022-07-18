@@ -32,15 +32,7 @@ namespace SBCRM.EntityFrameworkCore.Repositories
         /// <returns>The secure record with that matches the employe number or null</returns>
         public async Task<Secure> GetLegacyUserByEmployeNumber(int employeNumber)
         {
-            try
-            {
-                return await _dbContext.Secure.FirstOrDefaultAsync(s => s.EmployeeNo == employeNumber);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            return await _dbContext.Secure.FirstOrDefaultAsync(s => s.EmployeeNo == employeNumber);
         }
     }
 }

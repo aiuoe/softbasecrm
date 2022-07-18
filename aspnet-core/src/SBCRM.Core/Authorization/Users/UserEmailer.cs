@@ -390,6 +390,7 @@ namespace SBCRM.Authorization.Users
 #if DEBUG
             return;
 #endif
+#pragma warning disable CS0162
             if (
                 (await _settingManager.GetSettingValueAsync(EmailSettingNames.DefaultFromAddress)).IsNullOrEmpty() ||
                 (await _settingManager.GetSettingValueAsync(EmailSettingNames.Smtp.Host)).IsNullOrEmpty()
@@ -410,6 +411,7 @@ namespace SBCRM.Authorization.Users
             {
                 throw new UserFriendlyException(L("SMTPSettingsNotProvidedWarningText"));
             }
+#pragma warning restore CS0162
         }
     }
 }

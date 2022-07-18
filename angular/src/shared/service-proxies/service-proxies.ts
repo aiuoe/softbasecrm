@@ -6557,8 +6557,8 @@ export class CommonSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateTenentLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenentLevelSettings";
+    updateTenantLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenantLevelSettings";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -6573,11 +6573,11 @@ export class CommonSettingsServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateTenentLevelSettings(response_);
+            return this.processUpdateTenantLevelSettings(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateTenentLevelSettings(<any>response_);
+                    return this.processUpdateTenantLevelSettings(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6586,7 +6586,7 @@ export class CommonSettingsServiceProxy {
         }));
     }
 
-    protected processUpdateTenentLevelSettings(response: HttpResponseBase): Observable<void> {
+    protected processUpdateTenantLevelSettings(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
