@@ -217,7 +217,7 @@ namespace SBCRM.Crm
         [AbpAuthorize(AppPermissions.Pages_OpportunityStages_Delete)]
         public async Task Delete(EntityDto input)
         {
-            _opportunityStageRepository.Delete(input.Id);
+            await _opportunityStageRepository.DeleteAsync(input.Id);
         }
 
         /// <summary>

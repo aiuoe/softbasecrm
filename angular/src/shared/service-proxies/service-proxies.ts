@@ -6205,8 +6205,8 @@ export class CommonSettingsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateTenentLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenentLevelSettings";
+    updateTenantLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenantLevelSettings";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -6221,11 +6221,11 @@ export class CommonSettingsServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateTenentLevelSettings(response_);
+            return this.processUpdateTenantLevelSettings(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateTenentLevelSettings(<any>response_);
+                    return this.processUpdateTenantLevelSettings(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6234,7 +6234,7 @@ export class CommonSettingsServiceProxy {
         }));
     }
 
-    protected processUpdateTenentLevelSettings(response: HttpResponseBase): Observable<void> {
+    protected processUpdateTenantLevelSettings(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12602,149 +12602,6 @@ export class GetCompanyQueryHandlerServiceProxy {
             }));
         }
         return _observableOf<GetCompanyDto[]>(<any>null);
-    }
-}
-
-@Injectable()
-export class GetTaxCodesQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetTaxCodesQuery | undefined): Observable<PagedResultDtoOfTaxCodeDto> {
-        let url_ = this.baseUrl + "/api/services/app/GetTaxCodesQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfTaxCodeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfTaxCodeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<PagedResultDtoOfTaxCodeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfTaxCodeDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfTaxCodeDto>(<any>null);
-    }
-}
-
-@Injectable()
-export class GetTaxCodeTypesQueryHandlerServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    handle(body: GetTaxCodeTypesQuery | undefined): Observable<TaxCodeTypeDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/GetTaxCodeTypesQueryHandler/Handle";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHandle(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHandle(<any>response_);
-                } catch (e) {
-                    return <Observable<TaxCodeTypeDto[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<TaxCodeTypeDto[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHandle(response: HttpResponseBase): Observable<TaxCodeTypeDto[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(TaxCodeTypeDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TaxCodeTypeDto[]>(<any>null);
     }
 }
 
@@ -44756,92 +44613,6 @@ export interface IGetSalesSummaryOutput {
     expenses: number;
     growth: number;
     salesSummary: SalesSummaryData[] | undefined;
-}
-
-export class GetTaxCodesQuery implements IGetTaxCodesQuery {
-    taxCodeType!: string | undefined;
-    taxCode!: string | undefined;
-    parentTaxCode!: string | undefined;
-    description!: string | undefined;
-    maxResultCount!: number;
-    skipCount!: number;
-
-    constructor(data?: IGetTaxCodesQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.taxCodeType = _data["taxCodeType"];
-            this.taxCode = _data["taxCode"];
-            this.parentTaxCode = _data["parentTaxCode"];
-            this.description = _data["description"];
-            this.maxResultCount = _data["maxResultCount"];
-            this.skipCount = _data["skipCount"];
-        }
-    }
-
-    static fromJS(data: any): GetTaxCodesQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetTaxCodesQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["taxCodeType"] = this.taxCodeType;
-        data["taxCode"] = this.taxCode;
-        data["parentTaxCode"] = this.parentTaxCode;
-        data["description"] = this.description;
-        data["maxResultCount"] = this.maxResultCount;
-        data["skipCount"] = this.skipCount;
-        return data; 
-    }
-}
-
-export interface IGetTaxCodesQuery {
-    taxCodeType: string | undefined;
-    taxCode: string | undefined;
-    parentTaxCode: string | undefined;
-    description: string | undefined;
-    maxResultCount: number;
-    skipCount: number;
-}
-
-export class GetTaxCodeTypesQuery implements IGetTaxCodeTypesQuery {
-
-    constructor(data?: IGetTaxCodeTypesQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): GetTaxCodeTypesQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetTaxCodeTypesQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface IGetTaxCodeTypesQuery {
 }
 
 export class GetTenantFeaturesEditOutput implements IGetTenantFeaturesEditOutput {
