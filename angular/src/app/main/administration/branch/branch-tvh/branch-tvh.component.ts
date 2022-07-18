@@ -17,6 +17,9 @@ export class BranchTvhComponent extends AppComponentBase {
     @Input() countries: CountryDto[] = [];
     @Input() tvhWarehouses: TvhWarehouseLookupDto[] = [];
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector
     ) {

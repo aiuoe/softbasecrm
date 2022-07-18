@@ -19,25 +19,33 @@ export class BranchLogoGraphicComponent extends AppComponentBase implements OnCh
     imageSrc: string = null;
     saving: boolean = false;
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector
     ) {
         super(injector);
     }
 
+    /**
+     * OnChanges
+     */
     ngOnChanges() {
         this.imageSrc = this.upsertBranchDto.image;
     }
 
-    logoGraphicClear() {
-        this.imageSrc = null;
-        this.upsertBranchDto.image = null;
-        this.upsertBranchDto.logoFile = null;
-        this.fileChanged.emit(null);
-
+    /**
+     * clear button on click action
+     */
+    clearOnClick(): void {
+        this.clearLogoGraphic();
     }
 
-    onFileSelected(event) {
+    /**
+     * file input on change action
+     */
+    fileOnChange(event: any): void {
         if (event.target.files && event.target.files[0]) {
             let file = event.target.files[0];
             this.fileChanged.emit(file);
@@ -48,5 +56,15 @@ export class BranchLogoGraphicComponent extends AppComponentBase implements OnCh
             }
             fileReader.readAsDataURL(file);
         }
+    }
+
+    /**
+     * clear logo graphic
+     */
+    private clearLogoGraphic(): void {
+        this.imageSrc = null;
+        this.upsertBranchDto.image = null;
+        this.upsertBranchDto.logoFile = null;
+        this.fileChanged.emit(null);
     }
 }

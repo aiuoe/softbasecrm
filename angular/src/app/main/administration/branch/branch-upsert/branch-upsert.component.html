@@ -116,7 +116,7 @@
                                     [placeholder]="l('SelectARAccounts')"
                                     [options]="initialDropdownData.accountsReceivables" optionValue="id"
                                     optionLabel="accountReceivable" [showClear]="true"
-                                    (onChange)="branchAccountsReceivablesOnChange($event)" [disabled]="isViewMode()">
+                                    (onChange)="accountsReceivablesOnChange($event)" [disabled]="isViewMode()">
                                 </p-dropdown>
                             </div>
                             <div class="col-6 form-group">
@@ -220,11 +220,11 @@
                                     [disabled]="isViewMode()" />
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-end">
-                                <button (click)="deleteBranchCurrencyType()" class="btn btn-primary"
+                                <button (click)="deleteBranchCurrencyTypeOnClick()" class="btn btn-primary"
                                     [disabled]="isViewMode()">
                                     <span>{{ l('Delete') }}</span>
                                 </button>
-                                <button (click)="updateBranchCurrencyType()" class="btn btn-primary"
+                                <button (click)="updateBranchCurrencyTypeOnClick()" class="btn btn-primary"
                                     [disabled]="isViewMode()">
                                     <span>{{ l('Update') }}</span>
                                 </button>

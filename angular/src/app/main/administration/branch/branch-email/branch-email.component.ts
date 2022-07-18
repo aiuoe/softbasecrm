@@ -15,6 +15,9 @@ export class BranchEmailComponent extends AppComponentBase {
     @Input() isViewMode: boolean;
     @Input() upsertBranchDto: UpsertBranchDto;
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector
     ) {

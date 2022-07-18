@@ -6,7 +6,7 @@
                 <div class="p-inputgroup">
                     <input id="Branch_LogoGraphic_File" name="branchLogoGraphicFile" type="text" pInputText [disabled]="true" [(ngModel)]="upsertBranchDto.logoFile">
                     <span class="p-inputgroup-addon" (click)="fileSelectInputDialog.click()">{{l('BrowseFile')}}</span>
-                    <input style="display:none" #fileSelectInputDialog id="Branch_LogoGraphicFile_Logo_Upload_Button" type="file" accept="image/*" [disabled]="isViewMode" (change)="onFileSelected($event)" />
+                    <input style="display:none" #fileSelectInputDialog id="Branch_LogoGraphicFile_Logo_Upload_Button" type="file" accept="image/*" [disabled]="isViewMode" (change)="fileOnChange($event)" />
                 </div>
             </div>
             <div class="col-3 d-flex align-items-center mt-8 form-group">
@@ -18,14 +18,12 @@
                 </label>
             </div>
             <div class="col-3 flex-grow-1 d-flex justify-content-end align-items-center">
-                <button id="Branch_LogoGraphicFile_Clear_Button" (click)="logoGraphicClear()" [disabled]="isViewMode" class="btn btn-primary blue" [buttonBusy]="saving">
+                <button id="Branch_LogoGraphicFile_Clear_Button" (click)="clearOnClick()" [disabled]="isViewMode" class="btn btn-primary blue" [buttonBusy]="saving">
                     <i class="fa fa-times pr-3"></i>
                     <span>{{ l('Clear') }}</span>
                 </button>
             </div>
         </div>
-        <div class="row">
-            <img *ngIf="imageSrc" class="logo-preview" [src]="imageSrc" alt="logo preview">
-        </div>
+        <img *ngIf="imageSrc" class="logo-preview" [src]="imageSrc" alt="logo preview">
     </div>
 </div>

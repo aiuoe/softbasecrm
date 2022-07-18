@@ -21,6 +21,9 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
     private hasInitialData = false;
     taxTabInitialData = new GetTaxTabInitialDataDto();
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy
@@ -28,20 +31,32 @@ export class BranchTaxSetupComponent extends AppComponentBase implements OnChang
         super(injector);
     }
 
+    /**
+     * OnChanges
+     */
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.upsertBranchDto) {
             this.setTaxTabInitialData();
         }
     }
 
+    /**
+     * OnDestroy
+     */
     ngOnDestroy(): void {
         this.destroy$.next();
     }
 
+    /**
+     * use absolute tax codes status checkbox on change
+     */
     useAbsoluteTaxCodesStatusOnChange(): void {
         this.setTaxTabInitialData();
     }
 
+    /**
+     * get tax tab dropdown values
+     */
     private setTaxTabInitialData(): void {
         if (!this.hasInitialData) {
             this._branchesService.getTaxTabInitialData()

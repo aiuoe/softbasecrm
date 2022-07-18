@@ -35,6 +35,9 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
     actionButtons: IActionButton[] = [];
     filters: { filterText: string } = { filterText: '' };
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
@@ -43,38 +46,58 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
         super(injector);
     }
 
+    /**
+     * OnInit
+     */
     ngOnInit(): void {
         this.initActionButtons();
     }
 
+    /**
+     * OnDestroy
+     */
     ngOnDestroy(): void {
         this.destroy$.next();
     }
 
-    isButtonActive(): boolean {
-        return true;
-    }
-
+    /**
+     * add button on click action
+     */
     addOnClick(): void {
         this._router.navigate(['app', 'main', 'administration', 'branch', 'add']);
     }
 
+    /**
+     * close button on click action
+     */
     closeOnClick(): void {
         this._router.navigate(['app', 'main', 'administration']);
     }
 
+    /**
+     * view button on click action
+     */
     viewOnClick(branchId: number): void {
         this._router.navigate(['app', 'main', 'administration', 'branch', branchId, 'view']);
     }
 
+    /**
+     * edit button on click action
+     */
     editOnClick(branchId: number): void {
         this._router.navigate(['app', 'main', 'administration', 'branch', branchId, 'edit']);
     }
 
+    /**
+     * delete button on click action
+     */
     deleteOnClick(branch: BranchListItemDto): void {
         this.deleteBranch(branch.id, branch.name);
     }
 
+    /**
+     * get paged branch list
+     */
     getBrances(event?: LazyLoadEvent): void {
         if (!this.dataTable || !this.paginator) {
             return;
@@ -99,6 +122,9 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
         });
     }
 
+    /**
+     * delete branch method
+     */
     private deleteBranch(branchId: number, branchName: string): void {
         this.message.confirm(
             this.l('BranchDeleteWarningMessage', branchName),
@@ -119,10 +145,13 @@ export class BranchesComponent extends AppComponentBase implements OnInit, OnDes
         );
     }
 
+    /**
+     * setup action buttons
+     */
     private initActionButtons(): void {
         this.actionButtons = [
-            { name: this.l('Close'), cssClass: 'btn-secondary', isActive: () => this.isButtonActive(), action: () => this.closeOnClick() },
-            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', isActive: () => this.isButtonActive(), action: () => this.addOnClick() },
+            { name: this.l('Close'), cssClass: 'btn-secondary', isActive: () => { return true; }, action: () => this.closeOnClick() },
+            { name: this.l('Branch'), cssClass: 'btn-primary', iconClass: 'fa fa-plus', isActive: () => { return true; }, action: () => this.addOnClick() },
         ];
     }
 }

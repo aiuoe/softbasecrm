@@ -19,6 +19,9 @@ export class BranchFinanceComponent extends AppComponentBase implements OnDestro
     destroy$ = new Subject();
     isAccountNumberValid: boolean = true;
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector,
         private _branchesService: BranchesServiceProxy,
@@ -26,17 +29,26 @@ export class BranchFinanceComponent extends AppComponentBase implements OnDestro
         super(injector);
     }
 
+    /**
+     * OnDestroy
+     */
     ngOnDestroy(): void {
         this.destroy$.next();
     }
 
+    /**
+     * credit card debit account No on key up action
+     */
     creditCardDebitAccountNoOnKeyUp(): void {
         if (this.upsertBranchDto.creditCardAccountNo) {
-            this.setAccountNumberValidity();
+            this.updateAccountNumberValidity();
         }
     }
 
-    private setAccountNumberValidity(): void {
+    /**
+     * update account number validity
+     */
+    private updateAccountNumberValidity(): void {
         this._branchesService.getChartOfAccountDetails(this.upsertBranchDto.creditCardAccountNo)
             .pipe(
                 takeUntil(this.destroy$)

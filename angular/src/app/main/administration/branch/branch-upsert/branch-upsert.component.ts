@@ -47,6 +47,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
     creationTime = new Date();
     lastModificationTime = new Date();
 
+    /**
+     * constructor
+     */
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -57,6 +60,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         super(injector);
     }
 
+    /**
+     * OnInit
+     */
     ngOnInit(): void {
         this.browseMode = this._activatedRoute.snapshot.data.browseMode;
         if (this._activatedRoute.snapshot.params.id) {
@@ -68,38 +74,62 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         this.setInitialDropdownData();
     }
 
+    /**
+     * OnDestroy
+     */
     ngOnDestroy(): void {
         this.destroy$.next();
     }
 
+    /**
+     * check if input is in view mode
+     */
     isViewMode(): boolean {
         return this.browseMode === BrowseMode.View;
     }
 
+    /**
+     * check if branch number field is disable
+     */
     isBranchNumberFieldDisabled(): boolean {
         return [BrowseMode.View, BrowseMode.Edit].includes(this.browseMode);
     }
 
+    /**
+     * file input on change action
+     */
     onChangeFile(event: File) {
         this.logoFile = event;
     }
 
+    /**
+     * cancel butone on click action
+     */
     cancelOnClick(): void {
         this._router.navigate(['app', 'main', 'administration', 'branch']);
     }
 
+    /**
+     * save butone on click action
+     */
     saveOnClick(): void {
         return this.branchId
             ? this.updateBranch()
             : this.addBranch();
     }
 
+    /**
+     * delete butone on click action
+     */
     deleteOnClick(): void {
         if (this.branchId) {
             this.deleteBranch(this.branchId, this.upsertBranchDto.name);
         }
     }
 
+    /**
+     * check if a button is active
+     */
     isButtonActive(button: string): boolean {
         switch (button) {
             case 'close':
@@ -113,6 +143,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         }
     }
 
+    /**
+     * currency type input on change action
+     */
     currencyTypeOnChange(): void {
         if (this.branchId && this.currencyTypeId) {
             this._branchesService.getBranchCurrencyType(this.branchId, this.currencyTypeId)
@@ -124,40 +157,23 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         }
     }
 
-    deleteBranchCurrencyType(): void {
-        if (this.branchId && this.currencyTypeId) {
-            this.branchCurrencyType = new BranchCurrencyTypeDto();
-            const patchBranchCurrencyTypeCommand = new PatchBranchCurrencyTypeCommand();
-            this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
-                .pipe(
-                    takeUntil(this.destroy$)
-                ).subscribe((x: BranchCurrencyTypeDto) => {
-                    this.branchCurrencyType = x;
-                });
-        }
+    /**
+     * delete currency type on click action
+     */
+    deleteBranchCurrencyTypeOnClick(): void {
+        this.deleteBranchCurrencyType();
     }
 
-    updateBranchCurrencyType(): void {
-        if (this.branchId && this.currencyTypeId) {
-            const patchBranchCurrencyTypeCommand = new PatchBranchCurrencyTypeCommand({
-                branchId: -1,
-                currencyTypeId: -1,
-                arAccountNo: this.branchCurrencyType.arAccountNo,
-                debitAccount: this.branchCurrencyType.debitAccount,
-                creditAccount: this.branchCurrencyType.creditAccount,
-                debitAccountReevaluate: this.branchCurrencyType.debitAccountReevaluate,
-                creditAccountReevaluate: this.branchCurrencyType.creditAccountReevaluate,
-            });
-
-            this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
-                .pipe(
-                    takeUntil(this.destroy$)
-                ).subscribe((x: BranchCurrencyTypeDto) => {
-                    this.branchCurrencyType = x;
-                });
-        }
+    /**
+     * update currency type on click action
+     */
+    updateBranchCurrencyTypeOnClick(): void {
+        this.updateBranchCurrencyType();
     }
 
+    /**
+     * ar account input on change action
+     */
     acountsReceivableGLAccountNumberOnChange(): void {
         if (this.upsertBranchDto.receivable) {
             this._branchesService.getChartOfAccountDetails(this.upsertBranchDto.receivable)
@@ -169,6 +185,18 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         }
     }
 
+    /**
+     * ar account dropdown on change action
+     */
+    accountsReceivablesOnChange(e: any): void {
+        if (e.value) {
+            this.upsertBranchDto.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
+        }
+    }
+
+    /**
+     * zip code on change action
+     */
     zipCodeOnChange(): void {
         if (this.upsertBranchDto.zipCode) {
             this._branchesService.getZipCodeDetails(this.upsertBranchDto.zipCode)
@@ -183,12 +211,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         }
     }
 
-    branchAccountsReceivablesOnChange(e: any): void {
-        if (e.value) {
-            this.upsertBranchDto.receivable = this.initialDropdownData.accountsReceivables.find(x => x.id === e.value).accountReceivable;
-        }
-    }
-
+    /**
+     * set dropdown data
+     */
     private setInitialDropdownData(): void {
         this._branchesService.getInitialData()
             .pipe(
@@ -198,6 +223,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
             });
     }
 
+    /**
+     * get branch information
+     */
     private getBranch(branchId: number): void {
         this._branchesService.get(branchId)
             .pipe(
@@ -208,6 +236,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
             });
     }
 
+    /**
+     * add a branch
+     */
     private addBranch(): void {
         this._branchesService.create(this.upsertBranchDto, this.getFileParameterFromFile(this.logoFile))
             .pipe(
@@ -218,6 +249,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
             });
     }
 
+    /**
+    * update a branch
+    */
     private updateBranch(): void {
         this._branchesService.update(this.upsertBranchDto.id, this.upsertBranchDto, this.getFileParameterFromFile(this.logoFile))
             .pipe(
@@ -229,6 +263,9 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
             });
     }
 
+    /**
+    * delete a branch
+    */
     private deleteBranch(branchId: number, branchName: string): void {
         this.message.confirm(
             this.l('BranchDeleteWarningMessage', branchName),
@@ -249,11 +286,57 @@ export class BranchUpsertComponent extends AppComponentBase implements OnInit, O
         );
     }
 
+    /**
+     * delete a branch currency type
+     */
+    private deleteBranchCurrencyType(): void {
+        if (this.branchId && this.currencyTypeId) {
+            this.branchCurrencyType = new BranchCurrencyTypeDto();
+            const patchBranchCurrencyTypeCommand = new PatchBranchCurrencyTypeCommand();
+            this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: BranchCurrencyTypeDto) => {
+                    this.branchCurrencyType = x;
+                });
+        }
+    }
+
+    /**
+     * update a branch currency type
+     */
+    private updateBranchCurrencyType(): void {
+        if (this.branchId && this.currencyTypeId) {
+            const patchBranchCurrencyTypeCommand = new PatchBranchCurrencyTypeCommand({
+                branchId: -1,
+                currencyTypeId: -1,
+                arAccountNo: this.branchCurrencyType.arAccountNo,
+                debitAccount: this.branchCurrencyType.debitAccount,
+                creditAccount: this.branchCurrencyType.creditAccount,
+                debitAccountReevaluate: this.branchCurrencyType.debitAccountReevaluate,
+                creditAccountReevaluate: this.branchCurrencyType.creditAccountReevaluate,
+            });
+
+            this._branchesService.patchBranchCurrencyType(this.branchId, this.currencyTypeId, patchBranchCurrencyTypeCommand)
+                .pipe(
+                    takeUntil(this.destroy$)
+                ).subscribe((x: BranchCurrencyTypeDto) => {
+                    this.branchCurrencyType = x;
+                });
+        }
+    }
+
+    /**
+     * initialize branch object
+     */
     private initBranch(): void {
         this.upsertBranchDto = new UpsertBranchDto();
         this.upsertBranchDto.init({});
     }
 
+    /**
+     * initialize action buttons
+     */
     private initActionButtons(): void {
         this.actionButtons = [
             { name: this.l('Close'), cssClass: 'btn-secondary', isActive: () => this.isButtonActive('close'), action: () => this.cancelOnClick() },
