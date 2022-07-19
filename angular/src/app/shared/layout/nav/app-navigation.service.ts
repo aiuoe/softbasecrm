@@ -168,7 +168,7 @@ export class AppNavigationService {
                     ),
                     new AppMenuItem(
                         'Branch',
-                        '',
+                        'Pages.Branches',
                         '',
                         '/app/main/administration/branch'
                     ),
