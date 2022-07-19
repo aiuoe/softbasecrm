@@ -2,6 +2,7 @@
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <UseRazorSourceGenerator>false</UseRazorSourceGenerator>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>SBCRM.Web.Public</AssemblyName>

@@ -24,7 +24,7 @@ namespace SBCRM
 
         public const int ResizedMaxProfilPictureBytesUserFriendlyValue = 1024;
 
-        public const int MaxProfilPictureBytesUserFriendlyValue = 5;
+        public const int MaxProfilePictureBytesUserFriendlyValue = 5;
 
         public const string TokenValidityKey = "token_validity_key";
         public const string RefreshTokenValidityKey = "refresh_token_validity_key";
