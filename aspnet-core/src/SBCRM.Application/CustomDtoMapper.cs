@@ -70,6 +70,9 @@ using Tax = SBCRM.Core.BaseEntities.Tax;
 using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
 using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
 using SBCRM.Modules.Administration.Branch.Commands;
+using System.Linq;
+using SBCRM.Modules.Common.ApCheckFormats.Dto;
+using CheckFormat = SBCRM.Core.BaseEntities.CheckFormat;
 
 namespace SBCRM
 {
@@ -135,6 +138,7 @@ namespace SBCRM
             configuration.CreateMap<ARTermsDto, ARTerms>().ReverseMap();
             configuration.CreateMap<CreateOrEditZipCodeDto, ZipCode>().ReverseMap();
             configuration.CreateMap<ZipCodeDto, ZipCode>().ReverseMap();
+            configuration.CreateMap<ApCheckFormatDto, CheckFormat>().ReverseMap();
             //Inputs
             configuration.CreateMap<GetCrmEntityTypeChangeInput, GetEntityTypeChangeInput>().ReverseMap();
             configuration.CreateMap<CheckboxInputType, FeatureInputTypeDto>();

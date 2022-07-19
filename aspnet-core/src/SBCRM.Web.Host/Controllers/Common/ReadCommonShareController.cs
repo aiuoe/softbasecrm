@@ -9,6 +9,8 @@ using SBCRM.Modules.Accounting.Dtos;
 using SBCRM.Modules.Administration.Dtos;
 using SBCRM.Modules.Common.AdditionalCharges.Commands;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
+using SBCRM.Modules.Common.ApCheckFormats.Dto;
+using SBCRM.Modules.Common.ApCheckFormats.Queries;
 using SBCRM.Modules.Common.ARTerms.Dto;
 using SBCRM.Modules.Common.ARTerms.Queries;
 using SBCRM.Modules.Common.Avalara.Dto;
@@ -100,6 +102,16 @@ namespace SBCRM.Web.Controllers.Common
         public async Task<List<ARTermDto>> GetARTerms()
         {
             return await _mediator.Send(new ARTermsQuery());
+        }
+
+        /// <summary>
+        /// Api to get the ApCheckFormats (Grouped by Format Name)
+        /// </summary>
+        /// <returns>List of ApCheckFormats</returns>
+        [HttpGet]
+        public async Task<List<ApCheckFormatDto>> GetApCheckFormats()
+        {
+            return await _mediator.Send(new ApCheckFormatsQuery());
         }
 
         #region Avalara Connection
