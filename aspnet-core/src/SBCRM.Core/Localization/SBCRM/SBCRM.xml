@@ -466,8 +466,11 @@
 		<text name="FinanceCharge">Finance charge</text>
 		<text name="ResaleExpDate">Resale exp date</text>
 		<text name="StateTaxCode">State tax code</text>
+		<text name="SelectStateTaxCode">Select State tax code</text>
 		<text name="CountyTaxCode">County tax code</text>
+		<text name="SelectCountyTaxCode">Select County tax code</text>
 		<text name="CityTaxCode">City tax code</text>
+		<text name="SelectCityTaxCode">Select City tax code</text>
 		<text name="AbsoluteTaxCodes">Absolute tax codes</text>
 		<text name="MFGPermitNo">M f g permit no</text>
 		<text name="MFGPermitExpDate">M f g permit exp date</text>
@@ -476,6 +479,8 @@
 		<text name="ShowLaborHours">Show labor hours</text>
 		<text name="VendorNo">Vendor no</text>
 		<text name="LocalTaxCode">Local tax code</text>
+		<text name="SelectLocalTaxCode">Select Local tax code</text>
+
 		<text name="CurrencyType">Currency type</text>
 		<text name="CreditCardNo">Credit card no</text>
 		<text name="CreditCardCVV">Credit card c v v</text>
@@ -537,6 +542,7 @@
 		<text name="InvoiceLanguage">Invoice language</text>
 		<text name="PeopleSoft">People soft</text>
 		<text name="NotPeopleSoft">Not people soft</text>
+		<text name="ArAccounts">Ar Accounts</text>
 		<text name="PSCompany">P s company</text>
 		<text name="PSAccount">P s account</text>
 		<text name="PSLocation">P s location</text>
@@ -704,6 +710,7 @@
 		<text name="CreatingNewRole">Creating new role</text>
 		<text name="DeletingRole">Deleting role</text>
 		<text name="CreationTime">Creation Time</text>
+		<text name="CreatedOn">Created on</text>
 		<text name="LeadCreationTime">Created on</text>
 		<text name="OpportunityCreationTime">Created on</text>
 		<text name="SearchWithThreeDot">Search...</text>
@@ -2171,6 +2178,8 @@
 		<text name="SelectTaxType">Please select a tax type...</text>
 
 		<!-- Administration - Branch -->
+		<text name="BranchNumberUnique">Branch number needs to be unique</text>
+		<text name="BranchNameRequired">Name field is required</text>
 		<text name="InvSubName">Inv Sub-Name</text>
 		<text name="AcountsReceivableGLAccountNumber">Acounts Receivable GL Account #</text>
 		<text name="ARAccounts">AR Accounts</text>
@@ -2198,8 +2207,10 @@
 		<text name="ShopSplitSalesTax">Shop Split Sales Tax</text>
 		<text name="WhenTaxedAtDelearshipUseTheFollowing">When "Taxed at Delearship" use the following</text>
 		<text name="StandardTaxCode">Standard Tax Code</text>
+		<text name="SelectStandardTaxCode">Select Standard Tax Code</text>
 		<text name="UseAbsoluteTaxCodes">Use Absolute Tax Codes</text>
 		<text name="CountryTaxCode">Country Tax Code</text>
+		<text name="SelectCountryTaxCode">Select Country Tax Code</text>
 		<text name="TVHAccountNo">TVH Acount #</text>
 		<text name="TVHKey">TVH Key</text>
 		<text name="FinanceChargeGLAccount">Finance Charge GL Account</text>
@@ -2212,8 +2223,13 @@
 		<text name="PrintFinalCc">Print Final cc</text>
 		<text name="PrintFinalBcc">Print Final bcc</text>
 		<text name="LogoGraphicFile">Logo Graphic File</text>
+		<text name="BrowseFile">Browse</text>
 		<text name="UseGraphic">Use Graphic</text>
-  
+		<text name="BranchDeleteWarningMessage">Branch {0} will be deleted.</text>
+		<text name="TaxSetup">Tax Setup</text>
+		<text name="LogoGraphic">Logo Graphic</text>
+		<text name="SearchByBranchName">Search by Branch name</text>
+		
 		<!-- Administration - Tax Codes -->
 		<text name="Standard">Standard</text>
 		<text name="AdminTaxCodeLabel">Tax Code</text>

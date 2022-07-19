@@ -22,6 +22,7 @@ namespace SBCRM
 
             //Adding custom AutoMapper configuration
             Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomDtoMapper.CreateMappings);
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomCommandMapper.CreateMappings);
 
             //Adding Common Setting provider
             Configuration.Settings.Providers.Add<CommonSettingProvider>();

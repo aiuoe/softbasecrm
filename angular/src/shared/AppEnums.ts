@@ -23,3 +23,9 @@ export enum ActivityDuration {
     OneHourAndThirtyMinutes,
     TwoHours,
 }
+
+export enum PageMode {
+    Add = 1,
+    View,
+    Edit
+}

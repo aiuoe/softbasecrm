@@ -5349,7 +5349,7 @@ export class BranchesServiceProxy {
     /**
      * @return Success
      */
-    getAll(): Observable<GetLeadForViewDto[]> {
+    getAll(): Observable<BranchListItemDto[]> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -5368,14 +5368,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<GetLeadForViewDto[]>><any>_observableThrow(e);
+                    return <Observable<BranchListItemDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetLeadForViewDto[]>><any>_observableThrow(response_);
+                return <Observable<BranchListItemDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<GetLeadForViewDto[]> {
+    protected processGetAll(response: HttpResponseBase): Observable<BranchListItemDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5389,7 +5389,7 @@ export class BranchesServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GetLeadForViewDto.fromJS(item));
+                    result200!.push(BranchListItemDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -5401,14 +5401,34 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetLeadForViewDto[]>(<any>null);
+        return _observableOf<BranchListItemDto[]>(<any>null);
     }
 
     /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
      * @return Success
      */
-    getAllPaged(): Observable<PagedResultDtoOfGetLeadForViewDto> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAllPaged";
+    getAllPaged(filter: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfBranchListItemDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAllPaged?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5426,14 +5446,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processGetAllPaged(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfGetLeadForViewDto>><any>_observableThrow(e);
+                    return <Observable<PagedResultDtoOfBranchListItemDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfGetLeadForViewDto>><any>_observableThrow(response_);
+                return <Observable<PagedResultDtoOfBranchListItemDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllPaged(response: HttpResponseBase): Observable<PagedResultDtoOfGetLeadForViewDto> {
+    protected processGetAllPaged(response: HttpResponseBase): Observable<PagedResultDtoOfBranchListItemDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5444,7 +5464,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfGetLeadForViewDto.fromJS(resultData200);
+            result200 = PagedResultDtoOfBranchListItemDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5452,13 +5472,13 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfGetLeadForViewDto>(<any>null);
+        return _observableOf<PagedResultDtoOfBranchListItemDto>(<any>null);
     }
 
     /**
      * @return Success
      */
-    get(id: number): Observable<GetLeadForEditOutput> {
+    get(id: number): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Get/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -5480,14 +5500,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<GetLeadForEditOutput>><any>_observableThrow(e);
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetLeadForEditOutput>><any>_observableThrow(response_);
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<GetLeadForEditOutput> {
+    protected processGet(response: HttpResponseBase): Observable<UpsertBranchDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5498,7 +5518,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetLeadForEditOutput.fromJS(resultData200);
+            result200 = UpsertBranchDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5506,25 +5526,33 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetLeadForEditOutput>(<any>null);
+        return _observableOf<UpsertBranchDto>(<any>null);
     }
 
     /**
-     * @param body (optional) 
+     * @param upsertBranchDto (optional) 
+     * @param file (optional) 
      * @return Success
      */
-    create(body: CreateBranchCommand | undefined): Observable<GetBranchForEditDto> {
+    create(upsertBranchDto: UpsertBranchDto2 | undefined, file: FileParameter | undefined): Observable<UpsertBranchDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/Branches/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (upsertBranchDto === null || upsertBranchDto === undefined)
+            throw new Error("The parameter 'upsertBranchDto' cannot be null.");
+        else
+            content_.append("UpsertBranchDto", JSON.stringify(upsertBranchDto));
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -5536,14 +5564,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<GetBranchForEditDto>><any>_observableThrow(e);
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetBranchForEditDto>><any>_observableThrow(response_);
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<GetBranchForEditDto> {
+    protected processCreate(response: HttpResponseBase): Observable<UpsertBranchDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5554,7 +5582,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetBranchForEditDto.fromJS(resultData200);
+            result200 = UpsertBranchDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5562,25 +5590,36 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetBranchForEditDto>(<any>null);
+        return _observableOf<UpsertBranchDto>(<any>null);
     }
 
     /**
-     * @param body (optional) 
+     * @param upsertBranchDto (optional) 
+     * @param file (optional) 
      * @return Success
      */
-    update(body: CreateOrEditLeadDto | undefined): Observable<GetLeadForEditOutput> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Update";
+    update(id: number, upsertBranchDto: UpsertBranchDto3 | undefined, file: FileParameter | undefined): Observable<UpsertBranchDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Update/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (upsertBranchDto === null || upsertBranchDto === undefined)
+            throw new Error("The parameter 'upsertBranchDto' cannot be null.");
+        else
+            content_.append("UpsertBranchDto", JSON.stringify(upsertBranchDto));
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -5592,14 +5631,14 @@ export class BranchesServiceProxy {
                 try {
                     return this.processUpdate(<any>response_);
                 } catch (e) {
-                    return <Observable<GetLeadForEditOutput>><any>_observableThrow(e);
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GetLeadForEditOutput>><any>_observableThrow(response_);
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processUpdate(response: HttpResponseBase): Observable<GetLeadForEditOutput> {
+    protected processUpdate(response: HttpResponseBase): Observable<UpsertBranchDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5610,7 +5649,7 @@ export class BranchesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetLeadForEditOutput.fromJS(resultData200);
+            result200 = UpsertBranchDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5618,7 +5657,7 @@ export class BranchesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GetLeadForEditOutput>(<any>null);
+        return _observableOf<UpsertBranchDto>(<any>null);
     }
 
     /**
@@ -5669,6 +5708,335 @@ export class BranchesServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getBranchCurrencyType(id: number, currencyTypeId: number): Observable<BranchCurrencyTypeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetBranchCurrencyType/{id}/{currencyTypeId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (currencyTypeId === undefined || currencyTypeId === null)
+            throw new Error("The parameter 'currencyTypeId' must be defined.");
+        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBranchCurrencyType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBranchCurrencyType(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBranchCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchCurrencyTypeDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    patchBranchCurrencyType(id: number, currencyTypeId: number, body: PatchBranchCurrencyTypeCommand | undefined): Observable<BranchCurrencyTypeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/PatchBranchCurrencyType/{id}/{currencyTypeId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (currencyTypeId === undefined || currencyTypeId === null)
+            throw new Error("The parameter 'currencyTypeId' must be defined.");
+        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPatchBranchCurrencyType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPatchBranchCurrencyType(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPatchBranchCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchCurrencyTypeDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getInitialData(): Observable<GetBranchInitialDataDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetInitialData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInitialData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInitialData(<any>response_);
+                } catch (e) {
+                    return <Observable<GetBranchInitialDataDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetBranchInitialDataDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInitialData(response: HttpResponseBase): Observable<GetBranchInitialDataDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetBranchInitialDataDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetBranchInitialDataDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTaxTabInitialData(): Observable<GetTaxTabInitialDataDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetTaxTabInitialData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTaxTabInitialData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaxTabInitialData(<any>response_);
+                } catch (e) {
+                    return <Observable<GetTaxTabInitialDataDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetTaxTabInitialDataDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTaxTabInitialData(response: HttpResponseBase): Observable<GetTaxTabInitialDataDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetTaxTabInitialDataDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetTaxTabInitialDataDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getChartOfAccountDetails(accountNo: string): Observable<GetChartOfAccountDetailsDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetChartOfAccountDetails/{accountNo}";
+        if (accountNo === undefined || accountNo === null)
+            throw new Error("The parameter 'accountNo' must be defined.");
+        url_ = url_.replace("{accountNo}", encodeURIComponent("" + accountNo));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetChartOfAccountDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChartOfAccountDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChartOfAccountDetails(response: HttpResponseBase): Observable<GetChartOfAccountDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetChartOfAccountDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetChartOfAccountDetailsDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getZipCodeDetails(zipCode: string): Observable<GetZipCodeDetailsDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetZipCodeDetails/{zipCode}";
+        if (zipCode === undefined || zipCode === null)
+            throw new Error("The parameter 'zipCode' must be defined.");
+        url_ = url_.replace("{zipCode}", encodeURIComponent("" + zipCode));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetZipCodeDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetZipCodeDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetZipCodeDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetZipCodeDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetZipCodeDetails(response: HttpResponseBase): Observable<GetZipCodeDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetZipCodeDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetZipCodeDetailsDto>(<any>null);
     }
 }
 
@@ -31536,6 +31904,46 @@ export interface IAcceptFriendshipRequestInput {
     tenantId: number | undefined;
 }
 
+export class AccountReceivableInBranchDto implements IAccountReceivableInBranchDto {
+    id!: number;
+    accountReceivable!: string | undefined;
+
+    constructor(data?: IAccountReceivableInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.accountReceivable = _data["accountReceivable"];
+        }
+    }
+
+    static fromJS(data: any): AccountReceivableInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountReceivableInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["accountReceivable"] = this.accountReceivable;
+        return data; 
+    }
+}
+
+export interface IAccountReceivableInBranchDto {
+    id: number;
+    accountReceivable: string | undefined;
+}
+
 export class AccountTypeDto implements IAccountTypeDto {
     description!: string | undefined;
     id!: number;
@@ -33438,19 +33846,14 @@ export interface IBlockUserInput {
     tenantId: number | undefined;
 }
 
-export class BranchDto implements IBranchDto {
-    number!: number;
-    name!: string | undefined;
-    isDeleted!: boolean;
-    deleterUserId!: number | undefined;
-    deletionTime!: DateTime | undefined;
-    lastModificationTime!: DateTime | undefined;
-    lastModifierUserId!: number | undefined;
-    creationTime!: DateTime;
-    creatorUserId!: number | undefined;
-    id!: number;
+export class BranchCurrencyTypeDto implements IBranchCurrencyTypeDto {
+    arAccountNo!: string | undefined;
+    debitAccount!: string | undefined;
+    creditAccount!: string | undefined;
+    debitAccountReevaluate!: string | undefined;
+    creditAccountReevaluate!: string | undefined;
 
-    constructor(data?: IBranchDto) {
+    constructor(data?: IBranchCurrencyTypeDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -33461,53 +33864,38 @@ export class BranchDto implements IBranchDto {
 
     init(_data?: any) {
         if (_data) {
-            this.number = _data["number"];
-            this.name = _data["name"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? DateTime.fromISO(_data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.id = _data["id"];
+            this.arAccountNo = _data["arAccountNo"];
+            this.debitAccount = _data["debitAccount"];
+            this.creditAccount = _data["creditAccount"];
+            this.debitAccountReevaluate = _data["debitAccountReevaluate"];
+            this.creditAccountReevaluate = _data["creditAccountReevaluate"];
         }
     }
 
-    static fromJS(data: any): BranchDto {
+    static fromJS(data: any): BranchCurrencyTypeDto {
         data = typeof data === 'object' ? data : {};
-        let result = new BranchDto();
+        let result = new BranchCurrencyTypeDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["number"] = this.number;
-        data["name"] = this.name;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        data["arAccountNo"] = this.arAccountNo;
+        data["debitAccount"] = this.debitAccount;
+        data["creditAccount"] = this.creditAccount;
+        data["debitAccountReevaluate"] = this.debitAccountReevaluate;
+        data["creditAccountReevaluate"] = this.creditAccountReevaluate;
         return data; 
     }
 }
 
-export interface IBranchDto {
-    number: number;
-    name: string | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: DateTime | undefined;
-    lastModificationTime: DateTime | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: DateTime;
-    creatorUserId: number | undefined;
-    id: number;
+export interface IBranchCurrencyTypeDto {
+    arAccountNo: string | undefined;
+    debitAccount: string | undefined;
+    creditAccount: string | undefined;
+    debitAccountReevaluate: string | undefined;
+    creditAccountReevaluate: string | undefined;
 }
 
 export class BranchForDepartmentDto implements IBranchForDepartmentDto {
@@ -33556,6 +33944,70 @@ export interface IBranchForDepartmentDto {
     number: number;
     name: string | undefined;
     subName: string | undefined;
+}
+
+export class BranchListItemDto implements IBranchListItemDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    phone!: string | undefined;
+    receivable!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    currencyType!: string | undefined;
+    creationTime!: DateTime;
+
+    constructor(data?: IBranchListItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.phone = _data["phone"];
+            this.receivable = _data["receivable"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.currencyType = _data["currencyType"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BranchListItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchListItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["phone"] = this.phone;
+        data["receivable"] = this.receivable;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["currencyType"] = this.currencyType;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBranchListItemDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    phone: string | undefined;
+    receivable: string | undefined;
+    defaultWarehouse: string | undefined;
+    currencyType: string | undefined;
+    creationTime: DateTime;
 }
 
 export class BranchLookupTableDto implements IBranchLookupTableDto {
@@ -33876,6 +34328,46 @@ export class CheckDatabaseOutput implements ICheckDatabaseOutput {
 
 export interface ICheckDatabaseOutput {
     isDatabaseExist: boolean;
+}
+
+export class CityTaxCodeInBranchDto implements ICityTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: ICityTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): CityTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CityTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface ICityTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
 }
 
 export class CleanValuesInput implements ICleanValuesInput {
@@ -34730,6 +35222,46 @@ export interface ICountryDto {
     id: number;
 }
 
+export class CountyTaxCodeInBranchDto implements ICountyTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: ICountyTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): CountyTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CountyTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface ICountyTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
+}
+
 export class CreateAdditionalChargesCommand implements ICreateAdditionalChargesCommand {
     additionalCharges!: AdditionalChargeDto;
 
@@ -34764,54 +35296,6 @@ export class CreateAdditionalChargesCommand implements ICreateAdditionalChargesC
 
 export interface ICreateAdditionalChargesCommand {
     additionalCharges: AdditionalChargeDto;
-}
-
-export class CreateBranchCommand implements ICreateBranchCommand {
-    number!: number;
-    name!: string | undefined;
-    subName!: string | undefined;
-    address!: string | undefined;
-
-    constructor(data?: ICreateBranchCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.number = _data["number"];
-            this.name = _data["name"];
-            this.subName = _data["subName"];
-            this.address = _data["address"];
-        }
-    }
-
-    static fromJS(data: any): CreateBranchCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateBranchCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["number"] = this.number;
-        data["name"] = this.name;
-        data["subName"] = this.subName;
-        data["address"] = this.address;
-        return data; 
-    }
-}
-
-export interface ICreateBranchCommand {
-    number: number;
-    name: string | undefined;
-    subName: string | undefined;
-    address: string | undefined;
 }
 
 export class CreateCompanyCommand implements ICreateCompanyCommand {
@@ -36927,6 +37411,46 @@ export interface ICreateUserDelegationDto {
     targetUserId: number;
     startTime: DateTime;
     endTime: DateTime;
+}
+
+export class CurrencyTypeLookupDto implements ICurrencyTypeLookupDto {
+    id!: number;
+    currencyType!: string | undefined;
+
+    constructor(data?: ICurrencyTypeLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.currencyType = _data["currencyType"];
+        }
+    }
+
+    static fromJS(data: any): CurrencyTypeLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CurrencyTypeLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["currencyType"] = this.currencyType;
+        return data; 
+    }
+}
+
+export interface ICurrencyTypeLookupDto {
+    id: number;
+    currencyType: string | undefined;
 }
 
 export class CurrentUserProfileEditDto implements ICurrentUserProfileEditDto {
@@ -40965,12 +41489,15 @@ export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
 }
 
-export class GetBranchForEditDto implements IGetBranchForEditDto {
-    branch!: BranchDto;
-    additionalPropertyA!: string | undefined;
-    additionalPropertyB!: string | undefined;
+export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
+    accountsReceivables!: AccountReceivableInBranchDto[] | undefined;
+    warehouses!: WarehouseLookupDto[] | undefined;
+    tvhWarehouses!: TvhWarehouseLookupDto[] | undefined;
+    currencyTypes!: CurrencyTypeLookupDto[] | undefined;
+    taxCodes!: TaxCodeInBranchDto[] | undefined;
+    countries!: CountryDto[] | undefined;
 
-    constructor(data?: IGetBranchForEditDto) {
+    constructor(data?: IGetBranchInitialDataDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -40981,32 +41508,89 @@ export class GetBranchForEditDto implements IGetBranchForEditDto {
 
     init(_data?: any) {
         if (_data) {
-            this.branch = _data["branch"] ? BranchDto.fromJS(_data["branch"]) : <any>undefined;
-            this.additionalPropertyA = _data["additionalPropertyA"];
-            this.additionalPropertyB = _data["additionalPropertyB"];
+            if (Array.isArray(_data["accountsReceivables"])) {
+                this.accountsReceivables = [] as any;
+                for (let item of _data["accountsReceivables"])
+                    this.accountsReceivables!.push(AccountReceivableInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["warehouses"])) {
+                this.warehouses = [] as any;
+                for (let item of _data["warehouses"])
+                    this.warehouses!.push(WarehouseLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["tvhWarehouses"])) {
+                this.tvhWarehouses = [] as any;
+                for (let item of _data["tvhWarehouses"])
+                    this.tvhWarehouses!.push(TvhWarehouseLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["currencyTypes"])) {
+                this.currencyTypes = [] as any;
+                for (let item of _data["currencyTypes"])
+                    this.currencyTypes!.push(CurrencyTypeLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["taxCodes"])) {
+                this.taxCodes = [] as any;
+                for (let item of _data["taxCodes"])
+                    this.taxCodes!.push(TaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["countries"])) {
+                this.countries = [] as any;
+                for (let item of _data["countries"])
+                    this.countries!.push(CountryDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): GetBranchForEditDto {
+    static fromJS(data: any): GetBranchInitialDataDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetBranchForEditDto();
+        let result = new GetBranchInitialDataDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["branch"] = this.branch ? this.branch.toJSON() : <any>undefined;
-        data["additionalPropertyA"] = this.additionalPropertyA;
-        data["additionalPropertyB"] = this.additionalPropertyB;
+        if (Array.isArray(this.accountsReceivables)) {
+            data["accountsReceivables"] = [];
+            for (let item of this.accountsReceivables)
+                data["accountsReceivables"].push(item.toJSON());
+        }
+        if (Array.isArray(this.warehouses)) {
+            data["warehouses"] = [];
+            for (let item of this.warehouses)
+                data["warehouses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.tvhWarehouses)) {
+            data["tvhWarehouses"] = [];
+            for (let item of this.tvhWarehouses)
+                data["tvhWarehouses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.currencyTypes)) {
+            data["currencyTypes"] = [];
+            for (let item of this.currencyTypes)
+                data["currencyTypes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.taxCodes)) {
+            data["taxCodes"] = [];
+            for (let item of this.taxCodes)
+                data["taxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.countries)) {
+            data["countries"] = [];
+            for (let item of this.countries)
+                data["countries"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
-export interface IGetBranchForEditDto {
-    branch: BranchDto;
-    additionalPropertyA: string | undefined;
-    additionalPropertyB: string | undefined;
+export interface IGetBranchInitialDataDto {
+    accountsReceivables: AccountReceivableInBranchDto[] | undefined;
+    warehouses: WarehouseLookupDto[] | undefined;
+    tvhWarehouses: TvhWarehouseLookupDto[] | undefined;
+    currencyTypes: CurrencyTypeLookupDto[] | undefined;
+    taxCodes: TaxCodeInBranchDto[] | undefined;
+    countries: CountryDto[] | undefined;
 }
 
 export class GetChartOfAccountDetailsDto implements IGetChartOfAccountDetailsDto {
@@ -44615,6 +45199,86 @@ export interface IGetSalesSummaryOutput {
     salesSummary: SalesSummaryData[] | undefined;
 }
 
+export class GetTaxTabInitialDataDto implements IGetTaxTabInitialDataDto {
+    stateTaxCodes!: StateTaxCodeInBranchDto[] | undefined;
+    countyTaxCodes!: CountyTaxCodeInBranchDto[] | undefined;
+    cityTaxCodes!: CityTaxCodeInBranchDto[] | undefined;
+    localTaxCodes!: LocalTaxCodeInBranchDto[] | undefined;
+
+    constructor(data?: IGetTaxTabInitialDataDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["stateTaxCodes"])) {
+                this.stateTaxCodes = [] as any;
+                for (let item of _data["stateTaxCodes"])
+                    this.stateTaxCodes!.push(StateTaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["countyTaxCodes"])) {
+                this.countyTaxCodes = [] as any;
+                for (let item of _data["countyTaxCodes"])
+                    this.countyTaxCodes!.push(CountyTaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["cityTaxCodes"])) {
+                this.cityTaxCodes = [] as any;
+                for (let item of _data["cityTaxCodes"])
+                    this.cityTaxCodes!.push(CityTaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["localTaxCodes"])) {
+                this.localTaxCodes = [] as any;
+                for (let item of _data["localTaxCodes"])
+                    this.localTaxCodes!.push(LocalTaxCodeInBranchDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetTaxTabInitialDataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetTaxTabInitialDataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.stateTaxCodes)) {
+            data["stateTaxCodes"] = [];
+            for (let item of this.stateTaxCodes)
+                data["stateTaxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.countyTaxCodes)) {
+            data["countyTaxCodes"] = [];
+            for (let item of this.countyTaxCodes)
+                data["countyTaxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.cityTaxCodes)) {
+            data["cityTaxCodes"] = [];
+            for (let item of this.cityTaxCodes)
+                data["cityTaxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.localTaxCodes)) {
+            data["localTaxCodes"] = [];
+            for (let item of this.localTaxCodes)
+                data["localTaxCodes"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetTaxTabInitialDataDto {
+    stateTaxCodes: StateTaxCodeInBranchDto[] | undefined;
+    countyTaxCodes: CountyTaxCodeInBranchDto[] | undefined;
+    cityTaxCodes: CityTaxCodeInBranchDto[] | undefined;
+    localTaxCodes: LocalTaxCodeInBranchDto[] | undefined;
+}
+
 export class GetTenantFeaturesEditOutput implements IGetTenantFeaturesEditOutput {
     featureValues!: NameValueDto[] | undefined;
     features!: FlatFeatureDto[] | undefined;
@@ -45125,6 +45789,46 @@ export interface IGetVerifyAddressQuery {
     zipCode: string | undefined;
     state: string | undefined;
     address: string | undefined;
+}
+
+export class GetZipCodeDetailsDto implements IGetZipCodeDetailsDto {
+    city!: string | undefined;
+    state!: string | undefined;
+
+    constructor(data?: IGetZipCodeDetailsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"];
+            this.state = _data["state"];
+        }
+    }
+
+    static fromJS(data: any): GetZipCodeDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetZipCodeDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["city"] = this.city;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IGetZipCodeDetailsDto {
+    city: string | undefined;
+    state: string | undefined;
 }
 
 export class GetZipCodeDto implements IGetZipCodeDto {
@@ -47978,6 +48682,46 @@ export interface ILocalizableComboboxItemSourceDto {
     items: LocalizableComboboxItemDto[] | undefined;
 }
 
+export class LocalTaxCodeInBranchDto implements ILocalTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: ILocalTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): LocalTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LocalTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface ILocalTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
+}
+
 export class MarkAllUnreadMessagesOfUserAsReadInput implements IMarkAllUnreadMessagesOfUserAsReadInput {
     tenantId!: number | undefined;
     userId!: number;
@@ -49520,6 +50264,54 @@ export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLo
 export interface IPagedResultDtoOfAuditLogListDto {
     totalCount: number;
     items: AuditLogListDto[] | undefined;
+}
+
+export class PagedResultDtoOfBranchListItemDto implements IPagedResultDtoOfBranchListItemDto {
+    totalCount!: number;
+    items!: BranchListItemDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfBranchListItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(BranchListItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfBranchListItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfBranchListItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfBranchListItemDto {
+    totalCount: number;
+    items: BranchListItemDto[] | undefined;
 }
 
 export class PagedResultDtoOfCustomerEquipmentViewDto implements IPagedResultDtoOfCustomerEquipmentViewDto {
@@ -51638,6 +52430,66 @@ export interface IPasswordComplexitySetting {
     requiredLength: number;
 }
 
+export class PatchBranchCurrencyTypeCommand implements IPatchBranchCurrencyTypeCommand {
+    branchId!: number;
+    currencyTypeId!: number;
+    arAccountNo!: string | undefined;
+    debitAccount!: string | undefined;
+    creditAccount!: string | undefined;
+    debitAccountReevaluate!: string | undefined;
+    creditAccountReevaluate!: string | undefined;
+
+    constructor(data?: IPatchBranchCurrencyTypeCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branchId = _data["branchId"];
+            this.currencyTypeId = _data["currencyTypeId"];
+            this.arAccountNo = _data["arAccountNo"];
+            this.debitAccount = _data["debitAccount"];
+            this.creditAccount = _data["creditAccount"];
+            this.debitAccountReevaluate = _data["debitAccountReevaluate"];
+            this.creditAccountReevaluate = _data["creditAccountReevaluate"];
+        }
+    }
+
+    static fromJS(data: any): PatchBranchCurrencyTypeCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new PatchBranchCurrencyTypeCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branchId"] = this.branchId;
+        data["currencyTypeId"] = this.currencyTypeId;
+        data["arAccountNo"] = this.arAccountNo;
+        data["debitAccount"] = this.debitAccount;
+        data["creditAccount"] = this.creditAccount;
+        data["debitAccountReevaluate"] = this.debitAccountReevaluate;
+        data["creditAccountReevaluate"] = this.creditAccountReevaluate;
+        return data; 
+    }
+}
+
+export interface IPatchBranchCurrencyTypeCommand {
+    branchId: number;
+    currencyTypeId: number;
+    arAccountNo: string | undefined;
+    debitAccount: string | undefined;
+    creditAccount: string | undefined;
+    debitAccountReevaluate: string | undefined;
+    creditAccountReevaluate: string | undefined;
+}
+
 export class PaymentGatewayModel implements IPaymentGatewayModel {
     gatewayType!: SubscriptionPaymentGatewayType;
     supportsRecurringPayments!: boolean;
@@ -53108,6 +53960,46 @@ export enum SettingScopes {
     All = 7,
 }
 
+export class StateTaxCodeInBranchDto implements IStateTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: IStateTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): StateTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StateTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface IStateTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
+}
+
 export class StringOutput implements IStringOutput {
     output!: string | undefined;
 
@@ -53715,6 +54607,46 @@ export interface ITaxCodeDto {
     description: string | undefined;
     parentTaxCode: string | undefined;
     isActive: boolean;
+}
+
+export class TaxCodeInBranchDto implements ITaxCodeInBranchDto {
+    id!: number;
+    code!: string | undefined;
+
+    constructor(data?: ITaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.code = _data["code"];
+        }
+    }
+
+    static fromJS(data: any): TaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["code"] = this.code;
+        return data; 
+    }
+}
+
+export interface ITaxCodeInBranchDto {
+    id: number;
+    code: string | undefined;
 }
 
 export class TaxCodeTypeDto implements ITaxCodeTypeDto {
@@ -54787,6 +55719,46 @@ export interface ITopStatsData {
     dashboardPlaceholder2: number;
 }
 
+export class TvhWarehouseLookupDto implements ITvhWarehouseLookupDto {
+    key!: number;
+    name!: string | undefined;
+
+    constructor(data?: ITvhWarehouseLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.key = _data["key"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): TvhWarehouseLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TvhWarehouseLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface ITvhWarehouseLookupDto {
+    key: number;
+    name: string | undefined;
+}
+
 export class TwitterExternalLoginProviderSettings implements ITwitterExternalLoginProviderSettings {
     consumerKey!: string | undefined;
     consumerSecret!: string | undefined;
@@ -55807,6 +56779,250 @@ export interface IUpdateUserSignInTokenOutput {
     encodedTenantId: string | undefined;
 }
 
+export class UpsertBranchDto implements IUpsertBranchDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    country!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCode!: string | undefined;
+    countyTaxCode!: string | undefined;
+    cityTaxCode!: string | undefined;
+    localTaxCode!: string | undefined;
+    taxCode!: string | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.country = _data["country"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCode = _data["stateTaxCode"];
+            this.countyTaxCode = _data["countyTaxCode"];
+            this.cityTaxCode = _data["cityTaxCode"];
+            this.localTaxCode = _data["localTaxCode"];
+            this.taxCode = _data["taxCode"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["country"] = this.country;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCode"] = this.stateTaxCode;
+        data["countyTaxCode"] = this.countyTaxCode;
+        data["cityTaxCode"] = this.cityTaxCode;
+        data["localTaxCode"] = this.localTaxCode;
+        data["taxCode"] = this.taxCode;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    country: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouse: string | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCode: string | undefined;
+    countyTaxCode: string | undefined;
+    cityTaxCode: string | undefined;
+    localTaxCode: string | undefined;
+    taxCode: string | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
 export class UserAssignedDto implements IUserAssignedDto {
     name!: string | undefined;
     surname!: string | undefined;
@@ -56460,6 +57676,46 @@ export interface IVerifySmsCodeInputDto {
     phoneNumber: string | undefined;
 }
 
+export class WarehouseLookupDto implements IWarehouseLookupDto {
+    id!: number;
+    warehouse!: string | undefined;
+
+    constructor(data?: IWarehouseLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.warehouse = _data["warehouse"];
+        }
+    }
+
+    static fromJS(data: any): WarehouseLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WarehouseLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["warehouse"] = this.warehouse;
+        return data; 
+    }
+}
+
+export interface IWarehouseLookupDto {
+    id: number;
+    warehouse: string | undefined;
+}
+
 export class WebhookEvent implements IWebhookEvent {
     webhookName!: string;
     data!: string | undefined;
@@ -56864,6 +58120,494 @@ export interface IZipCodeDto {
     dateChanged: DateTime | undefined;
 }
 
+export class UpsertBranchDto2 implements IUpsertBranchDto2 {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    country!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCode!: string | undefined;
+    countyTaxCode!: string | undefined;
+    cityTaxCode!: string | undefined;
+    localTaxCode!: string | undefined;
+    taxCode!: string | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto2) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.country = _data["country"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCode = _data["stateTaxCode"];
+            this.countyTaxCode = _data["countyTaxCode"];
+            this.cityTaxCode = _data["cityTaxCode"];
+            this.localTaxCode = _data["localTaxCode"];
+            this.taxCode = _data["taxCode"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto2 {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto2();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["country"] = this.country;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCode"] = this.stateTaxCode;
+        data["countyTaxCode"] = this.countyTaxCode;
+        data["cityTaxCode"] = this.cityTaxCode;
+        data["localTaxCode"] = this.localTaxCode;
+        data["taxCode"] = this.taxCode;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto2 {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    country: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouse: string | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCode: string | undefined;
+    countyTaxCode: string | undefined;
+    cityTaxCode: string | undefined;
+    localTaxCode: string | undefined;
+    taxCode: string | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
+export class UpsertBranchDto3 implements IUpsertBranchDto3 {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    country!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCode!: string | undefined;
+    countyTaxCode!: string | undefined;
+    cityTaxCode!: string | undefined;
+    localTaxCode!: string | undefined;
+    taxCode!: string | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto3) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.country = _data["country"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCode = _data["stateTaxCode"];
+            this.countyTaxCode = _data["countyTaxCode"];
+            this.cityTaxCode = _data["cityTaxCode"];
+            this.localTaxCode = _data["localTaxCode"];
+            this.taxCode = _data["taxCode"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto3 {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto3();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["country"] = this.country;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCode"] = this.stateTaxCode;
+        data["countyTaxCode"] = this.countyTaxCode;
+        data["cityTaxCode"] = this.cityTaxCode;
+        data["localTaxCode"] = this.localTaxCode;
+        data["taxCode"] = this.taxCode;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto3 {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    country: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouse: string | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCode: string | undefined;
+    countyTaxCode: string | undefined;
+    cityTaxCode: string | undefined;
+    localTaxCode: string | undefined;
+    taxCode: string | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
 export class AdditionalData implements IAdditionalData {
     paypal!: { [key: string]: string; };
     stripe!: { [key: string]: string; };
@@ -56926,6 +58670,11 @@ export class AdditionalData implements IAdditionalData {
 export interface IAdditionalData {
     paypal: { [key: string]: string; };
     stripe: { [key: string]: string; };
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

@@ -3,87 +3,46 @@
         <div class="row">
             <div class="col-6 d-flex align-items-center justify-content-between">
                 <div class="form-group flex-grow-1 pr-2">
-                    <label for="Finance_ChargeGLAccount">{{ l('FinanceChargeGLAccount') }}</label>
-                    <input
-                        type="text"
-                        id="Finance_ChargeGLAccount"
-                        class="form-control"
-                        [placeholder]="l('FinanceChargeGLAccount')"
-                        name="Finance_ChargeGLAccount"
-                    />
-
+                    <label for="Branch_Finance_ChargeGLAccount">{{ l('FinanceChargeGLAccount') }}</label>
+                    <input type="text" id="Branch_Finance_ChargeGLAccount" name="branchFinanceChargeGLAccount"
+                        class="form-control" [placeholder]="l('FinanceChargeGLAccount')"
+                        [(ngModel)]="upsertBranchDto.financeCharge" [disabled]="isViewMode" />
                 </div>
                 <button class="btn btn-primary text-primary p-2 mt-1">
                     <i class="fa fa-search p-0"></i>
                 </button>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="Finance_Rate">{{ l('Rate') }}</label>
-                    <input
-                        type="text"
-                        id="Finance_Rate"
-                        class="form-control"
-                        [placeholder]="l('Rate')"
-                        name="Finance_Rate"
-                    />
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_Finance_Rate">{{ l('Rate') }}</label>
+                <input type="text" id="Branch_Finance_Rate" name="branchFinanceRate" class="form-control"
+                    [placeholder]="l('Rate')" [(ngModel)]="upsertBranchDto.financeRate" [disabled]="isViewMode" />
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="Finance_DaysLate">{{ l('DaysLate') }}</label>
-                    <input
-                        type="text"
-                        id="Finance_DaysLate"
-                        class="form-control"
-                        [placeholder]="l('DaysLate')"
-                        name="Finance_DaysLate"
-                    />
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_Finance_DaysLate">{{ l('DaysLate') }}</label>
+                <input type="text" id="Branch_Finance_DaysLate" name="branchFinanceDaysLate" class="form-control"
+                    [placeholder]="l('DaysLate')" [(ngModel)]="upsertBranchDto.financeDays" [disabled]="isViewMode" />
             </div>
         </div>
+        <h3>{{ l('UseForCreditPayments') }}</h3>
         <div class="row">
-            <div class="col-12">
-                <h3>{{ l('UseForCreditPayments') }}</h3>
-            </div>
-        </div>
-        <div class="row">
-            
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="Finance_StoreName">{{ l('StoreName') }}</label>
-                    <input
-                        type="text"
-                        id="Finance_StoreName"
-                        class="form-control"
-                        [placeholder]="l('StoreName')"
-                        name="Finance_StoreName"
-                    />
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_Finance_StoreName">{{ l('StoreName') }}</label>
+                <input type="text" id="Branch_Finance_StoreName" name="branchFinanceStoreName" class="form-control"
+                    [placeholder]="l('StoreName')" [(ngModel)]="upsertBranchDto.storeName" [disabled]="isViewMode" />
             </div>
             <div class="col-6 d-flex align-items-center justify-content-between">
                 <div class="form-group flex-grow-1 pr-2">
-                    <label for="Finance_CreditCardDebitAccountNo">{{ l('CreditCardDebitAccountNo') }}</label>
-                    <input
-                        type="text"
-                        id="Finance_CreditCardDebitAccountNo"
-                        class="form-control"
-                        [placeholder]="l('CreditCardDebitAccountNo')"
-                        name="Finance_CreditCardDebitAccountNo"
-                    />
-
+                    <label for="Branch_Finance_CreditCardDebitAccountNo">{{ l('CreditCardDebitAccountNo') }}</label>
+                    <input type="text" id="Branch_Finance_CreditCardDebitAccountNo"
+                        name="branchFinanceCreditCardDebitAccountNo" class="form-control"
+                        [ngClass]="{'is-invalid': !isAccountNumberValid}" [placeholder]="l('CreditCardDebitAccountNo')"
+                        [(ngModel)]="upsertBranchDto.creditCardAccountNo" (keyup)="creditCardDebitAccountNoOnKeyUp()" [disabled]="isViewMode" />
                 </div>
                 <button class="btn btn-primary text-primary p-2 mt-1">
                     <i class="fa fa-search p-0"></i>
                 </button>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
-                <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
             </div>
         </div>
     </div>

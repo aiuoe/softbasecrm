@@ -13,7 +13,7 @@ import { AppUrlService } from '@shared/common/nav/app-url.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { AppUiCustomizationService } from '@shared/common/ui/app-ui-customization.service';
 import { PrimengTableHelper } from 'shared/helpers/PrimengTableHelper';
-import { UiCustomizationSettingsDto } from '@shared/service-proxies/service-proxies';
+import { FileParameter, UiCustomizationSettingsDto } from '@shared/service-proxies/service-proxies';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerTextService } from '@app/shared/ngx-spinner-text.service';
 import { CrmNotificationService } from '@app/shared/common/notification/crm-notification.service';
@@ -126,11 +126,9 @@ export abstract class AppComponentBase implements OnDestroy {
     }
 
     get containerClass(): string {
-        if (this.appSession.theme.baseSettings.layout.layoutType === 'fluid') {
-            return 'container-fluid';
-        }
-
-        return 'container';
+        return this.appSession.theme.baseSettings.layout.layoutType === 'fluid'
+        ? 'container-fluid'
+        : 'container';
     }
 
     showMainSpinner(text?: string): void {
@@ -182,5 +180,34 @@ export abstract class AppComponentBase implements OnDestroy {
             return '';
         }
         return rentalContractNo;
+    }
+
+    /***
+     * Generate an empty file
+     * @description using an explicit content type to mark the empty value to bypass NSWAG's limitation
+     */
+    getEmptyFileParameter(): FileParameter {
+        const emptyFile = new Blob([], {
+            type: 'emptyfile'
+        }) as File;
+        return {
+            data: emptyFile,
+            fileName: emptyFile.name
+        };
+    }
+
+    /***
+     * Get FileParameter from file if is valid
+     * otherwise return an empty FileParameter
+     * @param file
+     */
+    getFileParameterFromFile(file: File): FileParameter {
+        if (!file) {
+            return this.getEmptyFileParameter();
+        }
+        return {
+            data: file,
+            fileName: file.name
+        };
     }
 }

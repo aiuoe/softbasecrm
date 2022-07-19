@@ -15,6 +15,8 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.ActivitySourceTypesServiceProxy,
         ApiServiceProxies.ActivityPrioritiesServiceProxy,
         ApiServiceProxies.AccountUsersServiceProxy,
+        ApiServiceProxies.BranchesServiceProxy,
+        ApiServiceProxies.ReadCommonShareServiceProxy,
         ApiServiceProxies.CountriesServiceProxy,
         ApiServiceProxies.ActivityStatusesServiceProxy,
         ApiServiceProxies.ActivityTaskTypesServiceProxy,
@@ -73,6 +75,7 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.DynamicEntityPropertyValueServiceProxy,
         ApiServiceProxies.TwitterServiceProxy,
         ApiServiceProxies.OpportunitiesDashboardServiceProxy,
+        ApiServiceProxies.BranchesServiceProxy,
         ApiServiceProxies.CommonSettingsServiceProxy,
         ApiServiceProxies.ReadCommonShareServiceProxy,
         { provide: RefreshTokenService, useClass: ZeroRefreshTokenService },
@@ -80,4 +83,4 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true },
     ],
 })
-export class ServiceProxyModule {}
+export class ServiceProxyModule { }

@@ -10,6 +10,5 @@ namespace SBCRM.Base
     public interface IZipCodeRepository : Abp.Domain.Repositories.IRepository<ZipCode, long>
     {
         Task<List<ZipCode>> GetZipCode(string zipCode);
-
     }
 }
