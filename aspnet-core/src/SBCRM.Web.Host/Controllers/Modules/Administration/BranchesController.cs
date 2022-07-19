@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.AspNetCore.Mvc.Authorization;
+using Abp.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SBCRM.Authorization;
 using SBCRM.Modules.Accounting.ChartOfAccounts.Handlers;
 using SBCRM.Modules.Accounting.ChartOfAccounts.Queries;
 using SBCRM.Modules.Accounting.Dtos;
@@ -18,8 +21,8 @@ namespace SBCRM.Web.Controllers.Modules.Administration
     /// <summary>
     /// Branches controller
     /// </summary>
-    //[AbpMvcAuthorize]
-    //[AbpAuthorize(AppPermissions.Pages_Branches)]
+    [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_Branches)]
     public class BranchesController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
