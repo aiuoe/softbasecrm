@@ -6,7 +6,7 @@ namespace SBCRM.Modules.Administration.Branch.Queries
     /// <summary>
     /// Get branch by Id query
     /// </summary>
-    public class GetBranchByIdQuery: IRequest<BranchForEditDto>
+    public class GetBranchByIdQuery: IRequest<UpsertBranchDto>
     {
         public long Id { get; set; }
 

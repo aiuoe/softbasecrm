@@ -1,28 +1,29 @@
 <div class="card card-custom card-in-tab gutter-b">
     <div class="card-body">
-        <div class="row">
-            <div class="col-6 form-group">
-                <label for="Branch_Finance_LogoGraphicFile">{{ l('LogoGraphicFile') }}</label>
-                <input id="Branch_Finance_LogoGraphicFile" name="branchFinanceLogoGraphicFile" class="form-control"
-                    [disabled]="true" [placeholder]="l('LogoGraphicFile')" [(ngModel)]="branchForEdit.logoFile">
+        <label for="Branch_LogoGraphic_File">{{ l('LogoGraphicFile') }}</label>
+        <div class="row align-items-center">
+            <div class="col-6 input-group">
+                <div class="p-inputgroup">
+                    <input id="Branch_LogoGraphic_File" name="branchLogoGraphicFile" type="text" pInputText [disabled]="true" [(ngModel)]="upsertBranchDto.logoFile">
+                    <span class="p-inputgroup-addon" (click)="fileSelectInputDialog.click()">{{l('BrowseFile')}}</span>
+                    <input style="display:none" #fileSelectInputDialog id="Branch_LogoGraphicFile_Logo_Upload_Button" type="file" accept="image/*" [disabled]="isViewMode" (change)="fileOnChange($event)" />
+                </div>
             </div>
             <div class="col-3 d-flex align-items-center mt-8 form-group">
                 <label class="checkbox checkbox-outline">
                     <input id="Branch_LogoGraphic_UseGraphic" type="checkbox" name="UseGraphic"
-                        [(ngModel)]="branchForEdit.useImage" [disabled]="isViewMode" />
+                        [(ngModel)]="upsertBranchDto.useImage" [disabled]="isViewMode" />
                     <span></span>
                     {{ l('UseGraphic') }}
                 </label>
             </div>
-            <div class="col-3 flex-grow-1 d-flex justify-content-end align-items-center">    
-                <button (click)="logoGraphicClear()" class="btn btn-primary blue" [buttonBusy]="saving">
+            <div class="col-3 flex-grow-1 d-flex justify-content-end align-items-center">
+                <button id="Branch_LogoGraphicFile_Clear_Button" (click)="clearOnClick()" [disabled]="isViewMode" class="btn btn-primary blue" [buttonBusy]="saving">
                     <i class="fa fa-times pr-3"></i>
                     <span>{{ l('Clear') }}</span>
                 </button>
             </div>
         </div>
-        <div class="row">
-            <!-- preview image here -->
-        </div>
+        <img *ngIf="imageSrc" class="logo-preview" [src]="imageSrc" alt="logo preview">
     </div>
 </div>

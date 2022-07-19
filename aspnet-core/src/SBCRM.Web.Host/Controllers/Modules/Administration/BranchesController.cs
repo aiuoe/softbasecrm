@@ -13,14 +13,16 @@ using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Handlers;
 using SBCRM.Modules.Administration.Branch.Queries;
+using SBCRM.Web.Common;
+using SBCRM.Web.Dto.Modules.Administration;
 
 namespace SBCRM.Web.Controllers.Modules.Administration
 {
     /// <summary>
     /// Branches controller
     /// </summary>
-    //[AbpMvcAuthorize]
-    //[AbpAuthorize(AppPermissions.Pages_Branches)]
+    [AbpMvcAuthorize]
+    [AbpAuthorize(AppPermissions.Pages_Branches)]
     public class BranchesController : SBERPControllerBase
     {
         private readonly IMediator _mediator;
@@ -64,7 +66,7 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
-        public async Task<BranchForEditDto> Get([FromRoute] long id)
+        public async Task<UpsertBranchDto> Get([FromRoute] long id)
         {
             return await _mediator.Send(new GetBranchByIdQuery(id));
         }
@@ -76,9 +78,14 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <see cref="CreateBranchCommandHandler"/>
         /// <returns></returns>
         [HttpPost]
-        public async Task<BranchForEditDto> Create([FromBody] CreateBranchCommand input)
+        [Consumes("multipart/form-data")]
+        public async Task<UpsertBranchDto> Create([FromForm] UpsertBranchWrapperDto input)
         {
-            return await _mediator.Send(input);
+            var createBranchCommand = ObjectMapper.Map<CreateBranchCommand>(input.UpsertBranchDto);
+            createBranchCommand.BinaryLogoFile = await input.File.GetBytes();
+            createBranchCommand.FileType = input.File.ContentType;
+            createBranchCommand.LogoFile = input.File.FileName;
+            return await _mediator.Send(createBranchCommand);
         }
 
         /// <summary>
@@ -90,12 +97,17 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         /// <returns></returns>
         [Route("{id}")]
         [HttpPut]
-        public async Task<BranchForEditDto> Update(
+        [Consumes("multipart/form-data")]
+        public async Task<UpsertBranchDto> Update(
             [FromRoute] long id,
-            [FromBody] UpdateBranchCommand input)
+            [FromForm] UpsertBranchWrapperDto input)
         {
-            input.Id = id;
-            return await _mediator.Send(input);
+            var updateBranchCommand = ObjectMapper.Map<UpdateBranchCommand>(input.UpsertBranchDto);
+            updateBranchCommand.Id = id;
+            updateBranchCommand.BinaryLogoFile = await input.File.GetBytes();
+            updateBranchCommand.FileType = input.File.ContentType;
+            updateBranchCommand.LogoFile = input.File.FileName;
+            return await _mediator.Send(updateBranchCommand);
         }
 
         /// <summary>
