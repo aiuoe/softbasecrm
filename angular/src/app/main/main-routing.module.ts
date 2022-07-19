@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
                     {
                         path: 'administration/branch',
                         loadChildren: () => import('./administration/branch/branch.module').then(m => m.BranchModule),
-                        data: { permission: 'Pages.Administration' }
+                        data: { permission: 'Pages.Branches' }
                     },
                     {
                         path: 'administration/taxCodes',
