@@ -1,7 +1,7 @@
 import { Component, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
-import { debounce as _debounce, isEmpty as _isEmpty } from 'lodash-es';
+import { debounce as _debounce } from 'lodash-es';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
