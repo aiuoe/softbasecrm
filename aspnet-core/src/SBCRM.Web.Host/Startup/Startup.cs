@@ -220,6 +220,10 @@ namespace SBCRM.Web.Startup
                     .ImplementedBy<AvalaraService>().LifestyleTransient());
 
                 options.IocManager.IocContainer.Register(
+                    Component.For<IApCheckFormatsRepository>()
+                    .ImplementedBy<ApCheckFormatsRepository>().LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
                     Component.For<ISoftBaseCustomerEquipmentRepository>()
                         .ImplementedBy<SoftBaseCustomerEquipmentRepository>().LifestyleTransient());
 

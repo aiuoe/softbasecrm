@@ -61,6 +61,8 @@ using SBCRM.Modules.Common.AdditionalCharges.Dto;
 using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
 using SBCRM.Modules.Common.ARTerms.Dto;
 using System.Linq;
+using SBCRM.Modules.Common.ApCheckFormats.Dto;
+using CheckFormat = SBCRM.Core.BaseEntities.CheckFormat;
 
 namespace SBCRM
 {
@@ -126,6 +128,7 @@ namespace SBCRM
             configuration.CreateMap<ARTermsDto, ARTerms>().ReverseMap();
             configuration.CreateMap<CreateOrEditZipCodeDto, ZipCode>().ReverseMap();
             configuration.CreateMap<ZipCodeDto, ZipCode>().ReverseMap();
+            configuration.CreateMap<ApCheckFormatDto, CheckFormat>().ReverseMap();
             //Inputs
             configuration.CreateMap<GetCrmEntityTypeChangeInput, GetEntityTypeChangeInput>().ReverseMap();
             configuration.CreateMap<CheckboxInputType, FeatureInputTypeDto>();
