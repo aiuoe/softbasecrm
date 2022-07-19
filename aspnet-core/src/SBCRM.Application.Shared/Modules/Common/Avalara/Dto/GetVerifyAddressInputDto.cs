@@ -1,12 +1,10 @@
-﻿
-namespace SBCRM.Modules.Administration.Dtos
+﻿namespace SBCRM.Modules.Common.Avalara.Dto
 {
     /// <summary>
-    /// Verifiy address dto
+    /// Verify address input Dto
     /// </summary>
-    public class GetVerifyAddressDto
+    public class GetVerifyAddressInputDto
     {
-        public bool CheckUseDefaultTaxCodeCalc { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }

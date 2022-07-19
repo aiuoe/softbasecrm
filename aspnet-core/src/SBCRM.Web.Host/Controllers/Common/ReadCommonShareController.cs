@@ -114,6 +114,18 @@ namespace SBCRM.Web.Controllers.Common
             return await _mediator.Send(new ApCheckFormatsQuery());
         }
 
+        /// <summary>
+        /// Get verified address from avalara
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns>verified address</returns>
+        [HttpPost]
+        public async Task<GetVerifyAddressDto> GetVerifyAddress([FromBody] GetVerifyAddressInputDto address)
+        {
+            var getVerifyAddressQuery = ObjectMapper.Map<GetVerifyAddressQuery>(address);
+            return await _mediator.Send(getVerifyAddressQuery);
+        }
+
         #region Avalara Connection
 
         /// <summary>

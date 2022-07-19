@@ -2,12 +2,12 @@
 using SBCRM.Avalara;
 using SBCRM.Base;
 using SBCRM.Dto;
-using SBCRM.Modules.Administration.Company.Queries;
-using SBCRM.Modules.Administration.Dtos;
+using SBCRM.Modules.Common.Avalara.Dto;
+using SBCRM.Modules.Common.Avalara.Queries;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SBCRM.Modules.Administration.Company.Handlers
+namespace SBCRM.Modules.Common.Avalara.Handlers
 {
     /// <summary>
     /// Verify Address Query Handler
@@ -45,7 +45,7 @@ namespace SBCRM.Modules.Administration.Company.Handlers
                 verifiedAddress = await _avalaraService.VerifyAddress(connection, address);
             }
 
-           
+
 
             return verifiedAddress;
 
