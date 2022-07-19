@@ -6803,62 +6803,6 @@ export class CompaniesServiceProxy {
         }
         return _observableOf<GetZipCodeDto[]>(<any>null);
     }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    getVerifyAddress(body: GetVerifyAddressInputDto | undefined): Observable<GetVerifyAddressDto> {
-        let url_ = this.baseUrl + "/api/v1.0/services/Companies/GetVerifyAddress";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetVerifyAddress(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetVerifyAddress(<any>response_);
-                } catch (e) {
-                    return <Observable<GetVerifyAddressDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetVerifyAddressDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetVerifyAddress(response: HttpResponseBase): Observable<GetVerifyAddressDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetVerifyAddressDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetVerifyAddressDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -26220,6 +26164,120 @@ export class ReadCommonShareServiceProxy {
     /**
      * @return Success
      */
+    getApCheckFormats(): Observable<ApCheckFormatDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetApCheckFormats";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetApCheckFormats(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetApCheckFormats(<any>response_);
+                } catch (e) {
+                    return <Observable<ApCheckFormatDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ApCheckFormatDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetApCheckFormats(response: HttpResponseBase): Observable<ApCheckFormatDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ApCheckFormatDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ApCheckFormatDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getVerifyAddress(body: GetVerifyAddressInputDto | undefined): Observable<GetVerifyAddressDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetVerifyAddress";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVerifyAddress(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVerifyAddress(<any>response_);
+                } catch (e) {
+                    return <Observable<GetVerifyAddressDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetVerifyAddressDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVerifyAddress(response: HttpResponseBase): Observable<GetVerifyAddressDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetVerifyAddressDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetVerifyAddressDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
     getTaxCodes(skip: number, max: number, taxCodeType: string, taxCode: string, parentTaxCode: string, description: string): Observable<PagedResultDtoOfTaxCodeDto> {
         let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetTaxCodes/{skip}/{max}/{taxCodeType}/{taxCode}/{parentTaxCode}/{description}";
         if (skip === undefined || skip === null)
@@ -33074,6 +33132,86 @@ export interface IAddWidgetInput {
     width: number;
     height: number;
     application: string | undefined;
+}
+
+export class ApCheckFormatDto implements IApCheckFormatDto {
+    formatName!: string | undefined;
+    elementName!: string | undefined;
+    topPosition!: number | undefined;
+    leftPosition!: number | undefined;
+    font!: string | undefined;
+    fontSize!: number | undefined;
+    fontBold!: boolean;
+    fontItalic!: boolean;
+    printElement!: boolean;
+    elementFormat!: string | undefined;
+    tenantId!: number;
+    isMigrated!: boolean;
+
+    constructor(data?: IApCheckFormatDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.formatName = _data["formatName"];
+            this.elementName = _data["elementName"];
+            this.topPosition = _data["topPosition"];
+            this.leftPosition = _data["leftPosition"];
+            this.font = _data["font"];
+            this.fontSize = _data["fontSize"];
+            this.fontBold = _data["fontBold"];
+            this.fontItalic = _data["fontItalic"];
+            this.printElement = _data["printElement"];
+            this.elementFormat = _data["elementFormat"];
+            this.tenantId = _data["tenantId"];
+            this.isMigrated = _data["isMigrated"];
+        }
+    }
+
+    static fromJS(data: any): ApCheckFormatDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApCheckFormatDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["formatName"] = this.formatName;
+        data["elementName"] = this.elementName;
+        data["topPosition"] = this.topPosition;
+        data["leftPosition"] = this.leftPosition;
+        data["font"] = this.font;
+        data["fontSize"] = this.fontSize;
+        data["fontBold"] = this.fontBold;
+        data["fontItalic"] = this.fontItalic;
+        data["printElement"] = this.printElement;
+        data["elementFormat"] = this.elementFormat;
+        data["tenantId"] = this.tenantId;
+        data["isMigrated"] = this.isMigrated;
+        return data; 
+    }
+}
+
+export interface IApCheckFormatDto {
+    formatName: string | undefined;
+    elementName: string | undefined;
+    topPosition: number | undefined;
+    leftPosition: number | undefined;
+    font: string | undefined;
+    fontSize: number | undefined;
+    fontBold: boolean;
+    fontItalic: boolean;
+    printElement: boolean;
+    elementFormat: string | undefined;
+    tenantId: number;
+    isMigrated: boolean;
 }
 
 export class ApplicationInfoDto implements IApplicationInfoDto {
@@ -56584,7 +56722,6 @@ export class UpdateProfilePictureInput implements IUpdateProfilePictureInput {
     width!: number;
     height!: number;
     useGravatarProfilePicture!: boolean;
-    userId!: number | undefined;
 
     constructor(data?: IUpdateProfilePictureInput) {
         if (data) {
@@ -56603,7 +56740,6 @@ export class UpdateProfilePictureInput implements IUpdateProfilePictureInput {
             this.width = _data["width"];
             this.height = _data["height"];
             this.useGravatarProfilePicture = _data["useGravatarProfilePicture"];
-            this.userId = _data["userId"];
         }
     }
 
@@ -56622,7 +56758,6 @@ export class UpdateProfilePictureInput implements IUpdateProfilePictureInput {
         data["width"] = this.width;
         data["height"] = this.height;
         data["useGravatarProfilePicture"] = this.useGravatarProfilePicture;
-        data["userId"] = this.userId;
         return data; 
     }
 }
@@ -56634,7 +56769,6 @@ export interface IUpdateProfilePictureInput {
     width: number;
     height: number;
     useGravatarProfilePicture: boolean;
-    userId: number | undefined;
 }
 
 export class UpdateTenantFeaturesInput implements IUpdateTenantFeaturesInput {
