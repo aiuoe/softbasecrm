@@ -24,7 +24,6 @@ namespace SBCRM.Modules.Common.AdditionalCharges.Handlers
         public async Task<CreatedAdditionalChargeResponseDto> Handle(CreateAdditionalChargesCommand request, CancellationToken cancellationToken)
         {
             var addnlCharge = ObjectMapper.Map<AdditionalCharge>(request.AdditionalCharges);
-            /// nullifying Id as its create operation.
             addnlCharge.Id = 0;
             SetTenant(addnlCharge);
             addnlCharge.Id = await _additionalChargesRepository.InsertAndGetIdAsync(addnlCharge);

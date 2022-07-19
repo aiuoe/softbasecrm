@@ -17,7 +17,7 @@ namespace SBCRM.Core.BaseEntities
         [Required]
         [Column("Warehouse")]
         [StringLength(50)]
-        public string Warehouse1 { get; set; }
+        public string WarehouseName { get; set; }
         [StringLength(50)]
         public string Description { get; set; }
         [StringLength(50)]

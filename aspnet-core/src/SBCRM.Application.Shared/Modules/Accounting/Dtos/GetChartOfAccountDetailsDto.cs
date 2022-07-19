@@ -1,6 +1,4 @@
-﻿
-
-namespace SBCRM.Modules.Accounting.Dtos
+﻿namespace SBCRM.Modules.Accounting.Dtos
 {
     /// <summary>
     /// DTO for fetching ChartOfAccount details

@@ -45,7 +45,7 @@ export class AppConsts {
     static readonly Lead = 'Lead';
     static readonly ViewMode = 'view';
     static readonly CreateOrEditMode = 'createoredit';
-
+    static readonly ValidEmailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     static readonly activityModule = {
         noAssignedUserFilterId: -1,
     };

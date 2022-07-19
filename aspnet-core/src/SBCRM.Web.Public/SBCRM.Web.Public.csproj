@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,7 +12,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <ItemGroup>
@@ -46,4 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SBCRM.Web.Core\SBCRM.Web.Core.csproj" />
   </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<NoWarn>1701,1702,1591,1572,1573,1570</NoWarn>
+	</PropertyGroup>
 </Project>
