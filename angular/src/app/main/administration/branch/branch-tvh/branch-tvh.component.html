@@ -1,63 +1,31 @@
 <div class="card card-custom card-in-tab gutter-b">
     <div class="card-body">
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
-                    <input
-                        type="text"
-                        id="TVH_AccountNo"
-                        class="form-control"
-                        [placeholder]="l('TVHAccountNo')"
-                        name="TVH_AccountNo"
-                    />
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_TVH_AccountNo">{{ l('TVHAccountNo') }}</label>
+                <input type="text" id="Branch_TVH_AccountNo" name="branchTvhAccountNo" class="form-control"
+                    [placeholder]="l('TVHAccountNo')" [(ngModel)]="upsertBranchDto.tvhAccountNo" [disabled]="isViewMode" />
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_Key">{{ l('TVHKey') }}</label>
-                    <input
-                        type="text"
-                        id="TVH_Key"
-                        class="form-control"
-                        [placeholder]="l('TVHKey')"
-                        name="TVH_Key"
-                    />
-                </div>
+            <div class="col-6 form-group">
+                <label for="Brancb_TVH_Key">{{ l('TVHKey') }}</label>
+                <input type="text" id="Brancb_TVH_Key" name="branchTvhKey" class="form-control"
+                    [placeholder]="l('TVHKey')" [(ngModel)]="upsertBranchDto.tvhKey" [disabled]="isViewMode" />
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_Country">{{ l('Country') }}</label>                                                                
-                    <p-dropdown 
-                                id="TVH_Country"
-                                options="countries"
-                                optionLabel="displayName"
-                                [placeholder]="l('Country')"
-                                [showClear]="true"
-                                optionValue="code">
-                    </p-dropdown>
-                </div>
+            <div class="col-6 form-group">
+                <label for="Branch_TVH_Country">{{ l('Country') }}</label>
+                <p-dropdown id="Branch_TVH_Country" name="branchTvhCountry" [placeholder]="l('Country')"
+                    [(ngModel)]="upsertBranchDto.tvhCountryId" [options]="countries" optionValue="id" optionLabel="name"
+                    [showClear]="true" [disabled]="isViewMode">
+                </p-dropdown>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="TVH_Warehouse">{{ l('Warehouse') }}</label>
-                    <p-dropdown 
-                                id="TVH_Warehouse"
-                                options="warehouses"
-                                optionLabel="displayName"
-                                [placeholder]="l('Warehouse')"
-                                [showClear]="true"
-                                optionValue="code">
-                    </p-dropdown>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <p>{{ l('AddedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
-                <p>{{ l('ChangedBy') }}: ADDED_BY_NAME_HERE on {{ '01/01/2021' | date: 'MM/dd/yyyy' }} </p>
+            <div class="col-6 form-group">
+                <label for="Branch_TVH_Warehouse">{{ l('Warehouse') }}</label>
+                <p-dropdown id="Branch_TVH_Warehouse" name="branchTvhWarehouse" [placeholder]="l('Warehouse')"
+                    [(ngModel)]="upsertBranchDto.tvhWarehouseId" [options]="tvhWarehouses" optionValue="key"
+                    optionLabel="name" [showClear]="true" [disabled]="isViewMode">
+                </p-dropdown>
             </div>
         </div>
     </div>

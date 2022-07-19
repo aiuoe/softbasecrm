@@ -9,11 +9,16 @@ using System.Threading.Tasks;
 namespace SBCRM.EntityFrameworkCore.Repositories
 {
     /// <summary>
-    /// Zip code repository implementation
+    /// Specific ZipCode repository implementation
     /// </summary>
     public class ZipCodeRepository : SBCRMRepositoryBase<ZipCode, long>, IZipCodeRepository
     {
         private readonly SBCRMDbContext _dbContext;
+
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="dbContextProvider"></param>
         public ZipCodeRepository(IDbContextProvider<SBCRMDbContext> dbContextProvider) : base(dbContextProvider)
         {
             _dbContext = dbContextProvider.GetDbContext();

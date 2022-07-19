@@ -30,6 +30,7 @@ using SBCRM.Authorization.Users.Importing.Dto;
 using SBCRM.Authorization.Users.Profile.Dto;
 using SBCRM.Chat;
 using SBCRM.Chat.Dto;
+using SBCRM.Dto;
 using SBCRM.DynamicEntityProperties.Dto;
 using SBCRM.Editions;
 using SBCRM.Editions.Dto;
@@ -37,7 +38,13 @@ using SBCRM.Friendships;
 using SBCRM.Friendships.Cache;
 using SBCRM.Friendships.Dto;
 using SBCRM.Localization.Dto;
+using SBCRM.Modules.Accounting.Dtos;
+using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Dtos;
+using SBCRM.Modules.Administration.Company.Queries;
+using SBCRM.Modules.Common.AdditionalCharges.Dto;
+using SBCRM.Modules.Common.ARTerms.Dto;
+using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
 using SBCRM.MultiTenancy;
 using SBCRM.MultiTenancy.Dto;
 using SBCRM.MultiTenancy.HostDashboard.Dto;
@@ -47,15 +54,22 @@ using SBCRM.Notifications.Dto;
 using SBCRM.Organizations.Dto;
 using SBCRM.Sessions.Dto;
 using SBCRM.WebHooks.Dto;
-using Branch = SBCRM.Core.BaseEntities.Branch;
-using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
-using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
 using AdditionalCharge = SBCRM.Core.BaseEntities.AdditionalCharge;
 using Arterm = SBCRM.Core.BaseEntities.Arterm;
-using SBCRM.Modules.Accounting.Dtos;
-using SBCRM.Dto;
-using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
+using Branch = SBCRM.Core.BaseEntities.Branch;
+using BranchArcurrency = SBCRM.Core.BaseEntities.BranchArcurrency;
+using ChartOfAccount = SBCRM.Core.BaseEntities.ChartOfAccount;
+using CityTaxCode = SBCRM.Core.BaseEntities.CityTaxCode;
 using Company = SBCRM.Core.BaseEntities.Company;
+using CountyTaxCode = SBCRM.Core.BaseEntities.CountyTaxCode;
+using CurrencyType = SBCRM.Core.BaseEntities.CurrencyType;
+using LocalTaxCode = SBCRM.Core.BaseEntities.LocalTaxCode;
+using SalesTaxIntegration = SBCRM.Core.BaseEntities.SalesTaxIntegration;
+using StateTaxCode = SBCRM.Core.BaseEntities.StateTaxCode;
+using Tax = SBCRM.Core.BaseEntities.Tax;
+using Warehouse = SBCRM.Core.BaseEntities.Warehouse;
+using ZipCode = SBCRM.Core.BaseEntities.ZipCode;
+using SBCRM.Modules.Administration.Branch.Commands;
 using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Common.AdditionalCharges.Dto;
 using SBCRM.Modules.Common.SalesTaxIntegration.Dto;
@@ -282,7 +296,29 @@ namespace SBCRM
 
             #region [Administration mappings]
 
+            //Branch
             configuration.CreateMap<BranchDto, Branch>().ReverseMap();
+            configuration.CreateMap<CreateBranchCommand, UpsertBranchDto>().ReverseMap();
+
+            configuration.CreateMap<Branch, UpsertBranchDto>()
+                .ForMember(dto => dto.TvhCountryId, opt => opt.MapFrom(a => a.TvhCountry))
+                .ForMember(dto => dto.TvhWarehouseId, opt => opt.MapFrom(a => a.TvhWarehouse));
+
+            configuration.CreateMap<Branch, BranchListItemDto>();
+            configuration.CreateMap<ChartOfAccount, AccountReceivableInBranchDto>()
+                .ForMember(dto => dto.AccountReceivable, opt => opt.MapFrom(a => a.AccountNo));
+            configuration.CreateMap<Warehouse, WarehouseLookupDto>()
+                .ForMember(dto => dto.Warehouse, opt => opt.MapFrom(w => w.WarehouseName));
+            configuration.CreateMap<CurrencyType, CurrencyTypeLookupDto>()
+                .ForMember(dto => dto.CurrencyType, opt => opt.MapFrom(ct => ct.CurrencyTypeName));
+            configuration.CreateMap<Tax, TaxCodeInBranchDto>();
+
+            configuration.CreateMap<StateTaxCode, StateTaxCodeInBranchDto>();
+            configuration.CreateMap<LocalTaxCode, LocalTaxCodeInBranchDto>();
+            configuration.CreateMap<CityTaxCode, CityTaxCodeInBranchDto>();
+            configuration.CreateMap<CountyTaxCode, CountyTaxCodeInBranchDto>();
+            configuration.CreateMap<BranchArcurrency, BranchCurrencyTypeDto>();
+            configuration.CreateMap<ZipCode, GetZipCodeDetailsDto>();
             configuration.CreateMap<GetZipCodeDto, ZipCode>()
                 .ForMember(u => u.ZipCode1, opt => opt.MapFrom(u => u.ZipCode))
                 .ReverseMap();

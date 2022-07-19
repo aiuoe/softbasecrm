@@ -55,6 +55,8 @@ using SBCRM.Web.Filter;
 using SBCRM.Web.Middleware;
 using SBCRM.Infrastructure.Avalara;
 using SBCRM.Avalara;
+using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Extensions;
+using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Integrations;
 
 namespace SBCRM.Web.Startup
 {
@@ -95,6 +97,7 @@ namespace SBCRM.Web.Startup
 
             services.AddSingleton<IBlobStorageService, AzureBlobStorageService>();
             services.AddSingleton<IApplicationStorageService, ApplicationStorageService>();
+            services.AddJsonMultipartFormDataSupport(JsonSerializerChoice.Newtonsoft);
 
             services.AddHttpClient();
 
