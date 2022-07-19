@@ -1,17 +1,15 @@
-﻿using MediatR;
-using SBCRM.Modules.Administration.Dtos;
-namespace SBCRM.Modules.Administration.Company.Queries
+﻿namespace SBCRM.Modules.Common.Avalara.Dto
 {
     /// <summary>
-    /// Verify address Query which uses avalara service
+    /// Verifiy address dto
     /// </summary>
-    public class GetVerifyAddressQuery : IRequest<GetVerifyAddressDto>
+    public class GetVerifyAddressDto
     {
+        public bool CheckUseDefaultTaxCodeCalc { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string State { get; set; }
         public string Address { get; set; }
-
     }
 }

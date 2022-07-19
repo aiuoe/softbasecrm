@@ -3,7 +3,6 @@ using Abp.UI;
 using SBCRM.Avalara;
 using SBCRM.Common;
 using SBCRM.Dto;
-using SBCRM.Modules.Administration.Dtos;
 using SBCRM.Dto.AvalaraConnection.TaxCodes;
 using SBCRM.Modules.Common.Avalara.Dto;
 using System;
@@ -15,7 +14,7 @@ using Abp.Application.Services.Dto;
 
 namespace SBCRM.Infrastructure.Avalara
 {
-   
+
     /// <summary>
     /// Class to implement avalara services
     /// </summary>

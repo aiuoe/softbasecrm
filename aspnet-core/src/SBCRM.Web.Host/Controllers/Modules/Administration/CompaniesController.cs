@@ -2,9 +2,6 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SBCRM.Avalara;
-using SBCRM.Base;
-using SBCRM.Dto;
 using SBCRM.Modules.Administration.Company.Queries;
 using SBCRM.Modules.Administration.Dtos;
 
@@ -52,22 +49,6 @@ namespace SBCRM.Web.Controllers.Modules.Administration
         {
             return await _mediator.Send(new GetZipCodeQuery(zipCode));
         }
-
-
-        /// <summary>
-        /// Get verified address from avalara
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns>verified address</returns>
-        [HttpPost]
-        public async Task<GetVerifyAddressDto> GetVerifyAddress([FromBody] GetVerifyAddressInputDto address )
-        {
-            var getVerifyAddressQuery = ObjectMapper.Map<GetVerifyAddressQuery>(address);
-            return await _mediator.Send(getVerifyAddressQuery);
-        }
-
-
-
 
 
     }
