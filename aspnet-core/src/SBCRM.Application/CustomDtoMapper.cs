@@ -73,6 +73,8 @@ using SBCRM.Modules.Administration.Branch.Commands;
 using System.Linq;
 using SBCRM.Modules.Common.ApCheckFormats.Dto;
 using CheckFormat = SBCRM.Core.BaseEntities.CheckFormat;
+using SBCRM.Modules.Common.Avalara.Queries;
+using SBCRM.Modules.Common.Avalara.Dto;
 
 namespace SBCRM
 {

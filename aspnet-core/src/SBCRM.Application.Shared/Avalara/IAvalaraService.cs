@@ -1,6 +1,5 @@
 ﻿
 using SBCRM.Dto;
-using SBCRM.Modules.Administration.Dtos;
 using SBCRM.Dto.AvalaraConnection.TaxCodes;
 using SBCRM.Modules.Common.Avalara.Dto;
 using System.Collections.Generic;
