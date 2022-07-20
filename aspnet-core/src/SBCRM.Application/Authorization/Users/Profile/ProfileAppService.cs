@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using Abp;
@@ -26,6 +25,9 @@ using SBCRM.Net.Sms;
 using SBCRM.Security;
 using SBCRM.Storage;
 using SBCRM.Timing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Processing;
 
 namespace SBCRM.Authorization.Users.Profile
 {
@@ -234,15 +236,18 @@ namespace SBCRM.Authorization.Users.Profile
                 throw new UserFriendlyException("There is no such image file with the token: " + input.FileToken);
             }
 
-            using (var bmpImage = new Bitmap(new MemoryStream(imageBytes)))
+            using (var image = Image.Load(imageBytes, out IImageFormat format))
             {
-                var width = (input.Width == 0 || input.Width > bmpImage.Width) ? bmpImage.Width : input.Width;
-                var height = (input.Height == 0 || input.Height > bmpImage.Height) ? bmpImage.Height : input.Height;
-                var bmCrop = bmpImage.Clone(new Rectangle(input.X, input.Y, width, height), bmpImage.PixelFormat);
+                var width = (input.Width == 0 || input.Width > image.Width) ? image.Width : input.Width;
+                var height = (input.Height == 0 || input.Height > image.Height) ? image.Height : input.Height;
 
-                using (var stream = new MemoryStream())
+                var bmCrop = image.Clone(i =>
+                    i.Crop(new Rectangle(input.X, input.Y, width, height))
+                );
+
+                await using (var stream = new MemoryStream())
                 {
-                    bmCrop.Save(stream, bmpImage.RawFormat);
+                    await bmCrop.SaveAsync(stream, format);
                     byteArray = stream.ToArray();
                 }
             }

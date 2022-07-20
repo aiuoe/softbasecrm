@@ -1,11 +1,9 @@
 using System;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Abp.AspNetCore.Mvc.Authorization;
 using Abp.AspNetZeroCore.Net;
-using Abp.Authorization;
 using Abp.Extensions;
 using Abp.IO.Extensions;
 using Abp.Runtime.Session;
@@ -16,7 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 using SBCRM.Authorization;
 using SBCRM.MultiTenancy;
 using SBCRM.Storage;
-using SBCRM.Web.Helpers;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
 
 namespace SBCRM.Web.Controllers
 {
@@ -59,10 +61,12 @@ namespace SBCRM.Web.Controllers
                     fileBytes = stream.GetAllBytes();
                 }
 
-                var imageFormat = ImageFormatHelper.GetRawImageFormat(fileBytes);
-                if (!imageFormat.IsIn(ImageFormat.Jpeg, ImageFormat.Png, ImageFormat.Gif))
+                using (Image.Load(fileBytes, out IImageFormat format))
                 {
-                    throw new UserFriendlyException(L("File_Invalid_Type_Error"));
+                    if (!format.IsIn(JpegFormat.Instance, PngFormat.Instance, GifFormat.Instance))
+                    {
+                        throw new UserFriendlyException(L("File_Invalid_Type_Error"));
+                    }
                 }
 
                 var logoObject = new BinaryObject(AbpSession.GetTenantId(), fileBytes, $"Logo {DateTime.UtcNow}");
@@ -72,7 +76,8 @@ namespace SBCRM.Web.Controllers
                 tenant.LogoId = logoObject.Id;
                 tenant.LogoFileType = logoFile.ContentType;
 
-                return Json(new AjaxResponse(new { id = logoObject.Id, TenantId = tenant.Id, fileType = tenant.LogoFileType }));
+                return Json(new AjaxResponse(new
+                    { id = logoObject.Id, TenantId = tenant.Id, fileType = tenant.LogoFileType }));
             }
             catch (UserFriendlyException ex)
             {

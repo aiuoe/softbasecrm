@@ -7,7 +7,6 @@ using Abp.DynamicEntityProperties;
 using Microsoft.AspNetCore.Authorization;
 using SBCRM.Authorization;
 using SBCRM.DynamicEntityProperties.Dto;
-using NUglify.Helpers;
 
 namespace SBCRM.DynamicEntityProperties
 {

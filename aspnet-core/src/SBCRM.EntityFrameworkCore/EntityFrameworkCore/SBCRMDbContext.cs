@@ -104,6 +104,8 @@ namespace SBCRM.EntityFrameworkCore
 
         public virtual DbSet<UserDelegation> UserDelegations { get; set; }
 
+        public virtual DbSet<RecentPassword> RecentPasswords { get; set; }
+
         public virtual DbSet<Branch> Branch { get; set; }
 
         public virtual DbSet<Department> Department { get; set; }

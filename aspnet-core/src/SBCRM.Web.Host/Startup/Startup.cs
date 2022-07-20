@@ -99,6 +99,8 @@ namespace SBCRM.Web.Startup
             services.AddSingleton<IApplicationStorageService, ApplicationStorageService>();
             services.AddJsonMultipartFormDataSupport(JsonSerializerChoice.Newtonsoft);
 
+            services.AddJsonMultipartFormDataSupport(JsonSerializerChoice.Newtonsoft);
+
             services.AddHttpClient();
 
             //Configure CORS for angular2 UI
