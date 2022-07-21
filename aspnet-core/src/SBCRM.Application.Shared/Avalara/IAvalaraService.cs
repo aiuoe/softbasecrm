@@ -15,6 +15,7 @@ namespace SBCRM.Avalara
     public interface IAvalaraService
     {
         Task<bool> TestConnection(AvalaraConnectionDataDto connectionData);
+        Task<List<AvalaraCompanyCodes>> GetCompanyCodes(AvalaraConnectionDataDto connectionData);
 
         Task<GetVerifyAddressDto> VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
 

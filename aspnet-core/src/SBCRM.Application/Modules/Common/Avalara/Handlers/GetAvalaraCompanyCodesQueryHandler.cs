@@ -1,18 +1,18 @@
 ﻿using MediatR;
 using SBCRM.Avalara;
-using SBCRM.Base;
 using SBCRM.Dto;
 using SBCRM.Modules.Common.Avalara.Dto;
 using SBCRM.Modules.Common.Avalara.Queries;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SBCRM.Modules.Common.Avalara.Handlers
 {
     /// <summary>
-    /// Test avalara connection query handler
+    /// Verify Address Query Handler
     /// </summary>
-    public class TestAvalaraConnectionQueryHandler : UseCaseServiceBase, IRequestHandler<TestAvalaraConnectionQuery, bool>
+    public class GetAvalaraCompanyCodesQueryHandler : UseCaseServiceBase, IRequestHandler<GetAvalaraCompanyCodesQuery, List<AvalaraCompanyCodes>>
     {
 
         private readonly IAvalaraService _avalaraService;
@@ -21,12 +21,12 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
         /// base constructor
         /// </summary>
         /// <param name="avalaraService"></param>
-        public TestAvalaraConnectionQueryHandler(IAvalaraService avalaraService)
+        public GetAvalaraCompanyCodesQueryHandler(IAvalaraService avalaraService)
         {
             _avalaraService = avalaraService;
         }
 
-        public async Task<bool> Handle(TestAvalaraConnectionQuery query, CancellationToken cancellationToken)
+        public async Task<List<AvalaraCompanyCodes>> Handle(GetAvalaraCompanyCodesQuery query, CancellationToken cancellationToken)
         {
             var connectionData = new AvalaraConnectionDataDto()
             {
@@ -37,7 +37,7 @@ namespace SBCRM.Modules.Common.Avalara.Handlers
                 RequestTimeout = query.RequestTimeout,
             };
 
-            return await _avalaraService.TestConnection(connectionData);
+            return await _avalaraService.GetCompanyCodes(connectionData);
         }
     }
 }

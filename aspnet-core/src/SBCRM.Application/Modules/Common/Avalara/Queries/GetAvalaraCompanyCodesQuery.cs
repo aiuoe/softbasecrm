@@ -1,13 +1,15 @@
 ﻿using Abp.Runtime.Validation;
 using MediatR;
+using SBCRM.Modules.Common.Avalara.Dto;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SBCRM.Modules.Common.Avalara.Queries
 {
     /// <summary>
-    /// test avalara connection query
+    /// get avalara company codes query
     /// </summary>
-    public class TestAvalaraConnectionQuery : IRequest<bool>, ICustomValidate
+    public class GetAvalaraCompanyCodesQuery : IRequest<List<AvalaraCompanyCodes>>, ICustomValidate
     {
         public string AccountNumber { get; set; }
         public string LicenseKey { get; set; }

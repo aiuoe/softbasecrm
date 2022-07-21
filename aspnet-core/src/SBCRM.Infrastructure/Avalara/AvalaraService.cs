@@ -36,12 +36,33 @@ namespace SBCRM.Infrastructure.Avalara
         public async Task<bool> TestConnection(AvalaraConnectionDataDto connectionData)
         {
             string url = $"{connectionData.ServiceUrl.TrimEnd('/')}/{AvalaraConsts.TestConnectionApi}";
-            var httpClient = this.GetAvalaraHttpAuthenticatedconnection(connectionData);
+            var httpClient = GetAvalaraHttpAuthenticatedconnection(connectionData);
             try
             {
                 var responseMessage = await httpClient.GetAsync(url);
                 var response = await responseMessage.Content.ReadAsStringAsync();
                 return JObject.Parse(response).SelectToken("authenticated").Value<bool>();
+            }
+            catch (Exception ex)
+            {
+                throw new UserFriendlyException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get avalara company codes
+        /// </summary>
+        /// <param name="connectionData"></param>
+        public async Task<List<AvalaraCompanyCodes>> GetCompanyCodes(AvalaraConnectionDataDto connectionData)
+        {
+            string url = $"{connectionData.ServiceUrl.TrimEnd('/')}/{AvalaraConsts.CompanyCodesApi}";
+            var httpClient = GetAvalaraHttpAuthenticatedconnection(connectionData);
+            try
+            {
+                var responseMessage = await httpClient.GetAsync(url);
+                var response = await responseMessage.Content.ReadAsStringAsync();
+                var a = JObject.Parse(response).SelectToken("value");
+                return JObject.Parse(response).SelectToken("value").ToObject<List<AvalaraCompanyCodes>>();
             }
             catch (Exception ex)
             {
