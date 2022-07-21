@@ -126,6 +126,18 @@ namespace SBCRM.Web.Controllers.Common
             return await _mediator.Send(getVerifyAddressQuery);
         }
 
+        /// <summary>
+        /// Test avalara connection
+        /// </summary>
+        /// <param name="query"></param>
+        /// <see cref="TestAvalaraConnectionQueryHandler"/>
+        /// <returns>status</returns>
+        [HttpGet]
+        public async Task<bool> TestAvalaraConnection([FromQuery] TestAvalaraConnectionQuery query)
+        {
+            return await _mediator.Send(query);
+        }
+
         #region Avalara Connection
 
         /// <summary>

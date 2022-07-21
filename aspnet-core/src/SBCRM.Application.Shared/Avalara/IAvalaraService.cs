@@ -14,6 +14,8 @@ namespace SBCRM.Avalara
     /// </summary>
     public interface IAvalaraService
     {
+        Task<bool> TestConnection(AvalaraConnectionDataDto connectionData);
+
         Task<GetVerifyAddressDto> VerifyAddress(AvalaraConnectionDataDto avalaraConnectionData, AddressDto address);
 
         Task<PagedResultDto<TaxCodeDto>> GetTaxCodes(AvalaraConnectionDataDto avalaraConnectionDataDto, GetTaxCodesParametersDto getTaxCodesParameters);
