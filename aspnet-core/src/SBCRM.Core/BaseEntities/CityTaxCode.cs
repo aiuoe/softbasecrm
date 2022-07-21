@@ -34,6 +34,11 @@ namespace SBCRM.Core.BaseEntities
         public decimal? TaxRateRental { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal? TaxRateEquip { get; set; }
+        public bool? PartsNonTaxable { get; set; }
+        public bool? LaborNonTaxable { get; set; }
+        public bool? MiscNonTaxable { get; set; }
+        public bool? RentalNonTaxable { get; set; }
+        public bool? EquipmentNonTaxable { get; set; }
         public int TenantId { get; set; }
         public bool IsMigrated { get; set; }
     }

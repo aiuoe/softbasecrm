@@ -31,11 +31,11 @@ namespace SBCRM.Core.BaseEntities
         public string TaxAccount { get; set; }
         [StringLength(50)]
         public string LocalCode { get; set; }
-        public bool PartsNonTaxable { get; set; }
-        public bool LaborNonTaxable { get; set; }
-        public bool MiscNonTaxable { get; set; }
-        public bool RentalNonTaxable { get; set; }
-        public bool EquipmentNonTaxable { get; set; }
+        public bool? PartsNonTaxable { get; set; }
+        public bool? LaborNonTaxable { get; set; }
+        public bool? MiscNonTaxable { get; set; }
+        public bool? RentalNonTaxable { get; set; }
+        public bool? EquipmentNonTaxable { get; set; }
         public bool IsMigrated { get; set; }
     }
 }
