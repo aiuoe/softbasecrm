@@ -61,7 +61,6 @@ namespace SBCRM.Infrastructure.Avalara
             {
                 var responseMessage = await httpClient.GetAsync(url);
                 var response = await responseMessage.Content.ReadAsStringAsync();
-                var a = JObject.Parse(response).SelectToken("value");
                 return JObject.Parse(response).SelectToken("value").ToObject<List<AvalaraCompanyCodes>>();
             }
             catch (Exception ex)
