@@ -26,18 +26,18 @@ namespace SBCRM.Core.BaseEntities
         [StringLength(50)]
         public string Description { get; set; }
         public string Comments { get; set; }
-        public bool PartsNonTaxable { get; set; }
-        public bool LaborNonTaxable { get; set; }
-        public bool MiscNonTaxable { get; set; }
-        public bool RentalNonTaxable { get; set; }
-        public bool EquipmentNonTaxable { get; set; }
+        public bool? PartsNonTaxable { get; set; }
+        public bool? LaborNonTaxable { get; set; }
+        public bool? MiscNonTaxable { get; set; }
+        public bool? RentalNonTaxable { get; set; }
+        public bool? EquipmentNonTaxable { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal? CountyRate { get; set; }
         [StringLength(50)]
         public string CountyAccount { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal? MaxAmount { get; set; }
-        public bool CustomerOverride { get; set; }
+        public bool? CustomerOverride { get; set; }
         [StringLength(50)]
         public string AccountPaid { get; set; }
         [StringLength(100)]
