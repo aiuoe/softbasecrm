@@ -19,6 +19,7 @@ namespace SBCRM.Authorization.Users.Profile.Dto
         public int Height { get; set; }
         
         public bool UseGravatarProfilePicture { get; set; }
+
         public void AddValidationErrors(CustomValidationContext context)
         {
             if (!UseGravatarProfilePicture && FileToken.IsNullOrEmpty())

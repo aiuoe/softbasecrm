@@ -32,6 +32,7 @@ namespace SBCRM.Authorization.Users
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly ILocalizationManager _localizationManager;
         private readonly ISettingManager _settingManager;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         public UserManager(
             UserStore userStore,
@@ -51,26 +52,29 @@ namespace SBCRM.Authorization.Users
             IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
             IOrganizationUnitSettings organizationUnitSettings,
             ISettingManager settingManager,
-            ILocalizationManager localizationManager)
+            ILocalizationManager localizationManager,
+            IRepository<UserLogin, long> userLoginRepository)
             : base(
-                  roleManager,
-                  userStore,
-                  optionsAccessor,
-                  passwordHasher,
-                  userValidators,
-                  passwordValidators,
-                  keyNormalizer,
-                  errors,
-                  services,
-                  logger,
-                  permissionManager,
-                  unitOfWorkManager,
-                  cacheManager,
-                  organizationUnitRepository,
-                  userOrganizationUnitRepository,
-                  organizationUnitSettings,
-                  settingManager)
+                roleManager,
+                userStore,
+                optionsAccessor,
+                passwordHasher,
+                userValidators,
+                passwordValidators,
+                keyNormalizer,
+                errors,
+                services,
+                logger,
+                permissionManager,
+                unitOfWorkManager,
+                cacheManager,
+                organizationUnitRepository,
+                userOrganizationUnitRepository,
+                organizationUnitSettings,
+                settingManager,
+                userLoginRepository)
         {
+            _passwordHasher = passwordHasher;
             _unitOfWorkManager = unitOfWorkManager;
             _settingManager = settingManager;
             _localizationManager = localizationManager;

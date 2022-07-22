@@ -99,6 +99,7 @@ namespace SBCRM.Web.Startup
                             _appConfiguration["Authentication:OpenId:Authority"],
                             _appConfiguration["Authentication:OpenId:LoginUrl"],
                             bool.Parse(_appConfiguration["Authentication:OpenId:ValidateIssuer"]),
+                            _appConfiguration["Authentication:OpenId:ResponseType"],
                             jsonClaimMappings
                         )
                     );
