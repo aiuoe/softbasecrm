@@ -67,7 +67,7 @@ namespace SBCRM.Core.BaseEntities
         public string CreatedBy { get; set; }
         [Column("DefaultGLTaxAccountNo")]
         [StringLength(50)]
-        public string DefaultGltaxAccountNo { get; set; }
+        public string DefaultGlTaxAccountNo { get; set; }
         public bool IsMigrated { get; set; }
     }
 }
