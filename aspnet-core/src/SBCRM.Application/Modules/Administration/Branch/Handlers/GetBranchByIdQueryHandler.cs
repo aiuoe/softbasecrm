@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using Abp.Domain.Entities.Auditing;
+using MediatR;
 using SBCRM.Base;
 using SBCRM.Modules.Administration.Branch.Dtos;
 using SBCRM.Modules.Administration.Branch.Queries;
+using SBCRM.Modules.Common.Dto;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +34,9 @@ namespace SBCRM.Modules.Administration.Branch.Handlers
         public async Task<UpsertBranchDto> Handle(GetBranchByIdQuery query, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.GetAsync(query.Id);
-            return ObjectMapper.Map<UpsertBranchDto>(branch);
+            var branchDto = ObjectMapper.Map<UpsertBranchDto>(branch);
+            await SetAuditUsers(branch, branchDto);
+            return branchDto;
         }
     }
 }
