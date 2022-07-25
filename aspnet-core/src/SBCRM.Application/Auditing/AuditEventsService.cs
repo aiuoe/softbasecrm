@@ -9,6 +9,7 @@ using Abp.Domain.Repositories;
 using Abp.EntityHistory;
 using Abp.Linq.Extensions;
 using Abp.Runtime.Session;
+using Abp.Timing;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing.Dto;
 using SBCRM.Authorization.Users;
@@ -67,7 +68,7 @@ namespace SBCRM.Auditing
             var entityChange = new EntityChange
             {
                 TenantId = currentTenant.Id,
-                ChangeTime = DateTime.Now,
+                ChangeTime = Clock.Now,
                 EntityTypeFullName = input.EntityType.FullName,
                 EntityChangeSetId = entityChangeSetId,
                 EntityId = input.EntityId,
