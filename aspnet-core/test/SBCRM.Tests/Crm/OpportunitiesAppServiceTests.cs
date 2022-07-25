@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp;
 using Abp.EntityHistory;
+using Abp.Timing;
 using Bogus;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
@@ -50,7 +51,7 @@ namespace SBCRM.Tests.Crm
                 var opportunityFake = new Faker<CreateOrEditOpportunityDto>()
                     .RuleFor(u => u.Name, (f) => f.Commerce.ProductName())
                     .RuleFor(u => u.CloseDate,
-                        (f) => f.Date.Between(DateTime.Now.AddDays(-30), DateTime.Now.AddDays(30)))
+                        (f) => f.Date.Between(Clock.Now.AddDays(-30), Clock.Now.AddDays(30)))
                     .RuleFor(u => u.Amount, (f) => f.Random.Decimal(10000, 999999))
                     .RuleFor(u => u.CustomerNumber, (f) => randomContact.CustomerNo)
                     .RuleFor(u => u.ContactId, (f) => randomContact.Id)

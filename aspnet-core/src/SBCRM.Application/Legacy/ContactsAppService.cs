@@ -11,6 +11,7 @@ using SBCRM.Authorization;
 using Abp.Authorization;
 using Abp.Domain.Uow;
 using Abp.EntityHistory;
+using Abp.Timing;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Auditing;
@@ -242,9 +243,9 @@ namespace SBCRM.Legacy
 
             using (_reasonProvider.Use("Contact created"))
             {
-                // Set internal audit fields
+                // Set legacy audit fields
                 contact.AddedBy = currentUser.Name;
-                contact.DateAdded = DateTime.UtcNow;
+                contact.DateAdded = Clock.Now;
 
                 await _contactRepository.InsertAsync(contact);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
@@ -272,9 +273,9 @@ namespace SBCRM.Legacy
 
             using (_reasonProvider.Use("Contact updated"))
             {
-                // Set internal audit fields
+                // Set legacy audit fields
                 contact.ChangedBy = currentUser.Name;
-                contact.DateChanged = DateTime.UtcNow;
+                contact.DateChanged = Clock.Now;
 
                 ObjectMapper.Map(input, contact);
                 await _unitOfWorkManager.Current.SaveChangesAsync();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abp.Timing;
 using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Legacy.Dtos;
 using SBCRM.Dto;
@@ -29,7 +30,7 @@ namespace SBCRM.Legacy.Exporting
         public FileDto ExportToFile(List<GetCustomerForViewDto> customer)
         {
             return CreateExcelPackage(
-                $"Accounts_{DateTime.Now:MM_dd_yyyy}.xlsx",
+                $"Accounts_{Clock.Now:MM_dd_yyyy}.xlsx",
                 excelPackage =>
                 {
                     var sheet = excelPackage.CreateSheet(L("Customer"));
