@@ -85,7 +85,7 @@ namespace SBCRM
         /// <param name="entity"></param>
         /// <param name="entityDto"></param>
         /// <returns></returns>
-        protected async Task<AuditDto> SetAuditUsers(FullAuditedEntity<long> entity, AuditDto entityDto)
+        protected async Task SetAuditUsers(FullAuditedEntity<long> entity, AuditDto entityDto)
         {
             var auditUsers = await UserManager.Users
                 .Where(x => x.Id == entity.CreatorUserId || x.Id == entity.LastModifierUserId)
@@ -93,7 +93,6 @@ namespace SBCRM
 
             entityDto.CreatorUserName = auditUsers.FirstOrDefault(x => x.Id == entity.CreatorUserId)?.FullName;
             entityDto.LastModifierUserName = auditUsers.FirstOrDefault(x => x.Id == entity.LastModifierUserId)?.FullName;
-            return entityDto;
         }
     }
 }
